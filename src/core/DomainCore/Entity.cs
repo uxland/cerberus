@@ -10,23 +10,24 @@ public abstract class Entity
     {
         Id = id;
     }
+
     public Guid Id { get; }
-    
+
     public bool Transient => Id == default;
 
     public override bool Equals(object? obj)
     {
-        if(Transient)
+        if (Transient)
             return false;
         var other = obj as Entity;
-       return Equals(other);
+        return Equals(other);
     }
 
     private bool Equals(Entity? other)
     {
-        if(other is null)
+        if (other is null)
             return false;
-        if(other.GetType() != this.GetType())
+        if (other.GetType() != GetType())
             return false;
         return other.Id == Id;
     }

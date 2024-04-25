@@ -3,8 +3,14 @@ using Marten;
 
 namespace Cerverus.Core.MartenPersistence;
 
-internal class MartenUoW(IDocumentSession documentSession, IDocumentStore documentStore): IUnitOfWork, IDisposable
+internal class MartenUoW(IDocumentSession documentSession, IDocumentStore documentStore) : IUnitOfWork, IDisposable
 {
+    public void Dispose()
+    {
+        documentSession.Dispose();
+        documentStore.Dispose();
+    }
+
     public Task Commit()
     {
         return documentSession.SaveChangesAsync();
@@ -14,11 +20,5 @@ internal class MartenUoW(IDocumentSession documentSession, IDocumentStore docume
     {
         documentSession.EjectAllPendingChanges();
         return Task.CompletedTask;
-    }
-
-    public void Dispose()
-    {
-        documentSession.Dispose();
-        documentStore.Dispose();
     }
 }

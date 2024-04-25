@@ -20,7 +20,7 @@ public class AggregateRootTest
             // Assert
             aggregateRoot.ApplyDomainEvent1Count.Should().Be(1);
         }
-        
+
         [Fact]
         public void ItShouldNotAddEventToUncommittedEvents()
         {
@@ -44,11 +44,11 @@ public class AggregateRootTest
 
             // Act
             aggregateRoot.Apply(@event);
-            
+
             // Assert
             aggregateRoot.Version.Should().Be(1);
         }
-        
+
         [Fact]
         public void ShouldFailIfNoApplyMethod()
         {
@@ -58,12 +58,12 @@ public class AggregateRootTest
 
             // Act
             var exception = Assert.Throws<MissingMethodException>(() => aggregateRoot.Apply(@event));
-            
+
             // Assert
             exception.Message.Should().Be("Method Apply(DomainEvent2) not found in TestAggregateRoot");
         }
     }
-    
+
     public class ApplyUncommittedEventTest
     {
         [Fact]
@@ -79,7 +79,7 @@ public class AggregateRootTest
             // Assert
             aggregateRoot.GetUncommittedEvents().Should().Contain(@event);
         }
-        
+
         [Fact]
         public void GetUncommittedEventsShouldReturnReadOnlyList()
         {
@@ -93,7 +93,7 @@ public class AggregateRootTest
             // Assert
             aggregateRoot.GetUncommittedEvents().Should().BeOfType<ReadOnlyCollection<IDomainEvent>>();
         }
-        
+
         [Fact]
         public void ItShouldIncreaseVersionAndInvokeApplier()
         {
@@ -108,28 +108,29 @@ public class AggregateRootTest
             aggregateRoot.Version.Should().Be(1);
             aggregateRoot.ApplyDomainEvent1Count.Should().Be(1);
         }
-       
     }
 
-    private class TestAggregateRoot: AggregateRoot
+    private class TestAggregateRoot : AggregateRoot
     {
-        public int ApplyDomainEvent1Count { get; private set; }
         public TestAggregateRoot()
         {
         }
-        public TestAggregateRoot(Guid id): base(id)
+
+        public TestAggregateRoot(Guid id) : base(id)
         {
         }
-        
+
+        public int ApplyDomainEvent1Count { get; private set; }
+
         private void Apply(DomainEvent1 @event)
         {
-            this.ApplyDomainEvent1Count++;
+            ApplyDomainEvent1Count++;
         }
     }
 
-    private record DomainEvent1(string Value=""): IDomainEvent;
+    private record DomainEvent1(string Value = "") : IDomainEvent;
 
-    private record DomainEvent2(string Value=""): IDomainEvent;
+    private record DomainEvent2(string Value = "") : IDomainEvent;
 
-    private record DomainEvent3(string Value=""): IDomainEvent;
+    private record DomainEvent3(string Value = "") : IDomainEvent;
 }

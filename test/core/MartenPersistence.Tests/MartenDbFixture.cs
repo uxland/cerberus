@@ -5,17 +5,26 @@ using Weasel.Core;
 
 namespace Cerverus.Core.MartenPersistence;
 
-public class MartenDbFixture: IDisposable
+public class MartenDbFixture : IDisposable
 {
     private readonly IDocumentStore _documentStore;
     private readonly Mock<IPublisher> _publisher;
-    
+
     public MartenDbFixture(string connectionString)
     {
-        this._publisher = new Mock<IPublisher>();
-        this._documentStore = CreateStore(connectionString, this._publisher.Object);
-        this.DocumentSession = this._documentStore.LightweightSession();
+        _publisher = new Mock<IPublisher>();
+        _documentStore = CreateStore(connectionString, _publisher.Object);
+        DocumentSession = _documentStore.LightweightSession();
     }
+
+    public IDocumentSession DocumentSession { get; init; }
+
+    public void Dispose()
+    {
+        _documentStore.Dispose();
+        DocumentSession.Dispose();
+    }
+
     private IDocumentStore CreateStore(string connectionString, IPublisher publisher)
     {
         return DocumentStore.For(options =>
@@ -26,13 +35,5 @@ public class MartenDbFixture: IDisposable
                 .SetupSerialization()
                 .ConfigureEventSore();
         });
-    }
-
-    public IDocumentSession DocumentSession { get; init; }
-
-    public void Dispose()
-    {
-        this._documentStore.Dispose();
-        this.DocumentSession.Dispose();
     }
 }

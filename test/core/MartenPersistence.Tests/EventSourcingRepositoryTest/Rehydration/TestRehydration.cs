@@ -4,7 +4,8 @@ namespace Cerverus.Core.MartenPersistence.EventSourcingRepositoryTest.Rehydratio
 
 public class TestRehydration
 {
-    private static Task SetupAggregateRoot(MartenDbFixture fixture, string aggregateRootString, params object[] domainEvents)
+    private static Task SetupAggregateRoot(MartenDbFixture fixture, string aggregateRootString,
+        params object[] domainEvents)
     {
         fixture.DocumentSession.Events.StartStream(aggregateRootString, domainEvents);
         return fixture.DocumentSession.SaveChangesAsync();
@@ -14,8 +15,8 @@ public class TestRehydration
     {
         return new TestEventSourcingAggregateRepository(fixture.DocumentSession);
     }
-    
-    
+
+
     [Theory]
     [MartenDbAutoData]
     public async Task ShouldRehydrateAggregateRoot(
@@ -25,7 +26,6 @@ public class TestRehydration
         DomainEvent2 domainEvent2,
         DomainEvent3 domainEvent3)
     {
-        
         await SetupAggregateRoot(fixture, id, domainEvent1, domainEvent2, domainEvent3);
         var sut = CreateSute(fixture);
         var actual = await sut.Rehydrate(id);

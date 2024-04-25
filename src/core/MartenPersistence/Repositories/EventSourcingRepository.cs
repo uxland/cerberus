@@ -3,8 +3,8 @@ using Marten;
 
 namespace Cerverus.Core.MartenPersistence.Repositories;
 
-public abstract class EventSourcingRepository<TAggregateRoot>(IDocumentSession session): IRepository<TAggregateRoot>
-    where TAggregateRoot: AggregateRoot, new()
+public abstract class EventSourcingRepository<TAggregateRoot>(IDocumentSession session) : IRepository<TAggregateRoot>
+    where TAggregateRoot : AggregateRoot, new()
 {
     public async Task<TAggregateRoot?> Rehydrate(string id, long? version = null)
     {

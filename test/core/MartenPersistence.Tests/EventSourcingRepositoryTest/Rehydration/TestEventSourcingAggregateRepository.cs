@@ -1,4 +1,3 @@
-
 using Cerverus.Core.MartenPersistence.Repositories;
 using Marten;
 

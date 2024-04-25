@@ -3,13 +3,14 @@ using Marten;
 
 namespace Cerverus.Core.MartenPersistence.Repositories;
 
-public abstract class DocumentStoreRepository<TAggregateRoot>(IDocumentSession session): IRepository<TAggregateRoot>
-    where TAggregateRoot: AggregateRoot
+public abstract class DocumentStoreRepository<TAggregateRoot>(IDocumentSession session) : IRepository<TAggregateRoot>
+    where TAggregateRoot : AggregateRoot
 {
     protected readonly IDocumentSession Session = session;
+
     public Task<TAggregateRoot?> Rehydrate(string id, long? version = null)
     {
-        return this.Session.LoadAsync<TAggregateRoot>(id);
+        return Session.LoadAsync<TAggregateRoot>(id);
     }
 
     public Task Save(TAggregateRoot aggregateRoot)

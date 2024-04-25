@@ -12,7 +12,8 @@ namespace Cerverus.Core.MartenPersistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection UseMartenPersistence(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment, Action<StoreOptions> configure)
+    public static IServiceCollection UseMartenPersistence(this IServiceCollection services,
+        IConfiguration configuration, IHostEnvironment environment, Action<StoreOptions> configure)
     {
         return services
             .AddMartenDb(configuration, environment, configure)
@@ -42,8 +43,8 @@ public static class DependencyInjection
     internal static StoreOptions SetupSerialization(this StoreOptions options)
     {
         options.UseSystemTextJsonForSerialization(
-            enumStorage:EnumStorage.AsString,
-            casing:Casing.CamelCase,
+            EnumStorage.AsString,
+            Casing.CamelCase,
             serializerOptions =>
             {
                 serializerOptions.IgnoreReadOnlyFields = true;

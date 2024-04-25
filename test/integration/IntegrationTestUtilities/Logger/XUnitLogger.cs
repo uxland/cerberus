@@ -7,9 +7,13 @@ namespace Cerverus.IntegrationTest.Utilities.Logger;
 public sealed class XUnitLogger<T>(TestOutputHelperAccessor testOutputHelper, LoggerExternalScopeProvider scopeProvider)
     : XUnitLogger(testOutputHelper, scopeProvider, typeof(T).FullName!), ILogger<T>;
 
-public class XUnitLogger(TestOutputHelperAccessor testOutputHelperAccessor, LoggerExternalScopeProvider scopeProvider, string categoryName): ILogger
+public class XUnitLogger(
+    TestOutputHelperAccessor testOutputHelperAccessor,
+    LoggerExternalScopeProvider scopeProvider,
+    string categoryName) : ILogger
 {
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+        Func<TState, Exception?, string> formatter)
     {
         var sb = new StringBuilder();
         sb.Append(DateTime.Now.ToLongTimeString());
@@ -41,17 +45,19 @@ public class XUnitLogger(TestOutputHelperAccessor testOutputHelperAccessor, Logg
     {
         return scopeProvider.Push(state);
     }
-    
+
     public static ILogger CreateLogger(TestOutputHelperAccessor testOutputHelperAccessor)
     {
         return new XUnitLogger(testOutputHelperAccessor, new LoggerExternalScopeProvider(), string.Empty);
     }
-    
+
     public static ILogger<T> CreateLogger<T>(TestOutputHelperAccessor testOutputHelper)
     {
         return new XUnitLogger<T>(testOutputHelper, new LoggerExternalScopeProvider());
     }
 
-    public static ILogger<T> CreateLogger<T>(ITestOutputHelper testOutputHelper) =>
-        CreateLogger<T>(new TestOutputHelperAccessor { Output = testOutputHelper });
+    public static ILogger<T> CreateLogger<T>(ITestOutputHelper testOutputHelper)
+    {
+        return CreateLogger<T>(new TestOutputHelperAccessor { Output = testOutputHelper });
+    }
 }
