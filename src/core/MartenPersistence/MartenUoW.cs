@@ -11,14 +11,19 @@ internal class MartenUoW(IDocumentSession documentSession, IDocumentStore docume
         documentStore.Dispose();
     }
 
-    public Task Commit()
+    public Task Commit(CancellationToken cancellationToken = default)
     {
-        return documentSession.SaveChangesAsync();
+        return documentSession.SaveChangesAsync(cancellationToken);
     }
 
-    public Task Rollback()
+    public Task Rollback(CancellationToken cancellationToken = default)
     {
         documentSession.EjectAllPendingChanges();
         return Task.CompletedTask;
+    }
+
+    public ValueTask BeginTransaction(CancellationToken cancellationToken = default)
+    {
+        return documentSession.BeginTransactionAsync(cancellationToken);
     }
 }

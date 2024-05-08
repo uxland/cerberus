@@ -6,14 +6,14 @@ public abstract class Entity
     {
     }
 
-    protected Entity(Guid id)
+    protected Entity(string id)
     {
         Id = id;
     }
 
-    public Guid Id { get; }
+    public string Id { get; protected set;}
 
-    public bool Transient => Id == default;
+    public bool Transient => string.IsNullOrEmpty(this.Id);
 
     public override bool Equals(object? obj)
     {

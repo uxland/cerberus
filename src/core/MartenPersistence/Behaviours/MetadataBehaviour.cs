@@ -4,8 +4,8 @@ using MediatR;
 
 namespace Cerverus.Core.MartenPersistence.Behaviours;
 
-internal class MetadataBehaviour<TRequest, TResponse>(IDocumentSession session, MetadataContext context)
-    : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest
+public class MetadataBehaviour<TRequest, TResponse>(IDocumentSession session, MetadataContext context)
+    : IPipelineBehavior<TRequest, TResponse> where TRequest : IBaseRequest
 {
     public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)

@@ -2,6 +2,8 @@
 
 namespace Cerverus.Core.Domain;
 
-public interface ICommand : IRequest;
+public interface IBaseCommand : IBaseRequest;
 
-public interface ICommand<out TResponse> : ICommand, IRequest<TResponse>;
+public interface ICommand : IRequest, IBaseCommand;
+
+public interface ICommand<out TResponse> : IBaseCommand, IRequest<TResponse>;

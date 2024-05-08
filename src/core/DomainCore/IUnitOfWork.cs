@@ -2,6 +2,8 @@ namespace Cerverus.Core.Domain;
 
 public interface IUnitOfWork
 {
-    Task Commit();
-    Task Rollback();
+    Task Commit(CancellationToken cancellationToken = default);
+    Task Rollback(CancellationToken cancellationToken = default);
+    
+    ValueTask BeginTransaction(CancellationToken cancellationToken = default);
 }

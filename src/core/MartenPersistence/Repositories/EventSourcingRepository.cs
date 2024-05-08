@@ -11,7 +11,7 @@ public abstract class EventSourcingRepository<TAggregateRoot>(IDocumentSession s
         var events = await session.Events.FetchStreamAsync(id, version ?? 0);
         var aggregate = new TAggregateRoot();
         foreach (var @event in events)
-            aggregate.Apply((IDomainEvent)@event.Data);
+            aggregate.ApplyEvent((IDomainEvent)@event.Data);
         return aggregate;
     }
 

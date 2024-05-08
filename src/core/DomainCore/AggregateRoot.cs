@@ -14,7 +14,7 @@ public abstract class AggregateRoot : Entity
     {
     }
 
-    protected AggregateRoot(Guid id) : base(id)
+    protected AggregateRoot(string id) : base(id)
     {
     }
 
@@ -51,16 +51,16 @@ public abstract class AggregateRoot : Entity
         return method;
     }
 
-    public void Apply<T>(T @event) where T : IDomainEvent
+    public void ApplyEvent<T>(T @event) where T : IDomainEvent
     {
         Version++;
-        ApplyEvent(@event);
+        ApplyEventInner(@event);
     }
 
     public void ApplyUncommittedEvent(IDomainEvent @event)
     {
         _uncommittedEvents.Add(@event);
-        Apply(@event);
+        ApplyEvent(@event);
     }
 
     public IReadOnlyList<IDomainEvent> GetUncommittedEvents()
@@ -68,7 +68,7 @@ public abstract class AggregateRoot : Entity
         return _uncommittedEvents.AsReadOnly();
     }
 
-    private void ApplyEvent(IDomainEvent @event)
+    private void ApplyEventInner(IDomainEvent @event)
     {
         var applier = GetApplier(this, @event);
         applier.Invoke(this, new object[] { @event });

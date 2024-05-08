@@ -1,4 +1,5 @@
-﻿using Cerverus.Core.MartenPersistence.Behaviours;
+﻿using Cerverus.Core.Domain;
+using Cerverus.Core.MartenPersistence.Behaviours;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
@@ -17,7 +18,7 @@ public static class DependencyInjection
     {
         return services
             .AddMartenDb(configuration, environment, configure)
-            .AddScoped(typeof(IPipelineBehavior<,>), typeof(MetadataBehaviour<,>));
+            .AddScoped<IUnitOfWork, MartenUoW>();
     }
 
     private static IServiceCollection AddMartenDb(this IServiceCollection services, IConfiguration configuration,

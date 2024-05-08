@@ -15,7 +15,7 @@ public class AggregateRootTest
             var @event = new DomainEvent1("Hello World!");
 
             // Act
-            aggregateRoot.Apply(@event);
+            aggregateRoot.ApplyEvent(@event);
 
             // Assert
             aggregateRoot.ApplyDomainEvent1Count.Should().Be(1);
@@ -29,7 +29,7 @@ public class AggregateRootTest
             var @event = new DomainEvent1("Hello World!");
 
             // Act
-            aggregateRoot.Apply(@event);
+            aggregateRoot.ApplyEvent(@event);
 
             // Assert
             aggregateRoot.GetUncommittedEvents().Should().BeEmpty();
@@ -43,7 +43,7 @@ public class AggregateRootTest
             var @event = new DomainEvent1("Hello World!");
 
             // Act
-            aggregateRoot.Apply(@event);
+            aggregateRoot.ApplyEvent(@event);
 
             // Assert
             aggregateRoot.Version.Should().Be(1);
@@ -57,7 +57,7 @@ public class AggregateRootTest
             var @event = new DomainEvent2("Hello World!");
 
             // Act
-            var exception = Assert.Throws<MissingMethodException>(() => aggregateRoot.Apply(@event));
+            var exception = Assert.Throws<MissingMethodException>(() => aggregateRoot.ApplyEvent(@event));
 
             // Assert
             exception.Message.Should().Be("Method Apply(DomainEvent2) not found in TestAggregateRoot");
@@ -116,7 +116,7 @@ public class AggregateRootTest
         {
         }
 
-        public TestAggregateRoot(Guid id) : base(id)
+        public TestAggregateRoot(String id) : base(id)
         {
         }
 
