@@ -12,3 +12,5 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
     public CameraAdminSettings? AdminSettings { get; private set; }
     public CameraFunctionalSettings? FunctionalSettings { get; private set; }
 }
+
+public interface ICameraQueryProvider : IQueryProvider<Camera>;

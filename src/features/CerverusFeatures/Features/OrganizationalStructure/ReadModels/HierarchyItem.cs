@@ -1,4 +1,5 @@
-﻿using Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
+﻿using Cerverus.Core.Domain;
+using Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocations;
 using Cerverus.Features.Features.OrganizationalStructure.Shared;
 

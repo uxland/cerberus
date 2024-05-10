@@ -3,6 +3,7 @@ using Cerverus.Core.MartenPersistence.Behaviours;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
+using Marten.NodaTimePlugin;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,8 @@ public static class DependencyInjection
                 options
                     .SetupSerialization()
                     .ConfigureEventSore()
-                    .ConfigureMetadata();
+                    .ConfigureMetadata()
+                    .UseNodaTime();
 
                 configure(options);
             })

@@ -3,10 +3,9 @@ using Marten;
 
 namespace Cerverus.Core.MartenPersistence.QueryProviders;
 
-public class QueryProvider<TEntity>(IDocumentStore documentStore): IQueryProvider<TEntity> where TEntity : Entity
+public abstract class QueryProvider<TEntity>(IQuerySession querySession): IQueryProvider<TEntity> where TEntity : Entity
 {
-    private IQuerySession? _session;
-    protected IQuerySession Session => _session ??= documentStore.QuerySession();
+    protected IQuerySession Session { get; } = querySession;
     public Task<TEntity?> Rehydrate(string id)
     {
        return this.Session.LoadAsync<TEntity>(id);

@@ -1,10 +1,10 @@
 ﻿using Cerverus.BackOffice.Persistence.Projections;
+using Cerverus.BackOffice.Persistence.QueryProviders;
 using Cerverus.BackOffice.Persistence.Repositories;
 using Cerverus.Core.Domain;
 using Cerverus.Core.MartenPersistence;
 using Cerverus.Features.Features.OrganizationalStructure.Camera;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
-using Cerverus.Features.Features.OrganizationalStructure.ReadModels;
 using Marten;
 using Marten.Events.Projections;
 using MediatR;
@@ -57,5 +57,11 @@ public static class DependencyInjection
         return services
             .AddScoped<IRepository<Location>, LocationRepository>()
             .AddScoped<IRepository<Camera>, CameraRepository>();
+    }
+    
+    private static IServiceCollection UseQueryProviders(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<ICameraQueryProvider, CameraQueryProvider>();
     }
 }
