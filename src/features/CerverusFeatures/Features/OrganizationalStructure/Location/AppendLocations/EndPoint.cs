@@ -79,21 +79,13 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
             if(string.IsNullOrWhiteSpace(id))
                 return null;
             var type = ParseHierarchicalItemType(dataReader.GetString(worksheetProperties.TypeColumnIndex));
-            var parentId = dataReader.GetString(worksheetProperties.ParentIdColumnIndex);
-            var description = dataReader.GetString(worksheetProperties.DescriptionColumnIndex);
-            var ipAddress = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex);
-            var userName = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex);
-            var password = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex);
+            var parentId = ReadCell(worksheetProperties.ParentIdColumnIndex);
+            var description = ReadCell(worksheetProperties.DescriptionColumnIndex);
+            var ipAddress = ReadCell(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex);
+            var userName = ReadCell(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex)?.ToString() ?? string.Empty;
+            var password = ReadCell(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex);
             var captureRecurrencePattern = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex);
-            var adminSettings = new CameraAdminSettings(
-                dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex),
-                new CameraCredentials(
-                    dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex),
-                    dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex)
-                ),
-                dataReader.GetString(worksheetProperties
-                    .DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex)
-            );
+            
             return new AppendHierarchyItem(
                 type,
                 id,
@@ -103,6 +95,7 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
                 new CameraFunctionalSettings(new List<CameraFilter>())
                 );
             HierarchicalItemType ParseHierarchicalItemType(string value, HierarchicalItemType defaultValue = HierarchicalItemType.Location) => Enum.TryParse(value, true, out HierarchicalItemType type) ? type : defaultValue;
+            string ReadCell(int cellIndex) => dataReader.GetValue(cellIndex)?.ToString() ?? string.Empty;
         }
         private static WorksheetProperties? GetWorksheetProperties(IExcelDataReader dataReader)
         {

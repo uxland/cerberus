@@ -42,7 +42,7 @@ public static class DependencyInjection
     {
         options.Projections.Snapshot<Location>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Camera>(SnapshotLifecycle.Inline);
-        options.Projections.Add<HierarchyItemProjection>(ProjectionLifecycle.Async);
+        options.Projections.Add<HierarchyItemProjection>(ProjectionLifecycle.Inline);
         return options;
     }
     

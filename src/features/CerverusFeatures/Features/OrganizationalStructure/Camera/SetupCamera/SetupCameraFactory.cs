@@ -13,9 +13,9 @@ internal class SetupCameraFactory : IHierarchySetupCommandFactoryItem
 
     public IBaseCommand Produce(AppendHierarchyItem item)
     {
-        return new SetupLocation(
+        return new SetupCameraCommand(
             item.Id,
-            item.ParentId,
+            item.ParentId!,
             item.Description,
             item.DefaultCameraAdminSettings,
             item.DefaultCameraFunctionalSettings

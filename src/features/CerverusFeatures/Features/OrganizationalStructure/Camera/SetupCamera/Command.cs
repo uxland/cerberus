@@ -8,8 +8,8 @@ public record SetupCameraCommand(
     string Id,
     string ParentId,
     string Description,
-    CameraAdminSettings AdminSettings,
-    CameraFunctionalSettings FunctionalSettings
+    CameraAdminSettings? AdminSettings,
+    CameraFunctionalSettings? FunctionalSettings
     ): ICommand, IHierarchyItem;
     
     public class SetupLocationFactory: IHierarchySetupCommandFactoryItem
