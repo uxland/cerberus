@@ -1,40 +1,25 @@
 ﻿using Cerverus.Core.Domain;
+using Cerverus.Features.Features.OrganizationalStructure.Shared;
 using Cerverus.Features.Features.Shared;
 using MediatR;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocations;
 
-internal sealed class Handler(IRepository<Location> locationRepository, ISender mediator) :
-    IRequestHandler<AppendLocations>,
-    IRequestHandler<AppendLocation>,
+internal sealed class Handler(IRepository<Location> locationRepository, ISender mediator, HierarchySetupCommandFactory commandFactory) :
+    IRequestHandler<AppendHierarchyItems>,
     IRepositoryHandlerMixin<Location>
 {
-    public async Task Handle(AppendLocations request, CancellationToken cancellationToken)
+    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken)
     {
-        var sortedItems = request.Locations.OrderBy(x => x, new AppendLocationCommandSorter(request.Locations)).ToList();
+        var sortedItems = request.Items.OrderBy(x => x, new AppendLocationCommandSorter(request.Items))
+            .Select(commandFactory.Produce)
+            .ToList();
         foreach (var item in sortedItems)
-          await   mediator.Send(item, cancellationToken);
+          await mediator.Send(item, cancellationToken);
     }
-
-    public async Task Handle(AppendLocation request, CancellationToken cancellationToken)
+    private class AppendLocationCommandSorter(IEnumerable<AppendHierarchyItem> allItems): IComparer<AppendHierarchyItem>
     {
-        var path = await this.GetPath(request);
-        var location = new Location(request, path);
-        await locationRepository.Create(location);
-    }
-    
-    private async Task<string> GetPath(AppendLocation request)
-    {
-        if(string.IsNullOrEmpty(request.ParentId))
-            return request.Id;
-
-        var parent = await this.Rehydrate(request.ParentId);
-        return $"{parent.Path}>{request.Id}";
-    }
-    
-    private class AppendLocationCommandSorter(List<AppendLocation> allItems): IComparer<AppendLocation>
-    {
-        public int Compare(AppendLocation? x, AppendLocation? y)
+        public int Compare(AppendHierarchyItem? x, AppendHierarchyItem? y)
         {
             if (ReferenceEquals(x, y)) return 0;
             if (ReferenceEquals(null, y)) return 1;
@@ -49,11 +34,36 @@ internal sealed class Handler(IRepository<Location> locationRepository, ISender 
             return 0;
         }
         
-        private bool IsParentInList(AppendLocation parent)
+        private bool IsParentInList(AppendHierarchyItem parent)
         {
             return allItems.Any(x => x.Id == parent.ParentId);
         }
     }
 
     public IRepository<Location> Repository => locationRepository;
+}
+
+internal sealed class SetupLocationHandler(
+    IRepository<Location> locationRepository,
+    IHierarchyItemPathProvider pathProvider) : 
+    IRequestHandler<SetupLocation>
+{
+    public async Task Handle(SetupLocation request, CancellationToken cancellationToken)
+    {
+        var path = await pathProvider.GetPathAsync(request);
+        var location = await locationRepository.Rehydrate(request.Id);
+        await (location == null ? CreateLocation(request, path) : UpdateLocation(location, request, path));
+    }
+
+    private Task CreateLocation(SetupLocation setupLocation, string path)
+    {
+        var location = new Location(setupLocation, path);
+        return locationRepository.Create(location);
+    }
+
+    private Task UpdateLocation(Location location, SetupLocation setupLocation, string path)
+    {
+        location.Handle(setupLocation, path);
+        return locationRepository.Save(location);
+    }
 }

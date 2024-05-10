@@ -1,4 +1,5 @@
-﻿using ExcelDataReader;
+﻿using Cerverus.Features.Features.OrganizationalStructure.Shared;
+using ExcelDataReader;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +42,9 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
 
     private static class AppendLocationsExcelReader
     {
-        public static async  Task<List<AppendLocations>> ReadFile(IFormFile file)
+        public static async  Task<List<AppendHierarchyItems>> ReadFile(IFormFile file)
         {
-            var appendLocations = new List<AppendLocations>();
+            var appendHierarchyItems = new List<AppendHierarchyItems>();
             using var stream = new MemoryStream();
             await file.CopyToAsync(stream);
             using var reader = ExcelReaderFactory.CreateReader(stream);
@@ -51,53 +52,57 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
             {
                 var cmd = ReadWorkingSheet(reader);
                 if(cmd != null)
-                    appendLocations.Add(cmd);
+                    appendHierarchyItems.Add(cmd);
             } while (reader.NextResult());
-            return appendLocations;
+            return appendHierarchyItems;
         }
 
-        private static AppendLocations? ReadWorkingSheet(IExcelDataReader dataReader)
+        private static AppendHierarchyItems? ReadWorkingSheet(IExcelDataReader dataReader)
         {
             var worksheetProperties = GetWorksheetProperties(dataReader);
             if(worksheetProperties == null)
                 return null;
-            var appendLocations = new List<AppendLocation>();
+            var appendHierarchyItems = new List<AppendHierarchyItem>();
             while (dataReader.Read())
             {
                 var appendLocation = ReadAppendLocation(dataReader, worksheetProperties);
                 if(appendLocation != null)
-                    appendLocations.Add(appendLocation);
+                    appendHierarchyItems.Add(appendLocation);
             }
 
-            return appendLocations.Any() ? new AppendLocations(appendLocations) : null;
+            return appendHierarchyItems.Any() ? new AppendHierarchyItems(appendHierarchyItems) : null;
         }
 
-        private static AppendLocation? ReadAppendLocation(IExcelDataReader dataReader, WorksheetProperties worksheetProperties)
+        private static AppendHierarchyItem? ReadAppendLocation(IExcelDataReader dataReader, WorksheetProperties worksheetProperties)
         {
             var id = dataReader.GetString(worksheetProperties.IdColumnIndex);
             if(string.IsNullOrWhiteSpace(id))
                 return null;
-            return new AppendLocation(
-                id,
-                dataReader.GetString(worksheetProperties.ParentIdColumnIndex),
-                dataReader.GetString(worksheetProperties.DescriptionColumnIndex),
-                new CameraAdminSettings(
-                    dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex),
-                    new CameraCredentials(
-                        dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex),
-                        dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex)
-                    ),
-                    dataReader.GetString(worksheetProperties
-                        .DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex)
+            var type = ParseHierarchicalItemType(dataReader.GetString(worksheetProperties.TypeColumnIndex));
+            var parentId = dataReader.GetString(worksheetProperties.ParentIdColumnIndex);
+            var description = dataReader.GetString(worksheetProperties.DescriptionColumnIndex);
+            var ipAddress = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex);
+            var userName = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex);
+            var password = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex);
+            var captureRecurrencePattern = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex);
+            var adminSettings = new CameraAdminSettings(
+                dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex),
+                new CameraCredentials(
+                    dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex),
+                    dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex)
                 ),
-                new CameraFunctionalSettings(
-                    new List<CameraFilter>()
-                ),
-                ParseOverrideMode(dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsOverrideModeColumnIndex)),
-                ParseOverrideMode(dataReader.GetString(worksheetProperties.DefaultCameraFunctionalSettingsOverrideModeColumnIndex))
-
+                dataReader.GetString(worksheetProperties
+                    .DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex)
             );
-            OverrideMode ParseOverrideMode(string value, OverrideMode defaultValue = OverrideMode.Replace) => Enum.TryParse(value, true, out OverrideMode mode) ? mode : defaultValue;
+            return new AppendHierarchyItem(
+                type,
+                id,
+                parentId,
+                description,
+                new CameraAdminSettings(ipAddress, new CameraCredentials(userName, password), captureRecurrencePattern),
+                new CameraFunctionalSettings(new List<CameraFilter>())
+                );
+            HierarchicalItemType ParseHierarchicalItemType(string value, HierarchicalItemType defaultValue = HierarchicalItemType.Location) => Enum.TryParse(value, true, out HierarchicalItemType type) ? type : defaultValue;
         }
         private static WorksheetProperties? GetWorksheetProperties(IExcelDataReader dataReader)
         {
@@ -122,8 +127,9 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
 
         private class WorksheetProperties
         {
-            private static Dictionary<string, string> _propertyNameMapp = new Dictionary<string, string>
+            private static readonly Dictionary<string, string> PropertyNameMapp = new Dictionary<string, string>
             {
+                {"Type", "TypeColumnIndex"},
                 { "Id", "IdColumnIndex" },
                 { "ParentId", "ParentIdColumnIndex" },
                 { "Description", "DescriptionColumnIndex" },
@@ -134,16 +140,18 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
                     "AdminSettings.CaptureRecurrencePattern",
                     "DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex"
                 },
-                { "AdminSettings.OverrideMode", "DefaultCameraAdminSettingsOverrideModeColumnIndex" },
                 { "CameraFilters", "DefaultCameraFunctionalSettingsColumnIndex" },
-                { "CameraFilters.OverrideMode", "DefaultCameraFunctionalSettingsOverrideModeColumnIndex" }
+              
             };
             public void SetPropertyValue(string propertyName, int value)
             {
-                var property = _propertyNameMapp[propertyName.Trim()];
+                if(!PropertyNameMapp.ContainsKey(propertyName.Trim()))
+                    return;
+                var property = PropertyNameMapp[propertyName.Trim()];
                 GetType().GetProperty(property)?.SetValue(this, value);
             }
 
+            public int TypeColumnIndex { get; set; } = -1;
             public int IdColumnIndex { get; set; } = -1;
             public int ParentIdColumnIndex { get; set; } = -1;
             public int DescriptionColumnIndex { get; set; } = -1;
@@ -151,9 +159,8 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
             public int DefaultCameraAdminSettingsUserNameColumnIndex { get; set; }= -1;
             public int DefaultCameraAdminSettingsPasswordColumnIndex { get; set; }= -1;
             public int DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex { get; set; }= -1;
-            public int DefaultCameraAdminSettingsOverrideModeColumnIndex { get; set; }= -1;
             public int DefaultCameraFunctionalSettingsColumnIndex { get; set; }= -1;
-            public int DefaultCameraFunctionalSettingsOverrideModeColumnIndex { get; set; }= -1;
+
 
             public bool IsSet
             {

@@ -9,6 +9,8 @@ public abstract class EventSourcingRepository<TAggregateRoot>(IDocumentSession s
     public async Task<TAggregateRoot?> Rehydrate(string id, long? version = null)
     {
         var events = await session.Events.FetchStreamAsync(id, version ?? 0);
+        if(events.Count == 0)
+            return null;
         var aggregate = new TAggregateRoot();
         foreach (var @event in events)
             aggregate.ApplyEvent((IDomainEvent)@event.Data);

@@ -36,7 +36,7 @@ public static class DependencyInjection
 
                 configure(options);
             })
-            .UseLightweightSessions()
+            .UseIdentitySessions()
             .AddAsyncDaemon(DaemonMode.HotCold);
         return services;
     }
@@ -49,7 +49,7 @@ public static class DependencyInjection
             serializerOptions =>
             {
                 serializerOptions.IgnoreReadOnlyFields = true;
-                serializerOptions.IgnoreReadOnlyProperties = true;
+                serializerOptions.IgnoreReadOnlyProperties = false;
             }
         );
         return options;
