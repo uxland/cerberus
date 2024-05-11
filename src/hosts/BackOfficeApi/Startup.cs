@@ -21,6 +21,16 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting)
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackOfficeApi", Version = "v1" });
         });
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:5177", "https://localhost:7005")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
         services
             .UseLogging()
             .UseMediator()

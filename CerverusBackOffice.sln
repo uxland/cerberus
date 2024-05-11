@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RstpClient", "src\core\Rstp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RstpClient.Tests", "test\core\RstpClient.Tests\RstpClient.Tests.csproj", "{27916EA6-17F6-48F0-BAB8-CDB7FA11FB89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOfficeUI", "src\hosts\BackOfficeUI\BackOfficeUI.csproj", "{973024EE-D1AF-4427-83B1-18DB7A833FFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,7 @@ Global
 		{30174785-B646-4AE1-AB1C-AB5115869D9D} = {FF8C48D3-A239-4659-A1B9-404C078C0B53}
 		{6F120EB5-4621-4C60-8FD5-3B77CBC2555D} = {5CFB0868-53CF-415E-9EFC-FF4F926F2D96}
 		{27916EA6-17F6-48F0-BAB8-CDB7FA11FB89} = {7A2FE6DF-2085-482D-BE28-E74BC4BC2A7D}
+		{973024EE-D1AF-4427-83B1-18DB7A833FFD} = {FF8C48D3-A239-4659-A1B9-404C078C0B53}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E2D39E3A-D420-4FA6-993C-E21DF431AF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -122,5 +125,9 @@ Global
 		{27916EA6-17F6-48F0-BAB8-CDB7FA11FB89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27916EA6-17F6-48F0-BAB8-CDB7FA11FB89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27916EA6-17F6-48F0-BAB8-CDB7FA11FB89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{973024EE-D1AF-4427-83B1-18DB7A833FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973024EE-D1AF-4427-83B1-18DB7A833FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973024EE-D1AF-4427-83B1-18DB7A833FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973024EE-D1AF-4427-83B1-18DB7A833FFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
