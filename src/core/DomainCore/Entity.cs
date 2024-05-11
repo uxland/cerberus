@@ -1,6 +1,6 @@
 ﻿namespace Cerverus.Core.Domain;
 
-public abstract class Entity
+public abstract class Entity: IEntity
 {
     protected Entity()
     {

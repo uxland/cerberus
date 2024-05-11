@@ -4,6 +4,7 @@ using Cerverus.BackOffice.Persistence.Repositories;
 using Cerverus.Core.Domain;
 using Cerverus.Core.MartenPersistence;
 using Cerverus.Features.Features.OrganizationalStructure.Camera;
+using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
 using Marten;
 using Marten.Events.Projections;
@@ -21,7 +22,8 @@ public static class DependencyInjection
     {
         return
             services.UseMartenPersistence(configuration, environment, options => ConfigureMarten(options, services))
-                .UseRepositories();
+                .UseRepositories()
+                .UseQueryProviders();
     }
     private static void ConfigureMarten(this StoreOptions storeOptions, IServiceCollection services)
     {
@@ -62,6 +64,7 @@ public static class DependencyInjection
     private static IServiceCollection UseQueryProviders(this IServiceCollection services)
     {
         return services
-            .AddScoped<ICameraQueryProvider, CameraQueryProvider>();
+            .AddScoped<ICameraQueryProvider, CameraQueryProvider>()
+            .AddScoped<IHierarchyItemQueryProvider, HierarchyItemQueryProviders>();
     }
 }

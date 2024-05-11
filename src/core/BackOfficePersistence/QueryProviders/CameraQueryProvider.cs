@@ -4,4 +4,4 @@ using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;
 
-public class CameraQueryProvider(IQuerySession querySession) : QueryProvider<Camera>(querySession), ICameraQueryProvider;
+internal class CameraQueryProvider(IQuerySession querySession) : QueryProvider<Camera>(querySession), ICameraQueryProvider;

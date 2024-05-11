@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems
+@inject TreeItemsLoader treeItemsLoader
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">BackOfficeUI</a>
+        <a class="navbar-brand" href="">Cerverus UI</a>
     </div>
 </div>
 
@@ -8,22 +10,21 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
+       @foreach(var item in _treeItems)
+       {
+           <div class="nav-item px-3"></div>
+           <NavLink class="nav-link" href="@($"location/{item.Id}")">
+               <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>@item.Description
+           </NavLink>
+       }
     </nav>
 </div>
+
+@code
+{
+    private IEnumerable<HierarchyItem> _treeItems = new List<HierarchyItem>();
+    protected override async Task OnInitializedAsync()
+    {
+        _treeItems = await treeItemsLoader.LoadItems("root");
+    }
+}

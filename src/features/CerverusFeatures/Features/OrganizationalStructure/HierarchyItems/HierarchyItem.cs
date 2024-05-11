@@ -3,7 +3,7 @@ using Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocations;
 using Cerverus.Features.Features.OrganizationalStructure.Shared;
 
-namespace Cerverus.Features.Features.OrganizationalStructure.ReadModels;
+namespace Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 
 public record class HierarchyItem(
     string Id,
@@ -11,7 +11,7 @@ public record class HierarchyItem(
     string Description,
     string Path,
     HierarchicalItemType Type
-)
+): IEntity
 {
     public static HierarchyItem Create(LocationCreated locationCreated) =>
         new HierarchyItem(locationCreated.Id, locationCreated.ParentId, locationCreated.Description, locationCreated.Path, HierarchicalItemType.Location);
@@ -41,4 +41,9 @@ public record class HierarchyItem(
             ParentId = cameraUpdated.ParentId,
             Path = cameraUpdated.Path
         };
+}
+
+public interface IHierarchyItemQueryProvider: IQueryProvider<HierarchyItem>
+{
+    Task<IEnumerable<HierarchyItem>> GetItems(string parent);
 }
