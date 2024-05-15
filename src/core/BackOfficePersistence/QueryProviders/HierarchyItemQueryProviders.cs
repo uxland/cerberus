@@ -8,14 +8,18 @@ internal class HierarchyItemQueryProviders(IQuerySession querySession) : QueryPr
 {
     private readonly IQuerySession _querySession = querySession;
 
-    public async Task<IEnumerable<HierarchyItem>> GetItems(string parent)
+    public async Task<IEnumerable<HierarchyItem>> GetItems(string? parent)
     {
-        var parentId = string.IsNullOrEmpty(parent) ? null : parent;
-        var query = parentId == "root" ? 
-            _querySession.Query<HierarchyItem>().Where(x => x.ParentId == null || x.ParentId == parent) : 
-            _querySession.Query<HierarchyItem>().Where(x => x.ParentId == parentId); 
-            
+        var query =
+            _querySession.Query<HierarchyItem>().Where(x => x.ParentId == parent); 
+        
         var items = await query.ToListAsync();
+        return items;
+    }
+
+    public async Task<IEnumerable<HierarchyItem>> GetAll()
+    {
+        var items = await _querySession.Query<HierarchyItem>().ToListAsync();
         return items;
     }
 }

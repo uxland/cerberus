@@ -51,7 +51,9 @@ public static class DependencyInjection
     private static StoreOptions SetupIndexes(this StoreOptions options)
     {
         options.Schema.For<Location>().Index(x => x.Description);
-        options.Schema.For<Camera>().Index(x => x.Description);
+        options.Schema.For<Camera>()
+            .Index(x => x.Description)
+            .Index(x => x.Path);
         return options;
     }
     private static IServiceCollection UseRepositories(this IServiceCollection services)
@@ -65,6 +67,7 @@ public static class DependencyInjection
     {
         return services
             .AddScoped<ICameraQueryProvider, CameraQueryProvider>()
-            .AddScoped<IHierarchyItemQueryProvider, HierarchyItemQueryProviders>();
+            .AddScoped<IHierarchyItemQueryProvider, HierarchyItemQueryProviders>()
+            .AddScoped<IQueryProvider<Location>, LocationQueryProvider>();
     }
 }

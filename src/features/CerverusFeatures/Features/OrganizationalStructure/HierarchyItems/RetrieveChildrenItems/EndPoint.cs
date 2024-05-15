@@ -14,7 +14,8 @@ public class RetrieveChildrenController(IHierarchyItemQueryProvider queryProvide
     ]
     public async Task<IEnumerable<HierarchyItem>> GetChildren(string parentId)
     {
-        var items = await queryProvider.GetItems(parentId);
+        var parent = (string.IsNullOrEmpty(parentId) || parentId == "root") ? string.Empty : parentId;
+        var items = await queryProvider.GetItems(parent);
         return items;
     }
 }

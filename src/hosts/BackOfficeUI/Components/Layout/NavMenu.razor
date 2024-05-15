@@ -1,30 +1,81 @@
 ﻿@using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems
+@using BackOfficeUI.Components.Layout.UIComponents
 @inject TreeItemsLoader treeItemsLoader
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Cerverus UI</a>
     </div>
+   
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-       @foreach(var item in _treeItems)
-       {
-           <div class="nav-item px-3"></div>
-           <NavLink class="nav-link" href="@($"location/{item.Id}")">
-               <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>@item.Description
-           </NavLink>
-       }
-    </nav>
-</div>
-
+<ul class="nav flex-column">
+    @foreach (var item in Items)
+    {
+    <LocationNavLink Item="item" />
+    }
+</ul>
 @code
 {
-    private IEnumerable<HierarchyItem> _treeItems = new List<HierarchyItem>();
+    IEnumerable<NavigationMenuItem> Items = new List<NavigationMenuItem>();
     protected override async Task OnInitializedAsync()
     {
-        _treeItems = await treeItemsLoader.LoadItems("root");
+        var items = (await treeItemsLoader.LoadAll()).ToList();
+        Items = items.Where(i => string.IsNullOrEmpty(i.ParentId)).Select(item => CreateTreeItem(item, items)).ToList();
+    }
+
+    private NavigationMenuItem CreateTreeItem(HierarchyItem item, List<HierarchyItem> items)
+    {
+        return new NavigationMenuItem(item, items.Where(child => child.ParentId == item.Id).Select(child => CreateTreeItem(child, items)).ToList());
     }
 }
+@*
+<TreeView Style="color: white" Nodes="Items"
+          GetChildNodes="@(item => item.Children)"
+          HasChildNodes="@(item => item.Children?.Any() == true)"
+          @bind-SelectedNode="selectedNode"
+          @bind-ExpandedNodes="expandedNodes">
+    <NodeContent>
+        <Icon Name="IconName.Folder" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+*@
+
+
+@* @code *@
+@* { *@
+@*     public record TreeItem(HierarchyItem Item, List<TreeItem> Children) *@
+@*     { *@
+@*          *@
+@*          *@
+@*         public string ItemUrl => Item.Type switch *@
+@*         { *@
+@*             HierarchicalItemType.Location => $"location/{Item.Id}", *@
+@*             HierarchicalItemType.Camera => $"camera/{Item.Id}", *@
+@*             _ => throw new ArgumentOutOfRangeException() *@
+@*         }; *@
+@*         public IconName IconName => Item.Type switch *@
+@*         { *@
+@*             HierarchicalItemType.Location => IconName.Folder, *@
+@*             HierarchicalItemType.Camera => IconName.Camera, *@
+@*             _ => throw new ArgumentOutOfRangeException() *@
+@*         }; *@
+@*     } *@
+@*     *@
+@*      *@
+@*     IEnumerable<TreeItem> Items = new List<TreeItem>(); *@
+@* *@
+@*     protected override async Task OnInitializedAsync() *@
+@*     { *@
+@*         var items = (await treeItemsLoader.LoadAll()).ToList(); *@
+@*         Items = items.Where(i => string.IsNullOrEmpty(i.ParentId)).Select(item => CreateTreeItem(item, items)).ToList(); *@
+@*     } *@
+@* *@
+@*     private static TreeItem CreateTreeItem(HierarchyItem item, List<HierarchyItem> allItems) *@
+@*     { *@
+@*         return new TreeItem(item, allItems.Where(child => child.ParentId == item.Id).Select(child => CreateTreeItem(child, allItems)).ToList()); *@
+@*     } *@
+@*     IList<TreeItem> expandedNodes  = new List<TreeItem>(); *@
+@*     TreeItem selectedNode; *@
+@* } *@

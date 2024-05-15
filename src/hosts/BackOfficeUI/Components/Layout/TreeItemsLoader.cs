@@ -9,4 +9,13 @@ public class TreeItemsLoader(ApiClient apiClient)
     {
         return await apiClient.GetItems<IEnumerable<HierarchyItem>>($"locations/{parent}/children") ?? [];
     }
+    public Task<IEnumerable<HierarchyItem>> LoadRootItems()
+    {
+        return LoadItems("root");
+    }
+
+    public async Task<IEnumerable<HierarchyItem>> LoadAll()
+    {
+        return await apiClient.GetItems<IEnumerable<HierarchyItem>>("locations") ?? [];
+    }
 }

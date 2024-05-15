@@ -3,6 +3,7 @@ using Cerverus.BackOffice.Persistence;
 using Cerverus.Core.Domain;
 using Cerverus.Core.Domain.Behaviours;
 using Cerverus.Core.MartenPersistence.Behaviours;
+using Cerverus.Core.RstpClient;
 using Cerverus.Features;
 using MediatR;
 using Microsoft.OpenApi.Models;
@@ -34,6 +35,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting)
         services
             .UseLogging()
             .UseMediator()
+            .UseRstpClient()
             .AddMartenBackOfficePersistence(configuration, hosting)
             .UseCerverusBackOfficeFeatures();
     }

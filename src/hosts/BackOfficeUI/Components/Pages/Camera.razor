@@ -1,0 +1,25 @@
+﻿@page "/cameras/{id}"
+@rendermode InteractiveServer
+@using BackOfficeUI.Infrastructure
+@inject CaptureClient captureClient
+@inject CameraDetailGetter cameraDetailGetter
+<h3>Camera @id</h3>
+<h3>@CameraItem?.Description</h3>
+
+<button class="btn btn-primary" @onclick="Capture">Capture me</button>
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private Cerverus.Features.Features.OrganizationalStructure.Camera.Camera? CameraItem { get; set; }
+
+    private async Task Capture()
+    {
+        await captureClient.CaptureSnapshot(id);
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        this.CameraItem = await cameraDetailGetter.GetCameraDetail(id);
+    }
+}

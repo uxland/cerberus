@@ -1,4 +1,5 @@
-﻿using Cerverus.Core.Domain;
+﻿using System.Collections;
+using Cerverus.Core.Domain;
 using Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocations;
 using Cerverus.Features.Features.OrganizationalStructure.Shared;
@@ -46,4 +47,6 @@ public record class HierarchyItem(
 public interface IHierarchyItemQueryProvider: IQueryProvider<HierarchyItem>
 {
     Task<IEnumerable<HierarchyItem>> GetItems(string parent);
+    Task<IEnumerable<HierarchyItem>> GetAll();
+    
 }

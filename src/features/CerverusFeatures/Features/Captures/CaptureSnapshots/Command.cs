@@ -2,4 +2,4 @@
 
 namespace Cerverus.Features.Features.Captures.CaptureSnapshots;
 
-public record CaptureCameraSnapshot(string Id): ICommand;
+public record CaptureCameraSnapshots(string LocationId): ICommand;

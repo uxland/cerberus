@@ -1,0 +1,27 @@
+﻿@page "/locations/{id}"
+@rendermode InteractiveServer
+@using BackOfficeUI.Infrastructure
+@inject CaptureClient captureClient
+@inject LocationDetailGetter locationDetailGetter
+
+<h3>Location @id</h3>
+
+<h3>@LocationItem?.Description</h3>
+<button class="btn btn-primary" @onclick="Capture">Capture</button>
+@code {
+    [Parameter]
+    public string id { get; set; }
+    
+    public Cerverus.Features.Features.OrganizationalStructure.Location.Location? LocationItem { get; set; }
+
+    private async Task Capture()
+    {
+        await captureClient.CaptureSnapshot(id);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.LocationItem = await locationDetailGetter.GetLocationDetail(id);
+    }
+
+}

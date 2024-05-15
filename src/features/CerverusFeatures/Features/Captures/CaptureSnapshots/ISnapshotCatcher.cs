@@ -2,5 +2,12 @@
 
 public interface ISnapshotCatcher
 {
-    Task<(Stream? stream, CaptureError? Error)> CaptureSnapshot(string address, string username, string password, CancellationToken cancellationToken = default);
+    Task<(byte[]? Buffer, CaptureError? Error)> CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default);
 }
+
+public record CaptureSnapshotArguments(
+    string Address,
+    string Username,
+    string Password,
+    uint FramesToCapture = 1
+    );

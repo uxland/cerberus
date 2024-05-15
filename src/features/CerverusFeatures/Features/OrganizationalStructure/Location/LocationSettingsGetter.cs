@@ -33,7 +33,7 @@ internal sealed class LocationSettingsGetter(IRepository<Location> locationRepos
         }
         return locations;
     }
-    public IRepository<Location> Repository => locationRepository;
+    public IRepositoryBase<Location> Repository => locationRepository;
 }
 
 public interface ILocationSettingsGetter

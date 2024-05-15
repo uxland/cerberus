@@ -1,0 +1,41 @@
+﻿@* TreeNode.razor *@
+@using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems
+@using Cerverus.Features.Features.OrganizationalStructure.Shared
+@inject TreeItemsLoader treeItemsLoader
+
+<div class="nav-link tree-node">
+    @*<button @onclick="ToggleExpand" class="btn btn-link p-0" style="color: black;">
+        <div>HSHSHSHSHSHSHS</div> <span class="bi @(IsExpanded ? "bi-dash" : "bi-plus")" aria-hidden="true" style="color: black;"></span>
+    </button>
+    <NavLink class="nav-link" href="@ItemUrl">
+        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>@($"{Item.Description}-({Item.Id})")
+    </NavLink>
+    @if (IsExpanded)
+    {
+        foreach (var child in Children ?? Enumerable.Empty<HierarchyItem>())
+        {
+            <TreeNode Item="child" />
+        }
+    }*@
+    <button class="btn btn-primary" @onclick="ToggleExpand">@Item.Description</button>
+</div>
+
+@code {
+    [Parameter]
+    public HierarchyItem Item { get; set; }
+    private bool IsExpanded { get; set; }
+    private List<HierarchyItem>? Children { get; set; }
+    
+    private string ItemUrl => Item.Type switch
+    {
+        HierarchicalItemType.Location => $"location/{Item.Id}",
+        HierarchicalItemType.Camera => $"camera/{Item.Id}",
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    private async Task ToggleExpand()
+    {
+        IsExpanded = !IsExpanded;
+        Children ??= (await treeItemsLoader.LoadItems(Item.Id)).ToList();
+    }
+}

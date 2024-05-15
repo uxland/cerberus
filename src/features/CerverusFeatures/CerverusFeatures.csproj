@@ -17,6 +17,7 @@
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
       <PackageReference Include="NodaTime" Version="3.1.11" />
       <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0" />
+      <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
     </ItemGroup>
 
     <ItemGroup>

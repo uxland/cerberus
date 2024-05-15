@@ -40,7 +40,7 @@ internal sealed class Handler(IRepository<Location> locationRepository, ISender 
         }
     }
 
-    public IRepository<Location> Repository => locationRepository;
+    public IRepositoryBase<Location> Repository => locationRepository;
 }
 
 internal sealed class SetupLocationHandler(

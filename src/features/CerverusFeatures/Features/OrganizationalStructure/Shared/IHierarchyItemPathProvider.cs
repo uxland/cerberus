@@ -20,5 +20,5 @@ internal class HierarchicalItemPathProvider(IRepository<Location.Location> locat
         return $"{parent.Path}>{hierarchyItem.Id}";
     }
 
-    public IRepository<Location.Location> Repository => locationRepository;
+    public IRepositoryBase<Location.Location> Repository => locationRepository;
 }

@@ -5,7 +5,7 @@ namespace Cerverus.Features.Features.Shared;
 
 public static class RepositoryHandlerMixin
 {
-    public static async Task<TEntity> Rehydrate<TEntity>(this IRepositoryHandlerMixin<TEntity> handlerMixin, string id) where TEntity : AggregateRoot
+    public static async Task<TEntity> Rehydrate<TEntity>(this IRepositoryHandlerMixin<TEntity> handlerMixin, string id) where TEntity : IEntity
     {
         var entity = await handlerMixin.Repository.Rehydrate(id);
         if(entity == null)
@@ -14,7 +14,7 @@ public static class RepositoryHandlerMixin
     }
 }
 
-public interface IRepositoryHandlerMixin<TAggregateRoot> where TAggregateRoot : AggregateRoot
+public interface IRepositoryHandlerMixin<TAggregateRoot> where TAggregateRoot : IEntity
 {
-    IRepository<TAggregateRoot> Repository { get; }
+    IRepositoryBase<TAggregateRoot> Repository { get; }
 }

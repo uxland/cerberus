@@ -8,4 +8,9 @@ public class ApiClient(HttpClient httpClient)
         var uri = new Uri(Path.Combine(API_BASE_URL, path));
         return httpClient.GetFromJsonAsync<T>(uri);
     } 
+    public Task PostCommand(string path, object? command)
+    {
+        var uri = new Uri(Path.Combine(API_BASE_URL, path));
+        return httpClient.PostAsJsonAsync(uri, command);
+    }
 }

@@ -1,4 +1,6 @@
 bin/
+!src/hosts/BackOfficeApi/FFmpeg/bin
+!src/core/RstpClient/FFmpeg/bin
 obj/
 /packages/
 riderModule.iml
