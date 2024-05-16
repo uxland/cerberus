@@ -13,7 +13,7 @@ public record CameraAdminSettings(
         return this with
         {
             IpAddress = !string.IsNullOrEmpty(other.IpAddress) ? other.IpAddress : this.IpAddress,
-            Credentials = other.Credentials ?? this.Credentials,
+            Credentials = new CameraCredentials().Merge(other.Credentials).Merge(this.Credentials),
             CaptureRecurrencePattern = !string.IsNullOrEmpty(other.CaptureRecurrencePattern)
                 ? other.CaptureRecurrencePattern
                 : this.CaptureRecurrencePattern

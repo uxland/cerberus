@@ -1,5 +1,6 @@
 using BackOfficeUI;
 using BackOfficeUI.Components;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,16 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+var di = new DirectoryInfo("C:/Cerverus/Snapshots");
+if (!di.Exists)
+    di.Create();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+            di.FullName
+        ),
+    RequestPath = "/images"
+});
 
 app.UseHttpsRedirection();
 

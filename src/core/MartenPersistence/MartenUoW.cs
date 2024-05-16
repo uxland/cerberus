@@ -3,12 +3,11 @@ using Marten;
 
 namespace Cerverus.Core.MartenPersistence;
 
-internal class MartenUoW(IDocumentSession documentSession, IDocumentStore documentStore) : IUnitOfWork, IDisposable
+internal class MartenUoW(IDocumentSession documentSession) : IUnitOfWork, IDisposable
 {
     public void Dispose()
     {
         documentSession.Dispose();
-        documentStore.Dispose();
     }
 
     public Task Commit(CancellationToken cancellationToken = default)

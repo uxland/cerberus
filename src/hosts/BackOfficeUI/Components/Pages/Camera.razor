@@ -1,15 +1,39 @@
 ﻿@page "/cameras/{id}"
 @rendermode InteractiveServer
 @using BackOfficeUI.Infrastructure
+@using BackOfficeUI.Components.Camera
+@using Blazorise
 @inject CaptureClient captureClient
 @inject CameraDetailGetter cameraDetailGetter
-<h3>Camera @id</h3>
 <h3>@CameraItem?.Description</h3>
 
 <button class="btn btn-primary" @onclick="Capture">Capture me</button>
+
+<Tabs SelectedTab="@selectedTab" SelectedTabChanged="OnSelectedTabChanged">
+    <Items>
+        <Tab Name="settings">Settings</Tab>
+        <Tab Name="captures">Captures</Tab>
+    </Items>
+    <Content>
+        <TabPanel  Name="settings">
+            <CameraSettings CameraId="@id" />
+        </TabPanel >
+        <TabPanel  Name="captures">
+            <CameraThumbnailGallery CameraId="@id" />
+        </TabPanel >
+    </Content>
+</Tabs>
 @code {
     [Parameter]
     public string id { get; set; }
+    
+    string selectedTab = "settings";
+    
+    private Task OnSelectedTabChanged(string tab)
+    {
+        selectedTab = tab;
+        return Task.CompletedTask;
+    }
 
     private Cerverus.Features.Features.OrganizationalStructure.Camera.Camera? CameraItem { get; set; }
 

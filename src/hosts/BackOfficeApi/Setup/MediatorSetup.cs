@@ -15,7 +15,6 @@ public static class MediatorSetup
             .AddScoped<MetadataContext>()
             .AddMediatR(op =>
             {
-                op.Lifetime = ServiceLifetime.Scoped;
                 op.RegisterServicesFromAssemblies(typeof(MediatorSetup).Assembly);
             });
     }

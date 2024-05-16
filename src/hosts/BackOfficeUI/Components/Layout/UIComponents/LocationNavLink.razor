@@ -1,6 +1,8 @@
 ﻿@using Cerverus.Features.Features.OrganizationalStructure.Shared
+@using Blazorise
 <li class="nav-item px-3">
     <NavLink @key="Item" class="nav-link" href=@Url>
+        <Icon Name="IconName" />
         <span class="@icon" aria-hidden="true"></span> @Item.Item.Description
     </NavLink>
     @if (HasChildren)
@@ -21,5 +23,12 @@
     string Url => Item.Item.Type == HierarchicalItemType.Location ? $"locations/{Item.Item.Id}" : $"cameras/{Item.Item.Id}";
     
     bool HasChildren => Item.Children?.Any() == true;
+    
+    private IconName IconName => Item.Item.Type switch
+    {
+        HierarchicalItemType.Location => IconName.Folder,
+        HierarchicalItemType.Camera => IconName.Camera,
+        _ => IconName.Folder
+    };
     
 }

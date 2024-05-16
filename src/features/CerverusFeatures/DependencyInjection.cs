@@ -1,4 +1,5 @@
-﻿using Cerverus.Features.Features.OrganizationalStructure.Shared;
+﻿using Cerverus.Features.Features.Captures;
+using Cerverus.Features.Features.OrganizationalStructure.Shared;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cerverus.Features;
@@ -11,7 +12,8 @@ public static class DependencyInjection
         services.AddMediatR(op => op.RegisterServicesFromAssemblies(typeof(DependencyInjection).Assembly));
         
         return services
-            .UseSharedOrganizationStructure();
+            .UseSharedOrganizationStructure()
+            .UseCaptureFeatures();
     }
     
     public static IMvcBuilder AddCerverusBackOfficeFeatures(this IMvcBuilder builder)

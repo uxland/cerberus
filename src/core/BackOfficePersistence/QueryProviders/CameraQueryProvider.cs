@@ -4,7 +4,7 @@ using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;
 
-internal class CameraQueryProvider(IQuerySession querySession) : QueryProvider<Camera>(querySession), ICameraQueryProvider
+internal class CameraQueryProvider(IQuerySession session) : QueryProvider<Camera>(session), ICameraQueryProvider
 {
     public async Task<IEnumerable<Camera>> GetCamerasByPath(string path)
     {

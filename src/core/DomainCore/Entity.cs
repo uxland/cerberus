@@ -11,7 +11,7 @@ public abstract class Entity: IEntity
         Id = id;
     }
 
-    public string Id { get; protected set;}
+    public string Id { get; set;}
 
     public bool Transient => string.IsNullOrEmpty(this.Id);
 

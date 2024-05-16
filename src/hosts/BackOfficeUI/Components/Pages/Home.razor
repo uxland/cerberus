@@ -1,7 +1,41 @@
 ﻿@page "/"
+@using System.IO
+@rendermode InteractiveServer
+@using BackOfficeUI.Infrastructure
+@using Blazorise
+@inject  LocationStructureUploader locationStructureUploader
+@inject LocationStructureNotificationsService locationStructureNotificationsService
+<PageTitle>Cerverus Backoffice</PageTitle>
 
-<PageTitle>Home</PageTitle>
+<h1>Welcome to Cerverus</h1>
 
-<h1>Hello, world!</h1>
+Upload location structure
+<Field>
+    <FilePicker @ref="filePicker" Multiple Upload="OnFileUpload" ShowMode="FilePickerShowMode.List" AutoReset="true" />
+</Field>
 
-Welcome to your new app.
+@code {
+    
+    private FilePicker filePicker;
+    private async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        try
+        {
+            using MemoryStream result = new MemoryStream();
+            await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            await locationStructureUploader.UploadLocationStructure( result.ToArray(), e.File.Name );
+            filePicker?.Clear();
+            locationStructureNotificationsService.NotifyStructureChanged();
+
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+}

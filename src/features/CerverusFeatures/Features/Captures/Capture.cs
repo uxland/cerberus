@@ -1,4 +1,5 @@
 ﻿using Cerverus.Core.Domain;
+using Cerverus.Features.Features.Captures.CaptureSnapshots;
 using NodaTime;
 
 namespace Cerverus.Features.Features.Captures;
@@ -6,17 +7,20 @@ namespace Cerverus.Features.Features.Captures;
 public partial class Capture: AggregateRoot
 {
     
-    public Instant At { get; private set; }
+    public Instant At { get; set; }
     
-    public string FilePath { get; private set; }
+    public string SnapshotPath { get; set; }
     
-    public string CameraId { get; private set; }
+    public string ThumbnailPath { get; set; }
     
-    public CaptureError? Error { get; private set; }
+    public string CameraId { get; set; }
+    
+    public CaptureError? Error { get; set; }
     
     public bool Successful => Error == null;
     
     public Capture(){}
+    
 }
 
 public enum CaptureErrorType
@@ -28,3 +32,10 @@ public enum CaptureErrorType
 }
 
 public record CaptureError(string Message, CaptureErrorType Type);
+
+public interface ICaptureQueryProvider
+{
+    Task<List<string>> GetCameraThumbnail(string cameraId);
+    
+    Task<List<Capture>> GetCameraCaptures(string cameraId);
+}

@@ -3,6 +3,8 @@ using Cerverus.BackOffice.Persistence.QueryProviders;
 using Cerverus.BackOffice.Persistence.Repositories;
 using Cerverus.Core.Domain;
 using Cerverus.Core.MartenPersistence;
+using Cerverus.Features.Features.Captures;
+using Cerverus.Features.Features.Captures.GetCameraThumbnails;
 using Cerverus.Features.Features.OrganizationalStructure.Camera;
 using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
@@ -44,7 +46,9 @@ public static class DependencyInjection
     {
         options.Projections.Snapshot<Location>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Camera>(SnapshotLifecycle.Inline);
+        options.Projections.Snapshot<Capture>(SnapshotLifecycle.Inline);
         options.Projections.Add<HierarchyItemProjection>(ProjectionLifecycle.Inline);
+      //  options.Projections.Add<CameraThumbnailsProjection>(ProjectionLifecycle.Async);
         return options;
     }
     
@@ -54,20 +58,24 @@ public static class DependencyInjection
         options.Schema.For<Camera>()
             .Index(x => x.Description)
             .Index(x => x.Path);
+        options.Schema.For<Capture>()
+            .Index(x => x.CameraId);
         return options;
     }
     private static IServiceCollection UseRepositories(this IServiceCollection services)
     {
         return services
             .AddScoped<IRepository<Location>, LocationRepository>()
-            .AddScoped<IRepository<Camera>, CameraRepository>();
+            .AddScoped<IRepository<Camera>, CameraRepository>()
+            .AddScoped<IRepository<Capture>, CaptureRepository>();
     }
     
     private static IServiceCollection UseQueryProviders(this IServiceCollection services)
     {
         return services
-            .AddScoped<ICameraQueryProvider, CameraQueryProvider>()
-            .AddScoped<IHierarchyItemQueryProvider, HierarchyItemQueryProviders>()
-            .AddScoped<IQueryProvider<Location>, LocationQueryProvider>();
+            .AddTransient<ICameraQueryProvider, CameraQueryProvider>()
+            .AddTransient<IHierarchyItemQueryProvider, HierarchyItemQueryProviders>()
+            .AddTransient<IQueryProvider<Location>, LocationQueryProvider>()
+            .AddTransient<ICaptureQueryProvider, CaptureQueryProvider>();
     }
 }

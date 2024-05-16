@@ -27,29 +27,33 @@ public class RstpClientImplementation: ISnapshotCatcher
     }
     
 
-    public async Task<(byte[]? Buffer, CaptureError? Error)> CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default)
+    public Task<(byte[]? Buffer, CaptureError? Error)> CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default)
     {
         this._framesToCapture = arguments.FramesToCapture;
-        try
+        return Task.Run(async () =>
         {
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            cts.CancelAfter(TimeSpan.FromDays(45));
-            using var client = CreateClient(arguments);
-            await this.Connect(client, cts.Token);
-            this._semaphore.WaitOne(TimeSpan.FromSeconds(45));
-            return this.CreateResponse();
-        }
-        catch (Exception e)
-        {
-            this._logger.LogError($"Error capturing snapshot from {arguments.Address}: {e.Message}");
-            return (null, new CaptureError(e.Message, CaptureErrorType.UnknownError));
-        }
+            try
+            {
+                using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                cts.CancelAfter(TimeSpan.FromSeconds(45));
+                using var client = CreateClient(arguments);
+                this.Connect(client, cts.Token);
+                this._semaphore.WaitOne(TimeSpan.FromSeconds(45));
+                return this.CreateResponse();
+            }
+            catch (Exception e)
+            {
+                this._logger.LogError($"Error capturing snapshot from {arguments.Address}: {e.Message}");
+                return (null, new CaptureError(e.Message, CaptureErrorType.UnknownError));
+            }
+        }, cancellationToken);
+
     }
     
     private RtspClient CreateClient(CaptureSnapshotArguments arguments)
     {
         var (address, username, password, _) = arguments;
-        var credentials = new NetworkCredential(username, password);
+        var credentials = new NetworkCredential("admin", "-Videologic99"); //new NetworkCredential(username, password);
         var serverUri = new Uri($"rtsp://192.168.1.64:554/stream");
         var connectionParams = new ConnectionParameters(serverUri, credentials)
         {
@@ -64,7 +68,7 @@ public class RstpClientImplementation: ISnapshotCatcher
     private void OnFrameReceived(object? sender, RawFrame frame)
     {
         var decoder = this._decoders.FirstOrDefault(d => d.CanDecodeFrame(frame));
-        if(decoder == null)
+        if(decoder == null || this._captureCount >= this._framesToCapture)
             return;
         this._captureCount++;
         if(this._captureCount >= this._framesToCapture)

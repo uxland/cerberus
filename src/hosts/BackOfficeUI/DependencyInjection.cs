@@ -12,11 +12,15 @@ public static class DependencyInjection
     {
         return services
             .UseBlazorise()
-            .AddScoped<ApiClient>()
-            .AddScoped<TreeItemsLoader>()
-            .AddScoped<CaptureClient>()
-            .AddScoped<CameraDetailGetter>()
-            .AddScoped<LocationDetailGetter>();
+            .AddSingleton<ApiClient>()
+            .AddSingleton<TreeItemsLoader>()
+            .AddSingleton<CaptureClient>()
+            .AddSingleton<CameraDetailGetter>()
+            .AddSingleton<LocationDetailGetter>()
+            .AddSingleton<CameraThumbnailsGetter>()
+            .AddSingleton<LocationStructureUploader>()
+            .AddSingleton<LocationStructureNotificationsService>()
+            .AddSingleton<CameraCapturesGetter>();
     }
     
     private static IServiceCollection UseBlazorise(this IServiceCollection services)
@@ -30,4 +34,5 @@ public static class DependencyInjection
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
     }
+    
 }

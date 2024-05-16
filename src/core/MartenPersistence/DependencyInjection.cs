@@ -1,10 +1,8 @@
 ﻿using Cerverus.Core.Domain;
-using Cerverus.Core.MartenPersistence.Behaviours;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.NodaTimePlugin;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,7 +37,7 @@ public static class DependencyInjection
                 configure(options);
             })
             .UseIdentitySessions()
-            .AddAsyncDaemon(DaemonMode.HotCold);
+            .AddAsyncDaemon(DaemonMode.Solo);
         return services;
     }
 
