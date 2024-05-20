@@ -3,7 +3,7 @@ using NodaTime;
 
 namespace Cerverus.Maintenance.Features.Features.MaintenanceShots;
 
-public partial class MaintenanceShot(): AggregateRoot
+public partial class MaintenanceCheck(): AggregateRoot
 {
     public Instant Timestamp { get; set; }
     public string CaptureId { get; set; }

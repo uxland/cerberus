@@ -13,10 +13,10 @@ public record MaintenanceShotCreated(
     string? ConnectionError,
     List<MaintenanceAnalysisResult> Results) : IDomainEvent;
 
-public partial class MaintenanceShot
+public partial class MaintenanceCheck
 :IDomainEventHandler<MaintenanceShotCreated>
 {
-    public MaintenanceShot(CreateMaintenanceShot command): this()
+    public MaintenanceCheck(CreateMaintenanceShot command): this()
     {
         this.ApplyUncommittedEvent(
             new MaintenanceShotCreated(
