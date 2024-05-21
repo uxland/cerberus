@@ -6,7 +6,7 @@ using NodaTime;
 
 namespace Cerverus.Features.Features.Captures.CaptureSnapshots;
 
-internal class CaptureSnapshotService(IRepository<Capture> captureRepository, ISnapshotCatcher snapshotCatcher)
+public class CaptureSnapshotService(IRepository<Capture> captureRepository, ISnapshotCatcher snapshotCatcher)
 {
     public async Task CaptureSnapshot(Camera camera)
     {

@@ -1,6 +1,4 @@
 ﻿using Marten;
-using MediatR;
-using Moq;
 using Weasel.Core;
 
 namespace Cerverus.Core.MartenPersistence;
@@ -8,12 +6,10 @@ namespace Cerverus.Core.MartenPersistence;
 public class MartenDbFixture : IDisposable
 {
     private readonly IDocumentStore _documentStore;
-    private readonly Mock<IPublisher> _publisher;
 
     public MartenDbFixture(string connectionString)
     {
-        _publisher = new Mock<IPublisher>();
-        _documentStore = CreateStore(connectionString, _publisher.Object);
+        _documentStore = CreateStore(connectionString);
         DocumentSession = _documentStore.LightweightSession();
     }
 
@@ -25,7 +21,7 @@ public class MartenDbFixture : IDisposable
         DocumentSession.Dispose();
     }
 
-    private IDocumentStore CreateStore(string connectionString, IPublisher publisher)
+    private IDocumentStore CreateStore(string connectionString)
     {
         return DocumentStore.For(options =>
         {

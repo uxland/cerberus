@@ -4,4 +4,4 @@ using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;
 
-internal class LocationQueryProvider(IQuerySession session): QueryProvider<Location>(session);
+public class LocationQueryProvider(IQuerySession session): QueryProvider<Location>(session);

@@ -1,12 +1,10 @@
 ﻿using Cerverus.Core.Domain;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
 using Cerverus.Features.Features.OrganizationalStructure.Shared;
-using MediatR;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
 
-internal class Handler(IRepository<Camera> cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter):
-    IRequestHandler<SetupCameraCommand>
+public class Handler(IRepository<Camera> cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter)
 {
     public async Task Handle(SetupCameraCommand request, CancellationToken cancellationToken)
     {

@@ -1,10 +1,8 @@
-using MediatR;
+namespace Cerverus.Maintenance.Features.Features.MaintenanceChecks.ProduceMaintenanceShot;
 
-namespace Cerverus.Maintenance.Features.Features.MaintenanceShots.ProduceMaintenanceShot;
-
-public class Handler: IRequestHandler<ProduceMaintenanceShot>
+public class Handler
 {
-    public Task Handle(ProduceMaintenanceShot request, CancellationToken cancellationToken)
+    public Task Handle(MaintenanceShots.ProduceMaintenanceShot.ProduceMaintenanceShot request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

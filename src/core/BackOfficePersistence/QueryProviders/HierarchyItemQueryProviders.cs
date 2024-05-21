@@ -4,7 +4,7 @@ using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;
 
-internal class HierarchyItemQueryProviders(IQuerySession querySession) : QueryProvider<HierarchyItem>(querySession), IHierarchyItemQueryProvider
+public class HierarchyItemQueryProviders(IQuerySession querySession) : QueryProvider<HierarchyItem>(querySession), IHierarchyItemQueryProvider
 {
     
 

@@ -1,29 +1,32 @@
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Lamar.Microsoft.DependencyInjection;
 using NodaTime;
+using Oakton;
 
 namespace Cerverus.BackOffice.Api;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static Task Main(string[] args)
     {
-        var builder = WebApplication.CreateSlimBuilder(args);
-
+        var builder = WebApplication.CreateBuilder(args);
+        builder.Host.UseLamar();
         builder.Services.ConfigureHttpJsonOptions(options =>
         {
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
             options.SerializerOptions.Converters.Add(new LocalDateConverter());
             options.SerializerOptions.Converters.Add(new InstantConverter());
         });
+        builder.Host.ApplyOaktonExtensions();
 
-        var startup = new Startup(builder.Configuration, builder.Environment);
+        var startup = new Startup(builder.Configuration, builder.Environment, builder.Host);
         startup.ConfigureServices(builder.Services);
         var app = builder.Build();
         startup.Configure(app, builder.Environment);
         app.MapControllers();
-        app.Run();
+        return app.RunOaktonCommands(args);
     }
 }
 

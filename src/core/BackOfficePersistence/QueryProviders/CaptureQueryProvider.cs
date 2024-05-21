@@ -4,7 +4,7 @@ using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;
 
-internal class CaptureQueryProvider(IQuerySession session) : QueryProvider<Capture>(session), ICaptureQueryProvider
+public class CaptureQueryProvider(IQuerySession session) : QueryProvider<Capture>(session), ICaptureQueryProvider
 {
     public async Task<List<string>> GetCameraThumbnail(string cameraId)
     {

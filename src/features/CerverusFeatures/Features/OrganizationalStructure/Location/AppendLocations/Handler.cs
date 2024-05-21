@@ -1,21 +1,20 @@
 ﻿using Cerverus.Core.Domain;
 using Cerverus.Features.Features.OrganizationalStructure.Shared;
 using Cerverus.Features.Features.Shared;
-using MediatR;
+using Wolverine;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocations;
 
-internal sealed class Handler(IRepository<Location> locationRepository, ISender mediator, HierarchySetupCommandFactory commandFactory) :
-    IRequestHandler<AppendHierarchyItems>,
+public sealed class Handler(IRepository<Location> locationRepository, IMessageBus bus, HierarchySetupCommandFactory commandFactory) :
     IRepositoryHandlerMixin<Location>
 {
-    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken)
+    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken = default)
     {
         var sortedItems = request.Items.OrderBy(x => x, new AppendLocationCommandSorter(request.Items))
             .Select(commandFactory.Produce)
             .ToList();
         foreach (var item in sortedItems)
-          await mediator.Send(item, cancellationToken);
+          await bus.InvokeAsync(item, cancellationToken);
     }
     private class AppendLocationCommandSorter(IEnumerable<AppendHierarchyItem> allItems): IComparer<AppendHierarchyItem>
     {
@@ -43,12 +42,11 @@ internal sealed class Handler(IRepository<Location> locationRepository, ISender 
     public IRepositoryBase<Location> Repository => locationRepository;
 }
 
-internal sealed class SetupLocationHandler(
+public sealed class SetupLocationHandler(
     IRepository<Location> locationRepository,
-    IHierarchyItemPathProvider pathProvider) : 
-    IRequestHandler<SetupLocation>
+    IHierarchyItemPathProvider pathProvider)
 {
-    public async Task Handle(SetupLocation request, CancellationToken cancellationToken)
+    public async Task Handle(SetupLocation request)
     {
         var path = await pathProvider.GetPathAsync(request);
         var location = await locationRepository.Rehydrate(request.Id);

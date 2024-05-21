@@ -4,13 +4,11 @@ using Cerverus.BackOffice.Persistence.Repositories;
 using Cerverus.Core.Domain;
 using Cerverus.Core.MartenPersistence;
 using Cerverus.Features.Features.Captures;
-using Cerverus.Features.Features.Captures.GetCameraThumbnails;
 using Cerverus.Features.Features.OrganizationalStructure.Camera;
 using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
 using Marten;
 using Marten.Events.Projections;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,15 +21,15 @@ public static class DependencyInjection
         IConfiguration configuration, IHostEnvironment environment)
     {
         return
-            services.UseMartenPersistence(configuration, environment, options => ConfigureMarten(options, services))
+            services.UseMartenPersistence(configuration, environment, options => ConfigureMarten(options))
                 .UseRepositories()
                 .UseQueryProviders();
     }
-    private static void ConfigureMarten(this StoreOptions storeOptions, IServiceCollection services)
+    private static void ConfigureMarten(this StoreOptions storeOptions)
     {
         storeOptions
             .ConfigureEventSore()
-            .ConfigureProjections(services.BuildServiceProvider().GetRequiredService<IPublisher>())
+            .ConfigureProjections()
             .SetupIndexes();
     }
 
@@ -42,7 +40,7 @@ public static class DependencyInjection
         
         return options;
     }
-    private static StoreOptions ConfigureProjections(this StoreOptions options, IPublisher publisher)
+    private static StoreOptions ConfigureProjections(this StoreOptions options)
     {
         options.Projections.Snapshot<Location>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Camera>(SnapshotLifecycle.Inline);

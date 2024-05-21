@@ -4,7 +4,7 @@ using Cerverus.Features.Features.Shared;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Location;
 
-internal sealed class LocationSettingsGetter(IRepository<Location> locationRepository):
+public sealed class LocationSettingsGetter(IRepository<Location> locationRepository):
     ILocationSettingsGetter,
     IRepositoryHandlerMixin<Location>
 {

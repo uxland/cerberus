@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Weasel.Core;
+using Wolverine.Marten;
 
 namespace Cerverus.Core.MartenPersistence;
 
@@ -36,6 +37,7 @@ public static class DependencyInjection
 
                 configure(options);
             })
+            .IntegrateWithWolverine()
             .UseIdentitySessions()
             .AddAsyncDaemon(DaemonMode.Solo);
         return services;

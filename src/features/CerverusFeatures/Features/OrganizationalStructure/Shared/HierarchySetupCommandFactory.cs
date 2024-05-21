@@ -3,7 +3,7 @@ using Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocation
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Shared;
 
-internal sealed class HierarchySetupCommandFactory(IEnumerable<IHierarchySetupCommandFactoryItem> factories)
+public sealed class HierarchySetupCommandFactory(IEnumerable<IHierarchySetupCommandFactoryItem> factories)
 {
     public IBaseCommand Produce(AppendHierarchyItem item)
     {

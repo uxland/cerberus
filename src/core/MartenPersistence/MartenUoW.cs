@@ -3,7 +3,7 @@ using Marten;
 
 namespace Cerverus.Core.MartenPersistence;
 
-internal class MartenUoW(IDocumentSession documentSession) : IUnitOfWork, IDisposable
+public class MartenUoW(IDocumentSession documentSession) : IUnitOfWork, IDisposable
 {
     public void Dispose()
     {

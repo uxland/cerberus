@@ -3,12 +3,12 @@ using Cerverus.Features.Features.Shared;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Shared;
 
-internal interface IHierarchyItemPathProvider
+public interface IHierarchyItemPathProvider
 {
     public Task<string> GetPathAsync(IHierarchyItem hierarchyItem);
 }
 
-internal class HierarchicalItemPathProvider(IRepository<Location.Location> locationRepository) : 
+public class HierarchicalItemPathProvider(IRepository<Location.Location> locationRepository) : 
     IHierarchyItemPathProvider,
     IRepositoryHandlerMixin<Location.Location>
 {

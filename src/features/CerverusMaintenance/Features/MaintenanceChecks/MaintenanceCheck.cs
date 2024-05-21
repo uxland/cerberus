@@ -1,7 +1,7 @@
 using Cerverus.Core.Domain;
 using NodaTime;
 
-namespace Cerverus.Maintenance.Features.Features.MaintenanceShots;
+namespace Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 
 public partial class MaintenanceCheck(): AggregateRoot
 {

@@ -2,12 +2,10 @@
 using Cerverus.Features.Features.OrganizationalStructure.Camera;
 using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 using Cerverus.Features.Features.Shared;
-using MediatR;
 
 namespace Cerverus.Features.Features.Captures.CaptureSnapshots;
 
-internal class Handler(ICameraQueryProvider cameraQueryProvider, IHierarchyItemQueryProvider hierarchyItemQueryProvider, CaptureSnapshotService captureSnapshotService): 
-    IRequestHandler<CaptureCameraSnapshots>,
+public class CaptureSnapshotsHandler(ICameraQueryProvider cameraQueryProvider, IHierarchyItemQueryProvider hierarchyItemQueryProvider, CaptureSnapshotService captureSnapshotService): 
     IRepositoryHandlerMixin<HierarchyItem>
 {
     public async Task Handle(CaptureCameraSnapshots request, CancellationToken cancellationToken)

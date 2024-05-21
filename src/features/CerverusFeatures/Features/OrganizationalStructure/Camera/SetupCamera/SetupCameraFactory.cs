@@ -4,7 +4,7 @@ using Cerverus.Features.Features.OrganizationalStructure.Shared;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
 
-internal class SetupCameraFactory : IHierarchySetupCommandFactoryItem
+public class SetupCameraFactory : IHierarchySetupCommandFactoryItem
 {
     public bool CanProduce(AppendHierarchyItem item)
     {

@@ -1,16 +1,12 @@
 ﻿using Cerverus.BackOffice.Api.Setup;
 using Cerverus.BackOffice.Persistence;
-using Cerverus.Core.Domain;
-using Cerverus.Core.Domain.Behaviours;
-using Cerverus.Core.MartenPersistence.Behaviours;
 using Cerverus.Core.RstpClient;
 using Cerverus.Features;
-using MediatR;
 using Microsoft.OpenApi.Models;
 
 namespace Cerverus.BackOffice.Api;
 
-public class Startup(IConfiguration configuration, IHostEnvironment hosting)
+public class Startup(IConfiguration configuration, IHostEnvironment hosting, ConfigureHostBuilder hostBuilder)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -22,6 +18,9 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting)
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackOfficeApi", Version = "v1" });
         });
+
+        hostBuilder.SetupWolverine();
+        
         services.AddCors(options =>
         {
             options.AddPolicy("AllowSpecificOrigin",
@@ -34,7 +33,6 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting)
         });
         services
             .UseLogging()
-            .UseMediator()
             .UseRstpClient()
             .AddMartenBackOfficePersistence(configuration, hosting)
             .UseCerverusBackOfficeFeatures();

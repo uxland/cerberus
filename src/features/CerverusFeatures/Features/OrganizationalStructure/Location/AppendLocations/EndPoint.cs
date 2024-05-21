@@ -1,14 +1,14 @@
 ﻿using Cerverus.Features.Features.OrganizationalStructure.Shared;
 using ExcelDataReader;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Wolverine;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocations;
 
 [ApiController]
 [Route("api/locations/")]
-public sealed class AppendLocationController(ISender sender): ControllerBase
+public sealed class AppendLocationController(IMessageBus bus): ControllerBase
 {
     public const string AppendLocationsCommand = "application/json;domain-model=AppendLocations;version=1.0.0";
     public const string AppendLocationCommand = "application/json;domain-model=AppendLocation;version=1.0.0";
@@ -34,7 +34,7 @@ public sealed class AppendLocationController(ISender sender): ControllerBase
         var appendLocations = await AppendLocationsExcelReader.ReadFile(file);
         foreach (var appendLocation in appendLocations)
         {
-            await sender.Send(appendLocation);
+            await bus.SendAsync(appendLocation);
         }
         
         return Ok("File processed successfully");

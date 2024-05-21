@@ -3,7 +3,7 @@ using Cerverus.Features.Features.OrganizationalStructure.Location.AppendLocation
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Shared;
 
-internal interface IHierarchySetupCommandFactoryItem
+public interface IHierarchySetupCommandFactoryItem
 {
     bool CanProduce(AppendHierarchyItem item);
     
