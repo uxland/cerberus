@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Lamar.Microsoft.DependencyInjection;
 using NodaTime;
 using Oakton;
+using Wolverine.Http;
 
 namespace Cerverus.BackOffice.Api;
 
@@ -26,6 +27,7 @@ public class Program
         var app = builder.Build();
         startup.Configure(app, builder.Environment);
         app.MapControllers();
+        app.MapWolverineEndpoints();
         return app.RunOaktonCommands(args);
     }
 }

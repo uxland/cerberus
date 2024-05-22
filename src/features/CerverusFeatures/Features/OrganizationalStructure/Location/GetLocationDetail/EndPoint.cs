@@ -10,11 +10,12 @@ public class LocationsController(IQueryProvider<Location> queryProvider): Contro
 {
     [HttpGet("{locationId}")]
     [
-        ProducesResponseType(StatusCodes.Status200OK),
+        ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Location)),
         ProducesResponseType(StatusCodes.Status404NotFound)
     ]
-    public Task<Location?> GetLocationDetail(string locationId)
+    public async Task<IActionResult> GetLocationDetail(string locationId)
     {
-        return queryProvider.Rehydrate(locationId);
+        var location = await queryProvider.Rehydrate(locationId);
+        return location == null ? NotFound() : Ok(location);
     }
 }

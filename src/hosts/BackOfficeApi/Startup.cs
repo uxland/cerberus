@@ -10,7 +10,8 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllers()
+        
+         services.AddControllers()
             .AddCerverusBackOfficeFeatures()
             .AddControllersAsServices();
         services.AddEndpointsApiExplorer();

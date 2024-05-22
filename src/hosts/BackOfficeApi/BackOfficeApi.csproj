@@ -28,6 +28,7 @@
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
       <PackageReference Include="WolverineFx" Version="2.8.2" />
+      <PackageReference Include="WolverineFx.Http" Version="2.8.2" />
     </ItemGroup>
 
     <ItemGroup>

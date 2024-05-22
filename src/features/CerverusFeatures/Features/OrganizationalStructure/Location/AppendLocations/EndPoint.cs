@@ -27,7 +27,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
     }*/
 
     [HttpPost]
-    public async Task<IActionResult> AppenLocationsFromFile(IFormFile? file)
+    public async Task<IActionResult> AppendLocationsFromFile(IFormFile? file)
     {
         if (file == null || file.Length == 0)
             return BadRequest("No file provided");

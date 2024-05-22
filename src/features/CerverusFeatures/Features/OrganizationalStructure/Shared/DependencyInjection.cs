@@ -1,6 +1,8 @@
 ﻿using Cerverus.Features.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Wolverine.Http;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.Shared;
 
