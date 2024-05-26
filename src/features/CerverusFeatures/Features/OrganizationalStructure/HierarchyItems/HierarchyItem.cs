@@ -6,7 +6,7 @@ using Cerverus.Features.Features.OrganizationalStructure.Shared;
 
 namespace Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 
-public record class HierarchyItem(
+public record HierarchyItem(
     string Id,
     string? ParentId,
     string Description,

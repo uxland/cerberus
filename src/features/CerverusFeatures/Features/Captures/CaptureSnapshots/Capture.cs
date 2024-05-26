@@ -20,11 +20,13 @@ public partial class Capture:
         this.ThumbnailPath = @event.Settings.ThumbnailPath;
         this.CameraId = @event.Settings.CameraId;
         this.Error = @event.Settings.Error;
+        this.CameraPath = @event.Settings.CameraPath;
     }
 }
 
 public record CaptureSettings(
     string CameraId,
+    string CameraPath,
     Instant At,
     CaptureError? Error,
     string? SnapshotPath = null,

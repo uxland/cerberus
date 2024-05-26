@@ -1,5 +1,6 @@
-﻿using Cerverus.BackOffice.Api.Setup;
-using Cerverus.BackOffice.Persistence;
+﻿using Cerverus.BackOffice.Api.Bootstrap;
+using Cerverus.BackOffice.Api.Setup;
+using Cerverus.Core.MartenPersistence;
 using Cerverus.Core.RstpClient;
 using Cerverus.Features;
 using Microsoft.OpenApi.Models;
@@ -35,8 +36,9 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
         services
             .UseLogging()
             .UseRstpClient()
-            .AddMartenBackOfficePersistence(configuration, hosting)
-            .UseCerverusBackOfficeFeatures();
+            .UseMartenPersistence(configuration, hosting)
+            .BootstrapBackOffice()
+            .BootstrapMaintenance();
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -8,7 +8,7 @@ public class PythonScriptRunnerTests
     public PythonScriptRunnerTests()
     {
         Console.WriteLine("PythonScriptRunnerTests");
-        new ServiceCollection().UsePythonImageProcessor();
+        new ServiceCollection().BootstrapPythonImageProcessor();
     }
     [Fact]
     public void Test1()

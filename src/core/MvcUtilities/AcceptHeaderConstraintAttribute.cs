@@ -2,7 +2,7 @@
 
 namespace Cerverus.MvcUtilities;
 
-public class AcceptHeaderConstraintAttribute(string mediaType) : Attribute, IActionConstraintFactory
+public class AcceptHeaderConstraintAttribute(params string[] mediaType) : Attribute, IActionConstraintFactory
 {
     public bool IsReusable => true;
 

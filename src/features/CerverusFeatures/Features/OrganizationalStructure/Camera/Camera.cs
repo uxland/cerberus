@@ -15,5 +15,5 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
 
 public interface ICameraQueryProvider : IQueryProvider<Camera>
 {
-    Task<IEnumerable<Camera>> GetCamerasByPath(string path);
+    Task<IEnumerable<string>> GetCameraIdsByPath(string path);
 }

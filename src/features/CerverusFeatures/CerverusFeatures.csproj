@@ -20,6 +20,7 @@
       <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
       <PackageReference Include="WolverineFx" Version="2.8.2" />
       <PackageReference Include="WolverineFx.Http" Version="2.8.2" />
+      <PackageReference Include="WolverineFx.Marten" Version="2.8.2" />
     </ItemGroup>
 
     <ItemGroup>

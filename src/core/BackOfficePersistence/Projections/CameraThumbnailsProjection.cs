@@ -9,5 +9,6 @@ public class CameraThumbnailsProjection : Marten.Events.Projections.MultiStreamP
     public CameraThumbnailsProjection()
     {
         Identity<SnapshotCaptured>(x => x.Settings.CameraId);
+        
     }
 }

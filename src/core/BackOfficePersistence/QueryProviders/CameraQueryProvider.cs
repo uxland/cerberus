@@ -11,4 +11,9 @@ public class CameraQueryProvider(IQuerySession session) : QueryProvider<Camera>(
         var items= await Session.Query<Camera>().Where(c => c.Path.StartsWith(path)).ToListAsync();
         return items;
     }
+
+    public async Task<IEnumerable<string>> GetCameraIdsByPath(string path)
+    {
+        return await Session.Query<Camera>().Where(c => c.Path.StartsWith(path)).Select(c => c.Id).ToListAsync();
+    }
 }

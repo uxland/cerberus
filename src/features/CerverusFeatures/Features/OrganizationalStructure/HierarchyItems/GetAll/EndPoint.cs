@@ -14,7 +14,7 @@ public class LocationsController(IHierarchyItemQueryProvider queryProvider): Con
         ProducesResponseType(StatusCodes.Status200OK),
         Produces(ProducesMediaType)
     ]
-    [AcceptHeaderConstraint(ProducesMediaType)]
+    [AcceptHeaderConstraint(ProducesMediaType, AcceptHeaderConstraint.WildcardMediaType)]
     public async Task<IEnumerable<HierarchyItem>> GetAll()
     {
         return await queryProvider.GetAll();

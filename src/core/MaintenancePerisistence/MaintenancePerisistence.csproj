@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Cerverus.Maintenance.Persistence</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Marten" Version="7.16.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\features\CerverusMaintenance\CerverusMaintenance.csproj" />
+      <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj" />
+    </ItemGroup>
+
+</Project>

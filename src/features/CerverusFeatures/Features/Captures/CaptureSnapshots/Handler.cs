@@ -1,18 +1,25 @@
-﻿using Cerverus.Core.Domain;
-using Cerverus.Features.Features.OrganizationalStructure.Camera;
+﻿using Cerverus.Features.Features.OrganizationalStructure.Camera;
 using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 using Cerverus.Features.Features.Shared;
+using Wolverine;
+
 
 namespace Cerverus.Features.Features.Captures.CaptureSnapshots;
 
-public class CaptureSnapshotsHandler(ICameraQueryProvider cameraQueryProvider, IHierarchyItemQueryProvider hierarchyItemQueryProvider, CaptureSnapshotService captureSnapshotService): 
-    IRepositoryHandlerMixin<HierarchyItem>
+public static class CaptureSnapshotsHandler
 {
-    public async Task Handle(CaptureCameraSnapshots request, CancellationToken cancellationToken)
+    public static async Task<IEnumerable<CaptureCameraSnapshot>> Handle(CaptureCameraSnapshots command, ICameraQueryProvider cameraQueryProvider, IHierarchyItemQueryProvider hierarchyItemQueryProvider)
     {
-        var location = await this.Rehydrate(request.LocationId);
-        var cameras = await cameraQueryProvider.GetCamerasByPath(location.Path);
-        await Task.WhenAll(cameras.Select(captureSnapshotService.CaptureSnapshot));
+        var location = await hierarchyItemQueryProvider.RehydrateOrFail(command.LocationId);
+        var cameras = await cameraQueryProvider.GetCameraIdsByPath(location.Path);
+        return cameras.Select(CaptureCameraSnapshot.Create);
     }
-    public IRepositoryBase<HierarchyItem> Repository => hierarchyItemQueryProvider;
+    
+    public static async Task Handle(CaptureCameraSnapshot command, CaptureSnapshotService captureSnapshotService,  ICameraQueryProvider cameraQueryProvider, IMessageBus  outbox)
+    {
+        var camera = await cameraQueryProvider.RehydrateOrFail(command.CameraId);
+        var capture = await captureSnapshotService.CaptureSnapshot(camera);
+        await outbox.PublishAsync(capture);
+        
+    }
 }

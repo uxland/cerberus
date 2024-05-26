@@ -31,7 +31,7 @@ def calculate_sin(degrees):
            // PythonEngine.RunSimpleString(script);
            using (var scope = Py.CreateScope())
            {
-               var scriptCompiled = PythonEngine.Compile(script);
+                var scriptCompiled = PythonEngine.Compile(script);
                 scope.Execute(scriptCompiled);
                 var function = scope.Get("calculate_sin");
                 var result = function.Invoke(new PyFloat(degrees));

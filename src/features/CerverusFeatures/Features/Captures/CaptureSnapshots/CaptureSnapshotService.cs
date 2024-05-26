@@ -8,10 +8,10 @@ namespace Cerverus.Features.Features.Captures.CaptureSnapshots;
 
 public class CaptureSnapshotService(IRepository<Capture> captureRepository, ISnapshotCatcher snapshotCatcher)
 {
-    public async Task CaptureSnapshot(Camera camera)
+    public async Task<Capture> CaptureSnapshot(Camera camera)
     {
         var (snapshot, error) = await snapshotCatcher.CaptureSnapshot(new CaptureSnapshotArguments(camera.AdminSettings!.IpAddress!, camera.AdminSettings!.Credentials!.Username, camera.AdminSettings!.Credentials.Password));
-        var settings = new CaptureSettings(camera.Id, Instant.FromDateTimeUtc(DateTime.UtcNow), error);
+        var settings = new CaptureSettings(camera.Id, camera.Path, SystemClock.Instance.GetCurrentInstant(), error);
         if (error == null)
         {
             var (snapshotPath, thumbnailPath) = SaveSnapshot(snapshot!, camera);
@@ -24,12 +24,12 @@ public class CaptureSnapshotService(IRepository<Capture> captureRepository, ISna
 
         var capture = new Capture(settings);
         await captureRepository.Create(capture);
+        return capture;
     }
     
     private static (string ImagePath, string ThumbnailPath) SaveSnapshot(byte[] buffer, Camera camera)
     {
         var (rootPath, snapshotRelativePath) = GetCameraDirectory(camera);
-        
         
         var bmpPath = Path.Combine(snapshotRelativePath, "snapshot.bmp");
         var thumbnailPath = Path.Combine(snapshotRelativePath,"thumbnail.png");

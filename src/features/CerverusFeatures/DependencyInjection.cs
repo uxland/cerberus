@@ -31,9 +31,6 @@ public static class DependencyInjection
         );
         return builder.AddApplicationPart(typeof(DependencyInjection).Assembly);
     }
-    
-    
-    
 }
 
 

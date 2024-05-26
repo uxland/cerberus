@@ -9,48 +9,37 @@ using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
 using Cerverus.Features.Features.OrganizationalStructure.Location;
 using Marten;
 using Marten.Events.Projections;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Cerverus.BackOffice.Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddMartenBackOfficePersistence(this IServiceCollection services,
-        IConfiguration configuration, IHostEnvironment environment)
+    public static IServiceCollection AddMartenBackOfficePersistence(this IServiceCollection services)
     {
-        return
-            services.UseMartenPersistence(configuration, environment, options => ConfigureMarten(options))
+        return services
                 .UseRepositories()
-                .UseQueryProviders();
+                .UseQueryProviders()
+                .ConfigureMarten();
     }
-    private static void ConfigureMarten(this StoreOptions storeOptions)
+    private static IServiceCollection ConfigureMarten(this IServiceCollection services)
     {
-        storeOptions
-            .ConfigureEventSore()
+        services.ConfigureMarten(marten => marten
             .ConfigureProjections()
-            .SetupIndexes();
+            .SetupIndexes());
+        return services;
     }
-
-    private static StoreOptions ConfigureEventSore(this StoreOptions options)
-    {
-        options.Events.DatabaseSchemaName = "back_office_events";
-        options.DatabaseSchemaName = "back_office_read_model";
-        
-        return options;
-    }
+    
     private static StoreOptions ConfigureProjections(this StoreOptions options)
     {
         options.Projections.Snapshot<Location>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Camera>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Capture>(SnapshotLifecycle.Inline);
         options.Projections.Add<HierarchyItemProjection>(ProjectionLifecycle.Inline);
-      //  options.Projections.Add<CameraThumbnailsProjection>(ProjectionLifecycle.Async);
         return options;
     }
     
-    private static StoreOptions SetupIndexes(this StoreOptions options)
+    private static void SetupIndexes(this StoreOptions options)
     {
         options.Schema.For<Location>().Index(x => x.Description);
         options.Schema.For<Camera>()
@@ -58,7 +47,6 @@ public static class DependencyInjection
             .Index(x => x.Path);
         options.Schema.For<Capture>()
             .Index(x => x.CameraId);
-        return options;
     }
     private static IServiceCollection UseRepositories(this IServiceCollection services)
     {

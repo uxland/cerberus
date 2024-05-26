@@ -1,4 +1,5 @@
 ﻿using Cerverus.Core.Domain;
+using Cerverus.Core.Domain.Errors;
 using Marten;
 
 namespace Cerverus.Core.MartenPersistence.Repositories;
@@ -23,4 +24,5 @@ public abstract class DocumentStoreRepository<TAggregateRoot>(IDocumentSession s
     {
         return Save(aggregateRoot);
     }
+    
 }

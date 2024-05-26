@@ -14,19 +14,19 @@ namespace Cerverus.Core.MartenPersistence;
 public static class DependencyInjection
 {
     public static IServiceCollection UseMartenPersistence(this IServiceCollection services,
-        IConfiguration configuration, IHostEnvironment environment, Action<StoreOptions> configure)
+        IConfiguration configuration, IHostEnvironment environment)
     {
         return services
-            .AddMartenDb(configuration, environment, configure)
+            .AddMartenDb(configuration, environment)
             .AddScoped<IUnitOfWork, MartenUoW>();
     }
 
     private static IServiceCollection AddMartenDb(this IServiceCollection services, IConfiguration configuration,
-        IHostEnvironment environment, Action<StoreOptions> configure)
+        IHostEnvironment environment)
     {
         services.AddMarten(options =>
             {
-                options.Connection(configuration.GetSection("Backends:PostgresQL:Marten").Value);
+                options.Connection(configuration.GetSection("Backends:PostgresQL:Marten").Value!);
                 if (!environment.IsProduction())
                     options.AutoCreateSchemaObjects = AutoCreate.All;
                 options
@@ -34,15 +34,12 @@ public static class DependencyInjection
                     .ConfigureEventSore()
                     .ConfigureMetadata()
                     .UseNodaTime();
-
-                configure(options);
             })
             .IntegrateWithWolverine()
             .UseIdentitySessions()
-            .AddAsyncDaemon(DaemonMode.Solo);
+            .AddAsyncDaemon(DaemonMode.HotCold);
         return services;
     }
-
     internal static StoreOptions SetupSerialization(this StoreOptions options)
     {
         options.UseSystemTextJsonForSerialization(
@@ -59,6 +56,8 @@ public static class DependencyInjection
 
     internal static StoreOptions ConfigureEventSore(this StoreOptions options)
     {
+        options.DatabaseSchemaName = "read_model";
+        options.Events.DatabaseSchemaName = "event_store";
         options.Events.StreamIdentity = StreamIdentity.AsString;
         return options;
     }

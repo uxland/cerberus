@@ -1,4 +1,5 @@
 using Cerverus.Core.Domain;
+using Cerverus.Core.Domain.Errors;
 using Marten;
 
 namespace Cerverus.Core.MartenPersistence.Repositories;
@@ -16,7 +17,7 @@ public abstract class EventSourcingRepository<TAggregateRoot>(IDocumentSession s
             aggregate.ApplyEvent((IDomainEvent)@event.Data);
         return aggregate;
     }
-
+    
     public Task Save(TAggregateRoot aggregateRoot)
     {
         session.Events.Append(aggregateRoot.Id, aggregateRoot.GetUncommittedEvents());

@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <InvariantGlobalization>true</InvariantGlobalization>
+        <InvariantGlobalization>false</InvariantGlobalization>
         <PublishAot>false</PublishAot>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>Cerverus.BackOffice.Api</RootNamespace>
@@ -33,6 +33,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\core\BackOfficePersistence\BackOfficePersistence.csproj" />
+      <ProjectReference Include="..\..\core\image-processing\PythonImageProcessor\PythonImageProcessor.csproj" />
+      <ProjectReference Include="..\..\core\MaintenancePerisistence\MaintenancePerisistence.csproj" />
       <ProjectReference Include="..\..\core\RstpClient\RstpClient.csproj" />
     </ItemGroup>
 

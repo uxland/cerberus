@@ -6,6 +6,7 @@ using Cerverus.Features.Features.Captures.CaptureSnapshots;
 using Microsoft.Extensions.Logging;
 using RtspClientSharp;
 using RtspClientSharp.RawFrames;
+using RtspClientSharp.Rtsp;
 
 
 namespace Cerverus.Core.RstpClient;
@@ -34,11 +35,12 @@ public class RstpClientImplementation: ISnapshotCatcher
         {
             try
             {
-                using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-                cts.CancelAfter(TimeSpan.FromSeconds(45));
                 using var client = CreateClient(arguments);
-                this.Connect(client, cts.Token);
-                this._semaphore.WaitOne(TimeSpan.FromSeconds(45));
+                var error = await this.Connect(client, cancellationToken);
+                if (error != null)
+                    return (null, error);
+                client.ReceiveAsync(cancellationToken);
+                this._semaphore.WaitOne(TimeSpan.FromSeconds(5));
                 return this.CreateResponse();
             }
             catch (Exception e)
@@ -86,31 +88,34 @@ public class RstpClientImplementation: ISnapshotCatcher
         return (this._buffer, null);
     }
     
-    private async Task Connect(RtspClient client, CancellationToken cancellationToken)
+    private async Task<CaptureError?> Connect(RtspClient client, CancellationToken cancellationToken)
     {
-        while (true)
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        cts.CancelAfter(TimeSpan.FromSeconds(5));
+        CaptureError? lastError = null;
+        while (!cts.IsCancellationRequested)
         {
             try
             {
                 await client.ConnectAsync(cancellationToken);
+                return null;
             }
             catch (InvalidCredentialException)
             {
-                this._logger.LogError($"Invalid credentials for server {client.ConnectionParameters.ConnectionUri}");
-                throw;
+                this._logger.LogError("Invalid credentials for server {CameraUrl}",
+                    client.ConnectionParameters.ConnectionUri);
+                return new CaptureError($"Invalid credentials for server {client.ConnectionParameters.ConnectionUri}",
+                    CaptureErrorType.AuthenticationError);
             }
-
-            try
+            catch (RtspClientException e)
             {
-                await client.ReceiveAsync(cancellationToken);
+                lastError = new CaptureError(e.Message, CaptureErrorType.ConnectionError);
             }
-            catch (Exception e)
-            {
-                this._logger.LogError("Error Receiving from server {Server}: {Message}", client.ConnectionParameters.ConnectionUri, e.Message);
-            }
-
+            
             await Task.Delay(TimeSpan.FromMilliseconds(500), cancellationToken);
         }
+
+        return lastError ?? new CaptureError("Connection timeout", CaptureErrorType.ConnectionTimeout);
     }
     
 }

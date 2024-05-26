@@ -20,5 +20,4 @@ public class CamerasController(ICameraQueryProvider queryProvider): ControllerBa
         var camera = await queryProvider.Rehydrate(cameraId);
         return camera == null ? NotFound() : Ok(camera);
     }
-    
 }

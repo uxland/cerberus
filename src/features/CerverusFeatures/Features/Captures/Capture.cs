@@ -9,11 +9,13 @@ public partial class Capture: AggregateRoot
     
     public Instant At { get; set; }
     
-    public string SnapshotPath { get; set; }
+    public string? SnapshotPath { get; set; }
     
-    public string ThumbnailPath { get; set; }
+    public string? ThumbnailPath { get; set; }
     
     public string CameraId { get; set; }
+    
+    public string CameraPath { get; set; }
     
     public CaptureError? Error { get; set; }
     
@@ -27,6 +29,7 @@ public enum CaptureErrorType
 {
     AuthenticationError,
     ConnectionError,
+    ConnectionTimeout,
     CaptureError,
     UnknownError
 }

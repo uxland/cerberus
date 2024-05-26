@@ -1,15 +1,33 @@
-using Cerverus.Core.Domain;
+﻿using Cerverus.Core.Domain;
+using Cerverus.Features.Features.Captures;
+using Cerverus.Maintenance.Features.Features.Analysis;
+using Cerverus.Maintenance.Features.Features.Shared;
 using NodaTime;
 
 namespace Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 
-public partial class MaintenanceCheck(): AggregateRoot
+public partial class MaintenanceCheck: AggregateRoot
 {
-    public Instant Timestamp { get; set; }
-    public string CaptureId { get; set; }
-    public string CameraId { get; set; }
-    public string? ConnectionError { get; set; }
-    public List<MaintenanceAnalysisResult> AnalysisResults { get; set; } = new();
+    public MaintenanceCheck()
+    {
+        
+    }
+    public string MaintenanceProcessId { get; set; }
+    public CaptureError? CaptureError{get; set;}
+    
+    public CaptureInfo CaptureInfo { get; set; }
+    
+    public MaintenanceCheckStatus Status { get; set; }
+    
+    public List<FilterResult> AnalysisResults { get; set; }
+    
+    public Revision? Revision { get; set; }
 }
 
-public record MaintenanceAnalysisResult(string FilterId, bool Success): ICommand;
+public enum MaintenanceCheckStatus
+{
+    RevisionPending,
+    Completed
+}
+
+public record Revision(string PerformedBy, Instant At);

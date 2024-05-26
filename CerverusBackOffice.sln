@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CerverusMaintenanceFeatures
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcUtilities", "src\core\MvcUtilities\MvcUtilities.csproj", "{63CAEA10-DB5A-46EB-8DF3-1237F216B57F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaintenancePerisistence", "src\core\MaintenancePerisistence\MaintenancePerisistence.csproj", "{2B340C4E-0CAD-4EB2-91B2-5B3D7F7AB2AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,7 @@ Global
 		{FDA9A252-F279-48DC-BD56-3E87BE1EBB6C} = {D57D5F5D-55AF-41A6-9107-68BBC3731EDF}
 		{4F954FCE-9958-4E8A-AE2D-FA9671293850} = {1CAE216C-E5A3-401A-8FCD-E68D07731597}
 		{63CAEA10-DB5A-46EB-8DF3-1237F216B57F} = {5CFB0868-53CF-415E-9EFC-FF4F926F2D96}
+		{2B340C4E-0CAD-4EB2-91B2-5B3D7F7AB2AB} = {5CFB0868-53CF-415E-9EFC-FF4F926F2D96}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E2D39E3A-D420-4FA6-993C-E21DF431AF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -171,5 +174,9 @@ Global
 		{63CAEA10-DB5A-46EB-8DF3-1237F216B57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CAEA10-DB5A-46EB-8DF3-1237F216B57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63CAEA10-DB5A-46EB-8DF3-1237F216B57F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B340C4E-0CAD-4EB2-91B2-5B3D7F7AB2AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B340C4E-0CAD-4EB2-91B2-5B3D7F7AB2AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B340C4E-0CAD-4EB2-91B2-5B3D7F7AB2AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B340C4E-0CAD-4EB2-91B2-5B3D7F7AB2AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
