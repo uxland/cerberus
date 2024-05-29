@@ -1,4 +1,5 @@
-﻿using NodaTime;
+﻿using Cerverus.Maintenance.Features.Features.MaintenanceChecks.CommitRevision;
+using NodaTime;
 
 namespace Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 
@@ -12,6 +13,6 @@ public partial class MaintenanceCheck
             command.AnalysisResults,
             MaintenanceCheckStatus.Completed
         ));
-        this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(command.ReviewerUser, SystemClock.Instance.GetCurrentInstant()));
+        this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(this.CaptureInfo, command.AnalysisResults, this.CaptureError, command.ReviewerUser, SystemClock.Instance.GetCurrentInstant().InUtc()));
     }
 }

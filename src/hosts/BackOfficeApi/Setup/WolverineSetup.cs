@@ -8,6 +8,8 @@ public static class WolverineSetup
     {
         hostBuilder.UseWolverine(opts =>
         {
+            opts.Policies.MessageExecutionLogLevel(LogLevel.Error);
+            opts.Policies.MessageSuccessLogLevel(LogLevel.Error);
             opts.Policies.AutoApplyTransactions();
         });
         return hostBuilder;

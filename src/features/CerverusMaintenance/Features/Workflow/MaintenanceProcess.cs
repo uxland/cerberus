@@ -1,12 +1,16 @@
 ﻿using Cerverus.Features.Features.Captures;
 using Cerverus.Maintenance.Features.Features.Analysis;
 using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
+using Cerverus.Maintenance.Features.Features.Issues;
+using Cerverus.Maintenance.Features.Features.MaintenanceChecks;
+using Cerverus.Maintenance.Features.Features.MaintenanceChecks.CommitRevision;
 using Cerverus.Maintenance.Features.Features.Shared;
 using Cerverus.Maintenance.Features.Features.TrainingReviews;
+using Cerverus.Maintenance.Features.Features.TrainingReviews.Complete;
 using Wolverine;
 using Wolverine.Persistence.Sagas;
 
-namespace Cerverus.Maintenance.Features.Features.MaintenanceChecks;
+namespace Cerverus.Maintenance.Features.Features.Workflow;
 
 public class MaintenanceProcess: Saga
 {
@@ -41,9 +45,12 @@ public class MaintenanceProcess: Saga
         );
     }
     
-    public void Handle(MaintenanceCheckReviewed reviewedEvent)
+    public CreateIssue? Handle(MaintenanceCheckReviewed reviewedEvent)
     {
+        if(reviewedEvent.HasErrors)
+            return new CreateIssue(reviewedEvent.CaptureInfo, reviewedEvent.CaptureError, reviewedEvent.FilterErrors);
         this.MarkCompleted();
+        return null;
     }
 }
 

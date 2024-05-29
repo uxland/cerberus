@@ -3,6 +3,7 @@
 @using BackOfficeUI.Infrastructure
 @using BackOfficeUI.Components.Camera
 @using Blazorise
+@using BackOfficeUI.Components.Maintenance
 @inject CaptureClient captureClient
 @inject CameraDetailGetter cameraDetailGetter
 <h3>@CameraItem?.Description</h3>
@@ -11,23 +12,28 @@
 
 <Tabs SelectedTab="@selectedTab" SelectedTabChanged="OnSelectedTabChanged">
     <Items>
+        <Tab Name="pending-reviews">Pending Reviews</Tab>
         <Tab Name="settings">Settings</Tab>
         <Tab Name="captures">Captures</Tab>
     </Items>
     <Content>
-        <TabPanel  Name="settings">
-            <CameraSettings CameraId="@id" />
+        <TabPanel Name="pending-reviews">
+            <PendingReviews Path="@CameraItem?.Path"/>
+        </TabPanel>
+        <TabPanel Name="settings">
+            <CameraSettings CameraId="@id"/>
         </TabPanel >
-        <TabPanel  Name="captures">
-            <CameraThumbnailGallery CameraId="@id" />
+        <TabPanel Name="captures">
+            <CameraThumbnailGallery CameraId="@id"/>
         </TabPanel >
+
     </Content>
 </Tabs>
 @code {
     [Parameter]
     public string id { get; set; }
     
-    string selectedTab = "settings";
+    string selectedTab = "pending-reviews";
     
     private Task OnSelectedTabChanged(string tab)
     {

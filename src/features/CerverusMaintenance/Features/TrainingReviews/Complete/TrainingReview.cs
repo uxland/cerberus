@@ -1,5 +1,6 @@
 ﻿using Cerverus.Core.Domain;
 using Cerverus.Maintenance.Features.Features.Analysis;
+using Cerverus.Maintenance.Features.Features.TrainingReviews.Complete;
 using NodaTime;
 
 namespace Cerverus.Maintenance.Features.Features.TrainingReviews;
@@ -12,7 +13,7 @@ public partial class TrainingReview:
         if(this.Status == TrainingReviewStatus.Completed)
             throw new InvalidOperationException("Training review is already completed");
         var (failures, fixedResults) = this.CalculateFailures(reviews);
-        this.ApplyUncommittedEvent(new TrainingReviewCompleted(this.MaintenanceProcessId, userId, reviews, SystemClock.Instance.GetCurrentInstant(), failures, fixedResults));
+        this.ApplyUncommittedEvent(new TrainingReviewCompleted(this.MaintenanceProcessId, userId, reviews, SystemClock.Instance.GetCurrentInstant().InUtc(), failures, fixedResults));
     }
 
     public void Apply(TrainingReviewCompleted @event)

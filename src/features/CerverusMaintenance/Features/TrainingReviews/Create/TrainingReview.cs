@@ -9,7 +9,7 @@ public partial class TrainingReview:
     public TrainingReview(CreateTrainingReview command)
     {
         this.Id = Guid.NewGuid().ToString();
-        this.ApplyUncommittedEvent(new TrainingReviewCreated(command.MaintenanceProcessId, command.CaptureInfo, command.AnalysisResults, SystemClock.Instance.GetCurrentInstant()));
+        this.ApplyUncommittedEvent(new TrainingReviewCreated(command.MaintenanceProcessId, command.CaptureInfo, command.AnalysisResults, SystemClock.Instance.GetCurrentInstant().InUtc()));
     }
 
     public void Apply(TrainingReviewCreated @event)

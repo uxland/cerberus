@@ -10,8 +10,8 @@ public partial class TrainingReview: AggregateRoot
     public TrainingReview(){}
     public string MaintenanceProcessId { get; set; }
     public string? PerformedBy { get; set; }
-    public Instant? PerformedAt { get; set; }
-    public Instant CreatedAt { get; set; }
+    public ZonedDateTime? PerformedAt { get; set; }
+    public ZonedDateTime CreatedAt { get; set; }
     public CaptureInfo CaptureInfo { get; set; } = null!;
     public TrainingReviewStatus Status { get; set; }
     

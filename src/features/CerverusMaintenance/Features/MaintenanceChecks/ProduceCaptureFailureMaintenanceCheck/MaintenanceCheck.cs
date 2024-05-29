@@ -7,7 +7,7 @@ public partial class MaintenanceCheck:IDomainEventHandler<FailureMaintenanceChec
     public MaintenanceCheck(CreateFailureMaintenanceCheck command)
     {
         this.Id = Guid.NewGuid().ToString();
-        this.ApplyUncommittedEvent(new FailureMaintenanceCheckCreated(command.MaintenanceProcessId, command.CaptureInfo, command.CaptureError, MaintenanceCheckStatus.RevisionPending));
+        this.ApplyUncommittedEvent(new FailureMaintenanceCheckCreated(command.MaintenanceProcessId, command.CaptureInfo, command.CaptureError, MaintenanceCheckStatus.Completed));
     }
 
     public void Apply(FailureMaintenanceCheckCreated @event)

@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\features\CerverusFeatures\CerverusFeatures.csproj" />
+      <ProjectReference Include="..\..\features\CerverusMaintenance\CerverusMaintenance.csproj" />
     </ItemGroup>
 
     <ItemGroup>

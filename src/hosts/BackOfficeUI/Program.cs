@@ -1,12 +1,12 @@
 using BackOfficeUI;
 using BackOfficeUI.Components;
+using BackOfficeUI.Infrastructure;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .AddHttpClient()
-    .UseBackOfficeUI();
+builder.Services.AddHttpClient()
+   .UseBackOfficeUI();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

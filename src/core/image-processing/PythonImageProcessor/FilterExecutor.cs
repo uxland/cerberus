@@ -55,7 +55,7 @@ def process_image(byte_array):
             var results = new ConcurrentBag<FilterResult>();
             Parallel.ForEach(filters, filter =>
             {
-                var startTime = Instant.FromDateTimeUtc(DateTime.UtcNow);
+                var startTime = SystemClock.Instance.GetCurrentInstant().InUtc();
                 var stopwatch = Stopwatch.StartNew();
                 var result = _filterExecutor.Execute(script, buffer);
                 stopwatch.Stop();

@@ -16,6 +16,7 @@ public interface IRepository<TAggregateRoot>: IRepositoryBase<TAggregateRoot> wh
                 return t.Result;
             });
     }
+    
 }
 
 public interface IRepositoryBase<TEntity> where TEntity : IEntity
