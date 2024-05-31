@@ -5,8 +5,4 @@ using Cerverus.Maintenance.Features.Features.Shared;
 
 namespace Cerverus.Maintenance.Features.Features.Issues;
 
-public record CreateIssue(
-    string MaintenanceProcessId,
-    CaptureInfo CaptureInfo,
-    CaptureError? CaptureError,
-    List<FilterResult> Errors) : ICommand;
+public record MaintenanceIssueCreated(string MaintenanceProcessId, CaptureInfo CaptureInfo, CaptureError? CaptureError, List<FilterResult> MaintenanceIssue, MaintenanceIssueStatus Status) : IDomainEvent;

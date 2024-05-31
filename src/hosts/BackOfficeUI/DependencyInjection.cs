@@ -1,6 +1,7 @@
 ﻿using BackOfficeUI.Components.Layout;
 using BackOfficeUI.Infrastructure;
 using BackOfficeUI.Infrastructure.Maintenance;
+using BackOfficeUI.Infrastructure.Maintenance.Training;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -22,7 +23,7 @@ public static class DependencyInjection
             .AddSingleton<LocationStructureUploader>()
             .AddSingleton<LocationStructureNotificationsService>()
             .AddSingleton<CameraCapturesGetter>()
-            .AddSingleton<PendingReviewsGetter>();
+            .BootstrapMaintenance();
     }
     
     private static IServiceCollection UseBlazorise(this IServiceCollection services)

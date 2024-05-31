@@ -7,6 +7,7 @@ using NodaTime;
 namespace Cerverus.Maintenance.Features.Features.MaintenanceChecks.CommitRevision;
 
 public record MaintenanceCheckReviewed(
+    string MaintenanceProcessId,
     CaptureInfo CaptureInfo,
     List<FilterResult> FilterResults,
     CaptureError? CaptureError,

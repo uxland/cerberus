@@ -1,7 +1,6 @@
-﻿using System.Text.Json;
-using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews;
+﻿using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews;
 
-namespace BackOfficeUI.Infrastructure.Maintenance;
+namespace BackOfficeUI.Infrastructure.Maintenance.Training;
 
 public class PendingReviewsGetter(ApiClient apiClient)
 {

@@ -17,4 +17,8 @@
       <PackageReference Include="Blazorise.TreeView" Version="1.5.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Pages\Maintenance\Checks\" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,19 @@
+﻿@page "/training-reviews/{id}"
+@using BackOfficeUI.Infrastructure.Maintenance
+@using BackOfficeUI.Infrastructure.Maintenance.Training
+@using Cerverus.Maintenance.Features.Features.TrainingReviews
+@inject TrainingReviewGetter trainingReviewGetter
+<h3>MaintenanceReview</h3>
+
+@code {
+    
+    [Parameter]
+    public string id { get; set; }
+    
+    private TrainingReview? TrainingReview { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        this.TrainingReview = await trainingReviewGetter.Get(id);
+    }
+}

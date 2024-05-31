@@ -12,9 +12,8 @@ public class CaptureQueryProvider(IQuerySession session) : QueryProvider<Capture
         return captures.Select(x => x.ThumbnailPath).ToList();
     }
 
-    public async Task<List<Capture>> GetCameraCaptures(string cameraId)
+    public Task<string> GetCameraCaptures(string cameraId)
     {
-        var captures = await Session.Query<Capture>().Where(c => c.CameraId.Equals(cameraId)).ToListAsync();
-        return captures.ToList();
+        return base.ListAsJson(c => c.CameraId.Equals(cameraId));
     }
 }

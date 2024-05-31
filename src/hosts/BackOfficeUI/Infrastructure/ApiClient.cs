@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 
@@ -17,7 +18,16 @@ public class ApiClient(HttpClient httpClient)
     public async Task<T?> GetItems<T>(string path)
     {
         var uri = new Uri(Path.Combine(API_BASE_URL, path));
-        JsonSerializerOptions options = new JsonSerializerOptions();
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = true,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+            
+        };
         options.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
         var json = await httpClient.GetStringAsync(uri);
         var result = JsonSerializer.Deserialize<T?>(json, options);
@@ -28,6 +38,12 @@ public class ApiClient(HttpClient httpClient)
     {
         var uri = new Uri(Path.Combine(API_BASE_URL, path));
         return httpClient.PostAsJsonAsync(uri, command);
+    }
+    
+    public Task PutCommand(string path, object? command)
+    {
+        var uri = new Uri(Path.Combine(API_BASE_URL, path));
+        return httpClient.PutAsJsonAsync(uri, command);
     }
     
     public async Task PostFile(string path, byte[] buffer, string fileName)

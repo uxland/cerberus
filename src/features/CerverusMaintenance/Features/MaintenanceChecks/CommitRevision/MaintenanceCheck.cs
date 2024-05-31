@@ -10,7 +10,7 @@ public partial class MaintenanceCheck:
     
     public void CommitRevision(CommitRevisionCommand command, string reviewerUser, ZonedDateTime at)
     {
-        this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(this.CaptureInfo, command.RevisionResults, this.CaptureError, reviewerUser, at));
+        this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(this.MaintenanceProcessId, this.CaptureInfo, command.RevisionResults, this.CaptureError, reviewerUser, at));
     }
     
     public void Apply(MaintenanceCheckReviewed @event)

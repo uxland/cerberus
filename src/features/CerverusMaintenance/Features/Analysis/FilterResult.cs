@@ -8,3 +8,4 @@ public static class FilterResultExtensions
 {
     public static bool IsAnalysisSuccessful(this IEnumerable<FilterResult> results) => results.All(r => r.Result);
 }
+

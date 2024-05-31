@@ -1,0 +1,54 @@
+﻿@page "/maintenance-issues/{Id}"
+@using BackOfficeUI.Infrastructure.Maintenance.Isues
+@using Cerverus.Maintenance.Features.Features.Issues.GetDetail
+@using Blazorise
+@using Cerverus.Maintenance.Features.Features.Issues
+@inject MaintenanceIssueDetailGetter maintenanceIssueDetailGetter
+@inject MaintenanceIssueCommander maintenanceIssueCommander
+
+@rendermode InteractiveServer
+<h3>MaintenanceIssue</h3>
+<Card>
+    @if(!string.IsNullOrEmpty(Issue?.SnapshotUrl))
+    {
+        <CardImage Source="@Issue.SnapshotUrl" alt="Issue snapshot" />
+    }
+    <CardBody>
+        <CardTitle Size="5">@GetTitle()</CardTitle>
+        @foreach(var issue in Issue?.MaintenanceIssues ??[])
+        {
+            <CardText>
+                <strong>@issue.FilterDescription</strong> @string.IsNullOrWhiteSpace(issue.FilterDescription) ? "" : " - " @issue.FilterDescription   
+            </CardText>
+        }
+        @if (@Issue?.Status != MaintenanceIssueStatus.Closed)
+        {
+            <Button Clicked="Act" Color="Color.Primary">@(Issue?.Status == MaintenanceIssueStatus.Open ? "Start" : "End") </Button>
+        }
+        
+    </CardBody>
+</Card>
+@code {
+    [Parameter] public required string Id { get; set; }
+
+    public MaintenanceIssueDetail? Issue { get; set; }
+    
+    private string GetTitle()
+    {
+        return Issue?.CaptureError != null ? $"{Issue.CaptureError.Type} - {Issue.CaptureError.Message}" : "Analysis errors";
+    }
+
+    private Task Act()
+    {
+        if(this.Issue == null || this.Issue.Status == MaintenanceIssueStatus.Closed)
+            return Task.CompletedTask;
+        return this.Issue.Status == MaintenanceIssueStatus.Open ? 
+            maintenanceIssueCommander.Start(Id) : maintenanceIssueCommander.End(Id);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Issue = await maintenanceIssueDetailGetter.Get(Id);
+    }
+
+}

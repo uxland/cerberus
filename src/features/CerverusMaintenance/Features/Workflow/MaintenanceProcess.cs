@@ -22,18 +22,20 @@ public class MaintenanceProcess: Saga
     {
         var process = new MaintenanceProcess{Id = capture.Id, Capture = capture};
         if(!capture.Successful)
-            return (process, new CreateFailureMaintenanceCheck(process.Id, capture.ToCaptureInfo(), capture.Error!));
+            return (process, new CreateIssue(process.Id, capture.ToCaptureInfo(), capture.Error!, []));
         return (process, new AnalyzeCapture(process.Id, capture));
     }
     
-    public async Task<object> Handle(MaintenanceAnalysisPerformed analysis, IMaintenanceSettingsProvider settingsProvider)
+    public async Task<object?> Handle(MaintenanceAnalysisPerformed analysis, IMaintenanceSettingsProvider settingsProvider)
     {
         var (maintenanceMode, _) = await settingsProvider.GetCameraMaintenanceSettings(this.Capture.CameraId);
         var captureInfo = this.Capture.ToCaptureInfo();
-        return maintenanceMode == MaintenanceMode.Training
-            ? new CreateTrainingReview(this.Id!, captureInfo, analysis.FilterResults)
-            : new CreateMaintenanceCheck(this.Id, captureInfo, analysis.FilterResults);
-
+        if(maintenanceMode == MaintenanceMode.Training)
+            return new CreateTrainingReview(this.Id!, captureInfo, analysis.FilterResults);
+        if(!analysis.FilterResults.IsAnalysisSuccessful())
+            return new CreateMaintenanceCheck(this.Id, captureInfo, analysis.FilterResults);
+        this.MarkCompleted();
+        return null;
     }
     public CreateMaintenanceCheckFromTrainingReview Handle(TrainingReviewCompleted completedEvent)
     {
@@ -48,9 +50,14 @@ public class MaintenanceProcess: Saga
     public CreateIssue? Handle(MaintenanceCheckReviewed reviewedEvent)
     {
         if(reviewedEvent.HasErrors)
-            return new CreateIssue(reviewedEvent.CaptureInfo, reviewedEvent.CaptureError, reviewedEvent.FilterErrors);
+            return new CreateIssue(reviewedEvent.MaintenanceProcessId, reviewedEvent.CaptureInfo, reviewedEvent.CaptureError, reviewedEvent.FilterErrors);
         this.MarkCompleted();
         return null;
+    }
+    
+    public void Handle(MaintenanceIssueEnded maintenanceIssueEnded)
+    {
+        this.MarkCompleted();
     }
 }
 

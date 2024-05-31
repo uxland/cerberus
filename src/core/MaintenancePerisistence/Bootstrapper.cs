@@ -1,4 +1,7 @@
 ﻿using Cerverus.Core.Domain;
+using Cerverus.Maintenance.Features.Features.Issues;
+using Cerverus.Maintenance.Features.Features.Issues.GetDetail;
+using Cerverus.Maintenance.Features.Features.Issues.ListByLocationPath;
 using Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 using Cerverus.Maintenance.Features.Features.TrainingReviews;
 using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews;
@@ -25,14 +28,17 @@ public static class Bootstrapper
     {
         return services
             .AddScoped<IRepository<MaintenanceCheck>, MaintenanceCheckRepository>()
-            .AddScoped<IRepository<TrainingReview>, TrainingReviewRepository>();
+            .AddScoped<IRepository<TrainingReview>, TrainingReviewRepository>()
+            .AddScoped<IRepository<MaintenanceIssue>, MaintenanceIssueRepository>();
     }
     
     private static IServiceCollection BootstrapQueryProviders(this IServiceCollection services)
     {
         return services
             .AddScoped<IPendingTrainingReviewQueryProvider, PendingTrainingReviewQueryProvider>()
-            .AddScoped<IMaintenanceSettingsProvider, MaintenanceSettingsProvider>();
+            .AddScoped<IMaintenanceSettingsProvider, MaintenanceSettingsProvider>()
+            .AddScoped<IMaintenanceIssueQueryProvider, IssueDetailQueryProvider>()
+            .AddScoped<IMaintenanceIssueSummaryQueryProvider, MaintenanceIssueSummaryQueryProvider>();
     }
 
     private static IServiceCollection ConfigureMarten(this IServiceCollection services)
@@ -46,7 +52,10 @@ public static class Bootstrapper
     {
         marten.Projections.Snapshot<TrainingReview>(SnapshotLifecycle.Inline);
         marten.Projections.Snapshot<MaintenanceCheck>(SnapshotLifecycle.Inline);
+        marten.Projections.Snapshot<MaintenanceIssue>(SnapshotLifecycle.Inline);
         marten.Projections.Add<PendingTrainingReviewProjection>(ProjectionLifecycle.Inline);
+        marten.Projections.Add<IssueDetailProjection>(ProjectionLifecycle.Async);
+        marten.Projections.Add<IssueSummaryProjection>(ProjectionLifecycle.Async);
         
         return marten;
     }
@@ -62,6 +71,8 @@ public static class Bootstrapper
             .Index(x => x.CaptureInfo.CameraPath)
             .Index(x => x.CaptureInfo.CaptureId)
             .Index(x => x.CaptureInfo.CameraId);
+        options.Schema.For<MaintenanceIssueSummary>()
+            .Index(x => x.Path);
         
         
         return options;

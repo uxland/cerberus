@@ -40,5 +40,5 @@ public interface ICaptureQueryProvider
 {
     Task<List<string>> GetCameraThumbnail(string cameraId);
     
-    Task<List<Capture>> GetCameraCaptures(string cameraId);
+    Task<string> GetCameraCaptures(string cameraId);
 }

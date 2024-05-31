@@ -1,7 +1,6 @@
 ﻿using Cerverus.Core.MartenPersistence.QueryProviders;
 using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews;
 using Marten;
-using Marten.Linq;
 
 namespace Cerverus.Maintenance.Persistence.QueryProviders;
 

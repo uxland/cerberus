@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Cerverus.Features.Features.Captures.GetCameraCaptures;
 
@@ -6,11 +7,15 @@ namespace Cerverus.Features.Features.Captures.GetCameraCaptures;
 [Route("api/[controller]")]
 public class CamerasController(ICaptureQueryProvider captureQueryProvider): ControllerBase
 {
-    [HttpGet("{cameraId}/captures")]
-    public async Task<List<Capture>> GetCameraThumbnails(string cameraId)
+    [
+        HttpGet("{cameraId}/captures"),
+        ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Capture>)),
+        ProducesResponseType(StatusCodes.Status404NotFound),
+    ]
+    public async Task<IActionResult> GetCameraThumbnails(string cameraId)
     {
-        var captures = await captureQueryProvider.GetCameraCaptures(cameraId);
-        return captures;
+       var result = await captureQueryProvider.GetCameraCaptures(cameraId);
+       return string.IsNullOrEmpty(result) ? NotFound() : Ok(result);
     }
 
 }

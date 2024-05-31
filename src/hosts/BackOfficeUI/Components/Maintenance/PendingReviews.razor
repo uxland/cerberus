@@ -1,5 +1,6 @@
 ﻿@rendermode InteractiveServer
 @using BackOfficeUI.Infrastructure.Maintenance
+@using BackOfficeUI.Infrastructure.Maintenance.Training
 @using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews
 @inject PendingReviewsGetter pendingReviewsGetter
 
@@ -16,6 +17,9 @@
     {
         @foreach (var item in Items)
         {
+            <NavLink class="nav-link" href="@item.Id">
+                
+            </NavLink>
             <li>@item.CreatedAt</li>
         }
     }
