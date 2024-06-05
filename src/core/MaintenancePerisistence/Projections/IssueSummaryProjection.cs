@@ -7,21 +7,23 @@ using Marten.Events.Aggregation;
 
 namespace Cerverus.Maintenance.Persistence.Projections;
 
-public class IssueSummaryProjection: SingleStreamProjection<MaintenanceIssueSummary>
+public class IssueSummaryProjection: SingleStreamProjection<PendingMaintenanceIssueSummary>
 {
     public IssueSummaryProjection()
     {
         DeleteEvent<MaintenanceIssueEnded>();
     }
-    public async Task<MaintenanceIssueSummary> Create(IEvent<MaintenanceIssueCreated> e, IQuerySession querySession)
+    public async Task<PendingMaintenanceIssueSummary> Create(IEvent<MaintenanceIssueCreated> e, IQuerySession querySession)
     {
         var camera = await querySession.LoadAsync<Camera>(e.Data.CaptureInfo.CameraId);
-        return new MaintenanceIssueSummary(
+        var description = querySession.GetCameraPathDescription(e.Data.CaptureInfo.CameraPath);
+        return new PendingMaintenanceIssueSummary(
             Id: e.StreamKey!,
             Path: camera!.Path,
             CameraId: camera!.Id,
-            Description: camera.Description,
-            e.Data.Status
+            Description: description,
+            e.Data.Status,
+            e.Data.Creation.At
         );
     }
 }

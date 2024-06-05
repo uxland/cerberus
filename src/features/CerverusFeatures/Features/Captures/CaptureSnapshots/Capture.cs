@@ -27,7 +27,7 @@ public partial class Capture:
 public record CaptureSettings(
     string CameraId,
     string CameraPath,
-    ZonedDateTime At,
+    Instant At,
     CaptureError? Error,
     string? SnapshotPath = null,
     string? ThumbnailPath = null

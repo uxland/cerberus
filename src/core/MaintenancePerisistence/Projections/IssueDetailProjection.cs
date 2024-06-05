@@ -19,7 +19,7 @@ public class IssueDetailProjection: SingleStreamProjection<MaintenanceIssueDetai
             CameraPath: camera.Path,
             CameraDescription: camera.Description,
             CaptureError: e.Data.CaptureError,
-            MaintenanceIssues: e.Data.MaintenanceIssue,
+            Errors: e.Data.Errors,
             e.Data.Status
         );
     }

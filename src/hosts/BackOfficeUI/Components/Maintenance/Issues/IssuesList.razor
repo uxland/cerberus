@@ -1,4 +1,5 @@
-﻿@using BackOfficeUI.Infrastructure.Maintenance.Isues
+﻿@using BackOfficeUI.Infrastructure.Extensions
+@using BackOfficeUI.Infrastructure.Maintenance.Isues
 @using Blazorise
 @using Cerverus.Maintenance.Features.Features.Issues.ListByLocationPath
 @inject IssueSummaryGetter issueSummaryGetter
@@ -9,14 +10,12 @@
     {
         <Card>
             <CardHeader>
-                <strong>@issue.Description</strong>
-            </CardHeader>
-            <CardBody>
                 <NavLink href="@GetIssueUrl(issue)">
-                    <CardTitle Size="5">@issue.Path</CardTitle>
-                    <Icon Name="@IconName.Camera"></Icon>    
+                    <CardTitle>
+                        <Icon Name="@IconName.Camera"></Icon>@issue.Description - @issue.CreatedAt.Format()
+                    </CardTitle>
                 </NavLink>
-            </CardBody>
+            </CardHeader>
         </Card>
     }
 </CardDeck>
@@ -26,9 +25,9 @@
     [Parameter]
     public string? Path { get; set; }
 
-    public List<MaintenanceIssueSummary> Issues { get; set; } = [];
+    public List<PendingMaintenanceIssueSummary> Issues { get; set; } = [];
     
-    public string GetIssueUrl(MaintenanceIssueSummary issue)
+    public string GetIssueUrl(PendingMaintenanceIssueSummary issue)
     {
         return $"maintenance-issues/{issue.Id}";
     }

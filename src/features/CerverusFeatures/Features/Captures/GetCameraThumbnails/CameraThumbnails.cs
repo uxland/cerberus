@@ -19,7 +19,7 @@ public record CameraThumbnails(
     }
 }
 
-public interface ICameraThumbnailsQueryProvider : IQueryProvider<CameraThumbnails>
+public interface ICameraThumbnailsEntityQueryProvider : IEntityQueryProvider<CameraThumbnails>
 {
     
 }

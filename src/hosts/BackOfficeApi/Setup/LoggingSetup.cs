@@ -10,6 +10,8 @@ public static class LoggingSetup
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("Npgsql", LogEventLevel.Warning)
+            .MinimumLevel.Override("Wolverine", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .CreateLogger();

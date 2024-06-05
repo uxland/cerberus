@@ -11,14 +11,7 @@ public class ApiClient(HttpClient httpClient)
     private static readonly JsonSerializerOptions jsonSerializerOptions;
     static ApiClient()
     {
-        jsonSerializerOptions = new JsonSerializerOptions();
-        jsonSerializerOptions.ConfigureForNodaTime(NodaTime.DateTimeZoneProviders.Bcl);
-    }
-    const string API_BASE_URL = "http://localhost:5222/api/";
-    public async Task<T?> GetItems<T>(string path)
-    {
-        var uri = new Uri(Path.Combine(API_BASE_URL, path));
-        var options = new JsonSerializerOptions
+        jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true,
@@ -26,11 +19,15 @@ public class ApiClient(HttpClient httpClient)
             {
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             }
-            
         };
-        options.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+        jsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+    }
+    const string API_BASE_URL = "http://localhost:5222/api/";
+    public async Task<T?> GetItems<T>(string path)
+    {
+        var uri = new Uri(Path.Combine(API_BASE_URL, path));
         var json = await httpClient.GetStringAsync(uri);
-        var result = JsonSerializer.Deserialize<T?>(json, options);
+        var result = JsonSerializer.Deserialize<T?>(json, jsonSerializerOptions);
         return result;
         
     } 

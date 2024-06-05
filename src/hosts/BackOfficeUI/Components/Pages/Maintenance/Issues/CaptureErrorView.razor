@@ -1,0 +1,14 @@
+﻿@using Blazorise
+@using Cerverus.Maintenance.Features.Features.Issues.GetDetail
+<Card>
+    <CardBody>
+        <CardTitle Size="5">Capture error</CardTitle>
+        <CardText>
+            <strong>@Issue?.CaptureError?.Type</strong> - @Issue?.CaptureError?.Message
+        </CardText>
+    </CardBody>
+</Card>
+@code {
+    [Parameter]
+    public MaintenanceIssueDetail? Issue { get; set; }
+}

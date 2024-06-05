@@ -4,8 +4,8 @@ namespace BackOfficeUI.Infrastructure.Maintenance.Isues;
 
 public class IssueSummaryGetter(ApiClient apiClient)
 {
-    public Task<List<MaintenanceIssueSummary>> GetByLocation(string locationPath)
+    public Task<List<PendingMaintenanceIssueSummary>> GetByLocation(string locationPath)
     {
-        return apiClient.GetItems<List<MaintenanceIssueSummary>>($"locations/{locationPath}/maintenance-issues");
+        return apiClient.GetItems<List<PendingMaintenanceIssueSummary>>($"locations/{locationPath}/maintenance-issues");
     }
 }

@@ -21,7 +21,7 @@ Upload location structure
     {
         try
         {
-            using MemoryStream result = new MemoryStream();
+            using var result = new MemoryStream();
             await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             await locationStructureUploader.UploadLocationStructure( result.ToArray(), e.File.Name );
             filePicker?.Clear();

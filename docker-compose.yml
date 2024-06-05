@@ -7,8 +7,3 @@
       POSTGRES_DB: cerverus
     ports:
       - "5432:5432"
-  backofficeapi:
-    image: backofficeapi
-    build:
-      context: .
-      dockerfile: src/hosts/BackOfficeApi/Dockerfile

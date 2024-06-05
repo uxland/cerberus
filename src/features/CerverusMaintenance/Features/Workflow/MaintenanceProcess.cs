@@ -6,7 +6,6 @@ using Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 using Cerverus.Maintenance.Features.Features.MaintenanceChecks.CommitRevision;
 using Cerverus.Maintenance.Features.Features.Shared;
 using Cerverus.Maintenance.Features.Features.TrainingReviews;
-using Cerverus.Maintenance.Features.Features.TrainingReviews.Complete;
 using Wolverine;
 using Wolverine.Persistence.Sagas;
 
@@ -22,7 +21,7 @@ public class MaintenanceProcess: Saga
     {
         var process = new MaintenanceProcess{Id = capture.Id, Capture = capture};
         if(!capture.Successful)
-            return (process, new CreateIssue(process.Id, capture.ToCaptureInfo(), capture.Error!, []));
+            return (process, CreateIssue.FromCaptureError(process.Id, capture.ToCaptureInfo(), capture.Error!));
         return (process, new AnalyzeCapture(process.Id, capture));
     }
     
@@ -37,25 +36,23 @@ public class MaintenanceProcess: Saga
         this.MarkCompleted();
         return null;
     }
-    public CreateMaintenanceCheckFromTrainingReview Handle(TrainingReviewCompleted completedEvent)
+    public CreateIssue? Handle(TrainingReviewEnded reviewEnded)
     {
-        return new CreateMaintenanceCheckFromTrainingReview(
-            this.Id,
-            this.Capture.ToCaptureInfo(),
-            completedEvent.UserId,
-            completedEvent.FixedResults
-        );
+        if(reviewEnded.Failures.Count != 0)
+            return CreateIssue.FromAnalysisFailure(this.Id, this.Capture.ToCaptureInfo(), reviewEnded.FilterResults, reviewEnded.ReviewedBy);
+        this.MarkCompleted();
+        return null;
     }
     
     public CreateIssue? Handle(MaintenanceCheckReviewed reviewedEvent)
     {
         if(reviewedEvent.HasErrors)
-            return new CreateIssue(reviewedEvent.MaintenanceProcessId, reviewedEvent.CaptureInfo, reviewedEvent.CaptureError, reviewedEvent.FilterErrors);
+            return new CreateIssue(reviewedEvent.MaintenanceProcessId, reviewedEvent.CaptureInfo, reviewedEvent.CaptureError, reviewedEvent.FilterErrors, reviewedEvent.ReviewerUser);
         this.MarkCompleted();
         return null;
     }
     
-    public void Handle(MaintenanceIssueEnded maintenanceIssueEnded)
+    public void Handle(MaintenanceIssueRevolved _)
     {
         this.MarkCompleted();
     }

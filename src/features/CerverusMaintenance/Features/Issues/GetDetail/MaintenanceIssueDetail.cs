@@ -1,6 +1,7 @@
 ﻿using Cerverus.Core.Domain;
 using Cerverus.Features.Features.Captures;
 using Cerverus.Maintenance.Features.Features.Analysis;
+using Cerverus.Maintenance.Features.Features.TrainingReviews;
 using NodaTime;
 
 namespace Cerverus.Maintenance.Features.Features.Issues.GetDetail;
@@ -12,7 +13,7 @@ public record MaintenanceIssueDetail(
     string CameraPath,
     string CameraDescription,
     CaptureError? CaptureError,
-    List<FilterResult> MaintenanceIssues,
+    List<FilterResult> Errors,
     MaintenanceIssueStatus Status,
     string? ResolutionComment = null,
     Instant? StartedAt = null,

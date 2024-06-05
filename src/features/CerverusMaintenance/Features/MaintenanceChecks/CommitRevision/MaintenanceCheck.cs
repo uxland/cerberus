@@ -8,7 +8,7 @@ public partial class MaintenanceCheck:
     IDomainEventHandler<MaintenanceCheckReviewed>
 {
     
-    public void CommitRevision(CommitRevisionCommand command, string reviewerUser, ZonedDateTime at)
+    public void CommitRevision(CommitRevisionCommand command, string reviewerUser, Instant at)
     {
         this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(this.MaintenanceProcessId, this.CaptureInfo, command.RevisionResults, this.CaptureError, reviewerUser, at));
     }

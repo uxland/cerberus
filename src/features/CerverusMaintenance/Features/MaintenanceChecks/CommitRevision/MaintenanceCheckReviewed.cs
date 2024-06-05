@@ -12,7 +12,7 @@ public record MaintenanceCheckReviewed(
     List<FilterResult> FilterResults,
     CaptureError? CaptureError,
     string ReviewerUser,
-    ZonedDateTime At) : IDomainEvent
+    Instant At) : IDomainEvent
 {
     public bool HasErrors => this.CaptureError != null || this.FilterResults.Any(x => !x.Result);
     public List<FilterResult> FilterErrors => this.FilterResults.Where(x => !x.Result).ToList();

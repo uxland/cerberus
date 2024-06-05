@@ -5,7 +5,7 @@ namespace Cerverus.Features.Features.OrganizationalStructure.HierarchyItems.Retr
 
 [ApiController]
 [Route("api/locations/")]
-public class RetrieveChildrenController(IHierarchyItemQueryProvider queryProvider): ControllerBase
+public class RetrieveChildrenController(IHierarchyItemEntityQueryProvider entityQueryProvider): ControllerBase
 {
     [HttpGet("{parentId}/children")]
     [
@@ -15,7 +15,7 @@ public class RetrieveChildrenController(IHierarchyItemQueryProvider queryProvide
     public async Task<IEnumerable<HierarchyItem>> GetChildren(string parentId)
     {
         var parent = (string.IsNullOrEmpty(parentId) || parentId == "root") ? string.Empty : parentId;
-        var items = await queryProvider.GetItems(parent);
+        var items = await entityQueryProvider.GetItems(parent);
         return items;
     }
 }

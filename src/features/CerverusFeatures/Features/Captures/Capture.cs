@@ -7,7 +7,7 @@ namespace Cerverus.Features.Features.Captures;
 public partial class Capture: AggregateRoot
 {
     
-    public ZonedDateTime At { get; set; }
+    public Instant At { get; set; }
     
     public string? SnapshotPath { get; set; }
     

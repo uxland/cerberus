@@ -1,0 +1,42 @@
+services:
+  cerverus-api:
+    build: 
+      context: .
+      dockerfile: src/hosts/BackOfficeApi/Dockerfile.dev
+      target: development
+    ports:
+        - "8080:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    develop:
+      watch:
+        -action: rebuild
+        -path: src/hosts/BackOfficeApi
+  cerverus-ui:
+    build: 
+      context: .
+      dockerfile: src/hosts/BackOfficeUi/Dockerfile.dev
+      target: development
+    ports:
+        - "8080:80"
+    depends_on:
+      cerverus-api:
+        condition: service_healthy
+    develop:
+      watch:
+        -action: rebuild
+        -path: src/hosts/BackOfficeUi
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: cerverus
+      POSTGRES_PASSWORD: cerverus
+      POSTGRES_DB: cerverus
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cerverus"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

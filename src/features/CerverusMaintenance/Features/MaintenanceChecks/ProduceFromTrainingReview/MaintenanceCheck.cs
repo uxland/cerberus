@@ -13,6 +13,6 @@ public partial class MaintenanceCheck
             command.AnalysisResults,
             MaintenanceCheckStatus.Completed
         ));
-        this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(this.MaintenanceProcessId!, this.CaptureInfo!, command.AnalysisResults, this.CaptureError, command.ReviewerUser, SystemClock.Instance.GetCurrentInstant().InUtc()));
+        this.ApplyUncommittedEvent(new MaintenanceCheckReviewed(this.MaintenanceProcessId!, this.CaptureInfo!, command.AnalysisResults, this.CaptureError, command.ReviewerUser, SystemClock.Instance.GetCurrentInstant()));
     }
 }

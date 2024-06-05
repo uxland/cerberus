@@ -2,7 +2,17 @@
 
 namespace Cerverus.Maintenance.Features.Features.Analysis;
 
-public record FilterResult(string FilterId, string FilterDescription, ZonedDateTime At, Duration ElapsedTime,  bool Result, string? ErrorMessage = null);
+public record FilterResult(
+    string FilterId,
+    string FilterDescription,
+    Instant At,
+    Duration ElapsedTime,
+    bool Result,
+    string? ErrorMessage = null)
+{
+    public bool IsError => !Result;
+    public bool IsSuccess => Result;
+}
 
 public static class FilterResultExtensions
 {

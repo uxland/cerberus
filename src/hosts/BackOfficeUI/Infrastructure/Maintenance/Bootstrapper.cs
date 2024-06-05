@@ -7,7 +7,6 @@ public static class Bootstrapper
 {
     public static IServiceCollection BootstrapMaintenance(this IServiceCollection services)
     {
-        return services.BootstrapMaintenanceIssues()
-            .BootstrapMaintenanceTraining();
+        return services.BootstrapMaintenanceIssues();
     }
 }

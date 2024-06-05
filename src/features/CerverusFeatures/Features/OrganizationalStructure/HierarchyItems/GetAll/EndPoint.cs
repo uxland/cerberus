@@ -6,7 +6,7 @@ namespace Cerverus.Features.Features.OrganizationalStructure.HierarchyItems.GetA
 
 [ApiController]
 [Route("api/[controller]")]
-public class LocationsController(IHierarchyItemQueryProvider queryProvider): ControllerBase
+public class LocationsController(IHierarchyItemEntityQueryProvider entityQueryProvider): ControllerBase
 {
     internal const string ProducesMediaType = "application/json;domain-model=Cerverus.HierarchyItemList;version1.0.0";
     [HttpGet]
@@ -17,7 +17,7 @@ public class LocationsController(IHierarchyItemQueryProvider queryProvider): Con
     [AcceptHeaderConstraint(ProducesMediaType, AcceptHeaderConstraint.WildcardMediaType)]
     public async Task<IEnumerable<HierarchyItem>> GetAll()
     {
-        return await queryProvider.GetAll();
+        return await entityQueryProvider.GetAll();
     }
     
 }

@@ -59,9 +59,9 @@ public static class DependencyInjection
     private static IServiceCollection UseQueryProviders(this IServiceCollection services)
     {
         return services
-            .AddTransient<ICameraQueryProvider, CameraQueryProvider>()
-            .AddTransient<IHierarchyItemQueryProvider, HierarchyItemQueryProviders>()
-            .AddTransient<IQueryProvider<Location>, LocationQueryProvider>()
-            .AddTransient<ICaptureQueryProvider, CaptureQueryProvider>();
+            .AddTransient<ICameraEntityQueryProvider, CameraEntityQueryProvider>()
+            .AddTransient<IHierarchyItemEntityQueryProvider, HierarchyItemEntityQueryProviders>()
+            .AddTransient<IEntityQueryProvider<Location>, LocationEntityQueryProvider>()
+            .AddTransient<ICaptureQueryProvider, CaptureEntityQueryProvider>();
     }
 }

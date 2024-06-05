@@ -5,4 +5,4 @@ using NodaTime;
 
 namespace Cerverus.Maintenance.Features.Features.TrainingReviews;
 
-public record TrainingReviewCreated(string MaintenanceProcessId, CaptureInfo CaptureInfo, List<FilterResult> AnalysisResults, ZonedDateTime Timestamp): IDomainEvent;
+public record TrainingReviewCreated(string MaintenanceProcessId, CaptureInfo CaptureInfo, List<FilterResult> AnalysisResults, Instant Timestamp): IDomainEvent;

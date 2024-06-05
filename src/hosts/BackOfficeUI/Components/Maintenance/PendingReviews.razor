@@ -1,8 +1,11 @@
 ﻿@rendermode InteractiveServer
-@using BackOfficeUI.Infrastructure.Maintenance
+@using System.Globalization
+@using BackOfficeUI.Infrastructure.Extensions
 @using BackOfficeUI.Infrastructure.Maintenance.Training
 @using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews
-@inject PendingReviewsGetter pendingReviewsGetter
+@using NodaTime
+@using Wolverine
+@inject IMessageBus bus
 
 <ul>
     @if(Items == null)
@@ -17,10 +20,10 @@
     {
         @foreach (var item in Items)
         {
-            <NavLink class="nav-link" href="@item.Id">
-                
+            <NavLink class="nav-link" href="@ItemUrl(item)">
+                <li>@item.Description - @item.CreatedAt.Format())</li>
             </NavLink>
-            <li>@item.CreatedAt</li>
+            
         }
     }
    
@@ -28,14 +31,16 @@
 
 @code {
     [Parameter]
-    public string Path { get; set; }
+    public string? Path { get; set; }
     
     public List<PendingTrainingReview> Items { get; set; }
     
+    public string ItemUrl(PendingTrainingReview item) => $"training-reviews/{item.Id}";
+
     
     protected override async Task OnParametersSetAsync()
     {
         if(this.Path != null)
-            Items = await pendingReviewsGetter.GetPendingReviews(Path);
+            Items = await bus.InvokeAsync<List<PendingTrainingReview>>(new ListPendingTrainingReviews(Path));
     }
 }

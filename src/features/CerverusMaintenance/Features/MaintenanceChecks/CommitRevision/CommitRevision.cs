@@ -11,7 +11,7 @@ public static class CommitRevisionHandler
     public static async Task Handle(CommitRevisionCommand command, IRepository<MaintenanceCheck> repository)
     {
         var maintenanceCheck = await repository.RehydrateOrThrow(command.RevisionId); 
-        maintenanceCheck.CommitRevision( command, string.Empty, SystemClock.Instance.GetCurrentInstant().InUtc());
+        maintenanceCheck.CommitRevision( command, string.Empty, SystemClock.Instance.GetCurrentInstant());
         await repository.Save(maintenanceCheck);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Cerverus.Core.Domain;
+﻿using System.Linq.Expressions;
+using Cerverus.Core.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,19 +12,14 @@ public class LocationsController : ControllerBase
     public const string ProducesMediaType = "application/json;domain-model=Cerverus.Maintenance.MaintenanceIssueSummaryList;version=1.0";
     [HttpGet("{locationPath}/maintenance-issues")]
     [
-        ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MaintenanceIssueSummary>)),
+        ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PendingMaintenanceIssueSummary>)),
         ProducesResponseType(StatusCodes.Status404NotFound),
         // Produces(ProducesMediaType)
     ]
-    public async Task<IActionResult> ListByLocationPath(string locationPath, [FromServices]IMaintenanceIssueSummaryQueryProvider queryProvider)
+    public async Task<IActionResult> ListByLocationPath(string locationPath, [FromServices]IReadModelQueryProvider entityQueryProvider)
     {
-        var detail = await queryProvider.ListByLocationPathAsJson(locationPath);
+        var spec =  new IssueInLocationSpec(locationPath) & (new IssueStatusSpec(MaintenanceIssueStatus.Open));
+        var detail = await entityQueryProvider.ListAsJson(spec);
         return string.IsNullOrEmpty(detail) ? NotFound() : Ok(detail);
     }
-}
-
-public interface IMaintenanceIssueSummaryQueryProvider : IQueryProvider<MaintenanceIssueSummary>
-{
-    public Task<string> ListByLocationPathAsJson(string locationPath);
-    
 }

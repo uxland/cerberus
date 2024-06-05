@@ -30,4 +30,4 @@ public enum MaintenanceCheckStatus
     Completed
 }
 
-public record Revision(string PerformedBy, ZonedDateTime At);
+public record Revision(string PerformedBy, Instant At);

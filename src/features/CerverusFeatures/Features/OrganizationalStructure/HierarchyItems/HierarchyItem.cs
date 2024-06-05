@@ -44,7 +44,7 @@ public record HierarchyItem(
         };
 }
 
-public interface IHierarchyItemQueryProvider: IQueryProvider<HierarchyItem>
+public interface IHierarchyItemEntityQueryProvider: IEntityQueryProvider<HierarchyItem>
 {
     Task<IEnumerable<HierarchyItem>> GetItems(string parent);
     Task<IEnumerable<HierarchyItem>> GetAll();

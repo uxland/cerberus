@@ -5,7 +5,7 @@ namespace Cerverus.Features.Features.OrganizationalStructure.Camera.GetCameraDet
 
 [ApiController]
 [Route("api/[controller]")]
-public class CamerasController(ICameraQueryProvider queryProvider): ControllerBase
+public class CamerasController(ICameraEntityQueryProvider entityQueryProvider): ControllerBase
 {
     public const string ProducesMediaType = "application/json;domain-model=Cerverus.BackOffice.CameraDetail;version1.0.0";
     
@@ -17,7 +17,7 @@ public class CamerasController(ICameraQueryProvider queryProvider): ControllerBa
     ]
     public async Task<IActionResult> GetCameraDetail(string cameraId)
     {
-        var camera = await queryProvider.Rehydrate(cameraId);
+        var camera = await entityQueryProvider.Rehydrate(cameraId);
         return camera == null ? NotFound() : Ok(camera);
     }
 }

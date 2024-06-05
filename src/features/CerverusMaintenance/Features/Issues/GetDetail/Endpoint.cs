@@ -16,11 +16,11 @@ public class MaintenanceIssuesController : ControllerBase
         ProducesResponseType(StatusCodes.Status404NotFound),
         // Produces(ProducesMediaType)
     ]
-    public async Task<IActionResult> GetDetail(string id, [FromServices]IMaintenanceIssueQueryProvider queryProvider)
+    public async Task<IActionResult> GetDetail(string id, [FromServices]IMaintenanceIssueEntityQueryProvider entityQueryProvider)
     {
-        var detail = await queryProvider.RehydrateAsJson(id);
+        var detail = await entityQueryProvider.RehydrateAsJson(id);
         return string.IsNullOrEmpty(detail) ? NotFound() : Ok(detail);
     }
 }
 
-public interface IMaintenanceIssueQueryProvider: IQueryProvider<MaintenanceIssueDetail>;
+public interface IMaintenanceIssueEntityQueryProvider: IEntityQueryProvider<MaintenanceIssueDetail>;

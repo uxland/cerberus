@@ -6,7 +6,7 @@ namespace Cerverus.Features.Features.OrganizationalStructure.Location.GetLocatio
 
 [ApiController]
 [Route("api/[controller]")]
-public class LocationsController(IQueryProvider<Location> queryProvider): ControllerBase
+public class LocationsController(IEntityQueryProvider<Location> entityQueryProvider): ControllerBase
 {
     [HttpGet("{locationId}")]
     [
@@ -15,7 +15,7 @@ public class LocationsController(IQueryProvider<Location> queryProvider): Contro
     ]
     public async Task<IActionResult> GetLocationDetail(string locationId)
     {
-        var location = await queryProvider.Rehydrate(locationId);
+        var location = await entityQueryProvider.Rehydrate(locationId);
         return location == null ? NotFound() : Ok(location);
     }
 }

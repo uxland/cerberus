@@ -13,7 +13,7 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
     public CameraFunctionalSettings? FunctionalSettings { get; set; }
 }
 
-public interface ICameraQueryProvider : IQueryProvider<Camera>
+public interface ICameraEntityQueryProvider : IEntityQueryProvider<Camera>
 {
     Task<IEnumerable<string>> GetCameraIdsByPath(string path);
 }

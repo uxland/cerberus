@@ -1,4 +1,6 @@
 ﻿using Cerverus.Core.Domain;
+using Cerverus.Core.MartenPersistence.QueryProviders;
+using Cerverus.Core.MartenPersistence.Repositories;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
@@ -18,7 +20,9 @@ public static class DependencyInjection
     {
         return services
             .AddMartenDb(configuration, environment)
-            .AddScoped<IUnitOfWork, MartenUoW>();
+            .AddScoped<IUnitOfWork, MartenUoW>()
+            .AddScoped<IReadModelQueryProvider, ReadModelQueryProvider>()
+            .AddScoped<IGenericRepository, GenericEventSourcingRepository>();
     }
 
     private static IServiceCollection AddMartenDb(this IServiceCollection services, IConfiguration configuration,

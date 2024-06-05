@@ -5,11 +5,12 @@ namespace Cerverus.Maintenance.Features.Features.Issues;
 
 public partial class MaintenanceIssue: IDomainEventHandler<MaintenanceIssueEnded>
 {
-    public void End(Instant at, string maintenanceUser, EndMaintenanceIssue command)
+    public MaintenanceIssueRevolved? End(Instant at, string maintenanceUser, EndMaintenanceIssue command)
     {
         if(this.Status != MaintenanceIssueStatus.InCourse)
-            return;
-        this.ApplyUncommittedEvent(new MaintenanceIssueEnded(this.MaintenanceProcessId, at, maintenanceUser, MaintenanceIssueStatus.Closed, command.Comment));
+            return null;
+        this.ApplyUncommittedEvent(new MaintenanceIssueEnded(at, maintenanceUser, MaintenanceIssueStatus.Closed, command.Comment));
+        return new MaintenanceIssueRevolved(this.MaintenanceProcessId);
     }
     
     public void Apply(MaintenanceIssueEnded @event)
@@ -23,3 +24,5 @@ public partial class MaintenanceIssue: IDomainEventHandler<MaintenanceIssueEnded
         this.Status = @event.Status;
     }
 }
+
+public record MaintenanceIssueRevolved(string MaintenanceProcessId);

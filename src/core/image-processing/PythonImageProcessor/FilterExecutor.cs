@@ -2,36 +2,46 @@
 using System.Diagnostics;
 using Cerverus.Maintenance.Features.Features.Analysis;
 using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
+using Cerverus.Maintenance.Features.Features.Analysis.Filters;
 using NodaTime;
 using Python.Runtime;
+using Spectre.Console;
 
 namespace Cerverus.Core.PythonImageProcessor;
 
 public class FilterExecutor: IFilterExecutor
 {
     
-    public bool Execute(string script, byte[] imageBuffer)
+    public (bool, string?) Execute(string script, byte[] imageBuffer)
     {
-        using ((Py.GIL()))
+        try
         {
-            using (var scope = Py.CreateScope())
+            using (Py.GIL())
             {
-                var compiledScript = PythonEngine.Compile(script);
-                scope.Execute(compiledScript);
-                dynamic np = Py.Import("numpy");
-                var pythonBuffer = np.asarray(imageBuffer);
-                var function = scope.Get("process_image");
-                var result = function.Invoke(pythonBuffer);
-                return result.As<bool>();
-            }
+                using (var scope = Py.CreateScope())
+                {
+                    var compiledScript = PythonEngine.Compile(script);
+                    scope.Execute(compiledScript);
+                    dynamic np = Py.Import("numpy");
+                    var pythonBuffer = np.asarray(imageBuffer);
+                    var function = scope.Get("process_image");
+                    var result = function.Invoke(pythonBuffer);
+                    return (result.As<bool>(), string.Empty);
+                }
            
+            }
         }
+        catch (Exception e)
+        {
+            return (false, e.Message);
+        }
+        
     }
 }
 
 public interface IFilterExecutor
 {
-    public bool Execute(string script, byte[] imageBuffer);
+    public (bool Success, string? Message) Execute(string script, byte[] imageBuffer);
 }
 
 public class FiltersExecutor: IFiltersExecutor
@@ -47,7 +57,7 @@ def process_image(byte_array):
 
     private readonly IFilterExecutor _filterExecutor = new FilterExecutor();
 
-    public Task<List<FilterResult>> ExecuteFilters(List<string> filters, string capturePath)
+    public Task<List<FilterResult>> ExecuteFilters(IReadOnlyList<Filter> filters, string capturePath)
     {
         return Task.Run(async() =>
         {
@@ -55,11 +65,11 @@ def process_image(byte_array):
             var results = new ConcurrentBag<FilterResult>();
             Parallel.ForEach(filters, filter =>
             {
-                var startTime = SystemClock.Instance.GetCurrentInstant().InUtc();
+                var startTime = SystemClock.Instance.GetCurrentInstant();
                 var stopwatch = Stopwatch.StartNew();
-                var result = _filterExecutor.Execute(script, buffer);
+                var result = _filterExecutor.Execute(filter.Script, buffer);
                 stopwatch.Stop();
-                results.Add(new FilterResult(filter, "Filter description", startTime, Duration.FromTimeSpan(stopwatch.Elapsed), result));
+                results.Add(new FilterResult(filter.Id, filter.Description, startTime, Duration.FromTimeSpan(stopwatch.Elapsed), result.Success, result.Message));
             });
             return results.ToList();
         });

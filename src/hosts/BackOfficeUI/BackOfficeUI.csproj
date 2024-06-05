@@ -15,6 +15,7 @@
       <PackageReference Include="Blazorise.Bootstrap" Version="1.5.2" />
       <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.5.2" />
       <PackageReference Include="Blazorise.TreeView" Version="1.5.2" />
+      <PackageReference Include="WolverineFx" Version="2.8.2" />
     </ItemGroup>
 
     <ItemGroup>

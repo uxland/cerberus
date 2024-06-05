@@ -9,10 +9,3 @@ public class MaintenanceIssueDetailGetter(ApiClient apiClient)
         return apiClient.GetItems<MaintenanceIssueDetail>($"maintenance-issues/{id}");
     }
 }
-
-public class MaintenanceIssueCommander(ApiClient apiClient)
-{
-    public Task Start(string issueId) => apiClient.PutCommand($"maintenance-issues/{issueId}/start", new { });
-    
-    public Task End(string issueId) => apiClient.PutCommand($"maintenance-issues/{issueId}/end", new { });
-}

@@ -11,7 +11,7 @@ public class CaptureSnapshotService(IRepository<Capture> captureRepository, ISna
     public async Task<Capture> CaptureSnapshot(Camera camera)
     {
         var (snapshot, error) = await snapshotCatcher.CaptureSnapshot(new CaptureSnapshotArguments(camera.AdminSettings!.IpAddress!, camera.AdminSettings!.Credentials!.Username, camera.AdminSettings!.Credentials.Password));
-        var settings = new CaptureSettings(camera.Id, camera.Path, SystemClock.Instance.GetCurrentInstant().InUtc(), error);
+        var settings = new CaptureSettings(camera.Id, camera.Path, SystemClock.Instance.GetCurrentInstant(), error);
         if (error == null)
         {
             var (snapshotPath, thumbnailPath) = SaveSnapshot(snapshot!, camera);

@@ -1,4 +1,6 @@
-﻿using Cerverus.Core.Domain;
+﻿using System.Linq.Expressions;
+using Cerverus.Core.Domain;
+using Cerverus.Maintenance.Features.Features.Analysis.Filters;
 using Cerverus.Maintenance.Features.Features.Issues;
 using Cerverus.Maintenance.Features.Features.Issues.GetDetail;
 using Cerverus.Maintenance.Features.Features.Issues.ListByLocationPath;
@@ -8,6 +10,7 @@ using Cerverus.Maintenance.Features.Features.TrainingReviews.GetPendingReviews;
 using Cerverus.Maintenance.Persistence.Projections;
 using Cerverus.Maintenance.Persistence.QueryProviders;
 using Cerverus.Maintenance.Persistence.Repositories;
+using Cerverus.Maintenance.Persistence.Seeding;
 using Marten;
 using Marten.Events.Projections;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,17 +38,16 @@ public static class Bootstrapper
     private static IServiceCollection BootstrapQueryProviders(this IServiceCollection services)
     {
         return services
-            .AddScoped<IPendingTrainingReviewQueryProvider, PendingTrainingReviewQueryProvider>()
             .AddScoped<IMaintenanceSettingsProvider, MaintenanceSettingsProvider>()
-            .AddScoped<IMaintenanceIssueQueryProvider, IssueDetailQueryProvider>()
-            .AddScoped<IMaintenanceIssueSummaryQueryProvider, MaintenanceIssueSummaryQueryProvider>();
+            .AddScoped<IMaintenanceIssueEntityQueryProvider, IssueDetailEntityQueryProvider>();
     }
 
     private static IServiceCollection ConfigureMarten(this IServiceCollection services)
     {
         services.ConfigureMarten(marten => marten
             .ConfigureProjections()
-            .SetupIndexes());
+            .SetupIndexes()
+        ).InitializeMartenWith<ScriptsInitialData>();
         return services;
     }
     private static StoreOptions ConfigureProjections(this StoreOptions marten)
@@ -53,7 +55,9 @@ public static class Bootstrapper
         marten.Projections.Snapshot<TrainingReview>(SnapshotLifecycle.Inline);
         marten.Projections.Snapshot<MaintenanceCheck>(SnapshotLifecycle.Inline);
         marten.Projections.Snapshot<MaintenanceIssue>(SnapshotLifecycle.Inline);
-        marten.Projections.Add<PendingTrainingReviewProjection>(ProjectionLifecycle.Inline);
+        marten.Projections.Snapshot<Filter>(SnapshotLifecycle.Inline);
+        marten.Projections.Add<PendingTrainingReviewProjection>(ProjectionLifecycle.Async);
+        marten.Projections.Add<TrainingReviewDetailProjection>(ProjectionLifecycle.Async);
         marten.Projections.Add<IssueDetailProjection>(ProjectionLifecycle.Async);
         marten.Projections.Add<IssueSummaryProjection>(ProjectionLifecycle.Async);
         
@@ -71,8 +75,13 @@ public static class Bootstrapper
             .Index(x => x.CaptureInfo.CameraPath)
             .Index(x => x.CaptureInfo.CaptureId)
             .Index(x => x.CaptureInfo.CameraId);
-        options.Schema.For<MaintenanceIssueSummary>()
-            .Index(x => x.Path);
+        var maintenanceIssueIndex = new Expression<Func<PendingMaintenanceIssueSummary, object>>[]
+        {
+            x => x.Path,
+            x => x.CreatedAt,
+        };
+        options.Schema.For<PendingMaintenanceIssueSummary>()
+            .Index(x => maintenanceIssueIndex, index => index.Name = "idx_pending_maintenance_issue_path_created_at");
         
         
         return options;

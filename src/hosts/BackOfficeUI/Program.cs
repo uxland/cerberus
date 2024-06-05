@@ -1,9 +1,16 @@
 using BackOfficeUI;
 using BackOfficeUI.Components;
-using BackOfficeUI.Infrastructure;
+using Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 using Microsoft.Extensions.FileProviders;
+using Wolverine;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseWolverine(opts =>
+{
+    opts.Durability.Mode = DurabilityMode.Solo;
+    opts.ApplicationAssembly = typeof(Program).Assembly;
+    opts.Discovery.IgnoreAssembly(typeof(MaintenanceCheck).Assembly);
+});
 
 builder.Services.AddHttpClient()
    .UseBackOfficeUI();

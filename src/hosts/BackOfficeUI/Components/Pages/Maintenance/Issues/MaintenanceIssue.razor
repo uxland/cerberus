@@ -1,4 +1,5 @@
 ﻿@page "/maintenance-issues/{Id}"
+@using BackOfficeUI.Infrastructure.Extensions
 @using BackOfficeUI.Infrastructure.Maintenance.Isues
 @using Cerverus.Maintenance.Features.Features.Issues.GetDetail
 @using Blazorise
@@ -8,26 +9,44 @@
 
 @rendermode InteractiveServer
 <h3>MaintenanceIssue</h3>
-<Card>
-    @if(!string.IsNullOrEmpty(Issue?.SnapshotUrl))
+
+<Row Margin="Margin.Is3">
+    @if(@Issue?.CaptureError != null)
     {
-        <CardImage Source="@Issue.SnapshotUrl" alt="Issue snapshot" />
-    }
-    <CardBody>
-        <CardTitle Size="5">@GetTitle()</CardTitle>
-        @foreach(var issue in Issue?.MaintenanceIssues ??[])
-        {
-            <CardText>
-                <strong>@issue.FilterDescription</strong> @string.IsNullOrWhiteSpace(issue.FilterDescription) ? "" : " - " @issue.FilterDescription   
-            </CardText>
-        }
-        @if (@Issue?.Status != MaintenanceIssueStatus.Closed)
-        {
-            <Button Clicked="Act" Color="Color.Primary">@(Issue?.Status == MaintenanceIssueStatus.Open ? "Start" : "End") </Button>
-        }
+        <Row>
+            <CaptureErrorView Issue="@Issue"></CaptureErrorView>    
+        </Row>
+        <Row>
+            <IssueExecution Issue="@Issue"></IssueExecution>    
+        </Row>
         
-    </CardBody>
-</Card>
+    }
+    else
+    {
+        <Column ColumnSize="ColumnSize.Is10">
+            <CardImage Source="@Issue?.SnapshotUrl.GetImageUrl()" alt="Issue snapshot"/>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is2">
+            <Row>
+                <AnalysisIssuesView Issue="@Issue"></AnalysisIssuesView>    
+            </Row>
+            <Row>
+                <IssueExecution Issue="@Issue"></IssueExecution>
+            </Row>
+        </Column>
+        
+    }
+</Row>
+@if (@Issue?.Status != MaintenanceIssueStatus.Closed)
+{
+    <Row JustifyContent="JustifyContent.Right" Margin="Margin.Is3">
+        <Column ColumnSize="ColumnSize.IsAuto">
+            <Button Clicked="Act" Color="Color.Primary">@(Issue?.Status == MaintenanceIssueStatus.Open ? "Start" : "End") </Button>
+        </Column>
+    </Row>
+    
+}
+
 @code {
     [Parameter] public required string Id { get; set; }
 
@@ -38,15 +57,22 @@
         return Issue?.CaptureError != null ? $"{Issue.CaptureError.Type} - {Issue.CaptureError.Message}" : "Analysis errors";
     }
 
-    private Task Act()
+    private async Task Act()
     {
-        if(this.Issue == null || this.Issue.Status == MaintenanceIssueStatus.Closed)
-            return Task.CompletedTask;
-        return this.Issue.Status == MaintenanceIssueStatus.Open ? 
+        if (this.Issue == null || this.Issue.Status == MaintenanceIssueStatus.Closed)
+            return;
+        var task = this.Issue.Status == MaintenanceIssueStatus.Open ? 
             maintenanceIssueCommander.Start(Id) : maintenanceIssueCommander.End(Id);
+        await task;
+        await this.LoadIssue();
     }
 
     protected override async Task OnInitializedAsync()
+    {
+        await this.LoadIssue();
+    }
+    
+    private async Task LoadIssue()
     {
         this.Issue = await maintenanceIssueDetailGetter.Get(Id);
     }
