@@ -1,8 +1,10 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
+using Cerverus.Features.Features.Captures.CaptureSnapshots;
 using Cerverus.Maintenance.Features.Features.Analysis;
 using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
 using Cerverus.Maintenance.Features.Features.Analysis.Filters;
+using Microsoft.Extensions.Options;
 using NodaTime;
 using Python.Runtime;
 using Spectre.Console;
@@ -44,7 +46,7 @@ public interface IFilterExecutor
     public (bool Success, string? Message) Execute(string script, byte[] imageBuffer);
 }
 
-public class FiltersExecutor: IFiltersExecutor
+public class FiltersExecutor(IOptions<SnapshotCaptureSettings> captureSettings): IFiltersExecutor
 {
     private const string script = @"import random
 
@@ -75,10 +77,9 @@ def process_image(byte_array):
         });
     }
     
-    private static async Task<byte[]> ReadFileAsync(string filePath)
+    private async Task<byte[]> ReadFileAsync(string filePath)
     {
-        var rootPath = "C:/Cerverus/Snapshots";
-        var path = Path.Combine(rootPath, filePath);
+        var path = Path.Combine(captureSettings.Value.FolderRoot, filePath);
         await using var file = File.OpenRead(path);
         var buffer = new byte[file.Length];
         int read = 0;

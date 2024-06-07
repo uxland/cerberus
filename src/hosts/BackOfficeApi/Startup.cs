@@ -1,7 +1,7 @@
 ﻿using Cerverus.BackOffice.Api.Bootstrap;
 using Cerverus.BackOffice.Api.Setup;
 using Cerverus.Core.MartenPersistence;
-using Cerverus.Core.RstpClient;
+using Cerverus.Core.XabeFFMpegClient;
 using Cerverus.Features;
 using Microsoft.OpenApi.Models;
 
@@ -34,8 +34,9 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
                 });
         });
         services
+            .SetupConfigurations(configuration)
             .UseLogging()
-            .UseRstpClient()
+            .BootstrapXabeFFMpegClient()
             .UseMartenPersistence(configuration, hosting)
             .BootstrapBackOffice()
             .BootstrapMaintenance();

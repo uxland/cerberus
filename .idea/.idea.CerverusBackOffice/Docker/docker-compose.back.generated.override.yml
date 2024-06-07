@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  cerverus-back:
+    build:
+      context: "C:\\Users\\dpina\\RiderProjects\\cerverus-backoffice"
+      dockerfile: "src/hosts/BackOfficeApi/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/BackOfficeApi.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "backofficeapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\dpina\\RiderProjects\\cerverus-backoffice\\src\\hosts\\BackOfficeApi:/app:rw"
+    - "C:\\Users\\dpina\\RiderProjects\\cerverus-backoffice:/src:rw"
+    working_dir: "/app"

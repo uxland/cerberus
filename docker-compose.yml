@@ -1,5 +1,5 @@
 ﻿services:
-  postgres:
+  postgres-local:
     image: postgres:16
     environment:
       POSTGRES_USER: cerverus

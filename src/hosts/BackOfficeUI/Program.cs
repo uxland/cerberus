@@ -28,7 +28,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var di = new DirectoryInfo("C:/Cerverus/Snapshots");
+var di = new DirectoryInfo(builder.Configuration.GetSection("SnaphotCaptures:FolderRoot").Value!);
 if (!di.Exists)
     di.Create();
 app.UseStaticFiles(new StaticFileOptions

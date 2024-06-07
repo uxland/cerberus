@@ -6,8 +6,9 @@ using NodaTime.Serialization.SystemTextJson;
 
 namespace BackOfficeUI.Infrastructure;
 
-public class ApiClient(HttpClient httpClient)
+public class ApiClient(HttpClient httpClient, IConfiguration configuration)
 {
+    private readonly string API_BASE_URL = configuration["Backend:Url"];
     private static readonly JsonSerializerOptions jsonSerializerOptions;
     static ApiClient()
     {
@@ -22,7 +23,7 @@ public class ApiClient(HttpClient httpClient)
         };
         jsonSerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
     }
-    const string API_BASE_URL = "http://localhost:5222/api/";
+    //const string API_BASE_URL = "http://localhost:5222/api/";
     public async Task<T?> GetItems<T>(string path)
     {
         var uri = new Uri(Path.Combine(API_BASE_URL, path));
