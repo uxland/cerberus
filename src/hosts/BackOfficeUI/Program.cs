@@ -16,7 +16,8 @@ builder.Services.AddHttpClient()
    .UseBackOfficeUI();
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents()
+    .AddHubOptions(options => options.DisableImplicitFromServicesParameters = true);
 
 var app = builder.Build();
 
