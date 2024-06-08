@@ -9,11 +9,13 @@ RUN apt-get update && \
 # Determine the installed Python version and set PYTHONNET_PYDLL
 RUN python_version=$(python3 -c "import sys; version=sys.version_info[:2]; print(f'{version[0]}.{version[1]}')") && \
     if [ "$(uname -m)" = "aarch64" ]; then \
-        export PYTHONNET_PYDLL="/usr/local/lib/libpython${python_version}.dylib"; \
+        export PYTHONNET_PYDLL="/usr/lib/aarch64/libpython${python_version}.so"; \
     else \
         export PYTHONNET_PYDLL="/usr/lib/x86_64-linux-gnu/libpython${python_version}.so"; \
     fi && \
-    echo "PYTHONNET_PYDLL=${PYTHONNET_PYDLL}" > /etc/environment
+    export PYTHONNET_PYDLL="/usr/lib/${uname}-linux-gnu/libpython${python_version}.so"; \
+    echo "PYTHONNET_PYDLL=${PYTHONNET_PYDLL}" > /etc/environment \
+    echo ${PYTHONNET_PYDLL}
 
 # Load the environment variables set in /etc/environment
 ENV PYTHONNET_PYDLL=$PYTHONNET_PYDLL
