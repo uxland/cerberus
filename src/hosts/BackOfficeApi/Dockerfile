@@ -4,26 +4,13 @@ WORKDIR /app
 
 # Install bash, ffmpeg, and Python with necessary packages, ensure non-interactive mode
 RUN apt-get update && \
-    apt-get install -y bash ffmpeg python3 python3-pip python3-numpy python3-opencv libx264-dev --fix-missing 
+    apt-get install -y ffmpeg python3 python3-pip python3-numpy python3-opencv libx264-dev --fix-missing 
 
 # Determine the installed Python version and set PYTHONNET_PYDLL
 RUN python_version=$(python3 -c "import sys; version=sys.version_info[:2]; print(f'{version[0]}.{version[1]}')") && \
-    if [ "$(uname -m)" = "aarch64" ]; then \
-        export PYTHONNET_PYDLL="/usr/lib/aarch64/libpython${python_version}.so"; \
-    else \
-        export PYTHONNET_PYDLL="/usr/lib/x86_64-linux-gnu/libpython${python_version}.so"; \
-    fi && \
-    export PYTHONNET_PYDLL="/usr/lib/${uname}-linux-gnu/libpython${python_version}.so"; \
-    echo "PYTHONNET_PYDLL=${PYTHONNET_PYDLL}" > /etc/environment \
-    echo ${PYTHONNET_PYDLL}
+    echo "${python_version}" > /tmp/python_version
 
-# Load the environment variables set in /etc/environment
-ENV PYTHONNET_PYDLL=$PYTHONNET_PYDLL
-
-# Ensure ffmpeg and python are available in PATH and set LD_LIBRARY_PATH
-ENV PATH="/usr/bin/ffmpeg:/usr/local/bin/python3.11:/usr/local/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
-ENV PYTHONNET_PYDLL="/usr/lib/x86_64-linux-gnu/libpython3.11.so"
 
 # Check Python version
 RUN python3 --version

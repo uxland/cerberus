@@ -21,7 +21,4 @@
     links:
       - postgres
     volumes:
-      - C:/Cerverus/Snapshots:/app/Snapshots
-  busy-box:
-    image: busybox
-    command: ["sh", "-c", "while true; do echo 'Hello from busy-box'; sleep 3600; done"]
+      - ./Snapshots:/app/Snapshots
