@@ -10,12 +10,14 @@
   cerverus-back:
     build:
       context: .
-      dockerfile: src/hosts/BackOfficeApi/Dockerfile
+      dockerfile: src/hosts/CerverusApi/Dockerfile
     ports:
       - "5222:8080"
     environment:
       Backends__PostgresQL__Marten: "Host=postgres;Port=5432;Database=cerverus;Username=cerverus;Password=cerverus;Application Name=Cerverus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
       SnaphotCaptures__FolderRoot: "/app/Snapshots"
+    args:
+      - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
     depends_on:
       - postgres
     links:
@@ -25,12 +27,14 @@
   cerverus-ui:
     build:
         context: .
-        dockerfile: src/hosts/BackOfficeUI/Dockerfile
+        dockerfile: src/hosts/CerverusUI/Dockerfile
     ports:
       - "666:8080"
     environment:
       Backend__Url: "http://cerverus-back:8080/api"
       SnaphotCaptures__FolderRoot: "/app/Snapshots"
+    args:
+      - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
     depends_on:
       - cerverus-back
     volumes:

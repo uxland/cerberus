@@ -1,0 +1,60 @@
+﻿@using System.Globalization
+@using Blazorise.Bootstrap.Components
+@using Cerverus.Maintenance.Features.Features.Issues
+@using Cerverus.Maintenance.Features.Features.Issues.GetDetail
+@using Blazorise
+@using Cerverus.UI.Infrastructure.Extensions
+<h3>IssueExecution</h3>
+
+<Card>
+    <h3>@GetTitle()</h3>
+    <CardBody>
+
+        @switch (Issue?.Status)
+        {
+            case MaintenanceIssueStatus.Closed:
+                <CardText>
+                    Started by @Issue?.StartedBy on @Issue?.StartedAt?.Format()
+                </CardText>
+                <CardText>
+                    Closed by @Issue?.FinishedBy on @Issue?.FinishedAt?.Format()
+                </CardText>
+                <CardText>
+                    Duration: @GetDuration()
+                </CardText>
+                break;
+            case MaintenanceIssueStatus.InCourse:
+                <CardText>
+                    Started by @Issue?.StartedBy on @Issue?.StartedAt?.Format()
+                </CardText>
+                break;
+        }
+    </CardBody>
+</Card>
+
+@code {
+    [Parameter]
+    public MaintenanceIssueDetail? Issue { get; set; }
+    
+    private string GetDuration()
+    {
+        if(this.Issue?.StartedAt == null || this.Issue?.FinishedAt == null)
+            return string.Empty;
+        var duration = this.Issue!.FinishedAt! - this.Issue!.StartedAt!;
+        return duration.GetValueOrDefault().ToString("D'd'hh'H'mm'm'", CultureInfo.CurrentCulture);
+    }
+    public string GetTitle()
+    {
+        switch (Issue?.Status)
+        {
+            case MaintenanceIssueStatus.Closed:
+                return "Issue closed";
+            case MaintenanceIssueStatus.Open:
+                return "Pending";
+            case MaintenanceIssueStatus.InCourse:
+                return "In course";
+            default:
+                return string.Empty;
+        }
+    }
+}

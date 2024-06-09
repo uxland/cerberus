@@ -40,13 +40,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		docker-compose.demo.yml = docker-compose.demo.yml
 		docker-compose.back.yml = docker-compose.back.yml
+		cerverus-setup.ps1 = cerverus-setup.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOfficePersistence", "src\core\BackOfficePersistence\BackOfficePersistence.csproj", "{D8FC1408-B744-429E-98CD-6A7B28A30C4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOfficeApi", "src\hosts\BackOfficeApi\BackOfficeApi.csproj", "{30174785-B646-4AE1-AB1C-AB5115869D9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CerverusApi", "src\hosts\CerverusApi\CerverusApi.csproj", "{30174785-B646-4AE1-AB1C-AB5115869D9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOfficeUI", "src\hosts\BackOfficeUI\BackOfficeUI.csproj", "{973024EE-D1AF-4427-83B1-18DB7A833FFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CerverusUI", "src\hosts\CerverusUI\CerverusUI.csproj", "{973024EE-D1AF-4427-83B1-18DB7A833FFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "image-processing", "image-processing", "{63825E8F-D086-4836-8FE4-CC3C84A2AB9E}"
 EndProject

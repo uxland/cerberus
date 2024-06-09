@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>Cerverus.UI</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\features\CerverusBackOffice\CerverusBackOffice.csproj" />
+      <ProjectReference Include="..\..\features\CerverusMaintenance\CerverusMaintenance.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Blazorise.Bootstrap" Version="1.5.2" />
+      <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.5.2" />
+      <PackageReference Include="Blazorise.TreeView" Version="1.5.2" />
+      <PackageReference Include="WolverineFx" Version="2.8.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\Pages\Maintenance\Checks\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>

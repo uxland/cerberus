@@ -1,0 +1,44 @@
+﻿@page "/training-reviews/{id}"
+@using Wolverine
+@using Blazorise
+@using Cerverus.Maintenance.Features.Features.TrainingReviews
+@using Cerverus.Maintenance.Features.Features.TrainingReviews.GetTrainingReview
+@using Cerverus.UI.Components.Maintenance.Training
+@using Cerverus.UI.Infrastructure.Maintenance.Training
+@rendermode InteractiveServer
+@inject IMessageBus MessageBus
+<h3>MaintenanceReview</h3>
+@if (this.TrainingReview == null)
+{
+    <div>Loading</div>
+}
+else if (this.TrainingReview.Status == TrainingReviewStatus.Completed)
+{
+    <TrainingReviewDetailView TrainingReview="@this.TrainingReview"></TrainingReviewDetailView>
+}
+else
+{
+    <Row>
+        <Column ColumnSize="ColumnSize.Is10">
+            <TrainingReviewDetailView TrainingReview="@this.TrainingReview"></TrainingReviewDetailView>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is2">
+            <TrainingReviewForm TrainingReview="@this.TrainingReview"></TrainingReviewForm>
+        </Column>
+    </Row>
+    
+}
+
+@code {
+    
+    [Parameter]
+    public string id { get; set; }
+    
+    private TrainingReviewDetail? TrainingReview { get; set; }
+    
+    
+    protected override async Task OnInitializedAsync()
+    {
+        this.TrainingReview = await this.MessageBus.InvokeAsync<TrainingReviewDetail?>(new GetTrainingReview(this.id));
+    }
+}
