@@ -1,6 +1,7 @@
 using Cerverus.UI.Components;
 using Cerverus.Maintenance.Features.Features.MaintenanceChecks;
 using Cerverus.UI;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.FileProviders;
 using Wolverine;
 
@@ -11,6 +12,10 @@ builder.Host.UseWolverine(opts =>
     opts.ApplicationAssembly = typeof(Program).Assembly;
     opts.Discovery.IgnoreAssembly(typeof(MaintenanceCheck).Assembly);
 });
+
+builder.Services.AddDataProtection()
+    .SetApplicationName("CerverusUI")
+    .PersistKeysToFileSystem(new DirectoryInfo(@"\\server\share\directory\"));
 
 builder.Services.AddHttpClient()
    .UseBackOfficeUI();
