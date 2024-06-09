@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using Cerverus.Features.Features.Captures.CaptureSnapshots;
+using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
 using Cerverus.Maintenance.Features.Features.Analysis;
 using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
 using Cerverus.Maintenance.Features.Features.Analysis.Filters;

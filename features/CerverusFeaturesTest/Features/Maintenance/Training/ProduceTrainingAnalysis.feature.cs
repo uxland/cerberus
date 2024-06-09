@@ -40,8 +40,8 @@ namespace Cerverus.Features.Features.Maintenance.Training
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Maintenance/Training", "Produce Training Analysis", "\tIn order to adjust the system performance\r\n\tAs maintenance technician\r\n\tI want t" +
-                    "o produce a training analysis for a camera", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Maintenance/Training", "Produce Training Analysis", "\tIn order to adjust the system performance\n\tAs maintenance technician\n\tI want to " +
+                    "produce a training analysis for a camera", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         

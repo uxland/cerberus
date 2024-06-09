@@ -1,6 +1,6 @@
-﻿using Cerverus.Features.Features.OrganizationalStructure;
-using Cerverus.Features.Features.OrganizationalStructure.Camera;
-using Cerverus.Features.Features.OrganizationalStructure.Location;
+﻿using Cerverus.BackOffice.Features.OrganizationalStructure;
+using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
+using Cerverus.BackOffice.Features.OrganizationalStructure.Location;
 using Marten;
 
 namespace Cerverus.Maintenance.Persistence.Projections;

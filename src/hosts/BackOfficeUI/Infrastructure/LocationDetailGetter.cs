@@ -1,4 +1,4 @@
-﻿using Cerverus.Features.Features.OrganizationalStructure.Location;
+﻿using Cerverus.BackOffice.Features.OrganizationalStructure.Location;
 
 namespace BackOfficeUI.Infrastructure;
 

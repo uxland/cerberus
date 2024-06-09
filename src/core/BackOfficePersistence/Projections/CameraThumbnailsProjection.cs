@@ -1,6 +1,5 @@
-﻿
-using Cerverus.Features.Features.Captures.CaptureSnapshots;
-using Cerverus.Features.Features.Captures.GetCameraThumbnails;
+﻿using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
+using Cerverus.BackOffice.Features.Captures.GetCameraThumbnails;
 
 namespace Cerverus.BackOffice.Persistence.Projections;
 

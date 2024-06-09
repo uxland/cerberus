@@ -1,5 +1,5 @@
+using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
 using Cerverus.Core.XabeFFMpegClient;
-using Cerverus.Features.Features.Captures.CaptureSnapshots;
 using Cerverus.IntegrationTest.Utilities.Logger;
 using Lamar;
 using Microsoft.Extensions.Logging;

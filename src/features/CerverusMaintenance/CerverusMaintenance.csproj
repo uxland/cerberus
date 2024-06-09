@@ -9,7 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\core\DomainCore\DomainCore.csproj" />
-      <ProjectReference Include="..\CerverusFeatures\CerverusFeatures.csproj" />
+      <ProjectReference Include="..\CerverusBackOffice\CerverusBackOffice.csproj" />
     </ItemGroup>
 
     <ItemGroup>

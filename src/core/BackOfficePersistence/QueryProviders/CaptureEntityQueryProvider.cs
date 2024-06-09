@@ -1,5 +1,5 @@
-﻿using Cerverus.Core.MartenPersistence.QueryProviders;
-using Cerverus.Features.Features.Captures;
+﻿using Cerverus.BackOffice.Features.Captures;
+using Cerverus.Core.MartenPersistence.QueryProviders;
 using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;

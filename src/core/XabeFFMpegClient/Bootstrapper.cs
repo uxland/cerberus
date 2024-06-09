@@ -1,4 +1,4 @@
-﻿using Cerverus.Features.Features.Captures.CaptureSnapshots;
+﻿using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
 using Microsoft.Extensions.DependencyInjection;
 using Xabe.FFmpeg;
 using Xabe.FFmpeg.Downloader;

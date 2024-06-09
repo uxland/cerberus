@@ -1,5 +1,5 @@
+using Cerverus.BackOffice.Features.OrganizationalStructure.Location;
 using Cerverus.Core.MartenPersistence.QueryProviders;
-using Cerverus.Features.Features.OrganizationalStructure.Location;
 using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;

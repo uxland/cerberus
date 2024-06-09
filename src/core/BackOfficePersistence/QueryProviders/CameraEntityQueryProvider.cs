@@ -1,5 +1,5 @@
-﻿using Cerverus.Core.MartenPersistence.QueryProviders;
-using Cerverus.Features.Features.OrganizationalStructure.Camera;
+﻿using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
+using Cerverus.Core.MartenPersistence.QueryProviders;
 using Marten;
 
 namespace Cerverus.BackOffice.Persistence.QueryProviders;

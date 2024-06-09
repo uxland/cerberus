@@ -1,4 +1,4 @@
-﻿using Cerverus.Features.Features.OrganizationalStructure.HierarchyItems;
+﻿using Cerverus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
 
 namespace BackOfficeUI.Components.Layout;
 

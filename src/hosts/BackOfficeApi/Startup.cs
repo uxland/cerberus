@@ -2,7 +2,6 @@
 using Cerverus.BackOffice.Api.Setup;
 using Cerverus.Core.MartenPersistence;
 using Cerverus.Core.XabeFFMpegClient;
-using Cerverus.Features;
 using Microsoft.OpenApi.Models;
 
 namespace Cerverus.BackOffice.Api;

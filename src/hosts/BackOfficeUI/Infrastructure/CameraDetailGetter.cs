@@ -1,5 +1,5 @@
 ﻿
-using Cerverus.Features.Features.OrganizationalStructure.Camera;
+using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
 
 namespace BackOfficeUI.Infrastructure;
 

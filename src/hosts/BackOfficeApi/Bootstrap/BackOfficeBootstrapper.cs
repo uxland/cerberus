@@ -1,5 +1,4 @@
 ﻿using Cerverus.BackOffice.Persistence;
-using Cerverus.Features;
 
 namespace Cerverus.BackOffice.Api.Bootstrap;
 

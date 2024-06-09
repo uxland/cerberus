@@ -1,4 +1,4 @@
-﻿using Cerverus.Features.Features.Captures;
+﻿using Cerverus.BackOffice.Features.Captures;
 using Cerverus.Maintenance.Features.Features.Analysis;
 using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
 using Cerverus.Maintenance.Features.Features.Issues;

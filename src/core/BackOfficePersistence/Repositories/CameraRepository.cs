@@ -1,6 +1,6 @@
 
+using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerverus.Core.MartenPersistence.Repositories;
-using Cerverus.Features.Features.OrganizationalStructure.Camera;
 using Marten;
 using Marten.Events.Aggregation;
 

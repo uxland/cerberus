@@ -40,9 +40,9 @@ namespace Cerverus.Features.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Load location hierarchy from file", "As a system admin\r\nI want to be able to define a hiearchy location in an spreed s" +
-                    "heet and push it to the system to create the hierarcy\r\nSo I can easily setup the" +
-                    " system", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Load location hierarchy from file", "As a system admin\nI want to be able to define a hiearchy location in an spreed sh" +
+                    "eet and push it to the system to create the hierarcy\nSo I can easily setup the s" +
+                    "ystem", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         

@@ -1,4 +1,4 @@
-﻿using Cerverus.Features.Features.Captures.CaptureSnapshots;
+﻿using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
 
 namespace Cerverus.BackOffice.Api.Bootstrap;
 

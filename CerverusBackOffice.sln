@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "features", "features", "{15
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "features", "features", "{D57D5F5D-55AF-41A6-9107-68BBC3731EDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CerverusFeatures", "src\features\CerverusFeatures\CerverusFeatures.csproj", "{247B8E71-2AB0-4501-B72D-69ACF212A5AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CerverusBackOffice", "src\features\CerverusBackOffice\CerverusBackOffice.csproj", "{247B8E71-2AB0-4501-B72D-69ACF212A5AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hosts", "hosts", "{FF8C48D3-A239-4659-A1B9-404C078C0B53}"
 EndProject

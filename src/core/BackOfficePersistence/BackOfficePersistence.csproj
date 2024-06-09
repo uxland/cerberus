@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\features\CerverusFeatures\CerverusFeatures.csproj" />
+      <ProjectReference Include="..\..\features\CerverusBackOffice\CerverusBackOffice.csproj" />
       <ProjectReference Include="..\DomainCore\DomainCore.csproj" />
       <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj" />
     </ItemGroup>

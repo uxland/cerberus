@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\features\CerverusFeatures\CerverusFeatures.csproj" />
+      <ProjectReference Include="..\..\features\CerverusBackOffice\CerverusBackOffice.csproj" />
     </ItemGroup>
 
 </Project>

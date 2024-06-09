@@ -1,4 +1,4 @@
-﻿using Cerverus.Features.Features.OrganizationalStructure.Camera;
+﻿using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerverus.Maintenance.Features.Features.Issues;
 using Cerverus.Maintenance.Features.Features.Issues.GetDetail;
 using Marten;

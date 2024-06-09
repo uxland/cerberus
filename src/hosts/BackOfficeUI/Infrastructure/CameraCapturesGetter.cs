@@ -1,4 +1,4 @@
-using Cerverus.Features.Features.Captures;
+using Cerverus.BackOffice.Features.Captures;
 
 namespace BackOfficeUI.Infrastructure;
 
