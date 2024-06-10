@@ -1,12 +1,10 @@
-using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
-using Cerverus.Core.XabeFFMpegClient;
-using Cerverus.IntegrationTest.Utilities.Logger;
+using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
+using Cerberus.IntegrationTest.Utilities.Logger;
 using Lamar;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Xunit.Abstractions;
 
-namespace XabeFFMegClient.Tests;
+namespace Cerberus.Core.XabeFFMpegClient;
 
 public class XabeFfMpegClientTests
 {

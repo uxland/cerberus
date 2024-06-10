@@ -1,0 +1,41 @@
+﻿@page "/"
+@using System.IO
+@rendermode InteractiveServer
+@using Blazorise
+@using Cerberus.UI.Infrastructure
+@inject  LocationStructureUploader locationStructureUploader
+@inject LocationStructureNotificationsService locationStructureNotificationsService
+<PageTitle>Cerverus Backoffice</PageTitle>
+
+<h1>Welcome to Cerverus</h1>
+
+Upload location structure
+<Field>
+    <FilePicker @ref="filePicker" Multiple Upload="OnFileUpload" ShowMode="FilePickerShowMode.List" AutoReset="true" />
+</Field>
+
+@code {
+    
+    private FilePicker filePicker;
+    private async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        try
+        {
+            using var result = new MemoryStream();
+            await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            await locationStructureUploader.UploadLocationStructure( result.ToArray(), e.File.Name );
+            filePicker?.Clear();
+            locationStructureNotificationsService.NotifyStructureChanged();
+
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+
+}

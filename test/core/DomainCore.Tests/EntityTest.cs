@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace Cerverus.Core.Domain;
+namespace Cerberus.Core.Domain;
 
 public class EntityTest
 {

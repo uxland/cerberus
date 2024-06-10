@@ -1,7 +1,7 @@
-﻿using Cerverus.Core.Domain;
+﻿using Cerberus.Core.Domain;
 using Marten;
 
-namespace Cerverus.Core.MartenPersistence.Repositories;
+namespace Cerberus.Core.MartenPersistence.Repositories;
 
 public class GenericEventSourcingRepository(IDocumentSession session): IGenericRepository
 {

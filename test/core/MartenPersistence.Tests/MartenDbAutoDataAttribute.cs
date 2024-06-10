@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
-using Cerverus.IntegrationTest.Utilities.TestContainer.Containers;
+using Cerberus.IntegrationTest.Utilities.TestContainer.Containers;
 
-namespace Cerverus.Core.MartenPersistence;
+namespace Cerberus.Core.MartenPersistence;
 
 public class MartenDbAutoDataAttribute()
     : AutoDataAttribute(() => new Fixture().Customize(new PostgresContainerFixture()))

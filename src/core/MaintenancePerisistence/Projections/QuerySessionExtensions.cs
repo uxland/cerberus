@@ -1,9 +1,9 @@
-﻿using Cerverus.BackOffice.Features.OrganizationalStructure;
-using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
-using Cerverus.BackOffice.Features.OrganizationalStructure.Location;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 using Marten;
 
-namespace Cerverus.Maintenance.Persistence.Projections;
+namespace Cerberus.Maintenance.Persistence.Projections;
 
 internal static class QuerySessionExtensions
 {

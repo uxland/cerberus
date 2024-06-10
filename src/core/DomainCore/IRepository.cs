@@ -1,6 +1,6 @@
-using Cerverus.Core.Domain.Errors;
+using Cerberus.Core.Domain.Errors;
 
-namespace Cerverus.Core.Domain;
+namespace Cerberus.Core.Domain;
 
 public interface IRepository<TAggregateRoot>: IRepositoryBase<TAggregateRoot> where TAggregateRoot : AggregateRoot
 {

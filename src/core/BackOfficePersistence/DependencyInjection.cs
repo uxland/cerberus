@@ -1,17 +1,16 @@
-﻿using Cerverus.BackOffice.Features.Captures;
-using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
-using Cerverus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
-using Cerverus.BackOffice.Features.OrganizationalStructure.Location;
-using Cerverus.BackOffice.Persistence.Projections;
-using Cerverus.BackOffice.Persistence.QueryProviders;
-using Cerverus.BackOffice.Persistence.Repositories;
-using Cerverus.Core.Domain;
-using Cerverus.Core.MartenPersistence;
+﻿using Cerberus.BackOffice.Features.Captures;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
+using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
+using Cerberus.BackOffice.Persistence.Projections;
+using Cerberus.BackOffice.Persistence.QueryProviders;
+using Cerberus.BackOffice.Persistence.Repositories;
+using Cerberus.Core.Domain;
 using Marten;
 using Marten.Events.Projections;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cerverus.BackOffice.Persistence;
+namespace Cerberus.BackOffice.Persistence;
 
 public static class DependencyInjection
 {

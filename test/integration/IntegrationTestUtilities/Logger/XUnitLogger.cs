@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace Cerverus.IntegrationTest.Utilities.Logger;
+namespace Cerberus.IntegrationTest.Utilities.Logger;
 
 public sealed class XUnitLogger<T>(TestOutputHelperAccessor testOutputHelper, LoggerExternalScopeProvider scopeProvider)
     : XUnitLogger(testOutputHelper, scopeProvider, typeof(T).FullName!), ILogger<T>;

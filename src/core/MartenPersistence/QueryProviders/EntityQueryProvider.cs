@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
-using Cerverus.Core.Domain;
+using Cerberus.Core.Domain;
 using Marten;
 
-namespace Cerverus.Core.MartenPersistence.QueryProviders;
+namespace Cerberus.Core.MartenPersistence.QueryProviders;
 
 public abstract class EntityQueryProvider<TEntity>(IQuerySession session): IEntityQueryProvider<TEntity> where TEntity : class, IEntity
 {

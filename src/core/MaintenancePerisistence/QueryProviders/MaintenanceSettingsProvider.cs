@@ -1,7 +1,7 @@
-﻿using Cerverus.Maintenance.Features.Features.MaintenanceChecks;
-using Cerverus.Maintenance.Features.Features.Settings;
+﻿using Cerberus.Maintenance.Features.Features.MaintenanceChecks;
+using Cerberus.Maintenance.Features.Features.Settings;
 
-namespace Cerverus.Maintenance.Persistence.QueryProviders;
+namespace Cerberus.Maintenance.Persistence.QueryProviders;
 
 public class MaintenanceSettingsProvider: IMaintenanceSettingsProvider
 {

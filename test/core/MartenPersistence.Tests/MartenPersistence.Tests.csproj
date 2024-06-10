@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Cerverus.Core.MartenPersistence</RootNamespace>
+        <RootNamespace>Cerberus.Core.MartenPersistence</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

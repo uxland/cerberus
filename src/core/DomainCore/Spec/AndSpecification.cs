@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Cerverus.Core.Domain.Spec;
+namespace Cerberus.Core.Domain.Spec;
 
 public class AndSpecification<T>(Specification<T> left, Specification<T> right) : Specification<T>
 {

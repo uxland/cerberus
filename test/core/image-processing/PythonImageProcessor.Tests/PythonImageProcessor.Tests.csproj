@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Cerverus.Core.PythonImageProcessor;</RootNamespace>
+        <RootNamespace>Cerberus.Core.PythonImageProcessor;</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 

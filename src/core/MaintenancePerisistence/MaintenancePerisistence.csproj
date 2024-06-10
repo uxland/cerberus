@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Cerverus.Maintenance.Persistence</RootNamespace>
+        <RootNamespace>Cerberus.Maintenance.Persistence</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\features\CerverusMaintenance\CerverusMaintenance.csproj" />
+      <ProjectReference Include="..\..\features\CerberusMaintenance\CerberusMaintenance.csproj" />
       <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj" />
     </ItemGroup>
 

@@ -2,8 +2,8 @@
   postgres-local:
     image: postgres:16
     environment:
-      POSTGRES_USER: cerverus
-      POSTGRES_PASSWORD: cerverus
-      POSTGRES_DB: cerverus
+      POSTGRES_USER: cerberus
+      POSTGRES_PASSWORD: cerberus
+      POSTGRES_DB: cerberus
     ports:
       - "5432:5432"

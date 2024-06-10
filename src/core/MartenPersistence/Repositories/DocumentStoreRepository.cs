@@ -1,8 +1,7 @@
-﻿using Cerverus.Core.Domain;
-using Cerverus.Core.Domain.Errors;
+﻿using Cerberus.Core.Domain;
 using Marten;
 
-namespace Cerverus.Core.MartenPersistence.Repositories;
+namespace Cerberus.Core.MartenPersistence.Repositories;
 
 public abstract class DocumentStoreRepository<TAggregateRoot>(IDocumentSession session) : IRepository<TAggregateRoot>
     where TAggregateRoot : AggregateRoot

@@ -1,6 +1,6 @@
 ﻿using Xunit.Abstractions;
 
-namespace Cerverus.IntegrationTest.Utilities.Logger;
+namespace Cerberus.IntegrationTest.Utilities.Logger;
 
 public class TestOutputHelperAccessor
 {

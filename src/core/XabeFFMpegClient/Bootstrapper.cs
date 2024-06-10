@@ -1,9 +1,9 @@
-﻿using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
+﻿using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 using Microsoft.Extensions.DependencyInjection;
 using Xabe.FFmpeg;
 using Xabe.FFmpeg.Downloader;
 
-namespace Cerverus.Core.XabeFFMpegClient;
+namespace Cerberus.Core.XabeFFMpegClient;
 
 public static class Bootstrapper
 {
