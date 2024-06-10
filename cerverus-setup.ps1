@@ -1,4 +1,4 @@
-$repoUrl = "https://git.jetbrains.space/papanell/cerverus/cerverus.git"
+$repoUrl = "https://github.com/dpinart-uxland/cerverus"
 $branch  = "demo"
 $folderName = (Split-Path $repoUrl -Leaf).Replace(".git", "")
 $snapshotsFolder = "Snapshots"
