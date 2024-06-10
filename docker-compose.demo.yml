@@ -12,7 +12,7 @@
       context: .
       dockerfile: src/hosts/CerverusApi/Dockerfile
       args:
-        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}
     ports:
       - "5222:8080"
     environment:
@@ -29,7 +29,7 @@
       context: .
       dockerfile: src/hosts/CerverusUI/Dockerfile
       args:
-        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:- Release}
     ports:
       - "666:8080"
     environment:

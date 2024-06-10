@@ -9,7 +9,7 @@ namespace Cerverus.UI;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection UseBackOfficeUI(this IServiceCollection services)
+    public static IServiceCollection UseCerverusUi(this IServiceCollection services)
     {
         return services
             .UseBlazorise()

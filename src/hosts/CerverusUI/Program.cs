@@ -15,10 +15,10 @@ builder.Host.UseWolverine(opts =>
 
 builder.Services.AddDataProtection()
     .SetApplicationName("CerverusUI")
-    .PersistKeysToFileSystem(new DirectoryInfo(@"\\server\share\directory\"));
+    .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "keys")));
 
 builder.Services.AddHttpClient()
-   .UseBackOfficeUI();
+   .UseCerverusUi();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -45,7 +45,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/images"
 });
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();

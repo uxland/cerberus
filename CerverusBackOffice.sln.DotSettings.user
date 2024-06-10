@@ -2,15 +2,15 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\dpina\.nuget\packages\marten\7.16.0\lib\net8.0\Marten.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=231c5116_002Dc27d_002D413e_002D94af_002D02854f4c6f83/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;features&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;Project Location="C:\Users\dpina\RiderProjects\cerverus-backoffice" Presentation="&amp;lt;features&amp;gt;" /&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;xUnit::E2D39E3A-D420-4FA6-993C-E21DF431AF93::net9.0::Cerverus.Core.Domain.EntityTest&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::E2D39E3A-D420-4FA6-993C-E21DF431AF93::net9.0::Cerverus.Core.Domain.AggregateRootTest&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::27916EA6-17F6-48F0-BAB8-CDB7FA11FB89::net8.0::Cerverus.Core.RstpClient.TestRstpClient.RstpClientImplementationTest&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75::net8.0::XabeFFMegClient.Tests.XabeFfMpegClientTests.TestXabeFFMpegClient&lt;/TestId&gt;
-      &lt;TestId&gt;xUnit::F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75::net8.0::XabeFFMegClient.Tests.XabeFfMpegClientTests&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-  &lt;/Or&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=231c5116_002Dc27d_002D413e_002D94af_002D02854f4c6f83/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;features&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="C:\Users\dpina\RiderProjects\cerverus-backoffice" Presentation="&amp;lt;features&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::E2D39E3A-D420-4FA6-993C-E21DF431AF93::net9.0::Cerverus.Core.Domain.EntityTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::E2D39E3A-D420-4FA6-993C-E21DF431AF93::net9.0::Cerverus.Core.Domain.AggregateRootTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::27916EA6-17F6-48F0-BAB8-CDB7FA11FB89::net8.0::Cerverus.Core.RstpClient.TestRstpClient.RstpClientImplementationTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75::net8.0::XabeFFMegClient.Tests.XabeFfMpegClientTests.TestXabeFFMpegClient&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75::net8.0::XabeFFMegClient.Tests.XabeFfMpegClientTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
