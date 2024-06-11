@@ -1,4 +1,4 @@
-﻿namespace Cerverus.Core.Domain;
+﻿namespace Cerberus.Core.Domain;
 
 public record MessageMetadata(string Id, string CorrelationId, string CausationId)
 {

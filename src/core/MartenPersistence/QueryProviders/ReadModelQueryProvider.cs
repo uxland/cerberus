@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
-using Cerverus.Core.Domain;
-using Cerverus.Core.Domain.Spec;
+using Cerberus.Core.Domain;
+using Cerberus.Core.Domain.Spec;
 using Marten;
 
-namespace Cerverus.Core.MartenPersistence.QueryProviders;
+namespace Cerberus.Core.MartenPersistence.QueryProviders;
 
 public class ReadModelQueryProvider(IQuerySession querySession): IReadModelQueryProvider
 {

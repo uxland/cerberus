@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using Cerverus.Core.Domain.Spec;
+using Cerberus.Core.Domain.Spec;
 
-namespace Cerverus.Core.Domain;
+namespace Cerberus.Core.Domain;
 
 public interface IReadModelQueryProvider
 {

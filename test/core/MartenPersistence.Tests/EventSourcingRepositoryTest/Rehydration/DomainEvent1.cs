@@ -1,5 +1,5 @@
-using Cerverus.Core.Domain;
+using Cerberus.Core.Domain;
 
-namespace Cerverus.Core.MartenPersistence.EventSourcingRepositoryTest.Rehydration;
+namespace Cerberus.Core.MartenPersistence.EventSourcingRepositoryTest.Rehydration;
 
 public record DomainEvent1(string Message1) : IDomainEvent;

@@ -1,6 +1,6 @@
 ﻿using Xunit.Abstractions;
 
-namespace Cerverus.IntegrationTest.Utilities.Fixtures;
+namespace Cerberus.IntegrationTest.Utilities.Fixtures;
 
 public interface IHostFixture: IAsyncLifetime
 {

@@ -1,4 +1,4 @@
-﻿namespace Cerverus.Core.Domain;
+﻿namespace Cerberus.Core.Domain;
 
 public abstract class Entity: IEntity
 {

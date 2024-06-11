@@ -1,7 +1,7 @@
-﻿using Cerverus.Core.MartenPersistence.Repositories;
-using Cerverus.Maintenance.Features.Features.TrainingReviews;
+﻿using Cerberus.Core.MartenPersistence.Repositories;
+using Cerberus.Maintenance.Features.Features.TrainingReviews;
 using Marten;
 
-namespace Cerverus.Maintenance.Persistence.Repositories;
+namespace Cerberus.Maintenance.Persistence.Repositories;
 
 public class TrainingReviewRepository(IDocumentSession session): EventSourcingRepository<TrainingReview>(session);

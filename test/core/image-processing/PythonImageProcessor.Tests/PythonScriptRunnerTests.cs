@@ -1,4 +1,4 @@
-using Cerverus.Core.PythonImageProcessor;
+using Cerberus.Core.PythonImageProcessor;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PythonImageProcessor.Tests;

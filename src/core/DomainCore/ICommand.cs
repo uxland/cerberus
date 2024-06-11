@@ -1,5 +1,5 @@
 ﻿
-namespace Cerverus.Core.Domain;
+namespace Cerberus.Core.Domain;
 
 public interface IBaseCommand ;
 

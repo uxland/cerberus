@@ -1,0 +1,41 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  cerberus-back:
+    build:
+      context: "C:\\Users\\dpina\\RiderProjects\\cerberus"
+      dockerfile: "src/hosts/CerberusApi/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/CerberusApi.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "cerberusapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus\\src\\hosts\\CerberusApi:/app:rw"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus:/src:rw"
+    working_dir: "/app"
+  cerberus-ui:
+    build:
+      context: "C:\\Users\\dpina\\RiderProjects\\cerberus"
+      dockerfile: "src/hosts/CerberusUI/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/CerberusUI.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/CerberusUI.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "cerberusui:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\dpina\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus\\src\\hosts\\CerberusUI:/app:rw"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus:/src:rw"
+    working_dir: "/app"

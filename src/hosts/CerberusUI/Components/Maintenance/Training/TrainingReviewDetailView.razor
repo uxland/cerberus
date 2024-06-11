@@ -1,0 +1,20 @@
+﻿@using Blazorise
+@using Cerberus.Maintenance.Features.Features.TrainingReviews.GetTrainingReview
+@using Cerberus.UI.Infrastructure.Extensions
+<h3>TrainingReviewDetailView</h3>
+<Card>
+    <CardImage Source="@this.TrainingReview.CaptureInfo.GetImageUri()"></CardImage>
+    <CardHeader>
+        <CardTitle>@TrainingReview.Description</CardTitle>
+    </CardHeader>
+    <CardBody>
+        <CardText>@TrainingReview.CreatedAt.Format()</CardText>
+    </CardBody>
+</Card>
+@code {
+    [Parameter]
+    public TrainingReviewDetail TrainingReview { get; set; }
+    
+    
+
+}

@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Cerverus.Core.Domain</RootNamespace>
+        <RootNamespace>Cerberus.Core.Domain</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

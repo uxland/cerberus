@@ -1,15 +1,14 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
-using Cerverus.Maintenance.Features.Features.Analysis;
-using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
-using Cerverus.Maintenance.Features.Features.Analysis.Filters;
+using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
+using Cerberus.Maintenance.Features.Features.Analysis;
+using Cerberus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
+using Cerberus.Maintenance.Features.Features.Analysis.Filters;
 using Microsoft.Extensions.Options;
 using NodaTime;
 using Python.Runtime;
-using Spectre.Console;
 
-namespace Cerverus.Core.PythonImageProcessor;
+namespace Cerberus.Core.PythonImageProcessor;
 
 public class FilterExecutor: IFilterExecutor
 {

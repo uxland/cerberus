@@ -1,4 +1,4 @@
-﻿namespace Cerverus.Core.Domain.Errors;
+﻿namespace Cerberus.Core.Domain.Errors;
 
 public abstract class DomainError(string message)
 {

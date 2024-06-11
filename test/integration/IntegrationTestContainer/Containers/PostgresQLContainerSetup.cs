@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using Testcontainers.PostgreSql;
 
-namespace Cerverus.IntegrationTest.Utilities.TestContainer.Containers;
+namespace Cerberus.IntegrationTest.Utilities.TestContainer.Containers;
 
 public static class PostgresQLContainerSetup
 {

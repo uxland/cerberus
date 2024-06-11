@@ -1,6 +1,6 @@
 using Python.Runtime;
 
-namespace Cerverus.Core.PythonImageProcessor;
+namespace Cerberus.Core.PythonImageProcessor;
 
 public class PythonScriptRunner
 {

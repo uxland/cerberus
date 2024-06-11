@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
-using Cerverus.Core.Domain;
+using Cerberus.Core.Domain;
 using Marten;
 
-namespace Cerverus.Maintenance.Persistence.QueryProviders;
+namespace Cerberus.Maintenance.Persistence.QueryProviders;
 
 public class MaintenanceQueryProvider(IQuerySession querySession)
 {

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
-namespace Cerverus.MvcUtilities;
+namespace Cerberus.MvcUtilities;
 
 public class InputFormater<TInput> : TextInputFormatter
 {

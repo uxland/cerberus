@@ -1,0 +1,44 @@
+﻿@rendermode InteractiveServer
+@using Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation
+@using Cerberus.UI.Infrastructure.Extensions
+@using Cerberus.UI.Infrastructure.Maintenance.Training
+@using Wolverine
+@inject IMessageBus bus
+
+<ul>
+    @if(Items == null)
+    {
+        <li>Loading...</li>
+    }
+    else if(Items.Count == 0)
+    {
+        <li>No pending reviews</li>
+    }
+    else
+    {
+        @foreach (var item in Items)
+        {
+            <NavLink class="nav-link" href="@ItemUrl(item)">
+                <li>@item.Description - @item.CreatedAt.Format())</li>
+            </NavLink>
+            
+        }
+    }
+   
+</ul>
+
+@code {
+    [Parameter]
+    public string? Path { get; set; }
+    
+    public List<PendingTrainingReview> Items { get; set; }
+    
+    public string ItemUrl(PendingTrainingReview item) => $"training-reviews/{item.Id}";
+
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if(this.Path != null)
+            Items = await bus.InvokeAsync<List<PendingTrainingReview>>(new ListPendingTrainingReviews(Path));
+    }
+}

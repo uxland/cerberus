@@ -1,7 +1,7 @@
-﻿using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
-using Cerverus.BackOffice.Features.Captures.GetCameraThumbnails;
+﻿using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
+using Cerberus.BackOffice.Features.Captures.GetCameraThumbnails;
 
-namespace Cerverus.BackOffice.Persistence.Projections;
+namespace Cerberus.BackOffice.Persistence.Projections;
 
 public class CameraThumbnailsProjection : Marten.Events.Projections.MultiStreamProjection<CameraThumbnails, string>
 {

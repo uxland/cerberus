@@ -1,7 +1,7 @@
 ﻿using Marten;
 using Weasel.Core;
 
-namespace Cerverus.Core.MartenPersistence;
+namespace Cerberus.Core.MartenPersistence;
 
 public class MartenDbFixture : IDisposable
 {
