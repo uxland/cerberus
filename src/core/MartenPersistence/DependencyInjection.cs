@@ -1,6 +1,6 @@
-﻿using Cerverus.Core.Domain;
-using Cerverus.Core.MartenPersistence.QueryProviders;
-using Cerverus.Core.MartenPersistence.Repositories;
+﻿using Cerberus.Core.Domain;
+using Cerberus.Core.MartenPersistence.QueryProviders;
+using Cerberus.Core.MartenPersistence.Repositories;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Weasel.Core;
 using Wolverine.Marten;
 
-namespace Cerverus.Core.MartenPersistence;
+namespace Cerberus.Core.MartenPersistence;
 
 public static class DependencyInjection
 {

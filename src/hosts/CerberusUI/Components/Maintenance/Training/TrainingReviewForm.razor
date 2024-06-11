@@ -1,0 +1,52 @@
+﻿@using Blazorise
+@using Cerberus.Maintenance.Features.Features.TrainingReviews.GetTrainingReview
+@using Cerberus.UI.Infrastructure.Maintenance.Training
+@using Wolverine
+@inject IMessageBus MessageBus
+<Form>
+    <Heading Size="HeadingSize.Is2" Margin="Margin.Is3.FromBottom">
+        Review results
+    </Heading>
+    @foreach (var filterResultReview in this.Reviews)
+    {
+    <Field>
+        <Label>@filterResultReview.Key</Label>
+        <Icon Name="@GetIconName(filterResultReview.Key)"></Icon>
+        <Switch TValue="bool?" @bind-Checked="@filterResultReview.Value.Result">Agree?</Switch>
+    </Field>
+    }
+    <Field>
+        <Button Clicked="Submit" Color="Color.Primary">
+            Submit
+        </Button>
+    </Field>
+</Form>
+@code {
+    [Parameter]
+    public TrainingReviewDetail TrainingReview { get; set; }
+    
+    private Dictionary<string, FilterReview> Reviews = new();
+
+    private class FilterReview
+    {
+        public bool? Result { get; set; }
+        public string Comment { get; set; }
+    }
+
+    private IconName GetIconName(string key) => this.TrainingReview.OriginalResults[key].Result ? IconName.CheckSquare : IconName.ExclamationTriangle;
+    
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if(this.TrainingReview == null)
+            return;
+        foreach (var filterResultReview in TrainingReview.OriginalResults)
+        {
+            this.Reviews.Add(filterResultReview.Key, new FilterReview());
+        }
+    }
+    private Task Submit()
+    {
+        return this.MessageBus.InvokeAsync(new SubmitTrainingReview(this.TrainingReview!.Id, this.Reviews.ToDictionary(x=>x.Key, x=>x.Value!.Result.GetValueOrDefault())));
+    }
+}

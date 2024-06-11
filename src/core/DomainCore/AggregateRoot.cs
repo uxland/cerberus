@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Cerverus.Core.Domain;
+namespace Cerberus.Core.Domain;
 
 public abstract class AggregateRoot : Entity
 {

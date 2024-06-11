@@ -1,11 +1,11 @@
-﻿using Cerverus.BackOffice.Features.Captures;
-using Cerverus.BackOffice.Features.Captures.CaptureSnapshots;
+﻿using Cerberus.BackOffice.Features.Captures;
+using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NodaTime;
 using Xabe.FFmpeg;
 
-namespace Cerverus.Core.XabeFFMpegClient;
+namespace Cerberus.Core.XabeFFMpegClient;
 
 public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings, ILogger<SnapshotCapturer> logger): ISnapshotCapturer
 {

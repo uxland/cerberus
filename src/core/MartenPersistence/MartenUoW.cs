@@ -1,7 +1,7 @@
-﻿using Cerverus.Core.Domain;
+﻿using Cerberus.Core.Domain;
 using Marten;
 
-namespace Cerverus.Core.MartenPersistence;
+namespace Cerberus.Core.MartenPersistence;
 
 public class MartenUoW(IDocumentSession documentSession) : IUnitOfWork, IDisposable
 {

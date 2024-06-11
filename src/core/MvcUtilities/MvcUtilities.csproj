@@ -5,7 +5,7 @@
         <RuntimeFrameworkVersion>8.0.2</RuntimeFrameworkVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Cerverus.MvcUtilities</RootNamespace>
+        <RootNamespace>Cerberus.MvcUtilities</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

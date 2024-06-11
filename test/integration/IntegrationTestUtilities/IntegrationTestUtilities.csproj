@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Cerverus.IntegrationTest.Utilities</RootNamespace>
+        <RootNamespace>Cerberus.IntegrationTest.Utilities</RootNamespace>
         <AssemblyName>IntegrationTestUtilties</AssemblyName>
     </PropertyGroup>
 

@@ -1,8 +1,8 @@
-﻿using Cerverus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
-using Cerverus.Core.MartenPersistence.QueryProviders;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
+using Cerberus.Core.MartenPersistence.QueryProviders;
 using Marten;
 
-namespace Cerverus.BackOffice.Persistence.QueryProviders;
+namespace Cerberus.BackOffice.Persistence.QueryProviders;
 
 public class HierarchyItemEntityQueryProviders(IQuerySession querySession) : EntityQueryProvider<HierarchyItem>(querySession), IHierarchyItemEntityQueryProvider
 {

@@ -1,9 +1,9 @@
-﻿using Cerverus.Core.MartenPersistence.Repositories;
-using Cerverus.Maintenance.Features.Features.Analysis.Filters;
+﻿using Cerberus.Core.MartenPersistence.Repositories;
+using Cerberus.Maintenance.Features.Features.Analysis.Filters;
 using Marten;
 using Marten.Schema;
 
-namespace Cerverus.Maintenance.Persistence.Seeding;
+namespace Cerberus.Maintenance.Persistence.Seeding;
 
 public class ScriptsInitialData: IInitialData
 {

@@ -1,8 +1,8 @@
-﻿using Cerverus.BackOffice.Features.OrganizationalStructure.Camera;
-using Cerverus.Core.MartenPersistence.QueryProviders;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
+using Cerberus.Core.MartenPersistence.QueryProviders;
 using Marten;
 
-namespace Cerverus.BackOffice.Persistence.QueryProviders;
+namespace Cerberus.BackOffice.Persistence.QueryProviders;
 
 public class CameraEntityQueryProvider(IQuerySession session) : EntityQueryProvider<Camera>(session), ICameraEntityQueryProvider
 {

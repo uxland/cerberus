@@ -1,9 +1,9 @@
 ﻿using System.Runtime.InteropServices;
-using Cerverus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
+using Cerberus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
 using Microsoft.Extensions.DependencyInjection;
 using Python.Runtime;
 
-namespace Cerverus.Core.PythonImageProcessor;
+namespace Cerberus.Core.PythonImageProcessor;
 
 public static class Bootstrapper
 {

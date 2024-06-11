@@ -2,21 +2,21 @@
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_USER: cerverus
-      POSTGRES_PASSWORD: cerverus
-      POSTGRES_DB: cerverus
+      POSTGRES_USER: cerberus
+      POSTGRES_PASSWORD: cerberus
+      POSTGRES_DB: cerberus
     ports:
       - "7654:5432"
-  cerverus-back:
+  cerberus-back:
     build:
       context: .
-      dockerfile: src/hosts/CerverusApi/Dockerfile
+      dockerfile: src/hosts/CerberusApi/Dockerfile
       args:
         - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}
     ports:
       - "5222:8080"
     environment:
-      Backends__PostgresQL__Marten: "Host=postgres;Port=5432;Database=cerverus;Username=cerverus;Password=cerverus;Application Name=Cerverus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+      Backends__PostgresQL__Marten: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
       SnaphotCaptures__FolderRoot: "/app/Snapshots"
     depends_on:
       - postgres
@@ -24,20 +24,20 @@
       - postgres
     volumes:
       - snapshots_volume:/app/Snapshots
-  cerverus-ui:
+  cerberus-ui:
     build:
       context: .
-      dockerfile: src/hosts/CerverusUI/Dockerfile
+      dockerfile: src/hosts/CerberusUI/Dockerfile
       args:
         - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:- Release}
     ports:
       - "666:8080"
     environment:
-      Backend__Url: "http://cerverus-back:8080/api"
+      Backend__Url: "http://cerberus-back:8080/api"
       SnaphotCaptures__FolderRoot: "/app/Snapshots"
 
     depends_on:
-      - cerverus-back
+      - cerberus-back
     volumes:
       - snapshots_volume:/app/Snapshots
 volumes:

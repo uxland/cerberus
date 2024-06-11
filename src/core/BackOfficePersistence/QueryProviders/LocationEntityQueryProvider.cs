@@ -1,7 +1,7 @@
-using Cerverus.BackOffice.Features.OrganizationalStructure.Location;
-using Cerverus.Core.MartenPersistence.QueryProviders;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
+using Cerberus.Core.MartenPersistence.QueryProviders;
 using Marten;
 
-namespace Cerverus.BackOffice.Persistence.QueryProviders;
+namespace Cerberus.BackOffice.Persistence.QueryProviders;
 
 public class LocationEntityQueryProvider(IQuerySession session): EntityQueryProvider<Location>(session);

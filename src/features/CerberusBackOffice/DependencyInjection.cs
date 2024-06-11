@@ -1,0 +1,36 @@
+﻿using Cerberus.BackOffice.Features.Captures;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
+using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
+using Cerberus.MvcUtilities;
+using Microsoft.Extensions.DependencyInjection;
+using Wolverine.Attributes;
+
+[assembly: WolverineModule]
+
+namespace Cerberus.BackOffice;
+
+
+public static class DependencyInjection
+{
+    public static IServiceCollection UseCerberusBackOfficeFeatures(this IServiceCollection services)
+    {
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        return services
+            .UseSharedOrganizationStructure()
+            .UseCaptureFeatures();
+    }
+    
+    public static IMvcBuilder AddCerberusBackOfficeFeatures(this IMvcBuilder builder)
+    {
+        builder.AddMvcOptions(options =>
+            {
+                options.OutputFormatters.Add(new OutputFormatter<Camera>(Features.OrganizationalStructure.Camera.GetCameraDetail.CamerasController.ProducesMediaType));
+                options.OutputFormatters.Add(new OutputFormatter<IEnumerable<HierarchyItem>>(Features.OrganizationalStructure.HierarchyItems.GetAll.LocationsController.ProducesMediaType));
+            }
+        );
+        return builder.AddApplicationPart(typeof(DependencyInjection).Assembly);
+    }
+}
+
+

@@ -1,8 +1,8 @@
-﻿using Cerverus.BackOffice.Features.Captures;
-using Cerverus.Core.MartenPersistence.QueryProviders;
+﻿using Cerberus.BackOffice.Features.Captures;
+using Cerberus.Core.MartenPersistence.QueryProviders;
 using Marten;
 
-namespace Cerverus.BackOffice.Persistence.QueryProviders;
+namespace Cerberus.BackOffice.Persistence.QueryProviders;
 
 public class CaptureEntityQueryProvider(IQuerySession session) : EntityQueryProvider<Capture>(session), ICaptureQueryProvider
 {

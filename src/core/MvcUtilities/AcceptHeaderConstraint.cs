@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
-namespace Cerverus.MvcUtilities;
+namespace Cerberus.MvcUtilities;
 
 public class AcceptHeaderConstraint(params string[] mediaTypes) : IActionConstraint
 {
