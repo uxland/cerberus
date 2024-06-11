@@ -6,7 +6,7 @@ Back office backend to manage locations, cameras, filters...
 
 Download links:
 
-SSH clone URL: ssh://git@github.com:uxland/cerberus.git
+SSH clone URL: ssh: git@github.com:uxland/cerberus.git
 
 HTTPS clone URL: https://github.com/uxland/cerberus.git
 
