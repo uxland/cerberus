@@ -13,7 +13,7 @@ public record CameraCreated(
     ) : IDomainEvent;
 
 
-public record class CameraUpdated(
+public record CameraUpdated(
     string ParentId,
     string Description,
     CameraAdminSettings AdminSettings,
@@ -21,8 +21,14 @@ public record class CameraUpdated(
     string Path
     ): IDomainEvent;
     
-public record class CameraLocationChanged(
-    string previousLocationId,
-    string newLocationId,
+public record CameraLocationChanged(
+    string PreviousLocationId,
+    string NewLocationId,
     string Path
     ): IDomainEvent;
+
+public record CameraRecurrencePatternChanged(
+    string CameraId,
+    string PreviousPattern,
+    string NewPattern
+    ): IDomainEvent; 

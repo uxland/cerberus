@@ -22,7 +22,7 @@ public record HierarchyItem(
     public HierarchyItem Apply(CameraLocationChanged cameraLocationChanged) =>
         this with
         {
-            ParentId = cameraLocationChanged.newLocationId,
+            ParentId = cameraLocationChanged.NewLocationId,
             Path = cameraLocationChanged.Path
         };
     

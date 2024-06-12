@@ -50,7 +50,7 @@ public partial class Camera :
 
     public void Apply(CameraLocationChanged @event)
     {
-        this.ParentId = @event.newLocationId;
+        this.ParentId = @event.NewLocationId;
         this.Path = @event.Path;
     }
 }

@@ -4,7 +4,7 @@ using Cerberus.Core.Domain;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 
-public class Handler(IRepository<OrganizationalStructure.Camera.Camera> cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter)
+public class Handler(IRepository<Camera> cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter)
 {
     public async Task Handle(SetupCameraCommand request, CancellationToken cancellationToken)
     {
@@ -21,11 +21,11 @@ public class Handler(IRepository<OrganizationalStructure.Camera.Camera> cameraRe
 
     private Task CreateCamera(SetupCameraCommand setupCamera, string path)
     {
-        var camera = new OrganizationalStructure.Camera.Camera(setupCamera, path);
+        var camera = new Camera(setupCamera, path);
         return cameraRepository.Create(camera);
     }
     
-    private Task UpdateCamera(OrganizationalStructure.Camera.Camera camera, SetupCameraCommand setupCamera, string path)
+    private Task UpdateCamera(Camera camera, SetupCameraCommand setupCamera, string path)
     {
         camera.Handle(setupCamera, path);
         return cameraRepository.Save(camera);
