@@ -6,7 +6,8 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 public partial class Camera :
     IDomainEventHandler<CameraUpdated>,
     IDomainEventHandler<CameraCreated>,
-    IDomainEventHandler<CameraLocationChanged>
+    IDomainEventHandler<CameraLocationChanged>,
+    IDomainEventHandler<CameraRecurrencePatternChanged>
 {
     public Camera(SetupCameraCommand command, string path)
     {
@@ -27,10 +28,23 @@ public partial class Camera :
             setupCamera.AdminSettings, setupCamera.FunctionalSettings);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
-        if(setupCamera.ParentId != this.ParentId)
-            this.ApplyUncommittedEvent(new CameraLocationChanged(this.ParentId, setupCamera.ParentId, path));
+        this.HandleLocationChange(setupCamera, path);
+        this.HandleRecurrencePatternChange(setupCamera);
         this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path));
     }
+    
+    private void HandleLocationChange(SetupCameraCommand setupCamera, string path)
+    {
+        if(setupCamera.ParentId != this.ParentId)
+            this.ApplyUncommittedEvent(new CameraLocationChanged(this.ParentId, setupCamera.ParentId, path));
+    }
+    
+    private void HandleRecurrencePatternChange(SetupCameraCommand setupCamera)
+    {
+        if(this.AdminSettings.CaptureRecurrencePattern != setupCamera.AdminSettings?.CaptureRecurrencePattern)
+            this.ApplyUncommittedEvent(new CameraRecurrencePatternChanged(setupCamera.Id, this.AdminSettings.CaptureRecurrencePattern, setupCamera.AdminSettings?.CaptureRecurrencePattern ?? string.Empty));
+    }
+    
 
     public void Apply(CameraUpdated @event)
     {
@@ -40,7 +54,7 @@ public partial class Camera :
 
     public void Apply(CameraCreated @event)
     {
-        this.Id = @event.Id;
+        this.Id = @event.CameraId;
         this.ParentId = @event.ParentId;
         this.Description = @event.Description;
         this.AdminSettings = @event.AdminSettings;
@@ -52,5 +66,10 @@ public partial class Camera :
     {
         this.ParentId = @event.NewLocationId;
         this.Path = @event.Path;
+    }
+
+    public void Apply(CameraRecurrencePatternChanged @event)
+    {
+        this.AdminSettings = this.AdminSettings with { CaptureRecurrencePattern = @event.NewPattern };
     }
 }

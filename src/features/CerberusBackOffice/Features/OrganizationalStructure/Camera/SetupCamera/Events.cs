@@ -4,7 +4,7 @@ using Cerberus.Core.Domain;
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 
 public record CameraCreated(
-    string Id,
+    string CameraId,
     string ParentId,
     string Description,
     CameraAdminSettings AdminSettings,

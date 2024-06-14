@@ -67,6 +67,11 @@ public abstract class AggregateRoot : Entity
     {
         return _uncommittedEvents.AsReadOnly();
     }
+    
+    public T? GeFirstUncommittedEventOfType<T>() where T : IDomainEvent
+    {
+        return _uncommittedEvents.OfType<T>().FirstOrDefault();
+    }
 
     private void ApplyEventInner(IDomainEvent @event)
     {

@@ -17,7 +17,7 @@ public record HierarchyItem(
         new HierarchyItem(locationCreated.Id, locationCreated.ParentId, locationCreated.Description, locationCreated.Path, HierarchicalItemType.Location);
     
     public static HierarchyItem Create(CameraCreated cameraCreated) =>
-        new HierarchyItem(cameraCreated.Id, cameraCreated.ParentId, cameraCreated.Description, cameraCreated.Path, HierarchicalItemType.Camera);
+        new HierarchyItem(cameraCreated.CameraId, cameraCreated.ParentId, cameraCreated.Description, cameraCreated.Path, HierarchicalItemType.Camera);
     
     public HierarchyItem Apply(CameraLocationChanged cameraLocationChanged) =>
         this with
