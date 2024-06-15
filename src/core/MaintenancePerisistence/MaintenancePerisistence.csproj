@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Marten" Version="7.16.0" />
+        <PackageReference Include="Marten" Version="7.16.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\features\CerberusMaintenance\CerberusMaintenance.csproj" />
-      <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj" />
+        <ProjectReference Include="..\..\features\CerberusMaintenance\CerberusMaintenance.csproj"/>
+        <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ public static class Handler
     {
         var trainingReview = await repository.RehydrateOrThrow(command.TrainingReviewId);
         var result = trainingReview.Fulfill(command.Reviews, string.Empty);
-        await repository.Save(trainingReview);
+        repository.Save(trainingReview);
         return result;
     }
 }

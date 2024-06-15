@@ -4,9 +4,9 @@ namespace Cerberus.Maintenance.Features.Features.Issues;
 
 public static class CreateIssueHandler
 {
-    public static Task Handle(CreateIssue createIssue, IRepository<MaintenanceIssue> repository)
+    public static void Handle(CreateIssue createIssue, IRepository<MaintenanceIssue> repository)
     {
         var issue = new MaintenanceIssue(createIssue);
-        return repository.Create(issue);
+        repository.Create(issue);
     }
 }

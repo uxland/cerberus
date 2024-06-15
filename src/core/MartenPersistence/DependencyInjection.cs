@@ -44,6 +44,7 @@ public static class DependencyInjection
             .AddAsyncDaemon(DaemonMode.HotCold);
         return services;
     }
+
     internal static StoreOptions SetupSerialization(this StoreOptions options)
     {
         options.UseSystemTextJsonForSerialization(

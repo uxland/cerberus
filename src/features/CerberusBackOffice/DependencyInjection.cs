@@ -3,6 +3,7 @@ using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.MvcUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
 
@@ -13,12 +14,12 @@ namespace Cerberus.BackOffice;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection UseCerberusBackOfficeFeatures(this IServiceCollection services)
+    public static IServiceCollection UseCerberusBackOfficeFeatures(this IServiceCollection services, IConfiguration configuration)
     {
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         return services
             .UseSharedOrganizationStructure()
-            .UseCaptureFeatures();
+            .UseCaptureFeatures(configuration);
     }
     
     public static IMvcBuilder AddCerberusBackOfficeFeatures(this IMvcBuilder builder)

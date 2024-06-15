@@ -38,7 +38,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
             .UseLogging()
             .BootstrapXabeFFMpegClient()
             .UseMartenPersistence(configuration, hosting)
-            .BootstrapBackOffice()
+            .BootstrapBackOffice(configuration)
             .BootstrapMaintenance();
     }
     

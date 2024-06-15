@@ -9,6 +9,6 @@ public static class StartIssueResolutionHandler
     {
         var issue = await repository.RehydrateOrThrow(startIssueResolution.IssueId);
         issue.Start(SystemClock.Instance.GetCurrentInstant(), "MaintenanceUser");
-        await repository.Save(issue);
+        repository.Save(issue);
     }
 }

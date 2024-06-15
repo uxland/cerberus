@@ -10,7 +10,7 @@ public class CapturesController(IMessageBus bus): ControllerBase
     [HttpPost("{locationId}")]
     public async Task<IActionResult> CaptureSnapshot(string locationId)
     {
-        await bus.InvokeAsync(new CaptureCameraSnapshots(locationId));
+        await bus.InvokeAsync(new CaptureLocationSnapshots(locationId));
         return Ok("Snapshot captured!");
     }
 }

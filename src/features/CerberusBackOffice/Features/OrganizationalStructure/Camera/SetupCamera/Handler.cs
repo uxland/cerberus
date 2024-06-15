@@ -17,22 +17,22 @@ public class Handler(IRepository<Camera> cameraRepository, IHierarchyItemPathPro
         var path = await pathProvider.GetPathAsync(request);
         var camera = await cameraRepository.Rehydrate(request.Id);
         if (camera == null)
-            camera = await CreateCamera(request, path);
+            camera = CreateCamera(request, path);
         else
-            await UpdateCamera(camera, request, path);
+            UpdateCamera(camera, request, path);
         return camera.GetUncommittedEvents();
     }
 
-    private async Task<Camera> CreateCamera(SetupCameraCommand setupCamera, string path)
+    private Camera CreateCamera(SetupCameraCommand setupCamera, string path)
     {
         var camera = new Camera(setupCamera, path);
-        await cameraRepository.Create(camera);
+        cameraRepository.Create(camera);
         return camera;
     }
     
-    private Task UpdateCamera(Camera camera, SetupCameraCommand setupCamera, string path)
+    private void UpdateCamera(Camera camera, SetupCameraCommand setupCamera, string path)
     {
         camera.Handle(setupCamera, path);
-        return cameraRepository.Save(camera);
+        cameraRepository.Save(camera);
     }
 }

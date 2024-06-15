@@ -1,5 +1,4 @@
 ﻿using Cerberus.Core.Domain;
-using Marten;
 
 namespace Cerberus.BackOffice.Features.Captures.Triggers;
 
@@ -15,13 +14,13 @@ public partial class CaptureTrigger: AggregateRoot,
     private void Enable()
     {
         if(!this.Enabled)
-            this.ApplyUncommittedEvent(new CaptureTriggerEnabled());
+            this.ApplyUncommittedEvent(new CaptureTriggerEnabled(this.RecurrencePattern));
     }
 
     private void Disable()
     {
         if (this.Enabled)
-            this.ApplyUncommittedEvent(new CaptureTriggerDisabled());
+            this.ApplyUncommittedEvent(new CaptureTriggerDisabled(this.RecurrencePattern));
     }
 
     public void Apply(CaptureTriggerEnabled @event)
@@ -35,5 +34,5 @@ public partial class CaptureTrigger: AggregateRoot,
     }
 }   
 
-public class CaptureTriggerEnabled : IDomainEvent;
-public class CaptureTriggerDisabled : IDomainEvent;
+public record CaptureTriggerEnabled(string RecurrencePattern) : IDomainEvent;
+public record CaptureTriggerDisabled(string RecurrencePattern) : IDomainEvent;

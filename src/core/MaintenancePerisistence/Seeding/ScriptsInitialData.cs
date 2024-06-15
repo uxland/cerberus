@@ -20,7 +20,7 @@ public class ScriptsInitialData: IInitialData
     {
         var state = await session.Events.FetchStreamStateAsync(command.Id);
         if (state == null)
-            await Handler.Handle(command, new GenericEventSourcingRepository(session));
+            Handler.Handle(command, new GenericEventSourcingRepository(session));
     }
     
     private static CreateFilter CreateBlurryFilter()

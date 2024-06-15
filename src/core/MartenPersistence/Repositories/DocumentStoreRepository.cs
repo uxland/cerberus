@@ -6,22 +6,18 @@ namespace Cerberus.Core.MartenPersistence.Repositories;
 public abstract class DocumentStoreRepository<TAggregateRoot>(IDocumentSession session) : IRepository<TAggregateRoot>
     where TAggregateRoot : AggregateRoot
 {
-    protected readonly IDocumentSession Session = session;
-
     public Task<TAggregateRoot?> Rehydrate(string id, long? version = null)
     {
-        return Session.LoadAsync<TAggregateRoot>(id);
+        return session.LoadAsync<TAggregateRoot>(id);
     }
 
-    public Task Save(TAggregateRoot aggregateRoot)
+    public void Save(TAggregateRoot aggregateRoot)
     {
-        Session.Store(aggregateRoot);
-        return Task.CompletedTask;
+        session.Store(aggregateRoot);
     }
 
-    public Task Create(TAggregateRoot aggregateRoot)
+    public void Create(TAggregateRoot aggregateRoot)
     {
-        return Save(aggregateRoot);
+        Save(aggregateRoot);
     }
-    
 }

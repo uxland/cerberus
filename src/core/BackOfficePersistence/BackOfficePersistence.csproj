@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\features\CerberusBackOffice\CerberusBackOffice.csproj" />
-      <ProjectReference Include="..\DomainCore\DomainCore.csproj" />
-      <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj" />
+        <ProjectReference Include="..\..\features\CerberusBackOffice\CerberusBackOffice.csproj"/>
+        <ProjectReference Include="..\DomainCore\DomainCore.csproj"/>
+        <ProjectReference Include="..\MartenPersistence\MartenPersistence.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Marten" Version="7.16.0" />
+        <PackageReference Include="Marten" Version="7.16.0"/>
     </ItemGroup>
 
 </Project>

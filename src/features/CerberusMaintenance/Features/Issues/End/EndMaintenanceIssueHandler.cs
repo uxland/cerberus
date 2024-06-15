@@ -9,7 +9,7 @@ public static class EndMaintenanceIssueHandler
     {
         var issue = await repository.RehydrateOrThrow(command.IssueId);
         var result = issue.End(SystemClock.Instance.GetCurrentInstant(), "MaintenanceUser", command);
-        await repository.Save(issue);
+        repository.Save(issue);
         return result;
     }
 }

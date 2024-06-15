@@ -11,10 +11,10 @@ public record FilterCreated(string Description, string Script, string By, Instan
 
 public static class Handler
 {
-    public static async Task Handle(CreateFilter createFilter, IGenericRepository repository)
+    public static void Handle(CreateFilter createFilter, IGenericRepository repository)
     {
         var filter = new Filter(createFilter, "user", SystemClock.Instance.GetCurrentInstant());
-        await repository.Create(filter);
+        repository.Create(filter);
     }
 }
 
