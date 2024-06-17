@@ -1,0 +1,49 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noConsoleLog": "off",
+        "noConfusingVoidType": "off",
+        "noAssignInExpressions": "warn",
+        "noExplicitAny": "warn",
+        "noImplicitAnyLet": "off",
+        "noAsyncPromiseExecutor": "warn"
+      },
+      "complexity": {
+        "noForEach": "warn",
+        "useArrowFunction": "warn"
+      },
+      "correctness": {
+        "noSwitchDeclarations": "warn",
+        "noUnsafeOptionalChaining": "warn"
+      },
+      "style": {
+        "useImportType": "off",
+        "noUselessElse": "warn",
+        "useDefaultParameterLast": "warn"
+      }
+    }
+  },
+  "files": {
+    "ignore": [
+      "node_modules/**",
+      ".vscode/**",
+      ".github/**"
+    ]
+  },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  }
+}

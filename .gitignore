@@ -6,3 +6,5 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 ./Snapshots/*.*
+node_modules/
+.vite
