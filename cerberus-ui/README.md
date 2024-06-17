@@ -10,4 +10,5 @@ Front APP to manage locations, cameras, filters...
 - Run application with `pnpm dev`
 
 ## Build
-Build the application with `pnpm build`
+- Build the application with `pnpm build`. A `dist` folder is created in root of cerberus-ui
+- Preview the build with `pnpm preview` and a local server is created serving builded app.

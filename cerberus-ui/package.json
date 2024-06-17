@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --filter @cerberus/app dev",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "build": "pnpm --filter @cerberus/app build",
+    "preview": "pnpm --filter @cerberus/app build",
     "repo:lint-files": "biome lint --apply --no-errors-on-unmatched --colors=force app core maintenance organizational-structure",
     "repo:check-files": "npx biome check --files-ignore-unknown=true --no-errors-on-unmatched --organize-imports-enabled=false --colors=force app core maintenance organizational-structure",
     "repo:format-files": "biome format --write --no-errors-on-unmatched --colors=force app core maintenance organizational-structure"
