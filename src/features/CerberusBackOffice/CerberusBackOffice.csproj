@@ -14,7 +14,6 @@
 
     <ItemGroup>
         <PackageReference Include="ExcelDataReader" Version="3.6.0"/>
-        <PackageReference Include="Hangfire" Version="1.8.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5"/>
         <PackageReference Include="NodaTime" Version="3.1.11"/>
         <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0"/>

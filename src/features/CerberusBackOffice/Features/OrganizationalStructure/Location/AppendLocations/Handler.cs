@@ -1,14 +1,12 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
-using Cerberus.BackOffice.Features.Shared;
 using Cerberus.Core.Domain;
 using Wolverine;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Location.AppendLocations;
 
-public sealed class Handler(IRepository<Location> locationRepository, IMessageBus bus, HierarchySetupCommandFactory commandFactory) :
-    IRepositoryHandlerMixin<Location>
+public sealed class Handler(HierarchySetupCommandFactory commandFactory, IMessageBus bus) 
 {
-    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken = default)
+    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken)
     {
         var sortedItems = request.Items.OrderBy(x => x, new AppendLocationCommandSorter(request.Items))
             .Select(commandFactory.Produce)
@@ -38,8 +36,7 @@ public sealed class Handler(IRepository<Location> locationRepository, IMessageBu
             return allItems.Any(x => x.Id == parent.ParentId);
         }
     }
-
-    public IRepositoryBase<Location> Repository => locationRepository;
+    
 }
 
 public sealed class SetupLocationHandler(

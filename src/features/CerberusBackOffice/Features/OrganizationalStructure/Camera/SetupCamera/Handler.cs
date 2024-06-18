@@ -1,6 +1,7 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.Core.Domain;
+using Wolverine;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 
@@ -20,7 +21,7 @@ public class Handler(IRepository<Camera> cameraRepository, IHierarchyItemPathPro
             camera = CreateCamera(request, path);
         else
             UpdateCamera(camera, request, path);
-        return camera.GetUncommittedEvents();
+        return camera.GetUncommittedEvents().Select(x => x.WithDeliveryOptions(new DeliveryOptions{GroupId = camera.AdminSettings.CaptureRecurrencePattern}));
     }
 
     private Camera CreateCamera(SetupCameraCommand setupCamera, string path)

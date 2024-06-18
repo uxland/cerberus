@@ -4,13 +4,15 @@ namespace Cerberus.BackOffice.Features.Captures.Triggers.Jobs;
 
 public static class Handler
 {
-    public static void Handle(CaptureTriggerEnabled captureTriggerEnabled, IScheduler scheduler)
+    public static void Handle(CaptureTriggerEnabled captureTriggerEnabled, ISchedulerFactory schedulerFactory)
     {
         var trigger = TriggerBuilder.Create()
             .WithIdentity(captureTriggerEnabled.RecurrencePattern)
             .ForJob(CaptureJob.JobKey)
-            .WithCronSchedule(captureTriggerEnabled.RecurrencePattern, x => x.WithMisfireHandlingInstructionFireAndProceed())
+            .WithCronSchedule(captureTriggerEnabled.RecurrencePattern, x => x.WithMisfireHandlingInstructionIgnoreMisfires())
             .Build();
+        var scheduler = schedulerFactory.GetScheduler().Result;
+       scheduler.ScheduleJob(trigger);
     }
 
     public static Task Handle(CaptureTriggerDisabled captureTriggerDisabled, IScheduler scheduler)

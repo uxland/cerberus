@@ -23,8 +23,8 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "cerberusapi:dev"
     ports:
-    - "127.0.0.1:57018:57100"
-    - "127.0.0.1:57218:57300"
+    - "127.0.0.1:57024:57100"
+    - "127.0.0.1:57224:57300"
     volumes:
     - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
     - "C:\\Users\\dpina\\RiderProjects\\cerberus-2\\src\\hosts\\CerberusApi:/app:rw"
@@ -33,7 +33,7 @@ services:
       Linux64:/opt/rider-debugger"
     - "C:\\Users\\dpina\\AppData\\Local\\Programs\\Rider\\bin:/etc/opt/rider-debugger/backend-log.xml"
     - "C:\\Users\\dpina\\AppData\\Local\\JetBrains\\Rider2024.1\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_6_14_22_28_17:/var/opt/rider-debugger:rw"
+      JetBrains.Debugger.Worker.2024_6_18_09_24_17:/var/opt/rider-debugger:rw"
     working_dir: "/app"
   cerberus-ui:
     build:
@@ -59,8 +59,8 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "cerberusui:dev"
     ports:
-    - "127.0.0.1:57019:57100"
-    - "127.0.0.1:57219:57300"
+    - "127.0.0.1:57025:57100"
+    - "127.0.0.1:57225:57300"
     volumes:
     - "C:\\Users\\dpina\\.nuget\\packages:/home/app/.nuget/packages"
     - "C:\\Users\\dpina\\RiderProjects\\cerberus-2\\src\\hosts\\CerberusUI:/app:rw"
@@ -69,5 +69,5 @@ services:
       Linux64:/opt/rider-debugger"
     - "C:\\Users\\dpina\\AppData\\Local\\Programs\\Rider\\bin:/etc/opt/rider-debugger/backend-log.xml"
     - "C:\\Users\\dpina\\AppData\\Local\\JetBrains\\Rider2024.1\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_6_14_22_28_17:/var/opt/rider-debugger:rw"
+      JetBrains.Debugger.Worker.2024_6_18_09_24_17:/var/opt/rider-debugger:rw"
     working_dir: "/app"

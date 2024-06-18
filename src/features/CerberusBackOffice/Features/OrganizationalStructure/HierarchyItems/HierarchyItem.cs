@@ -14,10 +14,10 @@ public record HierarchyItem(
 ): IEntity
 {
     public static HierarchyItem Create(LocationCreated locationCreated) =>
-        new HierarchyItem(locationCreated.Id, locationCreated.ParentId, locationCreated.Description, locationCreated.Path, HierarchicalItemType.Location);
+        new(locationCreated.Id, locationCreated.ParentId, locationCreated.Description, locationCreated.Path, HierarchicalItemType.Location);
     
     public static HierarchyItem Create(CameraCreated cameraCreated) =>
-        new HierarchyItem(cameraCreated.CameraId, cameraCreated.ParentId, cameraCreated.Description, cameraCreated.Path, HierarchicalItemType.Camera);
+        new(cameraCreated.CameraId, cameraCreated.ParentId, cameraCreated.Description, cameraCreated.Path, HierarchicalItemType.Camera);
     
     public HierarchyItem Apply(CameraLocationChanged cameraLocationChanged) =>
         this with

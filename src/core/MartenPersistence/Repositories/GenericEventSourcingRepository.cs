@@ -29,4 +29,5 @@ public class GenericEventSourcingRepository(IDocumentSession session) : IGeneric
     {
         session.Events.StartStream<TAggregateRoot>(aggregateRoot.Id, aggregateRoot.GetUncommittedEvents());
     }
+    
 }

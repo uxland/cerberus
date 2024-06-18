@@ -1,4 +1,5 @@
 ﻿using Cerberus.BackOffice.Features.Captures;
+using Cerberus.BackOffice.Features.Captures.Triggers;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
@@ -34,6 +35,7 @@ public static class DependencyInjection
         options.Projections.Snapshot<Location>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Camera>(SnapshotLifecycle.Inline);
         options.Projections.Snapshot<Capture>(SnapshotLifecycle.Inline);
+        options.Projections.Snapshot<CaptureTrigger>(SnapshotLifecycle.Inline);
         options.Projections.Add<HierarchyItemProjection>(ProjectionLifecycle.Inline);
         return options;
     }

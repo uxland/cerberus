@@ -3,16 +3,19 @@ using Cerberus.BackOffice.Features.Captures.Triggers.EjectCameras;
 using Cerberus.BackOffice.Features.Captures.Triggers.EnrollCameras;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerberus.Core.Domain;
+using Wolverine.Attributes;
 
 namespace Cerberus.BackOffice.Features.Captures.Triggers;
 
 public static class Handler
 {
+    [Transactional]
     public static CaptureTriggerEnabled? Handle(CameraCreated @event, IGenericRepository repository)
     {
         return EnrollCamera(@event.AdminSettings.CaptureRecurrencePattern, @event.CameraId, repository);
     }
     
+    [Transactional]
     public static IEnumerable<object?> Handle(CameraRecurrencePatternChanged @event, IGenericRepository repository)
     {
         var (cameraId, previousPattern, newPattern) = @event;

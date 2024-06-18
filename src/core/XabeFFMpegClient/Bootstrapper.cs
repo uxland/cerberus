@@ -15,8 +15,6 @@ public static class Bootstrapper
             FFmpeg.SetExecutablesPath(Environment.CurrentDirectory);
         }
 
-        // FFmpegDownloader.GetLatestVersion(FFmpegVersion.Official).ConfigureAwait(false).GetAwaiter().GetResult();
-        // FFmpeg.SetExecutablesPath(Environment.CurrentDirectory);
         return services.AddSingleton<ISnapshotCapturer, SnapshotCapturer>();
     }
 
