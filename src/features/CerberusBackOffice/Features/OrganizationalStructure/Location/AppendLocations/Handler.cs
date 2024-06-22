@@ -40,13 +40,13 @@ public sealed class Handler(HierarchySetupCommandFactory commandFactory, IMessag
 }
 
 public sealed class SetupLocationHandler(
-    IRepository<Location> locationRepository,
+    IGenericRepository locationRepository,
     IHierarchyItemPathProvider pathProvider)
 {
     public async Task Handle(SetupLocation request)
     {
         var path = await pathProvider.GetPathAsync(request);
-        var location = await locationRepository.Rehydrate(request.Id);
+        var location = await locationRepository.Rehydrate<Location>(request.Id);
         if (location == null)
             CreateLocation(request, path);
         else

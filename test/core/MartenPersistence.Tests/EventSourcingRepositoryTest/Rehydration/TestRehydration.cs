@@ -1,4 +1,5 @@
 ﻿using Cerberus.Core.Domain;
+using Cerberus.Core.MartenPersistence.Repositories;
 
 namespace Cerberus.Core.MartenPersistence.EventSourcingRepositoryTest.Rehydration;
 
@@ -11,9 +12,9 @@ public class TestRehydration
         return fixture.DocumentSession.SaveChangesAsync();
     }
 
-    private static IRepository<TestEventSourcingAggregate> CreateSute(MartenDbFixture fixture)
+    private static IGenericRepository CreateSute(MartenDbFixture fixture)
     {
-        return new TestEventSourcingAggregateRepository(fixture.DocumentSession);
+        return new GenericEventSourcingRepository(fixture.DocumentSession);
     }
 
 
@@ -28,7 +29,7 @@ public class TestRehydration
     {
         await SetupAggregateRoot(fixture, id, domainEvent1, domainEvent2, domainEvent3);
         var sut = CreateSute(fixture);
-        var actual = await sut.Rehydrate(id);
+        var actual = await sut.Rehydrate<TestEventSourcingAggregate>(id);
         actual!.Version.Should().Be(3);
         actual.Message1.Should().Be(domainEvent1.Message1);
         actual.Message2.Should().Be(domainEvent2.Message2);

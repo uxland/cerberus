@@ -2,23 +2,6 @@ using Cerberus.Core.Domain.Errors;
 
 namespace Cerberus.Core.Domain;
 
-public interface IRepository<TAggregateRoot> : IRepositoryBase<TAggregateRoot> where TAggregateRoot : AggregateRoot
-{
-    void Save(TAggregateRoot aggregateRoot);
-    void Create(TAggregateRoot aggregateRoot);
-
-    public Task<TAggregateRoot> RehydrateOrThrow(string id, long? version = null)
-    {
-        return Rehydrate(id, version)
-            .ContinueWith(t =>
-            {
-                if (t.Result == null)
-                    throw new EntityNotFoundException(typeof(TAggregateRoot), id);
-                return t.Result;
-            });
-    }
-}
-
 public interface IRepositoryBase<TEntity> where TEntity : IEntity
 {
     Task<TEntity?> Rehydrate(string id, long? version = null);

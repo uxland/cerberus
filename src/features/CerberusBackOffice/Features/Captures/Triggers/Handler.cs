@@ -3,19 +3,17 @@ using Cerberus.BackOffice.Features.Captures.Triggers.EjectCameras;
 using Cerberus.BackOffice.Features.Captures.Triggers.EnrollCameras;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerberus.Core.Domain;
-using Wolverine.Attributes;
 
 namespace Cerberus.BackOffice.Features.Captures.Triggers;
 
 public static class Handler
 {
-    [Transactional]
     public static CaptureTriggerEnabled? Handle(CameraCreated @event, IGenericRepository repository)
     {
-        return EnrollCamera(@event.AdminSettings.CaptureRecurrencePattern, @event.CameraId, repository);
+        var result = EnrollCamera(@event.AdminSettings.CaptureRecurrencePattern, @event.CameraId, repository);
+        return result;
     }
     
-    [Transactional]
     public static IEnumerable<object?> Handle(CameraRecurrencePatternChanged @event, IGenericRepository repository)
     {
         var (cameraId, previousPattern, newPattern) = @event;
@@ -28,7 +26,7 @@ public static class Handler
     {
         var trigger = repository.Rehydrate<CaptureTrigger>(recurrencePattern).ConfigureAwait(true).GetAwaiter().GetResult();
         trigger = trigger == null ? Create(recurrencePattern, cameraId, repository) : EnrollCamera(trigger, cameraId, repository);
-        return trigger!.GeFirstUncommittedEventOfType<CaptureTriggerEnabled>();
+        return trigger.GeFirstUncommittedEventOfType<CaptureTriggerEnabled>();
     }
     
     
@@ -39,7 +37,7 @@ public static class Handler
         return trigger;
     }
     
-    private static CaptureTrigger? EnrollCamera(CaptureTrigger trigger, string cameraId, IGenericRepository repository)
+    private static CaptureTrigger EnrollCamera(CaptureTrigger trigger, string cameraId, IGenericRepository repository)
     {
         trigger.Handle(new EnrollCamerasToTrigger(trigger.RecurrencePattern, [cameraId]));
         repository.Save(trigger);

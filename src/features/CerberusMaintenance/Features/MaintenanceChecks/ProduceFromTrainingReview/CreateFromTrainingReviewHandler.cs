@@ -4,7 +4,7 @@ namespace Cerberus.Maintenance.Features.Features.MaintenanceChecks.ProduceFromTr
 
 public static class CreateFromTrainingReviewHandler
 {
-    public static void Handle(CreateMaintenanceCheckFromTrainingReview command,IRepository<MaintenanceChecks.MaintenanceCheck> repository)
+    public static void Handle(CreateMaintenanceCheckFromTrainingReview command,IGenericRepository repository)
     {
         var maintenanceCheck = new MaintenanceChecks.MaintenanceCheck(command);
         repository.Create(maintenanceCheck);

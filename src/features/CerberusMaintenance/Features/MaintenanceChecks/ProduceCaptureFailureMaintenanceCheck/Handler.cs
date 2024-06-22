@@ -4,7 +4,7 @@ namespace Cerberus.Maintenance.Features.Features.MaintenanceChecks.ProduceCaptur
 
 public static class ProduceCaptureFailureHandler
 {
-    public static void Handle(CreateFailureMaintenanceCheck command, IRepository<MaintenanceChecks.MaintenanceCheck> repository)
+    public static void Handle(CreateFailureMaintenanceCheck command, IGenericRepository repository)
     {
         var maintenanceCheck = new MaintenanceCheck(command);
         repository.Create(maintenanceCheck);

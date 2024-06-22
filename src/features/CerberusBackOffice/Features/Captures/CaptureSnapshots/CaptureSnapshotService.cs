@@ -4,7 +4,7 @@ using NodaTime;
 
 namespace Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 
-public class CaptureSnapshotService(IRepository<Captures.Capture> captureRepository, ISnapshotCapturer snapshotCapturer)
+public class CaptureSnapshotService(IGenericRepository captureRepository, ISnapshotCapturer snapshotCapturer)
 {
     public async Task<Capture> CaptureSnapshot(Camera camera)
     {
@@ -12,7 +12,6 @@ public class CaptureSnapshotService(IRepository<Captures.Capture> captureReposit
         var settings = new CaptureSettings(camera.Id, camera.Path, SystemClock.Instance.GetCurrentInstant(), error);
         if (error == null)
         {
-            //var (snapshotPath, thumbnailPath) = SaveSnapshot(snapshot!, camera);
             settings = settings with
             {
                 SnapshotPath = snapshotPath,

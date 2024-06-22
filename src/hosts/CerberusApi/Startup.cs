@@ -33,13 +33,14 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
                         .AllowAnyMethod();
                 });
         });
-        services
+        var martenConfiguration = services
             .SetupConfigurations(configuration)
             .UseLogging()
             .BootstrapXabeFFMpegClient()
-            .UseMartenPersistence(configuration, hosting)
-            .BootstrapBackOffice(configuration)
-            .BootstrapMaintenance();
+            .UseMartenPersistence(configuration, hosting);
+        services
+            .BootstrapBackOffice(configuration, martenConfiguration)
+            .BootstrapMaintenance(martenConfiguration);
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
