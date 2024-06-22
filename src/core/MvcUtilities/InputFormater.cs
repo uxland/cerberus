@@ -20,7 +20,8 @@ public class InputFormater<TInput> : TextInputFormatter
         return type == typeof(TInput);
     }
 
-    public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+    public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context,
+        Encoding encoding)
     {
         var request = context.HttpContext.Request;
         using var reader = new StreamReader(request.Body, encoding);

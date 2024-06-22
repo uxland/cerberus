@@ -4,27 +4,23 @@ namespace Cerberus.Core.Domain;
 
 public abstract class Enumeration : IComparable
 {
-    private readonly int _value;
-    private readonly string _displayName;
-
     protected Enumeration()
     {
     }
 
     protected Enumeration(int value, string displayName)
     {
-        _value = value;
-        _displayName = displayName;
+        Value = value;
+        DisplayName = displayName;
     }
 
-    public int Value
-    {
-        get { return _value; }
-    }
+    public int Value { get; }
 
-    public string DisplayName
+    public string DisplayName { get; }
+
+    public int CompareTo(object other)
     {
-        get { return _displayName; }
+        return Value.CompareTo(((Enumeration)other).Value);
     }
 
     public override string ToString()
@@ -42,10 +38,7 @@ public abstract class Enumeration : IComparable
             var instance = new T();
             var locatedValue = info.GetValue(instance) as T;
 
-            if (locatedValue != null)
-            {
-                yield return locatedValue;
-            }
+            if (locatedValue != null) yield return locatedValue;
         }
     }
 
@@ -53,20 +46,17 @@ public abstract class Enumeration : IComparable
     {
         var otherValue = obj as Enumeration;
 
-        if (otherValue == null)
-        {
-            return false;
-        }
+        if (otherValue == null) return false;
 
         var typeMatches = GetType().Equals(obj.GetType());
-        var valueMatches = _value.Equals(otherValue.Value);
+        var valueMatches = Value.Equals(otherValue.Value);
 
         return typeMatches && valueMatches;
     }
 
     public override int GetHashCode()
     {
-        return _value.GetHashCode();
+        return Value.GetHashCode();
     }
 
     public static int AbsoluteDifference(Enumeration firstValue, Enumeration secondValue)
@@ -98,10 +88,5 @@ public abstract class Enumeration : IComparable
         }
 
         return matchingItem;
-    }
-
-    public int CompareTo(object other)
-    {
-        return Value.CompareTo(((Enumeration)other).Value);
     }
 }

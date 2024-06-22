@@ -1,10 +1,11 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.Core.Domain;
+using Wolverine;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 
-public class Handler(IRepository<OrganizationalStructure.Camera.Camera> cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter)
+public class Handler(IGenericRepository cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter)
 {
     public async Task Handle(SetupCameraCommand request, CancellationToken cancellationToken)
     {
@@ -15,19 +16,22 @@ public class Handler(IRepository<OrganizationalStructure.Camera.Camera> cameraRe
             FunctionalSettings = settings.FunctionalSettings.Merge(request.FunctionalSettings)
         };
         var path = await pathProvider.GetPathAsync(request);
-        var camera = await cameraRepository.Rehydrate(request.Id);
-        await (camera == null ? CreateCamera(request, path) : UpdateCamera(camera, request, path));
+        var camera = await cameraRepository.Rehydrate<Camera>(request.Id);
+        if (camera == null)
+            CreateCamera(request, path);
+        else
+            UpdateCamera(camera, request, path);
     }
 
-    private Task CreateCamera(SetupCameraCommand setupCamera, string path)
+    private void CreateCamera(SetupCameraCommand setupCamera, string path)
     {
-        var camera = new OrganizationalStructure.Camera.Camera(setupCamera, path);
-        return cameraRepository.Create(camera);
+        var camera = new Camera(setupCamera, path);
+        cameraRepository.Create(camera);
     }
-    
-    private Task UpdateCamera(OrganizationalStructure.Camera.Camera camera, SetupCameraCommand setupCamera, string path)
+    private void UpdateCamera(Camera camera, SetupCameraCommand setupCamera, string path)
     {
         camera.Handle(setupCamera, path);
-        return cameraRepository.Save(camera);
+        cameraRepository.Save(camera);
     }
+    
 }

@@ -3,13 +3,15 @@ using Marten;
 
 namespace Cerberus.Core.MartenPersistence.Repositories;
 
-public class GenericEventSourcingRepository(IDocumentSession session): IGenericRepository
+public class GenericEventSourcingRepository(IDocumentSession session)
+    : IGenericRepository
 {
-    public async Task<TAggregateRoot?> Rehydrate<TAggregateRoot>(string id, long? version=null)
+
+    public async Task<TAggregateRoot?> Rehydrate<TAggregateRoot>(string id, long? version = null)
         where TAggregateRoot : AggregateRoot, new()
     {
         var events = await session.Events.FetchStreamAsync(id, version ?? 0);
-        if(events.Count == 0)
+        if (events.Count == 0)
             return null;
         var aggregate = new TAggregateRoot
         {
@@ -19,16 +21,15 @@ public class GenericEventSourcingRepository(IDocumentSession session): IGenericR
             aggregate.ApplyEvent((IDomainEvent)@event.Data);
         return aggregate;
     }
-    
-    public Task Save<TAggregateRoot>(TAggregateRoot aggregateRoot) where TAggregateRoot : AggregateRoot, new()
+
+    public void Save<TAggregateRoot>(TAggregateRoot aggregateRoot) where TAggregateRoot : AggregateRoot, new()
     {
         session.Events.Append(aggregateRoot.Id, aggregateRoot.GetUncommittedEvents());
-        return Task.CompletedTask;
     }
-    
-    public Task Create<TAggregateRoot>(TAggregateRoot aggregateRoot) where TAggregateRoot : AggregateRoot, new()
+
+    public void Create<TAggregateRoot>(TAggregateRoot aggregateRoot) where TAggregateRoot : AggregateRoot, new()
     {
         session.Events.StartStream<TAggregateRoot>(aggregateRoot.Id, aggregateRoot.GetUncommittedEvents());
-        return Task.CompletedTask;
     }
+    
 }

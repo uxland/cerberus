@@ -12,6 +12,7 @@ public static class LoggingSetup
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .MinimumLevel.Override("Npgsql", LogEventLevel.Warning)
             .MinimumLevel.Override("Wolverine", LogEventLevel.Warning)
+            .MinimumLevel.Override("Quartz", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .CreateLogger();

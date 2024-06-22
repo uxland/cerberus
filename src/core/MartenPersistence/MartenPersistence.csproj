@@ -8,9 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Marten" Version="7.16.0" />
-        <PackageReference Include="Marten.NodaTime" Version="7.16.0" />
-        <PackageReference Include="WolverineFx.Marten" Version="2.8.2" />
+        <PackageReference Include="Marten" Version="7.16.0"/>
+        <PackageReference Include="Marten.NodaTime" Version="7.16.0"/>
+        <PackageReference Include="WolverineFx.Marten" Version="2.8.2"/>
     </ItemGroup>
 
     <ItemGroup>

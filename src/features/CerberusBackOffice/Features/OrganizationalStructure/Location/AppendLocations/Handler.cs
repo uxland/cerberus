@@ -1,14 +1,12 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
-using Cerberus.BackOffice.Features.Shared;
 using Cerberus.Core.Domain;
 using Wolverine;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Location.AppendLocations;
 
-public sealed class Handler(IRepository<OrganizationalStructure.Location.Location> locationRepository, IMessageBus bus, HierarchySetupCommandFactory commandFactory) :
-    IRepositoryHandlerMixin<OrganizationalStructure.Location.Location>
+public sealed class Handler(HierarchySetupCommandFactory commandFactory, IMessageBus bus) 
 {
-    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken = default)
+    public async Task Handle(AppendHierarchyItems request, CancellationToken cancellationToken)
     {
         var sortedItems = request.Items.OrderBy(x => x, new AppendLocationCommandSorter(request.Items))
             .Select(commandFactory.Produce)
@@ -38,30 +36,32 @@ public sealed class Handler(IRepository<OrganizationalStructure.Location.Locatio
             return allItems.Any(x => x.Id == parent.ParentId);
         }
     }
-
-    public IRepositoryBase<OrganizationalStructure.Location.Location> Repository => locationRepository;
+    
 }
 
 public sealed class SetupLocationHandler(
-    IRepository<OrganizationalStructure.Location.Location> locationRepository,
+    IGenericRepository locationRepository,
     IHierarchyItemPathProvider pathProvider)
 {
     public async Task Handle(SetupLocation request)
     {
         var path = await pathProvider.GetPathAsync(request);
-        var location = await locationRepository.Rehydrate(request.Id);
-        await (location == null ? CreateLocation(request, path) : UpdateLocation(location, request, path));
+        var location = await locationRepository.Rehydrate<Location>(request.Id);
+        if (location == null)
+            CreateLocation(request, path);
+        else
+            UpdateLocation(location, request, path);
     }
 
-    private Task CreateLocation(SetupLocation setupLocation, string path)
+    private void CreateLocation(SetupLocation setupLocation, string path)
     {
-        var location = new OrganizationalStructure.Location.Location(setupLocation, path);
-        return locationRepository.Create(location);
+        var location = new Location(setupLocation, path);
+        locationRepository.Create(location);
     }
 
-    private Task UpdateLocation(OrganizationalStructure.Location.Location location, SetupLocation setupLocation, string path)
+    private void UpdateLocation(Location location, SetupLocation setupLocation, string path)
     {
         location.Handle(setupLocation, path);
-        return locationRepository.Save(location);
+        locationRepository.Save(location);
     }
 }

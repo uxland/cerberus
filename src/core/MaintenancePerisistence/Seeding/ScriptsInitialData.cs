@@ -2,12 +2,12 @@
 using Cerberus.Maintenance.Features.Features.Analysis.Filters;
 using Marten;
 using Marten.Schema;
+using Microsoft.Extensions.Logging;
 
 namespace Cerberus.Maintenance.Persistence.Seeding;
 
-public class ScriptsInitialData: IInitialData
+public class ScriptsInitialData(ILoggerFactory loggerFactory): IInitialData
 {
-    
     public async Task Populate(IDocumentStore store, CancellationToken cancellation)
     {
         await using var session = store.LightweightSession();
@@ -16,11 +16,11 @@ public class ScriptsInitialData: IInitialData
         await session.SaveChangesAsync(cancellation);
     }
     
-    private async Task InitializeFilter(CreateFilter command, IDocumentSession session)
+    private async Task InitializeFilter(CreateFilter command, IDocumentSession session )
     {
         var state = await session.Events.FetchStreamStateAsync(command.Id);
         if (state == null)
-            await Handler.Handle(command, new GenericEventSourcingRepository(session));
+            Handler.Handle(command, new GenericEventSourcingRepository(session));
     }
     
     private static CreateFilter CreateBlurryFilter()

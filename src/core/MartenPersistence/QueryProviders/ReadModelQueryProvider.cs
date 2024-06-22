@@ -5,7 +5,7 @@ using Marten;
 
 namespace Cerberus.Core.MartenPersistence.QueryProviders;
 
-public class ReadModelQueryProvider(IQuerySession querySession): IReadModelQueryProvider
+public class ReadModelQueryProvider(IQuerySession querySession) : IReadModelQueryProvider
 {
     public Task<string?> RehydrateAsJson<TEntity>(string id) where TEntity : class, IEntity
     {
@@ -17,37 +17,43 @@ public class ReadModelQueryProvider(IQuerySession querySession): IReadModelQuery
         return querySession.LoadAsync<TEntity>(id);
     }
 
-    public Task<string> ListAsJson<TEntity>(Specification<TEntity>? specification, params string[] orderby) where TEntity : class, IEntity
+    public Task<string> ListAsJson<TEntity>(Specification<TEntity>? specification, params string[] orderby)
+        where TEntity : class, IEntity
     {
-        return this.BuildQuery(specification, orderby).ToJsonArray();
+        return BuildQuery(specification, orderby).ToJsonArray();
     }
 
-    public Task<string> ProjectListAsJson<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection, Specification<TEntity>? specification = null,
+    public Task<string> ProjectListAsJson<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection,
+        Specification<TEntity>? specification = null,
         params string[] orderBy) where TEntity : class, IEntity
     {
-        return this.BuildProjectedQuery(projection, specification, orderBy)
+        return BuildProjectedQuery(projection, specification, orderBy)
             .ToJsonArray();
     }
 
-    public Task<IReadOnlyList<TEntity>> List<TEntity>(Specification<TEntity>? specification, params string[] orderBy) where TEntity : class, IEntity
+    public Task<IReadOnlyList<TEntity>> List<TEntity>(Specification<TEntity>? specification, params string[] orderBy)
+        where TEntity : class, IEntity
     {
-        return this.BuildQuery(specification, orderBy)
+        return BuildQuery(specification, orderBy)
             .ToListAsync();
     }
 
-    public Task<IReadOnlyList<TResult>> ProjectList<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection, Specification<TEntity>? specification = null, params string[] orderBy) where TEntity : class, IEntity
+    public Task<IReadOnlyList<TResult>> ProjectList<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection,
+        Specification<TEntity>? specification = null, params string[] orderBy) where TEntity : class, IEntity
     {
-        return this.BuildProjectedQuery(projection, specification, orderBy)
+        return BuildProjectedQuery(projection, specification, orderBy)
             .ToListAsync();
     }
 
-    private IQueryable<TResult> BuildProjectedQuery<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection, Specification<TEntity>? specification, params string[] orderBy) where TEntity : class, IEntity
+    private IQueryable<TResult> BuildProjectedQuery<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection,
+        Specification<TEntity>? specification, params string[] orderBy) where TEntity : class, IEntity
     {
-        return this.BuildQuery(specification, orderBy)
+        return BuildQuery(specification, orderBy)
             .Select(projection);
-        
     }
-    private IQueryable<TEntity> BuildQuery<TEntity>(Specification<TEntity>? specification, params string[] orderBy) where TEntity : class, IEntity
+
+    private IQueryable<TEntity> BuildQuery<TEntity>(Specification<TEntity>? specification, params string[] orderBy)
+        where TEntity : class, IEntity
     {
         IQueryable<TEntity> query = querySession.Query<TEntity>();
         query = specification != null ? query.Where(specification.ToExpression()) : query;

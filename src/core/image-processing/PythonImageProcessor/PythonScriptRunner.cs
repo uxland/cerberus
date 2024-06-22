@@ -16,27 +16,27 @@ public class PythonScriptRunner
             return aux.ToString();
         }
     }
-    
+
     public bool CalculateSin(double degrees)
     {
         using (Py.GIL())
         {
-            var script =@"
+            var script = @"
 def calculate_sin(degrees):
     import numpy as np
     radians = np.radians(degrees)
     sinus = np.sin(radians)
     return True if sinus > 0 else False
 ";
-           // PythonEngine.RunSimpleString(script);
-           using (var scope = Py.CreateScope())
-           {
+            // PythonEngine.RunSimpleString(script);
+            using (var scope = Py.CreateScope())
+            {
                 var scriptCompiled = PythonEngine.Compile(script);
                 scope.Execute(scriptCompiled);
                 var function = scope.Get("calculate_sin");
                 var result = function.Invoke(new PyFloat(degrees));
                 return result.As<bool>();
-           }
+            }
         }
     }
 }

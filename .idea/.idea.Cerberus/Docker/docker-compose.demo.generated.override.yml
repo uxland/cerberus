@@ -2,7 +2,7 @@
 services:
   cerberus-back:
     build:
-      context: "C:\\Users\\dpina\\RiderProjects\\cerberus"
+      context: "/Users/danipinartnadal/RiderProjects/cerberus"
       dockerfile: "src/hosts/CerberusApi/Dockerfile"
       target: "base"
     command: []
@@ -15,13 +15,13 @@ services:
     image: "cerberusapi:dev"
     ports: []
     volumes:
-    - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
-    - "C:\\Users\\dpina\\RiderProjects\\cerberus\\src\\hosts\\CerberusApi:/app:rw"
-    - "C:\\Users\\dpina\\RiderProjects\\cerberus:/src:rw"
+    - "/Users/danipinartnadal/.nuget/packages:/root/.nuget/packages"
+    - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusApi:/app:rw"
+    - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
     working_dir: "/app"
   cerberus-ui:
     build:
-      context: "C:\\Users\\dpina\\RiderProjects\\cerberus"
+      context: "/Users/danipinartnadal/RiderProjects/cerberus"
       dockerfile: "src/hosts/CerberusUI/Dockerfile"
       target: "base"
     command: []
@@ -35,7 +35,7 @@ services:
     image: "cerberusui:dev"
     ports: []
     volumes:
-    - "C:\\Users\\dpina\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Users\\dpina\\RiderProjects\\cerberus\\src\\hosts\\CerberusUI:/app:rw"
-    - "C:\\Users\\dpina\\RiderProjects\\cerberus:/src:rw"
+    - "/Users/danipinartnadal/.nuget/packages:/home/app/.nuget/packages"
+    - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusUI:/app:rw"
+    - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
     working_dir: "/app"

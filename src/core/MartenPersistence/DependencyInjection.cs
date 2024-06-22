@@ -15,20 +15,22 @@ namespace Cerberus.Core.MartenPersistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection UseMartenPersistence(this IServiceCollection services,
+    public static MartenServiceCollectionExtensions.MartenConfigurationExpression UseMartenPersistence(this IServiceCollection services,
         IConfiguration configuration, IHostEnvironment environment)
     {
-        return services
-            .AddMartenDb(configuration, environment)
+        var result = services
+            .AddMartenDb(configuration, environment);
+        services
             .AddScoped<IUnitOfWork, MartenUoW>()
             .AddScoped<IReadModelQueryProvider, ReadModelQueryProvider>()
             .AddScoped<IGenericRepository, GenericEventSourcingRepository>();
+        return result;
     }
 
-    private static IServiceCollection AddMartenDb(this IServiceCollection services, IConfiguration configuration,
+    private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMartenDb(this IServiceCollection services, IConfiguration configuration,
         IHostEnvironment environment)
     {
-        services.AddMarten(options =>
+        return services.AddMarten(options =>
             {
                 options.Connection(configuration.GetSection("Backends:PostgresQL:Marten").Value!);
                 if (!environment.IsProduction())
@@ -42,8 +44,8 @@ public static class DependencyInjection
             .IntegrateWithWolverine()
             .UseIdentitySessions()
             .AddAsyncDaemon(DaemonMode.HotCold);
-        return services;
     }
+
     internal static StoreOptions SetupSerialization(this StoreOptions options)
     {
         options.UseSystemTextJsonForSerialization(

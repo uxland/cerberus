@@ -7,10 +7,14 @@ using Xabe.FFmpeg;
 
 namespace Cerberus.Core.XabeFFMpegClient;
 
-public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings, ILogger<SnapshotCapturer> logger): ISnapshotCapturer
+public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings, ILogger<SnapshotCapturer> logger)
+    : ISnapshotCapturer
 {
     private readonly string _rootPath = captureSettings.Value.FolderRoot;
-    public async Task<(CaptureError? Error, string? SnapshotRawPath, string? SnapshotThumbnailPath, string? SnapshotPath)> CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default)
+
+    public async
+        Task<(CaptureError? Error, string? SnapshotRawPath, string? SnapshotThumbnailPath, string? SnapshotPath)>
+        CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default)
     {
         var snapshotRelativePath = GetCameraDirectory(arguments.CameraPath);
         var rawPath = Path.Combine(snapshotRelativePath, "snapshot.bmp");
@@ -46,6 +50,7 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
         {
             return (new CaptureError(e.Message, CaptureErrorType.UnknownError), null, null, null);
         }
+
         return (null, rawPath, thumbnailPath, snapshotPath);
     }
 
@@ -57,7 +62,6 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
                 .AddParameter($"-i {inputPath}")
                 .SetOutput(outputPath);
             await conversion.Start();
-            
         }
         catch (Exception e)
         {
@@ -82,14 +86,17 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
             throw;
         }
     }
-    
-    private async Task CaptureFrameWithTimeout(string outputFilePath, string streamUrl, TimeSpan timeout, CancellationToken cancellationToken = default)
+
+    private async Task CaptureFrameWithTimeout(string outputFilePath, string streamUrl, TimeSpan timeout,
+        CancellationToken cancellationToken = default)
     {
         using (var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
         {
-            logger.LogInformation($"Starting capture of frame from {streamUrl} with a timeout of {timeout.TotalSeconds} seconds.");
+            logger.LogInformation(
+                $"Starting capture of frame from {streamUrl} with a timeout of {timeout.TotalSeconds} seconds.");
 
-            var captureTask = Task.Run(() => CaptureFrame(outputFilePath, streamUrl, cancellationTokenSource.Token), cancellationTokenSource.Token);
+            var captureTask = Task.Run(() => CaptureFrame(outputFilePath, streamUrl, cancellationTokenSource.Token),
+                cancellationTokenSource.Token);
 
             try
             {
@@ -127,12 +134,14 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
         using var process = capture.Start(cancellationToken);
         await process;
     }
+
     private string GetCameraDirectory(string cameraPath)
     {
         var pathSegments = cameraPath.Split(">");
         var cameraRelativePath = Path.Combine(pathSegments);
-        var snapshotRelativePath = Path.Combine(cameraRelativePath, $"{Instant.FromDateTimeUtc(DateTime.UtcNow).ToUnixTimeMilliseconds()}");
-        var directoryInfo = new DirectoryInfo(Path.Combine(this._rootPath, snapshotRelativePath));
+        var snapshotRelativePath = Path.Combine(cameraRelativePath,
+            $"{Instant.FromDateTimeUtc(DateTime.UtcNow).ToUnixTimeMilliseconds()}");
+        var directoryInfo = new DirectoryInfo(Path.Combine(_rootPath, snapshotRelativePath));
         if (!directoryInfo.Exists)
             directoryInfo.Create();
         return snapshotRelativePath;

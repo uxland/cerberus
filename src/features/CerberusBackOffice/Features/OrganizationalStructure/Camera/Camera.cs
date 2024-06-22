@@ -9,8 +9,8 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
     public string Path { get; set; }
     public string ParentId { get; set; }
     public string Description { get; set; }
-    public CameraAdminSettings? AdminSettings { get; set; }
-    public CameraFunctionalSettings? FunctionalSettings { get; set; }
+    public CameraAdminSettings AdminSettings { get; set; }
+    public CameraFunctionalSettings FunctionalSettings { get; set; }
 }
 
 public interface ICameraEntityQueryProvider : IEntityQueryProvider<Camera>
