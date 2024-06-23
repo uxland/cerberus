@@ -8,18 +8,18 @@ public class CaptureSnapshotService(IGenericRepository captureRepository, ISnaps
 {
     public async Task<Capture> CaptureSnapshot(Camera camera)
     {
-        var (error, rawPath, thumbnailPath, snapshotPath) = await snapshotCapturer.CaptureSnapshot(new CaptureSnapshotArguments(camera.AdminSettings!.IpAddress!, camera.AdminSettings!.Credentials!.Username, camera.AdminSettings!.Credentials.Password, camera.Path));
+        var (error, rawPath, thumbnailPath) = await snapshotCapturer.CaptureSnapshot(new CaptureSnapshotArguments(camera.AdminSettings!.IpAddress!, camera.AdminSettings!.Credentials!.Username, camera.AdminSettings!.Credentials.Password, camera.Path));
         var settings = new CaptureSettings(camera.Id, camera.Path, SystemClock.Instance.GetCurrentInstant(), error);
         if (error == null)
         {
             settings = settings with
             {
-                SnapshotPath = snapshotPath,
+                SnapshotPath = rawPath,
                 ThumbnailPath = thumbnailPath
             };
         }
 
-        var capture = new Captures.Capture(settings);
+        var capture = new Capture(settings);
         captureRepository.Create(capture);
         return capture;
     }

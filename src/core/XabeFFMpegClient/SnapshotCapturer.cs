@@ -1,5 +1,6 @@
 ﻿using Cerberus.BackOffice.Features.Captures;
 using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
+using Cerberus.Core.XabeFFMpegClient.ConversionBuilders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NodaTime;
@@ -7,67 +8,52 @@ using Xabe.FFmpeg;
 
 namespace Cerberus.Core.XabeFFMpegClient;
 
-public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings, ILogger<SnapshotCapturer> logger)
+public class SnapshotCapturer(
+    IOptions<SnapshotCaptureSettings> captureSettings,
+    ILogger<SnapshotCapturer> logger,
+    ConversionBuilder captureMiddleware)
     : ISnapshotCapturer
 {
     private readonly string _rootPath = captureSettings.Value.FolderRoot;
 
     public async
-        Task<(CaptureError? Error, string? SnapshotRawPath, string? SnapshotThumbnailPath, string? SnapshotPath)>
+        Task<(CaptureError? Error, string? SnapshotRawPath, string? SnapshotThumbnailPath)>
         CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default)
     {
         var snapshotRelativePath = GetCameraDirectory(arguments.CameraPath);
         var rawPath = Path.Combine(snapshotRelativePath, "snapshot.bmp");
         var thumbnailPath = Path.Combine(snapshotRelativePath, "snapshot_thumbnail.jpg");
-        var snapshotPath = Path.Combine(snapshotRelativePath, "snapshot.jpg");
         try
         {
             await CaptureFrameWithTimeout(Path.Combine(_rootPath, rawPath),
-                arguments.Address,
-                TimeSpan.FromSeconds(5));
+                arguments,
+                TimeSpan.FromSeconds(155), cancellationToken);
             await Task.WhenAll(
-                ConvertToJpeg(Path.Combine(_rootPath, rawPath), Path.Combine(_rootPath, snapshotPath)),
                 CreateThumbnail(Path.Combine(_rootPath, rawPath), Path.Combine(_rootPath, thumbnailPath))
             );
         }
         catch (HttpRequestException e) when (e.Message.Contains("401") || e.Message.Contains("403"))
         {
-            return (new CaptureError("Unauthorized", CaptureErrorType.AuthenticationError), null, null, null);
+            return (new CaptureError("Unauthorized", CaptureErrorType.AuthenticationError), null, null);
         }
         catch (HttpRequestException e) when (e.Message.Contains("404"))
         {
-            return (new CaptureError(e.Message, CaptureErrorType.ConnectionError), null, null, null);
+            return (new CaptureError(e.Message, CaptureErrorType.ConnectionError), null, null);
         }
         catch (HttpRequestException e) when (e.Message.Contains("Network"))
         {
-            return (new CaptureError(e.Message, CaptureErrorType.ConnectionError), null, null, null);
+            return (new CaptureError(e.Message, CaptureErrorType.ConnectionError), null, null);
         }
         catch (OperationCanceledException e)
         {
-            return (new CaptureError(e.Message, CaptureErrorType.ConnectionTimeout), null, null, null);
+            return (new CaptureError(e.Message, CaptureErrorType.ConnectionTimeout), null, null);
         }
         catch (Exception e)
         {
-            return (new CaptureError(e.Message, CaptureErrorType.UnknownError), null, null, null);
+            return (new CaptureError(e.Message, CaptureErrorType.UnknownError), null, null);
         }
 
-        return (null, rawPath, thumbnailPath, snapshotPath);
-    }
-
-    private async Task ConvertToJpeg(string inputPath, string outputPath)
-    {
-        try
-        {
-            var conversion = FFmpeg.Conversions.New()
-                .AddParameter($"-i {inputPath}")
-                .SetOutput(outputPath);
-            await conversion.Start();
-        }
-        catch (Exception e)
-        {
-            logger.LogError("Error converting snapshot to jpeg: {Message}", e.Message);
-            throw;
-        }
+        return (null, rawPath, thumbnailPath);
     }
 
     private async Task CreateThumbnail(string inputPath, string outputPath)
@@ -87,15 +73,14 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
         }
     }
 
-    private async Task CaptureFrameWithTimeout(string outputFilePath, string streamUrl, TimeSpan timeout,
+    private async Task CaptureFrameWithTimeout(string outputFilePath, CaptureSnapshotArguments arguments, TimeSpan timeout,
         CancellationToken cancellationToken = default)
     {
         using (var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
         {
-            logger.LogInformation(
-                $"Starting capture of frame from {streamUrl} with a timeout of {timeout.TotalSeconds} seconds.");
+            logger.LogInformation("Starting capture of frame from {StreamUrl} with a timeout of {TimeoutTotalSeconds} seconds", arguments.Address, timeout.TotalSeconds);
 
-            var captureTask = Task.Run(() => CaptureFrame(outputFilePath, streamUrl, cancellationTokenSource.Token),
+            var captureTask = Task.Run(() => CaptureFrame(outputFilePath, arguments, cancellationTokenSource.Token),
                 cancellationTokenSource.Token);
 
             try
@@ -103,15 +88,15 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
                 if (await Task.WhenAny(captureTask, Task.Delay(timeout, cancellationTokenSource.Token)) == captureTask)
                 {
                     // FFmpeg task completed within timeout
-                    cancellationTokenSource.Cancel(); // Cancel the delay task
+                    await cancellationTokenSource.CancelAsync(); // Cancel the delay task
                     await captureTask; // Ensure any exceptions/cancellations are rethrown
-                    logger.LogInformation("Capture completed successfully.");
+                    logger.LogInformation("Capture completed successfully");
                 }
                 else
                 {
                     // Timeout occurred
-                    cancellationTokenSource.Cancel();
-                    logger.LogWarning("Capture timed out.");
+                    await cancellationTokenSource.CancelAsync();
+                    logger.LogWarning("Capture timed out");
                     throw new OperationCanceledException("The operation was canceled due to timeout.");
                 }
             }
@@ -123,15 +108,13 @@ public class SnapshotCapturer(IOptions<SnapshotCaptureSettings> captureSettings,
         }
     }
 
-    private static async Task CaptureFrame(string outputFilePath, string streamUrl, CancellationToken cancellationToken)
+    private async Task CaptureFrame(string outputFilePath, CaptureSnapshotArguments arguments, CancellationToken cancellationToken)
     {
-        var capture = FFmpeg.Conversions.New()
-            .AddParameter("-rtsp_transport tcp")
-            .AddParameter($"-i {streamUrl}")
-            .AddParameter("-frames:v 1")
-            .SetOutput(outputFilePath);
-
-        using var process = capture.Start(cancellationToken);
+        var conversion = FFmpeg.Conversions.New()
+            .AddParameter($"-i {arguments.Address}");
+        conversion = await captureMiddleware.Build(conversion, arguments);
+        conversion.SetOutput(outputFilePath);
+        using var process = conversion.Start(cancellationToken);
         await process;
     }
 
