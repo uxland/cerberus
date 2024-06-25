@@ -18,11 +18,11 @@ const theme = createTheme(paletteTheme, {
     htmlFontSize: 14,
     fontFamily: 'Roboto',
     h1: {
-      fontSize: createTheme().typography.pxToRem(18),
+      fontSize: createTheme().typography.pxToRem(28),
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '900',
-      color: `${tailwindConfig.theme.colors.primary}`,
+      color: `${paletteTheme.palette.primary.main}`,
     },
     h2: {
       fontSize: createTheme().typography.pxToRem(16),
@@ -60,6 +60,7 @@ const theme = createTheme(paletteTheme, {
     },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
+      color: blueGrey[300],
     },
   },
 });
