@@ -1,3 +1,5 @@
+import {useOrganizationalStructureLocales} from './locales/ca/locales';
+
 export const OrganizationalStructureApp = () => {
-   return (<div>Organizational Structure APP</div>)
-}
+  return <div>{useOrganizationalStructureLocales('title')}</div>;
+};

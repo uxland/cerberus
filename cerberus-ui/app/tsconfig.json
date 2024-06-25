@@ -1,5 +1,5 @@
 {
   "compilerOptions": {},
   "extends": "../tsconfig.json",
-  "include": ["src"]
+  "include": ["src", "../core/src/utils"]
 }

@@ -14,7 +14,8 @@
     "mediatr-ts": "^1.2.1",
     "@cerberus/core": "workspace:^",
     "@cerberus/maintenance": "workspace:^",
-    "@cerberus/organizational-structure": "workspace:^"
+    "@cerberus/organizational-structure": "workspace:^",
+    "@uxland/react-services": "^1.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
