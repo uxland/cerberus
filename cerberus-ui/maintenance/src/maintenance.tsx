@@ -1,3 +1,5 @@
+import {useMaintenanceLocales} from './locales/ca/locales';
+
 export const MaintenanceApp = () => {
-  return <div>Maintenance APP</div>;
+  return <div>{useMaintenanceLocales('title')}</div>;
 };
