@@ -1,1 +1,1 @@
-export * from './src/organizational-structure';
+export * from './src';

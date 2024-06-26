@@ -1,10 +1,14 @@
-import {container} from "./ioc";
 import {ApiClient} from "@cerberus/shared/src";
 import {ApiClientImpl} from "./api/api-client.ts";
-
-export const bootstrapCore = () =>{
+import {Container, injectable} from "inversify";
+import {container} from "./ioc";
+export const bootstrapCore = async () =>{
     console.log('core bootstrapping');
+    injectable()(ApiClient);
+    injectable()(ApiClientImpl);
     container.bind<ApiClient>(ApiClient).to(ApiClientImpl).inSingletonScope();
+    container.bind<Container>(Container).toConstantValue(container);
+    return container;
 }
 
 export const teardownCore = () =>{

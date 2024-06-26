@@ -20,12 +20,19 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "CerberusApi", Version = "v1" });
         });
-
-        hostBuilder.SetupWolverine();
-        
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowSpecificOrigin",
+            options.AddPolicy("AllowLocalReact",
+                builder =>
+                {
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                    builder.SetIsOriginAllowed(s => new Uri(s).Host == "localhost");
+                });
+
+            options.AddPolicy("Allow local Blazor",
                 builder =>
                 {
                     builder.WithOrigins("http://localhost:5177", "https://localhost:7005")
@@ -33,6 +40,9 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
                         .AllowAnyMethod();
                 });
         });
+
+        hostBuilder.SetupWolverine();
+        
         var martenConfiguration = services
             .SetupConfigurations(configuration)
             .UseLogging()
@@ -50,7 +60,13 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cerberus BackOffice API v1");
         });
+
+        // Use the policy that allows any port on localhost
+        app.UseCors("AllowLocalReact");
+      //  app.UseCors("Allow local Blazor");
+
         app.UseRouting();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

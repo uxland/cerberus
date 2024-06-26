@@ -5,33 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: setup">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/api/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/ioc/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/ioc/ioc.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/facade.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/hierarchy-item.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/list-location-children-handler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/list-location-children.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/shared/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/boundaries/api-client.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/boundaries/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/domain/entity.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/domain/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/app/src/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/app/src/setup.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/src/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/ioc/ioc.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/ioc/ioc.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/facade.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/facade.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/organizational-structure.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +128,7 @@
       <workItem from="1718617894005" duration="1242000" />
       <workItem from="1719295258663" duration="599000" />
       <workItem from="1719322718358" duration="832000" />
-      <workItem from="1719381889423" duration="7389000" />
+      <workItem from="1719381889423" duration="16723000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -145,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718367205214</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="chore: setup">
+      <option name="closed" value="true" />
+      <created>1719400852022</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719400852022</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

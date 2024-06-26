@@ -1,12 +1,11 @@
 import {MaintenanceApp} from '@cerberus/maintenance';
-import {OrganizationalStructureApp} from '@cerberus/organizational-structure';
+import {OrganizationalStructureTreeNode} from '@cerberus/organizational-structure';
 import {ThemeProvider, Typography} from '@mui/material';
 import {useAppLocales} from './locales/ca/locales';
 import './styles/App.css';
 import theme from './styles/mui/theme';
 
 export const App = () => {
-  dummy();
   return (
     <ThemeProvider theme={theme}>
       <Typography variant='h1'>{useAppLocales('title')}</Typography>
@@ -17,7 +16,7 @@ export const App = () => {
         rerum eos commodi. Neque, sapiente?
       </Typography>
       <MaintenanceApp />
-      <OrganizationalStructureApp />
+      <OrganizationalStructureTreeNode />
     </ThemeProvider>
   );
 };

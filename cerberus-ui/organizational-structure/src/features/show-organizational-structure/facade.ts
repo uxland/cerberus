@@ -6,7 +6,7 @@ export abstract class LoadOrganizationalStructureFacade {
 }
 
 export class LoadOrganizationalStructureFacadeImpl implements LoadOrganizationalStructureFacade {
-    constructor(@inject("ApiClient") private apiClient: ApiClient) {
+    constructor(@inject(ApiClient) private apiClient: ApiClient) {
 
     }
   loadOrganizationalStructure(parentId: string): Promise<HierarchyItem[]> {

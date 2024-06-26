@@ -1,37 +1,43 @@
 import {ApiClient} from "@cerberus/shared/src";
-import {Axios} from 'axios';
+import {Axios, AxiosResponse} from 'axios';
 
 const baseConfig = {
     baseURL: 'http://localhost:5222/api',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     }
 }
 
 const axios = new Axios(baseConfig);
 
 export class ApiClientImpl extends ApiClient{
-    async get<T>(url: string, requestInit: RequestInit | undefined): Promise<T> {
-        const response = await axios.get(url, {headers: this.getHeaders(requestInit)});
-        return response.data;
+    get<T>(url: string, requestInit: RequestInit | undefined): Promise<T> {
+        const request = axios.get(url, {headers: this.getHeaders(requestInit)});
+        return this.handleResponse(request)
     }
 
-    async post<T>(url: string, requestInit: RequestInit): Promise<T> {
-        let response = await axios.post(url, requestInit.body, {headers: this.getHeaders(requestInit)});
-        return await response.data;
+    post<T>(url: string, requestInit: RequestInit): Promise<T> {
+        const request  = axios.post(url, requestInit.body, {headers: this.getHeaders(requestInit)});
+        return this.handleResponse(request)
     }
 
-    async put<T>(url: string, requestInit: RequestInit): Promise<T> {
-        let response = await axios.put(url, requestInit.body, {headers: this.getHeaders(requestInit)});
-        return await response.data;
+    put<T>(url: string, requestInit: RequestInit): Promise<T> {
+        const request = axios.put(url, requestInit.body, {headers: this.getHeaders(requestInit)});
+        return this.handleResponse(request)
     }
 
-    async delete<T>(url: string): Promise<T> {
-        let response = await axios.delete(url);
-        return await response.data;
+    delete<T>(url: string): Promise<T> {
+        const request = axios.delete(url);
+        return this.handleResponse(request)
     }
 
     private getHeaders(requestInit: RequestInit | undefined): any {
         return requestInit?.headers || {};
+    }
+
+    private async handleResponse<T>(request: Promise<AxiosResponse>):Promise<T>{
+        const response = await request;
+        const data = response.data;
+        return typeof data === 'string' ? JSON.parse(data) : data;
     }
 }
