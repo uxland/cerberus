@@ -1,4 +1,3 @@
-import {dummy} from '@cerberus/core';
 import {MaintenanceApp} from '@cerberus/maintenance';
 import {OrganizationalStructureApp} from '@cerberus/organizational-structure';
 import {ThemeProvider, Typography} from '@mui/material';

@@ -15,12 +15,15 @@
   },
   "dependencies": {
     "@cerberus/core": "workspace:^",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "mediatr-ts": "^1.2.1",
-    "@mui/material": "^5.14.12",
+    "@cerberus/shared": "workspace:^",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@uxland/react-services": "^1.0.3"
+    "@mui/material": "^5.14.12",
+    "@uxland/react-services": "^1.0.3",
+    "inversify": "^6.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "mediatr-ts": "^1.2.1"
+
   }
 }

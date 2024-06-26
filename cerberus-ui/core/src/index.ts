@@ -1,3 +1,1 @@
-export const dummy = () => {
-    console.log("core function");
-}
+export * from './ioc';
