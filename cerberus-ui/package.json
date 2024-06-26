@@ -11,8 +11,7 @@
     "repo:check-files": "npx biome check --files-ignore-unknown=true --no-errors-on-unmatched --organize-imports-enabled=false --colors=force app core maintenance organizational-structure",
     "repo:format-files": "biome format --write --no-errors-on-unmatched --colors=force app core maintenance organizational-structure"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "^1.7.0",
     "typescript": "^5.2.2",

@@ -1,4 +1,5 @@
 import {dummy} from '@cerberus/core';
+import {RouterProvider} from '@cerberus/core/src/providers';
 import {MaintenanceApp} from '@cerberus/maintenance';
 import {OrganizationalStructureApp} from '@cerberus/organizational-structure';
 import {ThemeProvider, Typography} from '@mui/material';
@@ -9,17 +10,20 @@ import theme from './styles/mui/theme';
 export const App = () => {
   dummy();
   return (
-    <ThemeProvider theme={theme}>
-      <Typography variant='h1'>{useAppLocales('title')}</Typography>
-      <Typography variant='body1'>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        Exercitationem, quidem. Enim reprehenderit iste deleniti, nobis ea
-        quaerat minima officiis! Sint deleniti placeat distinctio aliquam id
-        rerum eos commodi. Neque, sapiente?
-      </Typography>
-      <MaintenanceApp />
-      <OrganizationalStructureApp />
-    </ThemeProvider>
+    <RouterProvider>
+      <ThemeProvider theme={theme}>
+        <Typography variant='h1'>{useAppLocales('title')}</Typography>
+        <Typography variant='body1'>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          Exercitationem, quidem. Enim reprehenderit iste deleniti, nobis ea
+          quaerat minima officiis! Sint deleniti placeat distinctio aliquam id
+          rerum eos commodi. Neque, sapiente?
+        </Typography>
+        {/* <AppRouter /> */}
+        <MaintenanceApp />
+        <OrganizationalStructureApp />
+      </ThemeProvider>
+    </RouterProvider>
   );
 };
 

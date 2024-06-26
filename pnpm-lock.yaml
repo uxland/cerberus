@@ -54,6 +54,9 @@ importers:
       postcss:
         specifier: ^8.4.21
         version: 8.4.38
+      react-router-dom:
+        specifier: ^6.16.0
+        version: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwindcss:
         specifier: ^3.3
         version: 3.4.4
@@ -78,6 +81,18 @@ importers:
       '@uxland/react-services':
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))
+      '@uxland/utilities':
+        specifier: ^1.0.1
+        version: 1.0.5
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.16.0
+        version: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   cerberus-ui/maintenance:
     dependencies:
@@ -96,6 +111,9 @@ importers:
       '@uxland/react-services':
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))
+      '@uxland/utilities':
+        specifier: ^1.0.1
+        version: 1.0.5
       mediatr-ts:
         specifier: ^1.2.1
         version: 1.2.1
@@ -120,6 +138,9 @@ importers:
       '@uxland/react-services':
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))
+      '@uxland/utilities':
+        specifier: ^1.0.1
+        version: 1.0.5
       mediatr-ts:
         specifier: ^1.2.1
         version: 1.2.1
@@ -1351,6 +1372,10 @@ packages:
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
+  '@remix-run/router@1.17.0':
+    resolution: {integrity: sha512-2D6XaHEVvkCn682XBnipbJjgZUU7xjLtA4dGJRBVUKpEaDYOZMENZoZjAOSb7qirxt5RupjzZxz4fK2FO+EFPw==}
+    engines: {node: '>=14.0.0'}
+
   '@rollup/plugin-node-resolve@7.1.3':
     resolution: {integrity: sha512-RxtSL3XmdTAE2byxekYLnx+98kEUOrPHF/KRVjLH+DEIHy6kjIw7YINQzn+NXiH/NTrQLAwYs0GWB+csWygA9Q==}
     engines: {node: '>= 8.0.0'}
@@ -1693,8 +1718,14 @@ packages:
   '@uxland/ioc@1.0.4':
     resolution: {integrity: sha512-vhCUunjV0yXKv2jyXZ/6EZwAq5vA1MMqkfPTiI4w+arZf0vZWaHDyr7aM8FPqK8lMaziwv6WZ9bv2IViGkd+nw==}
 
+  '@uxland/ramda-extensions@1.0.3':
+    resolution: {integrity: sha512-TG9Yi1mZoV8oSYZj+zBeIGTOFdY/rxHPQeM0rbB1uI9u4DeKdAHZfU4XthpKs41bwn31gYy9MQ4MBQwPOqdKvg==}
+
   '@uxland/react-services@1.0.6':
     resolution: {integrity: sha512-HYOAjnPvfMKYQbBpjCXv46jMJQZXXnBTmHeCJKHr5hbLrdpJEm+edNz4u3x4t2u8LFOei7RFHNSUu5veaukXEw==}
+
+  '@uxland/utilities@1.0.5':
+    resolution: {integrity: sha512-zzvcIGghD7XsRGevff0WZQyatC1s3c6kNwMDdoEXhWBW5TQipkAWRfjOXreGJvEyFlIUMye+gaiNocC1wuWxmQ==}
 
   '@vitejs/plugin-react@4.3.1':
     resolution: {integrity: sha512-m/V2syj5CuVnaxcUJOQRel/Wr31FFXRFlnOoq1TVtkCxsY5veGMTEmpWHndrhB2U8ScHtCQB1e+4hWYExQc6Lg==}
@@ -5529,6 +5560,9 @@ packages:
   raf@3.4.1:
     resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
 
+  ramda@0.27.2:
+    resolution: {integrity: sha512-SbiLPU40JuJniHexQSAgad32hfwd+DRUdwF2PlVuI5RZD0/vahUco7R8vD86J/tcEKKF9vZrUVwgtmGCqlCKyA==}
+
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
 
@@ -5601,6 +5635,19 @@ packages:
   react-refresh@0.8.3:
     resolution: {integrity: sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==}
     engines: {node: '>=0.10.0'}
+
+  react-router-dom@6.24.0:
+    resolution: {integrity: sha512-960sKuau6/yEwS8e+NVEidYQb1hNjAYM327gjEyXlc6r3Skf2vtwuJ2l7lssdegD2YjoKG5l8MsVyeTDlVeY8g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
+  react-router@6.24.0:
+    resolution: {integrity: sha512-sQrgJ5bXk7vbcC4BxQxeNa5UmboFm35we1AFK0VvQaz9g0LzxEIuLOhHIoZ8rnu9BO21ishGeL9no1WB76W/eg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
 
   react-scripts@4.0.0:
     resolution: {integrity: sha512-icJ/ctwV5XwITUOupBP9TUVGdWOqqZ0H08tbJ1kVC5VpNWYzEZ3e/x8axhV15ZXRsixLo27snwQE7B6Zd9J2Tg==}
@@ -8418,11 +8465,7 @@ snapshots:
       jest-runner: 26.6.3
       jest-runtime: 26.6.3
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   '@jest/transform@26.6.2':
     dependencies:
@@ -8602,6 +8645,8 @@ snapshots:
       webpack-dev-server: 3.11.0(webpack@4.44.2)
 
   '@popperjs/core@2.11.8': {}
+
+  '@remix-run/router@1.17.0': {}
 
   '@rollup/plugin-node-resolve@7.1.3(rollup@1.32.1)':
     dependencies:
@@ -8945,7 +8990,7 @@ snapshots:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.3.2
+      semver: 7.6.2
       tsutils: 3.21.0(typescript@5.4.5)
     optionalDependencies:
       typescript: 5.4.5
@@ -8981,6 +9026,10 @@ snapshots:
       mediatr-ts: 0.3.0
       reflect-metadata: 0.1.14
 
+  '@uxland/ramda-extensions@1.0.3':
+    dependencies:
+      ramda: 0.27.2
+
   '@uxland/react-services@1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))':
     dependencies:
       '@uxland/ioc': 1.0.4
@@ -8995,6 +9044,10 @@ snapshots:
       - react-dom
       - react-native
       - react-scripts
+
+  '@uxland/utilities@1.0.5':
+    dependencies:
+      '@uxland/ramda-extensions': 1.0.3
 
   '@vitejs/plugin-react@4.3.1(vite@5.3.1(@types/node@20.14.8)(terser@5.31.1))':
     dependencies:
@@ -10180,7 +10233,7 @@ snapshots:
       postcss-modules-values: 3.0.0
       postcss-value-parser: 4.2.0
       schema-utils: 2.7.1
-      semver: 7.3.2
+      semver: 7.6.2
       webpack: 4.44.2
 
   css-prefers-color-scheme@3.1.1:
@@ -10336,7 +10389,7 @@ snapshots:
 
   debug@3.2.7(supports-color@6.1.0):
     dependencies:
-      ms: 2.1.2
+      ms: 2.1.3
     optionalDependencies:
       supports-color: 6.1.0
 
@@ -11183,7 +11236,7 @@ snapshots:
 
   faye-websocket@0.10.0:
     dependencies:
-      websocket-driver: 0.6.5
+      websocket-driver: 0.7.4
 
   faye-websocket@0.11.4:
     dependencies:
@@ -12095,11 +12148,7 @@ snapshots:
       stack-utils: 2.0.6
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   jest-cli@26.6.3:
     dependencies:
@@ -12397,7 +12446,7 @@ snapshots:
       jest-resolve: 26.6.2
       natural-compare: 1.4.0
       pretty-format: 26.6.2
-      semver: 7.3.2
+      semver: 7.6.2
     transitivePeerDependencies:
       - supports-color
 
@@ -12958,7 +13007,7 @@ snapshots:
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
-      semver: 7.3.2
+      semver: 7.6.2
       shellwords: 0.1.1
       uuid: 8.3.2
       which: 2.0.2
@@ -13884,6 +13933,8 @@ snapshots:
     dependencies:
       performance-now: 2.1.0
 
+  ramda@0.27.2: {}
+
   randombytes@2.1.0:
     dependencies:
       safe-buffer: 5.2.1
@@ -13977,6 +14028,18 @@ snapshots:
   react-refresh@0.14.2: {}
 
   react-refresh@0.8.3: {}
+
+  react-router-dom@6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@remix-run/router': 1.17.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-router: 6.24.0(react@18.3.1)
+
+  react-router@6.24.0(react@18.3.1):
+    dependencies:
+      '@remix-run/router': 1.17.0
+      react: 18.3.1
 
   react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0)(typescript@5.4.5):
     dependencies:

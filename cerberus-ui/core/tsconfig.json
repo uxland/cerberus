@@ -1,5 +1,7 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "types": ["react", "react-dom"]
+  },
   "extends": "../tsconfig.json",
   "include": ["src"]
 }

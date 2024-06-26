@@ -20,6 +20,7 @@
     "mediatr-ts": "^1.2.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@uxland/react-services": "^1.0.3"
+    "@uxland/react-services": "^1.0.3",
+    "@uxland/utilities": "^1.0.1"
   }
 }
