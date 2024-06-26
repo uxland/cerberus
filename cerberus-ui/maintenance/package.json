@@ -1,0 +1,26 @@
+{
+  "name": "@cerberus/maintenance",
+  "version": "0.0.0",
+  "description": "cerberus maintenance",
+  "author": "UXLand <dsanchez@uxland.es>",
+  "homepage": "https://github.com/uxland/cerberus.git#readme",
+  "license": "ISC",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uxland/cerberus.git"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cerberus/core": "workspace:^",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "mediatr-ts": "^1.2.1",
+    "@mui/material": "^5.14.12",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@uxland/react-services": "^1.0.3"
+  }
+}

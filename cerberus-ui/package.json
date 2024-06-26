@@ -1,0 +1,21 @@
+{
+  "name": "cerberus-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @cerberus/app dev",
+    "build": "pnpm --filter @cerberus/app build",
+    "preview": "pnpm --filter @cerberus/app build",
+    "repo:lint-files": "biome lint --apply --no-errors-on-unmatched --colors=force app core maintenance organizational-structure",
+    "repo:check-files": "npx biome check --files-ignore-unknown=true --no-errors-on-unmatched --organize-imports-enabled=false --colors=force app core maintenance organizational-structure",
+    "repo:format-files": "biome format --write --no-errors-on-unmatched --colors=force app core maintenance organizational-structure"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
+}
