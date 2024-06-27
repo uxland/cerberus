@@ -10,6 +10,6 @@ export const useAppLocales = (path: AppLocalesPath) => {
 
 export const locales = {
   [moduleName]: {
-    title: 'CERBERUS APP COPY',
+    title: 'BENVINGUT CERBERUS',
   },
 };

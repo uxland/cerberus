@@ -1,4 +1,3 @@
-import blueGrey from '@mui/material/colors/blueGrey';
 import createTheme from '@mui/material/styles/createTheme';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfigModule from '../../../tailwind.config';
@@ -25,42 +24,22 @@ const theme = createTheme(paletteTheme, {
       color: `${paletteTheme.palette.primary.main}`,
     },
     h2: {
-      fontSize: createTheme().typography.pxToRem(16),
+      fontSize: createTheme().typography.pxToRem(24),
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '500',
       color: 'black',
     },
     h3: {
-      fontSize: createTheme().typography.pxToRem(14),
+      fontSize: createTheme().typography.pxToRem(20),
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontWeight: '500',
-      color: 'black',
-    },
-    h4: {
-      fontSize: createTheme().typography.pxToRem(14),
-      color: blueGrey[900],
-      textTransform: 'uppercase',
-      letterSpacing: '.5px',
-      fontWeight: '500',
-    },
-    h5: {
-      fontSize: createTheme().typography.pxToRem(12),
-      color: blueGrey[900],
-      textTransform: 'uppercase',
-      letterSpacing: '.5px',
-      fontWeight: '500',
-    },
-    subtitle1: {
-      fontSize: createTheme().typography.pxToRem(16),
-      fontWeight: '500',
-      lineHeight: '21px',
-      color: blueGrey[900],
+      fontWeight: '800',
+      color: 'white',
     },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
-      color: blueGrey[300],
+      color: 'white',
     },
   },
   components: {
