@@ -7,9 +7,6 @@ import './styles/App.css';
 import theme from './styles/mui/theme';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {connect} from "react-redux";
-import {
-    OrganizationalStructureFileUploader
-} from "@cerberus/organizational-structure/src/features/upload-organization-structure-file/component.tsx";
 import {getRouteComponent} from "@cerberus/core";
 
 export const App = ({routes}) => {
@@ -26,7 +23,7 @@ export const App = ({routes}) => {
                 routes.map((route: any, index: number) =>{
                     const Component = getRouteComponent(route.componentName);
                     return(
-                        <Route key={index} path={route.path} exact={route.exact} Component={Component} />
+                        <Route key={index} path={route.path} Component={Component} />
                     )
                 })
             }
