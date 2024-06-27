@@ -4,10 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: setup">
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: routing added">
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/boostrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/component.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/component.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/facade.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/handler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/query.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/hierarchy-item.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/hierarchy-item.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +69,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "features/navigation-ui",
+    "git-widget-placeholder": "features/ui/camera-settings-view",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -76,6 +88,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail" />
       <recent name="$PROJECT_DIR$/cerberus-ui/src/features/organizational-structure" />
       <recent name="$PROJECT_DIR$/cerberus-ui/src/features" />
     </key>
@@ -93,6 +106,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.dev" />
       </list>
@@ -152,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719412637328</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719480764693</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719480764693</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,6 +185,7 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="chore: setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: setup" />
+    <MESSAGE value="chore: routing added" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: routing added" />
   </component>
 </project>

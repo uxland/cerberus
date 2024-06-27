@@ -3,6 +3,7 @@ import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {HierarchyItem} from './hierarchy-item.ts';
 import {ListLocationChildren} from './list-location-children.ts';
+import {Link} from "react-router-dom";
 
 export const OrganizationalStructureTreeNode = (props: {
   id?: string | undefined;
@@ -51,5 +52,8 @@ const TreeNode = ({node}: {node: HierarchyItem}) => {
         <TreeNode key={child.id} node={child} />
       ))}
     </TreeItem>
+
   );
 };
+
+const getItemUrl = (item: HierarchyItem) => item.type === 'Location' ? `locations/${item.id}` : `cameras/${item.id}`;

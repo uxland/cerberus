@@ -1,7 +1,7 @@
 
 export const enum HierarchyItemType {
-    location = 0,
-    camera = 1,
+    location = "Location",
+    camera = "Camera",
 }
 
 export interface HierarchyItem {
