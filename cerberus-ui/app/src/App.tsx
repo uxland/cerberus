@@ -5,8 +5,14 @@ import {ThemeProvider, Typography} from '@mui/material';
 import {useAppLocales} from './locales/ca/locales';
 import './styles/App.css';
 import theme from './styles/mui/theme';
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {connect} from "react-redux";
+import {
+    OrganizationalStructureFileUploader
+} from "@cerberus/organizational-structure/src/features/upload-organization-structure-file/component.tsx";
+import {getRouteComponent} from "@cerberus/core";
 
-export const App = () => {
+export const App = ({routes}) => {
   return (
     <ThemeProvider theme={theme}>
       <Typography variant='h1'>{useAppLocales('title')}</Typography>
@@ -14,8 +20,24 @@ export const App = () => {
         <DrawerContainer />
       </DrawerProvider>
       <OrganizationalStructureTreeNode />
+    <Router>
+        <Routes>
+            {
+                routes.map((route: any, index: number) =>{
+                    const Component = getRouteComponent(route.componentName);
+                    return(
+                        <Route key={index} path={route.path} exact={route.exact} Component={Component} />
+                    )
+                })
+            }
+        </Routes>
+    </Router>
     </ThemeProvider>
   );
 };
 
-export default App;
+const mapStateToProps = (state: any) => ({
+    routes: state.routes
+});
+
+export default connect(mapStateToProps)(App);
