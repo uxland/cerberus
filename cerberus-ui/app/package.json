@@ -11,6 +11,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.2.1",
+    "react-redux": "^9.1.2",
     "mediatr-ts": "^1.2.1",
     "@cerberus/core": "workspace:^",
     "@cerberus/maintenance": "workspace:^",

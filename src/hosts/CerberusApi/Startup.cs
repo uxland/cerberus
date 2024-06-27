@@ -1,4 +1,5 @@
 ﻿using Cerberus.Api.Bootstrap;
+using Cerberus.Api.Bootstrap.OpenApi;
 using Cerberus.Api.Setup;
 using Cerberus.BackOffice;
 using Cerberus.Core.MartenPersistence;
@@ -11,15 +12,8 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        
-         services.AddControllers()
-            .AddCerberusBackOfficeFeatures()
-            .AddControllersAsServices();
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "CerberusApi", Version = "v1" });
-        });
+        services.BootstrapMvc()
+            .BootstrapOpenApi();
         services.AddCors(options =>
         {
             options.AddPolicy("AllowLocalReact",
@@ -31,14 +25,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
                         .AllowCredentials();
                     builder.SetIsOriginAllowed(s => new Uri(s).Host == "localhost");
                 });
-
-            options.AddPolicy("Allow local Blazor",
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:5177", "https://localhost:7005")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
+            
         });
 
         hostBuilder.SetupWolverine();

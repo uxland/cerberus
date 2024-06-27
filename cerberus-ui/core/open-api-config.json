@@ -1,0 +1,5 @@
+{
+  "modelPackage": "models",
+  "apiPackage": "api",
+  "supportsES6": true
+}
