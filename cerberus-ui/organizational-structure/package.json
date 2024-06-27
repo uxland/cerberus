@@ -14,14 +14,16 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "inversify": "^6.0.2",
     "@cerberus/core": "workspace:^",
     "@cerberus/shared": "workspace:^",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "mediatr-ts": "^1.2.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@uxland/react-services": "^1.0.3",
-    "inversify": "^6.0.2"
+    "mediatr-ts": "^1.2.1",
+    "@mui/material": "^5.15.5",
+    "@mui/x-tree-view": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@uxland/react-services": "^1.0.3"
   }
 }

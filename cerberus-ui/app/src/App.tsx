@@ -1,4 +1,5 @@
-import {MaintenanceApp} from '@cerberus/maintenance';
+import {DrawerContainer} from '@cerberus/core';
+import {DrawerProvider} from '@cerberus/core/src/providers/DrawerProvider';
 import {OrganizationalStructureTreeNode} from '@cerberus/organizational-structure';
 import {ThemeProvider, Typography} from '@mui/material';
 import {useAppLocales} from './locales/ca/locales';
@@ -9,13 +10,9 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Typography variant='h1'>{useAppLocales('title')}</Typography>
-      <Typography variant='body1'>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        Exercitationem, quidem. Enim reprehenderit iste deleniti, nobis ea
-        quaerat minima officiis! Sint deleniti placeat distinctio aliquam id
-        rerum eos commodi. Neque, sapiente?
-      </Typography>
-      <MaintenanceApp />
+      <DrawerProvider>
+        <DrawerContainer />
+      </DrawerProvider>
       <OrganizationalStructureTreeNode />
     </ThemeProvider>
   );

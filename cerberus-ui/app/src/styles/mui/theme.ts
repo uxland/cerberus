@@ -63,6 +63,15 @@ const theme = createTheme(paletteTheme, {
       color: blueGrey[300],
     },
   },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          background: '#121212',
+        },
+      },
+    },
+  },
 });
 
 export default theme;
