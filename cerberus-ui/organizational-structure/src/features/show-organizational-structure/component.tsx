@@ -1,24 +1,22 @@
-import {SimpleTreeView, TreeItem} from '@mui/x-tree-view';
+import {SimpleTreeView} from '@mui/x-tree-view';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
-import {HierarchyItem} from './hierarchy-item.ts';
-import {ListLocationChildren} from './list-location-children.ts';
-import {Link} from "react-router-dom";
+import {LocationNode} from './hierarchy-item.ts';
+import {ListLocationHierarchy} from './list-location-children.ts';
+import {TreeNode} from "./tree-node.tsx";
 
-export const OrganizationalStructureTreeNode = (props: {
-  id?: string | undefined;
-}) => {
-  const [children, setChildren] = useState<HierarchyItem[]>([]);
+export const OrganizationalStructureTreeNode = () => {
+  const [children, setChildren] = useState<LocationNode[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       const hierarchyItems = await new Mediator().send(
-        new ListLocationChildren(props.id)
+        new ListLocationHierarchy()
       );
       setChildren(hierarchyItems);
     }
     fetchData();
-  }, [props.id]);
+  }, []);
 
   return (
     <SimpleTreeView>
@@ -28,32 +26,3 @@ export const OrganizationalStructureTreeNode = (props: {
     </SimpleTreeView>
   );
 };
-
-const TreeNode = ({node}: {node: HierarchyItem}) => {
-  const [children, setChildren] = useState<HierarchyItem[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  const handleItemClick = async (itemId: string) => {
-    if (!isLoaded) {
-      const hierarchyItems = await new Mediator().send(
-        new ListLocationChildren(itemId)
-      );
-      setChildren(hierarchyItems);
-      setIsLoaded(true);
-    }
-  };
-
-  return (
-    <TreeItem
-      itemId={node.id}
-      label={node.description}
-      onClick={() => handleItemClick(node.id)}>
-      {children.map((child) => (
-        <TreeNode key={child.id} node={child} />
-      ))}
-    </TreeItem>
-
-  );
-};
-
-const getItemUrl = (item: HierarchyItem) => item.type === 'Location' ? `locations/${item.id}` : `cameras/${item.id}`;

@@ -1,4 +1,3 @@
-import {DrawerProvider, } from '@cerberus/core/src/providers/DrawerProvider';
 import {OrganizationalStructureTreeNode} from '@cerberus/organizational-structure';
 import {Box, ThemeProvider, Typography} from '@mui/material';
 import {useAppLocales} from './locales/ca/locales';
@@ -11,11 +10,10 @@ import Logo from "./assets/instrumenta.png";
 import Drawer from "@mui/material/Drawer";
 
 export const App = ({routes}) => {
-
     return (
         <ThemeProvider theme={theme}>
             <Typography variant='h1'>{useAppLocales('title')}</Typography>
-            <DrawerProvider>
+            <Router>
                 <Drawer
                     PaperProps={{sx: {width: '20vw'}}}
                     anchor='left'
@@ -37,17 +35,18 @@ export const App = ({routes}) => {
                         </div>
                     </Box>
                 </Drawer>
-                <Router>
-                    <Routes>
-                        {routes.map((route: any, index: number) => {
-                            const Component = getRouteComponent(route.componentName);
-                            return (
-                                <Route key={index} path={route.path} Component={Component} />
-                            );
-                        })}
-                    </Routes>
-                </Router>
-            </DrawerProvider>
+                <Routes>
+                    {routes.map((route: any, index: number) => {
+                        const Component = getRouteComponent(route.componentName);
+                        return (
+                            <Route key={index} path={route.path} Component={Component} />
+                        );
+                    })}
+                </Routes>
+
+            </Router>
+
+
         </ThemeProvider>
     );
 };

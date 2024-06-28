@@ -13,7 +13,6 @@ public class CamerasController(ICameraEntityQueryProvider entityQueryProvider): 
     [
         ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Camera)),
         ProducesResponseType(StatusCodes.Status404NotFound),
-        Produces(ProducesMediaType)
     ]
     public async Task<IActionResult> GetCameraDetail(string cameraId)
     {

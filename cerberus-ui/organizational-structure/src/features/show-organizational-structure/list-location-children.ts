@@ -1,9 +1,7 @@
 import {IRequest} from "mediatr-ts";
-import {HierarchyItem} from "./hierarchy-item.ts";
+import {LocationNode} from "./hierarchy-item.ts";
 
-export class ListLocationChildren implements IRequest<HierarchyItem[]> {
-    constructor(public parentId: string | undefined) {
-    }
+export class ListLocationHierarchy implements IRequest<LocationNode[]> {
 }
 
 

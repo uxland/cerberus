@@ -1,5 +1,5 @@
 
-export const enum HierarchyItemType {
+export enum HierarchyItemType {
     location = "Location",
     camera = "Camera",
 }
@@ -10,4 +10,8 @@ export interface HierarchyItem {
     description: string;
     path: string;
     type: HierarchyItemType;
+}
+
+export interface LocationNode extends HierarchyItem {
+    children: LocationNode[];
 }

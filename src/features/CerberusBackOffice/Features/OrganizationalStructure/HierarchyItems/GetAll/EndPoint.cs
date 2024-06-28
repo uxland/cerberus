@@ -1,4 +1,5 @@
-﻿using Cerberus.MvcUtilities;
+﻿using Cerberus.Core.Domain;
+using Cerberus.MvcUtilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,18 +7,18 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.Ge
 
 [ApiController]
 [Route("api/[controller]")]
-public class LocationsController(IHierarchyItemEntityQueryProvider entityQueryProvider): ControllerBase
+public class LocationsController(IReadModelQueryProvider queryProvider): ControllerBase
 {
     internal const string ProducesMediaType = "application/json;domain-model=Cerberus.HierarchyItemList;version1.0.0";
     [HttpGet]
     [
-        ProducesResponseType(StatusCodes.Status200OK),
-        Produces(ProducesMediaType)
+        ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<HierarchyItem>)),
     ]
-    [AcceptHeaderConstraint(ProducesMediaType, AcceptHeaderConstraint.WildcardMediaType)]
+   // [AcceptHeaderConstraint(ProducesMediaType, AcceptHeaderConstraint.WildcardMediaType)]
     public async Task<IEnumerable<HierarchyItem>> GetAll()
     {
-        return await entityQueryProvider.GetAll();
+        var result = await queryProvider.List<HierarchyItem>();
+        return result;
     }
     
 }

@@ -17,6 +17,7 @@
     "inversify": "^6.0.2",
     "@cerberus/core": "workspace:^",
     "@cerberus/shared": "workspace:^",
+    "@cerberus/maintenance": "workspace:^",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "mediatr-ts": "^1.2.1",

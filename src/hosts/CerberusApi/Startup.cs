@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 
 namespace Cerberus.Api;
 
-public class Startup(IConfiguration configuration, IHostEnvironment hosting, ConfigureHostBuilder hostBuilder)
+public class Startup(WebApplicationBuilder builder)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -28,29 +28,24 @@ public class Startup(IConfiguration configuration, IHostEnvironment hosting, Con
             
         });
 
-        hostBuilder.SetupWolverine();
+        builder.Host.SetupWolverine();
         
         var martenConfiguration = services
-            .SetupConfigurations(configuration)
+            .SetupConfigurations(builder.Configuration)
             .UseLogging()
             .BootstrapXabeFFMpegClient()
-            .UseMartenPersistence(configuration, hosting);
+            .UseMartenPersistence(builder.Configuration, builder.Environment);
         services
-            .BootstrapBackOffice(configuration, martenConfiguration)
+            .BootstrapBackOffice(builder.Configuration, martenConfiguration)
             .BootstrapMaintenance(martenConfiguration);
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cerberus BackOffice API v1");
-        });
-
-        // Use the policy that allows any port on localhost
-        app.UseCors("AllowLocalReact");
-      //  app.UseCors("Allow local Blazor");
+        app
+            .BootstrapOpenApi()
+            .UseCors("AllowLocalReact")
+            .BootstrapContentServer(builder);
 
         app.UseRouting();
 

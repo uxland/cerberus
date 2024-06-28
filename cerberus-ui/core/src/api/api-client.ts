@@ -1,8 +1,10 @@
 import {ApiClient} from "@cerberus/shared/src";
 import {Axios, AxiosResponse} from 'axios';
 
+// @ts-ignore
+const urlBase = import.meta.env.VITE_CERBERUS_BACKEND_URL
 const baseConfig = {
-    baseURL: 'http://localhost:5222/api',
+    baseURL: `${urlBase}/api`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -47,7 +49,8 @@ export class ApiClientImpl extends ApiClient{
 
 const parseResponse = (response: AxiosResponse) => {
     if((response.headers['content-type'] || '').includes('application/json')){
-        return typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
+        const result = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
+        return typeof result === 'string' ? JSON.parse(result) : result;
     }
     return response.data;
 };

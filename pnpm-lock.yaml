@@ -144,6 +144,9 @@ importers:
       '@cerberus/core':
         specifier: workspace:^
         version: link:../core
+      '@cerberus/maintenance':
+        specifier: workspace:^
+        version: link:../maintenance
       '@cerberus/shared':
         specifier: workspace:^
         version: link:../shared

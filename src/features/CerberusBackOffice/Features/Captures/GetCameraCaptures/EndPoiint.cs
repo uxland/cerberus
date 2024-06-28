@@ -5,6 +5,7 @@ namespace Cerberus.BackOffice.Features.Captures.GetCameraCaptures;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class CamerasController(ICaptureQueryProvider captureQueryProvider): ControllerBase
 {
     [

@@ -1,7 +1,5 @@
-import {useUpdateDrawer} from '@cerberus/core/src/providers/DrawerProvider.tsx';
 import {Mediator} from 'mediatr-ts';
 import {useState} from 'react';
-import {OrganizationalStructureTreeNode} from '../show-organizational-structure/component.tsx';
 import {UploadOrganizationStructureFile} from './command.ts';
 
 export const OrganizationalStructureFileUploader = () => {
@@ -15,7 +13,6 @@ export const OrganizationalStructureFileUploader = () => {
     setUploading(true);
     try {
       await new Mediator().send(new UploadOrganizationStructureFile(file));
-      handleOrganitzationStructure();
     } catch (e) {
       setError(e.message || e.toString());
     } finally {
@@ -23,14 +20,6 @@ export const OrganizationalStructureFileUploader = () => {
     }
   };
 
-  const updateDrawer = useUpdateDrawer();
-  const handleOrganitzationStructure = () => {
-    updateDrawer({
-      content: OrganizationalStructureTreeNode,
-      open: true,
-      anchor: 'left',
-    });
-  };
 
   return (
     <form onSubmit={submit}>

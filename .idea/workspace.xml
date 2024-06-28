@@ -5,22 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: routing added">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/boostrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/facade.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/handler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/query.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/app/.env.development" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/app/.env.production" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/app/vite-env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/utils/nop.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues/component.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues/handler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues/model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues/query.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/nginx.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/list-camera-captures/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/list-camera-captures/component.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/list-camera-captures/handler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/list-camera-captures/model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/list-camera-captures/query.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Bootstrap/ContentServerBootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.demo.generated.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.demo.generated.override.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/utils/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/utils/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/boostrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/boostrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/facade.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/facade.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/handler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/query.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/query.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/bootstrapper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/facade.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/facade.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/hierarchy-item.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/hierarchy-item.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/list-location-children-handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/list-location-hierarchy-handler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/list-location-children.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/list-location-children.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/upload-organization-structure-file/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/upload-organization-structure-file/component.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/GetCameraCaptures/EndPoiint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/GetCameraCaptures/EndPoiint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/GetCameraDetail/EndPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/GetCameraDetail/EndPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/GetAll/EndPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/GetAll/EndPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Bootstrap/OpenApi/OpenApiBootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Bootstrap/OpenApi/OpenApiBootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +59,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Dockerfile" />
         <option value="package.json" />
         <option value="PowerShell File" />
+        <option value="Dockerfile" />
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
       </list>
@@ -58,6 +87,10 @@
     &quot;accountId&quot;: &quot;888f5dde-6dc3-4e2a-a938-5b90a4c9867d&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -68,33 +101,66 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "features/ui/camera-settings-view",
-    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_interpreter_path": "/Users/danipinartnadal/.nvm/versions/node/v20.12.2/bin/node",
     "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
     "npm.dev.executor": "Run",
     "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui/app" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues" />
+      <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings" />
       <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail" />
       <recent name="$PROJECT_DIR$/cerberus-ui/src/features/organizational-structure" />
       <recent name="$PROJECT_DIR$/cerberus-ui/src/features" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev">
-    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JavaScript Debug.Browser Debug">
+    <configuration name="Browser Debug" type="JavascriptDebugType" uri="http://localhost:5173" useFirstLineBreakpoints="true">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cerberus-ui/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="cerberus-ui/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="app &gt; build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/cerberus-ui/app/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="cerberus-ui &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/cerberus-ui/package.json" />
       <command value="run" />
       <scripts>
@@ -104,12 +170,20 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Docker.Demo" />
+      <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+      <item itemvalue="JavaScript Debug.Browser Debug" />
+      <item itemvalue="npm.app &gt; build" />
+      <item itemvalue="npm.cerberus-ui &gt; dev" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.dev" />
-        <item itemvalue="npm.dev" />
+        <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+        <item itemvalue="npm.app &gt; build" />
+        <item itemvalue="npm.cerberus-ui &gt; dev" />
+        <item itemvalue="npm.cerberus-ui &gt; dev" />
+        <item itemvalue="npm.cerberus-ui &gt; dev" />
       </list>
     </recent_temporary>
   </component>
@@ -134,6 +208,7 @@
       <workItem from="1719322718358" duration="832000" />
       <workItem from="1719381889423" duration="22244000" />
       <workItem from="1719460064010" duration="15844000" />
+      <workItem from="1719553533733" duration="17362000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />

@@ -14,4 +14,13 @@ public static class OpenApiBootstrapper
         });
         return services;
     }
+
+    public static IApplicationBuilder BootstrapOpenApi(this IApplicationBuilder app)
+    {
+        return app.UseSwagger()
+            .UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cerberus BackOffice API v1");
+        });
+    }
 }
