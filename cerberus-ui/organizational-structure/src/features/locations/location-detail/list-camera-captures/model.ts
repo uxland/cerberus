@@ -1,3 +1,4 @@
+import {Entity} from "@cerberus/shared/src";
 
 enum CaptureErrorType{
     AuthenticationError = 'AuthenticationError',
@@ -10,7 +11,7 @@ interface CaptureError{
     message: string;
     type: CaptureErrorType;
 }
-export interface Capture{
+export interface Capture extends Entity{
     at: Date;
     snapshotPath?: string | undefined;
     thumbnailPath?: string | undefined;

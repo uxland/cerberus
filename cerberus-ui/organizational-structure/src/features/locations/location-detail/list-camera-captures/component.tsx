@@ -2,7 +2,7 @@ import {Capture} from "./model.ts";
 import {useEffect, useState} from "react";
 import {ListCapturesByCameraId} from "./query.ts";
 import {Mediator} from "mediatr-ts";
-import {nop} from "@cerberus/core";
+import {getImageUrl, nop} from "@cerberus/core";
 
 export const CameraCapturesView = (props: {id: string}) =>{
     const [captures, setCaptures] = useState<Capture[] | null>(null);
@@ -38,7 +38,12 @@ const CaptureListComponent = (captures: Capture[]) => (
     <div>
         <h1>Captures</h1>
         <ul>
-            {captures.map(capture => CaptureComponent(capture))}
+            {captures.map(capture => (
+                <li key={capture.id}>
+                    {CaptureComponent(capture)}
+                </li>
+
+            ))}
         </ul>
 
     </div>
@@ -53,8 +58,3 @@ const CaptureComponent = (capture: Capture) => (
     </div>
 );
 
-// @ts-ignore
-const urlBase = import.meta.env.VITE_CERBERUS_BACKEND_URL
-const getImageUrl= (url: string) =>{
-    return `${urlBase}/images/${url}`;
-}

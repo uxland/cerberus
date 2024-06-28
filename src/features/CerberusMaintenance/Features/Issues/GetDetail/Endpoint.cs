@@ -7,6 +7,7 @@ namespace Cerberus.Maintenance.Features.Features.Issues.GetDetail;
 
 [ApiController]
 [Route("api/maintenance-issues")]
+[Produces("application/json")]
 public class MaintenanceIssuesController : ControllerBase
 {
     public const string ProducesMediaType = "application/json;domain-model=Cerberus.Maintenance.MaintenanceIssueDetail;version=1.0";

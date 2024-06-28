@@ -13,7 +13,7 @@ public class LocationsController : ControllerBase
     [
         ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<PendingMaintenanceIssueSummary>)),
         ProducesResponseType(StatusCodes.Status404NotFound),
-        // Produces(ProducesMediaType)
+        Produces("application/json")
     ]
     public async Task<IActionResult> ListByLocationPath(string locationPath, [FromServices]IReadModelQueryProvider entityQueryProvider)
     {

@@ -36,10 +36,10 @@ export const App = ({routes}) => {
                     </Box>
                 </Drawer>
                 <Routes>
-                    {routes.map((route: any, index: number) => {
+                    {routes.map((route: any) => {
                         const Component = getRouteComponent(route.componentName);
                         return (
-                            <Route key={index} path={route.path} Component={Component} />
+                            <Route key={route.name} path={route.path} Component={Component} />
                         );
                     })}
                 </Routes>

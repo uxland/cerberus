@@ -10,6 +10,7 @@ public record PendingMaintenanceIssueSummary(
     string Path,
     string CameraId,
     string Description,
+    string Summary,
     MaintenanceIssueStatus Status,
     Instant CreatedAt,
     Instant? StartedAt = null) : IEntity
