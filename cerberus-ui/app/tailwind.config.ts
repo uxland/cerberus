@@ -7,7 +7,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"Roboto"', '"Open Sans"'],
+        body: ['Montserrat'],
       },
       colors: {
         ...colors,
