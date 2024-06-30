@@ -16,9 +16,11 @@ public class EndPoint : ControllerBase
         ProducesResponseType(StatusCodes.Status404NotFound),
         // Produces(ProducesMediaType)
     ]
-    public async Task<IActionResult> Start(string id, IMessageBus bus)
+    public async Task<IActionResult> Start(string id, [FromBody]Payload payload, IMessageBus bus)
     {
-        await bus.SendAsync(new EndMaintenanceIssue(id));
+        await bus.SendAsync(new EndMaintenanceIssue(id, Comment: payload.Comment));
         return Ok("Ended issue resolution.");
     }
+    
+    public record Payload(string? Comment);
 }
