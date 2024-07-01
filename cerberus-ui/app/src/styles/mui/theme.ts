@@ -50,7 +50,7 @@ const theme = createTheme(paletteTheme, {
     MuiPaper: {
       styleOverrides: {
         root: {
-          background: '#121212',
+          background: '#000',
         },
       },
     },
@@ -67,7 +67,40 @@ const theme = createTheme(paletteTheme, {
           fontWeight: '600 !important',
           color: '000',
           '&:hover': {
-            color: '#ffc200',
+            color: `${paletteTheme.palette.primary.main}`,
+          },
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#828282',
+          '&.Mui-selected': {
+            color: `${paletteTheme.palette.primary.main}`,
+          },
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          height: '1.2rem',
+          position: 'relative',
+          top: '.4rem',
+          borderWidth: '.1rem',
+        },
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          fontWeight: '800 !important',
+          color: 'red',
+          '& .Mui-selected': {
+            color: 'red',
           },
         },
       },
