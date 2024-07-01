@@ -7,11 +7,11 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"Roboto"', '"Open Sans"'],
+        body: ['Montserrat', 'Open Sans'],
       },
       colors: {
         ...colors,
-        primary: '#5DBB63',
+        primary: '#ffc200',
         neutral: '#F5F5F5',
         text: {
           primaryGrey: '#121212',
