@@ -15,9 +15,10 @@ const paletteTheme = createTheme({
 const theme = createTheme(paletteTheme, {
   typography: {
     htmlFontSize: 14,
-    fontFamily: 'Roboto',
+    fontFamily: 'Montserrat',
     h1: {
       fontSize: createTheme().typography.pxToRem(28),
+      fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '900',
@@ -25,6 +26,7 @@ const theme = createTheme(paletteTheme, {
     },
     h2: {
       fontSize: createTheme().typography.pxToRem(24),
+      fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '500',
@@ -32,6 +34,7 @@ const theme = createTheme(paletteTheme, {
     },
     h3: {
       fontSize: createTheme().typography.pxToRem(20),
+      fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '800',
@@ -39,6 +42,7 @@ const theme = createTheme(paletteTheme, {
     },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
+      fontFamily: 'Montserrat',
       color: 'white',
     },
   },
@@ -47,6 +51,33 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           background: '#121212',
+        },
+      },
+    },
+    MuiTreeItem: {
+      styleOverrides: {
+        root: {
+          textAlign: 'left',
+          color: 'white',
+        },
+        label: {
+          fontSize: '1rem',
+          letterSpacing: '0.12',
+          lineheight: '1.50px',
+          fontWeight: '600 !important',
+          color: '000',
+          '&:hover': {
+            color: '#ffc200',
+          },
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          textAlign: 'left',
+          width: '1.5rem !important',
+          height: '1.5rem !important',
         },
       },
     },
