@@ -8,3 +8,4 @@ riderModule.iml
 ./Snapshots/*.*
 /Snapshots/*.*
 node_modules
+.DS_STORE

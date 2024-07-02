@@ -43,6 +43,22 @@ const theme = createTheme(paletteTheme, {
       fontWeight: '800',
       color: 'white',
     },
+    h4: {
+      fontSize: createTheme().typography.pxToRem(18),
+      fontFamily: 'Montserrat',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      fontWeight: '700',
+      color: 'white',
+    },
+    h5: {
+      fontSize: createTheme().typography.pxToRem(16),
+      fontFamily: 'Montserrat',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      fontWeight: '600',
+      color: 'white',
+    },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
       fontFamily: 'Montserrat',
@@ -50,13 +66,6 @@ const theme = createTheme(paletteTheme, {
     },
   },
   components: {
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          background: '#000',
-        },
-      },
-    },
     MuiTreeItem: {
       styleOverrides: {
         root: {
@@ -134,7 +143,7 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           '& fieldset': {
-            borderColor: '#fff',
+            borderColor: `${tailwindConfig.theme.colors.white}`,
           },
         },
       },
@@ -142,7 +151,7 @@ const theme = createTheme(paletteTheme, {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          color: '#fff',
+          color: `${tailwindConfig.theme.colors.white}`,
         },
       },
     },
@@ -152,6 +161,48 @@ const theme = createTheme(paletteTheme, {
           textAlign: 'left',
           width: '1.5rem !important',
           height: '1.5rem !important',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
+          '&.table': {
+            backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
+          },
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          height: '50px',
+        },
+      },
+    },
+
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          borderBottom: `1px solid ${tailwindConfig.theme.colors.grey82}`,
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          height: '2rem',
+          borderBottom: 'none',
+          color: `${tailwindConfig.theme.colors.white}`,
+          letterSpacing: '1px',
+        },
+      },
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          maxWidth: '200px',
         },
       },
     },

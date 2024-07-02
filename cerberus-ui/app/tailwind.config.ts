@@ -14,9 +14,10 @@ const config: Config = {
         primary: '#ffc200',
         secondary: '#828282',
         neutral: '#F5F5F5',
-        text: {
-          primaryGrey: '#121212',
-        },
+        white: '#fff',
+        primaryGrey: '#121212',
+        grey82: '#828282',
+        tableBg: '#1f1f1f',
       },
     },
   },
