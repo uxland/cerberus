@@ -22,30 +22,6 @@ export const OrganizationalStructureFileUploader = () => {
     }
   };
 
-  // return (
-  //   <>
-  //     <form onSubmit={submit}>
-  //       <h1>Pick a file</h1>
-  //       <input type='file' onChange={(e) => setFile(e.target.files[0])} />
-  //       <button type='submit' disabled={!file}>
-  //         Submit
-  //       </button>
-  //       {error ? <h1>{error}</h1> : null}
-  //       {uploading ? <h3>wait</h3> : null}
-  //     </form>
-
-  //     <MuiFileInput
-  //       value={file}
-  //       label='Pick a file'
-  //       variant='outlined'
-  //       color='secondary'
-  //       onChange={(e) => setFile(e.target.files[0])}
-  //     />
-  //     <Button variant='outlined' size='medium' disabled={!file} type='submit'>
-  //       Submit
-  //     </Button>
-  //   </>
-  // );
   const handleFileChange = (newFile) => {
     setFile(newFile);
   };
@@ -82,12 +58,11 @@ export const OrganizationalStructureFileUploader = () => {
           Submit
         </Button>
         {error && (
-          <Typography variant='h6' color='error' component='h1'>
+          <Typography variant='h6' color='error' component='h6'>
             {error}
           </Typography>
         )}
       </div>
-      {/* {uploading && <CircularProgress style={{marginTop: 16, color: 'pink'}} />} */}
     </form>
   );
 };

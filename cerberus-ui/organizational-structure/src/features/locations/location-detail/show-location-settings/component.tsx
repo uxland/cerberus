@@ -40,8 +40,7 @@ export const LocationSettingsView = (props: {
 const LocationSettingsComponent = (settings: LocationSettings) => (
   <div className='flex justify-between'>
     <Typography variant='h2' color='#fff'>
-      {settings.parentId}
-      {settings.description}
+      {settings.path} ({settings.description})
     </Typography>
     <Button variant='outlined' className='capture-btn' aria-label='Capture'>
       Capture Me
