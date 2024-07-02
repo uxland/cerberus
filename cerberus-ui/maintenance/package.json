@@ -16,6 +16,7 @@
   "dependencies": {
     "@cerberus/core": "workspace:^",
     "@cerberus/shared": "workspace:^",
+    "date-fns": "3.6.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.12",
@@ -25,6 +26,5 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.24.0",
     "mediatr-ts": "^1.2.1"
-
   }
 }
