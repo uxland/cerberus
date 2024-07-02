@@ -199,6 +199,13 @@ const theme = createTheme(paletteTheme, {
         },
       },
     },
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          maxWidth: '200px',
+        },
+      },
+    },
   },
 });
 

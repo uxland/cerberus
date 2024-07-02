@@ -43,7 +43,7 @@ const formatDateString = (dateString) => {
 const CaptureListComponent = (captures: Capture[]) => (
   <div className='flex flex-col gap-4'>
     <Typography variant='h5'>Captures ({captures.length})</Typography>
-    <List className='grid grid-cols-5 gap-6 h-full flex-wrap'>
+    <List className='grid grid-cols-6 gap-4 h-full flex-wrap'>
       {captures.map((capture) => (
         <ListItem key={capture.id}>{CaptureComponent(capture)}</ListItem>
       ))}
