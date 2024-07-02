@@ -9,6 +9,9 @@ const paletteTheme = createTheme({
     primary: {
       main: `${tailwindConfig.theme.colors.primary}`,
     },
+    secondary: {
+      main: `${tailwindConfig.theme.colors.secondary}`,
+    },
   },
 });
 
@@ -50,7 +53,7 @@ const theme = createTheme(paletteTheme, {
     MuiPaper: {
       styleOverrides: {
         root: {
-          background: '#121212',
+          background: '#000',
         },
       },
     },
@@ -67,8 +70,79 @@ const theme = createTheme(paletteTheme, {
           fontWeight: '600 !important',
           color: '000',
           '&:hover': {
-            color: '#ffc200',
+            color: `${paletteTheme.palette.primary.main}`,
           },
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#828282',
+          '&.Mui-selected': {
+            color: `${paletteTheme.palette.primary.main}`,
+          },
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          height: '1.2rem',
+          position: 'relative',
+          top: '.4rem',
+          borderWidth: '.1rem',
+        },
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          fontWeight: '800 !important',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontWeight: '800 !important',
+          '&.capture-btn': {
+            fontSize: '14px',
+            color: '#4791ff',
+            borderColor: '#4791ff',
+            borderRadius: '50px',
+            border: '2px solid',
+            width: '200px',
+            height: '34px',
+            position: 'relative',
+            top: '-.6rem',
+          },
+          '&.submit-btn': {
+            height: '2.2rem',
+            marginBottom: '.55rem',
+            '&.Mui-disabled': {
+              color: '#fff',
+              backgroundColor: '#ccc',
+            },
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '& fieldset': {
+            borderColor: '#fff',
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: '#fff',
         },
       },
     },

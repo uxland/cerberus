@@ -1,3 +1,4 @@
+import {getNestedValue} from '@cerberus/core';
 import {Paths} from '@cerberus/core/src/utils/auxiliar-types';
 import {useLocalePath} from '@uxland/react-services';
 import {moduleName} from '../../constants';
@@ -9,12 +10,22 @@ export const useOrganizationalStructureLocales = (
   path: OrganizationalStructureLocalesPath
 ) => {
   const globalPath = useLocalePath();
-  const locale = locales[moduleName][path];
+  const locale = getNestedValue(locales[moduleName], path);
+
+  if (!locale) {
+    console.error(`Locale path "${path}" not found in locales.`);
+    return '';
+  }
   return globalPath(locale);
 };
 
 export const locales = {
   [moduleName]: {
-    title: 'Organizational-structure App',
+    tabs: {
+      openIssues: 'Open issues',
+      pendingReviews: 'Pending reviews',
+      settings: 'Settings',
+      captures: 'Captures',
+    },
   },
 };
