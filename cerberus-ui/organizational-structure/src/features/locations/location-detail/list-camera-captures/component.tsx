@@ -1,9 +1,8 @@
 import {getImageUrl, nop} from '@cerberus/core';
-import {Typography} from '@mui/material';
+import {List, ListItem, Typography} from '@mui/material';
 import {format} from 'date-fns/format';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
-import {useOrganizationalStructureLocales} from '../../../../locales/ca/locales.ts';
 import {Capture} from './model.ts';
 import {ListCapturesByCameraId} from './query.ts';
 
@@ -43,32 +42,33 @@ const formatDateString = (dateString) => {
 };
 const CaptureListComponent = (captures: Capture[]) => (
   <div className='flex flex-col gap-4'>
-    <Typography variant='h5'>
-      {useOrganizationalStructureLocales('views.captures')}
-    </Typography>
-    <ul className='flex gap-6'>
+    <Typography variant='h5'>Captures ({captures.length})</Typography>
+    <List className='grid grid-cols-5 gap-6 h-full flex-wrap'>
       {captures.map((capture) => (
-        <li key={capture.id}>{CaptureComponent(capture)}</li>
+        <ListItem key={capture.id}>{CaptureComponent(capture)}</ListItem>
       ))}
-    </ul>
+    </List>
   </div>
 );
 const CaptureComponent = (capture: Capture) => (
-  <div className='flex flex-col gap-2'>
-    <div className='flex flex-col gap-2'>
+  <div className='flex flex-col gap-2 min-w-52'>
+    <div className='flex flex-col gap-1'>
       <Typography variant='body1'>
         At: {formatDateString(capture.at)}
       </Typography>
       <Typography variant='body1'>Camera: {capture.cameraId}</Typography>
     </div>
     <div className='flex flex-col gap-2'>
-      <div className='image-container'>
+      {capture.thumbnailPath ? (
         <img
           src={getImageUrl(capture.thumbnailPath)}
           alt={capture.cameraId}
           className='image'
         />
-      </div>
+      ) : (
+        <div className='image-placeholder'>No Image Available</div>
+      )}
+
       <Typography variant='body1'>
         Successful: {capture.successful ? 'Yes' : 'No'}
       </Typography>

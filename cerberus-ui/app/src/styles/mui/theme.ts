@@ -43,6 +43,22 @@ const theme = createTheme(paletteTheme, {
       fontWeight: '800',
       color: 'white',
     },
+    h4: {
+      fontSize: createTheme().typography.pxToRem(18),
+      fontFamily: 'Montserrat',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      fontWeight: '700',
+      color: 'white',
+    },
+    h5: {
+      fontSize: createTheme().typography.pxToRem(16),
+      fontFamily: 'Montserrat',
+      textTransform: 'uppercase',
+      letterSpacing: '1px',
+      fontWeight: '600',
+      color: 'white',
+    },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
       fontFamily: 'Montserrat',

@@ -27,7 +27,7 @@ export const OrganizationalStructureFileUploader = () => {
   };
   return (
     <form onSubmit={submit}>
-      <Typography variant='h4' component='h1' gutterBottom>
+      <Typography variant='h6' component='h6'>
         Pick a file
       </Typography>
       <div className='flex gap-4 w-[500px] items-end'>
