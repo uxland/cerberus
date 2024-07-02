@@ -8,6 +8,7 @@ import {
 import {useOrganizationalStructureLocales} from '../../../locales/ca/locales';
 import {HierarchyItemType} from '../../show-organizational-structure/hierarchy-item';
 import {CameraCapturesView} from './list-camera-captures/component';
+import {LocationSettingsView} from './show-location-settings/component';
 export const LocationPage = () => {
   const {id} = useParams();
   const query = new URLSearchParams(useLocation().search);
@@ -36,8 +37,17 @@ export const LocationPage = () => {
     );
   };
   return (
-    <div className='flex flex-col'>
-      <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+    <div className='flex flex-col flex-1 w-full'>
+      <LocationSettingsView id={id} type={itemType} />
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flex: '1',
+          flexDirection: 'row',
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}>
         <Tabs
           value={selectedTab}
           onChange={handleChange}

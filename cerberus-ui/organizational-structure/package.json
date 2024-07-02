@@ -14,14 +14,15 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "inversify": "^6.0.2",
     "@cerberus/core": "workspace:^",
     "@cerberus/shared": "workspace:^",
     "@cerberus/maintenance": "workspace:^",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "inversify": "^6.0.2",
     "mediatr-ts": "^1.2.1",
     "@mui/material": "^5.15.5",
+    "mui-file-input": "4.0.4",
     "@mui/x-tree-view": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

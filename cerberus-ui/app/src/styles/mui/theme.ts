@@ -9,6 +9,9 @@ const paletteTheme = createTheme({
     primary: {
       main: `${tailwindConfig.theme.colors.primary}`,
     },
+    secondary: {
+      main: `${tailwindConfig.theme.colors.secondary}`,
+    },
   },
 });
 
@@ -98,10 +101,48 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           fontWeight: '800 !important',
-          color: 'red',
-          '& .Mui-selected': {
-            color: 'red',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontWeight: '800 !important',
+          '&.capture-btn': {
+            fontSize: '14px',
+            color: '#4791ff',
+            borderColor: '#4791ff',
+            borderRadius: '50px',
+            border: '2px solid',
+            width: '200px',
+            height: '34px',
+            position: 'relative',
+            top: '-.6rem',
           },
+          '&.submit-btn': {
+            height: '2.2rem',
+            marginBottom: '.55rem',
+            '&.Mui-disabled': {
+              color: '#fff',
+              backgroundColor: '#ccc',
+            },
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '& fieldset': {
+            borderColor: '#fff',
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: '#fff',
         },
       },
     },

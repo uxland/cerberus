@@ -4,7 +4,6 @@ import {Box, ThemeProvider, Typography} from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import {connect} from 'react-redux';
 import {Route, BrowserRouter as Router, Routes} from 'react-router-dom';
-import Logo from './assets/instrumenta.png';
 import theme from './styles/mui/theme';
 
 export const App = ({routes}) => {
@@ -18,9 +17,6 @@ export const App = ({routes}) => {
             variant='permanent'>
             <Box color={'CaptionText'} gap={4}>
               <div className='flex flex-col gap-2'>
-                <div className='h-22 p-4'>
-                  <img src={Logo} />
-                </div>
                 <div className='flex p-6 bg-[#202020] justify-between'>
                   <div className='flex flex-col items-start p-1'>
                     <Typography variant='h3'>115</Typography>
@@ -28,12 +24,18 @@ export const App = ({routes}) => {
                   </div>
                 </div>
               </div>
-              <div className='h-full '>
+              <div className='h-full'>
                 <OrganizationalStructureTreeNode />
               </div>
             </Box>
           </Drawer>
-          <Box sx={{display: 'flex', marginLeft: '20vw'}}>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              marginLeft: '20vw',
+              padding: '2rem',
+            }}>
             <Routes>
               {routes.map((route: any) => {
                 const Component = getRouteComponent(route.componentName);
