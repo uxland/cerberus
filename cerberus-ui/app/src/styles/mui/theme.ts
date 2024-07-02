@@ -151,7 +151,7 @@ const theme = createTheme(paletteTheme, {
     MuiPaper: {
       styleOverrides: {
         root: {
-          background: '#000',
+          backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
           '&.table': {
             backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
           },

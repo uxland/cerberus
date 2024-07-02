@@ -21,6 +21,9 @@ export const useOrganizationalStructureLocales = (
 
 export const locales = {
   [moduleName]: {
+    views: {
+      captures: 'Captures',
+    },
     tabs: {
       openIssues: 'Open issues',
       pendingReviews: 'Pending reviews',

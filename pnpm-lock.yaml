@@ -171,6 +171,9 @@ importers:
       '@uxland/react-services':
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))
+      date-fns:
+        specifier: 3.6.0
+        version: 3.6.0
       inversify:
         specifier: ^6.0.2
         version: 6.0.2
@@ -190,11 +193,7 @@ importers:
         specifier: ^6.2.1
         version: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  cerberus-ui/shared:
-    dependencies:
-      date-fns:
-        specifier: ^2.29.3
-        version: 2.30.0
+  cerberus-ui/shared: {}
 
 packages:
 
@@ -2789,10 +2788,6 @@ packages:
   data-view-byte-offset@1.0.0:
     resolution: {integrity: sha512-t/Ygsytq+R995EJ5PZlD4Cu56sWa8InXySaViRzw9apusqsOO2bQP+SbYzAhR0pFKoB+43lYy8rWban9JSuXnA==}
     engines: {node: '>= 0.4'}
-
-  date-fns@2.30.0:
-    resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==}
-    engines: {node: '>=0.11'}
 
   date-fns@3.6.0:
     resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
@@ -10541,10 +10536,6 @@ snapshots:
       call-bind: 1.0.7
       es-errors: 1.3.0
       is-data-view: 1.0.1
-
-  date-fns@2.30.0:
-    dependencies:
-      '@babel/runtime': 7.24.7
 
   date-fns@3.6.0: {}
 

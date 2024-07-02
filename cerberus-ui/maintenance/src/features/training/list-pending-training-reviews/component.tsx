@@ -15,6 +15,7 @@ import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {useMaintenanceLocales} from '../../../locales/ca/locales.ts';
 import {PendingTrainingReview, getPendingReviewUrl} from './model.ts';
 import {ListPendingReviewsByLocation} from './query.ts';
 
@@ -53,6 +54,7 @@ export const PendingTrainingReviewsView = (props: {id: string}) => {
     event.stopPropagation();
     navigate(url);
   };
+
   const icons = {
     eye: (
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
@@ -78,12 +80,24 @@ export const PendingTrainingReviewsView = (props: {id: string}) => {
         <Table sx={{minWidth: 450, maxWidth: 1260}} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>ID</TableCell>
-              <TableCell align='center'>Preview</TableCell>
-              <TableCell align='center'>Date</TableCell>
-              <TableCell align='center'>Location</TableCell>
-              <TableCell align='center'>Description</TableCell>
-              <TableCell align='center'>Action</TableCell>
+              <TableCell align='center'>
+                {useMaintenanceLocales('table.id')}
+              </TableCell>
+              <TableCell align='center'>
+                {useMaintenanceLocales('table.preview')}
+              </TableCell>
+              <TableCell align='center'>
+                {useMaintenanceLocales('table.date')}
+              </TableCell>
+              <TableCell align='center'>
+                {useMaintenanceLocales('table.location')}
+              </TableCell>
+              <TableCell align='center'>
+                {useMaintenanceLocales('table.Description')}
+              </TableCell>
+              <TableCell align='center'>
+                {useMaintenanceLocales('table.Actions')}
+              </TableCell>
               <TableCell align='center'></TableCell>
             </TableRow>
           </TableHead>
