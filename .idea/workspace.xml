@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: routing added">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/.dockerignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-workspace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/pnpm-workspace.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qodana.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/qodana.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/shared/src/domain/entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/domain/entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.demo.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.demo.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +186,7 @@
       <workItem from="1719553533733" duration="41211000" />
       <workItem from="1719732745621" duration="3756000" />
       <workItem from="1719904065630" duration="10391000" />
-      <workItem from="1719996061815" duration="2228000" />
+      <workItem from="1719996061815" duration="3649000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -254,7 +252,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719737946906</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719999429688</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719999429688</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
