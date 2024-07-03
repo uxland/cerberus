@@ -1,4 +1,4 @@
-import {Box, Divider, Tab, Tabs} from '@mui/material';
+import {Badge, Box, Divider, Tab, Tabs} from '@mui/material';
 import {useState} from 'react';
 import {useLocation, useParams} from 'react-router-dom';
 import {
@@ -20,6 +20,17 @@ export const LocationPage = () => {
     setSelectedTab(newValue);
   };
 
+  const CustomTabLabel = ({label, badgeContent, width}) => (
+    <Box display='flex' alignItems='center' minWidth={width} gap={2}>
+      <span>{label}</span>
+      <Badge
+        badgeContent={badgeContent}
+        overlap='circular'
+        color='error'
+        className='MuiBadge-badge'
+      />
+    </Box>
+  );
   const CustomDivider = () => {
     return (
       <Box
@@ -53,13 +64,25 @@ export const LocationPage = () => {
           onChange={handleChange}
           aria-label='organitzational-tab'>
           <Tab
-            label={useOrganizationalStructureLocales('tabs.openIssues')}
+            label={
+              <CustomTabLabel
+                label={useOrganizationalStructureLocales('tabs.openIssues')}
+                badgeContent={46}
+                width={140}
+              />
+            }
             {...a11yProps(0)}
           />
           <CustomDivider />
           <Tab
-            label={useOrganizationalStructureLocales('tabs.pendingReviews')}
-            {...a11yProps(1)}
+            label={
+              <CustomTabLabel
+                label={useOrganizationalStructureLocales('tabs.pendingReviews')}
+                badgeContent={25}
+                width={105}
+              />
+            }
+            {...a11yProps(2)}
           />
           <CustomDivider />
           <Tab

@@ -12,6 +12,8 @@ const paletteTheme = createTheme({
     secondary: {
       main: `${tailwindConfig.theme.colors.secondary}`,
     },
+    success: {main: `${tailwindConfig.theme.colors.success}`},
+    info: {main: `${tailwindConfig.theme.colors.info}`},
   },
 });
 
@@ -24,7 +26,7 @@ const theme = createTheme(paletteTheme, {
       fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontWeight: '900',
+      fontWeight: '800',
       color: `${paletteTheme.palette.primary.main}`,
     },
     h2: {
@@ -33,36 +35,38 @@ const theme = createTheme(paletteTheme, {
       textTransform: 'uppercase',
       letterSpacing: '1px',
       fontWeight: '500',
-      color: 'black',
+      color: `${tailwindConfig.theme.colors.black}`,
     },
     h3: {
       fontSize: createTheme().typography.pxToRem(20),
       fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontWeight: '800',
-      color: 'white',
+      fontWeight: '400',
+      color: `${tailwindConfig.theme.colors.white}`,
     },
     h4: {
       fontSize: createTheme().typography.pxToRem(18),
       fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontWeight: '700',
-      color: 'white',
+      fontWeight: '400',
+      color: `${tailwindConfig.theme.colors.white}`,
     },
     h5: {
       fontSize: createTheme().typography.pxToRem(16),
       fontFamily: 'Montserrat',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontWeight: '600',
-      color: 'white',
+      fontWeight: '400',
+      color: `${tailwindConfig.theme.colors.white}`,
     },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
       fontFamily: 'Montserrat',
-      color: 'white',
+      fontWeight: '400',
+
+      color: `${tailwindConfig.theme.colors.white}`,
     },
   },
   components: {
@@ -70,7 +74,7 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           textAlign: 'left',
-          color: 'white',
+          color: `${tailwindConfig.theme.colors.white}`,
         },
         label: {
           fontSize: '1rem',
@@ -132,7 +136,7 @@ const theme = createTheme(paletteTheme, {
             height: '2.2rem',
             marginBottom: '.55rem',
             '&.Mui-disabled': {
-              color: '#fff',
+              color: `${tailwindConfig.theme.colors.white}`,
               backgroundColor: '#ccc',
             },
           },
@@ -167,10 +171,22 @@ const theme = createTheme(paletteTheme, {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
+          backgroundColor: `${tailwindConfig.theme.colors.black}`,
           '&.table': {
             backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
           },
+        },
+      },
+    },
+    MuiBadge: {
+      styleOverrides: {
+        root: {
+          fontSize: createTheme().typography.pxToRem(11),
+          marginRight: '-12px',
+          minHeight: '16px',
+          height: '16px',
+          minWidth: '16px',
+          width: '16px',
         },
       },
     },
@@ -193,9 +209,21 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           height: '2rem',
-          borderBottom: 'none',
+          fontFamily: 'Montserrat',
           color: `${tailwindConfig.theme.colors.white}`,
+          fontWeight: '200',
+          textAlign: 'left',
           letterSpacing: '1px',
+          borderBottom: 'none',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          cursor: 'pointer',
+          width: 'auto',
+          '&.table-head': {
+            fontWeight: '400 !important',
+            cursor: 'default',
+          },
         },
       },
     },
