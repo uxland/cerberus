@@ -107,6 +107,11 @@ const theme = createTheme(paletteTheme, {
           position: 'relative',
           top: '.4rem',
           borderWidth: '.1rem',
+
+          '&.kpi-divider': {
+            height: '2rem',
+            top: '-10px',
+          },
         },
       },
     },
@@ -163,8 +168,25 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           textAlign: 'left',
-          width: '1.5rem !important',
-          height: '1.5rem !important',
+          width: '24px !important',
+          height: '24px !important',
+
+          '&.kpi-icon': {
+            width: '50px !important',
+            height: '50px !important',
+          },
+          '&.success': {
+            color: `${tailwindConfig.theme.colors.success}`,
+          },
+          '&.error': {
+            color: `${tailwindConfig.theme.colors.error}`,
+          },
+          '&.warning': {
+            color: `${tailwindConfig.theme.colors.warning}`,
+          },
+          '&.info': {
+            color: `${tailwindConfig.theme.colors.info}`,
+          },
         },
       },
     },

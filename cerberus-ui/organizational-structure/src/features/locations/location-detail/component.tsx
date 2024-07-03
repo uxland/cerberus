@@ -1,11 +1,15 @@
-import {Badge, Box, Divider, Tab, Tabs} from '@mui/material';
+import AccessAlarmsOutlinedIcon from '@mui/icons-material/AccessAlarmsOutlined';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import {Box} from '@mui/material';
 import {useState} from 'react';
 import {useLocation, useParams} from 'react-router-dom';
 import {
+  OpenIssuesPerformanceItem,
   OpenIssuesView,
   PendingTrainingReviewsView,
 } from '../../../../../maintenance';
-import {useOrganizationalStructureLocales} from '../../../locales/ca/locales';
+import {TabsBar} from '../../../ui-components';
 import {HierarchyItemType} from '../../show-organizational-structure/hierarchy-item';
 import {CameraCapturesView} from './list-camera-captures/component';
 import {LocationSettingsView} from './show-location-settings/component';
@@ -14,107 +18,55 @@ export const LocationPage = () => {
   const query = new URLSearchParams(useLocation().search);
   const itemType =
     (query.get('item-type') as HierarchyItemType) || HierarchyItemType.location;
+
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setSelectedTab(newValue);
-  };
-
-  const CustomTabLabel = ({label, badgeContent, width}) => (
-    <Box display='flex' alignItems='center' minWidth={width} gap={2}>
-      <span>{label}</span>
-      <Badge
-        badgeContent={badgeContent}
-        overlap='circular'
-        color='error'
-        className='MuiBadge-badge'
-      />
-    </Box>
-  );
-  const CustomDivider = () => {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-        <Divider
-          orientation='vertical'
-          variant='middle'
-          color='#828282'
-          flexItem
-        />
-      </Box>
-    );
-  };
   return (
-    <div className='flex flex-col flex-1 w-full'>
+    <div className='flex flex-col flex-1 w-full '>
       <LocationSettingsView id={id} type={itemType} />
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flex: '1',
-          flexDirection: 'row',
-          borderBottom: 1,
-          borderColor: 'divider',
-        }}>
-        <Tabs
-          value={selectedTab}
-          onChange={handleChange}
-          aria-label='organitzational-tab'>
-          <Tab
-            label={
-              <CustomTabLabel
-                label={useOrganizationalStructureLocales('tabs.openIssues')}
-                badgeContent={46}
-                width={140}
-              />
-            }
-            {...a11yProps(0)}
+      <div className='flex flex-col flex-1 w-full gap-4'>
+        <TabsBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+        <div className='grid grid-cols-2  2xl:grid-cols-4 justify-items-center gap-8 w-full'>
+          <OpenIssuesPerformanceItem
+            title={'Open Issues (7 days)'}
+            icon={<ErrorOutlineOutlinedIcon className='kpi-icon error' />}
+            currentSevenDays={'125'}
+            previousSevenDays={'75'}
           />
-          <CustomDivider />
-          <Tab
-            label={
-              <CustomTabLabel
-                label={useOrganizationalStructureLocales('tabs.pendingReviews')}
-                badgeContent={25}
-                width={105}
-              />
-            }
-            {...a11yProps(2)}
+          <OpenIssuesPerformanceItem
+            title={'Closed issues (7 days)'}
+            icon={<CheckCircleOutlinedIcon className='kpi-icon success' />}
+            currentSevenDays={'125'}
+            previousSevenDays={'75'}
           />
-          <CustomDivider />
-          <Tab
-            label={useOrganizationalStructureLocales('tabs.settings')}
-            {...a11yProps(2)}
+          <OpenIssuesPerformanceItem
+            title={'Total effort in hours (7 days)'}
+            icon={<AccessAlarmsOutlinedIcon className='kpi-icon warning' />}
+            currentSevenDays={'125'}
+            previousSevenDays={'75'}
           />
-          <CustomDivider />
-          <Tab
-            label={useOrganizationalStructureLocales('tabs.captures')}
-            {...a11yProps(3)}
+          <OpenIssuesPerformanceItem
+            title={'Average effort in hours (7 days)'}
+            icon={<AccessAlarmsOutlinedIcon className='kpi-icon info' />}
+            currentSevenDays={'125'}
+            previousSevenDays={'75'}
           />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={selectedTab} index={0}>
-        <OpenIssuesView id={id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={selectedTab} index={2}>
-        <PendingTrainingReviewsView id={id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={selectedTab} index={4}>
-        <div className='flex h-full w-full'>
-          <div>Settings</div>
         </div>
-      </CustomTabPanel>
-      <CustomTabPanel value={selectedTab} index={6}>
-        <CameraCapturesView
-          id={id}
-          //   style={{
-          //     display: itemType === HierarchyItemType.camera ? 'block' : 'none',
-          //   }}
-        />
-      </CustomTabPanel>
+        <CustomTabPanel value={selectedTab} index={0}>
+          <OpenIssuesView id={id} />
+        </CustomTabPanel>
+        <CustomTabPanel value={selectedTab} index={2}>
+          <PendingTrainingReviewsView id={id} />
+        </CustomTabPanel>
+        <CustomTabPanel value={selectedTab} index={4}>
+          <div className='flex h-full w-full'>
+            <div>Settings</div>
+          </div>
+        </CustomTabPanel>
+        <CustomTabPanel value={selectedTab} index={6}>
+          <CameraCapturesView id={id} />
+        </CustomTabPanel>
+      </div>
     </div>
   );
 };
@@ -136,11 +88,4 @@ const CustomTabPanel = (props: TabPanelProps) => {
       {value === index && <Box sx={{p: 3}}>{children}</Box>}
     </div>
   );
-};
-
-const a11yProps = (index: number) => {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
 };
