@@ -19,6 +19,7 @@
     "date-fns": "3.6.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "mediatr-ts": "^1.2.1",
     "@mui/material": "^5.14.12",
     "@mui/icons-material": "5.15.21",
     "@uxland/react-services": "^1.0.3",
@@ -26,6 +27,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.24.0",
-    "mediatr-ts": "^1.2.1"
+    "recharts": "^2.12.7"
   }
 }

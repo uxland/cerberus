@@ -21,6 +21,7 @@ import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useMaintenanceLocales} from '../../../locales/ca/locales.ts';
 import {OpenIssuesPerformanceList} from '../../../ui-components/index.ts';
+import {SummaryReportChart} from '../../../ui-components/summary-report-chart/component.tsx';
 import {MaintenanceIssueSummary, getIssueUrl} from './model.ts';
 import {ListOpenIssues} from './query.ts';
 export const OpenIssuesView = (props: {id: string}) => {
@@ -100,6 +101,7 @@ const IssueListComponent = (issues: MaintenanceIssueSummary[]) => (
         </Table>
       </TableContainer>
     </Paper>
+    <SummaryReportChart />
   </div>
 );
 
