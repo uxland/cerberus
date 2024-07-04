@@ -6,8 +6,8 @@ import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {MaintenanceIssueStatus} from '../model.ts';
 import {CloseIssueForm} from './close-issue/component.tsx';
-import {MaintenanceIssueDetail} from './model.ts';
 import {GetIssueDetail} from './getIssueDetail.ts';
+import {MaintenanceIssueDetail} from './model.ts';
 import {StartIssueForm} from './start-issue/component.tsx';
 
 export const MaintenanceIssuePage = () => {
@@ -51,15 +51,6 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
   return (
     <div className='flex flex-col gap-1'>
       {Header(issue)}
-
-      {/* <div>Error: {issue.captureError.message}</div>
-      <div>ErrorType: {issue.captureError.type}</div>
-      <div>Comment: {issue.resolutionComment}</div>
-      <div>SnapshotUrl: {issue.snapshotUrl}</div>
-
-      <div>FinishedAt: {formatDateString(issue?.finishedAt)}</div>
-      <div>Started: {formatDateString(issue.startedAt)}</div>
-      <div>Started: {issue.startedBy}</div> */}
 
       <img src={getImageUrl(issue.snapshotUrl)} alt={issue.cameraDescription} />
       {issue.status === MaintenanceIssueStatus.open && (
