@@ -1,11 +1,7 @@
-import AccessAlarmsOutlinedIcon from '@mui/icons-material/AccessAlarmsOutlined';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import {Box} from '@mui/material';
 import {useState} from 'react';
 import {useLocation, useParams} from 'react-router-dom';
 import {
-  OpenIssuesPerformanceItem,
   OpenIssuesView,
   PendingTrainingReviewsView,
 } from '../../../../../maintenance';
@@ -26,32 +22,6 @@ export const LocationPage = () => {
       <LocationSettingsView id={id} type={itemType} />
       <div className='flex flex-col flex-1 w-full gap-4'>
         <TabsBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-        <div className='grid grid-cols-2  2xl:grid-cols-4 justify-items-center gap-8 w-full'>
-          <OpenIssuesPerformanceItem
-            title={'Open Issues (7 days)'}
-            icon={<ErrorOutlineOutlinedIcon className='kpi-icon error' />}
-            currentSevenDays={'125'}
-            previousSevenDays={'75'}
-          />
-          <OpenIssuesPerformanceItem
-            title={'Closed issues (7 days)'}
-            icon={<CheckCircleOutlinedIcon className='kpi-icon success' />}
-            currentSevenDays={'125'}
-            previousSevenDays={'75'}
-          />
-          <OpenIssuesPerformanceItem
-            title={'Total effort in hours (7 days)'}
-            icon={<AccessAlarmsOutlinedIcon className='kpi-icon warning' />}
-            currentSevenDays={'125'}
-            previousSevenDays={'75'}
-          />
-          <OpenIssuesPerformanceItem
-            title={'Average effort in hours (7 days)'}
-            icon={<AccessAlarmsOutlinedIcon className='kpi-icon info' />}
-            currentSevenDays={'125'}
-            previousSevenDays={'75'}
-          />
-        </div>
         <CustomTabPanel value={selectedTab} index={0}>
           <OpenIssuesView id={id} />
         </CustomTabPanel>

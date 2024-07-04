@@ -5,6 +5,8 @@ export const OpenIssuesPerformanceItem = (props: {
   icon;
   currentSevenDays: string;
   previousSevenDays: string;
+  percentage: string;
+  type?: string;
 }) => {
   const CustomDivider = () => {
     return (
@@ -29,14 +31,28 @@ export const OpenIssuesPerformanceItem = (props: {
       <div className='flex gap-4'>
         <SvgIcon component={() => props.icon}></SvgIcon>
         <div className='flex gap-10'>
-          <Typography variant='body1'>Actuales</Typography>
-          <div className='flex'>
-            <Typography variant='body1'>{props.currentSevenDays}</Typography>
-            <Badge>10%</Badge>
+          <div className='flex flex-col'>
+            <Typography>Current</Typography>
+            <div className='flex gap-2'>
+              <Typography className='!text-2xl'>
+                {props.currentSevenDays}
+              </Typography>
+              <Badge
+                className={`text-sm ${
+                  props.type ? 'text-error' : 'text-success'
+                } `}>
+                {props.percentage}%
+              </Badge>
+            </div>
           </div>
           <CustomDivider />
-          <div>
-            <Typography variant='body1'>{props.previousSevenDays}</Typography>
+          <div className='flex flex-col mt-1'>
+            <Typography className='!text-xs !text-grey82'>
+              Previous (7 days)
+            </Typography>
+            <Typography className='!text-lg !text-grey82'>
+              {props.previousSevenDays}
+            </Typography>
           </div>
         </div>
       </div>

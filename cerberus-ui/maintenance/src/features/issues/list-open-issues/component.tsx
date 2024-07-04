@@ -20,6 +20,7 @@ import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useMaintenanceLocales} from '../../../locales/ca/locales.ts';
+import {OpenIssuesPerformanceList} from '../../../ui-components/index.ts';
 import {MaintenanceIssueSummary, getIssueUrl} from './model.ts';
 import {ListOpenIssues} from './query.ts';
 export const OpenIssuesView = (props: {id: string}) => {
@@ -51,7 +52,8 @@ export const OpenIssuesView = (props: {id: string}) => {
 };
 
 const IssueListComponent = (issues: MaintenanceIssueSummary[]) => (
-  <div className='flex flex-col gap-4'>
+  <div className='flex flex-col gap-6'>
+    <OpenIssuesPerformanceList />
     <Typography variant='h5'>
       {useMaintenanceLocales('title.openIssues')} ({issues.length})
     </Typography>

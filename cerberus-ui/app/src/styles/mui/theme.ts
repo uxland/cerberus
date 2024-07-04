@@ -109,8 +109,8 @@ const theme = createTheme(paletteTheme, {
           borderWidth: '.1rem',
 
           '&.kpi-divider': {
-            height: '2rem',
-            top: '-10px',
+            height: '3rem',
+            top: '-8px',
           },
         },
       },
