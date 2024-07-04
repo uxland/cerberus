@@ -7,7 +7,6 @@ import {navigateBack} from "@cerberus/core";
 export class Command implements IRequest<void>{
     constructor(public trainingReviewId: string, public reviews: {[key: string]: FilterResultReview}) {}
 }
-
 @injectable()
 export class CommandHandler implements IRequestHandler<Command, void>{
     constructor(@inject(ApiClient) private apiClient: ApiClient){

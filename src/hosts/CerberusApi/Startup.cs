@@ -10,6 +10,12 @@ namespace Cerberus.Api;
 
 public class Startup(WebApplicationBuilder builder)
 {
+    private static string[] CORS_ALLOWED_HOSTS =
+    [
+        "localhost",
+        "cerberus-ui",
+        "cerberus-react-ui"
+    ];
     public void ConfigureServices(IServiceCollection services)
     {
         services.BootstrapMvc()
@@ -23,7 +29,11 @@ public class Startup(WebApplicationBuilder builder)
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
-                    builder.SetIsOriginAllowed(s => new Uri(s).Host == "localhost");
+                    builder.SetIsOriginAllowed(s =>
+                    {
+                        var uri = new Uri(s);
+                        return CORS_ALLOWED_HOSTS.Contains(uri.Host);
+                    });
                 });
             
         });

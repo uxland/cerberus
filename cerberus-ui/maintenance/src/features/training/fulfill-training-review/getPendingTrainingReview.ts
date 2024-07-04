@@ -3,15 +3,15 @@ import {TrainingReview} from "./model.ts";
 import {inject, injectable} from "inversify";
 import {ApiClient} from "@cerberus/shared/src";
 
-export class Query implements IRequest<TrainingReview>{
+export class GetPendingTrainingReview implements IRequest<TrainingReview>{
     constructor(public trainingReviewId: string) {}
 }
-
 @injectable()
-export class QueryHandler implements IRequestHandler<Query, TrainingReview>{
+export class QueryHandler implements IRequestHandler<GetPendingTrainingReview, TrainingReview>{
     constructor(@inject(ApiClient) private apiClient: ApiClient) {
     }
-    handle(request: Query): Promise<TrainingReview> {
+    handle(request: GetPendingTrainingReview): Promise<TrainingReview> {
         return this.apiClient.get(`/training-reviews/${request.trainingReviewId}`);
     }
 }
+

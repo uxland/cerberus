@@ -3,7 +3,8 @@ import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {TrainingReview} from './model.ts';
-import {Query} from './query.ts';
+import {GetPendingTrainingReview} from './getPendingTrainingReview.ts';
+import {FilterResult} from "../../issues/show-issue/model.ts";
 
 export const FulfillTrainingReview = () => {
   const {id} = useParams();
@@ -21,7 +22,7 @@ export const FulfillTrainingReview = () => {
     const fetchReview = async () => {
       try {
         initBusyIndicator();
-        const review = await new Mediator().send<TrainingReview>(new Query(id));
+        const review = await new Mediator().send<TrainingReview>(new GetPendingTrainingReview(id));
         setTrainingReview(review);
       } catch (e) {
         setError(e.toString);
@@ -42,9 +43,23 @@ export const FulfillTrainingReview = () => {
             src={getImageUrl(trainingReview.captureInfo.snapshotUri)}
             alt={trainingReview.description}
           />
-          <form onSubmit={}></form>
+          <form onSubmit={}>
+            {Object.keys(trainingReview.originalResults).forEach((key) => {
+              const result = trainingReview.originalResults[key];
+              return ()
+            })}
+          </form>
         </div>
       )}
     </div>
   );
 };
+
+const FilterReview = (props: {result: FilterResult, onChange: ({agree: boolean, comment: string}) => void}) => {
+  return (
+      <div>
+        <div>{props.result.filterDescription}</div>
+
+      </div>
+  )
+}

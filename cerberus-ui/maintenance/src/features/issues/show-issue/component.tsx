@@ -7,7 +7,7 @@ import {useParams} from 'react-router-dom';
 import {MaintenanceIssueStatus} from '../model.ts';
 import {CloseIssueForm} from './close-issue/component.tsx';
 import {MaintenanceIssueDetail} from './model.ts';
-import {Query} from './query.ts';
+import {GetIssueDetail} from './getIssueDetail.ts';
 import {StartIssueForm} from './start-issue/component.tsx';
 
 export const MaintenanceIssuePage = () => {
@@ -21,7 +21,7 @@ export const MaintenanceIssuePage = () => {
       try {
         setLoading(true);
         setError(undefined);
-        const issue = await new Mediator().send(new Query(id));
+        const issue = await new Mediator().send(new GetIssueDetail(id));
         setIssue(issue);
       } catch (e) {
         setError(e.message);
