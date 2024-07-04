@@ -1,0 +1,34 @@
+{
+  "name": "@cerberus/organizational-structure",
+  "version": "0.0.0",
+  "description": "cerberus organizational structure",
+  "author": "UXLand <dsanchez@uxland.es>",
+  "homepage": "https://github.com/uxland/cerberus.git#readme",
+  "license": "ISC",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uxland/cerberus.git"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cerberus/core": "workspace:^",
+    "@cerberus/shared": "workspace:^",
+    "@cerberus/maintenance": "workspace:^",
+    "date-fns": "3.6.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "inversify": "^6.0.2",
+    "mediatr-ts": "^1.2.1",
+    "@mui/material": "^5.15.5",
+    "@mui/icons-material": "5.15.21",
+    "mui-file-input": "4.0.4",
+    "@mui/x-tree-view": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.2.1",
+    "@uxland/react-services": "^1.0.3"
+  }
+}

@@ -28,6 +28,8 @@ public class ApiClient(HttpClient httpClient, IConfiguration configuration)
     {
         var uri = new Uri(Path.Combine(API_BASE_URL, path));
         var json = await httpClient.GetStringAsync(uri);
+        if (json.StartsWith("\""))
+            json = JsonSerializer.Deserialize<string>(json);
         var result = JsonSerializer.Deserialize<T?>(json, jsonSerializerOptions);
         return result;
         

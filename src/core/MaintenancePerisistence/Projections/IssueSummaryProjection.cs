@@ -22,6 +22,7 @@ public class IssueSummaryProjection: SingleStreamProjection<PendingMaintenanceIs
             Path: camera!.Path,
             CameraId: camera!.Id,
             Description: description,
+            Summary:e.Data.GetIssueSummary(),
             e.Data.Status,
             e.Data.Creation.At
         );

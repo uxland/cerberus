@@ -19,7 +19,7 @@ public class Program
         });
         builder.Host.ApplyOaktonExtensions();
 
-        var startup = new Startup(builder.Configuration, builder.Environment, builder.Host);
+        var startup = new Startup(builder);
         startup.ConfigureServices(builder.Services);
         var app = builder.Build();
         startup.Configure(app, builder.Environment);

@@ -1,0 +1,6 @@
+packages:
+  - './app'
+  - './core'
+  - './maintenance'
+  - './organizational-structure'
+  - './shared'

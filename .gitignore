@@ -7,3 +7,6 @@ riderModule.iml
 /_ReSharper.Caches/
 ./Snapshots/*.*
 /Snapshots/*.*
+node_modules
+.DS_STORE
+*.DS_Store

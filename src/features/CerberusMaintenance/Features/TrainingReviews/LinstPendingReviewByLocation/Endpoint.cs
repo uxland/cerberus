@@ -6,6 +6,7 @@ namespace Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingRev
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class LocationsController: ControllerBase
 {
     public const string ProducesMediaType = "application/json;domain-model=Cerverus.Maintenance.PendingTrainingReviewList;version=1.0";

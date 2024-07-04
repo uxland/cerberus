@@ -1,0 +1,29 @@
+{
+  "name": "@cerberus/core",
+  "version": "0.0.0",
+  "description": "cerberus core",
+  "author": "UXLand <dsanchez@uxland.es>",
+  "homepage": "https://github.com/uxland/cerberus.git#readme",
+  "license": "ISC",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uxland/cerberus.git"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cerberus/shared": "workspace:^",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@uxland/react-services": "^1.0.3",
+    "@reduxjs/toolkit": "^2.2.5",
+    "@mui/material": "^5.14.12",
+    "axios": "^1.7.2",
+    "inversify": "^6.0.2",
+    "inversify-inject-decorators": "^3.1.0",
+    "react": "^18.3.1",
+    "reflect-metadata": "^0.2.2"
+  }
+}
