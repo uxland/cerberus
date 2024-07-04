@@ -30,7 +30,7 @@ export const PendingReviewTable = (props: {
       <Paper
         sx={{
           width: '100%',
-          height: 600,
+          height: 'fit-content',
           overflow: 'auto',
         }}>
         <TableContainer component={Paper} className='custom-table'>
