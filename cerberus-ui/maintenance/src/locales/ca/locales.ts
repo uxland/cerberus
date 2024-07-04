@@ -20,6 +20,7 @@ export const locales = {
     title: {
       pendingReviews: 'Pending reviews',
       openIssues: 'Open issues',
+      summaryChart: 'Recent report',
     },
     pendingReviewsTable: {
       id: 'ID',
