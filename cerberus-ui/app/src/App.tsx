@@ -4,7 +4,7 @@ import {Box, ThemeProvider, Typography} from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import {connect} from 'react-redux';
 import {Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom';
-import Logo from '../../../cerberus-ui/app/public/assets/instrumenta.png';
+import Logo from './assets/logo/instrumenta.png';
 import theme from './styles/mui/theme';
 export const App = ({routes}) => {
   return (
