@@ -1,7 +1,7 @@
 import BlurOnOutlinedIcon from '@mui/icons-material/BlurOnOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import ViewCarouselOutlinedIcon from '@mui/icons-material/ViewCarouselOutlined';
-import {TraingingReviewPerformanceItem} from '../training-key-performance-indicators-item/component';
+import {TraingingReviewPerformanceItem} from '../training-review-key-performance-indicators-item copy/component';
 export const TrainingReviewsPerformanceList = () => {
   return (
     <div className='grid grid-cols-2 md:grid-cols-2 2xl:grid-cols-4  gap-8 w-full'>
