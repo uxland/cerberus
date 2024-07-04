@@ -7,12 +7,12 @@ enum CaptureErrorType {
     UnknownError = "UnknownError",
     ConnectionTimeout = "ConnectionTimeout"
 }
-interface CaptureError {
+export interface CaptureError {
     message: string;
     type: CaptureErrorType;
 }
 
-interface FilterResult{
+export interface FilterResult{
     filterId: string;
     filterDescription: string;
     at: Date;
@@ -25,7 +25,7 @@ export interface MaintenanceIssueDetail extends Entity {
     cameraId: string;
     cameraPath: string;
     cameraDescription: string;
-    captureError: CaptureError;
+    captureError?: CaptureError | undefined | null;
     errors: FilterResult[];
     status: MaintenanceIssueStatus;
     resolutionComment?: string | undefined;

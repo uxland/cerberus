@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: routing added">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/routing/navigate-back.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/close-issue/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/start-issue/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/start-issue/command.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/start-issue/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/command.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/query.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/routing/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/routing/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/close-issue/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/close-issue/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/close-issue/command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/close-issue/command.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/component.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusMaintenance/Features/Issues/End/EndPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusMaintenance/Features/Issues/End/EndPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusMaintenance/Features/TrainingReviews/Fullfill/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusMaintenance/Features/TrainingReviews/Fullfill/Endpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/shared/src/domain/entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/domain/entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.demo.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.demo.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,42 +61,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Demo.executor": "Run",
-    "Docker.cerberus-ui/Dockerfile.executor": "Run",
-    "JavaScript Debug.Browser Debug.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "features/ui/camera-settings-view",
-    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "/Users/danipinartnadal/.nvm/versions/node/v20.12.2/bin/node",
-    "nodejs_package_manager_path": "npm",
-    "npm.app > build.executor": "Run",
-    "npm.cerberus-ui > build.executor": "Run",
-    "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/ui/camera-settings-view&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/Users/danipinartnadal/.nvm/versions/node/v20.12.2/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui" />
       <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features" />
       <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training" />
       <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues" />
       <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src" />
-      <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/list-open-issues" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.cerberus-ui/Dockerfile">
+  <component name="RunManager" selected="Docker.Demo">
     <configuration name="Browser Debug" type="JavascriptDebugType" uri="http://localhost:5173" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
@@ -124,7 +109,6 @@
     <configuration name="cerberus-ui/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
       <deployment type="dockerfile">
         <settings>
-          <option name="buildOnly" value="true" />
           <option name="sourceFilePath" value="cerberus-ui/Dockerfile" />
         </settings>
       </deployment>
@@ -200,7 +184,9 @@
       <workItem from="1719381889423" duration="22244000" />
       <workItem from="1719460064010" duration="15844000" />
       <workItem from="1719553533733" duration="41211000" />
-      <workItem from="1719732745621" duration="3740000" />
+      <workItem from="1719732745621" duration="3756000" />
+      <workItem from="1719904065630" duration="10391000" />
+      <workItem from="1719996061815" duration="3649000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -258,7 +244,23 @@
       <option name="project" value="LOCAL" />
       <updated>1719589002000</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719737946906</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719737946906</updated>
+    </task>
+    <task id="LOCAL-00009" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719999429688</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719999429688</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
