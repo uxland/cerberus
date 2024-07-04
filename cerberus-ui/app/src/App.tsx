@@ -16,7 +16,7 @@ export const App = ({routes}) => {
             anchor='left'
             variant='permanent'>
             <Box color={'CaptionText'} gap={4}>
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-col'>
                 <div className='flex flex-col gap-1'>
                   <div className='h-22'>
                     <Link to={'/'}>{<img src={Logo} />}</Link>

@@ -26,7 +26,7 @@ export const locales = {
     },
     tabs: {
       openIssues: 'Open issues',
-      pendingReviews: 'Pending reviews',
+      pendingReviews: 'Analysis',
       settings: 'Settings',
       captures: 'Captures',
     },

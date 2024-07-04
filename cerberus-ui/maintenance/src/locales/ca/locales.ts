@@ -17,12 +17,25 @@ export const useMaintenanceLocales = (path: MaintenanceLocalesPath) => {
 
 export const locales = {
   [moduleName]: {
-    table: {
+    title: {
+      pendingReviews: 'Pending reviews',
+      openIssues: 'Open issues',
+    },
+    pendingReviewsTable: {
       id: 'ID',
       preview: 'Preview',
       date: 'Date',
       location: 'Location',
       Description: 'Description',
+      Actions: 'Actions',
+    },
+    openIssuesTable: {
+      cameraId: 'ID',
+      status: 'Status',
+      errorCode: 'Code',
+      date: 'Date',
+      summary: 'Summary',
+      location: 'Location',
       Actions: 'Actions',
     },
   },
