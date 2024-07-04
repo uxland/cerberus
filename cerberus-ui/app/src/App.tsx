@@ -18,8 +18,8 @@ export const App = ({routes}) => {
             <Box color={'CaptionText'} gap={4}>
               <div className='flex flex-col'>
                 <div className='flex flex-col gap-1'>
-                  <div className='h-22'>
-                    <Link to={'/'}>{<img src={Logo} />}</Link>
+                  <div className='flex items-center justify-center h-20 max-h-24'>
+                    <Link to={'/'}>{<img className='h-14' src={Logo} />}</Link>
                   </div>
                   <div className='flex p-6 bg-[#202020] justify-between'>
                     <div className='flex flex-col items-start p-1'>

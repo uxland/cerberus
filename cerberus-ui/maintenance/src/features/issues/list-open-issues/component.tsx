@@ -3,9 +3,10 @@ import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {
   OpenIssuesPerformanceList,
+  OpenIssuesReportChart,
   OpenIssuesTable,
 } from '../../../ui-components/index.ts';
-import {OpenIssuesReportChart} from '../../../ui-components/report-chart/component.tsx';
+
 import {MaintenanceIssueSummary} from './model.ts';
 import {ListOpenIssues} from './query.ts';
 export const OpenIssuesView = (props: {id: string}) => {
