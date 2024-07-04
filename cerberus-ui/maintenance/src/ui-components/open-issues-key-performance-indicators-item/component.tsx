@@ -26,8 +26,10 @@ export const OpenIssuesPerformanceItem = (props: {
     );
   };
   return (
-    <div className='flex flex-col justify-between bg-tableBg w-96 p-4 rounded-md gap-4'>
-      <Typography variant='h5'>{props.title}</Typography>
+    <div className='flex flex-col h-30 justify-between bg-tableBg w-96 p-5 rounded-[10px] gap-4'>
+      <Typography className='!text-[12px] uppercase !font-semibold'>
+        {props.title}
+      </Typography>
       <div className='flex gap-4'>
         <SvgIcon component={() => props.icon}></SvgIcon>
         <div className='flex gap-10'>
@@ -38,7 +40,7 @@ export const OpenIssuesPerformanceItem = (props: {
                 {props.currentSevenDays}
               </Typography>
               <Badge
-                className={`text-sm ${
+                className={`!text-sm ${
                   props.type ? 'text-error' : 'text-success'
                 } `}>
                 {props.percentage}%

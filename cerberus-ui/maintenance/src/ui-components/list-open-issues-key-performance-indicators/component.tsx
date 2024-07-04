@@ -1,17 +1,17 @@
 import AccessAlarmsOutlinedIcon from '@mui/icons-material/AccessAlarmsOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import {OpenIssuesPerformanceItem} from '../key-performance-indicators/component';
+import {OpenIssuesPerformanceItem} from '../open-issues-key-performance-indicators-item/component';
 
 export const OpenIssuesPerformanceList = () => {
   return (
-    <div className='grid grid-cols-2  2xl:grid-cols-4 gap-8 w-full'>
+    <div className='grid grid-cols-2 2xl:grid-cols-4 gap-8 w-full'>
       <OpenIssuesPerformanceItem
         title={'Open Issues (7 days)'}
         icon={<ErrorOutlineOutlinedIcon className='kpi-icon error' />}
         currentSevenDays={'148'}
         previousSevenDays={'185'}
-        percentage={'-10'}
+        percentage={'+10'}
         type={'error'}
       />
       <OpenIssuesPerformanceItem

@@ -57,7 +57,7 @@ const data = [
 ];
 export const OpenIssuesReportChart = () => {
   return (
-    <div className='flex flex-col gap-6 p-6 bg-tableBg'>
+    <div className='flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]'>
       <div className='flex flex-col gap-6'>
         <Typography variant='h5'>
           {useMaintenanceLocales('title.summaryChart')}

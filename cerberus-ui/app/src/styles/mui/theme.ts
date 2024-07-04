@@ -107,9 +107,12 @@ const theme = createTheme(paletteTheme, {
           position: 'relative',
           top: '.4rem',
           borderWidth: '.1rem',
-
           '&.kpi-divider': {
             height: '3rem',
+            top: '-8px',
+          },
+          '&.training-kpi-divider': {
+            height: '5.8rem',
             top: '-8px',
           },
         },
@@ -194,8 +197,9 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           backgroundColor: `${tailwindConfig.theme.colors.black}`,
-          '&.table': {
-            backgroundColor: `${tailwindConfig.theme.colors.tableBg}`,
+          '&.custom-table': {
+            backgroundColor: `${tailwindConfig.theme.colors.tableBg} !important`,
+            borderRadius: '10px !important',
           },
         },
       },
