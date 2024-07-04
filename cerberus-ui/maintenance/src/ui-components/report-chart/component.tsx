@@ -1,3 +1,4 @@
+import {Typography} from '@mui/material';
 import {
   Bar,
   BarChart,
@@ -8,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import {useMaintenanceLocales} from '../../locales/ca/locales';
 
 const data = [
   {
@@ -53,40 +55,42 @@ const data = [
     hours: 111,
   },
 ];
-export const SummaryReportChart = () => {
+export const OpenIssuesReportChart = () => {
   return (
-    <ResponsiveContainer width='100%' height={600}>
-      <BarChart
-        margin={{top: 50}}
-        data={data}
-        barGap={2}
-        barCategoryGap='10%'
-        maxBarSize={32}>
-        <CartesianGrid />
-        <XAxis
-          dataKey='name'
-          height={110}
-          tickMargin={20}
-          tick={{fill: '#d7dadb'}}
-        />
-        <YAxis
-          ticks={[0, 50, 100, 150, 200]}
-          domain={[0, (dataMax) => dataMax * 1.1]}
-          tickMargin={10}
-          tick={{fill: '#d7dadb'}}
-        />
-        <Legend align='right' width={500} content={<CustomizedLegend />} />
-        <Bar dataKey='opened' fill='#ff2366' radius={[4, 4, 0, 0]}>
-          <LabelList dataKey='opened' content={<RenderCustomizedLabel />} />
-        </Bar>
-        <Bar dataKey='closed' fill='#02bc77' radius={[4, 4, 0, 0]}>
-          <LabelList dataKey='closed' content={<RenderCustomizedLabel />} />
-        </Bar>
-        <Bar dataKey='hours' fill='#ffd950' radius={[4, 4, 0, 0]}>
-          <LabelList dataKey='hours' content={<RenderCustomizedLabel />} />
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
+    <div className='flex flex-col gap-6 p-6 bg-tableBg'>
+      <div className='flex flex-col gap-6'>
+        <Typography variant='h5'>
+          {useMaintenanceLocales('title.summaryChart')}
+        </Typography>
+        <ResponsiveContainer width='100%' height={600}>
+          <BarChart data={data} barGap={2} barCategoryGap='10%' maxBarSize={32}>
+            <CartesianGrid />
+            <XAxis
+              dataKey='name'
+              height={110}
+              tickMargin={20}
+              tick={{fill: '#d7dadb'}}
+            />
+            <YAxis
+              ticks={[0, 50, 100, 150, 200]}
+              domain={[0, (dataMax) => dataMax * 1.1]}
+              tickMargin={10}
+              tick={{fill: '#d7dadb'}}
+            />
+            <Legend align='right' width={500} content={<CustomizedLegend />} />
+            <Bar dataKey='opened' fill='#ff2366' radius={[4, 4, 0, 0]}>
+              <LabelList dataKey='opened' content={<RenderCustomizedLabel />} />
+            </Bar>
+            <Bar dataKey='closed' fill='#02bc77' radius={[4, 4, 0, 0]}>
+              <LabelList dataKey='closed' content={<RenderCustomizedLabel />} />
+            </Bar>
+            <Bar dataKey='hours' fill='#ffd950' radius={[4, 4, 0, 0]}>
+              <LabelList dataKey='hours' content={<RenderCustomizedLabel />} />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 };
 
