@@ -1,4 +1,5 @@
 ﻿using Cerberus.Api.Bootstrap;
+using Cerberus.Api.Bootstrap.OpenApi;
 using Cerberus.Api.Setup;
 using Cerberus.BackOffice;
 using Cerberus.Core.MartenPersistence;
@@ -7,49 +8,57 @@ using Microsoft.OpenApi.Models;
 
 namespace Cerberus.Api;
 
-public class Startup(IConfiguration configuration, IHostEnvironment hosting, ConfigureHostBuilder hostBuilder)
+public class Startup(WebApplicationBuilder builder)
 {
+    private static string[] CORS_ALLOWED_HOSTS =
+    [
+        "localhost",
+        "cerberus-ui",
+        "cerberus-react-ui"
+    ];
     public void ConfigureServices(IServiceCollection services)
     {
-        
-         services.AddControllers()
-            .AddCerberusBackOfficeFeatures()
-            .AddControllersAsServices();
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "CerberusApi", Version = "v1" });
-        });
-
-        hostBuilder.SetupWolverine();
-        
+        services.BootstrapMvc()
+            .BootstrapOpenApi();
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowSpecificOrigin",
+            options.AddPolicy("AllowLocalReact",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:5177", "https://localhost:7005")
+                    builder
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                    builder.SetIsOriginAllowed(s =>
+                    {
+                        var uri = new Uri(s);
+                        return CORS_ALLOWED_HOSTS.Contains(uri.Host);
+                    });
                 });
+            
         });
-        services
-            .SetupConfigurations(configuration)
+
+        builder.Host.SetupWolverine();
+        
+        var martenConfiguration = services
+            .SetupConfigurations(builder.Configuration)
             .UseLogging()
             .BootstrapXabeFFMpegClient()
-            .UseMartenPersistence(configuration, hosting)
-            .BootstrapBackOffice()
-            .BootstrapMaintenance();
+            .UseMartenPersistence(builder.Configuration, builder.Environment);
+        services
+            .BootstrapBackOffice(builder.Configuration, martenConfiguration)
+            .BootstrapMaintenance(martenConfiguration);
     }
     
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cerberus BackOffice API v1");
-        });
+        app
+            .BootstrapOpenApi()
+            .UseCors("AllowLocalReact")
+            .BootstrapContentServer(builder);
+
         app.UseRouting();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

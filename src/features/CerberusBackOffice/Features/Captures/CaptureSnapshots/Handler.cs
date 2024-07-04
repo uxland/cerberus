@@ -7,7 +7,7 @@ namespace Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 
 public static class CaptureSnapshotsHandler
 {
-    public static async Task<IEnumerable<CaptureCameraSnapshot>> Handle(CaptureCameraSnapshots command, ICameraEntityQueryProvider cameraEntityQueryProvider, IHierarchyItemEntityQueryProvider hierarchyItemEntityQueryProvider)
+    public static async Task<IEnumerable<CaptureCameraSnapshot>> Handle(CaptureLocationSnapshots command, ICameraEntityQueryProvider cameraEntityQueryProvider, IHierarchyItemEntityQueryProvider hierarchyItemEntityQueryProvider)
     {
         var location = await hierarchyItemEntityQueryProvider.RehydrateOrFail(command.LocationId);
         var cameras = await cameraEntityQueryProvider.GetCameraIdsByPath(location.Path);
@@ -19,6 +19,9 @@ public static class CaptureSnapshotsHandler
         var camera = await cameraEntityQueryProvider.RehydrateOrFail(command.CameraId);
         var capture = await captureSnapshotService.CaptureSnapshot(camera);
         await outbox.PublishAsync(capture);
-        
+    }
+    public static IEnumerable<CaptureCameraSnapshot> Handle(CaptureCameraSnapshots command, CaptureSnapshotService captureSnapshotService, ICameraEntityQueryProvider cameraEntityQueryProvider, IMessageBus outbox)
+    {
+        return command.CameraIds.Select(CaptureCameraSnapshot.Create);
     }
 }

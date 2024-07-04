@@ -13,7 +13,7 @@ public static class Bootstrapper
             .InitPythonEngine()
             .AddSingleton<IFiltersExecutor, FiltersExecutor>();
     }
-    
+
     private static IServiceCollection InitPythonEngine(this IServiceCollection services)
     {
         SetEnvironmentVariables();
@@ -21,28 +21,29 @@ public static class Bootstrapper
         PythonEngine.BeginAllowThreads();
         return services;
     }
-    
+
     private static void SetEnvironmentVariables()
     {
-        if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PYTHONNET_PYDLL")))
+        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PYTHONNET_PYDLL")))
             return;
-        if(File.Exists("/tmp/python_version"))
+        if (File.Exists("/tmp/python_version"))
             SetEnvironmentVariablesFromFile();
-        else 
+        else
             SetEnvironmentVariablesFromPlatform();
     }
 
     private static void SetEnvironmentVariablesFromPlatform()
     {
         var pythonDllPath = string.Empty;
-        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             pythonDllPath = @"C:\Python312\python312.dll";
-        else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             pythonDllPath = @"C:\Python312\python312.dll";
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             pythonDllPath = "/opt/homebrew/bin/python3";
         Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", pythonDllPath, EnvironmentVariableTarget.Process);
     }
+
     private static void SetEnvironmentVariablesFromFile()
     {
         var pythonVersion = File.ReadAllText("/tmp/python_version").Trim();
@@ -53,7 +54,8 @@ public static class Bootstrapper
         //add ffmpeg path to PATH
         currentPath += $"{Path.PathSeparator}/user/bin/ffmpeg";
         //add python lib path to PATH
-        currentPath += $"{Path.PathSeparator}/usr/local/bin/python{pythonVersion}{Path.PathSeparator}/usr/bin{Path.PathSeparator}/usr/local/bin";
+        currentPath +=
+            $"{Path.PathSeparator}/usr/local/bin/python{pythonVersion}{Path.PathSeparator}/usr/bin{Path.PathSeparator}/usr/local/bin";
         Environment.SetEnvironmentVariable("PATH", currentPath, EnvironmentVariableTarget.Process);
     }
 }

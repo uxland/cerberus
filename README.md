@@ -6,13 +6,17 @@ Back office backend to manage locations, cameras, filters...
 
 Download links:
 
-SSH clone URL: ssh://git@git.jetbrains.space/papanell/cerverus/cerverus-backoffice.git
+SSH clone URL: ssh: git@github.com:uxland/cerberus.git
 
-HTTPS clone URL: https://git.jetbrains.space/papanell/cerverus/cerverus-backoffice.git
+HTTPS clone URL: https://github.com/uxland/cerberus.git
 
 
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+## UI Development
+Start Backend with
+docker-compose -f docker-compose.demo.yml up -d --build
 
 ## Prerequisites
 

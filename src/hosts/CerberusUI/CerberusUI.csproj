@@ -9,25 +9,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\features\CerberusBackOffice\CerberusBackOffice.csproj" />
-      <ProjectReference Include="..\..\features\CerberusMaintenance\CerberusMaintenance.csproj" />
+        <ProjectReference Include="..\..\features\CerberusBackOffice\CerberusBackOffice.csproj"/>
+        <ProjectReference Include="..\..\features\CerberusMaintenance\CerberusMaintenance.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Blazorise.Bootstrap" Version="1.5.2" />
-      <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.5.2" />
-      <PackageReference Include="Blazorise.TreeView" Version="1.5.2" />
-      <PackageReference Include="WolverineFx" Version="2.8.2" />
+        <PackageReference Include="Blazorise.Bootstrap" Version="1.5.2"/>
+        <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.5.2"/>
+        <PackageReference Include="Blazorise.TreeView" Version="1.5.2"/>
+        <PackageReference Include="WolverineFx" Version="2.8.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Pages\Maintenance\Checks\" />
+        <Folder Include="Components\Pages\Maintenance\Checks\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@
       context: .
       dockerfile: src/hosts/BackOfficeApi/Dockerfile
     ports:
-        - "5222:8080"
+      - "5222:8080"
     environment:
       Backends__PostgresQL__Marten: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
       SnaphotCaptures__FolderRoot: "/app/Snapshots"

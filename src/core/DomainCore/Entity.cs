@@ -1,6 +1,6 @@
 ﻿namespace Cerberus.Core.Domain;
 
-public abstract class Entity: IEntity
+public abstract class Entity : IEntity
 {
     protected Entity()
     {
@@ -11,9 +11,9 @@ public abstract class Entity: IEntity
         Id = id;
     }
 
-    public string Id { get; set;}
+    public bool Transient => string.IsNullOrEmpty(Id);
 
-    public bool Transient => string.IsNullOrEmpty(this.Id);
+    public string Id { get; set; }
 
     public override bool Equals(object? obj)
     {

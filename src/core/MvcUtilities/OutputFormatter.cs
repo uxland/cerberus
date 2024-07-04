@@ -8,8 +8,8 @@ public class OutputFormatter<TOutput> : TextOutputFormatter
 {
     private readonly string _mediaType;
 
-    public  OutputFormatter(string mediaType)
-        
+    public OutputFormatter(string mediaType)
+
     {
         _mediaType = mediaType;
         SupportedEncodings.Add(Encoding.UTF8);

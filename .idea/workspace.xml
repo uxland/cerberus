@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: routing added">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.demo.generated.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.demo.generated.override.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/.env.production" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/query.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues/show-issue/getIssueDetail.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/command.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/query.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training/fulfill-training-review/getPendingTrainingReview.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.demo.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.demo.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package.json" />
+        <option value="PowerShell File" />
+        <option value="Dockerfile" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="features/navigation-ui" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dpinart-uxland&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/uxland/cerberus.git&quot;,
+    &quot;accountId&quot;: &quot;888f5dde-6dc3-4e2a-a938-5b90a4c9867d&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/cerberus-ui/node_modules/typescript/lib/lib.dom.d.ts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2hrveONwPxkheMGmEzcR49g5559" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/ui/camera-settings-view&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/Users/danipinartnadal/.nvm/versions/node/v20.12.2/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui/app" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui" />
+      <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features" />
+      <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/training" />
+      <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src/features/issues" />
+      <recent name="$PROJECT_DIR$/cerberus-ui/maintenance/src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.Demo">
+    <configuration name="Browser Debug" type="JavascriptDebugType" uri="http://localhost:5173" useFirstLineBreakpoints="true">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="cerberus-ui/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="cerberus-ui/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="app &gt; build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/cerberus-ui/app/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="cerberus-ui &gt; build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/cerberus-ui/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="cerberus-ui &gt; dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/cerberus-ui/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.Demo" />
+      <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+      <item itemvalue="JavaScript Debug.Browser Debug" />
+      <item itemvalue="npm.cerberus-ui &gt; build" />
+      <item itemvalue="npm.app &gt; build" />
+      <item itemvalue="npm.cerberus-ui &gt; dev" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+        <item itemvalue="npm.cerberus-ui &gt; build" />
+        <item itemvalue="npm.app &gt; build" />
+        <item itemvalue="npm.cerberus-ui &gt; dev" />
+        <item itemvalue="npm.cerberus-ui &gt; dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="" />
+      <created>1718365105794</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718365105794</updated>
+      <workItem from="1718365107822" duration="2940000" />
+      <workItem from="1718617894005" duration="1242000" />
+      <workItem from="1719295258663" duration="599000" />
+      <workItem from="1719322718358" duration="832000" />
+      <workItem from="1719381889423" duration="22244000" />
+      <workItem from="1719460064010" duration="15844000" />
+      <workItem from="1719553533733" duration="41211000" />
+      <workItem from="1719732745621" duration="3756000" />
+      <workItem from="1719904065630" duration="10391000" />
+      <workItem from="1719996061815" duration="5476000" />
+      <workItem from="1720080918630" duration="5035000" />
+    </task>
+    <task id="LOCAL-00001" summary="chore: setup">
+      <option name="closed" value="true" />
+      <created>1718367205214</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718367205214</updated>
+    </task>
+    <task id="LOCAL-00002" summary="chore: setup">
+      <option name="closed" value="true" />
+      <created>1719400852022</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719400852022</updated>
+    </task>
+    <task id="LOCAL-00003" summary="chore: setup">
+      <option name="closed" value="true" />
+      <created>1719411293375</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719411293375</updated>
+    </task>
+    <task id="LOCAL-00004" summary="chore: setup">
+      <option name="closed" value="true" />
+      <created>1719412637328</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719412637328</updated>
+    </task>
+    <task id="LOCAL-00005" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719480764693</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719480764693</updated>
+    </task>
+    <task id="LOCAL-00006" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719577247349</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719577247349</updated>
+    </task>
+    <task id="LOCAL-00007" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719589002000</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719589002000</updated>
+    </task>
+    <task id="LOCAL-00008" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719737946906</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719737946906</updated>
+    </task>
+    <task id="LOCAL-00009" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1719999429688</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719999429688</updated>
+    </task>
+    <task id="LOCAL-00010" summary="chore: routing added">
+      <option name="closed" value="true" />
+      <created>1720000787352</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1720000787352</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="chore: setup" />
+    <MESSAGE value="chore: routing added" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: routing added" />
+  </component>
+</project>

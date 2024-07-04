@@ -17,9 +17,9 @@ public class TrainingReviewsController(IMessageBus bus): ControllerBase
         ProducesResponseType(StatusCodes.Status404NotFound),
         ProducesResponseType(StatusCodes.Status400BadRequest),
     ]
-    public async Task<IActionResult> GetTrainingReview(string id, [FromBody]Dictionary<string, bool> review)
+    public async Task<IActionResult> GetTrainingReview(string id, [FromBody]Dictionary<string, FilterResultReview> review)
     {
-        await bus.SendAsync(new FulfillTrainingReview(id, review.ToDictionary(x => x.Key, x => new FilterResultReview(x.Value))));
+        await bus.SendAsync(new FulfillTrainingReview(id, review));
         return NoContent();       
     }
 }

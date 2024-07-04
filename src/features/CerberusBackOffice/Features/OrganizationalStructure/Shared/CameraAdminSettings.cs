@@ -3,7 +3,7 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 public record CameraAdminSettings(
     string? IpAddress = null,
     CameraCredentials? Credentials = null,
-    string? CaptureRecurrencePattern = null
+    string CaptureRecurrencePattern = "*/5 * * * *"
 )
 {
     public CameraAdminSettings Merge(CameraAdminSettings? other)

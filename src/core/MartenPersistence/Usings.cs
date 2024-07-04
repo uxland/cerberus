@@ -1,4 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("MartenPersistence.Tests")]
-
+[assembly: InternalsVisibleTo("MartenPersistence.Tests")]

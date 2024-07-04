@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Cerberus.Core.Domain;
 using Cerberus.Maintenance.Features.Features.Analysis.Filters;
 using Cerberus.Maintenance.Features.Features.Issues;
 using Cerberus.Maintenance.Features.Features.Issues.GetDetail;
@@ -9,7 +8,6 @@ using Cerberus.Maintenance.Features.Features.TrainingReviews;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation;
 using Cerberus.Maintenance.Persistence.Projections;
 using Cerberus.Maintenance.Persistence.QueryProviders;
-using Cerberus.Maintenance.Persistence.Repositories;
 using Cerberus.Maintenance.Persistence.Seeding;
 using Marten;
 using Marten.Events.Projections;
@@ -23,17 +21,9 @@ public static class Bootstrapper
     {
         return services
             .ConfigureMarten()
-            .BootstrapRepositories()
             .BootstrapQueryProviders();
     }
     
-    private static IServiceCollection BootstrapRepositories(this IServiceCollection services)
-    {
-        return services
-            .AddScoped<IRepository<MaintenanceCheck>, MaintenanceCheckRepository>()
-            .AddScoped<IRepository<TrainingReview>, TrainingReviewRepository>()
-            .AddScoped<IRepository<MaintenanceIssue>, MaintenanceIssueRepository>();
-    }
     
     private static IServiceCollection BootstrapQueryProviders(this IServiceCollection services)
     {

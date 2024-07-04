@@ -5,9 +5,9 @@ namespace Cerberus.Maintenance.Features.Features.MaintenanceChecks;
 
 public static class ProduceMaintenanceCheckHandler
 {
-    public static Task Handle(CreateFailureMaintenanceCheck command, IRepository<MaintenanceCheck> repository)
+    public static void Handle(CreateFailureMaintenanceCheck command, IGenericRepository repository)
     {
         var maintenanceCheck = new MaintenanceCheck(command);
-        return repository.Create(maintenanceCheck);
+        repository.Create(maintenanceCheck);
     }
 }
