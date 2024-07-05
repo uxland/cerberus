@@ -3,8 +3,8 @@ import {
   Divider,
   FormControlLabel,
   FormGroup,
-  Paper,
-  Switch,
+  Paper, TextareaAutosize,
+  ToggleButton,
   Typography,
 } from '@mui/material';
 import {Mediator} from 'mediatr-ts';
@@ -12,7 +12,14 @@ import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {FilterResult} from '../../issues/show-issue/model.ts';
 import {GetPendingTrainingReview} from './getPendingTrainingReview.ts';
-import {TrainingReview} from './model.ts';
+import {
+  FilterResultReview,
+  initialFilterResultReview,
+  isValidReview,
+  TrainingReview, TrainingReviewResult,
+  updateTrainingReviewResult
+} from './model.ts';
+import {FulfillTrainingReview} from "./command.ts";
 
 export const FulfillTrainingReviewPage = () => {
   const {id} = useParams();
@@ -30,15 +37,10 @@ export const FulfillTrainingReviewPage = () => {
     const fetchReview = async () => {
       try {
         initBusyIndicator();
-        let review = await new Mediator().send<TrainingReview>(
+        const review = await new Mediator().send<TrainingReview>(
           new GetPendingTrainingReview(id)
         );
-        const jsonString =
-          '{"id": "1de91ca1-4638-43e2-8490-5f16922eda35", "status": "Pending", "revision": null, "createdAt": "2024-07-04T13:30:04.2782655Z", "execution": null, "cameraPath": "CAT>GIR>CAM2", "captureInfo": {"cameraId": "CAM2", "captureId": "26db171d-47d9-44f8-b4c8-46ba8d7b5bd8", "cameraPath": "CAT>GIR>CAM2", "snapshotUri": "CAT/GIR/CAM2/1720099800484/snapshot.bmp"}, "description": "Catalunya>Girona>Càmera2", "fixedResults": null, "originalResults": {"maintenance-blurry-detection-script": {"at": "2024-07-04T13:30:02.4718457Z", "result": true, "isError": false, "filterId": "maintenance-blurry-detection-script", "isSuccess": true, "elapsedTime": "0:00:01.1499327", "errorMessage": "", "filterDescription": "Blurry image detection"}, "maintenance-no-blobs-detection-script": {"at": "2024-07-04T13:30:02.4718145Z", "result": true, "isError": false, "filterId": "maintenance-no-blobs-detection-script", "isSuccess": true, "elapsedTime": "0:00:01.420426", "errorMessage": "", "filterDescription": "No blobs detection"}}, "analysisFailures": null}';
-        const analysisResult: TrainingReview = JSON.parse(jsonString);
-        console.log();
-
-        setTrainingReview(analysisResult);
+        setTrainingReview(review);
       } catch (e) {
         setError(e.toString);
       } finally {
@@ -57,6 +59,30 @@ export const FulfillTrainingReviewPage = () => {
 };
 
 const FiltersReview = (props: {trainingReview: TrainingReview}) => {
+  const [reviewResult, setReviewResult] = useState(initialFilterResultReview(props.trainingReview));
+  const [canSend, setCanSend] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string>(undefined);
+  const setFilterResult = (filterId: string, result: FilterResultReview) => {
+    setReviewResult(updateTrainingReviewResult(reviewResult, filterId, result));
+    setCanSend(isValidReview(reviewResult));
+  };
+
+  const fullfillReview = async () => {
+    try {
+      setError(undefined);
+      setIsSubmitting(true);
+      await new Mediator().send(new FulfillTrainingReview(props.trainingReview.id, reviewResult));
+    }
+    catch (e){
+      setError(e.message || e.toString);
+    }
+    finally {
+      setIsSubmitting(false)
+    }
+
+  };
+
   return (
     <div className='flex flex-col w-full gap-6'>
       <h3>{props.trainingReview.description}</h3>
@@ -74,17 +100,23 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
           </div>
           <form onSubmit={() => console.log('Submit')}>
             <div className='flex flex-col gap-4'>
-              {Object.keys(props.trainingReview.originalResults).map((key) => {
-                const result = props.trainingReview.originalResults[key];
+              {Object.keys(reviewResult).map((key) => {
+                const result = reviewResult[key];
+                const originalResult = props.trainingReview.originalResults[key];
                 return (
                   <FilterReviewForm
                     key={key}
-                    result={result}
-                    onChange={() => console.log('test')}
+                    originalResult={originalResult}
+                    currentResult={result}
+                    onChange={(result: FilterResultReview) => setFilterResult(key, result)}
                   />
                 );
               })}
             </div>
+            <button
+              type='submit'
+              disabled={!canSend}
+              className='btn btn-primary'
           </form>
         </Paper>
       </div>
@@ -93,15 +125,23 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
 };
 
 const FilterReviewForm = (props: {
-  result: FilterResult;
-  onChange: ({agree: boolean, comment: string}) => void;
+  originalResult: FilterResult;
+  currentResult: FilterResultReview;
+  onChange: (result: FilterResultReview) => void;
 }) => {
+  const agree = () => props.onChange({agreement: true, comment: props.currentResult.comment});
+  const disagree = () => props.onChange({agreement: false, comment: props.currentResult.comment});
+  const setComment = (comment: string) => props.onChange({agreement: props.currentResult.agreement, comment});
   return (
     <div className='flex gap-8 items-center justify-end w-86 h-12 p-4'>
-      <Typography className='body'>{props.result.filterDescription}</Typography>
+      <Typography className='body'>{props.originalResult.filterDescription}</Typography>
       <FormGroup>
         <FormControlLabel
-          control={<Switch />}
+            control={<div>
+              <ToggleButton selected={props.currentResult.agreement === true} value="Agree" onClick={agree}>Agree</ToggleButton>
+              <ToggleButton selected={props.currentResult.agreement === false} value="Disagree" onClick={disagree}>Agree</ToggleButton>
+              <TextareaAutosize onChange={(event) => setComment(event.target.value)}></TextareaAutosize>
+            </div>}
           label='Agree'
           labelPlacement='start'
           className='gap-4'

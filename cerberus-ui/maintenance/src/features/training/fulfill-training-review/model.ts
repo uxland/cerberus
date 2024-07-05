@@ -27,7 +27,7 @@ enum Status {
 }
 
 export interface FilterResultReview {
-  agreement: boolean;
+  agreement: boolean | undefined;
   comment?: string | undefined;
 }
 enum AnalysisFailureType {
@@ -46,8 +46,7 @@ export interface TrainingReview extends Entity {
   created: Date;
   captureInfo: CaptureInfo;
   status: Status;
-  originalResults: OriginalResults;
-  // originalResults: {[key: string]: FilterResult};⁄
+  originalResults: {[key: string]: FilterResult}
   execution?: TrainingReviewExecution | undefined;
   fixedResults: FilterResult[];
   revision?: {[key: string]: FilterResultReview} | undefined;
@@ -65,7 +64,18 @@ export interface DetectionScript {
   filterDescription: string;
 }
 
-interface OriginalResults {
-  'maintenance-blurry-detection-script': DetectionScript;
-  'maintenance-no-blobs-detection-script': DetectionScript;
+export interface TrainingReviewResult{
+    [key: string]: FilterResultReview;
 }
+
+export const initialFilterResultReview = (review: TrainingReview): TrainingReviewResult =>
+    Object.keys(review.originalResults).reduce((acc, key) => {
+        acc[key] = {agreement: undefined, comment: undefined};
+        return acc;
+    }, {} as TrainingReviewResult);
+
+export const updateTrainingReviewResult = (currentResult: TrainingReviewResult, filterId: string, result: FilterResultReview) =>
+    ({...currentResult, [filterId]: result})
+
+export const isValidReview = (review: TrainingReviewResult): boolean =>
+    Object.values(review).every((value) => value.agreement !== undefined);

@@ -1,7 +1,7 @@
 import {addRoute, registerRouteComponent, store} from '@cerberus/core';
 import {Container} from 'inversify';
 import {requestHandler} from 'mediatr-ts';
-import {Command, CommandHandler} from './command.ts';
+import {FulfillTrainingReview, CommandHandler} from './command.ts';
 import {FulfillTrainingReviewPage} from './component.tsx';
 import {
   GetPendingTrainingReview,
@@ -19,7 +19,7 @@ export const bootstrapFulfillTrainingReview = (container: Container) => {
       name: 'training',
     })
   );
-  requestHandler(Command)(CommandHandler);
+  requestHandler(FulfillTrainingReview)(CommandHandler);
   requestHandler(GetPendingTrainingReview)(QueryHandler);
   return Promise.resolve(container);
 };
