@@ -6,6 +6,7 @@ namespace Cerberus.Maintenance.Features.Features.TrainingReviews.GetTrainingRevi
 
 [ApiController]
 [Route("api/training-reviews")]
+[Produces("application/json")]
 public class TrainingReviewsController: ControllerBase
 {
     public const string ProducesMediaType = "application/json;domain-model=Cerberus.Maintenance.TrainingReviewDetail;version=1.0";

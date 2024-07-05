@@ -63,7 +63,12 @@ export const OpenIssuesReportChart = () => {
           {useMaintenanceLocales('title.summaryChart')}
         </Typography>
         <ResponsiveContainer width='100%' height={600}>
-          <BarChart data={data} barGap={2} barCategoryGap='10%' maxBarSize={32}>
+          <BarChart
+            data={data}
+            barGap={12}
+            barCategoryGap={15}
+            maxBarSize={40}
+            barSize={40}>
             <CartesianGrid />
             <XAxis
               dataKey='name'
@@ -74,7 +79,7 @@ export const OpenIssuesReportChart = () => {
             <YAxis
               ticks={[0, 50, 100, 150, 200]}
               domain={[0, (dataMax) => dataMax * 1.1]}
-              tickMargin={10}
+              tickMargin={100}
               tick={{fill: '#d7dadb'}}
             />
             <Legend align='right' width={500} content={<CustomizedLegend />} />
