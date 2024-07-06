@@ -142,7 +142,7 @@ const FilterReviewForm = (props: {
               <ToggleButton selected={props.currentResult.agreement === true} value="Agree" onClick={agree}>Agree</ToggleButton>
               <ToggleButton selected={props.currentResult.agreement === false} value="Disagree" onClick={disagree}>Disagree</ToggleButton>
             </div>}
-          label='Agree'
+          label={props.originalResult.result ? "Ok" : "Not Ok"}
           labelPlacement='start'
           className='gap-4'
         />
