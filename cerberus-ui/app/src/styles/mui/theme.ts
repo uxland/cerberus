@@ -216,6 +216,13 @@ const theme = createTheme(paletteTheme, {
         },
       },
     },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          width: '100px !important',
+        },
+      },
+    },
     MuiTableRow: {
       styleOverrides: {
         root: {
@@ -257,6 +264,15 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           maxWidth: '200px',
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          alignItems: 'flex-start',
+          marginRight: '2px',
+          gap: '140px',
         },
       },
     },
