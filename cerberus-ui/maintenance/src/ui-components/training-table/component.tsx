@@ -18,6 +18,7 @@ import {
   getPendingReviewUrl,
 } from '../../features/training/list-pending-training-reviews/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
+import {getImageUrl} from "@cerberus/core";
 
 export const PendingReviewTable = (props: {
   reviews: PendingTrainingReview[];
@@ -82,7 +83,7 @@ const PendingReviewRow = (props: {row: PendingTrainingReview}) => {
       key={props.row.id}
       onClick={() => handleRowClick(getPendingReviewUrl(props.row))}>
       <TableCell size='small' align='center'>
-        IMAGE
+          {props.row.thumbnailUrl && <img src={getImageUrl(props.row.thumbnailUrl)} alt={props.row.description}/>}
       </TableCell>
       <TableCell size='small' align='center'>
         {formatDateString(props.row.createdAt)}

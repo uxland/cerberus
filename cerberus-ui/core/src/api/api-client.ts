@@ -11,8 +11,9 @@ const baseConfig = {
 }
 
 const axios = new Axios(baseConfig);
-
+const getPayload = (requestInit: RequestInit) => requestInit.body ? JSON.stringify(requestInit.body) : undefined;
 export class ApiClientImpl extends ApiClient{
+
     get<T>(url: string, requestInit: RequestInit | undefined): Promise<T> {
         const request = axios.get(url, {
                 headers: this.getHeaders(requestInit),
@@ -23,12 +24,16 @@ export class ApiClientImpl extends ApiClient{
     }
 
     post<T>(url: string, requestInit: RequestInit): Promise<T> {
-        const request  = axios.post(url, requestInit.body, {headers: this.getHeaders(requestInit)});
+        const request  = axios.post(url, getPayload(requestInit), {headers: this.getHeaders(requestInit)});
         return this.handleResponse(request)
+    }
+    postFile<T>(url: string, requestInit: RequestInit): Promise<T> {
+        const request = axios.post(url, requestInit.body, {headers: this.getHeaders(requestInit)});
+        return this.handleResponse(request);
     }
 
     put<T>(url: string, requestInit: RequestInit): Promise<T> {
-        const request = axios.put(url, requestInit.body, {headers: this.getHeaders(requestInit)});
+        const request = axios.put(url, getPayload(requestInit), {headers: this.getHeaders(requestInit)});
         return this.handleResponse(request)
     }
 
@@ -48,6 +53,8 @@ export class ApiClientImpl extends ApiClient{
 }
 
 const parseResponse = (response: AxiosResponse) => {
+    if(response.status >= 400)
+        throw new Error(response.data);
     if((response.headers['content-type'] || '').includes('application/json')){
         const result = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
         return typeof result === 'string' ? JSON.parse(result) : result;

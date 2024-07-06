@@ -1,12 +1,18 @@
-import {getRouteComponent} from '@cerberus/core';
+import {getRouteComponent, nop} from '@cerberus/core';
 import {OrganizationalStructureTreeNode} from '@cerberus/organizational-structure';
 import {Box, ThemeProvider, Typography} from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import {connect} from 'react-redux';
-import {Link, Route, BrowserRouter as Router, Routes} from 'react-router-dom';
+import {Link, Route, BrowserRouter as Router, Routes, useNavigate} from 'react-router-dom';
 import Logo from './assets/logo/instrumenta.png';
 import theme from './styles/mui/theme';
+import {useEffect} from "react";
+import {Mediator} from "mediatr-ts";
+import {SetNavigation} from "./navigation/set-navigation.ts";
 export const App = ({routes}) => {
+  useEffect(() => {
+    new Mediator().send(new SetNavigation(useNavigate)).then(nop);
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{display: 'flex', width: '100%'}}>
@@ -19,7 +25,7 @@ export const App = ({routes}) => {
               <div className='flex flex-col'>
                 <div className='flex flex-col gap-1'>
                   <div className='flex items-center justify-center h-20 max-h-24'>
-                    <Link to={'/'}>{<img className='h-14' src={Logo} />}</Link>
+                    <Link to={'/'}>{<img className='h-14' src={Logo} alt={Logo}/>}</Link>
                   </div>
                   <div className='flex p-6 bg-[#202020] justify-between'>
                     <div className='flex flex-col items-start p-1'>
@@ -29,7 +35,7 @@ export const App = ({routes}) => {
                   </div>
                 </div>
                 <div className='h-full'>
-                  <OrganizationalStructureTreeNode />
+                  {<OrganizationalStructureTreeNode />}
                 </div>
               </div>
             </Box>

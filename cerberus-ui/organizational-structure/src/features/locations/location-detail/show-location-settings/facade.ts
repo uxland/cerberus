@@ -1,7 +1,7 @@
 import {inject, injectable} from "inversify";
 import {ApiClient} from "@cerberus/shared/src";
 import {LocationSettings} from "./model.ts";
-import {HierarchyItemType} from "../../../show-organizational-structure/hierarchy-item.ts";
+import {HierarchyItemType} from "../../../state/hierarchy-item.ts";
 
 @injectable()
 export abstract class GetLocationSettingsFacade {

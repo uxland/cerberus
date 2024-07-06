@@ -11,15 +11,14 @@ import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {FilterResult} from '../../issues/show-issue/model.ts';
-import {GetPendingTrainingReview} from './getPendingTrainingReview.ts';
 import {
   FilterResultReview,
   initialFilterResultReview,
   isValidReview,
-  TrainingReview, TrainingReviewResult,
-  updateTrainingReviewResult
+  TrainingReview, updateTrainingReviewResult
 } from './model.ts';
 import {FulfillTrainingReview} from "./command.ts";
+import {GetPendingTrainingReview} from "./get-pending-training-review.ts";
 
 export const FulfillTrainingReviewPage = () => {
   const {id} = useParams();
@@ -64,12 +63,14 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string>(undefined);
   const setFilterResult = (filterId: string, result: FilterResultReview) => {
-    setReviewResult(updateTrainingReviewResult(reviewResult, filterId, result));
-    setCanSend(isValidReview(reviewResult));
+    const updateReviewResult =updateTrainingReviewResult(reviewResult, filterId, result);
+    setReviewResult(updateReviewResult)
+    setCanSend(isValidReview(updateReviewResult));
   };
 
-  const fullfillReview = async () => {
+  const fullfillReview = async (e: Event) => {
     try {
+      e.preventDefault();
       setError(undefined);
       setIsSubmitting(true);
       await new Mediator().send(new FulfillTrainingReview(props.trainingReview.id, reviewResult));
@@ -98,7 +99,7 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
             <Typography className='!text-lg'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
           </div>
-          <form onSubmit={() => console.log('Submit')}>
+          <form onSubmit={fullfillReview}>
             <div className='flex flex-col gap-4'>
               {Object.keys(reviewResult).map((key) => {
                 const result = reviewResult[key];
@@ -116,7 +117,7 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
             <button
               type='submit'
               disabled={!canSend}
-              className='btn btn-primary'
+              className='btn btn-primary'>Submit</button>
           </form>
         </Paper>
       </div>
@@ -139,8 +140,7 @@ const FilterReviewForm = (props: {
         <FormControlLabel
             control={<div>
               <ToggleButton selected={props.currentResult.agreement === true} value="Agree" onClick={agree}>Agree</ToggleButton>
-              <ToggleButton selected={props.currentResult.agreement === false} value="Disagree" onClick={disagree}>Agree</ToggleButton>
-              <TextareaAutosize onChange={(event) => setComment(event.target.value)}></TextareaAutosize>
+              <ToggleButton selected={props.currentResult.agreement === false} value="Disagree" onClick={disagree}>Disagree</ToggleButton>
             </div>}
           label='Agree'
           labelPlacement='start'

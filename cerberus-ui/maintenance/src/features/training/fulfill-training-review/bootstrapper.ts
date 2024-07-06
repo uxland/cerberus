@@ -6,7 +6,7 @@ import {FulfillTrainingReviewPage} from './component.tsx';
 import {
   GetPendingTrainingReview,
   QueryHandler,
-} from './getPendingTrainingReview.ts';
+} from './get-pending-training-review.ts';
 export const bootstrapFulfillTrainingReview = (container: Container) => {
   registerRouteComponent(
     FulfillTrainingReviewPage.name,

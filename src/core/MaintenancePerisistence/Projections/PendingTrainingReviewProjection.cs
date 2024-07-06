@@ -1,6 +1,6 @@
 ﻿using Cerberus.Maintenance.Features.Features.TrainingReviews;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.Create;
-using Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation;
+using Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -14,14 +14,15 @@ public class PendingTrainingReviewProjection: SingleStreamProjection<PendingTrai
         DeleteEvent<TrainingReviewFulfilled>();
     }
 
-    public async Task<PendingTrainingReview> Create(IEvent<TrainingReviewCreated> e, IQuerySession querySession)
+    public Task<PendingTrainingReview> Create(IEvent<TrainingReviewCreated> e, IQuerySession querySession)
     {
         var description = querySession.GetCameraPathDescription(e.Data.CaptureInfo.CameraPath);
-        return new PendingTrainingReview(
+        return Task.FromResult(new PendingTrainingReview(
             Id: e.StreamKey!,
             Description: description,
             CameraPath: e.Data.CaptureInfo.CameraPath,
-            CreatedAt: e.Data.Timestamp
-        );
+            CreatedAt: e.Data.Timestamp,
+            ThumbnailUrl: e.Data.CaptureInfo.ThumbnailUri
+        ));
     }
 }

@@ -4,9 +4,9 @@ import {useLocation, useParams} from 'react-router-dom';
 import {
   OpenIssuesView,
   PendingTrainingReviewsView,
-} from '../../../../../maintenance';
+} from '@cerberus/maintenance';
 import {TabsBar} from '../../../ui-components';
-import {HierarchyItemType} from '../../show-organizational-structure/hierarchy-item';
+import {HierarchyItemType} from '../../state/hierarchy-item.ts';
 import {CameraCapturesView} from './list-camera-captures/component';
 import {LocationSettingsView} from './show-location-settings/component';
 export const LocationPage = () => {

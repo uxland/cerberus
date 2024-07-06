@@ -1,28 +1,22 @@
 import {SimpleTreeView} from '@mui/x-tree-view';
-import {Mediator} from 'mediatr-ts';
-import {useEffect, useState} from 'react';
-import {LocationNode} from './hierarchy-item.ts';
-import {ListLocationHierarchy} from './list-location-children.ts';
 import {TreeNode} from "./tree-node.tsx";
+import {connect} from 'react-redux';
+import {LocationNode} from "../state/hierarchy-item.ts";
 
-export const OrganizationalStructureTreeNode = () => {
-  const [children, setChildren] = useState<LocationNode[]>([]);
+const mapStateToProps = (state: any) => {
+  return {
+    locationHierarchy: state.locationHierarchy,
+  };
+}
 
-  useEffect(() => {
-    async function fetchData() {
-      const hierarchyItems = await new Mediator().send(
-        new ListLocationHierarchy()
-      );
-      setChildren(hierarchyItems);
-    }
-    fetchData();
-  }, []);
-
+const OrganizationalStructureTreeNode = ({locationHierarchy}: {locationHierarchy: LocationNode[]}) => {
   return (
     <SimpleTreeView>
-      {children.map((child) => (
+      {locationHierarchy.map((child) => (
         <TreeNode key={child.id} node={child} />
       ))}
     </SimpleTreeView>
   );
 };
+
+export default connect(mapStateToProps)(OrganizationalStructureTreeNode)
