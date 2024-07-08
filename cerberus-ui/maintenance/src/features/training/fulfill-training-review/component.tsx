@@ -88,14 +88,15 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
   return (
     <div className='flex flex-col w-full gap-6'>
       <h3>{props.trainingReview.description}</h3>
-      <div className='grid grid-cols-2 gap-96 w-full justify-between'>
-        <div className='w-[600px] border'>
+      <div className=' w-full justify-between grid grid-cols-1 gap-8 2xl:grid-cols-2 2xl:gap-96'>
+        <div className='w-[1000px] border rounded-[10px] overflow-hidden'>
           <img
             src={getImageUrl(props.trainingReview.captureInfo.snapshotUri)}
             alt={props.trainingReview.description}
+            className='w-full h-full object-cover'
           />
         </div>
-        <Paper className='custom-table p-4 w-[600px]'>
+        <Paper className='custom-table p-4'>
           <div className='flex flex-col mb-4'>
             <Typography className='!text-lg'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
@@ -201,7 +202,7 @@ const FilterReviewForm = (props: {
               </div>
             </div>
           }
-          label='Si'
+          label={props.originalResult.result === true ? 'Si' : 'No'}
           labelPlacement='start'
           className='gap-4'
         />
