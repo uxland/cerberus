@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Mediator} from "mediatr-ts";
-import {Command} from "./command.ts";
+import {CloseIssue} from "./command.ts";
 
 export const CloseIssueForm = (props:{issueId: string}) => {
     const {issueId} = props;
@@ -8,10 +8,11 @@ export const CloseIssueForm = (props:{issueId: string}) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         setIsSubmitting(true);
         try {
-            await new Mediator().send(new Command(issueId, comment));
+            await new Mediator().send(new CloseIssue(issueId, comment));
             setSuccess(true);
         } catch (e) {
             setError(e);

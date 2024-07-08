@@ -17,7 +17,7 @@ public class LocationsController : ControllerBase
     ]
     public async Task<IActionResult> ListByLocationPath(string locationPath, [FromServices]IReadModelQueryProvider entityQueryProvider)
     {
-        var spec =  new IssueInLocationSpec(locationPath) & (new IssueStatusSpec(MaintenanceIssueStatus.Open));
+        var spec =  new IssueInLocationSpec(locationPath) & (new IssueStatusSpec(MaintenanceIssueStatus.Open) | new IssueStatusSpec(MaintenanceIssueStatus.InCourse));
         var detail = await entityQueryProvider.ListAsJson(spec);
         return string.IsNullOrEmpty(detail) ? NotFound() : Ok(detail);
     }

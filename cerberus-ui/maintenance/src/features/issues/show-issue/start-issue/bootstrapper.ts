@@ -1,8 +1,8 @@
 import {Container} from "inversify";
 import {requestHandler} from "mediatr-ts";
-import {Command, Handler} from "./command.ts";
+import {StartIssue, Handler} from "./command.ts";
 
 export const bootstrapStartIssue = (container: Container) =>{
-    requestHandler(Command)(Handler);
+    requestHandler(StartIssue)(Handler);
     return Promise.resolve(container);
 }

@@ -101,7 +101,7 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
           </div>
           <FormControl
-            onSubmit={() => console.log('Submit')}
+            onSubmit={fullfillReview}
             className='flex flex-col w-full gap-4 p-6 items-end'>
             <div className='flex flex-col gap-6 w-full'>
               {Object.keys(reviewResult).map((key) => {
@@ -120,6 +120,7 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
                     />
                     {result.agreement === false ? (
                       <CustomTextArea
+                          key={key}
                         result={result}
                         onChange={(result: FilterResultReview) =>
                           setFilterResult(key, result)
