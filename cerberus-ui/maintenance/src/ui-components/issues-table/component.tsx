@@ -31,7 +31,9 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
       <Paper
         sx={{
           width: '100%',
-          height: 'fit-content',
+          // height: 'fit-content',
+          height: '560px',
+
           overflow: 'auto',
         }}>
         <TableContainer component={Paper} className='custom-table'>

@@ -5,6 +5,7 @@ import {
   PendingReviewTable,
   TrainingReviewsPerformanceList,
 } from '../../../ui-components/index.ts';
+import {TrainingErrorsChart} from '../../../ui-components/training-errors-chart/component.tsx';
 import {PendingTrainingReview} from './model.ts';
 import {ListPendingReviewsByLocation} from './query.ts';
 
@@ -45,6 +46,7 @@ const PendingReviewListComponent = (reviews: PendingTrainingReview[]) => {
     <div className='flex flex-col gap-10'>
       <TrainingReviewsPerformanceList />
       <PendingReviewTable reviews={reviews} />
+      <TrainingErrorsChart />
     </div>
   );
 };
