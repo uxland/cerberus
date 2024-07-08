@@ -4,5 +4,6 @@ export * from './list-training-key-performance-indicators/component';
 export * from './no-data/component';
 export * from './open-issues-key-performance-indicators-item/component';
 export * from './report-chart/component';
+export * from './timer/component';
 export * from './training-review-key-performance-indicators-item copy/component';
 export * from './training-table/component';

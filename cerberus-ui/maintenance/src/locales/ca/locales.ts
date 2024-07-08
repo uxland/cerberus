@@ -40,5 +40,9 @@ export const locales = {
       location: 'Location',
       Actions: 'Actions',
     },
+    openIssuesForm: {
+      title: 'Error description',
+      resolutionTime: 'Resolution time',
+    },
   },
 };

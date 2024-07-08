@@ -2,6 +2,8 @@ import {Button, Divider, Paper, Typography} from '@mui/material';
 import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
 import {useState} from 'react';
+import {useMaintenanceLocales} from '../../../../locales/ca/locales.ts';
+import {Timer} from '../../../../ui-components/index.ts';
 import {CustomTextArea} from '../../../../ui-components/text-area/component.tsx';
 import {FilterResult, MaintenanceIssueDetail} from '../model.ts';
 import {CloseIssue} from './command.ts';
@@ -28,7 +30,10 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
     <form onSubmit={handleSubmit} className='w-8/12'>
       <Paper className='flex flex-col h-full w-full custom-table p-4 '>
         <div className='flex flex-col mb-4'>
-          <Typography className='!text-lg'>Error Description</Typography>
+          <Typography className='!text-lg'>
+            {' '}
+            {useMaintenanceLocales('openIssuesForm.title')}
+          </Typography>
           <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
         </div>
         <div className='flex flex-col h-full justify-between'>
@@ -42,16 +47,24 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
               onChange={(e) => setComment(e.target.value)}
             />
           </div>
-          <div className='flex justify-end'>
+          <div className='flex flex-col items-end gap-4'>
+            <div className='flex flex-col items-end gap-0'>
+              <Typography variant='body1'>
+                {useMaintenanceLocales('openIssuesForm.resolutionTime')}:{' '}
+              </Typography>
+              <Typography className='!font-bold !text-lg !tracking-widest'>
+                12:17:26
+              </Typography>
+              <Timer targetDateTime={props.issue.startedAt} />
+            </div>
             <Button
               variant='contained'
               size='small'
-              color='success'
               disabled={isSubmitting}
               type='submit'
               fullWidth
-              className='!rounded-2xl !max-w-48 !text-white'>
-              Close Issue
+              className='!rounded-2xl !max-w-48 !text-white !bg-[#ff2366]'>
+              Stop
             </Button>
             {error && <div>{error}</div>}
             {success && <div>Issue closed</div>}

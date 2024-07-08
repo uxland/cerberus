@@ -48,10 +48,16 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
       {Header(issue)}
       <div className='w-full grid grid-cols-2 gap-8'>
         <div className='rounded-[10px] overflow-hidden w-12/12'>
-          <img
-            src={getImageUrl(issue.snapshotUrl)}
-            alt={issue.cameraDescription}
-          />
+          {getImageUrl(issue?.snapshotUrl) === null || undefined ? (
+            <div className='w-full h-96 bg-gray-300 flex items-center justify-center'>
+              No image
+            </div>
+          ) : (
+            <img
+              src={getImageUrl(issue?.snapshotUrl)}
+              alt={issue.cameraDescription}
+            />
+          )}
         </div>
         <div className='flex justify-end w-12/12'>
           {issue.status === MaintenanceIssueStatus.open && (
