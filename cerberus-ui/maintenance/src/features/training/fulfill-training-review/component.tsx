@@ -1,25 +1,25 @@
 import {getImageUrl, nop} from '@cerberus/core';
-import {Box, FormControl} from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Paper from '@mui/material/Paper';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import ToggleButton from '@mui/material/ToggleButton';
 import Typography from '@mui/material/Typography';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {CustomTextArea} from '../../../ui-components/text-area/component.tsx';
 import {FilterResult} from '../../issues/show-issue/model.ts';
+import {FulfillTrainingReview} from './command.ts';
+import {GetPendingTrainingReview} from './get-pending-training-review.ts';
 import {
   FilterResultReview,
+  TrainingReview,
   initialFilterResultReview,
   isValidReview,
-  TrainingReview, updateTrainingReviewResult
+  updateTrainingReviewResult,
 } from './model.ts';
-import {FulfillTrainingReview} from "./command.ts";
-import {GetPendingTrainingReview} from "./get-pending-training-review.ts";
 
 export const FulfillTrainingReviewPage = () => {
   const {id} = useParams();
@@ -59,13 +59,19 @@ export const FulfillTrainingReviewPage = () => {
 };
 
 const FiltersReview = (props: {trainingReview: TrainingReview}) => {
-  const [reviewResult, setReviewResult] = useState(initialFilterResultReview(props.trainingReview));
+  const [reviewResult, setReviewResult] = useState(
+    initialFilterResultReview(props.trainingReview)
+  );
   const [canSend, setCanSend] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string>(undefined);
   const setFilterResult = (filterId: string, result: FilterResultReview) => {
-    const updateReviewResult =updateTrainingReviewResult(reviewResult, filterId, result);
-    setReviewResult(updateReviewResult)
+    const updateReviewResult = updateTrainingReviewResult(
+      reviewResult,
+      filterId,
+      result
+    );
+    setReviewResult(updateReviewResult);
     setCanSend(isValidReview(updateReviewResult));
   };
 
@@ -74,22 +80,21 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
       e.preventDefault();
       setError(undefined);
       setIsSubmitting(true);
-      await new Mediator().send(new FulfillTrainingReview(props.trainingReview.id, reviewResult));
-    }
-    catch (e){
+      await new Mediator().send(
+        new FulfillTrainingReview(props.trainingReview.id, reviewResult)
+      );
+    } catch (e) {
       setError(e.message || e.toString);
+    } finally {
+      setIsSubmitting(false);
     }
-    finally {
-      setIsSubmitting(false)
-    }
-
   };
 
   return (
     <div className='flex flex-col w-full gap-6'>
       <h3>{props.trainingReview.description}</h3>
       <div className=' w-full justify-between grid grid-cols-1 gap-8 2xl:grid-cols-2 2xl:gap-96'>
-        <div className='w-[1000px] border rounded-[10px] overflow-hidden'>
+        <div className='w-[1000px] rounded-[10px] overflow-hidden'>
           <img
             src={getImageUrl(props.trainingReview.captureInfo.snapshotUri)}
             alt={props.trainingReview.description}
@@ -101,8 +106,8 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
             <Typography className='!text-lg'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
           </div>
-          <FormControl
-            onSubmit={fullfillReview}
+          <form
+            onSubmit={() => fullfillReview}
             className='flex flex-col w-full gap-4 p-6 items-end'>
             <div className='flex flex-col gap-6 w-full'>
               {Object.keys(reviewResult).map((key) => {
@@ -120,8 +125,8 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
                       }
                     />
                     {result.agreement === false ? (
-                      <CustomTextArea
-                          key={key}
+                      <TextArea
+                        key={key}
                         result={result}
                         onChange={(result: FilterResultReview) =>
                           setFilterResult(key, result)
@@ -141,11 +146,11 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
                 type='submit'
                 fullWidth
                 className='submit-btn !max-w-48'
-                onClick={fullfillReview}>
+                onClick={() => fullfillReview}>
                 Submit
               </Button>
             </div>
-          </FormControl>
+          </form>
         </Paper>
       </div>
     </div>
@@ -212,7 +217,7 @@ const FilterReviewForm = (props: {
   );
 };
 
-const CustomTextArea = (props: {
+const TextArea = (props: {
   onChange: (result: FilterResultReview) => void;
   result: FilterResultReview;
 }) => {
@@ -222,26 +227,5 @@ const CustomTextArea = (props: {
     const comment = event.target.value;
     setComment(comment);
   };
-  return (
-    <Box
-      component={TextareaAutosize}
-      onChange={handleChange}
-      placeholder='Write a comment...'
-      sx={{
-        width: '100%',
-        backgroundColor: '#313131',
-        color: '#d7dadb',
-        fontSize: '12px',
-        minHeight: '100px',
-        padding: '10px',
-        '&:focus': {
-          borderColor: '#707070',
-          outline: 'none',
-          boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.25)',
-        },
-        borderRadius: '6px',
-        border: '1px solid #707070',
-      }}
-    />
-  );
+  return <CustomTextArea onChange={handleChange} />;
 };

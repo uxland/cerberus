@@ -1,6 +1,5 @@
 import {getImageUrl, nop} from '@cerberus/core';
 import {Typography} from '@mui/material';
-import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
@@ -43,22 +42,26 @@ export const MaintenanceIssuePage = () => {
 
 const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
   const {issue} = props;
-  const formatDateString = (dateString) => {
-    const date = new Date(dateString);
-    return format(date, 'dd/MM/yyyy hh:mm:ss a');
-  };
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-4'>
       {Header(issue)}
-
-      <img src={getImageUrl(issue.snapshotUrl)} alt={issue.cameraDescription} />
-      {issue.status === MaintenanceIssueStatus.open && (
-        <StartIssueForm issueId={issue.id} />
-      )}
-      {issue.status === MaintenanceIssueStatus.inProgress && (
-        <CloseIssueForm issueId={issue.id} />
-      )}
+      <div className='w-full grid grid-cols-2 gap-8'>
+        <div className='rounded-[10px] overflow-hidden w-12/12'>
+          <img
+            src={getImageUrl(issue.snapshotUrl)}
+            alt={issue.cameraDescription}
+          />
+        </div>
+        <div className='flex justify-end w-12/12'>
+          {issue.status === MaintenanceIssueStatus.open && (
+            <StartIssueForm issue={issue} />
+          )}
+          {issue.status === MaintenanceIssueStatus.inProgress && (
+            <CloseIssueForm issue={issue} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
