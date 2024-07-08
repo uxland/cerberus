@@ -209,6 +209,13 @@ const FilterReviewForm = (props: {
             </div>
           }
           label={props.originalResult.result === true ? 'Si' : 'No'}
+          sx={{
+            span: {
+              color: `${props.originalResult.result ? 'green' : 'red'}`,
+              fontWeight: '800 !important',
+              letterSpacing: '1px !important',
+            },
+          }}
           labelPlacement='start'
           className='gap-4'
         />
