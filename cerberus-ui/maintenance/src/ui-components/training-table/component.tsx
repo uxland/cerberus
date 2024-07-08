@@ -1,3 +1,4 @@
+import {getImageUrl} from '@cerberus/core';
 import {splitAndChooseDescription} from '@cerberus/shared/src';
 import EyeIcon from '@mui/icons-material/VisibilityOutlined';
 import {
@@ -18,7 +19,7 @@ import {
   getPendingReviewUrl,
 } from '../../features/training/list-pending-training-reviews/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
-import {getImageUrl} from "@cerberus/core";
+import {NoData} from '../no-data/component';
 
 export const PendingReviewTable = (props: {
   reviews: PendingTrainingReview[];
@@ -29,9 +30,10 @@ export const PendingReviewTable = (props: {
         {useMaintenanceLocales('title.pendingReviews')} ({props.reviews.length})
       </Typography>
       <Paper
+        className='custom-table'
         sx={{
           width: '100%',
-          height: '560px',
+          height: '538px',
           overflow: 'auto',
         }}>
         <TableContainer component={Paper} className='custom-table'>
@@ -56,11 +58,18 @@ export const PendingReviewTable = (props: {
                 <TableCell align='center'></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody className='h-400'>
-              {props.reviews.map((row) => (
-                <PendingReviewRow row={row} key={row.id} />
-              ))}
-            </TableBody>
+
+            {props.reviews.length === 0 ? (
+              <TableBody sx={{position: 'relative', height: '500px'}}>
+                <NoData />
+              </TableBody>
+            ) : (
+              <TableBody className='h-420'>
+                {props.reviews.map((row) => (
+                  <PendingReviewRow row={row} key={row.id} />
+                ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Paper>
@@ -83,7 +92,15 @@ const PendingReviewRow = (props: {row: PendingTrainingReview}) => {
       key={props.row.id}
       onClick={() => handleRowClick(getPendingReviewUrl(props.row))}>
       <TableCell size='small' align='center'>
-          {props.row.thumbnailUrl && <img src={getImageUrl(props.row.thumbnailUrl)} alt={props.row.description}/>}
+        {props.row.thumbnailUrl && (
+          <div className='flex max-w-28 rounded-md overflow-hidden'>
+            <img
+              className='w-full h-full object-cover'
+              src={getImageUrl(props.row.thumbnailUrl)}
+              alt={props.row.description}
+            />
+          </div>
+        )}
       </TableCell>
       <TableCell size='small' align='center'>
         {formatDateString(props.row.createdAt)}
