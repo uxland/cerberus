@@ -14,19 +14,28 @@ import {useMaintenanceLocales} from '../../locales/ca/locales';
 const data = [
   {
     name: 'Week 1',
-    totals: {blobs: 70, blur: 40},
+    errorByTypeTotals: 110,
+    falsePositivesTotals: 50,
+    falseNegativesTotals: 60,
+    errorsByType: {blobs: 70, blur: 40},
     falsePositives: {blobs: 30, blur: 20},
     falseNegatives: {blobs: 40, blur: 20},
   },
   {
     name: 'Week 2',
-    totals: {blobs: 80, blur: 50},
+    errorByTypeTotals: 130,
+    falsePositivesTotals: 50,
+    falseNegativesTotals: 70,
+    errorsByType: {blobs: 80, blur: 50},
     falsePositives: {blobs: 35, blur: 15},
     falseNegatives: {blobs: 45, blur: 25},
   },
   {
     name: 'Week 3',
-    totals: {blobs: 90, blur: 60},
+    errorByTypeTotals: 150,
+    falsePositivesTotals: 65,
+    falseNegativesTotals: 85,
+    errorsByType: {blobs: 90, blur: 60},
     falsePositives: {blobs: 40, blur: 25},
     falseNegatives: {blobs: 50, blur: 35},
   },
@@ -60,23 +69,43 @@ export const TrainingErrorsChart = () => {
               }
             />
             <YAxis
-              ticks={[0, 25, 50, 75, 100]}
+              ticks={[0, 25, 50, 75, 100, 125, 150]}
               domain={[0, (dataMax) => dataMax * 1.1]}
-              tickMargin={100}
               tick={{fill: '#d7dadb'}}
             />
 
-            <Bar dataKey='totals.blobs' stackId='totals' fill='#ffd950'>
-              <LabelList dataKey='totals.blobs' fill='black' fontWeight={800} />
+            <Bar
+              dataKey='errorsByType.blobs'
+              stackId='errorsByType'
+              fill='#ffd950'>
+              <LabelList
+                dataKey='errorsByType.blobs'
+                fill='black'
+                fontWeight={800}
+              />
             </Bar>
             <Bar
-              dataKey='totals.blur'
-              stackId='totals'
+              dataKey='errorsByType.blur'
+              stackId='errorsByType'
               fill='#4791ff'
               radius={[4, 4, 0, 0]}>
-              <LabelList dataKey='totals.blur' fill='black' fontWeight={800} />
+              <LabelList
+                dataKey='errorsByType.blur'
+                fill='black'
+                fontWeight={800}
+              />
+              <LabelList
+                dataKey={'errorByTypeTotals'}
+                content={
+                  <CustomTotalLabel
+                    x={undefined}
+                    y={undefined}
+                    width={10}
+                    value={undefined}
+                  />
+                }
+              />
             </Bar>
-
             <Bar
               dataKey='falsePositives.blobs'
               stackId='falsePositives'
@@ -97,8 +126,18 @@ export const TrainingErrorsChart = () => {
                 fill='black'
                 fontWeight={800}
               />
+              <LabelList
+                dataKey={'falsePositivesTotals'}
+                content={
+                  <CustomTotalLabel
+                    x={undefined}
+                    y={undefined}
+                    width={10}
+                    value={undefined}
+                  />
+                }
+              />
             </Bar>
-
             <Bar
               dataKey='falseNegatives.blobs'
               stackId='falseNegatives'
@@ -118,6 +157,17 @@ export const TrainingErrorsChart = () => {
                 dataKey='falseNegatives.blur'
                 fill='black'
                 fontWeight={800}
+              />
+              <LabelList
+                dataKey={'falseNegativesTotals'}
+                content={
+                  <CustomTotalLabel
+                    x={undefined}
+                    y={undefined}
+                    width={10}
+                    value={undefined}
+                  />
+                }
               />
             </Bar>
             <Legend align='right' width={150} content={CustomizedLegend} />
@@ -211,3 +261,14 @@ const CustomizedLegend = () => {
     </div>
   );
 };
+
+const CustomTotalLabel = ({x, y, width, value}) => (
+  <text
+    x={x + width / 2}
+    y={y - 20}
+    textAnchor='middle'
+    fill='white'
+    fontWeight={800}>
+    {value}
+  </text>
+);
