@@ -23,13 +23,13 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "cerberusapi:dev"
     ports:
-    - "127.0.0.1:57001:57100"
-    - "127.0.0.1:57201:57300"
+    - "127.0.0.1:57000:57100"
+    - "127.0.0.1:57200:57300"
     volumes:
     - "/Users/danipinartnadal/.nuget/packages:/root/.nuget/packages"
     - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusApi:/app:rw"
     - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
     - "/Users/danipinartnadal/.local/share/JetBrains/RiderRemoteDebugger/2024.1.3/LinuxArm64:/opt/rider-debugger"
     - "/Users/danipinartnadal/Applications/Rider.app/Contents/bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "/Users/danipinartnadal/Library/Logs/JetBrains/Rider2024.1/DebuggerWorker/JetBrains.Debugger.Worker.2024_7_06_12_13_26:/var/opt/rider-debugger:rw"
+    - "/Users/danipinartnadal/Library/Logs/JetBrains/Rider2024.1/DebuggerWorker/JetBrains.Debugger.Worker.2024_7_09_10_14_01:/var/opt/rider-debugger:rw"
     working_dir: "/app"
