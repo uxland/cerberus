@@ -27,7 +27,7 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
     }
   };
   return (
-    <Paper className='custom-table p-4 w-[480px] lg:w-full 3xl:w-[580px]  '>
+    <Paper className='custom-table p-4 w-[480px] lg:w-full 3xl:w-[580px]'>
       <div className='flex flex-col mb-4'>
         <Typography className='!text-lg'>
           {useMaintenanceLocales('openIssuesForm.title')}

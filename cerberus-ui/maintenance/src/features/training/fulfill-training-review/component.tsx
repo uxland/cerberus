@@ -93,14 +93,14 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
     <div className='flex flex-col w-full gap-6'>
       <h3>{props.trainingReview.description}</h3>
       <div className='flex flex-col min-[2100px]:flex-row gap-6 '>
-        <div className='w-1000px min-[1600px]:w-[1200px] rounded-[10px] overflow-hidden'>
+        <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
           <img
             src={getImageUrl(props.trainingReview.captureInfo.snapshotUri)}
             alt={props.trainingReview.description}
             className='w-full h-full object-cover'
           />
         </div>
-        <Paper className='custom-table p-4 w-[650px] min-[2100px]:w-auto min-[2400px]:max-h-[580px] min-[2400px]:overflow-auto h-max'>
+        <Paper className='custom-table p-4 pb-0 w-[540px] lg:w-full 3xl:w-[580px] 3xl:max-h-[580px]] 3xl:overflow-auto h-max'>
           <div className='flex flex-col mb-4'>
             <Typography className='!text-[16px]'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
