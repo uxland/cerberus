@@ -34,7 +34,7 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
         sx={{
           width: '100%',
           height: '538px',
-          overflow: 'auto',
+          overflow: `${props.issues.length === 0 ? 'hidden' : 'auto'}`,
         }}>
         <TableContainer component={Paper} className='custom-table'>
           <Table sx={{minWidth: 450}} aria-label='simple table'>

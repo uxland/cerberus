@@ -34,7 +34,7 @@ export const PendingReviewTable = (props: {
         sx={{
           width: '100%',
           height: '538px',
-          overflow: 'auto',
+          overflow: `${props.reviews.length === 0 ? 'hidden' : 'auto'}`,
         }}>
         <TableContainer component={Paper} className='custom-table'>
           <Table sx={{minWidth: 450}} aria-label='simple table'>
