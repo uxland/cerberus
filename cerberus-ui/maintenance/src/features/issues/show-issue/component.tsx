@@ -3,12 +3,12 @@ import {Typography} from '@mui/material';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {HeaderBar} from '../../../ui-components/index.ts';
 import {MaintenanceIssueStatus} from '../model.ts';
 import {CloseIssueForm} from './close-issue/component.tsx';
 import {GetIssueDetail} from './getIssueDetail.ts';
 import {MaintenanceIssueDetail} from './model.ts';
 import {StartIssueForm} from './start-issue/component.tsx';
-
 export const MaintenanceIssuePage = () => {
   const {id} = useParams();
   const [issue, setIssue] = useState<MaintenanceIssueDetail>(undefined);
@@ -45,7 +45,7 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
 
   return (
     <div className='flex flex-col w-full gap-6'>
-      {Header(issue)}
+      <HeaderBar component={HeaderContent(issue)} close={true} />
       <div className='flex flex-col 3xl:flex-row gap-6 '>
         <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
           {getImageUrl(issue?.snapshotUrl) === null || undefined ? (
@@ -72,22 +72,21 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
   );
 };
 
-const Header = (issue) => {
+const HeaderContent = (issue) => {
   const idNumber = issue?.id.toUpperCase().split('MAINTENANCE-ISSUE-');
   return (
-    <>
-      <Typography variant='h2' color='#fff'>
-        Maintenance Issue
-      </Typography>
-      <div className='flex gap-4'>
-        <Typography variant='h3' color='#fff'>
-          <span className='font-semibold'>{issue.cameraDescription}</span> (
-          {issue.cameraPath})
+    <div className='flex gap-4'>
+      <div className='flex gap-2'>
+        <Typography variant='h5' color='#fff' className='!tracking-widest'>
+          {issue.cameraPath}
         </Typography>
-        <Typography variant='h4' color='#828282'>
-          id: {idNumber}
+        <Typography variant='h5' color='#fff'>
+          <span className='font-semibold'>{issue.cameraDescription}</span>
         </Typography>
       </div>
-    </>
+      <Typography variant='h5' color='#fff'>
+        id: {idNumber}
+      </Typography>
+    </div>
   );
 };

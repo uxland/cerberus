@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {HeaderBar} from '../../../ui-components/index.ts';
 import {CustomTextArea} from '../../../ui-components/text-area/component.tsx';
 import {FilterResult} from '../../issues/show-issue/model.ts';
 import {FulfillTrainingReview} from './command.ts';
@@ -91,7 +92,9 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
 
   return (
     <div className='flex flex-col w-full gap-6'>
-      <h3>{props.trainingReview.description}</h3>
+      <HeaderBar
+        component={<HeaderContent trainingReview={props.trainingReview} />}
+      />
       <div className='flex flex-col min-[2100px]:flex-row gap-6 '>
         <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
           <img
@@ -236,4 +239,19 @@ const TextArea = (props: {
     setComment(comment);
   };
   return <CustomTextArea onChange={handleChange} />;
+};
+
+const HeaderContent = (props: {trainingReview: TrainingReview}) => {
+  return (
+    <div className='flex gap-4'>
+      <div className='flex gap-2'>
+        <Typography variant='h5' color='#fff' className='!tracking-widest'>
+          {props?.trainingReview.description}
+        </Typography>
+        <Typography variant='h5' color='#fff'>
+          <span className='font-semibold'>12:25:27</span>
+        </Typography>
+      </div>
+    </div>
+  );
 };
