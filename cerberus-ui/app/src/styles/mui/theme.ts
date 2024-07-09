@@ -200,6 +200,7 @@ const theme = createTheme(paletteTheme, {
           '&.custom-table': {
             backgroundColor: `${tailwindConfig.theme.colors.tableBg} !important`,
             borderRadius: '10px !important',
+            boxShadow: 'none',
           },
         },
       },
@@ -238,6 +239,7 @@ const theme = createTheme(paletteTheme, {
         },
       },
     },
+
     MuiTableCell: {
       styleOverrides: {
         root: {
@@ -253,6 +255,7 @@ const theme = createTheme(paletteTheme, {
           textOverflow: 'ellipsis',
           cursor: 'pointer',
           width: 'auto',
+
           '&.table-head': {
             fontWeight: '400 !important',
             cursor: 'default',
@@ -260,6 +263,7 @@ const theme = createTheme(paletteTheme, {
         },
       },
     },
+
     MuiListItem: {
       styleOverrides: {
         root: {

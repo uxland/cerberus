@@ -24,7 +24,7 @@ export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='w-8/12'>
+    <div className='w-8/12'>
       <Paper className='flex flex-col h-full w-full custom-table p-4 '>
         <div className='flex flex-col mb-4'>
           <Typography className='!text-lg'>Error Description</Typography>
@@ -43,9 +43,9 @@ export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
               size='small'
               color='success'
               disabled={isSubmitting}
-              type='submit'
               fullWidth
-              className='!rounded-2xl !max-w-48 !text-white'>
+              className='!rounded-2xl !max-w-48 !text-white'
+              onClick={handleSubmit}>
               Start
             </Button>
             {error && <div>{error}</div>}
@@ -53,7 +53,7 @@ export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
           </div>
         </div>
       </Paper>
-    </form>
+    </div>
   );
 };
 

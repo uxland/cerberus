@@ -27,7 +27,7 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
     }
   };
   return (
-    <form onSubmit={handleSubmit} className='w-8/12'>
+    <div className='w-8/12'>
       <Paper className='flex flex-col h-full w-full custom-table p-4 '>
         <div className='flex flex-col mb-4'>
           <Typography className='!text-lg'>
@@ -63,15 +63,16 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
               disabled={isSubmitting}
               type='submit'
               fullWidth
-              className='!rounded-2xl !max-w-48 !text-white !bg-[#ff2366]'>
-              Stop
+              className='!rounded-2xl !max-w-48 !text-white !bg-[#ff2366]'
+              onClick={handleSubmit}>
+              Finish
             </Button>
             {error && <div>{error}</div>}
             {success && <div>Issue closed</div>}
           </div>
         </div>
       </Paper>
-    </form>
+    </div>
   );
 };
 
