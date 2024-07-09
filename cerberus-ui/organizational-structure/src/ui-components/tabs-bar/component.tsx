@@ -1,13 +1,31 @@
 import {Badge, Box, Divider, Tab, Tabs} from '@mui/material';
+import {HierarchyItemType} from '../../features/state/hierarchy-item';
 import {useOrganizationalStructureLocales} from '../../locales/ca/locales';
+export enum TabPanelType {
+  OpenIssues = 0,
+  Analysis = 1,
+  Settings = 2,
+  Reports = 3,
+}
 
 export const TabsBar = (props: {
   selectedTab: number;
   setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
+  itemType: HierarchyItemType;
 }) => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     props.setSelectedTab(newValue);
   };
+
+  const {itemType, selectedTab} = props;
+
+  const openIssuesLabel = useOrganizationalStructureLocales('tabs.openIssues');
+  const pendingReviewsLabel = useOrganizationalStructureLocales(
+    'tabs.pendingReviews'
+  );
+  const settingsLabel = useOrganizationalStructureLocales('tabs.settings');
+  const capturesLabel = useOrganizationalStructureLocales('tabs.captures');
+
   return (
     <Box
       sx={{
@@ -19,40 +37,38 @@ export const TabsBar = (props: {
         borderColor: 'divider',
       }}>
       <Tabs
-        value={props.selectedTab}
+        value={selectedTab}
         onChange={handleChange}
-        aria-label='organitzational-tab'>
+        aria-label='organizational-tab'>
         <Tab
           label={
             <CustomTabLabel
-              label={useOrganizationalStructureLocales('tabs.openIssues')}
+              label={openIssuesLabel}
               badgeContent={46}
               width={140}
             />
           }
-          {...a11yProps(0)}
+          {...a11yProps(TabPanelType.OpenIssues)}
         />
         <CustomDivider />
         <Tab
           label={
             <CustomTabLabel
-              label={useOrganizationalStructureLocales('tabs.pendingReviews')}
+              label={pendingReviewsLabel}
               badgeContent={25}
               width={105}
             />
           }
-          {...a11yProps(2)}
+          {...a11yProps(TabPanelType.Analysis)}
         />
-        <CustomDivider />
-        <Tab
-          label={useOrganizationalStructureLocales('tabs.settings')}
-          {...a11yProps(2)}
-        />
-        <CustomDivider />
-        <Tab
-          label={useOrganizationalStructureLocales('tabs.captures')}
-          {...a11yProps(3)}
-        />
+        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        {itemType === HierarchyItemType.camera && (
+          <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
+        )}
+        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        {itemType === HierarchyItemType.camera && (
+          <Tab label={capturesLabel} {...a11yProps(TabPanelType.Reports)} />
+        )}
       </Tabs>
     </Box>
   );
@@ -69,6 +85,7 @@ const CustomTabLabel = ({label, badgeContent, width}) => (
     />
   </Box>
 );
+
 const CustomDivider = () => {
   return (
     <Box

@@ -1,10 +1,10 @@
-import {Box} from '@mui/material';
-import {useState} from 'react';
-import {useLocation, useParams} from 'react-router-dom';
 import {
   OpenIssuesView,
   PendingTrainingReviewsView,
 } from '@cerberus/maintenance';
+import {Box} from '@mui/material';
+import {useState} from 'react';
+import {useLocation, useParams} from 'react-router-dom';
 import {TabsBar} from '../../../ui-components';
 import {HierarchyItemType} from '../../state/hierarchy-item.ts';
 import {CameraCapturesView} from './list-camera-captures/component';
@@ -21,7 +21,11 @@ export const LocationPage = () => {
     <div className='flex flex-col flex-1 w-full '>
       <LocationSettingsView id={id} type={itemType} />
       <div className='flex flex-col flex-1 w-full gap-4'>
-        <TabsBar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+        <TabsBar
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          itemType={itemType}
+        />
         <CustomTabPanel value={selectedTab} index={0}>
           <OpenIssuesView id={id} />
         </CustomTabPanel>
