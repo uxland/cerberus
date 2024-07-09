@@ -92,22 +92,20 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
   return (
     <div className='flex flex-col w-full gap-6'>
       <h3>{props.trainingReview.description}</h3>
-      <div className=' w-full justify-between grid grid-cols-1 gap-8 2xl:grid-cols-2 2xl:gap-96'>
-        <div className='w-[1000px] rounded-[10px] overflow-hidden'>
+      <div className='flex flex-col min-[2100px]:flex-row gap-6 '>
+        <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
           <img
             src={getImageUrl(props.trainingReview.captureInfo.snapshotUri)}
             alt={props.trainingReview.description}
             className='w-full h-full object-cover'
           />
         </div>
-        <Paper className='custom-table p-4'>
+        <Paper className='custom-table p-4 pb-0 w-[540px] lg:w-full 3xl:w-[580px] 3xl:max-h-[580px]] 3xl:overflow-auto h-max'>
           <div className='flex flex-col mb-4'>
-            <input type="number" name="my-property-1"/>
-            <Typography className='!text-lg'>Review results</Typography>
+            <Typography className='!text-[16px]'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
           </div>
-          <div
-            className='flex flex-col w-full gap-4 p-6 items-end'>
+          <div className='flex flex-col w-full gap-8 p-6 items-end'>
             <div className='flex flex-col gap-6 w-full'>
               {Object.keys(reviewResult).map((key) => {
                 const result = reviewResult[key];
@@ -139,13 +137,11 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
             <div className='flex items-end'>
               <Button
                 variant='contained'
-                color='primary'
                 size='small'
                 disabled={!canSend}
                 fullWidth
-                className='submit-btn !max-w-48'
-                onClick={fullfillReview}
-              >
+                className='!rounded-2xl !w-52 !text-white !bg-[#02bc77]'
+                onClick={fullfillReview}>
                 Submit
               </Button>
             </div>
@@ -167,9 +163,10 @@ const FilterReviewForm = (props: {
     props.onChange({agreement: false, comment: props.currentResult.comment});
 
   const getStyles = (isAgreement, isError) => {
-    if (isAgreement) return '!text-success !border-success';
-    if (isError) return '!text-error !border-error';
-    return '!text-gray-300 !border-gray-300 opacity-40';
+    if (isAgreement)
+      return '!text-[12px] !capitalize !text-[#02bc77] !border-[#02bc77]';
+    if (isError) return '!text-[12px] !capitalize !text-error !border-error';
+    return '!text-[12px] !capitalize !text-gray-300 !border-gray-300 opacity-40';
   };
 
   const {agreement} = props.currentResult;
@@ -210,9 +207,14 @@ const FilterReviewForm = (props: {
           label={props.originalResult.result === true ? 'Si' : 'No'}
           sx={{
             span: {
-              color: `${props.originalResult.result ? 'green' : 'red'}`,
+              color: `${props.originalResult.result ? '#02bc77' : 'red'}`,
               fontWeight: '800 !important',
               letterSpacing: '1px !important',
+              alignItems: 'flex-start !important',
+              marginRight: '0px !important',
+              '@media (max-width: 2100px)': {
+                marginRight: '140px !important',
+              },
             },
           }}
           labelPlacement='start'

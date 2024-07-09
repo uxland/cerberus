@@ -44,10 +44,10 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
   const {issue} = props;
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col w-full gap-6'>
       {Header(issue)}
-      <div className='w-full grid grid-cols-2 gap-8'>
-        <div className='rounded-[10px] overflow-hidden w-12/12'>
+      <div className='flex flex-col 3xl:flex-row gap-6 '>
+        <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
           {getImageUrl(issue?.snapshotUrl) === null || undefined ? (
             <div className='w-full h-96 bg-gray-300 flex items-center justify-center'>
               No image
@@ -59,7 +59,7 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
             />
           )}
         </div>
-        <div className='flex justify-end w-12/12'>
+        <div className='custom-table'>
           {issue.status === MaintenanceIssueStatus.open && (
             <StartIssueForm issue={issue} />
           )}

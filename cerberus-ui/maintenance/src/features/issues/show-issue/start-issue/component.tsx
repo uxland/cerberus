@@ -24,36 +24,34 @@ export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='w-8/12'>
-      <Paper className='flex flex-col h-full w-full custom-table p-4 '>
-        <div className='flex flex-col mb-4'>
-          <Typography className='!text-lg'>Error Description</Typography>
-          <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
+    <Paper className='custom-table p-4 w-[480px] 3xl:w-[580px] xl:w-full '>
+      <div className='flex flex-col mb-4'>
+        <Typography className='!text-lg'>Error Description</Typography>
+        <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
+      </div>
+      <div className='flex flex-col w-full gap-8 items-end'>
+        <div className='flex flex-col gap-6 w-full'>
+          {Object.keys(issue?.errors || {}).map((key) => {
+            const error = issue?.errors?.[key];
+            return <FilterError key={key} issue={error} />;
+          })}
         </div>
-        <div className='flex flex-col h-full justify-between'>
-          <div className='flex flex-col'>
-            {Object.keys(issue?.errors || {}).map((key) => {
-              const error = issue?.errors?.[key];
-              return <FilterError key={key} issue={error} />;
-            })}
-          </div>
-          <div className='flex justify-end'>
-            <Button
-              variant='contained'
-              size='small'
-              color='success'
-              disabled={isSubmitting}
-              type='submit'
-              fullWidth
-              className='!rounded-2xl !max-w-48 !text-white'>
-              Start
-            </Button>
-            {error && <div>{error}</div>}
-            {success && <div>Issue started</div>}
-          </div>
+        <div className='flex justify-end'>
+          <Button
+            variant='contained'
+            size='small'
+            color='success'
+            disabled={isSubmitting}
+            fullWidth
+            className='!rounded-2xl !w-52 !text-white !bg-[#02bc77]'
+            onClick={handleSubmit}>
+            Start
+          </Button>
+          {error && <div>{error}</div>}
+          {success && <div>Issue started</div>}
         </div>
-      </Paper>
-    </form>
+      </div>
+    </Paper>
   );
 };
 
@@ -70,6 +68,7 @@ const FilterError = (props: {issue: FilterResult}) => {
         At: {''}
         {formatDateString(props?.issue?.at)}
       </Typography>
+      <Typography variant='body1'>{props?.issue?.result}</Typography>
     </div>
   );
 };
