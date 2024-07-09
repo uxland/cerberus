@@ -2,6 +2,7 @@ import {SimpleTreeView} from '@mui/x-tree-view';
 import {TreeNode} from "./tree-node.tsx";
 import {connect} from 'react-redux';
 import {LocationNode} from "../state/hierarchy-item.ts";
+import {useEffect} from "react";
 
 const mapStateToProps = (state: any) => {
   return {
@@ -9,10 +10,13 @@ const mapStateToProps = (state: any) => {
   };
 }
 
-const OrganizationalStructureTreeNode = ({locationHierarchy}: {locationHierarchy: LocationNode[]}) => {
+const OrganizationalStructureTreeNode = (props: {locationHierarchy: LocationNode[]}) => {
+  useEffect(() => {
+
+  }, props);
   return (
     <SimpleTreeView>
-      {locationHierarchy.map((child) => (
+      {props.locationHierarchy.map((child) => (
         <TreeNode key={child.id} node={child} />
       ))}
     </SimpleTreeView>

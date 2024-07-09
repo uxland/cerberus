@@ -75,9 +75,8 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
     setCanSend(isValidReview(updateReviewResult));
   };
 
-  const fullfillReview = async (e: Event) => {
+  const fullfillReview = async (e) => {
     try {
-      e.preventDefault();
       setError(undefined);
       setIsSubmitting(true);
       await new Mediator().send(
@@ -103,11 +102,11 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
         </div>
         <Paper className='custom-table p-4'>
           <div className='flex flex-col mb-4'>
+            <input type="number" name="my-property-1"/>
             <Typography className='!text-lg'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
           </div>
-          <form
-            onSubmit={() => fullfillReview}
+          <div
             className='flex flex-col w-full gap-4 p-6 items-end'>
             <div className='flex flex-col gap-6 w-full'>
               {Object.keys(reviewResult).map((key) => {
@@ -143,14 +142,14 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
                 color='primary'
                 size='small'
                 disabled={!canSend}
-                type='submit'
                 fullWidth
                 className='submit-btn !max-w-48'
-                onClick={() => fullfillReview}>
+                onClick={fullfillReview}
+              >
                 Submit
               </Button>
             </div>
-          </form>
+          </div>
         </Paper>
       </div>
     </div>
