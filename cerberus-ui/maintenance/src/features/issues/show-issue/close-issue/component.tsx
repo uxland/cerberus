@@ -27,33 +27,33 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
     }
   };
   return (
-    <div className='w-8/12'>
-      <Paper className='flex flex-col h-full w-full custom-table p-4 '>
-        <div className='flex flex-col mb-4'>
-          <Typography className='!text-lg'>
-            {' '}
-            {useMaintenanceLocales('openIssuesForm.title')}
-          </Typography>
-          <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
+    <Paper className='custom-table p-4 w-[480px] lg:w-full 3xl:w-[580px]  '>
+      <div className='flex flex-col mb-4'>
+        <Typography className='!text-lg'>
+          {useMaintenanceLocales('openIssuesForm.title')}
+        </Typography>
+        <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2'>
+        <div className='w-48 lg:w-96 gap-6'>
+          {Object.keys(issue?.errors || {}).map((key) => {
+            const error = issue?.errors?.[key];
+            return (
+              <div className='flex flex-col xl:w-60 '>
+                <FilterError key={key} issue={error} />;
+              </div>
+            );
+          })}
         </div>
-        <div className='flex flex-col h-full justify-between'>
-          <div className='flex flex-col gap-2'>
-            {Object.keys(issue?.errors || {}).map((key) => {
-              const error = issue?.errors?.[key];
-              return <FilterError key={key} issue={error} />;
-            })}
-            <CustomTextArea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </div>
-          <div className='flex flex-col items-end gap-4'>
-            <div className='flex flex-col items-end gap-0'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-1 gap-6 w-full '>
+          <CustomTextArea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <div className='flex lg:flex-col items-end gap-4 justify-between'>
+            <div className='flex flex-col justify-between items-end w-48'>
               <Typography variant='body1'>
                 {useMaintenanceLocales('openIssuesForm.resolutionTime')}:{' '}
-              </Typography>
-              <Typography className='!font-bold !text-lg !tracking-widest'>
-                12:17:26
               </Typography>
               <Timer targetDateTime={props.issue.startedAt} />
             </div>
@@ -71,8 +71,8 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
             {success && <div>Issue closed</div>}
           </div>
         </div>
-      </Paper>
-    </div>
+      </div>
+    </Paper>
   );
 };
 

@@ -92,7 +92,7 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
   return (
     <div className='flex flex-col w-full gap-6'>
       <h3>{props.trainingReview.description}</h3>
-      <div className='flex flex-col min-[2400px]:flex-row gap-6 '>
+      <div className='flex flex-col min-[2100px]:flex-row gap-6 '>
         <div className='w-1000px min-[1600px]:w-[1200px] rounded-[10px] overflow-hidden'>
           <img
             src={getImageUrl(props.trainingReview.captureInfo.snapshotUri)}
@@ -100,7 +100,7 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
             className='w-full h-full object-cover'
           />
         </div>
-        <Paper className='custom-table p-4 w-[650px] min-[2400px]:w-auto min-[2400px]:max-h-[580px] min-[2400px]:overflow-auto h-max'>
+        <Paper className='custom-table p-4 w-[650px] min-[2100px]:w-auto min-[2400px]:max-h-[580px] min-[2400px]:overflow-auto h-max'>
           <div className='flex flex-col mb-4'>
             <Typography className='!text-[16px]'>Review results</Typography>
             <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
@@ -210,6 +210,11 @@ const FilterReviewForm = (props: {
               color: `${props.originalResult.result ? '#02bc77' : 'red'}`,
               fontWeight: '800 !important',
               letterSpacing: '1px !important',
+              alignItems: 'flex-start !important',
+              marginRight: '0px !important',
+              '@media (max-width: 2100px)': {
+                marginRight: '140px !important',
+              },
             },
           }}
           labelPlacement='start'

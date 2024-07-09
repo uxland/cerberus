@@ -275,8 +275,6 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           alignItems: 'flex-start',
-          marginRight: '2px',
-          gap: '140px',
         },
       },
     },
