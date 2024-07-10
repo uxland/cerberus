@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {ImageComponent} from '../../../ui-components/image/component.tsx';
 import {HeaderBar} from '../../../ui-components/index.ts';
 import {CustomTextArea} from '../../../ui-components/text-area/component.tsx';
 import {FilterResult} from '../../issues/show-issue/model.ts';
@@ -97,10 +98,10 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
       />
       <div className='flex flex-col min-[2100px]:flex-row gap-6 '>
         <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
-          <img
+          <ImageComponent
             src={getImageUrl(props.trainingReview.captureInfo.snapshotUri)}
             alt={props.trainingReview.description}
-            className='w-full h-full object-cover'
+            className='w-full object-cover h-[580px]'
           />
         </div>
         <Paper className='custom-table p-4 pb-0 w-[540px] lg:w-full 3xl:w-[580px] 3xl:max-h-[580px]] 3xl:overflow-auto h-max'>

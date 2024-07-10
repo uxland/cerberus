@@ -178,6 +178,14 @@ const theme = createTheme(paletteTheme, {
             width: '50px !important',
             height: '50px !important',
           },
+          '&.image-icon': {
+            width: '80px !important',
+            height: '80px !important',
+          },
+          '&.image-icon-small': {
+            width: '25px !important',
+            height: '25px !important',
+          },
           '&.success': {
             color: `${tailwindConfig.theme.colors.success}`,
           },

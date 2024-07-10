@@ -1,4 +1,5 @@
 import {getImageUrl, nop} from '@cerberus/core';
+import {ImageComponent} from '@cerberus/maintenance/src/ui-components/image/component.tsx';
 import {List, ListItem, Typography} from '@mui/material';
 import {format} from 'date-fns/format';
 import {Mediator} from 'mediatr-ts';
@@ -59,15 +60,12 @@ const CaptureComponent = (capture: Capture) => (
       <Typography variant='body1'>Camera: {capture.cameraId}</Typography>
     </div>
     <div className='flex flex-col gap-2'>
-      {capture.thumbnailPath ? (
-        <img
-          src={getImageUrl(capture.thumbnailPath)}
-          alt={capture.cameraId}
-          className='image'
-        />
-      ) : (
-        <div className='image-placeholder'>No Image Available</div>
-      )}
+      <ImageComponent
+        src={getImageUrl(capture.thumbnailPath)}
+        alt={capture.cameraId}
+        className='image'
+        size='small'
+      />
 
       <Typography variant='body1'>
         Successful: {capture.successful ? 'Yes' : 'No'}
