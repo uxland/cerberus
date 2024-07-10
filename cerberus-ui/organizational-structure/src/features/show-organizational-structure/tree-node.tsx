@@ -5,7 +5,7 @@ import {
   HierarchyItem,
   HierarchyItemType,
   LocationNode,
-} from './hierarchy-item.ts';
+} from '../state/hierarchy-item.ts';
 
 export const TreeNode = ({node}: {node: LocationNode}) => {
   const icons = {

@@ -61,7 +61,7 @@ public class MaintenanceProcess: Saga
 
 internal static class CaptureExtensions
 {
-    public static CaptureInfo ToCaptureInfo(this Capture capture) => new(capture.CameraId, capture.CameraPath, capture.Id, capture.SnapshotPath);
+    public static CaptureInfo ToCaptureInfo(this Capture capture) => new(capture.CameraId, capture.CameraPath, capture.Id, capture.SnapshotPath, capture.ThumbnailPath);
 }
 
 public interface IMaintenanceProcessMessage

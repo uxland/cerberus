@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation;
+namespace Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
 
 [ApiController]
 [Route("api/[controller]")]

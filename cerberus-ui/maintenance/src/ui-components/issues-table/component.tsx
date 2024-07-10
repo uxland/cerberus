@@ -21,6 +21,7 @@ import {
   getIssueUrl,
 } from '../../features/issues/list-open-issues/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
+import {NoData} from '../no-data/component';
 
 export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
   return (
@@ -29,10 +30,11 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
         {useMaintenanceLocales('title.openIssues')} ({props.issues.length})
       </Typography>
       <Paper
+        className='custom-table'
         sx={{
           width: '100%',
-          height: 'fit-content',
-          overflow: 'auto',
+          height: '538px',
+          overflow: `${props.issues.length === 0 ? 'hidden' : 'auto'}`,
         }}>
         <TableContainer component={Paper} className='custom-table'>
           <Table sx={{minWidth: 450}} aria-label='simple table'>
@@ -62,11 +64,17 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
                 <TableCell align='center' className='table-head'></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody className='h-400'>
-              {props.issues.map((row) => (
-                <OpenIssueRow issue={row} key={row.id} />
-              ))}
-            </TableBody>
+            {props.issues.length === 0 ? (
+              <TableBody sx={{position: 'relative', height: '500px'}}>
+                <NoData />
+              </TableBody>
+            ) : (
+              <TableBody className='h-420'>
+                {props.issues.map((row) => (
+                  <OpenIssueRow issue={row} key={row.id} />
+                ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Paper>

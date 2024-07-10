@@ -1,16 +1,16 @@
-import {combineReducers, configureStore, Reducer} from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {routingSlice} from "../routing/routing-reducer.ts";
 
-let reducers: Reducer = combineReducers({
-    routes: routingSlice.reducer
-});
 
+const reducers ={
+    routes: routingSlice.reducer,
+}
 
 export const store = configureStore({
-    reducer: reducers,
+    reducer: combineReducers(reducers),
 })
 
 export const injectReducer = (name: string, reducer: object) =>{
-    reducers = combineReducers({...reducers, [name]: reducer});
-    store.replaceReducer(reducers);
+    reducers[name] = reducer;
+    store.replaceReducer(combineReducers(reducers));
 }

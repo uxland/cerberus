@@ -1,15 +1,15 @@
 import {getImageUrl, nop} from '@cerberus/core';
 import {Typography} from '@mui/material';
-import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {ImageComponent} from '../../../ui-components/image/component.tsx';
+import {HeaderBar} from '../../../ui-components/index.ts';
 import {MaintenanceIssueStatus} from '../model.ts';
 import {CloseIssueForm} from './close-issue/component.tsx';
-import {MaintenanceIssueDetail} from './model.ts';
 import {GetIssueDetail} from './getIssueDetail.ts';
+import {MaintenanceIssueDetail} from './model.ts';
 import {StartIssueForm} from './start-issue/component.tsx';
-
 export const MaintenanceIssuePage = () => {
   const {id} = useParams();
   const [issue, setIssue] = useState<MaintenanceIssueDetail>(undefined);
@@ -43,51 +43,46 @@ export const MaintenanceIssuePage = () => {
 
 const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
   const {issue} = props;
-  const formatDateString = (dateString) => {
-    const date = new Date(dateString);
-    return format(date, 'dd/MM/yyyy hh:mm:ss a');
-  };
 
   return (
-    <div className='flex flex-col gap-1'>
-      {Header(issue)}
-
-      {/* <div>Error: {issue.captureError.message}</div>
-      <div>ErrorType: {issue.captureError.type}</div>
-      <div>Comment: {issue.resolutionComment}</div>
-      <div>SnapshotUrl: {issue.snapshotUrl}</div>
-
-      <div>FinishedAt: {formatDateString(issue?.finishedAt)}</div>
-      <div>Started: {formatDateString(issue.startedAt)}</div>
-      <div>Started: {issue.startedBy}</div> */}
-
-      <img src={getImageUrl(issue.snapshotUrl)} alt={issue.cameraDescription} />
-      {issue.status === MaintenanceIssueStatus.open && (
-        <StartIssueForm issueId={issue.id} />
-      )}
-      {issue.status === MaintenanceIssueStatus.inProgress && (
-        <CloseIssueForm issueId={issue.id} />
-      )}
+    <div className='flex flex-col w-full gap-6'>
+      <HeaderBar component={HeaderContent(issue)} close={true} />
+      <div className='flex flex-col 3xl:flex-row gap-6 '>
+        <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
+          <ImageComponent
+            src={getImageUrl(props.issue?.snapshotUrl)}
+            alt={props.issue.cameraDescription}
+            className='w-full object-cover h-[580px]'
+          />
+        </div>
+        <div className='custom-table'>
+          {issue.status === MaintenanceIssueStatus.open && (
+            <StartIssueForm issue={issue} />
+          )}
+          {issue.status === MaintenanceIssueStatus.inProgress && (
+            <CloseIssueForm issue={issue} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-const Header = (issue) => {
+const HeaderContent = (issue) => {
   const idNumber = issue?.id.toUpperCase().split('MAINTENANCE-ISSUE-');
   return (
-    <>
-      <Typography variant='h2' color='#fff'>
-        Maintenance Issue
-      </Typography>
-      <div className='flex gap-4'>
-        <Typography variant='h3' color='#fff'>
-          <span className='font-semibold'>{issue.cameraDescription}</span> (
-          {issue.cameraPath})
+    <div className='flex gap-4'>
+      <div className='flex gap-2'>
+        <Typography variant='h5' color='#fff' className='!tracking-widest'>
+          {issue.cameraPath}
         </Typography>
-        <Typography variant='h4' color='#828282'>
-          id: {idNumber}
+        <Typography variant='h5' color='#fff'>
+          <span className='font-semibold'>{issue.cameraDescription}</span>
         </Typography>
       </div>
-    </>
+      <Typography variant='h5' color='#fff'>
+        id: {idNumber}
+      </Typography>
+    </div>
   );
 };

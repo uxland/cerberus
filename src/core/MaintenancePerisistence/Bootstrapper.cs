@@ -5,7 +5,7 @@ using Cerberus.Maintenance.Features.Features.Issues.GetDetail;
 using Cerberus.Maintenance.Features.Features.Issues.ListByLocationPath;
 using Cerberus.Maintenance.Features.Features.MaintenanceChecks;
 using Cerberus.Maintenance.Features.Features.TrainingReviews;
-using Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation;
+using Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
 using Cerberus.Maintenance.Persistence.Projections;
 using Cerberus.Maintenance.Persistence.QueryProviders;
 using Cerberus.Maintenance.Persistence.Seeding;

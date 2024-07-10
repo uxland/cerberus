@@ -178,6 +178,14 @@ const theme = createTheme(paletteTheme, {
             width: '50px !important',
             height: '50px !important',
           },
+          '&.image-icon': {
+            width: '80px !important',
+            height: '80px !important',
+          },
+          '&.image-icon-small': {
+            width: '25px !important',
+            height: '25px !important',
+          },
           '&.success': {
             color: `${tailwindConfig.theme.colors.success}`,
           },
@@ -200,6 +208,7 @@ const theme = createTheme(paletteTheme, {
           '&.custom-table': {
             backgroundColor: `${tailwindConfig.theme.colors.tableBg} !important`,
             borderRadius: '10px !important',
+            boxShadow: 'none',
           },
         },
       },
@@ -213,6 +222,13 @@ const theme = createTheme(paletteTheme, {
           height: '16px',
           minWidth: '16px',
           width: '16px',
+        },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          width: '100px !important',
         },
       },
     },
@@ -231,6 +247,7 @@ const theme = createTheme(paletteTheme, {
         },
       },
     },
+
     MuiTableCell: {
       styleOverrides: {
         root: {
@@ -246,6 +263,7 @@ const theme = createTheme(paletteTheme, {
           textOverflow: 'ellipsis',
           cursor: 'pointer',
           width: 'auto',
+
           '&.table-head': {
             fontWeight: '400 !important',
             cursor: 'default',
@@ -253,10 +271,64 @@ const theme = createTheme(paletteTheme, {
         },
       },
     },
+
     MuiListItem: {
       styleOverrides: {
         root: {
           maxWidth: '200px',
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          alignItems: 'flex-start',
+        },
+      },
+    },
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          width: 42,
+          height: 26,
+          padding: 0,
+          '& .MuiSwitch-switchBase': {
+            padding: 0,
+            margin: 2,
+            transitionDuration: '300ms',
+            '&.Mui-checked': {
+              transform: 'translateX(16px)',
+              color: '#fff',
+              '& + .MuiSwitch-track': {
+                backgroundColor: '#2ECA45',
+                opacity: 1,
+                border: 0,
+              },
+              '&.Mui-disabled + .MuiSwitch-track': {
+                opacity: 0.5,
+              },
+            },
+            '&.Mui-focusVisible .MuiSwitch-thumb': {
+              color: '#33cf4d',
+              border: '6px solid #fff',
+            },
+            '&.Mui-disabled .MuiSwitch-thumb': {
+              color: 'red !important',
+            },
+            '&.Mui-disabled + .MuiSwitch-track': {
+              opacity: 0.3,
+            },
+          },
+          '& .MuiSwitch-thumb': {
+            boxSizing: 'border-box',
+            width: 22,
+            height: 22,
+          },
+          '& .MuiSwitch-track': {
+            borderRadius: 26 / 2,
+            backgroundColor: '#39393D',
+            opacity: 1,
+          },
         },
       },
     },
