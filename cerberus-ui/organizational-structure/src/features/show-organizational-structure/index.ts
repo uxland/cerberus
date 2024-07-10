@@ -1,4 +1,4 @@
-import {OrganizationalStructureTreeNode} from './component'
+import OrganizationalStructureTreeNode from './component'
 
 export {
     OrganizationalStructureTreeNode

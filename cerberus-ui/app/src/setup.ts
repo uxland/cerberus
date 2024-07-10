@@ -1,5 +1,6 @@
 import {container } from '@cerberus/core';
-import {IResolver, mediatorSettings} from "mediatr-ts";
+import {IResolver, Mediator, mediatorSettings} from "mediatr-ts";
+import {bootstrapNavigation} from "./navigation/set-navigation.ts";
 
 class InversifyResolver implements IResolver {
     add(name: string, instance: Function): void {
@@ -19,4 +20,7 @@ class InversifyResolver implements IResolver {
     }
 }
 mediatorSettings.resolver = new InversifyResolver();
+const mediator = new Mediator();
+container.bind(Mediator).toConstantValue(mediator);
+bootstrapNavigation();
 //setMediatorResolver(iocContainer).then(() => {});

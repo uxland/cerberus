@@ -28,7 +28,7 @@ export const locales = {
       openIssues: 'Open issues',
       pendingReviews: 'Analysis',
       settings: 'Settings',
-      captures: 'Captures',
+      reports: 'Reports',
     },
   },
 };

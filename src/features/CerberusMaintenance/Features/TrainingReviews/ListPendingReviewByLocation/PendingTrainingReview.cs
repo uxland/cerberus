@@ -3,9 +3,9 @@ using Cerberus.Core.Domain;
 using Cerberus.Core.Domain.Spec;
 using NodaTime;
 
-namespace Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation;
+namespace Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
 
-public record PendingTrainingReview(string Id, string CameraPath, string Description, Instant CreatedAt): IEntity;
+public record PendingTrainingReview(string Id, string CameraPath, string Description, Instant CreatedAt, string? ThumbnailUrl): IEntity;
 
 internal class ReviewInLocationSpec(string locationPath) : Specification<PendingTrainingReview>
 {

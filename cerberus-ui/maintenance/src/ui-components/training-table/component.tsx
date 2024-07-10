@@ -1,3 +1,4 @@
+import {getImageUrl} from '@cerberus/core';
 import {splitAndChooseDescription} from '@cerberus/shared/src';
 import EyeIcon from '@mui/icons-material/VisibilityOutlined';
 import {
@@ -18,6 +19,8 @@ import {
   getPendingReviewUrl,
 } from '../../features/training/list-pending-training-reviews/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
+import {ImageComponent} from '../image/component';
+import {NoData} from '../no-data/component';
 
 export const PendingReviewTable = (props: {
   reviews: PendingTrainingReview[];
@@ -28,10 +31,11 @@ export const PendingReviewTable = (props: {
         {useMaintenanceLocales('title.pendingReviews')} ({props.reviews.length})
       </Typography>
       <Paper
+        className='custom-table'
         sx={{
           width: '100%',
-          height: 'fit-content',
-          overflow: 'auto',
+          height: '538px',
+          overflow: `${props.reviews.length === 0 ? 'hidden' : 'auto'}`,
         }}>
         <TableContainer component={Paper} className='custom-table'>
           <Table sx={{minWidth: 450}} aria-label='simple table'>
@@ -55,11 +59,18 @@ export const PendingReviewTable = (props: {
                 <TableCell align='center'></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody className='h-400'>
-              {props.reviews.map((row) => (
-                <PendingReviewRow row={row} key={row.id} />
-              ))}
-            </TableBody>
+
+            {props.reviews.length === 0 ? (
+              <TableBody sx={{position: 'relative', height: '500px'}}>
+                <NoData />
+              </TableBody>
+            ) : (
+              <TableBody className='h-420'>
+                {props.reviews.map((row) => (
+                  <PendingReviewRow row={row} key={row.id} />
+                ))}
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Paper>
@@ -82,7 +93,16 @@ const PendingReviewRow = (props: {row: PendingTrainingReview}) => {
       key={props.row.id}
       onClick={() => handleRowClick(getPendingReviewUrl(props.row))}>
       <TableCell size='small' align='center'>
-        IMAGE
+        {props.row.thumbnailUrl && (
+          <div className='flex max-w-28 rounded-md overflow-hidden'>
+            <ImageComponent
+              src={getImageUrl(props.row.thumbnailUrl)}
+              alt={props.row.description}
+              className='w-full h-20 object-cover'
+              size='small'
+            />
+          </div>
+        )}
       </TableCell>
       <TableCell size='small' align='center'>
         {formatDateString(props.row.createdAt)}

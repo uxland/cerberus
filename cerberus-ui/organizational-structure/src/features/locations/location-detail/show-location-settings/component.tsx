@@ -1,9 +1,10 @@
 import {Button, Typography} from '@mui/material';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
-import {HierarchyItemType} from '../../../show-organizational-structure/hierarchy-item.ts';
+import {HierarchyItemType} from '../../../state/hierarchy-item.ts';
 import {LocationSettings} from './model.ts';
 import {GetLocationSettings} from './query.ts';
+import {CaptureSnapshots} from "../../../capture-snapshot/command.ts";
 
 export const LocationSettingsView = (props: {
   id: string;
@@ -37,13 +38,15 @@ export const LocationSettingsView = (props: {
   );
 };
 
-const LocationSettingsComponent = (settings: LocationSettings) => (
+const LocationSettingsComponent = (settings: LocationSettings) =>{
+  const capture = () => new Mediator().send(new CaptureSnapshots(settings.id));
+  return (
   <div className='flex justify-between'>
     <Typography variant='h2' color='#fff'>
       {settings.path} ({settings.description})
     </Typography>
-    <Button variant='outlined' className='capture-btn' aria-label='Capture'>
+    <Button variant='outlined' className='capture-btn' aria-label='Capture' onClick={capture}>
       Capture Me
     </Button>
   </div>
-);
+)};

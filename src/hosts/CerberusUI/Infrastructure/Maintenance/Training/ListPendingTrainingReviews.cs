@@ -1,4 +1,4 @@
-﻿using Cerberus.Maintenance.Features.Features.TrainingReviews.LinstPendingReviewByLocation;
+﻿using Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
 using Wolverine;
 
 namespace Cerberus.UI.Infrastructure.Maintenance.Training;

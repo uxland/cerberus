@@ -21,6 +21,7 @@ export const locales = {
       pendingReviews: 'Pending reviews',
       openIssues: 'Open issues',
       summaryChart: 'Recent report',
+      errorsChart: 'Recent report',
     },
     pendingReviewsTable: {
       id: 'ID',
@@ -38,6 +39,10 @@ export const locales = {
       summary: 'Summary',
       location: 'Location',
       Actions: 'Actions',
+    },
+    openIssuesForm: {
+      title: 'Error description',
+      resolutionTime: 'Resolution time',
     },
   },
 };
