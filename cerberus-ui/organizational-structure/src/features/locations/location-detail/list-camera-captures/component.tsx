@@ -43,7 +43,7 @@ const formatDateString = (dateString) => {
 };
 const CaptureListComponent = (captures: Capture[]) => (
   <div className='flex flex-col gap-4'>
-    <Typography variant='h5'>Captures ({captures.length})</Typography>
+    <Typography variant='h5'>Reports ({captures.length})</Typography>
     <List className='grid sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 h-full flex-wrap'>
       {captures.map((capture) => (
         <ListItem key={capture.id}>{CaptureComponent(capture)}</ListItem>
@@ -63,14 +63,14 @@ const CaptureComponent = (capture: Capture) => (
       <ImageComponent
         src={getImageUrl(capture.thumbnailPath)}
         alt={capture.cameraId}
-        className='image'
+        className='image !h-32'
         size='small'
       />
 
-      <Typography variant='body1'>
+      {/* <Typography variant='body1'>
         Successful: {capture.successful ? 'Yes' : 'No'}
-      </Typography>
-      {capture.error && <div>Error: {capture.error.message}</div>}
+      </Typography> */}
+      {/* {capture.error && <div>Error: {capture.error.message}</div>} */}
     </div>
   </div>
 );

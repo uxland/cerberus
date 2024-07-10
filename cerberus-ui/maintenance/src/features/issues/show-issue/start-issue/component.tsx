@@ -2,7 +2,11 @@ import {Button, Divider, Paper, Typography} from '@mui/material';
 import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
 import {useState} from 'react';
-import {FilterResult, MaintenanceIssueDetail} from '../model.ts';
+import {
+  FilterResult,
+  CaptureError as ICaptureError,
+  MaintenanceIssueDetail,
+} from '../model.ts';
 import {StartIssue} from './command.ts';
 
 export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
@@ -31,10 +35,14 @@ export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
       </div>
       <div className='flex flex-col w-full gap-8 items-end'>
         <div className='flex flex-col gap-6 w-full'>
-          {Object.keys(issue?.errors || {}).map((key) => {
-            const error = issue?.errors?.[key];
-            return <FilterError key={key} issue={error} />;
-          })}
+          {issue.captureError ? (
+            <CaptureError captureError={issue.captureError} />
+          ) : (
+            Object.keys(issue?.errors || {}).map((key) => {
+              const error = issue?.errors?.[key];
+              return <FilterError key={key} issue={error} />;
+            })
+          )}
         </div>
         <div className='flex justify-end'>
           <Button
@@ -69,6 +77,17 @@ const FilterError = (props: {issue: FilterResult}) => {
         {formatDateString(props?.issue?.at)}
       </Typography>
       <Typography variant='body1'>{props?.issue?.result}</Typography>
+    </div>
+  );
+};
+
+const CaptureError = (props: {captureError: ICaptureError}) => {
+  return (
+    <div>
+      <Typography variant='body1'>
+        <span style={{fontWeight: 'bold'}}>{props?.captureError?.type}</span>
+      </Typography>
+      <Typography variant='body1'>{props?.captureError?.message}</Typography>
     </div>
   );
 };
