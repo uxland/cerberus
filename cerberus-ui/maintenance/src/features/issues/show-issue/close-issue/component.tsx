@@ -5,7 +5,11 @@ import {useState} from 'react';
 import {useMaintenanceLocales} from '../../../../locales/ca/locales.ts';
 import {Timer} from '../../../../ui-components/index.ts';
 import {CustomTextArea} from '../../../../ui-components/text-area/component.tsx';
-import {FilterResult, MaintenanceIssueDetail} from '../model.ts';
+import {
+  FilterResult,
+  CaptureError as ICaptureError,
+  MaintenanceIssueDetail,
+} from '../model.ts';
 import {CloseIssue} from './command.ts';
 
 export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
@@ -34,16 +38,20 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
         </Typography>
         <Divider orientation='horizontal' className='bg-gray-300 !h-0' />
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2'>
-        <div className='w-48 lg:w-96 gap-6'>
-          {Object.keys(issue?.errors || {}).map((key) => {
-            const error = issue?.errors?.[key];
-            return (
-              <div className='flex flex-col xl:w-60 '>
-                <FilterError key={key} issue={error} />;
-              </div>
-            );
-          })}
+      <div className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4'>
+        <div className='w-68 lg:w-60 gap-6'>
+          {issue.captureError ? (
+            <CaptureError captureError={issue.captureError} />
+          ) : (
+            Object.keys(issue?.errors || {}).map((key) => {
+              const error = issue?.errors?.[key];
+              return (
+                <div className='flex flex-col xl:w-60'>
+                  <FilterError key={key} issue={error} />;
+                </div>
+              );
+            })
+          )}
         </div>
         <div className='grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-1 gap-6 w-full '>
           <CustomTextArea
@@ -89,6 +97,17 @@ const FilterError = (props: {issue: FilterResult}) => {
         At: {''}
         {formatDateString(props?.issue?.at)}
       </Typography>
+    </div>
+  );
+};
+
+const CaptureError = (props: {captureError: ICaptureError}) => {
+  return (
+    <div>
+      <Typography variant='body1'>
+        <span style={{fontWeight: 'bold'}}>{props?.captureError?.type}</span>
+      </Typography>
+      <Typography variant='body1'>{props?.captureError?.message}</Typography>
     </div>
   );
 };

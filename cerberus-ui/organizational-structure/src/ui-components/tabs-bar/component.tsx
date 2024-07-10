@@ -24,7 +24,7 @@ export const TabsBar = (props: {
     'tabs.pendingReviews'
   );
   const settingsLabel = useOrganizationalStructureLocales('tabs.settings');
-  const capturesLabel = useOrganizationalStructureLocales('tabs.captures');
+  const reportsLabel = useOrganizationalStructureLocales('tabs.reports');
 
   return (
     <Box
@@ -67,7 +67,7 @@ export const TabsBar = (props: {
         )}
         {itemType === HierarchyItemType.camera && <CustomDivider />}
         {itemType === HierarchyItemType.camera && (
-          <Tab label={capturesLabel} {...a11yProps(TabPanelType.Reports)} />
+          <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
       </Tabs>
     </Box>
