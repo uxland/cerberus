@@ -19,6 +19,7 @@ import {
   getPendingReviewUrl,
 } from '../../features/training/list-pending-training-reviews/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
+import {ImageComponent} from '../image/component';
 import {NoData} from '../no-data/component';
 
 export const PendingReviewTable = (props: {
@@ -94,10 +95,11 @@ const PendingReviewRow = (props: {row: PendingTrainingReview}) => {
       <TableCell size='small' align='center'>
         {props.row.thumbnailUrl && (
           <div className='flex max-w-28 rounded-md overflow-hidden'>
-            <img
-              className='w-full h-full object-cover'
+            <ImageComponent
               src={getImageUrl(props.row.thumbnailUrl)}
               alt={props.row.description}
+              className='w-full h-20 object-cover'
+              size='small'
             />
           </div>
         )}

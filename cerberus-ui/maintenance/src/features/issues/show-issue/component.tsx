@@ -3,6 +3,7 @@ import {Typography} from '@mui/material';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {ImageComponent} from '../../../ui-components/image/component.tsx';
 import {HeaderBar} from '../../../ui-components/index.ts';
 import {MaintenanceIssueStatus} from '../model.ts';
 import {CloseIssueForm} from './close-issue/component.tsx';
@@ -48,16 +49,11 @@ const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
       <HeaderBar component={HeaderContent(issue)} close={true} />
       <div className='flex flex-col 3xl:flex-row gap-6 '>
         <div className='max-h-[580px] lg:w-[1200px] rounded-[10px] overflow-hidden'>
-          {getImageUrl(issue?.snapshotUrl) === null || undefined ? (
-            <div className='w-full h-96 bg-gray-300 flex items-center justify-center'>
-              No image
-            </div>
-          ) : (
-            <img
-              src={getImageUrl(issue?.snapshotUrl)}
-              alt={issue.cameraDescription}
-            />
-          )}
+          <ImageComponent
+            src={getImageUrl(props.issue?.snapshotUrl)}
+            alt={props.issue.cameraDescription}
+            className='w-full object-cover h-[580px]'
+          />
         </div>
         <div className='custom-table'>
           {issue.status === MaintenanceIssueStatus.open && (
