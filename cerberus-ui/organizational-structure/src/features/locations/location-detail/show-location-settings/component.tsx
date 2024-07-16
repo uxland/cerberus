@@ -1,20 +1,12 @@
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '@mui/material';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {HierarchyItemType} from '../../../state/hierarchy-item.ts';
 import {LocationSettings} from './model.ts';
 import {GetLocationSettings} from './query.ts';
-
-export const LocationSettingsView = (props: {
+export const SettingsView = (props: {
   id: string;
   type: HierarchyItemType;
+  content: (settings: LocationSettings) => JSX.Element;
 }) => {
   const [settings, setSettings] = useState<LocationSettings | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,50 +26,12 @@ export const LocationSettingsView = (props: {
       }
     }
     fetchData().then(() => console.log('done'));
-  }, [props]);
+  }, [props.id, props.type]);
   return (
     <div>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
-      {settings && LocationSettingsComponent(settings)}
+      {settings && props.content(settings)}
     </div>
-  );
-};
-
-const LocationSettingsComponent = (settings: LocationSettings) => {
-  const items = [
-    {key: 'ID', value: settings?.id},
-    {key: 'Description', value: settings?.description},
-    {key: 'Address', value: settings?.adminSettings?.ipAddress},
-    {
-      key: 'Capture pattern',
-      value: settings?.adminSettings?.captureRecurrencePattern,
-    },
-    {
-      key: 'User name',
-      value: settings?.adminSettings?.cameraCredentials?.username,
-    },
-    {
-      key: 'Password',
-      value: settings?.adminSettings?.cameraCredentials?.password,
-    },
-  ];
-  return (
-    <TableContainer component={Paper} className='!w-[520px]'>
-      <Table className='custom-table'>
-        <TableBody>
-          {items.map(({key, value}, index) => (
-            <TableRow
-              key={index}
-              style={{
-                backgroundColor: index % 2 === 0 ? '#1f1f1f' : '#121212',
-              }}>
-              <TableCell className='!font-semibold'>{key}</TableCell>
-              <TableCell>{value ? value : 'N/A'}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
   );
 };

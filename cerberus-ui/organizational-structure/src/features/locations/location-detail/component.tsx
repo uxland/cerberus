@@ -5,10 +5,12 @@ import {
 import {Box} from '@mui/material';
 import {useState} from 'react';
 import {useLocation, useParams} from 'react-router-dom';
-import {LocationHeader, TabsBar} from '../../../ui-components';
+import {HeaderComponent, TabsBar} from '../../../ui-components';
 import {HierarchyItemType} from '../../state/hierarchy-item.ts';
 import {CameraCapturesView} from './list-camera-captures/component';
-import {LocationSettingsView} from './show-location-settings/component';
+import {TabPanelProps} from './model.ts';
+import {SettingsView} from './show-location-settings/component';
+import {LocationSettingsTable} from './show-location-settings/show-location-table/component.tsx';
 export const LocationPage = () => {
   const {id} = useParams();
   const query = new URLSearchParams(useLocation().search);
@@ -19,7 +21,7 @@ export const LocationPage = () => {
 
   return (
     <div className='flex flex-col flex-1 w-full '>
-      <LocationHeader id={id} type={itemType} />
+      <SettingsView id={id} type={itemType} content={HeaderComponent} />
       <div className='flex flex-col flex-1 w-full gap-4'>
         <TabsBar
           selectedTab={selectedTab}
@@ -33,7 +35,11 @@ export const LocationPage = () => {
           <PendingTrainingReviewsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={4}>
-          <LocationSettingsView id={id} type={itemType} />
+          <SettingsView
+            id={id}
+            type={itemType}
+            content={LocationSettingsTable}
+          />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={6}>
           <CameraCapturesView id={id} />
@@ -42,14 +48,9 @@ export const LocationPage = () => {
     </div>
   );
 };
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+
 const CustomTabPanel = (props: TabPanelProps) => {
   const {children, value, index, ...other} = props;
-
   return (
     <div
       role='tabpanel'
