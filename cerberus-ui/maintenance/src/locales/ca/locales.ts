@@ -43,6 +43,22 @@ export const locales = {
     openIssuesForm: {
       title: 'Error description',
       resolutionTime: 'Resolution time',
+      notification: {
+        open: {
+          onSuccess: 'Starting issue',
+          onError: 'Error on starting issue',
+        },
+        close: {
+          onSuccess: 'Closed issue',
+          onError: 'Error on closing issue',
+        },
+      },
+    },
+    trainingReviewForm: {
+      notification: {
+        onSuccess: 'Succed on opening issue',
+        onError: 'Error on opening issue',
+      },
     },
   },
 };

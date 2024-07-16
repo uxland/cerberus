@@ -18,12 +18,14 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@uxland/react-services": "^1.0.3",
+    "@uxland/ioc": "^1.0.0",
     "@reduxjs/toolkit": "^2.2.5",
     "@mui/material": "^5.14.12",
     "axios": "^1.7.2",
     "inversify": "^6.0.2",
     "inversify-inject-decorators": "^3.1.0",
     "react": "^18.3.1",
+    "react-toastify": "^9.1.1",
     "reflect-metadata": "^0.2.2"
   }
 }
