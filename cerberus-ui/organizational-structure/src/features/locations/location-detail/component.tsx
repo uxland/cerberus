@@ -5,7 +5,7 @@ import {
 import {Box} from '@mui/material';
 import {useState} from 'react';
 import {useLocation, useParams} from 'react-router-dom';
-import {TabsBar} from '../../../ui-components';
+import {LocationHeader, TabsBar} from '../../../ui-components';
 import {HierarchyItemType} from '../../state/hierarchy-item.ts';
 import {CameraCapturesView} from './list-camera-captures/component';
 import {LocationSettingsView} from './show-location-settings/component';
@@ -19,7 +19,7 @@ export const LocationPage = () => {
 
   return (
     <div className='flex flex-col flex-1 w-full '>
-      <LocationSettingsView id={id} type={itemType} />
+      <LocationHeader id={id} type={itemType} />
       <div className='flex flex-col flex-1 w-full gap-4'>
         <TabsBar
           selectedTab={selectedTab}
@@ -33,9 +33,7 @@ export const LocationPage = () => {
           <PendingTrainingReviewsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={4}>
-          <div className='flex h-full w-full'>
-            <div>Settings</div>
-          </div>
+          <LocationSettingsView id={id} type={itemType} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={6}>
           <CameraCapturesView id={id} />
