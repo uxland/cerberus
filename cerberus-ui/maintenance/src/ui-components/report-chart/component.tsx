@@ -5,8 +5,9 @@ import {
   CartesianGrid,
   LabelList,
   Legend,
+  XAxis as RechartsXAxis,
+  YAxis as RechartsYAxis,
   ResponsiveContainer,
-  XAxis,
   YAxis,
 } from 'recharts';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
@@ -60,7 +61,7 @@ export const OpenIssuesReportChart = () => {
     <div className='flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]'>
       <div className='flex flex-col gap-6'>
         <Typography variant='h5'>
-          {useMaintenanceLocales('title.summaryChart')}
+          {useMaintenanceLocales('title.summaryChart')}⁄
         </Typography>
         <ResponsiveContainer width='100%' height={600}>
           <BarChart
@@ -70,12 +71,8 @@ export const OpenIssuesReportChart = () => {
             maxBarSize={40}
             barSize={40}>
             <CartesianGrid />
-            <XAxis
-              dataKey='name'
-              height={110}
-              tickMargin={20}
-              tick={{fill: '#d7dadb'}}
-            />
+            <XAxisWrapper />
+            <YAxisWrapper />
             <YAxis
               ticks={[0, 50, 100, 150, 200]}
               domain={[0, (dataMax) => dataMax * 1.1]}
@@ -99,6 +96,40 @@ export const OpenIssuesReportChart = () => {
   );
 };
 
+const XAxisWrapper = ({
+  dataKey = 'name',
+  height = 110,
+  tickMargin = 20,
+  tick = {fill: '#d7dadb'},
+  ...rest
+}) => {
+  return (
+    <RechartsXAxis
+      dataKey={dataKey}
+      height={height}
+      tickMargin={tickMargin}
+      tick={tick}
+      {...rest}
+    />
+  );
+};
+const YAxisWrapper = ({
+  ticks = [0, 50, 100, 150, 200],
+  domain = [0, (dataMax) => dataMax * 1.1],
+  tickMargin = 100,
+  tick = {fill: '#d7dadb'},
+  ...rest
+}) => {
+  return (
+    <RechartsYAxis
+      ticks={ticks}
+      domain={['auto', (dataMax) => dataMax * 1.1]}
+      tickMargin={tickMargin}
+      tick={tick}
+      {...rest}
+    />
+  );
+};
 const RenderCustomizedLabel = (props: any) => {
   const {x, y, width, value} = props;
 
