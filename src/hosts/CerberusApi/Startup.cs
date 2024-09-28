@@ -18,6 +18,7 @@ public class Startup(WebApplicationBuilder builder)
     ];
     public void ConfigureServices(IServiceCollection services)
     {
+        services.BootstrapAuthentication(builder.Configuration);
         services.BootstrapMvc()
             .BootstrapOpenApi();
         services.AddCors(options =>
@@ -59,6 +60,8 @@ public class Startup(WebApplicationBuilder builder)
 
         app.UseRouting();
 
+        app.UseAuthentication().
+            UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
