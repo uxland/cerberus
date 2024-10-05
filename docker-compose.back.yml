@@ -9,6 +9,31 @@
       - ./init-db:/docker-entrypoint-initdb.d
     ports:
       - "6543:5432"
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    environment:
+        KEYCLOAK_ADMIN: cerberus
+        KEYCLOAK_ADMIN_PASSWORD: cerberus
+        DB_VENDOR: postgres
+        DB_ADDR: postgres
+        DB_PORT: 5432
+        DB_DATABASE: cerberus
+        DB_USER: cerberus
+        DB_PASSWORD: cerberus
+        KEYCLOAK_HTTPS_PORT: 8443
+        KEYCLOAK_HTTPS_KEYSTORE_FILE: /opt/jboss/keycloak/standalone/configuration/certs/keycloak.jks
+        KEYCLOAK_HTTPS_KEYSTORE_PASSWORD: password
+    ports:
+      - "8443:8443"
+      - "8080:8080"
+    volumes:
+      - certs_volume:/opt/jboss/keycloak/standalone/configuration/certs
+    command:
+      - "start-dev"
+    depends_on:
+      - postgres
+    links:
+      - postgres
   cerberus-back:
     build:
       context: .
@@ -34,3 +59,9 @@ volumes:
       type: none
       o: bind
       device: ./Snapshots
+  certs_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./certs
