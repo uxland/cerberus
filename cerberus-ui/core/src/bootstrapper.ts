@@ -4,6 +4,7 @@ import {Container, injectable} from "inversify";
 import {container} from "./ioc";
 import {NavigationService} from "./routing";
 import {navigationService} from "./routing/navigation-service.ts";
+import {bootstrapAuth, teardownAuth} from "./auth/bootstrapper.ts";
 export const bootstrapCore = async () =>{
     console.log('core bootstrapping');
     injectable()(ApiClient);
@@ -11,10 +12,11 @@ export const bootstrapCore = async () =>{
     container.bind<ApiClient>(ApiClient).to(ApiClientImpl).inSingletonScope();
     container.bind<Container>(Container).toConstantValue(container);
     container.bind<NavigationService>(NavigationService).toConstantValue(navigationService);
-    return container;
+    return bootstrapAuth(container);
 }
 
 export const teardownCore = () =>{
     console.log('core teardown');
     container.isBound(ApiClient) && container.unbind(ApiClient);
+    teardownAuth(container);
 };
