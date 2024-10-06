@@ -1,1 +1,1 @@
-export * from './auth-client.ts'
+export * from './keycloak.ts'

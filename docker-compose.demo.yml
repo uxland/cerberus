@@ -1,6 +1,6 @@
 ﻿services:
   postgres:
-    image: postgres:16
+    image: postgres:17
     environment:
       POSTGRES_USER: cerberus
       POSTGRES_PASSWORD: cerberus
@@ -9,6 +9,35 @@
       - ./init-db:/docker-entrypoint-initdb.d
     ports:
       - "7654:5432"
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    environment:
+      KEYCLOAK_ADMIN: cerberus
+      KEYCLOAK_ADMIN_PASSWORD: cerberus
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_PORT: 5432
+      DB_DATABASE: cerberus
+      DB_USER: cerberus
+      DB_PASSWORD: cerberus
+      KEYCLOAK_HTTPS_PORT: 8443
+      KEYCLOAK_HTTPS_KEYSTORE_FILE: /opt/jboss/keycloak/standalone/configuration/certs/keycloak.jks
+      KEYCLOAK_HTTPS_KEYSTORE_PASSWORD: password
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/cerberus-realm.json
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8443:8443"
+      - "8888:8080"
+    volumes:
+      - certs_volume:/opt/jboss/keycloak/standalone/configuration/certs
+      - keycloak_volume:/opt/keycloak/data/import/
+    command:
+      - "start-dev"
+    depends_on:
+      - postgres
+    links:
+      - postgres
   cerberus-back:
     build:
       context: .
@@ -33,6 +62,13 @@
         dockerfile: ./Dockerfile
     ports:
         - "666:80"
+    environment:
+      VITE_AUTH_URL: "http://keycloak:8080/auth"
+      VITE_AUTH_REALM: "cerberus"
+      VITE_AUTH_CLIENT_ID: "cerberus"
+    depends_on:
+      - cerberus-back
+    
   cerberus-ui:
     build:
       context: .
@@ -56,3 +92,15 @@ volumes:
       type: none
       o: bind
       device: ./Snapshots
+  certs_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./certs
+  keycloak_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./keycloak

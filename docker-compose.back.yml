@@ -1,6 +1,6 @@
 ﻿services:
   postgres:
-    image: postgres:16
+    image: postgres:17
     environment:
       POSTGRES_USER: cerberus
       POSTGRES_PASSWORD: cerberus
@@ -23,11 +23,15 @@
         KEYCLOAK_HTTPS_PORT: 8443
         KEYCLOAK_HTTPS_KEYSTORE_FILE: /opt/jboss/keycloak/standalone/configuration/certs/keycloak.jks
         KEYCLOAK_HTTPS_KEYSTORE_PASSWORD: password
+        KEYCLOAK_IMPORT: /opt/keycloak/data/import/cerberus-realm.json
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8443:8443"
-      - "8080:8080"
+      - "8888:8080"
     volumes:
       - certs_volume:/opt/jboss/keycloak/standalone/configuration/certs
+      - keycloak_volume:/opt/keycloak/data/import/
     command:
       - "start-dev"
     depends_on:
@@ -65,3 +69,9 @@ volumes:
       type: none
       o: bind
       device: ./certs
+  keycloak_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./keycloak

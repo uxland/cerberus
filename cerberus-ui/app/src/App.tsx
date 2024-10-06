@@ -1,4 +1,4 @@
-import {getRouteComponent, nop} from '@cerberus/core';
+import {getRouteComponent, keycloak, nop} from '@cerberus/core';
 import {OrganizationalStructureTreeNode} from '@cerberus/organizational-structure';
 import {Box, ThemeProvider, Typography} from '@mui/material';
 import Drawer from '@mui/material/Drawer';
@@ -9,7 +9,13 @@ import theme from './styles/mui/theme';
 import {useEffect} from "react";
 import {Mediator} from "mediatr-ts";
 import {SetNavigation} from "./navigation/set-navigation.ts";
+import { ReactKeycloakProvider, useKeycloak } from '@react-keycloak/web';
 export const App = ({routes}) => {
+  const { initialized } = useKeycloak();
+  if(!initialized){
+    return <div>Loading...</div>
+  }
+
   useEffect(() => {
     new Mediator().send(new SetNavigation(useNavigate)).then(nop);
   }, []);
@@ -70,4 +76,22 @@ const mapStateToProps = (state: any) => ({
   routes: state.routes,
 });
 
-export default connect(mapStateToProps)(App);
+const eventLogger = (event: unknown, error: unknown) => {
+  console.log('onKeycloakEvent', event, error)
+}
+const keycloakInitConfig = {
+    onLoad: 'login-required',
+   // redirectUri: 'http://localhost:5173',
+}
+const tokenLogger = (tokens: unknown) => {
+  console.log('onKeycloakTokens', tokens)
+}
+const WrappedApp = ({routes}) => (
+    <ReactKeycloakProvider  authClient={keycloak}
+                            initOptions={keycloakInitConfig}
+                            onEvent={eventLogger}
+                            onTokens={tokenLogger}>
+      <App routes={routes}/>
+    </ReactKeycloakProvider>
+);
+export default connect(mapStateToProps)(WrappedApp);
