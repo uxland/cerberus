@@ -14,26 +14,26 @@
     environment:
         KEYCLOAK_ADMIN: cerberus
         KEYCLOAK_ADMIN_PASSWORD: cerberus
-        DB_VENDOR: postgres
-        DB_ADDR: postgres
-        DB_PORT: 5432
-        DB_DATABASE: cerberus
-        DB_USER: cerberus
-        DB_PASSWORD: cerberus
-        KEYCLOAK_HTTPS_PORT: 8443
-        KEYCLOAK_HTTPS_KEYSTORE_FILE: /opt/jboss/keycloak/standalone/configuration/certs/keycloak.jks
-        KEYCLOAK_HTTPS_KEYSTORE_PASSWORD: password
         KEYCLOAK_IMPORT: /opt/keycloak/data/import/cerberus-realm.json
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+
     ports:
       - "8443:8443"
       - "8888:8080"
     volumes:
-      - certs_volume:/opt/jboss/keycloak/standalone/configuration/certs
-      - keycloak_volume:/opt/keycloak/data/import/
+      - ./keycloak/config/cerberus-realm.json:/opt/keycloak/data/import/cerberus-realm.json
+      - ./keycloak/certs/keycloak.p12:/opt/keycloak/conf/keycloak.p12
     command:
-      - "start-dev"
+      - "start"
+      - '--https-port=8443'
+      - '--https-key-store-file=/opt/keycloak/conf/keycloak.p12'
+      - '--https-key-store-password=password'
+      - '--https-key-store-type=PKCS12'
+      - '--hostname=keycloak'
+      - '--import-realm'
+    extra_hosts:
+      - 'cerberus-react-ui:host-gateway'  # Ensure your React app hostname is resolvable
+      - "host.docker.internal:host-gateway"
+        
     depends_on:
       - postgres
     links:
@@ -63,12 +63,6 @@ volumes:
       type: none
       o: bind
       device: ./Snapshots
-  certs_volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./certs
   keycloak_volume:
     driver: local
     driver_opts:

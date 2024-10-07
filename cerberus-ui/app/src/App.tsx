@@ -81,7 +81,8 @@ const eventLogger = (event: unknown, error: unknown) => {
 }
 const keycloakInitConfig = {
     onLoad: 'login-required',
-   // redirectUri: 'http://localhost:5173',
+    redirectUri: 'https://cerberus-react-ui:5173',
+    checkLoginIframe: false
 }
 const tokenLogger = (tokens: unknown) => {
   console.log('onKeycloakTokens', tokens)
