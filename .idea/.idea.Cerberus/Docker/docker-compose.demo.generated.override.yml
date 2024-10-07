@@ -2,7 +2,7 @@
 services:
   cerberus-back:
     build:
-      context: "/Users/danipinartnadal/RiderProjects/cerberus"
+      context: "C:\\Users\\dpina\\RiderProjects\\cerberus-2"
       dockerfile: "src/hosts/CerberusApi/Dockerfile"
       target: "base"
     command: []
@@ -15,27 +15,7 @@ services:
     image: "cerberusapi:dev"
     ports: []
     volumes:
-    - "/Users/danipinartnadal/.nuget/packages:/root/.nuget/packages"
-    - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusApi:/app:rw"
-    - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
-    working_dir: "/app"
-  cerberus-ui:
-    build:
-      context: "/Users/danipinartnadal/RiderProjects/cerberus"
-      dockerfile: "src/hosts/CerberusUI/Dockerfile"
-      target: "base"
-    command: []
-    entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/CerberusUI.dll"
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net8.0/CerberusUI.staticwebassets.runtime.CT.json"
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
-    image: "cerberusui:dev"
-    ports: []
-    volumes:
-    - "/Users/danipinartnadal/.nuget/packages:/home/app/.nuget/packages"
-    - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusUI:/app:rw"
-    - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
+    - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus-2\\src\\hosts\\CerberusApi:/app:rw"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus-2:/src:rw"
     working_dir: "/app"
