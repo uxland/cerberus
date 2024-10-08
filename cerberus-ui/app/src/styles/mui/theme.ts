@@ -187,7 +187,10 @@ const theme = createTheme(paletteTheme, {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          color: `${tailwindConfig.theme.colors.white}`,
+          color: `#fff !important`,
+          "& .MuiOutlinedInput": {
+            color: `#fff !important`,
+          },
         },
       },
     },
@@ -235,14 +238,6 @@ const theme = createTheme(paletteTheme, {
             borderRadius: "10px !important",
             boxShadow: "none",
           },
-        },
-      },
-    },
-    MuiModal: {
-      styleOverrides: {
-        root: {
-          backgroundColor: `${tailwindConfig.theme.colors.black}`,
-          color: `${tailwindConfig.theme.colors.black}`,
         },
       },
     },

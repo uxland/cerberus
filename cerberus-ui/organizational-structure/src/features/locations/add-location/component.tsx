@@ -6,6 +6,7 @@ export const AddLocation = () => {
   const [locationName, setLocationName] = useState<string>("");
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [pattern, setPattern] = useState<string>("");
   const handleLocationNameChange = (
     ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -24,7 +25,7 @@ export const AddLocation = () => {
   const handlePatternChange = (
     ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setPassword(ev.target.value);
+    setPattern(ev.target.value);
   };
 
   return (
@@ -38,7 +39,7 @@ export const AddLocation = () => {
       <InputField
         ref={ref}
         title={useOrganizationalStructureLocales("addLocation.pattern")}
-        value={password}
+        value={pattern}
         onChange={handlePatternChange}
       />
       <div className="flex gap-4">
@@ -75,18 +76,14 @@ const InputField = (props: {
         // placeholder={`${useOrganizationalStructureLocales(
         //   "addLocation.placeholder"
         // )} ${props.value}`}
+        variant="outlined"
         sx={{
           width: "100%",
           height: "50px",
           backgroundColor: "#313131",
           color: "#d7dadb",
           borderRadius: "6px",
-          border: "1px solid #707070",
-          "&:focus": {
-            borderColor: "#707070 !important",
-            outline: "none !important",
-            boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.25)",
-          },
+          // border: "1px solid #ff0505",
         }}
       />
     </div>

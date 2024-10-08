@@ -32,7 +32,7 @@ export const locales = {
     },
     addLocation: {
       title: "Afegir un nova localizació",
-      name: "Nom localizació",
+      name: "Nom localització",
       pattern: "Pattern",
       user: "Usuari",
       placeholder: "Afegir ",

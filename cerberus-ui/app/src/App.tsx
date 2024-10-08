@@ -4,17 +4,13 @@ import {
   keycloak,
   nop,
 } from "@cerberus/core";
-import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
-import {OrganizationalStructureTreeNode} from "@cerberus/organizational-structure";
-import {AddLocation} from "@cerberus/organizational-structure/src/features/locations/add-location/component.tsx";
-import {Box, Button, ThemeProvider, Typography} from "@mui/material";
-import Drawer from "@mui/material/Drawer";
+import {DrawerMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
+import {Box, CircularProgress, ThemeProvider, Typography} from "@mui/material";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
 import {Mediator} from "mediatr-ts";
 import {useEffect} from "react";
 import {connect} from "react-redux";
 import {
-  Link,
   Route,
   BrowserRouter as Router,
   Routes,
@@ -29,80 +25,26 @@ export const App = ({routes}) => {
   const {initialized} = useKeycloak();
 
   if (!initialized) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        className={`flex felx-col w-full h-full items-center justify-center  }`}>
+        <div className="flex flex-col items-center justify-center">
+          <Typography variant="h5">Carregant dades...</Typography>
+          <CircularProgress style={{color: "#ffc200"}} size={52} />
+        </div>
+      </div>
+    );
   }
 
   useEffect(() => {
     new Mediator().send(new SetNavigation(useNavigate)).then(nop);
   }, []);
 
-  const updateModal = useUpdateModal();
-  const openModal = () => {
-    console.log("ENTRA");
-    updateModal({
-      title: "Afegir un nou dispositiu",
-      maxWidth: "lg",
-      // minHeight: "30vh",
-      closeAction: true,
-      className: "modal",
-      content: AddLocation,
-      actions: [
-        {
-          id: "0",
-          sort: 1,
-          content: () => (
-            <Button
-              variant="contained"
-              size="small"
-              color="success"
-              fullWidth
-              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
-              onClick={() => console.log("Add location SUBMIT")}>
-              Afegir
-            </Button>
-          ),
-        },
-      ],
-    });
-  };
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{display: "flex", width: "100%"}}>
         <Router>
-          <Drawer
-            PaperProps={{sx: {width: "20vw"}}}
-            anchor="left"
-            variant="permanent">
-            <Box color={"CaptionText"} gap={4}>
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-center h-20 max-h-24">
-                    <Link to={"/"}>
-                      {<img className="h-14" src={Logo} alt={Logo} />}
-                    </Link>
-                  </div>
-                  <div className="flex p-6 bg-[#202020] justify-between">
-                    <div className="flex flex-col items-start p-1">
-                      <Typography variant="h3">154</Typography>
-                      <Typography variant="body1">Alertas Activas</Typography>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-full pl-2 pr-2 gap-2">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    type="submit"
-                    fullWidth
-                    className="submit-btn"
-                    onClick={openModal}>
-                    Afegir
-                  </Button>
-                  {<OrganizationalStructureTreeNode />}
-                </div>
-              </div>
-            </Box>
-          </Drawer>
+          <DrawerMenu logo={Logo} />
           <Box
             sx={{
               width: "100%",

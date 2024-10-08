@@ -1,1 +1,2 @@
-export * from './tabs-bar/component';
+export * from "./main-menu/component";
+export * from "./tabs-bar/component";
