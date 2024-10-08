@@ -1,10 +1,8 @@
-import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
 import {Button, Typography} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {CaptureSnapshots} from "../../../capture-snapshot/command.ts";
 import {HierarchyItemType} from "../../../state/hierarchy-item.ts";
-import {AddLocation} from "../../add-location/component.tsx";
 import {LocationSettings} from "./model.ts";
 import {GetLocationSettings} from "./query.ts";
 
@@ -42,17 +40,6 @@ export const LocationSettingsView = (props: {
 };
 
 const LocationSettingsComponent = (settings: LocationSettings) => {
-  const updateModal = useUpdateModal();
-  const openModal = () => {
-    console.log("ENTRA");
-    updateModal({
-      title: "TEST",
-      maxWidth: "lg",
-      minHeight: "50vh",
-      closeAction: true,
-      content: AddLocation,
-    });
-  };
   const capture = () => new Mediator().send(new CaptureSnapshots(settings.id));
   return (
     <div className="flex justify-between">
@@ -65,13 +52,6 @@ const LocationSettingsComponent = (settings: LocationSettings) => {
         aria-label="Capture"
         onClick={capture}>
         Capture Me
-      </Button>
-      <Button
-        variant="outlined"
-        className="capture-btn"
-        aria-label="Capture"
-        onClick={openModal}>
-        Test Modal
       </Button>
     </div>
   );

@@ -4,8 +4,7 @@ import {
   useModal,
   useUpdateModal,
 } from "@cerberus/core/src/providers";
-import CloseIcon from "@mui/icons-material/Close";
-import {useTheme} from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -26,7 +25,10 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 
   return (
     <>
-      <DialogTitle className={`${closeAction}`} {...other}>
+      <DialogTitle
+        className={`${closeAction}`}
+        sx={{color: "#ffc200"}}
+        {...other}>
         {children}
       </DialogTitle>
       {closeAction ? (
@@ -38,7 +40,7 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
             right: 8,
             top: 8,
           }}>
-          <CloseIcon />
+          <CancelIcon className="!fill-error" />
         </IconButton>
       ) : null}
     </>
@@ -54,7 +56,6 @@ export const ModalContainer = () => {
   const config = useModal();
   const updateModal = useUpdateModal();
   const [open, setOpen] = useState(false);
-  const theme = useTheme();
 
   useEffect(() => {
     if (config?.content) setOpen(true);
@@ -79,6 +80,16 @@ export const ModalContainer = () => {
       scroll={config?.scroll || "paper"}
       open={open}
       keepMounted
+      sx={{
+        "& .MuiDialog-paper": {
+          backgroundColor: "#000",
+          color: "#fff",
+          fontWeight: "600",
+          borderRadius: "8px",
+          border: "2px solid",
+          borderColor: "#ffc200 !important",
+        },
+      }}
       TransitionComponent={transitionSelector(
         config?.slideDirection as SlideDirection
       )}>
@@ -94,7 +105,7 @@ export const ModalContainer = () => {
         {config?.content && renderContent(config?.content)}
       </DialogContent>
       {config?.actions && (
-        <DialogActions>
+        <DialogActions sx={{padding: "16px 24px"}}>
           {config?.actions && renderActions(config?.actions)}
         </DialogActions>
       )}

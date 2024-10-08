@@ -4,7 +4,9 @@ import {
   keycloak,
   nop,
 } from "@cerberus/core";
+import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
 import {OrganizationalStructureTreeNode} from "@cerberus/organizational-structure";
+import {AddLocation} from "@cerberus/organizational-structure/src/features/locations/add-location/component.tsx";
 import {Box, Button, ThemeProvider, Typography} from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
@@ -34,6 +36,35 @@ export const App = ({routes}) => {
     new Mediator().send(new SetNavigation(useNavigate)).then(nop);
   }, []);
 
+  const updateModal = useUpdateModal();
+  const openModal = () => {
+    console.log("ENTRA");
+    updateModal({
+      title: "Afegir un nou dispositiu",
+      maxWidth: "lg",
+      // minHeight: "30vh",
+      closeAction: true,
+      className: "modal",
+      content: AddLocation,
+      actions: [
+        {
+          id: "0",
+          sort: 1,
+          content: () => (
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              fullWidth
+              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
+              onClick={() => console.log("Add location SUBMIT")}>
+              Afegir
+            </Button>
+          ),
+        },
+      ],
+    });
+  };
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{display: "flex", width: "100%"}}>
@@ -52,7 +83,7 @@ export const App = ({routes}) => {
                   </div>
                   <div className="flex p-6 bg-[#202020] justify-between">
                     <div className="flex flex-col items-start p-1">
-                      <Typography variant="h3">00000000000</Typography>
+                      <Typography variant="h3">154</Typography>
                       <Typography variant="body1">Alertas Activas</Typography>
                     </div>
                   </div>
@@ -65,7 +96,7 @@ export const App = ({routes}) => {
                     fullWidth
                     className="submit-btn"
                     onClick={openModal}>
-                    Añadir
+                    Afegir
                   </Button>
                   {<OrganizationalStructureTreeNode />}
                 </div>

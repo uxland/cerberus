@@ -105,41 +105,22 @@ const theme = createTheme(paletteTheme, {
       },
       styleOverrides: {
         root: {
-          background: "#000",
+          "&.MuiDialog-paper": {
+            backgroundColor: `${tailwindConfig.theme.colors.black}`,
+            color: `${tailwindConfig.theme.colors.black}`,
+          },
         },
       },
     },
-    MuiDialogPaper: {
+    MuiDialogActions: {
       styleOverrides: {
         root: {
-          backgroundColor: `${tailwindConfig.theme.colors.black}!important`,
+          background: "#fff !important",
+          maxHeight: "52px !important",
+          minHeight: "52px !important",
         },
       },
     },
-    // MuiDialogContent: {
-    //   styleOverrides: {
-    //     root: {
-    //       padding: "24px 48px 32px 48px !important",
-    //       "&.NodesTreeView": {
-    //         height: "60vh",
-    //         paddingRight: "0",
-    //       },
-    //     },
-    //   },
-    // },
-    // MuiDialogTitle: {
-    //   styleOverrides: {
-    //     root: {
-    //       padding: "18px 24px",
-    //       maxHeight: "64px",
-    //       fontSize: createTheme().typography.pxToRem(14),
-    //       lineHeight: 1,
-    //       color: `${paletteTheme.palette.primary.main}`,
-    //       border: "2px solid",
-    //       borderCorlor: `${paletteTheme.palette.primary.main}`,
-    //     },
-    //   },
-    // },
 
     MuiDivider: {
       styleOverrides: {
@@ -254,6 +235,14 @@ const theme = createTheme(paletteTheme, {
             borderRadius: "10px !important",
             boxShadow: "none",
           },
+        },
+      },
+    },
+    MuiModal: {
+      styleOverrides: {
+        root: {
+          backgroundColor: `${tailwindConfig.theme.colors.black}`,
+          color: `${tailwindConfig.theme.colors.black}`,
         },
       },
     },

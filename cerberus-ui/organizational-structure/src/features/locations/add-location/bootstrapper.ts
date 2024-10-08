@@ -1,9 +1,11 @@
 import {Container} from "inversify";
 import {requestHandler} from "mediatr-ts";
-import {Handler} from "./handler.ts";
+import {AddLocationByLocationIdHandler} from "./handler.ts";
 import {AddLocationByLocationId} from "./query.ts";
 
 export const bootstrapAddLocation = (container: Container) => {
-  requestHandler(AddLocationByLocationId)(Handler);
+  requestHandler(AddLocationByLocationId)(AddLocationByLocationIdHandler);
+  // registerRouteComponent(AddLocation.name, AddLocationByLocationIdHandler);
+
   return Promise.resolve(container);
 };

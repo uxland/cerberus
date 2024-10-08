@@ -33,7 +33,9 @@ export const locales = {
     addLocation: {
       title: "Afegir un nova localizació",
       name: "Nom localizació",
+      pattern: "Pattern",
       user: "Usuari",
+      placeholder: "Afegir ",
       password: "Contrasenya",
       submit: "Afegir",
     },

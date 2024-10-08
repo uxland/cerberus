@@ -21,6 +21,12 @@ export const AddLocation = () => {
   ) => {
     setPassword(ev.target.value);
   };
+  const handlePatternChange = (
+    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPassword(ev.target.value);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <InputField
@@ -31,9 +37,9 @@ export const AddLocation = () => {
       />
       <InputField
         ref={ref}
-        title={"???????"}
+        title={useOrganizationalStructureLocales("addLocation.pattern")}
         value={password}
-        onChange={handleLocationNameChange}
+        onChange={handlePatternChange}
       />
       <div className="flex gap-4">
         <InputField
@@ -64,13 +70,23 @@ const InputField = (props: {
       <Typography variant="body1">{props.title}</Typography>
       <TextField
         ref={props.ref}
-        label={props.title}
         value={props.value}
         onChange={props.onChange}
+        // placeholder={`${useOrganizationalStructureLocales(
+        //   "addLocation.placeholder"
+        // )} ${props.value}`}
         sx={{
           width: "100%",
+          height: "50px",
           backgroundColor: "#313131",
           color: "#d7dadb",
+          borderRadius: "6px",
+          border: "1px solid #707070",
+          "&:focus": {
+            borderColor: "#707070 !important",
+            outline: "none !important",
+            boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.25)",
+          },
         }}
       />
     </div>
