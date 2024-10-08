@@ -1,4 +1,4 @@
-import {getImageUrl, nop} from '@cerberus/core';
+import {getImageUrl, nop, notificationService} from '@cerberus/core';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -9,8 +9,9 @@ import Typography from '@mui/material/Typography';
 import {Mediator} from 'mediatr-ts';
 import {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {ImageComponent} from '../../../ui-components/image/component.tsx';
+import {useMaintenanceLocales} from '../../../locales/ca/locales.ts';
 import {HeaderBar} from '../../../ui-components/index.ts';
+import {ImageComponent} from '../../../ui-components/issue-image/component.tsx';
 import {CustomTextArea} from '../../../ui-components/text-area/component.tsx';
 import {FilterResult} from '../../issues/show-issue/model.ts';
 import {FulfillTrainingReview} from './command.ts';
@@ -77,6 +78,12 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
     setCanSend(isValidReview(updateReviewResult));
   };
 
+  const successMessage: string = useMaintenanceLocales(
+    'trainingReviewForm.notification.onSuccess'
+  );
+  const errorMessage: string = useMaintenanceLocales(
+    'trainingReviewForm.notification.onError'
+  );
   const fullfillReview = async (e) => {
     try {
       setError(undefined);
@@ -84,8 +91,10 @@ const FiltersReview = (props: {trainingReview: TrainingReview}) => {
       await new Mediator().send(
         new FulfillTrainingReview(props.trainingReview.id, reviewResult)
       );
+      notificationService.notifySuccess(successMessage);
     } catch (e) {
       setError(e.message || e.toString);
+      notificationService.notifySuccess(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

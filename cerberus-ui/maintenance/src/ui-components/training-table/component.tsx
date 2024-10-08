@@ -19,7 +19,7 @@ import {
   getPendingReviewUrl,
 } from '../../features/training/list-pending-training-reviews/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
-import {ImageComponent} from '../image/component';
+import {ImageComponent} from '../issue-image/component';
 import {NoData} from '../no-data/component';
 
 export const PendingReviewTable = (props: {

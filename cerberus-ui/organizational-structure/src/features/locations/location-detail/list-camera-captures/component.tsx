@@ -1,5 +1,5 @@
 import {getImageUrl, nop} from "@cerberus/core";
-import {ImageComponent} from "@cerberus/maintenance/src/ui-components/image/component.tsx";
+import {ImageComponent} from "@cerberus/maintenance/src/ui-components/issue-image/component.tsx";
 import {List, ListItem, Typography} from "@mui/material";
 import {format} from "date-fns/format";
 import {Mediator} from "mediatr-ts";
