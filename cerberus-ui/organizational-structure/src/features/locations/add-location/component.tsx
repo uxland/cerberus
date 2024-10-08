@@ -1,6 +1,8 @@
-import {TextField, Typography} from "@mui/material";
+import {useUpdateModal} from "@cerberus/core/src/providers";
+import {Button} from "@mui/material";
 import {ChangeEvent, useRef, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
+import {InputField} from "../../../ui-components";
 export const AddLocation = () => {
   const ref = useRef(null);
   const [locationName, setLocationName] = useState<string>("");
@@ -60,31 +62,35 @@ export const AddLocation = () => {
   );
 };
 
-const InputField = (props: {
-  ref: any;
-  title: string;
-  value: string;
-  onChange: any;
-}) => {
-  return (
-    <div className="flex flex-col flex-1 gap-2">
-      <Typography variant="body1">{props.title}</Typography>
-      <TextField
-        ref={props.ref}
-        value={props.value}
-        onChange={props.onChange}
-        // placeholder={`${useOrganizationalStructureLocales(
-        //   "addLocation.placeholder"
-        // )} ${props.value}`}
-        variant="outlined"
-        sx={{
-          width: "100%",
-          height: "50px",
-          backgroundColor: "#313131",
-          color: "#d7dadb",
-          borderRadius: "6px",
-        }}
-      />
-    </div>
-  );
+export const AddLocationModal = () => {
+  const updateModal = useUpdateModal();
+  const openModal = () => {
+    console.log("MODAL: localització");
+    updateModal({
+      title: "Afegir nova localització",
+      maxWidth: "lg",
+      closeAction: true,
+      className: "modal",
+      content: AddLocation,
+      actions: [
+        {
+          id: "0",
+          sort: 1,
+          content: () => (
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              fullWidth
+              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
+              onClick={() => console.log("Add location SUBMIT")}>
+              Afegir
+            </Button>
+          ),
+        },
+      ],
+    });
+  };
+
+  return () => openModal();
 };

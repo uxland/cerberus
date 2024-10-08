@@ -1,12 +1,18 @@
+import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import {SvgIcon} from "@mui/material";
+import {Button, SvgIcon} from "@mui/material";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
+import {
+  AddLocation,
+  AddLocationModal,
+} from "../locations/add-location/component.tsx";
 import {
   HierarchyItem,
   HierarchyItemType,
   LocationNode,
 } from "../state/hierarchy-item.ts";
+
 export const TreeNode = ({node}: {node: LocationNode}) => {
   const icons = {
     camera: (
@@ -14,6 +20,34 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         <path d="M15.333 7.556v8.888H4.223V7.556h11.11m1.111-2.223H3.111C2.497 5.333 2 5.831 2 6.444v11.112c0 .613.497 1.11 1.111 1.11h13.333c.614 0 1.112-.497 1.112-1.11V13.67L22 18.116V5.889l-4.444 4.444V6.444c0-.613-.498-1.11-1.112-1.11Z" />
       </svg>
     ),
+  };
+
+  const updateModal = useUpdateModal();
+
+  const openModal = () => {
+    console.log("MODAL: Afegir un nou dispositiu");
+    updateModal({
+      title: "Afegir un nou dispositiu",
+      maxWidth: "lg",
+      closeAction: true,
+      className: "modal",
+      content: AddLocation,
+      actions: [
+        {
+          id: "0",
+          sort: 1,
+          content: () => (
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              fullWidth
+              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
+            />
+          ),
+        },
+      ],
+    });
   };
 
   return (
@@ -51,6 +85,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
             sx={{
               alignSelf: "center",
             }}
+            onClick={AddLocationModal()}
           />
         </div>
       )}

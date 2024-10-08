@@ -1,38 +1,9 @@
-import {useUpdateModal} from "@cerberus/core/src/providers";
 import {Box, Button, Drawer, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {OrganizationalStructureTreeNode} from "../../features";
-import {AddLocation} from "../../features/locations/add-location/component";
+import {AddLocationModal} from "../../features/locations/add-location/component";
 
 export const DrawerMenu = (props: {logo}) => {
-  const updateModal = useUpdateModal();
-  const openModal = () => {
-    console.log("MODAL: Afegir un nou dispositiu");
-    updateModal({
-      title: "Afegir un nou dispositiu",
-      maxWidth: "lg",
-      closeAction: true,
-      className: "modal",
-      content: AddLocation,
-      actions: [
-        {
-          id: "0",
-          sort: 1,
-          content: () => (
-            <Button
-              variant="contained"
-              size="small"
-              color="success"
-              fullWidth
-              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
-              onClick={() => console.log("Add location SUBMIT")}>
-              Afegir
-            </Button>
-          ),
-        },
-      ],
-    });
-  };
   return (
     <Drawer
       PaperProps={{sx: {width: "20vw"}}}
@@ -60,7 +31,7 @@ export const DrawerMenu = (props: {logo}) => {
               type="submit"
               fullWidth
               className="submit-btn"
-              onClick={openModal}>
+              onClick={AddLocationModal()}>
               Afegir
             </Button>
             {<OrganizationalStructureTreeNode />}
