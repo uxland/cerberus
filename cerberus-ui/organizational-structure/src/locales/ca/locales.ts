@@ -39,5 +39,14 @@ export const locales = {
       password: "Contrasenya",
       submit: "Afegir",
     },
+    addCamera: {
+      title: "Afegir un nou dispositiu",
+      name: "Nom camera",
+      url: "URL",
+      user: "Usuari",
+      password: "Contrasenya",
+      placeholder: "Afegir ",
+      submit: "Afegir",
+    },
   },
 };

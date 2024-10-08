@@ -1,12 +1,10 @@
 import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import {Button, SvgIcon} from "@mui/material";
+import {Button, SvgIcon, Typography} from "@mui/material";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
-import {
-  AddLocation,
-  AddLocationModal,
-} from "../locations/add-location/component.tsx";
+import {AddCamera} from "../../ui-components/add-camera/component.tsx";
+import {AddLocationModal} from "../locations/add-location/component.tsx";
 import {
   HierarchyItem,
   HierarchyItemType,
@@ -31,7 +29,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
       maxWidth: "lg",
       closeAction: true,
       className: "modal",
-      content: AddLocation,
+      content: AddCamera,
       actions: [
         {
           id: "0",
@@ -43,12 +41,18 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
               color="success"
               fullWidth
               className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
-            />
+              onClick={() => console.log("Add camera SUBMIT")}>
+              Afegir
+            </Button>
           ),
         },
       ],
     });
   };
+
+  const hasCameraChildren = node.children.some(
+    (child) => child.type === HierarchyItemType.camera
+  );
 
   return (
     <div
@@ -77,8 +81,16 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         {node.children.map((child) => (
           <TreeNode key={child.id} node={child} />
         ))}
+        {hasCameraChildren && (
+          <div className="flex items-center">
+            <Typography variant="body1" color="primary" onClick={openModal}>
+              + Afegir dispositiu
+            </Typography>
+          </div>
+        )}
       </TreeItem>
-      {node.type !== HierarchyItemType.camera && (
+      {!hasCameraChildren && node.type !== HierarchyItemType.camera && (
+        // {node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
           <AddIcon
             color="primary"
