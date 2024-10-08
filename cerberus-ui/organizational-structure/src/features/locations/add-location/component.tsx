@@ -83,7 +83,6 @@ const InputField = (props: {
           backgroundColor: "#313131",
           color: "#d7dadb",
           borderRadius: "6px",
-          // border: "1px solid #ff0505",
         }}
       />
     </div>
