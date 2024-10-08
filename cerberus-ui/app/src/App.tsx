@@ -1,4 +1,9 @@
-import {getRouteComponent, keycloak, nop} from "@cerberus/core";
+import {
+  getRouteComponent,
+  initializeHooks,
+  keycloak,
+  nop,
+} from "@cerberus/core";
 import {OrganizationalStructureTreeNode} from "@cerberus/organizational-structure";
 import {Box, Button, ThemeProvider, Typography} from "@mui/material";
 import Drawer from "@mui/material/Drawer";
@@ -13,22 +18,22 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import {AddLocationByLocationId} from "../../organizational-structure/src/features/locations/add-location/query.ts";
 import Logo from "./assets/logo/instrumenta.png";
 import {SetNavigation} from "./navigation/set-navigation.ts";
 import theme from "./styles/mui/theme";
+
+initializeHooks();
 export const App = ({routes}) => {
   const {initialized} = useKeycloak();
+
   if (!initialized) {
     return <div>Loading...</div>;
   }
 
-  const addLocation = () => {
-    () => new Mediator().send(new AddLocationByLocationId("1234"));
-  };
   useEffect(() => {
     new Mediator().send(new SetNavigation(useNavigate)).then(nop);
   }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{display: "flex", width: "100%"}}>
@@ -59,7 +64,7 @@ export const App = ({routes}) => {
                     type="submit"
                     fullWidth
                     className="submit-btn"
-                    onClick={addLocation}>
+                    onClick={openModal}>
                     Añadir
                   </Button>
                   {<OrganizationalStructureTreeNode />}

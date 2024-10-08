@@ -1,7 +1,7 @@
-import {getNestedValue} from '@cerberus/core';
-import {Paths} from '@cerberus/core/src/utils/auxiliar-types';
-import {useLocalePath} from '@uxland/react-services';
-import {moduleName} from '../../constants';
+import {getNestedValue} from "@cerberus/core";
+import {Paths} from "@cerberus/core/src/utils/auxiliar-types";
+import {useLocalePath} from "@uxland/react-services";
+import {moduleName} from "../../constants";
 
 export type OrganizationalStructureLocalesPath = Paths<
   (typeof locales)[typeof moduleName]
@@ -14,7 +14,7 @@ export const useOrganizationalStructureLocales = (
 
   if (!locale) {
     console.error(`Locale path "${path}" not found in locales.`);
-    return '';
+    return "";
   }
   return globalPath(locale);
 };
@@ -22,13 +22,20 @@ export const useOrganizationalStructureLocales = (
 export const locales = {
   [moduleName]: {
     views: {
-      captures: 'Captures',
+      captures: "Captures",
     },
     tabs: {
-      openIssues: 'Open issues',
-      pendingReviews: 'Analysis',
-      settings: 'Settings',
-      reports: 'Reports',
+      openIssues: "Open issues",
+      pendingReviews: "Analysis",
+      settings: "Settings",
+      reports: "Reports",
+    },
+    addLocation: {
+      title: "Afegir un nova localizació",
+      name: "Nom localizació",
+      user: "Usuari",
+      password: "Contrasenya",
+      submit: "Afegir",
     },
   },
 };
