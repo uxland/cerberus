@@ -1,6 +1,6 @@
-import createTheme from '@mui/material/styles/createTheme';
-import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfigModule from '../../../tailwind.config';
+import createTheme from "@mui/material/styles/createTheme";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfigModule from "../../../tailwind.config";
 
 const tailwindConfig = resolveConfig(tailwindConfigModule);
 
@@ -20,51 +20,51 @@ const paletteTheme = createTheme({
 const theme = createTheme(paletteTheme, {
   typography: {
     htmlFontSize: 14,
-    fontFamily: 'Montserrat',
+    fontFamily: "Montserrat",
     h1: {
       fontSize: createTheme().typography.pxToRem(28),
-      fontFamily: 'Montserrat',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontWeight: '800',
+      fontFamily: "Montserrat",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+      fontWeight: "800",
       color: `${paletteTheme.palette.primary.main}`,
     },
     h2: {
       fontSize: createTheme().typography.pxToRem(24),
-      fontFamily: 'Montserrat',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontWeight: '500',
+      fontFamily: "Montserrat",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+      fontWeight: "500",
       color: `${tailwindConfig.theme.colors.black}`,
     },
     h3: {
       fontSize: createTheme().typography.pxToRem(20),
-      fontFamily: 'Montserrat',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontWeight: '400',
+      fontFamily: "Montserrat",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+      fontWeight: "400",
       color: `${tailwindConfig.theme.colors.white}`,
     },
     h4: {
       fontSize: createTheme().typography.pxToRem(18),
-      fontFamily: 'Montserrat',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontWeight: '400',
+      fontFamily: "Montserrat",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+      fontWeight: "400",
       color: `${tailwindConfig.theme.colors.white}`,
     },
     h5: {
       fontSize: createTheme().typography.pxToRem(16),
-      fontFamily: 'Montserrat',
-      textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontWeight: '400',
+      fontFamily: "Montserrat",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+      fontWeight: "400",
       color: `${tailwindConfig.theme.colors.white}`,
     },
     body1: {
       fontSize: createTheme().typography.pxToRem(14),
-      fontFamily: 'Montserrat',
-      fontWeight: '400',
+      fontFamily: "Montserrat",
+      fontWeight: "400",
 
       color: `${tailwindConfig.theme.colors.white}`,
     },
@@ -73,16 +73,16 @@ const theme = createTheme(paletteTheme, {
     MuiTreeItem: {
       styleOverrides: {
         root: {
-          textAlign: 'left',
+          textAlign: "left",
           color: `${tailwindConfig.theme.colors.white}`,
         },
         label: {
-          fontSize: '1rem',
-          letterSpacing: '0.12',
-          lineheight: '1.50px',
-          fontWeight: '600 !important',
-          color: '000',
-          '&:hover': {
+          fontSize: "1rem",
+          letterSpacing: "0.12",
+          lineheight: "1.50px",
+          fontWeight: "600 !important",
+          color: "000",
+          "&:hover": {
             color: `${paletteTheme.palette.primary.main}`,
           },
         },
@@ -91,29 +91,53 @@ const theme = createTheme(paletteTheme, {
     MuiTab: {
       styleOverrides: {
         root: {
-          color: '#828282',
-          '&.Mui-selected': {
+          color: "#828282",
+          "&.Mui-selected": {
             color: `${paletteTheme.palette.primary.main}`,
           },
         },
       },
     },
+
+    MuiDialog: {
+      defaultProps: {
+        fullWidth: true,
+      },
+      styleOverrides: {
+        root: {
+          "&.MuiDialog-paper": {
+            backgroundColor: `${tailwindConfig.theme.colors.black}`,
+            color: `${tailwindConfig.theme.colors.black}`,
+          },
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          background: "#fff !important",
+          maxHeight: "52px !important",
+          minHeight: "52px !important",
+        },
+      },
+    },
+
     MuiDivider: {
       styleOverrides: {
         root: {
-          display: 'flex',
-          alignItems: 'center',
-          height: '1.2rem',
-          position: 'relative',
-          top: '.4rem',
-          borderWidth: '.1rem',
-          '&.kpi-divider': {
-            height: '3rem',
-            top: '-8px',
+          display: "flex",
+          alignItems: "center",
+          height: "1.2rem",
+          position: "relative",
+          top: ".4rem",
+          borderWidth: ".1rem",
+          "&.kpi-divider": {
+            height: "3rem",
+            top: "-8px",
           },
-          '&.training-kpi-divider': {
-            height: '5.8rem',
-            top: '-8px',
+          "&.training-kpi-divider": {
+            height: "5.8rem",
+            top: "-8px",
           },
         },
       },
@@ -121,31 +145,31 @@ const theme = createTheme(paletteTheme, {
     MuiButtonBase: {
       styleOverrides: {
         root: {
-          fontWeight: '800 !important',
+          fontWeight: "800 !important",
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          fontWeight: '800 !important',
-          '&.capture-btn': {
-            fontSize: '14px',
-            color: '#4791ff',
-            borderColor: '#4791ff',
-            borderRadius: '50px',
-            border: '2px solid',
-            width: '200px',
-            height: '34px',
-            position: 'relative',
-            top: '-.6rem',
+          fontWeight: "800 !important",
+          "&.capture-btn": {
+            fontSize: "14px",
+            color: "#4791ff",
+            borderColor: "#4791ff",
+            borderRadius: "50px",
+            border: "2px solid",
+            width: "200px",
+            height: "34px",
+            position: "relative",
+            top: "-.6rem",
           },
-          '&.submit-btn': {
-            height: '2.2rem',
-            marginBottom: '.55rem',
-            '&.Mui-disabled': {
+          "&.submit-btn": {
+            height: "2.2rem",
+            marginBottom: ".55rem",
+            "&.Mui-disabled": {
               color: `${tailwindConfig.theme.colors.white}`,
-              backgroundColor: '#ccc',
+              backgroundColor: "#ccc",
             },
           },
         },
@@ -154,7 +178,7 @@ const theme = createTheme(paletteTheme, {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          '& fieldset': {
+          "& fieldset": {
             borderColor: `${tailwindConfig.theme.colors.white}`,
           },
         },
@@ -170,32 +194,32 @@ const theme = createTheme(paletteTheme, {
     MuiSvgIcon: {
       styleOverrides: {
         root: {
-          textAlign: 'left',
-          width: '24px !important',
-          height: '24px !important',
+          textAlign: "left",
+          width: "24px !important",
+          height: "24px !important",
 
-          '&.kpi-icon': {
-            width: '50px !important',
-            height: '50px !important',
+          "&.kpi-icon": {
+            width: "50px !important",
+            height: "50px !important",
           },
-          '&.image-icon': {
-            width: '80px !important',
-            height: '80px !important',
+          "&.image-icon": {
+            width: "80px !important",
+            height: "80px !important",
           },
-          '&.image-icon-small': {
-            width: '25px !important',
-            height: '25px !important',
+          "&.image-icon-small": {
+            width: "25px !important",
+            height: "25px !important",
           },
-          '&.success': {
+          "&.success": {
             color: `${tailwindConfig.theme.colors.success}`,
           },
-          '&.error': {
+          "&.error": {
             color: `${tailwindConfig.theme.colors.error}`,
           },
-          '&.warning': {
+          "&.warning": {
             color: `${tailwindConfig.theme.colors.warning}`,
           },
-          '&.info': {
+          "&.info": {
             color: `${tailwindConfig.theme.colors.info}`,
           },
         },
@@ -205,11 +229,20 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           backgroundColor: `${tailwindConfig.theme.colors.black}`,
-          '&.custom-table': {
+          color: `${tailwindConfig.theme.colors.black}`,
+          "&.custom-table": {
             backgroundColor: `${tailwindConfig.theme.colors.tableBg} !important`,
-            borderRadius: '10px !important',
-            boxShadow: 'none',
+            borderRadius: "10px !important",
+            boxShadow: "none",
           },
+        },
+      },
+    },
+    MuiModal: {
+      styleOverrides: {
+        root: {
+          backgroundColor: `${tailwindConfig.theme.colors.black}`,
+          color: `${tailwindConfig.theme.colors.black}`,
         },
       },
     },
@@ -217,25 +250,25 @@ const theme = createTheme(paletteTheme, {
       styleOverrides: {
         root: {
           fontSize: createTheme().typography.pxToRem(11),
-          marginRight: '-12px',
-          minHeight: '16px',
-          height: '16px',
-          minWidth: '16px',
-          width: '16px',
+          marginRight: "-12px",
+          minHeight: "16px",
+          height: "16px",
+          minWidth: "16px",
+          width: "16px",
         },
       },
     },
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          width: '100px !important',
+          width: "100px !important",
         },
       },
     },
     MuiTableRow: {
       styleOverrides: {
         root: {
-          height: '50px',
+          height: "50px",
         },
       },
     },
@@ -251,22 +284,22 @@ const theme = createTheme(paletteTheme, {
     MuiTableCell: {
       styleOverrides: {
         root: {
-          height: '2rem',
-          fontFamily: 'Montserrat',
+          height: "2rem",
+          fontFamily: "Montserrat",
           color: `${tailwindConfig.theme.colors.white}`,
-          fontWeight: '200',
-          textAlign: 'left',
-          letterSpacing: '1px',
-          borderBottom: 'none',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          cursor: 'pointer',
-          width: 'auto',
+          fontWeight: "200",
+          textAlign: "left",
+          letterSpacing: "1px",
+          borderBottom: "none",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          cursor: "pointer",
+          width: "auto",
 
-          '&.table-head': {
-            fontWeight: '400 !important',
-            cursor: 'default',
+          "&.table-head": {
+            fontWeight: "400 !important",
+            cursor: "default",
           },
         },
       },
@@ -275,14 +308,14 @@ const theme = createTheme(paletteTheme, {
     MuiListItem: {
       styleOverrides: {
         root: {
-          maxWidth: '200px',
+          maxWidth: "200px",
         },
       },
     },
     MuiFormControlLabel: {
       styleOverrides: {
         root: {
-          alignItems: 'flex-start',
+          alignItems: "flex-start",
         },
       },
     },
@@ -292,41 +325,41 @@ const theme = createTheme(paletteTheme, {
           width: 42,
           height: 26,
           padding: 0,
-          '& .MuiSwitch-switchBase': {
+          "& .MuiSwitch-switchBase": {
             padding: 0,
             margin: 2,
-            transitionDuration: '300ms',
-            '&.Mui-checked': {
-              transform: 'translateX(16px)',
-              color: '#fff',
-              '& + .MuiSwitch-track': {
-                backgroundColor: '#2ECA45',
+            transitionDuration: "300ms",
+            "&.Mui-checked": {
+              transform: "translateX(16px)",
+              color: "#fff",
+              "& + .MuiSwitch-track": {
+                backgroundColor: "#2ECA45",
                 opacity: 1,
                 border: 0,
               },
-              '&.Mui-disabled + .MuiSwitch-track': {
+              "&.Mui-disabled + .MuiSwitch-track": {
                 opacity: 0.5,
               },
             },
-            '&.Mui-focusVisible .MuiSwitch-thumb': {
-              color: '#33cf4d',
-              border: '6px solid #fff',
+            "&.Mui-focusVisible .MuiSwitch-thumb": {
+              color: "#33cf4d",
+              border: "6px solid #fff",
             },
-            '&.Mui-disabled .MuiSwitch-thumb': {
-              color: 'red !important',
+            "&.Mui-disabled .MuiSwitch-thumb": {
+              color: "red !important",
             },
-            '&.Mui-disabled + .MuiSwitch-track': {
+            "&.Mui-disabled + .MuiSwitch-track": {
               opacity: 0.3,
             },
           },
-          '& .MuiSwitch-thumb': {
-            boxSizing: 'border-box',
+          "& .MuiSwitch-thumb": {
+            boxSizing: "border-box",
             width: 22,
             height: 22,
           },
-          '& .MuiSwitch-track': {
+          "& .MuiSwitch-track": {
             borderRadius: 26 / 2,
-            backgroundColor: '#39393D',
+            backgroundColor: "#39393D",
             opacity: 1,
           },
         },
