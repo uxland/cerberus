@@ -85,7 +85,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         {hasCameraChildren && (
           <div className="flex items-center  mt-2 ml-10">
             <Tooltip
-              title={useOrganizationalStructureLocales("addCamera.addBtn")}>
+              title={useOrganizationalStructureLocales("addLocation.addBtn")}>
               <Typography
                 component="button"
                 variant="body1"

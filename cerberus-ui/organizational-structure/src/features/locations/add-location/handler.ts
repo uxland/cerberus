@@ -1,15 +1,16 @@
-import {ApiClient} from "@cerberus/shared/src";
-import {inject} from "inversify";
-import {IRequestHandler} from "mediatr-ts";
-import {AddLocation} from "./command.ts";
-import {HierarchyItem, LocationNode} from "../../state/hierarchy-item.ts";
 import {store} from "@cerberus/core";
+import {ApiClient} from "@cerberus/shared/src";
+import {inject, injectable} from "inversify";
+import {IRequestHandler} from "mediatr-ts";
+import {HierarchyItem, LocationNode} from "../../state/hierarchy-item.ts";
 import {appendLocationItem} from "../../state/reducer.ts";
+import {AddLocation} from "./command.ts";
 
-export class AddLocationHandler implements IRequestHandler<AddLocation, LocationNode> {
-  constructor(
-      @inject(ApiClient) private apiClient: ApiClient
-  ) {}
+@injectable()
+export class AddLocationHandler
+  implements IRequestHandler<AddLocation, LocationNode>
+{
+  constructor(@inject(ApiClient) private apiClient: ApiClient) {}
 
   async handle(command: AddLocation): Promise<LocationNode> {
     console.log("HANDLER: Add location");
@@ -20,17 +21,18 @@ export class AddLocationHandler implements IRequestHandler<AddLocation, Location
 
   private async createLocation(cmd: AddLocation): Promise<LocationNode> {
     try {
-      const location = await this.apiClient.post<HierarchyItem>('/locations',{
-        body:cmd as any
-      })
+      const location = await this.apiClient.post<HierarchyItem>("/locations", {
+        body: cmd as any,
+      });
       return {...location, children: []};
-    }
-    catch (e) {
+    } catch (e) {
       //Todo: handle error
     }
   }
 
-  private async pushLocationToState(location: LocationNode): Promise<LocationNode> {
+  private async pushLocationToState(
+    location: LocationNode
+  ): Promise<LocationNode> {
     store.dispatch(appendLocationItem(location));
     return location;
   }
