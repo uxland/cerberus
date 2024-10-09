@@ -53,6 +53,12 @@ public sealed class SetupLocationHandler(
             UpdateLocation(location, request, path);
     }
 
+    public async Task Handle(CreateLocation command)
+    {
+        var path = await pathProvider.GetPathAsync(command);
+        this.CreateLocation(new SetupLocation(command.Id, command.ParentId, command.Description, command.DefaultCameraAdminSettings, command.DefaultCameraFunctionalSettings), path);
+    }
+
     private void CreateLocation(SetupLocation setupLocation, string path)
     {
         var location = new Location(setupLocation, path);

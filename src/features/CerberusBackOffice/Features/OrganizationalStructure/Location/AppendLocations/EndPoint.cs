@@ -1,4 +1,6 @@
-﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
+using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.GetHierarchyItem;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +20,29 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
     {
         return sender.Send(command);
     }*/
-        
-   // [HttpPost]
-    //[Consumes(AppendLocationCommand)]
+
+    [HttpPost]
+    [Consumes(AppendLocationCommand)]
     /*public Task AppendLocation(AppendLocation command)
     {
         return sender.Send(command);
     }*/
 
+    [HttpPost]
+    public async Task<IActionResult> AppendLocation(AppendLocationRequest request)
+    {
+        var command = new CreateLocation(
+            Id: request.Id ?? Guid.NewGuid().ToString(),
+            ParentId: request.ParentId,
+            Description: request.Description,
+            DefaultCameraAdminSettings:
+            new CameraAdminSettings(null, request.CameraCredentials, request.CapturePattern),
+            DefaultCameraFunctionalSettings: null);
+        await bus.SendAsync(command);
+        var addedItem = await bus.InvokeAsync<string?>(new GetHierarchyItem(command.Id));
+        return string.IsNullOrEmpty(addedItem) ? NotFound() : Ok(addedItem);
+
+    }
     [HttpPost]
     public async Task<IActionResult> AppendLocationsFromFile(IFormFile? file)
     {
