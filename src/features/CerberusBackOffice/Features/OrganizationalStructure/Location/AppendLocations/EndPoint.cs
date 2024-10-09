@@ -22,14 +22,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
     }*/
 
     [HttpPost]
-    [Consumes(AppendLocationCommand)]
-    /*public Task AppendLocation(AppendLocation command)
-    {
-        return sender.Send(command);
-    }*/
-
-    [HttpPost]
-    public async Task<IActionResult> AppendLocation(AppendLocationRequest request)
+    public async Task<IActionResult> AppendLocation([FromBody]AppendLocationRequest request)
     {
         var command = new CreateLocation(
             Id: request.Id ?? Guid.NewGuid().ToString(),
@@ -38,12 +31,12 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
             DefaultCameraAdminSettings:
             new CameraAdminSettings(null, request.CameraCredentials, request.CapturePattern),
             DefaultCameraFunctionalSettings: null);
-        await bus.SendAsync(command);
+        await bus.InvokeAsync(command);
         var addedItem = await bus.InvokeAsync<string?>(new GetHierarchyItem(command.Id));
         return string.IsNullOrEmpty(addedItem) ? NotFound() : Ok(addedItem);
 
     }
-    [HttpPost]
+    [HttpPost("batch")]
     public async Task<IActionResult> AppendLocationsFromFile(IFormFile? file)
     {
         if (file == null || file.Length == 0)

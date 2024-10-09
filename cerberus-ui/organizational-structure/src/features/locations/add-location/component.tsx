@@ -36,7 +36,7 @@ export const AddLocationModal = () => {
     try {
       const location = await mediator.send(
         new AddLocationCommand(
-          "CAT",
+          undefined,
           formData.locationDescription,
           formData.cameraCode,
           formData.capturePattern,
