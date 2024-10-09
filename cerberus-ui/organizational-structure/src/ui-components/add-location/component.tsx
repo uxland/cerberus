@@ -1,4 +1,4 @@
-import {ChangeEvent, useRef} from "react";
+import {ChangeEvent} from "react";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
 import {InputField} from "../input-field/component";
 
@@ -16,8 +16,6 @@ export const AddLocation = (props: {
     onUserChange,
     onPasswordChange,
   } = props;
-
-  const ref = useRef(null);
 
   return (
     <div className="flex flex-col gap-4">

@@ -87,7 +87,7 @@ export const AddLocationModal = () => {
         },
       ]);
     }
-  }, [formData.locationDescription]);
+  }, [formData]);
 
   return openModal;
 };
