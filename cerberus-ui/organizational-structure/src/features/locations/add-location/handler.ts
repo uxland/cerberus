@@ -26,6 +26,8 @@ export class AddLocationHandler
       });
       return {...location, children: []};
     } catch (e) {
+      console.log(e);
+
       //Todo: handle error
     }
   }
