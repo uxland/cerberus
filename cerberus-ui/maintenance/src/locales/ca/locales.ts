@@ -1,7 +1,7 @@
-import {getNestedValue} from '@cerberus/core';
-import {Paths} from '@cerberus/core/src/utils/auxiliar-types';
-import {useLocalePath} from '@uxland/react-services';
-import {moduleName} from '../../constants';
+import {getNestedValue} from "@cerberus/core";
+import {Paths} from "@cerberus/core/src/utils/auxiliar-types";
+import {useLocalePath} from "@uxland/react-services";
+import {moduleName} from "../../constants";
 
 export type MaintenanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useMaintenanceLocales = (path: MaintenanceLocalesPath) => {
@@ -10,7 +10,7 @@ export const useMaintenanceLocales = (path: MaintenanceLocalesPath) => {
 
   if (!locale) {
     console.error(`Locale path "${path}" not found in locales.`);
-    return '';
+    return "";
   }
   return globalPath(locale);
 };
@@ -18,31 +18,31 @@ export const useMaintenanceLocales = (path: MaintenanceLocalesPath) => {
 export const locales = {
   [moduleName]: {
     title: {
-      pendingReviews: 'Pending reviews',
-      openIssues: 'Open issues',
-      summaryChart: 'Recent report',
-      errorsChart: 'Recent report',
+      pendingReviews: "Pending reviews",
+      openIssues: "Open issues",
+      summaryChart: "Recent report",
+      errorsChart: "Recent report",
     },
     pendingReviewsTable: {
-      id: 'ID',
-      preview: 'Preview',
-      date: 'Date',
-      location: 'Location',
-      Description: 'Description',
-      Actions: 'Actions',
+      id: "Id",
+      preview: "Preview",
+      date: "Date",
+      location: "Location",
+      Description: "Description",
+      Actions: "Actions",
     },
     openIssuesTable: {
-      cameraId: 'ID',
-      status: 'Status',
-      errorCode: 'Code',
-      date: 'Date',
-      summary: 'Summary',
-      location: 'Location',
-      Actions: 'Actions',
+      cameraId: "Id",
+      status: "Status",
+      errorCode: "Code",
+      date: "Date",
+      summary: "Summary",
+      location: "Location",
+      Actions: "Actions",
     },
     openIssuesForm: {
-      title: 'Error description',
-      resolutionTime: 'Resolution time',
+      title: "Error description",
+      resolutionTime: "Resolution time",
     },
   },
 };

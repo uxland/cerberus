@@ -37,7 +37,8 @@ export const locales = {
       user: "Usuari",
       placeholder: "Afegir ",
       password: "Contrasenya",
-      submit: "Afegir",
+      submitBtn: "Afegir",
+      addBtn: "Afegir Localització",
     },
     addCamera: {
       title: "Afegir un nou dispositiu",
@@ -46,7 +47,8 @@ export const locales = {
       user: "Usuari",
       password: "Contrasenya",
       placeholder: "Afegir ",
-      submit: "Afegir",
+      submitBtn: "Afegir",
+      addBtn: "Afegir dispositiu",
     },
   },
 };

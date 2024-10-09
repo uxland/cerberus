@@ -1,8 +1,9 @@
 import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import {Button, SvgIcon, Typography} from "@mui/material";
+import {Button, IconButton, SvgIcon, Tooltip, Typography} from "@mui/material";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
+import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
 import {AddCamera} from "../../ui-components/add-camera/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
 import {
@@ -82,23 +83,36 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
           <TreeNode key={child.id} node={child} />
         ))}
         {hasCameraChildren && (
-          <div className="flex items-center">
-            <Typography variant="body1" color="primary" onClick={openModal}>
-              + Afegir dispositiu
-            </Typography>
+          <div className="flex items-center  mt-2 ml-10">
+            <Tooltip
+              title={useOrganizationalStructureLocales("addCamera.addBtn")}>
+              <Typography
+                component="button"
+                variant="body1"
+                color="primary"
+                onClick={openModal}>
+                + Afegir dispositiu
+              </Typography>
+            </Tooltip>
           </div>
         )}
       </TreeItem>
       {!hasCameraChildren && node.type !== HierarchyItemType.camera && (
         // {node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
-          <AddIcon
-            color="primary"
-            sx={{
-              alignSelf: "center",
-            }}
-            onClick={AddLocationModal()}
-          />
+          <Tooltip
+            title={useOrganizationalStructureLocales("addLocation.title")}>
+            <IconButton
+              sx={{margin: 0, padding: 0}}
+              onClick={AddLocationModal()}>
+              <AddIcon
+                color="primary"
+                sx={{
+                  alignSelf: "center",
+                }}
+              />
+            </IconButton>
+          </Tooltip>
         </div>
       )}
     </div>
