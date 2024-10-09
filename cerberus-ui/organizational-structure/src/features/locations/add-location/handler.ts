@@ -1,16 +1,19 @@
 import {ApiClient} from "@cerberus/shared/src";
-import {inject, injectable} from "inversify";
+import {inject} from "inversify";
 import {IRequestHandler} from "mediatr-ts";
-import {AddLocationByLocationId} from "./query.ts";
+import {AddLocation} from "./query.ts";
 
-@injectable()
-export class AddLocationByLocationIdHandler
-  implements IRequestHandler<AddLocationByLocationId, any>
-{
+export class AddLocationHandler implements IRequestHandler<AddLocation, any> {
   constructor(@inject(ApiClient) private apiClient: ApiClient) {}
-  async handle(query: AddLocationByLocationId): Promise<any> {
+
+  async handle(query: AddLocation): Promise<any> {
     console.log("HANDLER: Add location");
 
-    // return this.apiClient.post<any>(`/locations/${query.locationId}`, {});
+    return this.apiClient.post<any>(`/locations/${query.parentId}`, {
+      body: <any>{
+        name: query.name,
+        parentId: query.parentId,
+      },
+    });
   }
 }
