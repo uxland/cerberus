@@ -98,7 +98,6 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         )}
       </TreeItem>
       {!hasCameraChildren && node.type !== HierarchyItemType.camera && (
-        // {node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
           <Tooltip
             title={useOrganizationalStructureLocales("addLocation.title")}>

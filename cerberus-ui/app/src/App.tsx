@@ -1,11 +1,12 @@
 import {
+  Fetching,
   getRouteComponent,
   initializeHooks,
   keycloak,
   nop,
 } from "@cerberus/core";
 import {DrawerMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
-import {Box, CircularProgress, ThemeProvider, Typography} from "@mui/material";
+import {Box, ThemeProvider} from "@mui/material";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
 import {Mediator} from "mediatr-ts";
 import {useEffect} from "react";
@@ -25,17 +26,10 @@ export const App = ({routes}) => {
   const {initialized} = useKeycloak();
 
   if (!initialized) {
-    return (
-      <div
-        className={`flex felx-col w-full h-full items-center justify-center  }`}>
-        <div className="flex flex-col items-center justify-center">
-          <Typography variant="h5">Carregant dades...</Typography>
-          <CircularProgress style={{color: "#ffc200"}} size={52} />
-        </div>
-      </div>
-    );
+    return <Fetching />;
   }
 
+  // set navigation esta donant un error en use de hooks
   useEffect(() => {
     new Mediator().send(new SetNavigation(useNavigate)).then(nop);
   }, []);
