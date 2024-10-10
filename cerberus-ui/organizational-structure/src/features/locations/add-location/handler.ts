@@ -13,8 +13,6 @@ export class AddLocationHandler
   constructor(@inject(ApiClient) private apiClient: ApiClient) {}
 
   async handle(command: AddLocation): Promise<LocationNode> {
-    console.log("HANDLER: Add location");
-
     const location = await this.createLocation(command);
     return await this.pushLocationToState(location);
   }

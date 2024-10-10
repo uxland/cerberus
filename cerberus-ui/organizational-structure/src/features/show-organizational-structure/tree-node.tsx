@@ -15,6 +15,7 @@ import {
 } from "../state/hierarchy-item.ts";
 
 export const TreeNode = ({node}: {node: LocationNode}) => {
+  const updateModal = useUpdateModal();
   const icons = {
     camera: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -23,10 +24,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
     ),
   };
 
-  const updateModal = useUpdateModal();
-
   const openModal = () => {
-    console.log("MODAL: Afegir un nou dispositiu");
     updateModal({
       title: "Afegir un nou dispositiu",
       maxWidth: "lg",
@@ -89,10 +87,14 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         <div style={{marginLeft: "1.2rem"}}>
           <Tooltip
             title={useOrganizationalStructureLocales("addLocation.title")}>
-            <AddMenu
-              onAddLocation={AddLocationModal(node.parentId)}
-              onAddCamera={openModal}
-            />
+            <div>
+              <AddMenu
+                onAddCamera={openModal}
+                onAddLocation={AddLocationModal(
+                  node?.parentId === undefined ? "" : node?.id
+                )}
+              />
+            </div>
           </Tooltip>
         </div>
       )}
