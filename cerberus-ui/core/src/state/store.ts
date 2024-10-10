@@ -1,9 +1,11 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {routingSlice} from "../routing/routing-reducer.ts";
+import {userSlice} from "../auth/state.ts";
 
 
 const reducers ={
     routes: routingSlice.reducer,
+    user: userSlice.reducer,
 }
 
 export const store = configureStore({
