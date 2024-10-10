@@ -1,4 +1,7 @@
-import {Box, Button, Drawer, Typography} from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Drawer from "@mui/material/Drawer";
+import Typography from "@mui/material/Typography";
 import {Link} from "react-router-dom";
 import {OrganizationalStructureTreeNode} from "../../features";
 import {AddLocationModal} from "../../features/locations/add-location/component";

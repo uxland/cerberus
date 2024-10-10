@@ -21,6 +21,7 @@ export const AddLocation = (props: {
     <div className="flex flex-col gap-4">
       <InputField
         title={useOrganizationalStructureLocales("addLocation.description")}
+        required
         onChange={(ev: ChangeEvent<HTMLInputElement>) =>
           onLocationDescriptionChange(ev.target.value)
         }

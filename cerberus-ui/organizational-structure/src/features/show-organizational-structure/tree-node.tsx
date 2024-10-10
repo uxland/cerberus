@@ -1,9 +1,8 @@
 import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
-import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import {Button, IconButton, SvgIcon, Tooltip, Typography} from "@mui/material";
+import Button from "@mui/material/Button";
+import SvgIcon from "@mui/material/SvgIcon";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
 import {AddCamera} from "../../ui-components/add-camera/component.tsx";
 import {AddMenu} from "../../ui-components/add-menu/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
@@ -83,39 +82,31 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         {node.children.map((child) => (
           <TreeNode key={child.id} node={child} />
         ))}
-        {hasCameraChildren && (
-          <div className="flex items-center  mt-2 ml-10">
-            <Tooltip
-              title={useOrganizationalStructureLocales("addLocation.addBtn")}>
-              <Typography
-                component="button"
-                variant="body1"
-                color="primary"
-                onClick={openModal}>
-                + Afegir dispositiu
-              </Typography>
-            </Tooltip>
-          </div>
-        )}
       </TreeItem>
+      <AddMenu onAddLocation={AddLocationModal()} onAddCamera={openModal} />
       {!hasCameraChildren && node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
-          <Tooltip
+          {/* <Tooltip
             title={useOrganizationalStructureLocales("addLocation.title")}>
-            <IconButton
-              sx={{margin: 0, padding: 0}}
-              onClick={AddLocationModal()}>
-              <AddIcon
-                color="primary"
-                sx={{
-                  alignSelf: "center",
-                }}
-              />
-            </IconButton>
-          </Tooltip>
+            <AddMenu />
+          </Tooltip> */}
         </div>
+        // <div style={{marginLeft: "1.2rem"}}>
+        //   <Tooltip
+        //     title={useOrganizationalStructureLocales("addLocation.title")}>
+        //     <IconButton
+        //       sx={{margin: 0, padding: 0}}
+        //       onClick={AddLocationModal()}>
+        //       <AddIcon
+        //         color="primary"
+        //         sx={{
+        //           alignSelf: "center",
+        //         }}
+        //       />
+        //     </IconButton>
+        //   </Tooltip>
+        // </div>
       )}
-      <AddMenu />
     </div>
   );
 };
