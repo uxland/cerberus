@@ -5,6 +5,7 @@ import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
 import {AddCamera} from "../../ui-components/add-camera/component.tsx";
+import {AddMenu} from "../../ui-components/add-menu/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
 import {
   HierarchyItem,
@@ -114,6 +115,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
           </Tooltip>
         </div>
       )}
+      <AddMenu />
     </div>
   );
 };

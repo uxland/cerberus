@@ -33,7 +33,7 @@ export const locales = {
     addLocation: {
       title: "Afegir un nova localizació",
       description: "Nom localització",
-      cameraCode: "Codi de càmera",
+      locationCode: "Codi de localització",
       capturePattern: "Pattern",
       placeholder: "Afegir ",
       user: "Usuari",

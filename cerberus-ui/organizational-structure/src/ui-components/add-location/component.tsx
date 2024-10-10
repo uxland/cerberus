@@ -4,14 +4,14 @@ import {InputField} from "../input-field/component";
 
 export const AddLocation = (props: {
   onLocationDescriptionChange: (value: string) => void;
-  onCameraCodeChange: (value: string) => void;
+  onLocationCodeChange: (value: string) => void;
   onCapturePatternChange: (value: string) => void;
   onUserChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
 }) => {
   const {
     onLocationDescriptionChange,
-    onCameraCodeChange,
+    onLocationCodeChange,
     onCapturePatternChange,
     onUserChange,
     onPasswordChange,
@@ -26,9 +26,9 @@ export const AddLocation = (props: {
         }
       />
       <InputField
-        title={useOrganizationalStructureLocales("addLocation.cameraCode")}
+        title={useOrganizationalStructureLocales("addLocation.locationCode")}
         onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-          onCameraCodeChange(ev.target.value)
+          onLocationCodeChange(ev.target.value)
         }
       />
       <InputField

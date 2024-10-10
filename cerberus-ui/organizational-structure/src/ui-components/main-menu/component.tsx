@@ -32,7 +32,7 @@ export const DrawerMenu = (props: {logo}) => {
               fullWidth
               className="submit-btn"
               onClick={AddLocationModal()}>
-              Afegir
+              Afegir Node Arrel
             </Button>
             {<OrganizationalStructureTreeNode />}
           </div>

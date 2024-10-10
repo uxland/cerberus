@@ -15,19 +15,20 @@ export const AddLocationModal = () => {
 
   const [formData, setFormData] = useState<{
     locationDescription: string;
-    cameraCode: string;
+    locationCode: string;
     user: string;
     password: string;
     capturePattern: string;
   }>({
     locationDescription: "",
-    cameraCode: "",
+    locationCode: "",
     user: "",
     password: "",
     capturePattern: "",
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
+    console.log(field, value);
     setFormData((prev) => ({...prev, [field]: value}));
   };
 
@@ -37,8 +38,8 @@ export const AddLocationModal = () => {
       const location = await mediator.send(
         new AddLocationCommand(
           undefined,
+          formData.locationCode,
           formData.locationDescription,
-          formData.cameraCode,
           formData.capturePattern,
           {username: formData.user, password: formData.password}
         )
@@ -58,7 +59,7 @@ export const AddLocationModal = () => {
       content: () => (
         <AddLocation
           onLocationDescriptionChange={handleChange("locationDescription")}
-          onCameraCodeChange={handleChange("cameraCode")}
+          onLocationCodeChange={handleChange("locationCode")}
           onCapturePatternChange={handleChange("capturePattern")}
           onUserChange={handleChange("user")}
           onPasswordChange={handleChange("password")}
