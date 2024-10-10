@@ -1,8 +1,10 @@
 import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
+import {Tooltip} from "@mui/material";
 import Button from "@mui/material/Button";
 import SvgIcon from "@mui/material/SvgIcon";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
+import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
 import {AddCamera} from "../../ui-components/add-camera/component.tsx";
 import {AddMenu} from "../../ui-components/add-menu/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
@@ -83,29 +85,16 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
           <TreeNode key={child.id} node={child} />
         ))}
       </TreeItem>
-      <AddMenu onAddLocation={AddLocationModal()} onAddCamera={openModal} />
-      {!hasCameraChildren && node.type !== HierarchyItemType.camera && (
+      {node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
-          {/* <Tooltip
+          <Tooltip
             title={useOrganizationalStructureLocales("addLocation.title")}>
-            <AddMenu />
-          </Tooltip> */}
+            <AddMenu
+              onAddLocation={AddLocationModal(node.parentId)}
+              onAddCamera={openModal}
+            />
+          </Tooltip>
         </div>
-        // <div style={{marginLeft: "1.2rem"}}>
-        //   <Tooltip
-        //     title={useOrganizationalStructureLocales("addLocation.title")}>
-        //     <IconButton
-        //       sx={{margin: 0, padding: 0}}
-        //       onClick={AddLocationModal()}>
-        //       <AddIcon
-        //         color="primary"
-        //         sx={{
-        //           alignSelf: "center",
-        //         }}
-        //       />
-        //     </IconButton>
-        //   </Tooltip>
-        // </div>
       )}
     </div>
   );

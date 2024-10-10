@@ -9,7 +9,7 @@ import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 import {AddLocation} from "../../../ui-components/add-location/component";
 import {AddLocation as AddLocationCommand} from "./command";
 
-export const AddLocationModal = () => {
+export const AddLocationModal = (parentId: string) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
 
@@ -37,7 +37,7 @@ export const AddLocationModal = () => {
     try {
       const location = await mediator.send(
         new AddLocationCommand(
-          undefined,
+          parentId,
           formData.locationCode,
           formData.locationDescription,
           formData.capturePattern,
@@ -48,6 +48,7 @@ export const AddLocationModal = () => {
     } catch (e) {
       console.error(e.message);
     }
+    updateModal(null);
   };
 
   const openModal = () => {
