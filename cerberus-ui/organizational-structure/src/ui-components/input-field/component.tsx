@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 export const InputField = (props: {
   title: string;
   onChange: any;
+  required?: boolean;
   value?: string;
 }) => {
   return (
@@ -13,6 +14,7 @@ export const InputField = (props: {
         value={props.value}
         onChange={props.onChange}
         variant="outlined"
+        required={props.required === true ? true : false}
         sx={{
           width: "100%",
           height: "50px",

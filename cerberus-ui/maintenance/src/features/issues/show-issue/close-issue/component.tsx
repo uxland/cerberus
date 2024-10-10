@@ -1,3 +1,4 @@
+import {notificationService} from '@cerberus/core';
 import {Button, Divider, Paper, Typography} from '@mui/material';
 import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
@@ -18,13 +19,24 @@ export const CloseIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  const successMessage: string = useMaintenanceLocales(
+    'openIssuesForm.notification.close.onSuccess'
+  );
+  const errorMessage: string = useMaintenanceLocales(
+    'openIssuesForm.notification.close.onError'
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     try {
       await new Mediator().send(new CloseIssue(issue.id, comment));
+      notificationService.notifySuccess(successMessage);
       setSuccess(true);
     } catch (e) {
+      notificationService.notifyError(errorMessage);
       setError(e);
     } finally {
       setIsSubmitting(false);

@@ -9,6 +9,7 @@ import {GetLocationSettings} from "./query.ts";
 export const LocationSettingsView = (props: {
   id: string;
   type: HierarchyItemType;
+  content: (settings: LocationSettings) => JSX.Element;
 }) => {
   const [settings, setSettings] = useState<LocationSettings | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ export const LocationSettingsView = (props: {
     <div>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
-      {settings && LocationSettingsComponent(settings)}
+      {settings && props.content(settings)}
     </div>
   );
 };

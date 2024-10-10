@@ -1,7 +1,9 @@
+import {notificationService} from '@cerberus/core';
 import {Button, Divider, Paper, Typography} from '@mui/material';
 import {format} from 'date-fns';
 import {Mediator} from 'mediatr-ts';
 import {useState} from 'react';
+import {useMaintenanceLocales} from '../../../../locales/ca/locales.ts';
 import {
   FilterResult,
   CaptureError as ICaptureError,
@@ -14,13 +16,24 @@ export const StartIssueForm = (props: {issue: MaintenanceIssueDetail}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  const successMessage: string = useMaintenanceLocales(
+    'openIssuesForm.notification.open.onSuccess'
+  );
+  const errorMessage: string = useMaintenanceLocales(
+    'openIssuesForm.notification.open.onError'
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     try {
       await new Mediator().send(new StartIssue(issue.id));
+      notificationService.notifySuccess(successMessage);
       setSuccess(true);
     } catch (e) {
+      notificationService.notifyError(errorMessage);
       setError(e);
     } finally {
       setIsSubmitting(false);

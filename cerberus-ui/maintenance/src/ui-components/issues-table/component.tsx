@@ -20,6 +20,7 @@ import {
   MaintenanceIssueSummary,
   getIssueUrl,
 } from '../../features/issues/list-open-issues/model';
+import {MaintenanceIssueStatus} from '../../features/issues/model';
 import {useMaintenanceLocales} from '../../locales/ca/locales';
 import {NoData} from '../no-data/component';
 
@@ -99,13 +100,22 @@ const OpenIssueRow = (props: {issue: MaintenanceIssueSummary}) => {
       <TableCell size='small' component='th' scope='row' align='center'>
         {props.issue.cameraId}
       </TableCell>
-      <TableCell size='small' component='th' scope='row' align='center'>
+      <TableCell
+        size='small'
+        component='th'
+        scope='row'
+        align='center'
+        className={
+          props.issue.status === MaintenanceIssueStatus.open
+            ? '!text-success'
+            : '!text-warning'
+        }>
         {props.issue.status}
       </TableCell>
-      <TableCell size='small' align='center'>
+      <TableCell size='small' component='th' scope='row' align='center'>
         450
       </TableCell>
-      <TableCell size='small' align='center'>
+      <TableCell size='small' component='th' scope='row' align='center'>
         {formatDateString(props.issue.createdAt)}
       </TableCell>
       <Tooltip
@@ -113,11 +123,19 @@ const OpenIssueRow = (props: {issue: MaintenanceIssueSummary}) => {
         placement='right-start'
         arrow
         sx={{top: '226px'}}>
-        <TableCell size='small' align='center' className='w-96 max-w-60'>
+        <TableCell
+          size='small'
+          component='th'
+          scope='row'
+          align='center'
+          className='w-96 max-w-60'>
           {props.issue.summary}
         </TableCell>
       </Tooltip>
-      <TableCell align='center'>{`${splitAndChooseDescription(
+      <TableCell
+        align='center'
+        component='th'
+        scope='row'>{`${splitAndChooseDescription(
         props.issue.description,
         'first'
       )}`}</TableCell>
