@@ -1,28 +1,28 @@
 import {
   OpenIssuesView,
   PendingTrainingReviewsView,
-} from '@cerberus/maintenance';
-import {Box} from '@mui/material';
-import {useState} from 'react';
-import {useLocation, useParams} from 'react-router-dom';
-import {HeaderComponent, TabsBar} from '../../../ui-components';
-import {HierarchyItemType} from '../../state/hierarchy-item.ts';
-import {CameraCapturesView} from './list-camera-captures/component';
-import {TabPanelProps} from './model.ts';
-import {SettingsView} from './show-location-settings/component';
-import {LocationSettingsTable} from './show-location-settings/show-location-table/component.tsx';
+} from "@cerberus/maintenance";
+import {Box} from "@mui/material";
+import {useState} from "react";
+import {useLocation, useParams} from "react-router-dom";
+import {HeaderComponent, TabsBar} from "../../../ui-components";
+import {HierarchyItemType} from "../../state/hierarchy-item.ts";
+import {CameraCapturesView} from "./list-camera-captures/component";
+import {TabPanelProps} from "./model.ts";
+import {LocationSettingsView} from "./show-location-settings/component";
+import {LocationSettingsTable} from "./show-location-settings/show-location-table/component.tsx";
 export const LocationPage = () => {
   const {id} = useParams();
   const query = new URLSearchParams(useLocation().search);
   const itemType =
-    (query.get('item-type') as HierarchyItemType) || HierarchyItemType.location;
+    (query.get("item-type") as HierarchyItemType) || HierarchyItemType.location;
 
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
-    <div className='flex flex-col flex-1 w-full '>
-      <SettingsView id={id} type={itemType} content={HeaderComponent} />
-      <div className='flex flex-col flex-1 w-full gap-4'>
+    <div className="flex flex-col flex-1 w-full ">
+      <LocationSettingsView id={id} type={itemType} content={HeaderComponent} />
+      <div className="flex flex-col flex-1 w-full gap-4">
         <TabsBar
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
@@ -35,7 +35,7 @@ export const LocationPage = () => {
           <PendingTrainingReviewsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={4}>
-          <SettingsView
+          <LocationSettingsView
             id={id}
             type={itemType}
             content={LocationSettingsTable}
@@ -53,7 +53,7 @@ const CustomTabPanel = (props: TabPanelProps) => {
   const {children, value, index, ...other} = props;
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}

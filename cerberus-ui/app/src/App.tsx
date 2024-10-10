@@ -3,6 +3,8 @@ import {OrganizationalStructureTreeNode} from "@cerberus/organizational-structur
 import {Box, ThemeProvider, Typography} from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
+import {Mediator} from "mediatr-ts";
+import {useEffect} from "react";
 import {connect} from "react-redux";
 import {
   Link,
@@ -11,9 +13,6 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-// import 'react-toastify/dist/ReactToastify.css';
-import {Mediator} from "mediatr-ts";
-import {useEffect} from "react";
 import Logo from "./assets/logo/instrumenta.png";
 import {SetNavigation} from "./navigation/set-navigation.ts";
 import theme from "./styles/mui/theme";
@@ -23,13 +22,15 @@ export const App = ({routes}) => {
     return <div>Loading...</div>;
   }
 
+  // set navigation esta donant un error en use de hooks
   useEffect(() => {
     new Mediator().send(new SetNavigation(useNavigate)).then(nop);
   }, []);
+
   return (
-    <Router>
+    <ThemeProvider theme={theme}>
       <Box sx={{display: "flex", width: "100%"}}>
-        <ThemeProvider theme={theme}>
+        <Router>
           <Drawer
             PaperProps={{sx: {width: "20vw"}}}
             anchor="left"
@@ -76,9 +77,9 @@ export const App = ({routes}) => {
             </Routes>
           </Box>
           <Toasts />
-        </ThemeProvider>
+        </Router>
       </Box>
-    </Router>
+    </ThemeProvider>
   );
 };
 

@@ -21,6 +21,7 @@
     "@uxland/ioc": "^1.0.0",
     "@reduxjs/toolkit": "^2.2.5",
     "@mui/material": "^5.14.12",
+    "react-hooks-outside": "^1.0.3",
     "axios": "^1.7.2",
     "inversify": "^6.0.2",
     "inversify-inject-decorators": "^3.1.0",

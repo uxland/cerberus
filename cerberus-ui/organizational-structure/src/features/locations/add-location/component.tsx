@@ -1,0 +1,93 @@
+import {
+  useUpdateModal,
+  useUpdateModalActions,
+} from "@cerberus/core/src/providers";
+import {Button} from "@mui/material";
+import {Mediator} from "mediatr-ts";
+import {useEffect, useState} from "react";
+import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
+import {AddLocation} from "../../../ui-components/add-location/component";
+import {AddLocation as AddLocationCommand} from "./command";
+
+export const AddLocationModal = () => {
+  const updateModal = useUpdateModal();
+  const updateModalActions = useUpdateModalActions();
+
+  const [formData, setFormData] = useState<{
+    locationDescription: string;
+    cameraCode: string;
+    user: string;
+    password: string;
+    capturePattern: string;
+  }>({
+    locationDescription: "",
+    cameraCode: "",
+    user: "",
+    password: "",
+    capturePattern: "",
+  });
+
+  const handleChange = (field: keyof typeof formData) => (value: string) => {
+    setFormData((prev) => ({...prev, [field]: value}));
+  };
+
+  const handleSubmit = async () => {
+    const mediator = new Mediator();
+    try {
+      const location = await mediator.send(
+        new AddLocationCommand(
+          undefined,
+          formData.locationDescription,
+          formData.cameraCode,
+          formData.capturePattern,
+          {username: formData.user, password: formData.password}
+        )
+      );
+      console.log(location);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
+
+  const openModal = () => {
+    updateModal({
+      title: "Afegir una nova localització",
+      maxWidth: "lg",
+      closeAction: true,
+      className: "",
+      content: () => (
+        <AddLocation
+          onLocationDescriptionChange={handleChange("locationDescription")}
+          onCameraCodeChange={handleChange("cameraCode")}
+          onCapturePatternChange={handleChange("capturePattern")}
+          onUserChange={handleChange("user")}
+          onPasswordChange={handleChange("password")}
+        />
+      ),
+    });
+  };
+
+  useEffect(() => {
+    if (formData.locationDescription) {
+      updateModalActions([
+        {
+          id: "submit",
+          sort: 0,
+          content: () => (
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              fullWidth
+              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
+              onClick={handleSubmit}>
+              {useOrganizationalStructureLocales("addLocation.submitBtn")}
+            </Button>
+          ),
+        },
+      ]);
+    }
+  }, [formData]);
+
+  return openModal;
+};
