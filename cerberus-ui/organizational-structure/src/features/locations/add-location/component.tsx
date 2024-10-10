@@ -1,3 +1,4 @@
+import {notificationService} from "@cerberus/core";
 import {
   useUpdateModal,
   useUpdateModalActions,
@@ -28,9 +29,15 @@ export const AddLocationModal = (parentId: string) => {
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
-    console.log(field, value);
     setFormData((prev) => ({...prev, [field]: value}));
   };
+
+  const successMessage: string = useOrganizationalStructureLocales(
+    "addLocation.notifcation.success"
+  );
+  const errorMessage: string = useOrganizationalStructureLocales(
+    "addLocation.notifcation.error"
+  );
 
   const handleSubmit = async () => {
     const mediator = new Mediator();
@@ -44,8 +51,9 @@ export const AddLocationModal = (parentId: string) => {
           {username: formData.user, password: formData.password}
         )
       );
-      console.log(location);
+      notificationService.notifySuccess(successMessage);
     } catch (e) {
+      notificationService.notifyError(errorMessage, e.message);
       console.error(e.message);
     }
     updateModal(null);
@@ -70,7 +78,7 @@ export const AddLocationModal = (parentId: string) => {
   };
 
   useEffect(() => {
-    if (formData.locationCode && formData.locationDescription) {
+    if (formData.locationCode || formData.locationDescription) {
       updateModalActions([
         {
           id: "submit",

@@ -40,6 +40,10 @@ export const locales = {
       password: "Contrasenya",
       submitBtn: "Afegir",
       addBtn: "Afegir Localització",
+      notifcation: {
+        success: "Localització afegida correctament",
+        error: "Error al afegir Localització",
+      },
     },
     addCamera: {
       title: "Afegir un nou Dispositiu",
@@ -50,6 +54,10 @@ export const locales = {
       placeholder: "Afegir ",
       submitBtn: "Afegir",
       addBtn: "Afegir Dispositiu",
+      notifcation: {
+        success: "Dispositiu afegit correctament",
+        error: "Error al afegir Dispositiu",
+      },
     },
     addMenu: {
       title: "Afegir Localitzacio o Dispositiu",
