@@ -1,6 +1,6 @@
 ﻿services:
   postgres:
-    image: postgres:16
+    image: postgres:17
     environment:
       POSTGRES_USER: cerberus
       POSTGRES_PASSWORD: cerberus
@@ -9,6 +9,35 @@
       - ./init-db:/docker-entrypoint-initdb.d
     ports:
       - "6543:5432"
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    environment:
+        KEYCLOAK_ADMIN: cerberus
+        KEYCLOAK_ADMIN_PASSWORD: cerberus
+        KEYCLOAK_IMPORT: /opt/keycloak/data/import/cerberus-realm.json
+
+    ports:
+      - "8443:8443"
+      - "8888:8080"
+    volumes:
+      - ./keycloak/config/cerberus-realm.json:/opt/keycloak/data/import/cerberus-realm.json
+      - ./keycloak/certs/keycloak.p12:/opt/keycloak/conf/keycloak.p12
+    command:
+      - "start"
+      - '--https-port=8443'
+      - '--https-key-store-file=/opt/keycloak/conf/keycloak.p12'
+      - '--https-key-store-password=password'
+      - '--https-key-store-type=PKCS12'
+      - '--hostname=keycloak'
+      - '--import-realm'
+    extra_hosts:
+      - 'cerberus-react-ui:host-gateway'  # Ensure your React app hostname is resolvable
+      - "host.docker.internal:host-gateway"
+        
+    depends_on:
+      - postgres
+    links:
+      - postgres
   cerberus-back:
     build:
       context: .
@@ -34,3 +63,9 @@ volumes:
       type: none
       o: bind
       device: ./Snapshots
+  keycloak_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./keycloak

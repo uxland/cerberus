@@ -43,6 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		cerberus-setup.ps1 = cerberus-setup.ps1
 		LocationsLoadFile.xlsx = LocationsLoadFile.xlsx
 		init-db\1-init-quartz.sql = init-db\1-init-quartz.sql
+		certs\keycloak.conf = certs\keycloak.conf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOfficePersistence", "src\core\BackOfficePersistence\BackOfficePersistence.csproj", "{D8FC1408-B744-429E-98CD-6A7B28A30C4F}"
