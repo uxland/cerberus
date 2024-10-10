@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.GetCameraDetail;
@@ -14,6 +15,7 @@ public class CamerasController(ICameraEntityQueryProvider entityQueryProvider): 
         ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Camera)),
         ProducesResponseType(StatusCodes.Status404NotFound),
     ]
+    [Authorize]
     public async Task<IActionResult> GetCameraDetail(string cameraId)
     {
         var camera = await entityQueryProvider.Rehydrate(cameraId);

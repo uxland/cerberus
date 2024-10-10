@@ -1,7 +1,9 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
 using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.GetHierarchyItem;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
+using Cerberus.BackOffice.Features.Shared;
 using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -14,14 +16,9 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
 {
     public const string AppendLocationsCommand = "application/json;domain-model=AppendLocations;version=1.0.0";
     public const string AppendLocationCommand = "application/json;domain-model=AppendLocation;version=1.0.0";
-    //[HttpPost]
-    //[Consumes(AppendLocationsCommand)]
-    /*public Task AppendLocations(AppendLocations command)
-    {
-        return sender.Send(command);
-    }*/
-
+    
     [HttpPost]
+    [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
     public async Task<IActionResult> AppendLocation([FromBody]AppendLocationRequest request)
     {
         var command = new CreateLocation(
@@ -37,6 +34,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
 
     }
     [HttpPost("batch")]
+    [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
     public async Task<IActionResult> AppendLocationsFromFile(IFormFile? file)
     {
         if (file == null || file.Length == 0)

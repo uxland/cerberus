@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.RetrieveChildrenItems;
@@ -11,6 +12,7 @@ public class RetrieveChildrenController(IHierarchyItemEntityQueryProvider entity
     [
         ProducesResponseType(StatusCodes.Status200OK),
     ]
+    [Authorize]
     public async Task<IEnumerable<HierarchyItem>> GetChildren(string parentId)
     {
         var parent = (string.IsNullOrEmpty(parentId) || parentId == "root") ? string.Empty : parentId;

@@ -1,4 +1,6 @@
 ﻿using Cerberus.Core.Domain;
+using Cerberus.Maintenance.Features.Features.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +9,7 @@ namespace Cerberus.Maintenance.Features.Features.TrainingReviews.GetTrainingRevi
 [ApiController]
 [Route("api/training-reviews")]
 [Produces("application/json")]
+[Authorize(Policy = MaintenancePolicies.Operations)]
 public class TrainingReviewsController: ControllerBase
 {
     public const string ProducesMediaType = "application/json;domain-model=Cerberus.Maintenance.TrainingReviewDetail;version=1.0";

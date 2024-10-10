@@ -1,6 +1,11 @@
 ﻿namespace Cerberus.BackOffice.Features.Shared;
 
-public class BackOfficeRoles
+public static class BackOfficeRoles
 {
-    
+    public const string BackofficeAdmin = "organization-structure::admin";
+}
+
+public static class BackOfficePolicies
+{
+    public const string User = "organization-structure::user";
 }

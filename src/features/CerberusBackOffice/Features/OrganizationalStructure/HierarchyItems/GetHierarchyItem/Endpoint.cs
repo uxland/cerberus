@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -12,6 +13,7 @@ public class HierarchItemsController(IMessageBus bus): ControllerBase
     [
         ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HierarchyItem)),
     ]
+    [Authorize]
     public async Task<IActionResult> GetHierarchyItem(string id)
     {
         var result = await bus.InvokeAsync<string?>(new GetHierarchyItem(id));

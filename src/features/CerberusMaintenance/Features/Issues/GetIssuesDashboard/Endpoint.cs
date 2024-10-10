@@ -1,5 +1,7 @@
 ﻿using Cerberus.Core.Domain;
 using Cerberus.Maintenance.Features.Features.Issues.ListByLocationPath;
+using Cerberus.Maintenance.Features.Features.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +18,7 @@ public class LocationsController : ControllerBase
         ProducesResponseType(StatusCodes.Status404NotFound),
         // Produces(ProducesMediaType)
     ]
+    [Authorize(Policy = MaintenancePolicies.User)]
     public async Task<IActionResult> ListByLocationPath(string locationPath, [FromServices]IReadModelQueryProvider entityQueryProvider)
     {
         var spec =  new IssueInLocationSpec(locationPath) & (new IssueStatusSpec(MaintenanceIssueStatus.Open));
