@@ -18,10 +18,10 @@ export const useMaintenanceLocales = (path: MaintenanceLocalesPath) => {
 export const locales = {
   [moduleName]: {
     title: {
-      pendingReviews: "Pending reviews",
-      openIssues: "Open issues",
-      summaryChart: "Recent report",
-      errorsChart: "Recent report",
+      pendingReviews: "Revisions Pendents",
+      openIssues: "Incidències",
+      summaryChart: "Últims reports",
+      errorsChart: "Últims reports",
     },
     pendingReviewsTable: {
       id: "Id",
@@ -41,8 +41,24 @@ export const locales = {
       Actions: "Actions",
     },
     openIssuesForm: {
-      title: "Error description",
-      resolutionTime: "Resolution time",
+      title: "Error de la Descripció",
+      resolutionTime: "Temps de Resolució",
+      notification: {
+        open: {
+          onSuccess: "Incidència oberta correctament",
+          onError: "Error en començar inscidència",
+        },
+        close: {
+          onSuccess: "Incidència tancada correctament",
+          onError: "Error en tancar incidència",
+        },
+      },
+    },
+    trainingReviewForm: {
+      notification: {
+        onSuccess: "Dades enviades correctament",
+        onError: "Error en enviar dades",
+      },
     },
   },
 };

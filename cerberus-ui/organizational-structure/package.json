@@ -17,6 +17,7 @@
     "@cerberus/core": "workspace:^",
     "@cerberus/shared": "workspace:^",
     "@cerberus/maintenance": "workspace:^",
+    "class-validator": "^0.13.2",
     "@reduxjs/toolkit": "^2.2.5",
     "date-fns": "3.6.0",
     "@emotion/react": "^11.11.1",

@@ -172,6 +172,16 @@ const theme = createTheme(paletteTheme, {
               backgroundColor: "#ccc",
             },
           },
+          // Not used yet, will be used in the future
+          // "&.submit modal-btn": {
+          //   borderRadius: "1rem",
+          //   width: "13rem",
+          //   color: `${tailwindConfig.theme.colors.white}`,
+          //   "&.Mui-disabled": {
+          //     color: `${tailwindConfig.theme.colors.white}`,
+          //     backgroundColor: "#ccc",
+          //   },
+          // },
         },
       },
     },

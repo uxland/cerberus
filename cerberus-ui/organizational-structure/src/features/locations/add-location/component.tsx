@@ -1,3 +1,4 @@
+import {notificationService} from "@cerberus/core";
 import {
   useUpdateModal,
   useUpdateModalActions,
@@ -9,19 +10,19 @@ import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 import {AddLocation} from "../../../ui-components/add-location/component";
 import {AddLocation as AddLocationCommand} from "./command";
 
-export const AddLocationModal = () => {
+export const AddLocationModal = (parentId: string) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
 
   const [formData, setFormData] = useState<{
     locationDescription: string;
-    cameraCode: string;
+    locationCode: string;
     user: string;
     password: string;
     capturePattern: string;
   }>({
     locationDescription: "",
-    cameraCode: "",
+    locationCode: "",
     user: "",
     password: "",
     capturePattern: "",
@@ -31,22 +32,31 @@ export const AddLocationModal = () => {
     setFormData((prev) => ({...prev, [field]: value}));
   };
 
+  const successMessage: string = useOrganizationalStructureLocales(
+    "addLocation.notifcation.success"
+  );
+  const errorMessage: string = useOrganizationalStructureLocales(
+    "addLocation.notifcation.error"
+  );
+
   const handleSubmit = async () => {
     const mediator = new Mediator();
     try {
-      const location = await mediator.send(
+      await mediator.send(
         new AddLocationCommand(
-          undefined,
+          parentId,
+          formData.locationCode,
           formData.locationDescription,
-          formData.cameraCode,
           formData.capturePattern,
           {username: formData.user, password: formData.password}
         )
       );
-      console.log(location);
+      notificationService.notifySuccess(successMessage);
     } catch (e) {
+      notificationService.notifyError(errorMessage, e.message);
       console.error(e.message);
     }
+    updateModal(null);
   };
 
   const openModal = () => {
@@ -58,18 +68,13 @@ export const AddLocationModal = () => {
       content: () => (
         <AddLocation
           onLocationDescriptionChange={handleChange("locationDescription")}
-          onCameraCodeChange={handleChange("cameraCode")}
+          onLocationCodeChange={handleChange("locationCode")}
           onCapturePatternChange={handleChange("capturePattern")}
           onUserChange={handleChange("user")}
           onPasswordChange={handleChange("password")}
         />
       ),
-    });
-  };
-
-  useEffect(() => {
-    if (formData.locationDescription) {
-      updateModalActions([
+      actions: [
         {
           id: "submit",
           sort: 0,
@@ -79,14 +84,38 @@ export const AddLocationModal = () => {
               size="small"
               color="success"
               fullWidth
-              className="!rounded-2xl !w-52 !text-white !bg-[#02bc77]"
+              disabled={!formData.locationCode || !formData.locationDescription}
+              className="!rounded-2xl !w-52 !text-white !bg-[#afafaf]"
               onClick={handleSubmit}>
               {useOrganizationalStructureLocales("addLocation.submitBtn")}
             </Button>
           ),
         },
-      ]);
-    }
+      ],
+    });
+  };
+
+  useEffect(() => {
+    updateModalActions([
+      {
+        id: "submit",
+        sort: 0,
+        content: () => (
+          <Button
+            variant="contained"
+            size="small"
+            color="success"
+            fullWidth
+            className={`!rounded-2xl !w-52 !text-white ${
+              formData.locationDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
+            }`}
+            disabled={!formData.locationCode || !formData.locationDescription}
+            onClick={handleSubmit}>
+            {useOrganizationalStructureLocales("addLocation.submitBtn")}
+          </Button>
+        ),
+      },
+    ]);
   }, [formData]);
 
   return openModal;

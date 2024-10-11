@@ -2,7 +2,7 @@ import {store} from "@cerberus/core";
 import {ApiClient} from "@cerberus/shared/src";
 import {inject, injectable} from "inversify";
 import {IRequestHandler} from "mediatr-ts";
-import {HierarchyItem, LocationNode} from "../../state/hierarchy-item.ts";
+import {LocationNode} from "../../state/hierarchy-item.ts";
 import {appendLocationItem} from "../../state/reducer.ts";
 import {AddLocation} from "./command.ts";
 
@@ -13,18 +13,16 @@ export class AddLocationHandler
   constructor(@inject(ApiClient) private apiClient: ApiClient) {}
 
   async handle(command: AddLocation): Promise<LocationNode> {
-    console.log("HANDLER: Add location");
-
     const location = await this.createLocation(command);
     return await this.pushLocationToState(location);
   }
 
   private async createLocation(cmd: AddLocation): Promise<LocationNode> {
     try {
-      const location = await this.apiClient.post<HierarchyItem>("/locations", {
+      const location = await this.apiClient.post<string>("/locations", {
         body: cmd as any,
       });
-      return {...location, children: []};
+      return {...JSON.parse(location), children: []};
     } catch (e) {
       console.log(e);
 

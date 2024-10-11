@@ -1,11 +1,12 @@
 import {
   Fetching,
   getRouteComponent,
+  Toasts,
   initializeHooks,
   keycloak, keycloakInitConfig,
   nop, refreshToken,
 } from "@cerberus/core";
-import {DrawerMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
+import {MainMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
 import {Box, ThemeProvider} from "@mui/material";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
 import {Mediator} from "mediatr-ts";
@@ -38,7 +39,7 @@ export const App = ({routes}) => {
     <ThemeProvider theme={theme}>
       <Box sx={{display: "flex", width: "100%"}}>
         <Router>
-          <DrawerMenu logo={Logo} />
+          <MainMenu logo={Logo} />
           <Box
             sx={{
               width: "100%",
@@ -59,6 +60,7 @@ export const App = ({routes}) => {
               })}
             </Routes>
           </Box>
+          <Toasts />
         </Router>
       </Box>
     </ThemeProvider>

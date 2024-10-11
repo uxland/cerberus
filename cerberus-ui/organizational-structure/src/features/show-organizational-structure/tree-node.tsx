@@ -1,10 +1,12 @@
 import {useUpdateModal} from "@cerberus/core/src/providers/ModalProvider.tsx";
-import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import {Button, IconButton, SvgIcon, Tooltip, Typography} from "@mui/material";
+import {Tooltip} from "@mui/material";
+import Button from "@mui/material/Button";
+import SvgIcon from "@mui/material/SvgIcon";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
 import {AddCamera} from "../../ui-components/add-camera/component.tsx";
+import {AddMenu} from "../../ui-components/add-menu/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
 import {
   HierarchyItem,
@@ -13,6 +15,7 @@ import {
 } from "../state/hierarchy-item.ts";
 
 export const TreeNode = ({node}: {node: LocationNode}) => {
+  const updateModal = useUpdateModal();
   const icons = {
     camera: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -21,10 +24,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
     ),
   };
 
-  const updateModal = useUpdateModal();
-
   const openModal = () => {
-    console.log("MODAL: Afegir un nou dispositiu");
     updateModal({
       title: "Afegir un nou dispositiu",
       maxWidth: "lg",
@@ -82,35 +82,19 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         {node.children.map((child) => (
           <TreeNode key={child.id} node={child} />
         ))}
-        {hasCameraChildren && (
-          <div className="flex items-center  mt-2 ml-10">
-            <Tooltip
-              title={useOrganizationalStructureLocales("addLocation.addBtn")}>
-              <Typography
-                component="button"
-                variant="body1"
-                color="primary"
-                onClick={openModal}>
-                + Afegir dispositiu
-              </Typography>
-            </Tooltip>
-          </div>
-        )}
       </TreeItem>
-      {!hasCameraChildren && node.type !== HierarchyItemType.camera && (
+      {node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
           <Tooltip
             title={useOrganizationalStructureLocales("addLocation.title")}>
-            <IconButton
-              sx={{margin: 0, padding: 0}}
-              onClick={AddLocationModal()}>
-              <AddIcon
-                color="primary"
-                sx={{
-                  alignSelf: "center",
-                }}
+            <div>
+              <AddMenu
+                onAddCamera={openModal}
+                onAddLocation={AddLocationModal(
+                  node?.parentId === undefined ? "" : node?.id
+                )}
               />
-            </IconButton>
+            </div>
           </Tooltip>
         </div>
       )}
