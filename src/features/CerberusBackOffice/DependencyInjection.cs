@@ -2,6 +2,7 @@
 using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
+using Cerberus.BackOffice.Features.Shared;
 using Cerberus.MvcUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,19 @@ public static class DependencyInjection
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         return services
             .UseSharedOrganizationStructure()
-            .UseCaptureFeatures(configuration);
+            .UseCaptureFeatures(configuration)
+            .SetUpAuthorization();
+        
+        
+    }
+    
+    
+    private static IServiceCollection SetUpAuthorization(this IServiceCollection services)
+    {
+        return services.AddAuthorization(options =>
+        {
+            options.AddPolicy(BackOfficePolicies.User, policy => policy.RequireClaim("roles", BackOfficeRoles.BackofficeAdmin));
+        });
     }
     
     public static IMvcBuilder AddCerberusBackOfficeFeatures(this IMvcBuilder builder)

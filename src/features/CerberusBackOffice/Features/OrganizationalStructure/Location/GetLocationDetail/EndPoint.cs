@@ -1,4 +1,5 @@
 ﻿using Cerberus.Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ public class LocationsController(IEntityQueryProvider<Location> entityQueryProvi
         ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Location)),
         ProducesResponseType(StatusCodes.Status404NotFound)
     ]
+    [Authorize]
     public async Task<IActionResult> GetLocationDetail(string locationId)
     {
         var location = await entityQueryProvider.Rehydrate(locationId);
