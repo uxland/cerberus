@@ -34,7 +34,7 @@ export const locales = {
       title: "Afegir un nova Localizació",
       description: "Nom Localització",
       locationCode: "Codi de Localització",
-      capturePattern: "Pattern",
+      capturePattern: "Patró de Captura",
       placeholder: "Afegir ",
       user: "Usuari",
       password: "Contrasenya",
@@ -48,6 +48,7 @@ export const locales = {
     addCamera: {
       title: "Afegir un nou Dispositiu",
       name: "Nom Càmera",
+      capturePattern: "Patró de Captura",
       url: "URL",
       user: "Usuari",
       password: "Contrasenya",

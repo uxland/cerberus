@@ -1,57 +1,47 @@
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent} from "react";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
 import {InputField} from "../input-field/component";
 
-export const AddCamera = () => {
-  const [locationName, setLocationName] = useState<string>("");
-  const [user, setUser] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [url, setUrl] = useState<string>("");
-  const handleCameraNameChange = (
-    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setLocationName(ev.target.value);
-  };
-  const handleUrlChange = (
-    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setUrl(ev.target.value);
-  };
-  const handleUserChange = (
-    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setUser(ev.target.value);
-  };
-  const handlePasswordChange = (
-    ev: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setPassword(ev.target.value);
-  };
-
+export const AddCamera = (props: {
+  onCameraDescriptionChange: (value: string) => void;
+  onCapturePatternChange: (value: string) => void;
+  onUrlChange: (value: string) => void;
+  onUserChange: (value: string) => void;
+  onPasswordChange: (value: string) => void;
+}) => {
   return (
     <div className="flex flex-col gap-4">
       <InputField
         title={useOrganizationalStructureLocales("addCamera.name")}
-        value={locationName}
-        onChange={handleCameraNameChange}
         required
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          props.onCameraDescriptionChange(ev.target.value)
+        }
+      />
+      <InputField
+        title={useOrganizationalStructureLocales("addCamera.capturePattern")}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          props.onCapturePatternChange(ev.target.value)
+        }
       />
       <InputField
         title={useOrganizationalStructureLocales("addCamera.url")}
-        value={url}
-        onChange={handleUrlChange}
-        required
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          props.onUrlChange(ev.target.value)
+        }
       />
       <div className="flex gap-4">
         <InputField
           title={useOrganizationalStructureLocales("addCamera.user")}
-          value={user}
-          onChange={handleUserChange}
+          onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+            props.onUserChange(ev.target.value)
+          }
         />
         <InputField
           title={useOrganizationalStructureLocales("addCamera.password")}
-          value={password}
-          onChange={handlePasswordChange}
+          onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+            props.onPasswordChange(ev.target.value)
+          }
         />
       </div>
     </div>
