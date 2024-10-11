@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {OrganizationalStructureTreeNode} from "../../features";
 import {AddLocationModal} from "../../features/locations/add-location/component";
 
-export const DrawerMenu = (props: {logo}) => {
+export const MainMenu = (props: {logo}) => {
   return (
     <Drawer
       PaperProps={{sx: {width: "20vw"}}}

@@ -1,13 +1,17 @@
-import {getRouteComponent, keycloak, nop, Toasts} from "@cerberus/core";
-import {OrganizationalStructureTreeNode} from "@cerberus/organizational-structure";
-import {Box, ThemeProvider, Typography} from "@mui/material";
-import Drawer from "@mui/material/Drawer";
+import {
+  Fetching,
+  getRouteComponent,
+  keycloak,
+  nop,
+  Toasts,
+} from "@cerberus/core";
+import {MainMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
+import {Box, ThemeProvider} from "@mui/material";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
 import {Mediator} from "mediatr-ts";
 import {useEffect} from "react";
 import {connect} from "react-redux";
 import {
-  Link,
   Route,
   BrowserRouter as Router,
   Routes,
@@ -19,7 +23,7 @@ import theme from "./styles/mui/theme";
 export const App = ({routes}) => {
   const {initialized} = useKeycloak();
   if (!initialized) {
-    return <div>Loading...</div>;
+    return <Fetching />;
   }
 
   // set navigation esta donant un error en use de hooks
@@ -31,31 +35,7 @@ export const App = ({routes}) => {
     <ThemeProvider theme={theme}>
       <Box sx={{display: "flex", width: "100%"}}>
         <Router>
-          <Drawer
-            PaperProps={{sx: {width: "20vw"}}}
-            anchor="left"
-            variant="permanent">
-            <Box color={"CaptionText"} gap={4}>
-              <div className="flex flex-col">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-center h-20 max-h-24">
-                    <Link to={"/"}>
-                      {<img className="h-14" src={Logo} alt={Logo} />}
-                    </Link>
-                  </div>
-                  <div className="flex p-6 bg-[#202020] justify-between">
-                    <div className="flex flex-col items-start p-1">
-                      <Typography variant="h3">115</Typography>
-                      <Typography variant="body1">Alertas Activas</Typography>
-                    </div>
-                  </div>
-                </div>
-                <div className="h-full">
-                  {<OrganizationalStructureTreeNode />}
-                </div>
-              </div>
-            </Box>
-          </Drawer>
+          <MainMenu logo={Logo} />
           <Box
             sx={{
               width: "100%",
