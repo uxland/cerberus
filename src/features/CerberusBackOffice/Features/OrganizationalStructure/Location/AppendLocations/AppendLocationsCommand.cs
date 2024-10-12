@@ -34,6 +34,6 @@ public record AppendLocationRequest(
     string? Id,
     string? ParentId,
     string Description,
-    string CapturePattern,
+    string? CapturePattern,
     CameraCredentials? CameraCredentials
     ): ICommand;
