@@ -11,13 +11,15 @@ public static class Handler
        var (maintenanceProcessId, capture) = command;
        var settings = await settingsProvider.GetCameraMaintenanceSettings(capture.CameraId);
        var filters = await queryProvider.List<Filter>();
-       var results = await filterExecutor.ExecuteFilters(filters, capture.SnapshotPath);
+       var results = await filterExecutor.ExecuteFilters(filters.Select(x => new MaintenanceAnalysisArgs(x, settings.AnalysisFiltersArgs.GetValueOrDefault(x.Id), AnalysisMode.Production, capture.SnapshotPath!)).ToList());
        return new MaintenanceAnalysisPerformed(maintenanceProcessId, results);
     }
     
 }
 
+public record MaintenanceAnalysisArgs( Filter Filter, dynamic? Args, AnalysisMode Mode, string FilePath);
+
 public interface IFiltersExecutor
 {
-    Task<List<FilterResult>> ExecuteFilters(IReadOnlyList<Filter> filters, string filePath);
+    Task<List<FilterResult>> ExecuteFilters(IReadOnlyList<MaintenanceAnalysisArgs> args);
 }

@@ -11,3 +11,6 @@ public class EntityNotFoundException(EntityNotFoundError error)
     {
     }
 }
+
+public class BusinessException(string message)
+    : Exception(message);

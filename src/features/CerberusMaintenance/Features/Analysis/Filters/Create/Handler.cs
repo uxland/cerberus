@@ -4,10 +4,10 @@ using NodaTime;
 namespace Cerberus.Maintenance.Features.Features.Analysis.Filters;
 
 
-public record CreateFilter(string Id, string Description, string Scripot): ICommand;
+public record CreateFilter(string Id, string Description, string Script, dynamic? DefaultArgs): ICommand;
 
 
-public record FilterCreated(string Description, string Script, string By, Instant At): IDomainEvent;
+public record FilterCreated(string Description, string Script, string By, Instant At, dynamic? DefaultArgs): IDomainEvent;
 
 public static class Handler
 {
@@ -23,12 +23,13 @@ public partial class Filter : IDomainEventHandler<FilterCreated>
     public Filter(CreateFilter command, string user, Instant at)
     {
         this.Id = command.Id;
-        this.ApplyUncommittedEvent(new FilterCreated(command.Description, command.Scripot, user, at));
+        this.ApplyUncommittedEvent(new FilterCreated(command.Description, command.Script, user, at, command.DefaultArgs));
     }
 
     public void Apply(FilterCreated @event)
     {
         this.Script = @event.Script;
         this.Description = @event.Description;
+        this.DefaultArgs = @event.DefaultArgs;
     }
 }

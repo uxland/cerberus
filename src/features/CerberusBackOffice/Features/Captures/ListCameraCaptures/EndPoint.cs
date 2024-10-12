@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Cerberus.BackOffice.Features.Captures.ListCameraCaptures;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Wolverine;
 
 namespace Cerberus.BackOffice.Features.Captures.GetCameraCaptures;
 
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-public class CamerasController(ICaptureQueryProvider captureQueryProvider): ControllerBase
+public class CamerasController(IMessageBus bus): ControllerBase
 {
     [
         HttpGet("{cameraId}/captures"),
@@ -15,7 +17,8 @@ public class CamerasController(ICaptureQueryProvider captureQueryProvider): Cont
     ]
     public async Task<IActionResult> GetCameraThumbnails(string cameraId)
     {
-       var result = await captureQueryProvider.GetCameraCaptures(cameraId);
+        var query = new ListCameraCapturesAsJson(cameraId);
+        var result = await bus.InvokeAsync<string>(query);
        return string.IsNullOrEmpty(result) ? NotFound() : Ok(result);
     }
 

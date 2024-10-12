@@ -4,6 +4,8 @@ using Cerberus.Maintenance.Features.Features.Issues;
 using Cerberus.Maintenance.Features.Features.Issues.GetDetail;
 using Cerberus.Maintenance.Features.Features.Issues.ListByLocationPath;
 using Cerberus.Maintenance.Features.Features.MaintenanceChecks;
+using Cerberus.Maintenance.Features.Features.Settings;
+using Cerberus.Maintenance.Features.Features.Settings.GetMaintenanceSettings;
 using Cerberus.Maintenance.Features.Features.TrainingReviews;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
 using Cerberus.Maintenance.Persistence.Projections;
@@ -46,6 +48,8 @@ public static class Bootstrapper
         marten.Projections.Snapshot<MaintenanceCheck>(SnapshotLifecycle.Inline);
         marten.Projections.Snapshot<MaintenanceIssue>(SnapshotLifecycle.Inline);
         marten.Projections.Snapshot<Filter>(SnapshotLifecycle.Inline);
+        marten.Projections.Snapshot<CameraMaintenanceSettings>(SnapshotLifecycle.Inline);
+        
         marten.Projections.Add<PendingTrainingReviewProjection>(ProjectionLifecycle.Async);
         marten.Projections.Add<TrainingReviewDetailProjection>(ProjectionLifecycle.Async);
         marten.Projections.Add<IssueDetailProjection>(ProjectionLifecycle.Async);
@@ -72,7 +76,6 @@ public static class Bootstrapper
         };
         options.Schema.For<PendingMaintenanceIssueSummary>()
             .Index(x => maintenanceIssueIndex, index => index.Name = "idx_pending_maintenance_issue_path_created_at");
-        
         
         return options;
     }

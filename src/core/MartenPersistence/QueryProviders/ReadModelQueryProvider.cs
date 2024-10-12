@@ -17,47 +17,49 @@ public class ReadModelQueryProvider(IQuerySession querySession) : IReadModelQuer
         return querySession.LoadAsync<TEntity>(id);
     }
 
-    public Task<string> ListAsJson<TEntity>(Specification<TEntity>? specification, params string[] orderby)
+    public Task<string> ListAsJson<TEntity>(Specification<TEntity>? specification, int? skip, int? take, params string[] orderBy)
         where TEntity : class, IEntity
     {
-        return BuildQuery(specification, orderby).ToJsonArray();
+        return BuildQuery(specification, skip, take, orderBy).ToJsonArray();
     }
 
     public Task<string> ProjectListAsJson<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection,
-        Specification<TEntity>? specification = null,
+        Specification<TEntity>? specification, int? skip, int? take,
         params string[] orderBy) where TEntity : class, IEntity
     {
-        return BuildProjectedQuery(projection, specification, orderBy)
+        return BuildProjectedQuery(projection, specification, skip, take, orderBy)
             .ToJsonArray();
     }
 
-    public Task<IReadOnlyList<TEntity>> List<TEntity>(Specification<TEntity>? specification, params string[] orderBy)
+    public Task<IReadOnlyList<TEntity>> List<TEntity>(Specification<TEntity>? specification, int? skip, int? take, params string[] orderBy)
         where TEntity : class, IEntity
     {
-        return BuildQuery(specification, orderBy)
+        return BuildQuery(specification, skip, take, orderBy)
             .ToListAsync();
     }
 
     public Task<IReadOnlyList<TResult>> ProjectList<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection,
-        Specification<TEntity>? specification = null, params string[] orderBy) where TEntity : class, IEntity
+        Specification<TEntity>? specification, int? skip, int? take, params string[] orderBy) where TEntity : class, IEntity
     {
-        return BuildProjectedQuery(projection, specification, orderBy)
+        return BuildProjectedQuery(projection, specification, skip, take, orderBy)
             .ToListAsync();
     }
 
     private IQueryable<TResult> BuildProjectedQuery<TEntity, TResult>(Expression<Func<TEntity, TResult>> projection,
-        Specification<TEntity>? specification, params string[] orderBy) where TEntity : class, IEntity
+        Specification<TEntity>? specification, int? skip, int? take, params string[] orderBy) where TEntity : class, IEntity
     {
-        return BuildQuery(specification, orderBy)
+        return BuildQuery(specification, skip, take, orderBy)
             .Select(projection);
     }
 
-    private IQueryable<TEntity> BuildQuery<TEntity>(Specification<TEntity>? specification, params string[] orderBy)
+    private IQueryable<TEntity> BuildQuery<TEntity>(Specification<TEntity>? specification, int? skip, int? take, params string[] orderBy)
         where TEntity : class, IEntity
     {
         IQueryable<TEntity> query = querySession.Query<TEntity>();
         query = specification != null ? query.Where(specification.ToExpression()) : query;
         query = orderBy.Length > 0 ? query.OrderBy(orderBy) : query;
+        query = skip.HasValue ? query.Skip(skip.Value) : query;
+        query = take.HasValue ? query.Take(take.Value) : query;
         return query;
     }
 }

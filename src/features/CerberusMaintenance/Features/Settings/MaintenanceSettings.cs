@@ -2,4 +2,4 @@
 
 namespace Cerberus.Maintenance.Features.Features.Settings;
 
-public record MaintenanceSettings(MaintenanceMode MaintenanceMode, List<string> AnalysisFilters);
+public record MaintenanceSettings(MaintenanceMode? MaintenanceMode, Dictionary<string, dynamic?> AnalysisFiltersArgs);

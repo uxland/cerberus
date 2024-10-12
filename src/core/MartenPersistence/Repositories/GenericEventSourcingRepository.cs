@@ -6,6 +6,11 @@ namespace Cerberus.Core.MartenPersistence.Repositories;
 public class GenericEventSourcingRepository(IDocumentSession session)
     : IGenericRepository
 {
+    public async Task<bool> Exists<TAggregateRoot>(string id) where TAggregateRoot : AggregateRoot, new()
+    {
+        var state = await session.Events.FetchStreamStateAsync(id);
+        return state != null;
+    }
 
     public async Task<TAggregateRoot?> Rehydrate<TAggregateRoot>(string id, long? version = null)
         where TAggregateRoot : AggregateRoot, new()
@@ -31,5 +36,4 @@ public class GenericEventSourcingRepository(IDocumentSession session)
     {
         session.Events.StartStream<TAggregateRoot>(aggregateRoot.Id, aggregateRoot.GetUncommittedEvents());
     }
-    
 }

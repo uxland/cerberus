@@ -28,9 +28,7 @@ public class SnapshotCapturer(
             await CaptureFrameWithTimeout(Path.Combine(_rootPath, rawPath),
                 arguments,
                 TimeSpan.FromSeconds(155), cancellationToken);
-            await Task.WhenAll(
-                CreateThumbnail(Path.Combine(_rootPath, rawPath), Path.Combine(_rootPath, thumbnailPath))
-            );
+            await CreateThumbnail(Path.Combine(_rootPath, rawPath), Path.Combine(_rootPath, thumbnailPath));
         }
         catch (HttpRequestException e) when (e.Message.Contains("401") || e.Message.Contains("403"))
         {
