@@ -48,11 +48,11 @@ def process_image(buffer, args, mode):
     laplacian_var = cv2.Laplacian(img_np, cv2.CV_64F).var()
     
     # Defineix un llindar per determinar si la imatge és borrosa
-    threshold = args.threshold  # Pots ajustar aquest valor segons les teves necessitats
+    threshold = args[""threshold""]  # Pots ajustar aquest valor segons les teves necessitats
     
     # Comprovem si la variança és inferior al llindar
 
-    success = laplacian_var >= threshold
+    success = laplacian_var < threshold
     if mode == 'Calibration':
         return MyObject(success, byte_array)
     else:
@@ -76,6 +76,7 @@ class MyObject:
         self.FilteredImage = filtered_image
 
 def process_image(buffer, args, mode):
+   
     # Convertim el bytearray a un buffer de tipus c_char (Ja no cal, ens passen directament el buffer)
     #buffer = (ctypes.c_char * len(byte_array)).from_buffer(byte_array)
     
@@ -84,7 +85,9 @@ def process_image(buffer, args, mode):
     
     # Aplicar binarització (exemple: umbral 128)
     #_, binary_result = cv2.threshold(img_np, 128, 255, cv2.THRESH_BINARY)
-    _, binary_result = cv2.threshold(img_np, args.threshold, args.arg2, cv2.THRESH_BINARY)
+    threshold = args[""threshold""]
+    arg2 = args[""arg2""]
+    _, binary_result = cv2.threshold(img_np, threshold, arg2, cv2.THRESH_BINARY)
     # Cerca de blobs (exemple: utilitzant SimpleBlobDetector)
     params = cv2.SimpleBlobDetector_Params()
     detector = cv2.SimpleBlobDetector_create(params)

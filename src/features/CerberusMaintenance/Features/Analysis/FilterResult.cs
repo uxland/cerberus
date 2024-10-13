@@ -8,7 +8,7 @@ public record FilterResult(
     Instant At,
     Duration ElapsedTime,
     bool Result,
-    byte[]? FilteredImageBuffer = null,
+    string? FilteredImageBase64 = null,
     string? ErrorMessage = null)
 {
     public bool IsError => !Result;

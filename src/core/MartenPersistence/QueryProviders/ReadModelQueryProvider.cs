@@ -57,7 +57,7 @@ public class ReadModelQueryProvider(IQuerySession querySession) : IReadModelQuer
     {
         IQueryable<TEntity> query = querySession.Query<TEntity>();
         query = specification != null ? query.Where(specification.ToExpression()) : query;
-        query = orderBy.Length > 0 ? query.OrderBy(orderBy) : query;
+        query = orderBy.Length > 0 ? query.OrderBy(orderBy.ToArray()) : query;
         query = skip.HasValue ? query.Skip(skip.Value) : query;
         query = take.HasValue ? query.Take(take.Value) : query;
         return query;

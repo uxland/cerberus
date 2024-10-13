@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using Cerberus.BackOffice.Features.Captures.ListCameraCaptures;
-using Cerberus.BackOffice.Features.Captures.RetrieveImage;
 using Cerberus.Core.Domain;
 using Cerberus.Core.Domain.Errors;
 using Cerberus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
@@ -18,9 +17,7 @@ public static class Handler
         { 
             var args = new MaintenanceAnalysisArgs(filter, command.Args, AnalysisMode.Calibration, snapshotPath);
             var executionResult = (await filtersExecutor.ExecuteFilters([args])).First();
-            var transformedImage = executionResult.FilteredImageBuffer != null ?  $"data:image/jpeg;base64,{Convert.ToBase64String(executionResult.FilteredImageBuffer)}" : null;
-            var originalImage = await bus.InvokeAsync<string>(new RetrieveImageAsBase64(snapshotPath));
-            results.Add(new CalibrateResult(executionResult.Result, originalImage, transformedImage));
+            results.Add(new CalibrateResult(executionResult.Result, snapshotPath, executionResult.FilteredImageBase64));
         });
         return results.ToList();
     }
@@ -37,7 +34,7 @@ public static class Handler
     
     private static Task<IReadOnlyList<string>> GetSnapshotPaths(string cameraId, int take, IMessageBus bus)
     {
-        var query = new ListCameraCaptureSnaphsotPaths(cameraId, Take: take, OrderBy: "at|desc");
+        var query = new ListCameraCaptureSnaphsotPaths(cameraId, Take: take, OrderBy: "At desc");
         return bus.InvokeAsync<IReadOnlyList<string>>(query);
     }
 }
