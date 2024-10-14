@@ -67,6 +67,7 @@ export const locales = {
       title: "Configuració Manteniment",
       status: "Estat",
       filter: "Filtre",
+      noFilters: "No hi ha filtres disponibles",
       calibrate: "Calibrar",
       changeType: "Canviar a ",
       type: {

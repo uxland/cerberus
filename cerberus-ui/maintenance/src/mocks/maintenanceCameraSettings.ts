@@ -15,3 +15,19 @@ export const maintenanceCameraSettingsMock = [
     },
   },
 ];
+
+export const maintenanceCameraSettingsMap = {
+  "maintenance-blurry-detection-script": {
+    description: "Blurry image detection",
+    args: {
+      threshold: 100,
+    },
+  },
+  "maintenance-no-blobs-detection-script": {
+    description: "No blobs detection",
+    args: {
+      arg2: 255,
+      threshold: 128,
+    },
+  },
+};
