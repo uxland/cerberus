@@ -6,7 +6,7 @@ public partial class CameraMaintenanceSettings
 {
     public void SetFilterArgs(SetCameraFilterArgs command)
     {
-        this.ApplyUncommittedEvent(new CameraFilterArgsSet(command.CameraId, command.FilterId, command.Args));
+        this.ApplyUncommittedEvent(new CameraFilterArgsSet(Utilities.GetCameraSettingsId(command.CameraId), command.FilterId, command.Args));
     }
 
     public void Apply(CameraFilterArgsSet @event)

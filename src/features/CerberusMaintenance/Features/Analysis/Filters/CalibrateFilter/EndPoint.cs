@@ -22,7 +22,7 @@ public class EndPoint(IMessageBus bus, ILogger<EndPoint> logger): ControllerBase
         };
         try
         {
-            var result = await bus.InvokeAsync<CalibrateResult>(cmd);
+            var result = await bus.InvokeAsync<IList<CalibrateResult>>(cmd);
             return Ok(result);
         }
         catch (Exception e)

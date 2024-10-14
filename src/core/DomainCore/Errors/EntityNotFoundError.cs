@@ -12,5 +12,7 @@ public class EntityNotFoundException(EntityNotFoundError error)
     }
 }
 
+public class EntityNotFoundException<TEntity>(string message): EntityNotFoundException(typeof(TEntity), message) where TEntity : Entity;
+
 public class BusinessException(string message)
     : Exception(message);

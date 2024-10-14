@@ -1,4 +1,6 @@
 ﻿using System.Dynamic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Cerberus.Core.Domain;
 using Cerberus.Maintenance.Features.Features.Analysis.Filters;
 using Cerberus.Maintenance.Features.Features.MaintenanceChecks;
@@ -16,7 +18,7 @@ public class MaintenanceSettingsProvider(IReadModelQueryProvider queryProvider) 
     private MaintenanceSettings CreateCameraSettings(CameraMaintenanceSettings settings, IEnumerable<Filter> filters)
     {
         var filterArgs = filters.ToDictionary(f => f.Id, f => MergeDynamicObjects(f.DefaultArgs, settings.Settings.AnalysisFiltersArgs.GetValueOrDefault(f.Id)));
-        return new MaintenanceSettings(settings.Settings.MaintenanceMode, filterArgs);
+        return settings.Settings with { AnalysisFiltersArgs = filterArgs };
     }
     private MaintenanceSettings CreateDefaultSettings(IEnumerable<Filter> filters)
     {
@@ -25,7 +27,7 @@ public class MaintenanceSettingsProvider(IReadModelQueryProvider queryProvider) 
     private async Task<(CameraMaintenanceSettings? CameraSettings, IReadOnlyList<Filter> Filters)> RetrieveSettingsAndFilters(string cameraId)
     {
         var filtersTask = queryProvider.List<Filter>();
-        var settingsTask = queryProvider.Rehydrate<CameraMaintenanceSettings>(cameraId);
+        var settingsTask = queryProvider.Rehydrate<CameraMaintenanceSettings>(Utilities.GetCameraSettingsId(cameraId));
         
         await Task.WhenAll(settingsTask, filtersTask);
        return new ValueTuple<CameraMaintenanceSettings?, IReadOnlyList<Filter>>(settingsTask.Result, filtersTask.Result);
@@ -33,17 +35,15 @@ public class MaintenanceSettingsProvider(IReadModelQueryProvider queryProvider) 
     
     private static dynamic MergeDynamicObjects(dynamic? obj1, dynamic? obj2)
     {
-        var result = new ExpandoObject() as IDictionary<string, object>;
-        if (obj1 != null)
-        {
-            foreach (var kvp in obj1)
-                result.Add(kvp.Key, kvp.Value);
-        }
-        if(obj2 != null)
-        {
-            foreach (var kvp in obj2)
-                result[kvp.Key] = kvp.Value;
-        }
-        return result;
+        var doc1 = JsonDocument.Parse(obj1.GetRawText());
+        var doc2 = JsonDocument.Parse(obj2.GetRawText());
+        var mergedObject = new JsonObject();
+        foreach (var property in doc1.RootElement.EnumerateObject())
+            mergedObject.Add(property.Name, JsonNode.Parse(property.Value.GetRawText()));
+        foreach (var property in doc2.RootElement.EnumerateObject())
+            mergedObject[property.Name] = JsonNode.Parse(property.Value.GetRawText());
+        using var mergedDoc = JsonDocument.Parse(mergedObject.ToString());
+        return mergedDoc.RootElement.Clone();
+        
     }
 }

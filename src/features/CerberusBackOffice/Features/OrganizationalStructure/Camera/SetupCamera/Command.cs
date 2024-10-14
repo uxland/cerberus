@@ -31,14 +31,6 @@ public class SetupLocationFactory : IHierarchySetupCommandFactoryItem
     }
 }
 
-public record CreateCamera(
-    string Id,
-    string ParentId,
-    string Description,
-    CameraAdminSettings? AdminSettings,
-    CameraFunctionalSettings? FunctionalSettings = null
-) : ICommand, IHierarchyItem;
-
 public record AppendCameraRequest(
     string? Id,
     string ParentId,
