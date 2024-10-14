@@ -48,9 +48,9 @@ public record AppendCameraRequest(
     CameraCredentials? CameraCredentials
 )
 {
-    public CreateCamera ToCreateCamera()
+    public SetupCameraCommand ToCreateCamera()
     {
-        return new CreateCamera(
+        return new SetupCameraCommand(
             Id ?? Guid.NewGuid().ToString(),
             ParentId,
             Description,

@@ -22,10 +22,10 @@ export class AddCameraHandler
       const camera = await this.apiClient.post<string>("/cameras", {
         body: cmd as any,
       });
-      return {...JSON.parse(camera), children: []};
+      return {...JSON.parse(camera)};
     } catch (e) {
       console.log(e);
-
+      throw e
       //Todo: handle error
     }
   }
