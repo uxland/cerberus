@@ -1,5 +1,5 @@
 import {HandlerBase} from "@cerberus/core";
-import {CalibrationResult} from "./model.ts";
+import {CalibrationResult, CameraFilterDetail} from "./model.ts";
 import {CalibrateCameraFilter, GetCameraFilterArgs, SetCameraFilterArgs} from "./command.ts";
 import {Mediator} from "mediatr-ts";
 import GetCameraMaintenanceSettings from "../view-camera-maintenance-settings/query.ts";
@@ -8,7 +8,7 @@ import {CameraMaintenanceSettings} from "../view-camera-maintenance-settings/mod
 
 export class GetCameraFilterArgsHandler extends HandlerBase<unknown, GetCameraFilterArgs>{
 
-    async handle(request: GetCameraFilterArgs): Promise<unknown> {
+    async handle(request: GetCameraFilterArgs): Promise<CameraFilterDetail> {
         const settings = await new Mediator().send<CameraMaintenanceSettings>(new GetCameraMaintenanceSettings(
             request.cameraId,
             () => {},
@@ -16,11 +16,12 @@ export class GetCameraFilterArgsHandler extends HandlerBase<unknown, GetCameraFi
             request.setBusy
         ));
         if(settings){
-            const ars = settings.settings.analysisFiltersArgs[request.filterId];
-            if(ars)
-                request.setState(ars);
+            const args = settings.settings.analysisFiltersArgs[request.filterId];
+            if(args)
+                request.setState(args);
             else
                 request.setError(new Error("Filternot found"));
+            return args as any;
         }
     }
 

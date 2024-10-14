@@ -3,7 +3,7 @@ import {Entity} from "@cerberus/shared/src";
 
 interface MaintenanceSettings {
     maintenanceMode: MaintenanceMode;
-    analysisFiltersArgs: {[key: string]: unknown};
+    analysisFiltersArgs: {[key: string]: {description: string, args: unknown}};
 }
 export interface CameraMaintenanceSettings extends Entity{
     settings: MaintenanceSettings;

@@ -1,8 +1,8 @@
-import {CalibrationResult} from "./model.ts";
+import {CalibrationResult, CameraFilterDetail} from "./model.ts";
 import {RequestBase, SetState} from "@cerberus/core";
 
 
-export class GetCameraFilterArgs extends RequestBase<unknown>{
+export class GetCameraFilterArgs extends RequestBase<CameraFilterDetail>{
    constructor(public cameraId: string, public filterId: string,
                setState: SetState<unknown>, setBusy: SetState<boolean>, setError: SetState<Error>,) {
        super(setState, setBusy, setError);
@@ -10,7 +10,7 @@ export class GetCameraFilterArgs extends RequestBase<unknown>{
 }
 
 
-export class CalibrateCameraFilter extends RequestBase<CalibrationResult> {
+export class CalibrateCameraFilter extends RequestBase<CalibrationResult[]> {
     constructor(public cameraId: string, public filterId: string, public args: unknown,
                 setState: SetState<CalibrationResult>, setBusy: SetState<boolean>, setError: SetState<Error>) {
         super(setState, setBusy, setError);

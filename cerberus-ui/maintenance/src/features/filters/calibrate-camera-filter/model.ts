@@ -4,3 +4,9 @@ export interface CalibrationResult {
     calibratedBase64Image?: string | undefined;
     errorMessage?: string | undefined;
 }
+
+export interface CameraFilterDetail{
+    filterDescription: string;
+    cameraDescription: string;
+    args: unknown
+}

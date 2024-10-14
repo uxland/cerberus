@@ -6,6 +6,7 @@ export enum TabPanelType {
   Analysis = 1,
   Settings = 2,
   Reports = 3,
+  MaintenanceSettings = 4,
 }
 
 export const TabsBar = (props: {
@@ -69,6 +70,10 @@ export const TabsBar = (props: {
         {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
+          {itemType === HierarchyItemType.camera && <CustomDivider />}
+          {itemType === HierarchyItemType.camera && (
+              <Tab label="Configuració manteniment" {...a11yProps(TabPanelType.MaintenanceSettings)} />
+          )}
       </Tabs>
     </Box>
   );
