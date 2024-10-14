@@ -23,12 +23,19 @@ export const locales = {
   [moduleName]: {
     views: {
       captures: "Captures",
+      camera: "Càmera",
+      location: "Localització",
+    },
+    upload: {
+      title: "Adjunta arxiu",
+      file: "Pujar arxiu",
     },
     tabs: {
       openIssues: "Incidències",
       pendingReviews: "Anàlisis",
       settings: "Configuració",
       reports: "Reports",
+      maintenancesSettings: "Configuració Manteniment",
     },
     addLocation: {
       title: "Afegir un nova Localizació",
@@ -46,7 +53,7 @@ export const locales = {
       },
     },
     addCamera: {
-      title: "Afegir un nou Dispositiu",
+      title: "Afegir una nova Càmera",
       name: "Nom Càmera",
       capturePattern: "Patró de Captura",
       url: "URL",
@@ -54,14 +61,14 @@ export const locales = {
       password: "Contrasenya",
       placeholder: "Afegir ",
       submitBtn: "Afegir",
-      addBtn: "Afegir Dispositiu",
+      addBtn: "Afegir Càmera",
       notifcation: {
-        success: "Dispositiu afegit correctament",
-        error: "Error al afegir Dispositiu",
+        success: "Càmera afegida correctament",
+        error: "Error al afegir Càmera",
       },
     },
     addMenu: {
-      title: "Afegir Localitzacio o Dispositiu",
+      title: "Afegir Localitzacio o Càmera",
     },
   },
 };

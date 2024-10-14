@@ -4,15 +4,18 @@ import {useLocalePath} from "@uxland/react-services";
 import {moduleName} from "../../constants";
 
 export type MaintenanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
-export const useMaintenanceLocales = (path: MaintenanceLocalesPath) => {
-  const globalPath = useLocalePath();
+export const useMaintenanceLocales = (
+  path: MaintenanceLocalesPath,
+  type?: string
+) => {
+  const localePath = useLocalePath();
   const locale = getNestedValue(locales[moduleName], path);
 
   if (!locale) {
     console.error(`Locale path "${path}" not found in locales.`);
     return "";
   }
-  return globalPath(locale);
+  return localePath(locale);
 };
 
 export const locales = {
@@ -26,19 +29,19 @@ export const locales = {
     pendingReviewsTable: {
       id: "Id",
       preview: "Preview",
-      date: "Date",
-      location: "Location",
+      date: "Data",
+      location: "Localització",
       Description: "Description",
-      Actions: "Actions",
+      Actions: "Accions",
     },
     openIssuesTable: {
       cameraId: "Id",
       status: "Status",
-      errorCode: "Code",
-      date: "Date",
-      summary: "Summary",
-      location: "Location",
-      Actions: "Actions",
+      errorCode: "Codi",
+      date: "Data",
+      summary: "Resum",
+      location: "Localització",
+      Actions: "Accions",
     },
     openIssuesForm: {
       title: "Error de la Descripció",
@@ -58,6 +61,17 @@ export const locales = {
       notification: {
         onSuccess: "Dades enviades correctament",
         onError: "Error en enviar dades",
+      },
+    },
+    maintenanceSettings: {
+      title: "Configuració Manteniment",
+      status: "Estat",
+      filter: "Filtre",
+      calibrate: "Calibrar",
+      changeType: "Canviar a ",
+      type: {
+        training: "Manteniment",
+        production: "Producció",
       },
     },
   },
