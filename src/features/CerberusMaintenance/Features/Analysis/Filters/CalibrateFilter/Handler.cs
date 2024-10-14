@@ -17,7 +17,7 @@ public static class Handler
         { 
             var args = new MaintenanceAnalysisArgs(filter, command.Args, AnalysisMode.Calibration, snapshotPath);
             var executionResult = (await filtersExecutor.ExecuteFilters([args])).First();
-            results.Add(new CalibrateResult(executionResult.Result, snapshotPath, executionResult.FilteredImageBase64));
+            results.Add(new CalibrateResult(executionResult.Result, snapshotPath, executionResult.FilteredImageBase64, executionResult.ErrorMessage));
         });
         return results.ToList();
     }

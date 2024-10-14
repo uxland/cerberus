@@ -52,9 +52,9 @@ def process_image(buffer, args, mode):
     
     # Comprovem si la variança és inferior al llindar
 
-    success = laplacian_var < threshold
+    success = bool (laplacian_var >= threshold)
     if mode == 'Calibration':
-        return MyObject(success, byte_array)
+        return MyObject(success, buffer)
     else:
         return MyObject(success, None)
     

@@ -7,10 +7,22 @@ import {
     notificationHandler,
     requestHandler,
 } from "mediatr-ts";
+import {inject, injectable} from "inversify";
+import {ApiClient} from "@cerberus/shared/src";
+import {NavigationService} from "../routing";
+import {SetState} from "../state";
 
 interface Constructor<T> {
     new (...args: any[]): T;
 }
+
+export interface CommandHandlerPair{
+    command: Constructor<IRequest<any>>;
+    handler: Constructor<IRequestHandler<any, any>>;
+}
+
+export const registerCommandHandlers = (handlers: CommandHandlerPair[]) => handlers.forEach(({ command, handler }) => registerCommandHandler(command, handler));
+
 export const registerCommandHandler = <
     TResponse,
     TCommand extends IRequest<TResponse>,
@@ -36,4 +48,20 @@ export const unregisterCommandHandler = <TResponse, TCommand extends IRequest<TR
 
 export const unregisterNotificationHandler = <TNotification extends INotification>(notificationConstructor: Constructor<TNotification>) => {
     media.mediatorSettings.resolver.remove(notificationConstructor.name);
+}
+
+@injectable()
+export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> implements IRequestHandler<TRequest, TResult> {
+    public constructor(@inject(ApiClient) protected apiClient: ApiClient, @inject(NavigationService) protected navigationService: NavigationService) {
+    }
+    abstract handle(request: TRequest): Promise<TResult>;
+}
+
+export abstract class RequestBase<TResult> implements IRequest<TResult> {
+    protected constructor(
+        public setState: SetState<TResult>,
+        public setBusy: SetState<boolean>,
+        public setError: SetState<Error>
+    ) {
+    }
 }

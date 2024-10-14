@@ -4,7 +4,8 @@ namespace Cerberus.Maintenance.Features.Features.Analysis.Filters.CalibrateFilte
 
 public record CalibrateResult(
     bool Success,
-    string OriginalBaseUrl,
-    string? CalibratedBase64Image 
+    string OriginalImageUrl,
+    string? CalibratedBase64Image,
+    string? ErrorMessage
     );
 public record CalibrateCameraFilter(string CameraId, string FilterId, int NumberOfCaptures, dynamic Args): ICommand<IList<CalibrateResult>>;
