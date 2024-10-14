@@ -7,8 +7,8 @@ import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddLocation} from "../../../ui-components/add-location/component";
 import {AddLocation as AddLocationCommand} from "./command";
+import {AddLocation} from "./form";
 
 export const AddLocationModal = (parentId: string) => {
   const updateModal = useUpdateModal();

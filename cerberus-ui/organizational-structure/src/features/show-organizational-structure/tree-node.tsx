@@ -1,9 +1,9 @@
-import {Tooltip} from "@mui/material";
 import SvgIcon from "@mui/material/SvgIcon";
+import Tooltip from "@mui/material/Tooltip";
 import {TreeItem} from "@mui/x-tree-view";
 import {Link} from "react-router-dom";
+import {AddMenu} from "../../components/AddMenu/AddMenu.tsx";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
-import {AddMenu} from "../../ui-components/add-menu/component.tsx";
 import {AddCameraModal} from "../cameras/add-camera/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
 import {

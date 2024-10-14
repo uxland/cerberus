@@ -1,12 +1,19 @@
 import {
   Fetching,
   getRouteComponent,
-  Toasts,
   initializeHooks,
-  keycloak, keycloakInitConfig,
-  nop, refreshToken,
+  keycloak,
+  keycloakInitConfig,
+  MainMenu,
+  nop,
+  refreshToken,
+  Toasts,
 } from "@cerberus/core";
-import {MainMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
+import {
+  UserAuthenticated,
+  UserLoggedOut,
+} from "@cerberus/core/src/auth/notifications.ts";
+import {createUser} from "@cerberus/core/src/auth/utilities.ts";
 import {Box, ThemeProvider} from "@mui/material";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
 import {Mediator} from "mediatr-ts";
@@ -21,8 +28,6 @@ import {
 import Logo from "./assets/logo/instrumenta.png";
 import {SetNavigation} from "./navigation/set-navigation.ts";
 import theme from "./styles/mui/theme";
-import {UserAuthenticated, UserLoggedOut} from "@cerberus/core/src/auth/notifications.ts";
-import {createUser} from "@cerberus/core/src/auth/utilities.ts";
 
 initializeHooks();
 export const App = ({routes}) => {
@@ -71,13 +76,14 @@ const mapStateToProps = (state: any) => ({
   routes: state.routes,
 });
 
-const eventHandlers ={
+const eventHandlers = {
   onReady: () => new Mediator().publish(new UserAuthenticated(createUser())),
   onTokenExpired: () => refreshToken(),
   onAuthLogout: new Mediator().publish(new UserLoggedOut()),
   onAuthRefreshError: () => new Mediator().publish(new UserLoggedOut()),
-  onAuthRefreshSuccess: () => new Mediator().publish(new UserAuthenticated(createUser()))
-}
+  onAuthRefreshSuccess: () =>
+    new Mediator().publish(new UserAuthenticated(createUser())),
+};
 
 const eventLogger = (event: string, error: unknown) => {
   console.log("onKeycloakEvent", event, error);

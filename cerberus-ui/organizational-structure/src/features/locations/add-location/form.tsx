@@ -1,6 +1,6 @@
+import {InputField} from "@cerberus/core/src/presentation/components/Input-field/InputField";
 import {ChangeEvent} from "react";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
-import {InputField} from "../input-field/component";
+import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 
 export const AddLocation = (props: {
   onLocationDescriptionChange: (value: string) => void;

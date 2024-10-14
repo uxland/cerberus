@@ -3,8 +3,8 @@ import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import {Link} from "react-router-dom";
-import {OrganizationalStructureTreeNode} from "../../features";
-import {AddLocationModal} from "../../features/locations/add-location/component";
+import {OrganizationalStructureTreeNode} from "../../../../../organizational-structure/src/features";
+import {AddLocationModal} from "../../../../../organizational-structure/src/features/locations/add-location/component";
 
 export const MainMenu = (props: {logo}) => {
   return (

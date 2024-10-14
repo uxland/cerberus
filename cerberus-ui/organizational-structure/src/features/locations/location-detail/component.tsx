@@ -5,7 +5,7 @@ import {
 import {Box} from "@mui/material";
 import {useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
-import {HeaderComponent, TabsBar} from "../../../ui-components";
+import {HeaderComponent, TabsBar} from "../../../components/index.ts";
 import {HierarchyItemType} from "../../state/hierarchy-item.ts";
 import {CameraCapturesView} from "./list-camera-captures/component";
 import {TabPanelProps} from "./model.ts";

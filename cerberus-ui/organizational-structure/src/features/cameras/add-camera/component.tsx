@@ -7,8 +7,8 @@ import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddCamera} from "../../../ui-components/add-camera/component";
 import {AddCamera as AddCameraCommand} from "./command";
+import {AddCamera} from "./form";
 
 export const AddCameraModal = (parentId: string) => {
   const updateModal = useUpdateModal();
