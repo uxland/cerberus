@@ -25,7 +25,7 @@ export class AddCameraHandler
       return {...JSON.parse(camera)};
     } catch (e) {
       console.log(e);
-
+      throw e
       //Todo: handle error
     }
   }
