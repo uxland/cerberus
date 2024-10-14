@@ -1,6 +1,6 @@
-import {Badge, Box, Divider, Tab, Tabs} from '@mui/material';
-import {HierarchyItemType} from '../../features/state/hierarchy-item';
-import {useOrganizationalStructureLocales} from '../../locales/ca/locales';
+import {Badge, Box, Divider, Tab, Tabs} from "@mui/material";
+import {HierarchyItemType} from "../../features/state/hierarchy-item";
+import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
 export enum TabPanelType {
   OpenIssues = 0,
   Analysis = 1,
@@ -20,27 +20,30 @@ export const TabsBar = (props: {
 
   const {itemType, selectedTab} = props;
 
-  const openIssuesLabel = useOrganizationalStructureLocales('tabs.openIssues');
+  const openIssuesLabel = useOrganizationalStructureLocales("tabs.openIssues");
   const pendingReviewsLabel = useOrganizationalStructureLocales(
-    'tabs.pendingReviews'
+    "tabs.pendingReviews"
   );
-  const settingsLabel = useOrganizationalStructureLocales('tabs.settings');
-  const reportsLabel = useOrganizationalStructureLocales('tabs.reports');
+  const settingsLabel = useOrganizationalStructureLocales("tabs.settings");
+  const reportsLabel = useOrganizationalStructureLocales("tabs.reports");
+  const maintenancesSettingsLabel = useOrganizationalStructureLocales(
+    "tabs.maintenancesSettings"
+  );
 
   return (
     <Box
       sx={{
-        width: '100%',
-        display: 'flex',
-        flex: '1',
-        flexDirection: 'row',
+        width: "100%",
+        display: "flex",
+        flex: "1",
+        flexDirection: "row",
         borderBottom: 1,
-        borderColor: 'divider',
+        borderColor: "divider",
       }}>
       <Tabs
         value={selectedTab}
         onChange={handleChange}
-        aria-label='organizational-tab'>
+        aria-label="organizational-tab">
         <Tab
           label={
             <CustomTabLabel
@@ -70,23 +73,26 @@ export const TabsBar = (props: {
         {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
-          {itemType === HierarchyItemType.camera && <CustomDivider />}
-          {itemType === HierarchyItemType.camera && (
-              <Tab label="Configuració manteniment" {...a11yProps(TabPanelType.MaintenanceSettings)} />
-          )}
+        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        {itemType === HierarchyItemType.camera && (
+          <Tab
+            label={maintenancesSettingsLabel}
+            {...a11yProps(TabPanelType.MaintenanceSettings)}
+          />
+        )}
       </Tabs>
     </Box>
   );
 };
 
 const CustomTabLabel = ({label, badgeContent, width}) => (
-  <Box display='flex' alignItems='center' minWidth={width} gap={2}>
+  <Box display="flex" alignItems="center" minWidth={width} gap={2}>
     <span>{label}</span>
     <Badge
       badgeContent={badgeContent}
-      overlap='circular'
-      color='error'
-      className='MuiBadge-badge'
+      overlap="circular"
+      color="error"
+      className="MuiBadge-badge"
     />
   </Box>
 );
@@ -95,13 +101,13 @@ const CustomDivider = () => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
       }}>
       <Divider
-        orientation='vertical'
-        variant='middle'
-        color='#828282'
+        orientation="vertical"
+        variant="middle"
+        color="#828282"
         flexItem
       />
     </Box>
@@ -111,6 +117,6 @@ const CustomDivider = () => {
 const a11yProps = (index: number) => {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 };

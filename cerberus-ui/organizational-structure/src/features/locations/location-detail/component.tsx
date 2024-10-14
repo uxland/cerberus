@@ -1,7 +1,7 @@
 import {
+  MaintenanceSettingsView,
   OpenIssuesView,
   PendingTrainingReviewsView,
-  MaintenanceSettingsView
 } from "@cerberus/maintenance";
 import {Box} from "@mui/material";
 import {useState} from "react";
@@ -45,8 +45,8 @@ export const LocationPage = () => {
         <CustomTabPanel value={selectedTab} index={6}>
           <CameraCapturesView id={id} />
         </CustomTabPanel>
-        <CustomTabPanel index={8} value={selectedTab}>
-            <MaintenanceSettingsView id={id} />
+        <CustomTabPanel value={selectedTab} index={8}>
+          <MaintenanceSettingsView id={id} />
         </CustomTabPanel>
       </div>
     </div>
