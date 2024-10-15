@@ -29,6 +29,7 @@
     "mediatr-ts": "^1.2.1",
     "react": "^18.3.1",
     "react-toastify": "^9.1.1",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "swiper": "^10.0.0"
   }
 }

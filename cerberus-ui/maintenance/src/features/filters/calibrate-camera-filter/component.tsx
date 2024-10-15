@@ -1,10 +1,15 @@
-import {CustomButton, InputField, nop} from "@cerberus/core";
+import {CustomButton, InputField, nop, Slider} from "@cerberus/core";
 import {Typography} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useMaintenanceLocales} from "../../../locales/ca/locales.ts";
+import {
+  calibrateResultMock,
+  filterToCalibrateMock,
+} from "../../../mocks/calibrateCameraFilter.ts";
 import {HeaderBar} from "../../../ui-components/index.ts";
+import {FilterCalibrationItem} from "../../../ui-components/maintenance-filter-calibration-item/component.tsx";
 import {
   CalibrateCameraFilter,
   GetCameraFilterArgs,
@@ -63,15 +68,6 @@ export const CalibrateCameraFilterPage = () => {
     new Mediator().send(command).then(nop);
   };
 
-  const dummyFilterToCalibrate: CameraFilterDetail = {
-    cameraDescription: "Barcelona 1",
-    filterDescription: "No blobs detection",
-    args: {
-      arg2: 255,
-      threshold: 128,
-    },
-  };
-
   return (
     <div className="flex flex-col w-full gap-6">
       <HeaderBar
@@ -94,7 +90,7 @@ export const CalibrateCameraFilterPage = () => {
                 console.log(e.target.value);
               }}
             />
-            {Object.keys(dummyFilterToCalibrate["args"]).map((arg) => (
+            {Object.keys(filterToCalibrateMock["args"]).map((arg) => (
               <InputField
                 key={arg}
                 title={arg}
@@ -120,6 +116,9 @@ export const CalibrateCameraFilterPage = () => {
               />
             </div>
           </div>
+        </div>
+        <div className="flex">
+          <CalibrationSlider key={"slider"} results={calibrateResultMock} />
         </div>
       </div>
     </div>
@@ -159,5 +158,15 @@ const HeaderContent = (props: {
         </Typography>
       </div>
     </div>
+  );
+};
+
+const CalibrationSlider = ({results}: {results: CalibrationResult[]}) => {
+  return (
+    <Slider>
+      {results?.map((result, index) => (
+        <FilterCalibrationItem key={index} result={result} />
+      ))}
+    </Slider>
   );
 };

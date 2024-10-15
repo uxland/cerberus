@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {MaintenanceSettings} from "../../features/filters/view-camera-maintenance-settings/model.ts";
 import {MaintenanceMode} from "../../features/model";
 import {useMaintenanceLocales} from "../../locales/ca/locales";
-import {MaintenanceFilterSettingsItem} from "../maintenance-filter-settins-item/maintenance-filter-settings-item";
+import {MaintenanceFilterSettingsItem} from "../maintenance-filter-settings-item/maintenance-filter-settings-item.tsx";
 export const MaintenanceSettingsComponent = ({
   settings,
   cameraId,
@@ -65,12 +65,6 @@ export const MaintenanceSettingsComponent = ({
             color={"primary"}
             textSize={"xs"}
           />
-          {/* <Button
-            variant="contained"
-            size="small"
-            fullWidth
-            className="!rounded-2xl !text-xs !max-w-48 !bg-[primary]"
-            onClick={toggleMode}></Button> */}
         </div>
         {Object.keys(settings?.analysisFiltersArgs).length > 0 ? (
           Object.keys(settings.analysisFiltersArgs).map((key, index) => {
