@@ -9,7 +9,7 @@ import {
   filterToCalibrateMock,
 } from "../../../mocks/calibrateCameraFilter.ts";
 import {HeaderBar} from "../../../ui-components/index.ts";
-import {FilterCalibrationItem} from "../../../ui-components/maintenance-filter-calibration-item/component.tsx";
+import {CalibrationResultItem} from "../../../ui-components/maintenance-filter-calibration-item/component.tsx";
 import {
   CalibrateCameraFilter,
   GetCameraFilterArgs,
@@ -117,8 +117,12 @@ export const CalibrateCameraFilterPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex">
-          <CalibrationSlider key={"slider"} results={calibrateResultMock} />
+        <div className="flex mt-4">
+          <CalibrationSlider
+            key={"slider"}
+            results={calibrateResultMock}
+            cameraId={cameraId}
+          />
         </div>
       </div>
     </div>
@@ -129,7 +133,6 @@ const HeaderContent = (props: {
   cameraId?: string;
   filterDescription?: string;
 }) => {
-  // TODO locales
   return (
     <div className="flex gap-4">
       <div className="flex gap-2">
@@ -161,11 +164,21 @@ const HeaderContent = (props: {
   );
 };
 
-const CalibrationSlider = ({results}: {results: CalibrationResult[]}) => {
+const CalibrationSlider = ({
+  results,
+  cameraId,
+}: {
+  results: CalibrationResult[];
+  cameraId: string;
+}) => {
   return (
     <Slider>
       {results?.map((result, index) => (
-        <FilterCalibrationItem key={index} result={result} />
+        <CalibrationResultItem
+          key={index}
+          result={result}
+          cameraId={cameraId}
+        />
       ))}
     </Slider>
   );
