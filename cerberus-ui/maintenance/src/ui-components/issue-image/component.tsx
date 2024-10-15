@@ -1,6 +1,6 @@
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
-import {SvgIcon} from '@mui/material';
-import {useState} from 'react';
+import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
+import {SvgIcon} from "@mui/material";
+import {useState} from "react";
 
 export const ImageComponent = (props: {
   src: string;
@@ -31,9 +31,9 @@ const ErrorComponent = (props: {className?: string; size?: string}) => {
       className={`flex w-full bg-[#8e8e8e] items-center justify-center ${props.className}`}>
       <SvgIcon
         className={`${
-          props.size === 'small' ? 'image-icon-small' : 'image-icon'
+          props.size === "small" ? "image-icon-small" : "image-icon"
         }`}>
-        <ImageNotSupportedOutlinedIcon width='100%' />
+        <ImageNotSupportedOutlinedIcon width="100%" />
       </SvgIcon>
     </div>
   );

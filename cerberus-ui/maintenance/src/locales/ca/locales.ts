@@ -77,6 +77,10 @@ export const locales = {
           title: "Nº Captures",
         },
       },
+      calibrateItem: {
+        original: "Original",
+        calibrated: "Calibrada",
+      },
       changeType: "Canviar a ",
       type: {
         training: "Manteniment",
