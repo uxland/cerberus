@@ -14,20 +14,8 @@ export const CameraCapturesView = (props: {id: string}) => {
   const [error, setError] = useState(undefined);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const captures = await new Mediator().send(
-          new ListCapturesByCameraId(props.id)
-        );
-        setCaptures(captures);
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData().then(nop);
+    new Mediator().send(new ListCapturesByCameraId(props.id, setCaptures, setLoading, setError)).then(nop);
+
   }, [props]);
   return (
     <div>
@@ -45,7 +33,7 @@ const formatDateString = (dateString) => {
 const CaptureListComponent = (captures: Capture[]) => (
   <div className="flex flex-col gap-4">
     <Typography variant="h5">
-      {useOrganizationalStructureLocales("tabs.reports")} ({captures.length})
+    {/*  {useOrganizationalStructureLocales("tabs.reports")} ({captures.length})*/}
     </Typography>
     <List className="grid sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 h-full flex-wrap">
       {captures.map((capture) => (
@@ -61,7 +49,7 @@ const CaptureComponent = (capture: Capture) => (
         At: {formatDateString(capture.at)}
       </Typography>
       <Typography variant="body1">
-        {useOrganizationalStructureLocales("views.camera")}: {capture.cameraId}
+        {/*{useOrganizationalStructureLocales("views.camera")}: {capture.cameraId}*/}
       </Typography>
     </div>
     <div className="flex flex-col gap-2">

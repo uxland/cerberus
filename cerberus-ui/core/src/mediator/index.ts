@@ -50,11 +50,32 @@ export const unregisterNotificationHandler = <TNotification extends INotificatio
     media.mediatorSettings.resolver.remove(notificationConstructor.name);
 }
 
+
+type RequestBaseHandler<TResult, TRequest extends RequestBase<TResult>> = (request: TRequest) => Promise<TResult>
+
+
 @injectable()
 export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> implements IRequestHandler<TRequest, TResult> {
     public constructor(@inject(ApiClient) protected apiClient: ApiClient, @inject(NavigationService) protected navigationService: NavigationService) {
     }
     abstract handle(request: TRequest): Promise<TResult>;
+
+    protected async handleRequest<Request extends RequestBase<TResult>>(request:Request, handler: RequestBaseHandler<TResult, Request>): Promise<TResult>{
+        try {
+            request.setBusy(true);
+            const state = await handler(request);
+            request.setState(state);
+            return state;
+        }
+        catch (e) {
+            console.log(e);
+            request.setError(e);
+        }
+        finally {
+            request.setBusy(false);
+        }
+
+    }
 }
 
 export abstract class RequestBase<TResult> implements IRequest<TResult> {

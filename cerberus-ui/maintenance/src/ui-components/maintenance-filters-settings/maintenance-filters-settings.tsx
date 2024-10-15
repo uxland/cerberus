@@ -5,18 +5,12 @@ import {useNavigate} from "react-router-dom";
 import {MaintenanceMode} from "../../features/model";
 import {useMaintenanceLocales} from "../../locales/ca/locales";
 import {MaintenanceFilterSettingsItem} from "../maintenance-filter-settins-item/maintenance-filter-settings-item";
-export const MaintenanceSettingsComponent = ({settings, cameraId}) => {
+import {MaintenanceSettings} from "../../features/filters/view-camera-maintenance-settings/model.ts";
+export const MaintenanceSettingsComponent = ({settings, cameraId}:{settings:MaintenanceSettings, cameraId: string}) => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState<any[]>([]);
   const [mode, setMode] = useState<string>(MaintenanceMode.Training);
 
-  useEffect(() => {
-    if (settings) {
-      const filtersArray = Object.values(settings["analysisFiltersArgs"]);
-      setFilterData(filtersArray);
-      setMode(settings["maintenanceMode"] || MaintenanceMode.Training);
-    }
-  }, [settings]);
 
   useEffect(() => {
     setMode(MaintenanceMode.Training);
@@ -68,17 +62,18 @@ export const MaintenanceSettingsComponent = ({settings, cameraId}) => {
               switchedModeLabel}
           </Button>
         </div>
-        {filterData.length > 0 ? (
-          filterData.map((filter, index) => (
-            <MaintenanceFilterSettingsItem
-              key={index}
-              filter={filter}
-              index={index}
-              handleCalibration={handleCalibration}
-              filterTextLabel={filterTextLabel}
-              calibrateLabel={calibrateLabel}
-            />
-          ))
+        {Object.keys(settings?.analysisFiltersArgs).length > 0 ? (
+            Object.keys(settings.analysisFiltersArgs).map((key, index) => {
+              const filter = settings.analysisFiltersArgs[key];
+              return <MaintenanceFilterSettingsItem
+                  key={key}
+                  filter={filter}
+                  index={key}
+                  handleCalibration={handleCalibration}
+                  filterTextLabel={filterTextLabel}
+                  calibrateLabel={calibrateLabel}
+              />
+            })
         ) : (
           <Typography>{noFiltersLabel}</Typography>
         )}

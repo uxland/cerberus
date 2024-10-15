@@ -18,13 +18,12 @@ public class XabeFfMpegClientTests
         Bootstrapper.BootstrapXabeFFMpegClient(new ServiceRegistry());
         var settings = Options.Create(new SnapshotCaptureSettings{FolderRoot = Environment.CurrentDirectory});
         var middleware = new ConversionBuilder(
-            new IConversionBuilderStep[]
-            {
+            [
                 new DurationBuilder(),
-                new FileBuilder(),
+                new FileBuilder(XUnitLogger.CreateLogger<FileBuilder>(outputHelperAccessor)),
                 new RstpBuilder(),
                 new MonochromeBuilder()
-            }
+            ]
         );
         this._sut = new SnapshotCapturer(settings, logger, middleware);
     }

@@ -1,28 +1,25 @@
 import {HandlerBase} from "@cerberus/core";
 import {CalibrationResult, CameraFilterDetail} from "./model.ts";
 import {CalibrateCameraFilter, GetCameraFilterArgs, SetCameraFilterArgs} from "./command.ts";
-import {Mediator} from "mediatr-ts";
-import GetCameraMaintenanceSettings from "../view-camera-maintenance-settings/query.ts";
-import {CameraMaintenanceSettings} from "../view-camera-maintenance-settings/model.ts";
 
 
 export class GetCameraFilterArgsHandler extends HandlerBase<unknown, GetCameraFilterArgs>{
 
-    async handle(request: GetCameraFilterArgs): Promise<CameraFilterDetail> {
-        const settings = await new Mediator().send<CameraMaintenanceSettings>(new GetCameraMaintenanceSettings(
-            request.cameraId,
-            () => {},
-            request.setError,
-            request.setBusy
-        ));
-        if(settings){
-            const args = settings.settings.analysisFiltersArgs[request.filterId];
-            if(args)
-                request.setState(args);
-            else
-                request.setError(new Error("Filternot found"));
-            return args as any;
+    async handle({cameraId, filterId, setBusy, setError, setState}: GetCameraFilterArgs): Promise<CameraFilterDetail> {
+        try {
+            setBusy(true);
+            const settings = await this.apiClient.get<CameraFilterDetail>(`camera-maintenance-settings/${cameraId}/filters/${filterId}`);
+            setState(settings);
+            return settings;
         }
+        catch (e) {
+            console.error(e);
+            setError(e);
+        }
+        finally {
+            setBusy(false);
+        }
+
     }
 
 }
