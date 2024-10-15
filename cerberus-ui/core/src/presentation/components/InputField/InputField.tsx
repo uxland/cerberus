@@ -6,9 +6,10 @@ export const InputField = (props: {
   onChange: any;
   required?: boolean;
   value?: string;
+  classes?: string;
 }) => {
   return (
-    <div className="flex flex-col flex-1 gap-2">
+    <div className={`flex flex-col flex-1 gap-2 ${props.classes}`}>
       <Typography variant="body1">{props.title}</Typography>
       <TextField
         value={props.value}
@@ -17,12 +18,12 @@ export const InputField = (props: {
         required={props.required === true ? true : false}
         sx={{
           width: "100%",
-          height: "50px",
+          height: "40px",
           padding: "0",
           backgroundColor: "#313131",
           borderRadius: "6px",
           "& input": {
-            padding: "16px 12px",
+            padding: "12px 12px",
             height: "100%",
           },
           "& .MuiOutlinedInput-root": {

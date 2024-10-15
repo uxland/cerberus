@@ -69,6 +69,14 @@ export const locales = {
       filter: "Filtre",
       noFilters: "No hi ha filtres disponibles",
       calibrate: "Calibrar",
+      calibrateCameraFilters: {
+        title: "Calibratge de filtre",
+        camera: "Càmara",
+        filter: "Filtre",
+        captureNumber: {
+          title: "Nº Captures",
+        },
+      },
       changeType: "Canviar a ",
       type: {
         training: "Manteniment",

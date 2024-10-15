@@ -1,6 +1,6 @@
+import {InputField} from "@cerberus/core";
 import {ChangeEvent} from "react";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
-import {InputField} from "../input-field/component";
 
 export const AddCamera = (props: {
   onCameraDescriptionChange: (value: string) => void;

@@ -1,16 +1,20 @@
-import Button from "@mui/material/Button";
+import {CustomButton} from "@cerberus/core";
 import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {MaintenanceSettings} from "../../features/filters/view-camera-maintenance-settings/model.ts";
 import {MaintenanceMode} from "../../features/model";
 import {useMaintenanceLocales} from "../../locales/ca/locales";
 import {MaintenanceFilterSettingsItem} from "../maintenance-filter-settins-item/maintenance-filter-settings-item";
-import {MaintenanceSettings} from "../../features/filters/view-camera-maintenance-settings/model.ts";
-export const MaintenanceSettingsComponent = ({settings, cameraId}:{settings:MaintenanceSettings, cameraId: string}) => {
+export const MaintenanceSettingsComponent = ({
+  settings,
+  cameraId,
+}: {
+  settings: MaintenanceSettings;
+  cameraId: string;
+}) => {
   const navigate = useNavigate();
-  const [filterData, setFilterData] = useState<any[]>([]);
   const [mode, setMode] = useState<string>(MaintenanceMode.Training);
-
 
   useEffect(() => {
     setMode(MaintenanceMode.Training);
@@ -51,29 +55,37 @@ export const MaintenanceSettingsComponent = ({settings, cameraId}:{settings:Main
             {statusLabel}:{" "}
             {useMaintenanceLocales(`maintenanceSettings.type.${mode}` as any)}
           </Typography>
-          <Button
+          <CustomButton
+            label={
+              useMaintenanceLocales("maintenanceSettings.changeType") +
+              " " +
+              switchedModeLabel
+            }
+            onClick={toggleMode}
+            color={"primary"}
+            textSize={"xs"}
+          />
+          {/* <Button
             variant="contained"
             size="small"
             fullWidth
             className="!rounded-2xl !text-xs !max-w-48 !bg-[primary]"
-            onClick={toggleMode}>
-            {useMaintenanceLocales("maintenanceSettings.changeType") +
-              " " +
-              switchedModeLabel}
-          </Button>
+            onClick={toggleMode}></Button> */}
         </div>
         {Object.keys(settings?.analysisFiltersArgs).length > 0 ? (
-            Object.keys(settings.analysisFiltersArgs).map((key, index) => {
-              const filter = settings.analysisFiltersArgs[key];
-              return <MaintenanceFilterSettingsItem
-                  key={key}
-                  filter={filter}
-                  index={key}
-                  handleCalibration={handleCalibration}
-                  filterTextLabel={filterTextLabel}
-                  calibrateLabel={calibrateLabel}
+          Object.keys(settings.analysisFiltersArgs).map((key, index) => {
+            const filter = settings.analysisFiltersArgs[key];
+            return (
+              <MaintenanceFilterSettingsItem
+                key={key}
+                filter={filter}
+                index={key}
+                handleCalibration={handleCalibration}
+                filterTextLabel={filterTextLabel}
+                calibrateLabel={calibrateLabel}
               />
-            })
+            );
+          })
         ) : (
           <Typography>{noFiltersLabel}</Typography>
         )}
