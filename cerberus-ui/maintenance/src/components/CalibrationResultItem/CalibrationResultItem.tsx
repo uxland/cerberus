@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 import {CalibrationResult} from "../../features/filters/calibrate-camera-filter/model";
 import {useMaintenanceLocales} from "../../locales/ca/locales";
-import {ImageComponent} from "../issue-image/component";
+import {ImageComponent} from "../ImageComponent/ImageComponent";
 
 export const CalibrationResultItem = (props: {
   result: CalibrationResult;

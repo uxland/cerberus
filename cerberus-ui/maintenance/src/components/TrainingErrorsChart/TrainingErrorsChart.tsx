@@ -1,4 +1,4 @@
-import {Typography} from '@mui/material';
+import Typography from "@mui/material/Typography";
 import {
   Bar,
   BarChart,
@@ -8,12 +8,12 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
-} from 'recharts';
-import {useMaintenanceLocales} from '../../locales/ca/locales';
+} from "recharts";
+import {useMaintenanceLocales} from "../../locales/ca/locales";
 
 const data = [
   {
-    name: 'Week 1',
+    name: "Week 1",
     errorByTypeTotals: 110,
     falsePositivesTotals: 50,
     falseNegativesTotals: 60,
@@ -22,7 +22,7 @@ const data = [
     falseNegatives: {blobs: 40, blur: 20},
   },
   {
-    name: 'Week 2',
+    name: "Week 2",
     errorByTypeTotals: 130,
     falsePositivesTotals: 50,
     falseNegativesTotals: 70,
@@ -31,7 +31,7 @@ const data = [
     falseNegatives: {blobs: 45, blur: 25},
   },
   {
-    name: 'Week 3',
+    name: "Week 3",
     errorByTypeTotals: 150,
     falsePositivesTotals: 65,
     falseNegativesTotals: 85,
@@ -43,12 +43,12 @@ const data = [
 
 export const TrainingErrorsChart = () => {
   return (
-    <div className='flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]'>
-      <div className='flex flex-col gap-6'>
-        <Typography variant='h5'>
-          {useMaintenanceLocales('title.errorsChart')}
+    <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]">
+      <div className="flex flex-col gap-6">
+        <Typography variant="h5">
+          {useMaintenanceLocales("title.errorsChart")}
         </Typography>
-        <ResponsiveContainer width='100%' height={600}>
+        <ResponsiveContainer width="100%" height={600}>
           <BarChart
             data={data}
             barGap={50}
@@ -57,7 +57,7 @@ export const TrainingErrorsChart = () => {
             barSize={40}>
             <CartesianGrid />
             <XAxis
-              dataKey='name'
+              dataKey="name"
               height={110}
               tickMargin={20}
               tick={
@@ -71,31 +71,31 @@ export const TrainingErrorsChart = () => {
             <YAxis
               ticks={[0, 25, 50, 75, 100, 125, 150]}
               domain={[0, (dataMax) => dataMax * 1.1]}
-              tick={{fill: '#d7dadb'}}
+              tick={{fill: "#d7dadb"}}
             />
 
             <Bar
-              dataKey='errorsByType.blobs'
-              stackId='errorsByType'
-              fill='#ffd950'>
+              dataKey="errorsByType.blobs"
+              stackId="errorsByType"
+              fill="#ffd950">
               <LabelList
-                dataKey='errorsByType.blobs'
-                fill='black'
+                dataKey="errorsByType.blobs"
+                fill="black"
                 fontWeight={800}
               />
             </Bar>
             <Bar
-              dataKey='errorsByType.blur'
-              stackId='errorsByType'
-              fill='#4791ff'
+              dataKey="errorsByType.blur"
+              stackId="errorsByType"
+              fill="#4791ff"
               radius={[4, 4, 0, 0]}>
               <LabelList
-                dataKey='errorsByType.blur'
-                fill='black'
+                dataKey="errorsByType.blur"
+                fill="black"
                 fontWeight={800}
               />
               <LabelList
-                dataKey={'errorByTypeTotals'}
+                dataKey={"errorByTypeTotals"}
                 content={
                   <CustomTotalLabel
                     x={undefined}
@@ -107,27 +107,27 @@ export const TrainingErrorsChart = () => {
               />
             </Bar>
             <Bar
-              dataKey='falsePositives.blobs'
-              stackId='falsePositives'
-              fill='#ffd950'>
+              dataKey="falsePositives.blobs"
+              stackId="falsePositives"
+              fill="#ffd950">
               <LabelList
-                dataKey='falsePositives.blobs'
-                fill='black'
+                dataKey="falsePositives.blobs"
+                fill="black"
                 fontWeight={800}
               />
             </Bar>
             <Bar
-              dataKey='falsePositives.blur'
-              stackId='falsePositives'
-              fill='#4791ff'
+              dataKey="falsePositives.blur"
+              stackId="falsePositives"
+              fill="#4791ff"
               radius={[4, 4, 0, 0]}>
               <LabelList
-                dataKey='falsePositives.blur'
-                fill='black'
+                dataKey="falsePositives.blur"
+                fill="black"
                 fontWeight={800}
               />
               <LabelList
-                dataKey={'falsePositivesTotals'}
+                dataKey={"falsePositivesTotals"}
                 content={
                   <CustomTotalLabel
                     x={undefined}
@@ -139,27 +139,27 @@ export const TrainingErrorsChart = () => {
               />
             </Bar>
             <Bar
-              dataKey='falseNegatives.blobs'
-              stackId='falseNegatives'
-              fill='#ffd950'>
+              dataKey="falseNegatives.blobs"
+              stackId="falseNegatives"
+              fill="#ffd950">
               <LabelList
-                dataKey='falseNegatives.blobs'
-                fill='black'
+                dataKey="falseNegatives.blobs"
+                fill="black"
                 fontWeight={800}
               />
             </Bar>
             <Bar
-              dataKey='falseNegatives.blur'
-              stackId='falseNegatives'
-              fill='#4791ff'
+              dataKey="falseNegatives.blur"
+              stackId="falseNegatives"
+              fill="#4791ff"
               radius={[4, 4, 0, 0]}>
               <LabelList
-                dataKey='falseNegatives.blur'
-                fill='black'
+                dataKey="falseNegatives.blur"
+                fill="black"
                 fontWeight={800}
               />
               <LabelList
-                dataKey={'falseNegativesTotals'}
+                dataKey={"falseNegativesTotals"}
                 content={
                   <CustomTotalLabel
                     x={undefined}
@@ -170,7 +170,7 @@ export const TrainingErrorsChart = () => {
                 }
               />
             </Bar>
-            <Legend align='right' width={150} content={CustomizedLegend} />
+            <Legend align="right" width={150} content={CustomizedLegend} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -188,42 +188,42 @@ const CustomXAxisTick = ({x, y, payload}) => {
         x={-90}
         y={-14}
         dy={16}
-        textAnchor='middle'
-        fill='white'
+        textAnchor="middle"
+        fill="white"
         fontSize={14}
         fontWeight={600}
-        fontFamily='Montserrat'>
+        fontFamily="Montserrat">
         Total E.
       </text>
       <text
         x={0}
         y={-14}
         dy={16}
-        textAnchor='middle'
-        fill='white'
+        textAnchor="middle"
+        fill="white"
         fontSize={14}
         fontWeight={600}
-        fontFamily='Montserrat'>
+        fontFamily="Montserrat">
         False P.
       </text>
       <text
         x={90}
         y={-14}
         dy={16}
-        textAnchor='middle'
-        fill='white'
+        textAnchor="middle"
+        fill="white"
         fontSize={14}
         fontWeight={600}
-        fontFamily='Montserrat'>
+        fontFamily="Montserrat">
         False N.
       </text>
       <text
         x={0}
         y={14}
         dy={16}
-        textAnchor='middle'
-        fill='white'
-        fontFamily='Montserrat'>
+        textAnchor="middle"
+        fill="white"
+        fontFamily="Montserrat">
         {week}
       </text>
     </g>
@@ -234,29 +234,29 @@ const CustomizedLegend = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        alignContent: 'space-between',
-        gap: '20px',
+        display: "flex",
+        alignContent: "space-between",
+        gap: "20px",
       }}>
-      <div className='flex'>
+      <div className="flex">
         <svg
-          width='14'
-          height='14'
-          viewBox='0 0 32 32'
-          style={{marginRight: '5px', borderRadius: '50%'}}>
-          <rect fill={'#4791ff'} width='32' height='32' />
+          width="14"
+          height="14"
+          viewBox="0 0 32 32"
+          style={{marginRight: "5px", borderRadius: "50%"}}>
+          <rect fill={"#4791ff"} width="32" height="32" />
         </svg>
-        <span style={{color: '#d7dadb', fontFamily: 'Montserrat'}}>Blobs</span>
+        <span style={{color: "#d7dadb", fontFamily: "Montserrat"}}>Blobs</span>
       </div>
-      <div className='flex'>
+      <div className="flex">
         <svg
-          width='14'
-          height='14'
-          viewBox='0 0 32 32'
-          style={{marginRight: '5px', borderRadius: '50%'}}>
-          <rect fill={'#ffd950'} width='32' height='32' />
+          width="14"
+          height="14"
+          viewBox="0 0 32 32"
+          style={{marginRight: "5px", borderRadius: "50%"}}>
+          <rect fill={"#ffd950"} width="32" height="32" />
         </svg>
-        <span style={{color: '#d7dadb', fontFamily: 'Montserrat'}}>Blur</span>
+        <span style={{color: "#d7dadb", fontFamily: "Montserrat"}}>Blur</span>
       </div>
     </div>
   );
@@ -266,8 +266,8 @@ const CustomTotalLabel = ({x, y, width, value}) => (
   <text
     x={x + width / 2}
     y={y - 20}
-    textAnchor='middle'
-    fill='white'
+    textAnchor="middle"
+    fill="white"
     fontWeight={800}>
     {value}
   </text>

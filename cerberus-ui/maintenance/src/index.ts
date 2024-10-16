@@ -1,2 +1,2 @@
-export * from './features';
-export * from './ui-components';
+export * from "./components";
+export * from "./features";

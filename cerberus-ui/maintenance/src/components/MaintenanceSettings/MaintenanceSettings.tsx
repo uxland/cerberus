@@ -2,15 +2,15 @@ import {CustomButton} from "@cerberus/core";
 import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {MaintenanceSettings} from "../../features/filters/view-camera-maintenance-settings/model.ts";
-import {MaintenanceMode} from "../../features/model";
-import {useMaintenanceLocales} from "../../locales/ca/locales";
-import {MaintenanceFilterSettingsItem} from "../maintenance-filter-settings-item/maintenance-filter-settings-item.tsx";
-export const MaintenanceSettingsComponent = ({
+import {MaintenanceSettings as MaintenanceSettingsModel} from "../../features/filters/view-camera-maintenance-settings/model.ts";
+import {MaintenanceMode} from "../../features/model.ts";
+import {useMaintenanceLocales} from "../../locales/ca/locales.ts";
+import {MaintenanceFilterSettingsItem} from "../MaintenanceFilterSettingsItem/MaintenanceFilterSettingsItem.tsx";
+export const MaintenanceSettings = ({
   settings,
   cameraId,
 }: {
-  settings: MaintenanceSettings;
+  settings: MaintenanceSettingsModel;
   cameraId: string;
 }) => {
   const navigate = useNavigate();

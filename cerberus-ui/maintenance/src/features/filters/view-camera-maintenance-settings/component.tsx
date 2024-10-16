@@ -1,7 +1,7 @@
 import {nop} from "@cerberus/core";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
-import {MaintenanceSettingsComponent} from "../../../ui-components/index.ts";
+import {MaintenanceSettings} from "../../../components/index.ts";
 import {CameraMaintenanceSettings} from "./model.ts";
 import GetCameraMaintenanceSettings from "./query.ts";
 
@@ -27,7 +27,7 @@ export const MaintenanceSettingsView = (props: {id: string}) => {
       {/* {loading && <div>Loading.</div>} */}
       {/* {error && <div>Error: {error}</div>} */}
       {settings && (
-        <MaintenanceSettingsComponent settings={settings} cameraId={props.id} />
+        <MaintenanceSettings settings={settings} cameraId={props.id} />
       )}
     </div>
   );
