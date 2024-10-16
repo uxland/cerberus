@@ -11,7 +11,7 @@ export class GetCameraFilterArgs extends RequestBase<CameraFilterDetail>{
 
 
 export class CalibrateCameraFilter extends RequestBase<CalibrationResult[]> {
-    constructor(public cameraId: string, public filterId: string, public args: unknown,
+    constructor(public cameraId: string, public filterId: string, public numberOfCaptures: number, public args: unknown,
                 setState: SetState<CalibrationResult>, setBusy: SetState<boolean>, setError: SetState<Error>) {
         super(setState, setBusy, setError);
     }

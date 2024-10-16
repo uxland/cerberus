@@ -23,6 +23,7 @@ export const CalibrateCameraFilterPage = () => {
     filterId: string;
   }>();
   const [detail, setDetail] = useState<CameraFilterDetail | null>(null);
+  const [captureNumber, setCaptureNumber] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CalibrationResult[] | null>(null);
@@ -60,6 +61,7 @@ export const CalibrateCameraFilterPage = () => {
     const command = new CalibrateCameraFilter(
       cameraId,
       filterId,
+      captureNumber,
       detail.args,
       setResult,
       setIsSubmitting,
@@ -84,10 +86,11 @@ export const CalibrateCameraFilterPage = () => {
               title={useMaintenanceLocales(
                 "maintenanceSettings.calibrateCameraFilters.captureNumber.title"
               )}
+              value={captureNumber}
               // value={detail?.args?.[arg]}
               classes="!gap-4 !font-bold !max-h-[10px] "
               onChange={(e) => {
-                console.log(e.target.value);
+                setCaptureNumber(Number.parseInt(e.target.value));
               }}
             />
             {Object.keys(filterToCalibrateMock["args"]).map((arg) => (
@@ -101,7 +104,7 @@ export const CalibrateCameraFilterPage = () => {
                     ...detail,
                     args: {
                       ...detail?.args,
-                      [arg]: e.target.value,
+                      [arg]: Number.parseInt(e.target.value),
                     },
                   });
                 }}
@@ -117,10 +120,10 @@ export const CalibrateCameraFilterPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex mt-4">
+         <div className="flex mt-4">
           <CalibrationSlider
             key={"slider"}
-            results={calibrateResultMock}
+            results={result}
             cameraId={cameraId}
           />
         </div>
