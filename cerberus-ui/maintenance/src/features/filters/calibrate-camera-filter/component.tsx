@@ -120,10 +120,11 @@ export const CalibrateCameraFilterPage = () => {
             </div>
           </div>
         </div>
-         <div className="flex mt-4">
+        <div className="flex mt-4">
           <CalibrationSlider
             key={"slider"}
-            results={result}
+            results={calibrateResultMock}
+            // results={result}
             cameraId={cameraId}
           />
         </div>

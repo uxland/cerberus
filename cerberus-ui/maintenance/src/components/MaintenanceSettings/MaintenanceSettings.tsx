@@ -34,11 +34,6 @@ export const MaintenanceSettings = ({
     );
   };
 
-  const calibrateLabel = useMaintenanceLocales("maintenanceSettings.calibrate");
-  const filterTextLabel = useMaintenanceLocales("maintenanceSettings.filter");
-  const noFiltersLabel = useMaintenanceLocales("maintenanceSettings.noFilters");
-  const statusLabel = useMaintenanceLocales("maintenanceSettings.status");
-
   const switchedMode =
     mode === MaintenanceMode.Training
       ? MaintenanceMode.Production
@@ -52,7 +47,7 @@ export const MaintenanceSettings = ({
       <div className="flex flex-col h-30 justify-between bg-tableBg w-full p-5 rounded-[10px] gap-4">
         <div className="flex h-full p-0 gap-4">
           <Typography className="flex items-center">
-            {statusLabel}:{" "}
+            {useMaintenanceLocales("maintenanceSettings.status")}:{" "}
             {useMaintenanceLocales(`maintenanceSettings.type.${mode}` as any)}
           </Typography>
           <CustomButton
@@ -75,13 +70,19 @@ export const MaintenanceSettings = ({
                 filter={filter}
                 index={key}
                 handleCalibration={handleCalibration}
-                filterTextLabel={filterTextLabel}
-                calibrateLabel={calibrateLabel}
+                filterTextLabel={useMaintenanceLocales(
+                  "maintenanceSettings.filter"
+                )}
+                calibrateLabel={useMaintenanceLocales(
+                  "maintenanceSettings.calibrate"
+                )}
               />
             );
           })
         ) : (
-          <Typography>{noFiltersLabel}</Typography>
+          <Typography>
+            {useMaintenanceLocales("maintenanceSettings.noFilters")}
+          </Typography>
         )}
       </div>
     </div>

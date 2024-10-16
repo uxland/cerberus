@@ -1,9 +1,8 @@
 .swiper {
   display: flex;
-  width: 1100px;
-  height: 600px;
+  width: calc(100vw - 23vw);
+  height: 680px;
   justify-content: center;
-  margin: 20px;
   margin-left: 0px;
   background: #202020;
   border-radius: 10px;
@@ -14,23 +13,46 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .swiper-slide img {
   display: block;
-  width: 100%;
-  height: auto;
   object-fit: cover;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-  color: #fff;
-  font-size: 25px;
-  padding: 10px;
+  color: #000000;
+  background-color: #ffc200;
+  border-radius: 50%;
+  align-items: center;
+  justify-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  margin-top: 15px;
 }
+
+.swiper-button-prev {
+  margin-left: 6px;
+}
+.swiper-button-next {
+  margin-right: 6px;
+}
+
 .swiper-button-next:after,
 .swiper-button-prev:after {
-  font-size: inherit;
+  font-size: 16px;
+  font-weight: 900;
+  padding: 10px;
   line-height: 1;
+}
+.swiper-button-prev:after {
+  margin-right: 2px;
+}
+.swiper-button-next:after {
+  margin-left: 4px;
 }

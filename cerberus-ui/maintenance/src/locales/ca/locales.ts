@@ -79,7 +79,7 @@ export const locales = {
       },
       calibrateItem: {
         original: "Original",
-        calibrated: "Calibrada",
+        calibrated: "Transformada",
       },
       changeType: "Canviar a ",
       type: {

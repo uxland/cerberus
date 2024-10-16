@@ -1,23 +1,30 @@
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 import Typography from "@mui/material/Typography";
 import {CalibrationResult} from "../../features/filters/calibrate-camera-filter/model";
 import {useMaintenanceLocales} from "../../locales/ca/locales";
 import {ImageComponent} from "../ImageComponent/ImageComponent";
-
 export const CalibrationResultItem = (props: {
   result: CalibrationResult;
   cameraId: string;
 }) => {
   return (
-    <div className="flex flex-col bg-tableBg gap-4">
-      <div className="flex items-center justify-between">
-        <Typography variant="h5">{props.cameraId}</Typography>
-        <Typography variant="h5">
-          {props?.result.success === true ? "OK" : "KO"}
+    <div className="flex flex-col w-full bg-tableBg p-4">
+      <div className="flex flex-1 items-center justify-between mb-2 mt-2">
+        <Typography variant="h4" className="!font-bold" color={"primary"}>
+          {props.cameraId}
+        </Typography>
+        <Typography variant="h4">
+          {props?.result.success === true ? (
+            <CheckCircleIcon color="success" />
+          ) : (
+            <ErrorIcon className="!fill-error" />
+          )}
         </Typography>
       </div>
-      <div className="flex items-center justify-between gap-12">
-        <div className="flex flex-col items-start gap-4">
-          <Typography variant="body1">
+      <div className="flex flex-1 items-center justify-center gap-12">
+        <div className="flex flex-col flex-1 gap-4">
+          <Typography variant="h6">
             {useMaintenanceLocales(
               "maintenanceSettings.calibrateItem.original"
             )}
@@ -26,14 +33,12 @@ export const CalibrationResultItem = (props: {
             <ImageComponent
               src={props.result.originalImageUrl}
               alt={"Original"}
-              className="w-full object-cover h-[580px] !min-w-96"
+              className="w-full object-cover h-[580px] !min-w-80"
             />
           </div>
-          <Typography variant="body1">Arg valor : 78</Typography>
-          <Typography variant="body1">Arg valor : 78</Typography>
         </div>
-        <div className="flex flex-col items-start gap-4">
-          <Typography variant="body1">
+        <div className="flex flex-col flex-1 gap-4">
+          <Typography variant="h6">
             {useMaintenanceLocales(
               "maintenanceSettings.calibrateItem.calibrated"
             )}
@@ -42,11 +47,9 @@ export const CalibrationResultItem = (props: {
             <ImageComponent
               src={props.result.originalImageUrl}
               alt={"Original"}
-              className="w-full object-cover h-[580px] !min-w-96"
+              className="w-full object-cover h-[580px] !min-w-80"
             />
           </div>
-          <Typography variant="body1">Arg valor : 78</Typography>
-          <Typography variant="body1">Arg valor : 78</Typography>
         </div>
       </div>
     </div>
