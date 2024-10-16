@@ -3,13 +3,13 @@ import {Typography} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import {CalibrationResultItem} from "../../../components/CalibrationResultItem/CalibrationResultItem.tsx";
+import {HeaderBar} from "../../../components/index.ts";
 import {useMaintenanceLocales} from "../../../locales/ca/locales.ts";
 import {
   calibrateResultMock,
   filterToCalibrateMock,
 } from "../../../mocks/calibrateCameraFilter.ts";
-import {HeaderBar} from "../../../ui-components/index.ts";
-import {CalibrationResultItem} from "../../../ui-components/maintenance-filter-calibration-item/component.tsx";
 import {
   CalibrateCameraFilter,
   GetCameraFilterArgs,

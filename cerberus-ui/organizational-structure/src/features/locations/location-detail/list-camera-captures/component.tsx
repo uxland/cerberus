@@ -1,10 +1,10 @@
 import {getImageUrl, nop} from "@cerberus/core";
-import {ImageComponent} from "@cerberus/maintenance/src/ui-components/issue-image/component.tsx";
+
+import {ImageComponent} from "@cerberus/maintenance";
 import {List, ListItem, Typography} from "@mui/material";
 import {format} from "date-fns/format";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
-import {useOrganizationalStructureLocales} from "../../../../locales/ca/locales.ts";
 import {Capture} from "./model.ts";
 import {ListCapturesByCameraId} from "./query.ts";
 
@@ -14,8 +14,11 @@ export const CameraCapturesView = (props: {id: string}) => {
   const [error, setError] = useState(undefined);
 
   useEffect(() => {
-    new Mediator().send(new ListCapturesByCameraId(props.id, setCaptures, setLoading, setError)).then(nop);
-
+    new Mediator()
+      .send(
+        new ListCapturesByCameraId(props.id, setCaptures, setLoading, setError)
+      )
+      .then(nop);
   }, [props]);
   return (
     <div>
@@ -33,7 +36,7 @@ const formatDateString = (dateString) => {
 const CaptureListComponent = (captures: Capture[]) => (
   <div className="flex flex-col gap-4">
     <Typography variant="h5">
-    {/*  {useOrganizationalStructureLocales("tabs.reports")} ({captures.length})*/}
+      {/*  {useOrganizationalStructureLocales("tabs.reports")} ({captures.length})*/}
     </Typography>
     <List className="grid sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4 h-full flex-wrap">
       {captures.map((capture) => (

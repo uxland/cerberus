@@ -1,4 +1,5 @@
-import {Badge, Box, Divider, Tab, Tabs} from "@mui/material";
+import {CustomDivider} from "@cerberus/core";
+import {Badge, Box, Tab, Tabs} from "@mui/material";
 import {HierarchyItemType} from "../../features/state/hierarchy-item";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
 export enum TabPanelType {
@@ -96,23 +97,6 @@ const CustomTabLabel = ({label, badgeContent, width}) => (
     />
   </Box>
 );
-
-const CustomDivider = () => {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-      }}>
-      <Divider
-        orientation="vertical"
-        variant="middle"
-        color="#828282"
-        flexItem
-      />
-    </Box>
-  );
-};
 
 const a11yProps = (index: number) => {
   return {
