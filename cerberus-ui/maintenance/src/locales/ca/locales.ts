@@ -66,8 +66,6 @@ export const locales = {
     maintenanceSettings: {
       title: "Configuració Manteniment",
       status: "Estat",
-      filter: "Filtre",
-      noFilters: "No hi ha filtres disponibles",
       calibrate: "Calibrar",
       calibrateCameraFilters: {
         title: "Calibratge de filtre",
@@ -82,6 +80,9 @@ export const locales = {
         calibrated: "Transformada",
       },
       changeType: "Canviar a ",
+      filter: "Filtre",
+      noFilters: "No hi ha filtres disponibles",
+      onSubmit: "Guardar Paràmetres",
       type: {
         training: "Manteniment",
         production: "Producció",

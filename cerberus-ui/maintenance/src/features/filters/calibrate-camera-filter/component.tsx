@@ -1,5 +1,6 @@
 import {CustomButton, InputField, nop, Slider} from "@cerberus/core";
-import {Typography} from "@mui/material";
+import CachedIcon from "@mui/icons-material/Cached";
+import {IconButton, Typography} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -78,8 +79,8 @@ export const CalibrateCameraFilterPage = () => {
         }
         close={true}
       />
-      <div className="flex flex-col gap-6">
-        <div className="flex gap-4">
+      <div className="flex flex-col flex-1 gap-6">
+        <div className="flex gap-8">
           <div className="flex gap-8">
             <InputField
               key={"Nº captures"}
@@ -110,12 +111,28 @@ export const CalibrateCameraFilterPage = () => {
                 }}
               />
             ))}
-            <div className={`flex flex-col flex-1 justify-end`}>
+          </div>
+          <div className="flex flex-1 items-end">
+            <div className={`flex flex-1 items-end gap-6`}>
+              <IconButton className="!p-0 !pb-1">
+                <CachedIcon className="!fill-[#fff]" />
+              </IconButton>
               <CustomButton
                 label={useMaintenanceLocales("maintenanceSettings.calibrate")}
                 onClick={handleCalibration}
                 color={"primary"}
                 textSize={"xs"}
+                padding={"!p-2"}
+              />
+            </div>
+            <div className="flexitems-end">
+              <CustomButton
+                label={useMaintenanceLocales("maintenanceSettings.onSubmit")}
+                onClick={handleCalibration}
+                color={"#02bc77"}
+                textColor="white"
+                textSize={"xs"}
+                padding={"!p-2"}
               />
             </div>
           </div>
