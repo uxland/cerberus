@@ -9,4 +9,5 @@ public partial class Filter: AggregateRoot
     
     public string Script { get; set; }
     
+    public dynamic? DefaultArgs { get; set; }
 }

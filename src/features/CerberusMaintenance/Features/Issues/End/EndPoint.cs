@@ -1,4 +1,6 @@
 ﻿using Cerberus.Maintenance.Features.Features.Issues.GetDetail;
+using Cerberus.Maintenance.Features.Features.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -16,7 +18,8 @@ public class EndPoint : ControllerBase
         ProducesResponseType(StatusCodes.Status404NotFound),
         // Produces(ProducesMediaType)
     ]
-    public async Task<IActionResult> Start(string id, [FromBody]Payload payload, IMessageBus bus)
+    [Authorize(Policy = MaintenancePolicies.Operations)]
+    public async Task<IActionResult> End(string id, [FromBody]Payload payload, IMessageBus bus)
     {
         await bus.SendAsync(new EndMaintenanceIssue(id, Comment: payload.Comment));
         return Ok("Ended issue resolution.");

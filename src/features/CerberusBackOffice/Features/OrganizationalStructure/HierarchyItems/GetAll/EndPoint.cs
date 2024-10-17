@@ -1,5 +1,6 @@
 ﻿using Cerberus.Core.Domain;
 using Cerberus.MvcUtilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ public class LocationsController(IReadModelQueryProvider queryProvider): Control
     [
         ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<HierarchyItem>)),
     ]
-   // [AcceptHeaderConstraint(ProducesMediaType, AcceptHeaderConstraint.WildcardMediaType)]
+    [Authorize]
     public async Task<IEnumerable<HierarchyItem>> GetAll()
     {
         var result = await queryProvider.List<HierarchyItem>();

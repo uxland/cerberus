@@ -1,8 +1,8 @@
 import {Entity} from "@cerberus/shared/src";
 
-interface Credentials{
-    username: string;
-    password: string;
+export interface Credentials{
+    username: string | undefined;
+    password: string | undefined;
 }
 
 interface AdminSettings{

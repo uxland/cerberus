@@ -4,8 +4,9 @@ import {boostrapMaintenance} from "@cerberus/maintenance";
 import {setupI18N} from "@uxland/react-services";
 import {locales as CA} from './locales/ca/locales.ts';
 export const bootstrapApplication = async () =>{
-    await bootstrapCore()
+    const container = await bootstrapCore()
         .then(boostrapMaintenance)
         .then(bootstrapOrganizationalStructure);
     await setupI18N({ca: CA}, 'ca')
+    return container;
 }

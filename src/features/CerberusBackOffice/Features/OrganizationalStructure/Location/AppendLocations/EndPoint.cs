@@ -1,5 +1,9 @@
-﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
+using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.GetHierarchyItem;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
+using Cerberus.BackOffice.Features.Shared;
 using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
@@ -12,21 +16,25 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
 {
     public const string AppendLocationsCommand = "application/json;domain-model=AppendLocations;version=1.0.0";
     public const string AppendLocationCommand = "application/json;domain-model=AppendLocation;version=1.0.0";
-    //[HttpPost]
-    //[Consumes(AppendLocationsCommand)]
-    /*public Task AppendLocations(AppendLocations command)
-    {
-        return sender.Send(command);
-    }*/
-        
-   // [HttpPost]
-    //[Consumes(AppendLocationCommand)]
-    /*public Task AppendLocation(AppendLocation command)
-    {
-        return sender.Send(command);
-    }*/
-
+    
     [HttpPost]
+    [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
+    public async Task<IActionResult> AppendLocation([FromBody]AppendLocationRequest request)
+    {
+        var command = new CreateLocation(
+            Id: request.Id ?? Guid.NewGuid().ToString(),
+            ParentId: request.ParentId,
+            Description: request.Description,
+            DefaultCameraAdminSettings:
+            new CameraAdminSettings(null, request.CameraCredentials, request.CapturePattern),
+            DefaultCameraFunctionalSettings: null);
+        await bus.InvokeAsync(command);
+        var addedItem = await bus.InvokeAsync<string?>(new GetHierarchyItem(command.Id));
+        return string.IsNullOrEmpty(addedItem) ? NotFound() : Ok(addedItem);
+
+    }
+    [HttpPost("batch")]
+    [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
     public async Task<IActionResult> AppendLocationsFromFile(IFormFile? file)
     {
         if (file == null || file.Length == 0)
@@ -34,7 +42,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
         var appendLocations = await AppendLocationsExcelReader.ReadFile(file);
         foreach (var appendLocation in appendLocations)
         {
-            await bus.SendAsync(appendLocation);
+            await bus.InvokeAsync(appendLocation);
         }
         
         return Ok("File processed successfully");

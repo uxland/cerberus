@@ -1,6 +1,6 @@
 ﻿services:
   postgres:
-    image: postgres:16
+    image: postgres:17
     environment:
       POSTGRES_USER: cerberus
       POSTGRES_PASSWORD: cerberus
@@ -9,6 +9,34 @@
       - ./init-db:/docker-entrypoint-initdb.d
     ports:
       - "7654:5432"
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    environment:
+      KEYCLOAK_ADMIN: cerberus
+      KEYCLOAK_ADMIN_PASSWORD: cerberus
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/cerberus-realm.json
+
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./keycloak/config/cerberus-realm.json:/opt/keycloak/data/import/cerberus-realm.json
+      - ./keycloak/certs/keycloak.p12:/opt/keycloak/conf/keycloak.p12
+    command:
+      - "start"
+      - '--https-port=8443'
+      - '--https-key-store-file=/opt/keycloak/conf/keycloak.p12'
+      - '--https-key-store-password=password'
+      - '--https-key-store-type=PKCS12'
+      - '--hostname=keycloak'
+      - '--import-realm'
+    extra_hosts:
+      - 'cerberus-react-ui:host-gateway'  # Ensure your React app hostname is resolvable
+      - "host.docker.internal:host-gateway"
+
+    depends_on:
+      - postgres
+    links:
+      - postgres
   cerberus-back:
     build:
       context: .
@@ -23,32 +51,33 @@
       SnaphotCaptures__FolderRoot: "/app/Snapshots"
     depends_on:
       - postgres
+      - keycloak
     links:
       - postgres
+      - keycloak
     volumes:
       - snapshots_volume:/app/Snapshots
-  cerberus-react-ui:
+  cerberus-ui:
     build:
         context: ./cerberus-ui
         dockerfile: ./Dockerfile
     ports:
-        - "666:80"
-  cerberus-ui:
-    build:
-      context: .
-      dockerfile: src/hosts/CerberusUI/Dockerfile
-      args:
-        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:- Release}
-    ports:
-      - "555:8080"
+        - "5173:443"
     environment:
-      Backend__Url: "http://cerberus-back:8080/api"
-      SnaphotCaptures__FolderRoot: "/app/Snapshots"
-
+      VITE_AUTH_URL: "https://keycloak:8443/"
+      VITE_AUTH_REALM: "cerberus"
+      VITE_AUTH_CLIENT_ID: "cerberus"
+      VITE_CERBERUS_BACKEND_URL: "http://cerberus-back:8080"
+      VITE_CERBERUS_IMAGES_URL: "http://cerberus-back:8080/images"
     depends_on:
       - cerberus-back
+    extra_hosts:
+      - "keycloak:host-gateway"
+      - "cerberus-react-ui:host-gateway"
     volumes:
-      - snapshots_volume:/app/Snapshots
+      - ./cerberus-ui/certs/nginx.crt:/etc/nginx/ssl/nginx.crt:ro
+      - ./cerberus-ui/certs/nginx.key:/etc/nginx/ssl/nginx.key:ro
+  
 volumes:
   snapshots_volume:
     driver: local
@@ -56,3 +85,15 @@ volumes:
       type: none
       o: bind
       device: ./Snapshots
+  certs_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./certs
+  keycloak_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./keycloak

@@ -3,7 +3,7 @@ using Cerberus.Maintenance.Features.Features.Settings;
 
 namespace Cerberus.Maintenance.Persistence.QueryProviders;
 
-public class MaintenanceSettingsProvider: IMaintenanceSettingsProvider
+/*public class MaintenanceSettingsProvider: IMaintenanceSettingsProvider
 {
     public Task<MaintenanceSettings> GetCameraMaintenanceSettings(string cameraId)
     {
@@ -14,4 +14,4 @@ public class MaintenanceSettingsProvider: IMaintenanceSettingsProvider
             )
         );
     }
-}
+}*/

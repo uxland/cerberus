@@ -1,4 +1,6 @@
 ﻿using Cerberus.Core.Domain;
+using Cerberus.Maintenance.Features.Features.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +19,7 @@ public class MaintenanceIssuesController : ControllerBase
         ProducesResponseType(StatusCodes.Status404NotFound),
         // Produces(ProducesMediaType)
     ]
+    [Authorize(Policy = MaintenancePolicies.User)]
     public async Task<IActionResult> GetDetail(string id, [FromServices]IMaintenanceIssueEntityQueryProvider entityQueryProvider)
     {
         var detail = await entityQueryProvider.RehydrateAsJson(id);
