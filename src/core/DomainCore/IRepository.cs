@@ -12,6 +12,7 @@ public interface IGenericRepository
     void Save<TAggregateRoot>(TAggregateRoot aggregateRoot) where TAggregateRoot : AggregateRoot, new();
     void Create<TAggregateRoot>(TAggregateRoot aggregateRoot) where TAggregateRoot : AggregateRoot, new();
 
+    Task<bool> Exists<TAggregateRoot>(string id) where TAggregateRoot : AggregateRoot, new();
     Task<TAggregateRoot?> Rehydrate<TAggregateRoot>(string id, long? version = null)
         where TAggregateRoot : AggregateRoot, new();
 }

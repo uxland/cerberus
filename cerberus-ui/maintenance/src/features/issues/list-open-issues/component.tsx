@@ -1,14 +1,14 @@
-import {nop} from '@cerberus/core';
-import {Mediator} from 'mediatr-ts';
-import {useEffect, useState} from 'react';
+import {nop} from "@cerberus/core";
+import {Mediator} from "mediatr-ts";
+import {useEffect, useState} from "react";
 import {
   OpenIssuesPerformanceList,
   OpenIssuesReportChart,
   OpenIssuesTable,
-} from '../../../ui-components/index.ts';
+} from "../../../components/index.ts";
 
-import {MaintenanceIssueSummary} from './model.ts';
-import {ListOpenIssues} from './query.ts';
+import {MaintenanceIssueSummary} from "./model.ts";
+import {ListOpenIssues} from "./query.ts";
 export const OpenIssuesView = (props: {id: string}) => {
   const [issues, setIssues] = useState<MaintenanceIssueSummary[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,7 @@ export const OpenIssuesView = (props: {id: string}) => {
 };
 
 const IssueListComponent = (issues: MaintenanceIssueSummary[]) => (
-  <div className='flex flex-col gap-10'>
+  <div className="flex flex-col gap-10">
     <OpenIssuesPerformanceList />
     <OpenIssuesTable issues={issues} />
     <OpenIssuesReportChart />

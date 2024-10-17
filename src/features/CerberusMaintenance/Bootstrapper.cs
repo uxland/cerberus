@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Cerberus.Maintenance.Features.Features.Shared;
+using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
 
 [assembly: WolverineModule]
@@ -8,6 +9,15 @@ public static class Bootstrapper
 {
     public static IServiceCollection BootstrapCerberusMaintenanceFeatures(this IServiceCollection services)
     {
-        return services;
+        return services.SetUpAuthorization();
+    }
+    
+    private static IServiceCollection SetUpAuthorization(this IServiceCollection services)
+    {
+        return services.AddAuthorization(options =>
+        {
+            options.AddPolicy(MaintenancePolicies.User, policy => policy.RequireClaim("roles", MaintenanceRoles.Admin, MaintenanceRoles.Manager, MaintenanceRoles.Operator, MaintenanceRoles.Consultant));
+            options.AddPolicy(MaintenancePolicies.Operations, policy => policy.RequireClaim("roles", MaintenanceRoles.Operator, MaintenanceRoles.Manager));;
+        });
     }
 }

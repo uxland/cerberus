@@ -1,13 +1,11 @@
-import {nop} from '@cerberus/core';
-import {Mediator} from 'mediatr-ts';
-import {useEffect, useState} from 'react';
-import {
-  PendingReviewTable,
-  TrainingReviewsPerformanceList,
-} from '../../../ui-components/index.ts';
-import {TrainingErrorsChart} from '../../../ui-components/training-errors-chart/component.tsx';
-import {PendingTrainingReview} from './model.ts';
-import {ListPendingReviewsByLocation} from './query.ts';
+import {nop} from "@cerberus/core";
+import {Mediator} from "mediatr-ts";
+import {useEffect, useState} from "react";
+import {PendingReviewTable} from "../../../components/index.ts";
+import {TrainingErrorsChart} from "../../../components/TrainingErrorsChart/TrainingErrorsChart.tsx";
+import {TrainingReviewsPerformanceList} from "../../../components/TrainingReviewsPerformanceList/TrainingReviewsPerformanceList.tsx";
+import {PendingTrainingReview} from "./model.ts";
+import {ListPendingReviewsByLocation} from "./query.ts";
 
 export const PendingTrainingReviewsView = (props: {id: string}) => {
   const [reviews, setReviews] = useState<PendingTrainingReview[]>([]);
@@ -43,7 +41,7 @@ export const PendingTrainingReviewsView = (props: {id: string}) => {
 
 const PendingReviewListComponent = (reviews: PendingTrainingReview[]) => {
   return (
-    <div className='flex flex-col gap-10'>
+    <div className="flex flex-col gap-10">
       <TrainingReviewsPerformanceList />
       <PendingReviewTable reviews={reviews} />
       <TrainingErrorsChart />

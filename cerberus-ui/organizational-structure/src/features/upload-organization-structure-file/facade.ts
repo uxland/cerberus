@@ -15,7 +15,7 @@ export class UploadOrganizationalStructureFileFacadeImpl extends UploadOrganizat
     async upload(file: File): Promise<void>{
         const formData = new FormData();
         formData.append("file", file);
-        await this.apiClient.postFile("/locations", {
+        await this.apiClient.postFile("/locations/batch", {
             body: formData,
             headers:{
                 'Content-Type': 'multipart/form-data'

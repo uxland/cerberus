@@ -15,7 +15,5 @@ public class CaptureJob(IReadModelQueryProvider queryProvider, IMessageBus messa
         if (trigger == null || !trigger.Enabled)
             return;
         await messageBus.SendAsync(new CaptureCameraSnapshots(trigger.CameraIds));
-        
-        
     }
 }

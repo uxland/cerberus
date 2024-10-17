@@ -1,9 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Text.Json;
 using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 using Cerberus.Maintenance.Features.Features.Analysis;
 using Cerberus.Maintenance.Features.Features.Analysis.AnalyzeCapture;
-using Cerberus.Maintenance.Features.Features.Analysis.Filters;
 using Microsoft.Extensions.Options;
 using NodaTime;
 using Python.Runtime;
@@ -12,7 +12,7 @@ namespace Cerberus.Core.PythonImageProcessor;
 
 public class FilterExecutor : IFilterExecutor
 {
-    public (bool, string?) Execute(string script, byte[] imageBuffer)
+    public  (bool Success, string? FilteredImageBase64, string? Message) Execute(string script, dynamic imageBuffer, string jsonArgs, AnalysisMode mode)
     {
         try
         {
@@ -22,24 +22,63 @@ public class FilterExecutor : IFilterExecutor
                 {
                     var compiledScript = PythonEngine.Compile(script);
                     scope.Execute(compiledScript);
-                    dynamic np = Py.Import("numpy");
-                    var pythonBuffer = np.asarray(imageBuffer);
+                    dynamic json = Py.Import("json");
+                    var args = json.loads(jsonArgs);
                     var function = scope.Get("process_image");
-                    var result = function.Invoke(pythonBuffer);
-                    return (result.As<bool>(), string.Empty);
+                    var result = function.Invoke(imageBuffer, args, new PyString(mode.ToString()));
+                    var success = ((PyObject)result.GetAttr("Success")).As<bool>();
+                    
+                    string? filteredImageBase64 = null;
+                    if (result.HasAttr("FilteredImage"))
+                    {
+                        var filteredImage = (PyObject)result.GetAttr("FilteredImage");
+                        if ( filteredImage != PyObject.None)
+                        {
+                            var filteredImageBuffer = filteredImage.As<byte[]>();
+                            filteredImageBase64 = $"data:image/jpeg;base64,{Convert.ToBase64String(filteredImageBuffer)}";
+                        }
+                    }
+
+                    return (success, filteredImageBase64, string.Empty);
                 }
             }
         }
         catch (Exception e)
         {
-            return (false, e.Message);
+            return (false, null, e.Message);
+        }
+    }
+
+    public dynamic CreatePythonBuffer(byte[] imageBuffer)
+    {
+        try
+        {
+            using (Py.GIL())
+            {
+                using (var scope = Py.CreateScope())
+                {
+                    dynamic np = Py.Import("numpy");
+                    dynamic ctypes = Py.Import("ctypes");
+                    dynamic lenFunction = PythonEngine.Eval("len");
+                    var pythonBuffer = np.asarray(imageBuffer);
+                    var buffer = (ctypes.c_char * lenFunction(pythonBuffer)).from_buffer(pythonBuffer);
+                    return buffer;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 }
 
 public interface IFilterExecutor
 {
-    public (bool Success, string? Message) Execute(string script, byte[] imageBuffer);
+    public (bool Success, string? FilteredImageBase64, string? Message) Execute(string script, dynamic imageBuffer,
+        string jsonArgs, AnalysisMode mode);
+    public dynamic CreatePythonBuffer(byte[] imageBuffer);
 }
 
 public class FiltersExecutor(IOptions<SnapshotCaptureSettings> captureSettings) : IFiltersExecutor
@@ -53,22 +92,25 @@ def process_image(byte_array):
     # Return a random boolean
     return random.choice([True, False])";
 
-    private readonly IFilterExecutor _filterExecutor = new FilterExecutor();
+    private readonly FilterExecutor _filterExecutor = new();
 
-    public Task<List<FilterResult>> ExecuteFilters(IReadOnlyList<Filter> filters, string capturePath)
+    public Task<List<FilterResult>> ExecuteFilters(IReadOnlyList<MaintenanceAnalysisArgs> args)
     {
         return Task.Run(async () =>
         {
-            var buffer = await ReadFileAsync(capturePath);
+            var buffer = await ReadFileAsync(args.First().FilePath);
+            var pythonBuffer = _filterExecutor.CreatePythonBuffer(buffer);
             var results = new ConcurrentBag<FilterResult>();
-            Parallel.ForEach(filters, filter =>
+            Parallel.ForEach(args, analysisArg =>
             {
+                var (filter, filterArgs, mode, _ ) = analysisArg;
+                var jsonArgs = JsonSerializer.Serialize(filterArgs);
                 var startTime = SystemClock.Instance.GetCurrentInstant();
                 var stopwatch = Stopwatch.StartNew();
-                var result = _filterExecutor.Execute(filter.Script, buffer);
+                var result = _filterExecutor.Execute(filter.Script, pythonBuffer, jsonArgs, mode);
                 stopwatch.Stop();
                 results.Add(new FilterResult(filter.Id, filter.Description, startTime,
-                    Duration.FromTimeSpan(stopwatch.Elapsed), result.Success, result.Message));
+                    Duration.FromTimeSpan(stopwatch.Elapsed), result.Success, result.FilteredImageBase64, result.Message));
             });
             return results.ToList();
         });

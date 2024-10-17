@@ -1,10 +1,11 @@
 using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 using Cerberus.Core.XabeFFMpegClient.ConversionBuilders;
+using Microsoft.Extensions.Logging;
 using Xabe.FFmpeg;
 
 namespace Cerberus.Core.XabeFFMpegClient.CaptureMiddlewares;
 
-public class FileBuilder : IConversionBuilderStep
+public class FileBuilder(ILogger<FileBuilder> logger) : IConversionBuilderStep
 {
     public async Task<IConversion> Handle(IConversion conversion, CaptureSnapshotArguments captureSnapshotArguments)
     {
@@ -24,10 +25,19 @@ public class FileBuilder : IConversionBuilderStep
     
     private async Task<int> GetStartingPoint(CaptureSnapshotArguments arguments)
     {
-        var mediaInfo = await FFmpeg.GetMediaInfo(arguments.Address);
-        var secondsToCapture = arguments.SecondsToCapture ?? Convert.ToUInt32((Convert.ToDouble(arguments.FramesToCapture.GetValueOrDefault(1)) / mediaInfo.VideoStreams.First().Framerate));
-        var seconds = Convert.ToInt32(mediaInfo.Duration.TotalSeconds - secondsToCapture);
-        return new Random().Next(0, seconds);
+        try
+        {
+            var mediaInfo = await FFmpeg.GetMediaInfo(arguments.Address);
+            var secondsToCapture = arguments.SecondsToCapture ?? Convert.ToUInt32((Convert.ToDouble(arguments.FramesToCapture.GetValueOrDefault(1)) / mediaInfo.VideoStreams.First().Framerate));
+            var seconds = Convert.ToInt32(mediaInfo.Duration.TotalSeconds - secondsToCapture);
+            return new Random().Next(0, seconds);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Couldn't get file media info from {File}", arguments.Address);
+            return 0;
+        }
+        
     }
 
     

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Cerberus.Maintenance.Features.Features.Shared;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
@@ -6,6 +8,7 @@ namespace Cerberus.Maintenance.Features.Features.TrainingReviews;
 
 [ApiController]
 [Route("api/training-reviews")]
+[Authorize(Policy = MaintenancePolicies.Operations)]
 public class TrainingReviewsController(IMessageBus bus): ControllerBase
 {
     public const string Consumes = "application/json;domain-model=Cerberus.Maintenance.FullfilTrainingReview;version=1.0";

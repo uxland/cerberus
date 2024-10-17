@@ -1,5 +1,6 @@
 import {ApiClient} from "@cerberus/shared/src";
 import {Axios, AxiosResponse} from 'axios';
+import { keycloak } from "../auth";
 
 // @ts-ignore
 const urlBase = import.meta.env.VITE_CERBERUS_BACKEND_URL
@@ -12,8 +13,8 @@ const baseConfig = {
 
 const axios = new Axios(baseConfig);
 const getPayload = (requestInit: RequestInit) => requestInit.body ? JSON.stringify(requestInit.body) : undefined;
-export class ApiClientImpl extends ApiClient{
 
+export class ApiClientImpl extends ApiClient{
     get<T>(url: string, requestInit: RequestInit | undefined): Promise<T> {
         const request = axios.get(url, {
                 headers: this.getHeaders(requestInit),
@@ -43,7 +44,9 @@ export class ApiClientImpl extends ApiClient{
     }
 
     private getHeaders(requestInit: RequestInit | undefined): any {
-        return requestInit?.headers || {};
+        const authHeader = {Authorization: `Bearer ${keycloak.token}`};
+        const requestHeaders = requestInit?.headers || {};
+        return {...baseConfig.headers, ...authHeader, ...requestHeaders};
     }
 
     private async handleResponse<T>(request: Promise<AxiosResponse>):Promise<T>{

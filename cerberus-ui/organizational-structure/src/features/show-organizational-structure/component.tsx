@@ -14,7 +14,7 @@ const OrganizationalStructureTreeNode = (props: {
 }) => {
   return (
     <SimpleTreeView>
-      {props.locationHierarchy.map((child) => (
+      {(props.locationHierarchy || []).map((child) => (
         <TreeNode key={child.id} node={child} />
       ))}
     </SimpleTreeView>
