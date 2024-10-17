@@ -1,6 +1,7 @@
 import ImageNotSupportedOutlinedIcon from "@mui/icons-material/ImageNotSupportedOutlined";
 import {SvgIcon} from "@mui/material";
 import {useState} from "react";
+import {getImageUrl} from "@cerberus/core";
 
 export const ImageComponent = (props: {
   src: string;
@@ -19,7 +20,7 @@ export const ImageComponent = (props: {
       {hasError ? (
         <ErrorComponent className={className} size={props.size} />
       ) : (
-        <img src={src} alt={alt} className={className} onError={handleError} />
+        <img src={getImageUrl(src)} alt={alt} className={className} onError={handleError} />
       )}
     </>
   );

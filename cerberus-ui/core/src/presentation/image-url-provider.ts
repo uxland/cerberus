@@ -9,11 +9,8 @@ const categorizeUrl = (url: string): urlCategory => {
 
     if (base64Pattern.test(url)) {
         return 'base64';
-    } else if (absoluteUrlPattern.test(url)) {
-        return 'absolute';
-    } else {
-        return 'relative';
     }
+    return absoluteUrlPattern.test(url) ? 'absolute' : 'relative';
 }
 
 export const getImageUrl= (url: string) =>
