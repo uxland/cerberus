@@ -42,7 +42,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
         var appendLocations = await AppendLocationsExcelReader.ReadFile(file);
         foreach (var appendLocation in appendLocations)
         {
-            await bus.SendAsync(appendLocation);
+            await bus.InvokeAsync(appendLocation);
         }
         
         return Ok("File processed successfully");

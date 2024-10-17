@@ -3,7 +3,7 @@ WORKDIR /src
 RUN npm install -g pnpm
 COPY . /src
 
-RUN pnpm install --link --frozen-lockfile
+RUN pnpm install --link
 
 RUN pnpm run build
 

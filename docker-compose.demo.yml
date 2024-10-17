@@ -57,7 +57,7 @@
       - keycloak
     volumes:
       - snapshots_volume:/app/Snapshots
-  cerberus-react-ui:
+  cerberus-ui:
     build:
         context: ./cerberus-ui
         dockerfile: ./Dockerfile
@@ -67,6 +67,8 @@
       VITE_AUTH_URL: "https://keycloak:8443/"
       VITE_AUTH_REALM: "cerberus"
       VITE_AUTH_CLIENT_ID: "cerberus"
+      VITE_CERBERUS_BACKEND_URL: "http://cerberus-back:8080"
+      VITE_CERBERUS_IMAGES_URL: "http://cerberus-back:8080/images"
     depends_on:
       - cerberus-back
     extra_hosts:

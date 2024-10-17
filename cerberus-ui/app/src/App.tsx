@@ -15,7 +15,7 @@ import {
 import {createUser} from "@cerberus/core/src/auth/utilities.ts";
 import {MainMenu} from "@cerberus/organizational-structure/src/ui-components/index.ts";
 import {ThemeProvider} from "@mui/material";
-import Box from "@mui/material/box";
+import Box from "@mui/material/Box";
 import {ReactKeycloakProvider, useKeycloak} from "@react-keycloak/web";
 import {Mediator} from "mediatr-ts";
 import {useEffect} from "react";
