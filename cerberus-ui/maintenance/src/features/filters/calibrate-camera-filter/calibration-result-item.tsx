@@ -1,18 +1,18 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import Typography from "@mui/material/Typography";
-import {CalibrationResult} from "../../features/filters/calibrate-camera-filter/model";
-import {useMaintenanceLocales} from "../../locales/ca/locales";
-import {ImageComponent} from "../ImageComponent/ImageComponent";
+import {CalibrationResult} from "./model.ts";
+import {useMaintenanceLocales} from "../../../locales/ca/locales.ts";
+import {ImageComponent} from "../../../components";
+import {getImageUrl} from "@cerberus/core";
 export const CalibrationResultItem = (props: {
-  result: CalibrationResult;
-  cameraId: string;
+  result: CalibrationResult,
+  cameraId: string,
 }) => {
   return (
     <div className="flex flex-col w-full bg-tableBg p-4">
       <div className="flex flex-1 items-center justify-between mb-2 mt-2">
         <Typography variant="h4" className="!font-bold" color={"primary"}>
-          {props.cameraId}
         </Typography>
         <Typography variant="h4">
           {props?.result.success === true ? (
@@ -31,7 +31,7 @@ export const CalibrationResultItem = (props: {
           </Typography>
           <div className="rounded-[10px] overflow-hidden">
             <ImageComponent
-              src={props.result.originalImageUrl}
+              src={getImageUrl(props.result.originalImageUrl)}
               alt={"Original"}
               className="w-full object-cover h-[580px] !min-w-80"
             />
@@ -45,8 +45,8 @@ export const CalibrationResultItem = (props: {
           </Typography>
           <div className="rounded-[10px] overflow-hidden">
             <ImageComponent
-              src={props.result.originalImageUrl}
-              alt={"Original"}
+              src={getImageUrl(props.result.calibratedBase64Image)}
+              alt={"transformed"}
               className="w-full object-cover h-[580px] !min-w-80"
             />
           </div>

@@ -1,4 +1,4 @@
-export * from "./CalibrationResultItem/CalibrationResultItem";
+export * from "../features/filters/calibrate-camera-filter/calibration-result-item.tsx";
 export * from "./CustomTextArea/CustomTextArea";
 export * from "./HeaderBar/HeaderBar";
 export * from "./ImageComponent/ImageComponent";

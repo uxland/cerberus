@@ -26,31 +26,15 @@ export class GetCameraFilterArgsHandler extends HandlerBase<unknown, GetCameraFi
 
 export class CalibrateCameraFilterHandler extends HandlerBase<CalibrationResult, CalibrateCameraFilter>{
     async handle(request: CalibrateCameraFilter): Promise<CalibrationResult> {
-        try {
-            request.setBusy(true);
-            const result = await this.fetchCalibrationResult(request);
-            await request.setState(result);
-        }
-        catch (e) {
-            console.error(e);
-            request.setError(e);
-        }
-        finally {
-            request.setBusy(false);
-        }
-        return this.apiClient.put<CalibrationResult>(
-            `filters/${request.filterId}:calibrate`,
-            {
-                body: <any>request
-            }
-        )
+        request.setState([]);
+        return super.handleRequest(request, this.fetchCalibrationResult.bind(this));
     }
 
     private fetchCalibrationResult(request: CalibrateCameraFilter): Promise<CalibrationResult> {
         return this.apiClient.put<CalibrationResult>(
             `filters/${request.filterId}:calibrate`,
             {
-                body: <any>{cameraId: request.cameraId, filterId: request.filterId, args: request.args}
+                body: <any>request
             }
         )
     }
@@ -74,7 +58,7 @@ export class SetCameraFilterArgsHandler extends HandlerBase<void, SetCameraFilte
 
     private fetchSetCameraFilterArgs(request: SetCameraFilterArgs): Promise<void> {
         return this.apiClient.put<void>(
-            `camera-maintenance-settings/${request.cameraId}:filter-args/${request.filterId}`,
+            `camera-maintenance-settings/${request.cameraId}/filters/${request.filterId}`,
             {
                 body: <any>request.args
             }

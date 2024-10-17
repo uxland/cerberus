@@ -4,13 +4,9 @@ import {IconButton, Typography} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {CalibrationResultItem} from "../../../components/CalibrationResultItem/CalibrationResultItem.tsx";
+import {CalibrationResultItem} from "./calibration-result-item.tsx";
 import {HeaderBar} from "../../../components/index.ts";
 import {useMaintenanceLocales} from "../../../locales/ca/locales.ts";
-import {
-  calibrateResultMock,
-  filterToCalibrateMock,
-} from "../../../mocks/calibrateCameraFilter.ts";
 import {
   CalibrateCameraFilter,
   GetCameraFilterArgs,
@@ -24,32 +20,47 @@ export const CalibrateCameraFilterPage = () => {
     filterId: string;
   }>();
   const [detail, setDetail] = useState<CameraFilterDetail | null>(null);
-  const [captureNumber, setCaptureNumber] = useState<number>(0);
+  const [captureNumber, setCaptureNumber] = useState<number>(1);
+  const [currentArgs, setCurrentArgs] = useState<unknown>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CalibrationResult[] | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  useEffect(() => {
-    new Mediator()
-      .send(
-        new GetCameraFilterArgs(
-          cameraId,
-          filterId,
-          setDetail,
-          setLoading,
-          setError
-        )
-      )
-      .then(nop);
-  }, [cameraId, filterId]);
+  useEffect(() =>{
+        loadFilterArgs(cameraId, filterId).then(nop);
+        return () => {
+          // Cleanup logic here
+          console.log('Cleanup function called');
+        };
+  }
 
+  , [cameraId, filterId]);
+  useEffect(() => {
+    if(detail) {
+      setCurrentArgs(detail.args);
+    }
+    return () => {
+      // Cleanup logic here
+      console.log('Cleanup function called');
+    };
+  }, [detail]);
+
+  const loadFilterArgs = async (cameraId: string, filterId: string) => {
+    const query = new GetCameraFilterArgs(cameraId, filterId, setDetail, setLoading, setError);
+    await new Mediator().send(query);
+  }
+
+  const handleReset = (e) =>{
+    e.preventDefault();
+    setCurrentArgs(detail?.args);
+  } ;
   const handleSubmit = (e) => {
     e.preventDefault();
     const command = new SetCameraFilterArgs(
       cameraId,
       filterId,
-      detail.args,
+      currentArgs,
       () => {},
       setIsSubmitting,
       setError
@@ -63,7 +74,7 @@ export const CalibrateCameraFilterPage = () => {
       cameraId,
       filterId,
       captureNumber,
-      detail.args,
+      currentArgs,
       setResult,
       setIsSubmitting,
       setError
@@ -94,27 +105,26 @@ export const CalibrateCameraFilterPage = () => {
                 setCaptureNumber(Number.parseInt(e.target.value));
               }}
             />
-            {Object.keys(filterToCalibrateMock["args"]).map((arg) => (
+            {Object.keys(currentArgs || {}).map((arg) => (
               <InputField
                 key={arg}
                 title={arg}
-                value={detail?.args?.[arg]}
+                value={currentArgs?.[arg]}
                 classes="!gap-4 !font-bold"
                 onChange={(e) => {
-                  setDetail({
-                    ...detail,
-                    args: {
-                      ...detail?.args,
-                      [arg]: Number.parseInt(e.target.value),
-                    },
-                  });
+                  setCurrentArgs(
+                      {
+                        ...currentArgs,
+                        [arg]: Number.parseInt(e.target.value),
+                      }
+                  );
                 }}
               />
             ))}
           </div>
           <div className="flex flex-1 items-end">
-            <div className={`flex flex-1 items-end gap-6`}>
-              <IconButton className="!p-0 !pb-1">
+            <div className="flex flex-1 items-end gap-6">
+              <IconButton className="!p-0 !pb-1" onClick={handleReset}>
                 <CachedIcon className="!fill-[#fff]" />
               </IconButton>
               <CustomButton
@@ -128,7 +138,7 @@ export const CalibrateCameraFilterPage = () => {
             <div className="flexitems-end">
               <CustomButton
                 label={useMaintenanceLocales("maintenanceSettings.onSubmit")}
-                onClick={handleCalibration}
+                onClick={handleSubmit}
                 color={"#02bc77"}
                 textColor="white"
                 textSize={"xs"}
@@ -140,8 +150,7 @@ export const CalibrateCameraFilterPage = () => {
         <div className="flex mt-4">
           <CalibrationSlider
             key={"slider"}
-            results={calibrateResultMock}
-            // results={result}
+            results={result}
             cameraId={cameraId}
           />
         </div>
@@ -196,7 +205,7 @@ const CalibrationSlider = ({
     <Slider>
       {results?.map((result, index) => (
         <CalibrationResultItem
-          key={index}
+          key={index.toString()}
           result={result}
           cameraId={cameraId}
         />
