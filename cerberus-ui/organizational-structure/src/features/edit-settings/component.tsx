@@ -5,11 +5,10 @@ import {
 import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
-import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddEditLocationForm} from "../../../ui-components";
-import {LocationSettings} from "../../locations/location-detail/show-location-settings/model";
-import {HierarchyItemType} from "../../state/hierarchy-item";
-import {AddEditCameraForm} from "../add-camera/components/AddCameraForm";
+import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
+import {AddEditCameraForm, AddEditLocationForm} from "../../ui-components";
+import {LocationSettings} from "../locations/location-detail/show-location-settings/model";
+import {HierarchyItemType} from "../state/hierarchy-item";
 
 export const EditSettings = (
   settings: LocationSettings,
