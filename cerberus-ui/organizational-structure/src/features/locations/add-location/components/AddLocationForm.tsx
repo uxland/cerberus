@@ -1,8 +1,8 @@
 import {InputField} from "@cerberus/core";
 import {ChangeEvent} from "react";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
+import {useOrganizationalStructureLocales} from "../../../../locales/ca/locales";
 
-export const AddLocation = (props: {
+export const AddLocationForm = (props: {
   onLocationDescriptionChange: (value: string) => void;
   onLocationCodeChange: (value: string) => void;
   onCapturePatternChange: (value: string) => void;

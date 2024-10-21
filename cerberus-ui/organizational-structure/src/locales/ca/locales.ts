@@ -70,6 +70,12 @@ export const locales = {
         error: "Error al afegir Càmera",
       },
     },
+    editCamera: {
+      notifcation: {
+        success: "Càmera modificada correctament",
+        error: "Error al modificar Càmera",
+      },
+    },
     addMenu: {
       title: "Afegir Localitzacio o Càmera",
     },

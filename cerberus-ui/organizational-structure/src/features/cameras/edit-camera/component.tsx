@@ -1,4 +1,3 @@
-import {notificationService} from "@cerberus/core";
 import {
   useUpdateModal,
   useUpdateModalActions,
@@ -7,25 +6,24 @@ import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddLocation as AddLocationCommand} from "./command";
-import {AddLocationForm} from "./components/AddLocationForm";
+import {AddEditCameraForm} from "../add-camera/components/AddCameraForm";
 
-export const AddLocationModal = (parentId: string) => {
+export const EditCamera = (parentId: string) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
 
   const [formData, setFormData] = useState<{
-    locationDescription: string;
-    locationCode: string;
+    cameraDescription: string;
+    capturePattern: string;
+    cameraUrl: string;
     user: string;
     password: string;
-    capturePattern: string;
   }>({
-    locationDescription: "",
-    locationCode: "",
+    cameraDescription: "",
+    capturePattern: "",
+    cameraUrl: "",
     user: "",
     password: "",
-    capturePattern: "",
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
@@ -33,43 +31,49 @@ export const AddLocationModal = (parentId: string) => {
   };
 
   const successMessage: string = useOrganizationalStructureLocales(
-    "addLocation.notifcation.success"
+    "editCamera.notifcation.success"
   );
   const errorMessage: string = useOrganizationalStructureLocales(
-    "addLocation.notifcation.error"
+    "editCamera.notifcation.error"
   );
 
   const handleSubmit = async () => {
     const mediator = new Mediator();
-    try {
-      await mediator.send(
-        new AddLocationCommand(
-          parentId,
-          formData.locationCode,
-          formData.locationDescription,
-          formData.capturePattern,
-          {username: formData.user, password: formData.password}
-        )
-      );
-      notificationService.notifySuccess(successMessage);
-    } catch (e) {
-      notificationService.notifyError(errorMessage, e.message);
-      console.error(e.message);
-    }
-    updateModal(null);
+    console.log("Edti càmera paramters", formData);
+
+    // try {
+    //   await mediator.send(
+    //     new EditCameraCommand(
+    //       formData.cameraCode,
+    //       parentId,
+    //       formData.cameraDescription,
+    //       formData.capturePattern,
+    //       formData.cameraUrl,
+    //       {username: formData.user, password: formData.password}
+    //     )
+    //   );
+    //   notificationService.notifySuccess(successMessage);
+    // } catch (e) {
+    //   notificationService.notifyError(errorMessage, e.message);
+    //   console.error(e.message);
+    // }
+    // updateModal(null);
   };
 
   const openModal = () => {
     updateModal({
-      title: "Afegir una nova localització",
+      title: "Editar paràmetres de Càmera",
       maxWidth: "lg",
       closeAction: true,
       className: "",
+
       content: () => (
-        <AddLocationForm
-          onLocationDescriptionChange={handleChange("locationDescription")}
-          onLocationCodeChange={handleChange("locationCode")}
+        <AddEditCameraForm
+          showCameraCode={false}
+          onCameraCodeChange={handleChange("cameraCode")}
+          onCameraDescriptionChange={handleChange("cameraDescription")}
           onCapturePatternChange={handleChange("capturePattern")}
+          onUrlChange={handleChange("cameraUrl")}
           onUserChange={handleChange("user")}
           onPasswordChange={handleChange("password")}
         />
@@ -84,17 +88,16 @@ export const AddLocationModal = (parentId: string) => {
               size="small"
               color="success"
               fullWidth
-              disabled={!formData.locationCode || !formData.locationDescription}
+              disabled={!formData.cameraUrl || !formData.cameraDescription}
               className="!rounded-2xl !w-52 !text-white !bg-[#afafaf]"
               onClick={handleSubmit}>
-              {useOrganizationalStructureLocales("addLocation.submitBtn")}
+              {useOrganizationalStructureLocales("addCamera.submitBtn")}
             </Button>
           ),
         },
       ],
     });
   };
-
   useEffect(() => {
     updateModalActions([
       {
@@ -107,9 +110,9 @@ export const AddLocationModal = (parentId: string) => {
             color="success"
             fullWidth
             className={`!rounded-2xl !w-52 !text-white ${
-              formData.locationDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
+              formData.cameraDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
             }`}
-            disabled={!formData.locationCode || !formData.locationDescription}
+            disabled={!formData.cameraUrl || !formData.cameraDescription}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>

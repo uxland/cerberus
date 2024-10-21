@@ -60,12 +60,8 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
             placement="right">
             <div>
               <AddMenu
-                onAddCamera={AddCameraModal(
-                  node?.parentId === undefined ? "" : node?.id
-                )}
-                onAddLocation={AddLocationModal(
-                  node?.parentId === undefined ? "" : node?.id
-                )}
+                onAddCamera={AddCameraModal(node.id)}
+                onAddLocation={AddLocationModal(node.id)}
               />
             </div>
           </Tooltip>

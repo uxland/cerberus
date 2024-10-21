@@ -7,8 +7,8 @@ import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddCamera} from "../../../ui-components/add-camera/component";
 import {AddCamera as AddCameraCommand} from "./command";
+import {AddEditCameraForm} from "./components/AddCameraForm";
 
 export const AddCameraModal = (parentId: string) => {
   const updateModal = useUpdateModal();
@@ -46,10 +46,10 @@ export const AddCameraModal = (parentId: string) => {
     try {
       await mediator.send(
         new AddCameraCommand(
-          formData.cameraCode, // TODO quina hauria de ser ID
+          formData.cameraCode,
           parentId,
           formData.cameraDescription,
-          formData.capturePattern, // TODO afegir patro de captura
+          formData.capturePattern,
           formData.cameraUrl,
           {username: formData.user, password: formData.password}
         )
@@ -70,7 +70,8 @@ export const AddCameraModal = (parentId: string) => {
       className: "",
 
       content: () => (
-        <AddCamera
+        <AddEditCameraForm
+          showCameraCode={true}
           onCameraCodeChange={handleChange("cameraCode")}
           onCameraDescriptionChange={handleChange("cameraDescription")}
           onCapturePatternChange={handleChange("capturePattern")}

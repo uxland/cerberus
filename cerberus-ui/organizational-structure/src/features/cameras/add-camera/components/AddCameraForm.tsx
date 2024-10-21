@@ -1,9 +1,10 @@
 import {InputField} from "@cerberus/core";
 import {ChangeEvent} from "react";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
+import {useOrganizationalStructureLocales} from "../../../../locales/ca/locales";
 
-export const AddCamera = (props: {
-  onCameraCodeChange: (value: string) => void;
+export const AddEditCameraForm = (props: {
+  showCameraCode?: boolean;
+  onCameraCodeChange?: (value: string) => void;
   onCameraDescriptionChange: (value: string) => void;
   onCapturePatternChange: (value: string) => void;
   onUrlChange: (value: string) => void;
@@ -19,13 +20,15 @@ export const AddCamera = (props: {
           props.onCameraDescriptionChange(ev.target.value)
         }
       />
-      <InputField
-        title={useOrganizationalStructureLocales("addCamera.cameraCode")}
-        required
-        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-          props.onCameraCodeChange(ev.target.value)
-        }
-      />
+      {props.showCameraCode && (
+        <InputField
+          title={useOrganizationalStructureLocales("addCamera.cameraCode")}
+          required
+          onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+            props.onCameraCodeChange(ev.target.value)
+          }
+        />
+      )}
       <InputField
         title={useOrganizationalStructureLocales("addCamera.capturePattern")}
         onChange={(ev: ChangeEvent<HTMLInputElement>) =>
