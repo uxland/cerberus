@@ -30,6 +30,8 @@ export const locales = {
       title: "Adjunta arxiu",
       file: "Pujar arxiu",
     },
+    edit: "Editar",
+    delete: "Eliminar",
     tabs: {
       openIssues: "Incidències",
       pendingReviews: "Anàlisis",
@@ -56,6 +58,7 @@ export const locales = {
       title: "Afegir una nova Càmera",
       name: "Nom Càmera",
       capturePattern: "Patró de Captura",
+      cameraCode: "Codi de Càmera",
       url: "URL",
       user: "Usuari",
       password: "Contrasenya",
@@ -69,6 +72,10 @@ export const locales = {
     },
     addMenu: {
       title: "Afegir Localitzacio o Càmera",
+    },
+    cameraSettings: {
+      id: "Id",
+      description: "Descripció",
     },
   },
 };

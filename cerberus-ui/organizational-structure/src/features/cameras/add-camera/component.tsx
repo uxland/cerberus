@@ -16,12 +16,14 @@ export const AddCameraModal = (parentId: string) => {
 
   const [formData, setFormData] = useState<{
     cameraDescription: string;
+    cameraCode: string;
     capturePattern: string;
     cameraUrl: string;
     user: string;
     password: string;
   }>({
     cameraDescription: "",
+    cameraCode: "",
     capturePattern: "",
     cameraUrl: "",
     user: "",
@@ -44,7 +46,7 @@ export const AddCameraModal = (parentId: string) => {
     try {
       await mediator.send(
         new AddCameraCommand(
-          formData.cameraDescription, // TODO quina hauria de ser ID
+          formData.cameraCode, // TODO quina hauria de ser ID
           parentId,
           formData.cameraDescription,
           formData.capturePattern, // TODO afegir patro de captura
@@ -62,12 +64,14 @@ export const AddCameraModal = (parentId: string) => {
 
   const openModal = () => {
     updateModal({
-      title: "Afegir un nou Dispositiu",
+      title: "Afegir una nova Càmera",
       maxWidth: "lg",
       closeAction: true,
       className: "",
+
       content: () => (
         <AddCamera
+          onCameraCodeChange={handleChange("cameraCode")}
           onCameraDescriptionChange={handleChange("cameraDescription")}
           onCapturePatternChange={handleChange("capturePattern")}
           onUrlChange={handleChange("cameraUrl")}

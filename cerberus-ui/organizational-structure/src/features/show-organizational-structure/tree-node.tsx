@@ -56,7 +56,8 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
       {node.type !== HierarchyItemType.camera && (
         <div style={{marginLeft: "1.2rem"}}>
           <Tooltip
-            title={useOrganizationalStructureLocales("addLocation.title")}>
+            title={useOrganizationalStructureLocales("addLocation.title")}
+            placement="right">
             <div>
               <AddMenu
                 onAddCamera={AddCameraModal(

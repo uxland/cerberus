@@ -3,17 +3,20 @@ import {
   OpenIssuesView,
   PendingTrainingReviewsView,
 } from "@cerberus/maintenance";
-import {Box} from "@mui/material";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import {Box, IconButton} from "@mui/material";
 import {useEffect, useState} from "react";
-import {useLocation, useParams, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {HeaderComponent, TabsBar} from "../../../ui-components";
+import {AddCameraModal} from "../../cameras/add-camera/component.tsx";
+import {CameraSettings} from "../../cameras/components/CameraSettings/CameraSettings.tsx";
 import {HierarchyItemType} from "../../state/hierarchy-item.ts";
 import {CameraCapturesView} from "./list-camera-captures/component";
 import {TabPanelProps} from "./model.ts";
 import {LocationSettingsView} from "./show-location-settings/component";
-import {LocationSettingsTable} from "./show-location-settings/show-location-table/component.tsx";
+
 export const LocationPage = () => {
-  const {id} = useParams();
+  const {id, parentId} = useParams();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,8 +28,10 @@ export const LocationPage = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     params.set("tab", selectedTab.toString());
+
     navigate({search: params.toString()}, {replace: true});
   }, [selectedTab]);
+
   return (
     <div className="flex flex-col flex-1 w-full ">
       <LocationSettingsView id={id} type={itemType} content={HeaderComponent} />
@@ -43,11 +48,16 @@ export const LocationPage = () => {
           <PendingTrainingReviewsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={4}>
-          <LocationSettingsView
-            id={id}
-            type={itemType}
-            content={LocationSettingsTable}
-          />
+          <>
+            <LocationSettingsView
+              id={id}
+              type={itemType}
+              content={CameraSettings}
+            />
+            <IconButton color="primary" onClick={AddCameraModal("")}>
+              <ModeEditOutlineIcon />
+            </IconButton>
+          </>
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={6}>
           <CameraCapturesView id={id} />
@@ -73,4 +83,3 @@ const CustomTabPanel = (props: TabPanelProps) => {
     </div>
   );
 };
-

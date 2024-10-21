@@ -3,6 +3,7 @@ import {ChangeEvent} from "react";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
 
 export const AddCamera = (props: {
+  onCameraCodeChange: (value: string) => void;
   onCameraDescriptionChange: (value: string) => void;
   onCapturePatternChange: (value: string) => void;
   onUrlChange: (value: string) => void;
@@ -16,6 +17,13 @@ export const AddCamera = (props: {
         required
         onChange={(ev: ChangeEvent<HTMLInputElement>) =>
           props.onCameraDescriptionChange(ev.target.value)
+        }
+      />
+      <InputField
+        title={useOrganizationalStructureLocales("addCamera.cameraCode")}
+        required
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          props.onCameraCodeChange(ev.target.value)
         }
       />
       <InputField
