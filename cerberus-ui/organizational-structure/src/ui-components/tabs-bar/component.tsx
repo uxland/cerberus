@@ -66,15 +66,14 @@ export const TabsBar = (props: {
           }
           {...a11yProps(TabPanelType.Analysis)}
         />
+        <CustomDivider />
+        <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
         {itemType === HierarchyItemType.camera && <CustomDivider />}
-        {itemType === HierarchyItemType.camera && (
-          <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
-        )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+
         {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        <CustomDivider />
         {itemType === HierarchyItemType.camera && (
           <Tab
             label={maintenancesSettingsLabel}

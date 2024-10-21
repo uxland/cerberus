@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import {LocationSettings} from "../../../locations/location-detail/show-location-settings/model";
 
-export const CameraSettings = (settings: LocationSettings) => {
+export const HierarchyItemSettings = (settings: LocationSettings) => {
   const items = [
     {key: "ID", value: settings?.id},
     {key: "Description", value: settings?.description},
@@ -24,8 +24,6 @@ export const CameraSettings = (settings: LocationSettings) => {
       value: settings?.adminSettings?.cameraCredentials?.password,
     },
   ];
-
-  console.log(settings.parentId);
 
   return (
     <div className="flex flex-col gap-8 w-[520px]">

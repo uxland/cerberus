@@ -6,20 +6,28 @@ import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
+import {AddEditLocationForm} from "../../../ui-components";
+import {LocationSettings} from "../../locations/location-detail/show-location-settings/model";
+import {HierarchyItemType} from "../../state/hierarchy-item";
 import {AddEditCameraForm} from "../add-camera/components/AddCameraForm";
 
-export const EditCamera = (parentId: string) => {
+export const EditSettings = (
+  settings: LocationSettings,
+  itemType: HierarchyItemType
+) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
 
   const [formData, setFormData] = useState<{
     cameraDescription: string;
+    locationDescription: string;
     capturePattern: string;
     cameraUrl: string;
     user: string;
     password: string;
   }>({
     cameraDescription: "",
+    locationDescription: "",
     capturePattern: "",
     cameraUrl: "",
     user: "",
@@ -40,12 +48,13 @@ export const EditCamera = (parentId: string) => {
   const handleSubmit = async () => {
     const mediator = new Mediator();
     console.log("Edti càmera paramters", formData);
+    // Falta la llogica de editar la càmera / localitzacio
 
     // try {
     //   await mediator.send(
     //     new EditCameraCommand(
     //       formData.cameraCode,
-    //       parentId,
+    //       settings.parentId,
     //       formData.cameraDescription,
     //       formData.capturePattern,
     //       formData.cameraUrl,
@@ -62,22 +71,34 @@ export const EditCamera = (parentId: string) => {
 
   const openModal = () => {
     updateModal({
-      title: "Editar paràmetres de Càmera",
+      title: `${
+        itemType === HierarchyItemType.camera
+          ? "Editar paràmetres de Càmera"
+          : "Editar paràmetres de Localització"
+      }`,
       maxWidth: "lg",
       closeAction: true,
       className: "",
 
-      content: () => (
-        <AddEditCameraForm
-          showCameraCode={false}
-          onCameraCodeChange={handleChange("cameraCode")}
-          onCameraDescriptionChange={handleChange("cameraDescription")}
-          onCapturePatternChange={handleChange("capturePattern")}
-          onUrlChange={handleChange("cameraUrl")}
-          onUserChange={handleChange("user")}
-          onPasswordChange={handleChange("password")}
-        />
-      ),
+      content: () =>
+        itemType === HierarchyItemType.camera ? (
+          <AddEditCameraForm
+            showCameraCode={false}
+            onCameraDescriptionChange={handleChange("cameraDescription")}
+            onCapturePatternChange={handleChange("capturePattern")}
+            onUrlChange={handleChange("cameraUrl")}
+            onUserChange={handleChange("user")}
+            onPasswordChange={handleChange("password")}
+          />
+        ) : (
+          <AddEditLocationForm
+            showCameraCode={false}
+            onLocationDescriptionChange={handleChange("locationDescription")}
+            onCapturePatternChange={handleChange("capturePattern")}
+            onUserChange={handleChange("user")}
+            onPasswordChange={handleChange("password")}
+          />
+        ),
       actions: [
         {
           id: "submit",

@@ -8,7 +8,7 @@ import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 import {AddLocation as AddLocationCommand} from "./command";
-import {AddLocationForm} from "./components/AddLocationForm";
+import {AddEditLocationForm} from "./components/AddLocationForm";
 
 export const AddLocationModal = (parentId: string) => {
   const updateModal = useUpdateModal();
@@ -66,7 +66,8 @@ export const AddLocationModal = (parentId: string) => {
       closeAction: true,
       className: "",
       content: () => (
-        <AddLocationForm
+        <AddEditLocationForm
+          showCameraCode={true}
           onLocationDescriptionChange={handleChange("locationDescription")}
           onLocationCodeChange={handleChange("locationCode")}
           onCapturePatternChange={handleChange("capturePattern")}

@@ -2,9 +2,10 @@ import {InputField} from "@cerberus/core";
 import {ChangeEvent} from "react";
 import {useOrganizationalStructureLocales} from "../../../../locales/ca/locales";
 
-export const AddLocationForm = (props: {
+export const AddEditLocationForm = (props: {
+  showCameraCode?: boolean;
   onLocationDescriptionChange: (value: string) => void;
-  onLocationCodeChange: (value: string) => void;
+  onLocationCodeChange?: (value: string) => void;
   onCapturePatternChange: (value: string) => void;
   onUserChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
@@ -26,12 +27,14 @@ export const AddLocationForm = (props: {
           onLocationDescriptionChange(ev.target.value)
         }
       />
-      <InputField
-        title={useOrganizationalStructureLocales("addLocation.locationCode")}
-        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
-          onLocationCodeChange(ev.target.value)
-        }
-      />
+      {props.showCameraCode && (
+        <InputField
+          title={useOrganizationalStructureLocales("addLocation.locationCode")}
+          onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+            onLocationCodeChange(ev.target.value)
+          }
+        />
+      )}
       <InputField
         title={useOrganizationalStructureLocales("addLocation.capturePattern")}
         onChange={(ev: ChangeEvent<HTMLInputElement>) =>

@@ -9,8 +9,8 @@ import {Box, IconButton, Tooltip} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {HeaderComponent, TabsBar} from "../../../ui-components";
-import {CameraSettings} from "../../cameras/edit-camera/CameraSettings/CameraSettings.tsx";
-import {EditCamera} from "../../cameras/edit-camera/component.tsx";
+import {HierarchyItemSettings} from "../../cameras/edit/HierarchyItemSettings/HierarchyItemSettings.tsx";
+import {EditSettings} from "../../cameras/edit/component.tsx";
 import {HierarchyItemType} from "../../state/hierarchy-item.ts";
 import {CameraCapturesView} from "./list-camera-captures/component";
 import {TabPanelProps} from "./model.ts";
@@ -55,7 +55,7 @@ export const LocationPage = () => {
               <Tooltip title={"Editar"}>
                 <IconButton
                   color="primary"
-                  onClick={EditCamera(settings?.parentId || "")}>
+                  onClick={EditSettings(settings || "", itemType)}>
                   <ModeEditOutlineIcon />
                 </IconButton>
               </Tooltip>
@@ -68,7 +68,7 @@ export const LocationPage = () => {
             <LocationSettingsView
               id={id}
               type={itemType}
-              content={CameraSettings}
+              content={HierarchyItemSettings}
               onFetchComplete={(id) => setSettings(id)}
             />
           </>
