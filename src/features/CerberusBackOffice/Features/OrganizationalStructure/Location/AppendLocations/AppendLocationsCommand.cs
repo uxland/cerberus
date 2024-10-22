@@ -23,14 +23,14 @@ public record SetupLocation(string Id,
     CameraFunctionalSettings? DefaultCameraFunctionalSettings
     ): ICommand, IHierarchyItem;
 
-public record CreateLocation(string Id,
+/*public record CreateLocation(string Id,
     string? ParentId,
     string Description,
     CameraAdminSettings? DefaultCameraAdminSettings,
     CameraFunctionalSettings? DefaultCameraFunctionalSettings
-    ): ICommand, IHierarchyItem;
+    ): ICommand, IHierarchyItem;*/
     
-public record AppendLocationRequest(
+public record SetUpLocationRequest(
     string? Id,
     string? ParentId,
     string Description,

@@ -4,7 +4,7 @@ using Cerberus.Core.Domain;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 
-public record SetupCameraCommand(
+public record SetupCamera(
     string Id,
     string ParentId,
     string Description,
@@ -31,7 +31,7 @@ public class SetupLocationFactory : IHierarchySetupCommandFactoryItem
     }
 }
 
-public record AppendCameraRequest(
+public record SetUpCameraRequest(
     string? Id,
     string ParentId,
     string Description,
@@ -40,9 +40,9 @@ public record AppendCameraRequest(
     CameraCredentials? CameraCredentials
 )
 {
-    public SetupCameraCommand ToCreateCamera()
+    public SetupCamera ToSetUpCamera()
     {
-        return new SetupCameraCommand(
+        return new SetupCamera(
             Id ?? Guid.NewGuid().ToString(),
             ParentId,
             Description,

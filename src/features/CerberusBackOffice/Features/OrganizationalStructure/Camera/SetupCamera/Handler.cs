@@ -7,7 +7,7 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamer
 
 public class Handler(IGenericRepository cameraRepository, IHierarchyItemPathProvider pathProvider, ILocationSettingsGetter locationSettingsGetter)
 {
-    public async Task Handle(SetupCameraCommand request, CancellationToken cancellationToken)
+    public async Task Handle(SetupCamera request, CancellationToken cancellationToken)
     {
         var settings = await locationSettingsGetter.GetLocationSettings(request.ParentId);
         request = request with
@@ -23,12 +23,12 @@ public class Handler(IGenericRepository cameraRepository, IHierarchyItemPathProv
             UpdateCamera(camera, request, path);
     }
 
-    private void CreateCamera(SetupCameraCommand setupCamera, string path)
+    private void CreateCamera(SetupCamera setupCamera, string path)
     {
         var camera = new Camera(setupCamera, path);
         cameraRepository.Create(camera);
     }
-    private void UpdateCamera(Camera camera, SetupCameraCommand setupCamera, string path)
+    private void UpdateCamera(Camera camera, SetupCamera setupCamera, string path)
     {
         camera.Handle(setupCamera, path);
         cameraRepository.Save(camera);

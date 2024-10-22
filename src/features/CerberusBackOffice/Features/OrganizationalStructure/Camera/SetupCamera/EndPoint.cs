@@ -10,11 +10,11 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamer
 [Route("api/[controller]")]
 public class CamerasController(IMessageBus bus): ControllerBase
 {
-    [HttpPost]
+    [HttpPut]
     [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
-    public async Task<IActionResult> AppendCamera([FromBody] AppendCameraRequest request)
+    public async Task<IActionResult> AppendCamera([FromBody] SetUpCameraRequest request)
     {
-        var command = request.ToCreateCamera();
+        var command = request.ToSetUpCamera();
         await bus.InvokeAsync(command);
         var addedItem = await bus.InvokeAsync<string?>(new GetHierarchyItem(command.Id));
         return string.IsNullOrEmpty(addedItem) ? NotFound() : Ok(addedItem);

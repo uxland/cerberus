@@ -17,11 +17,11 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
     public const string AppendLocationsCommand = "application/json;domain-model=AppendLocations;version=1.0.0";
     public const string AppendLocationCommand = "application/json;domain-model=AppendLocation;version=1.0.0";
     
-    [HttpPost]
+    [HttpPut]
     [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
-    public async Task<IActionResult> AppendLocation([FromBody]AppendLocationRequest request)
+    public async Task<IActionResult> AppendLocation([FromBody]SetUpLocationRequest request)
     {
-        var command = new CreateLocation(
+        var command = new SetupLocation(
             Id: request.Id ?? Guid.NewGuid().ToString(),
             ParentId: request.ParentId,
             Description: request.Description,
@@ -33,7 +33,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
         return string.IsNullOrEmpty(addedItem) ? NotFound() : Ok(addedItem);
 
     }
-    [HttpPost("batch")]
+    [HttpPut("batch")]
     [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
     public async Task<IActionResult> AppendLocationsFromFile(IFormFile? file)
     {

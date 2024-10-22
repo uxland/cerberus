@@ -13,7 +13,7 @@ public class SetupCameraFactory : IHierarchySetupCommandFactoryItem
 
     public IBaseCommand Produce(AppendHierarchyItem item)
     {
-        return new SetupCameraCommand(
+        return new SetupCamera(
             item.Id,
             item.ParentId!,
             item.Description,

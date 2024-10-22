@@ -9,7 +9,7 @@ public partial class Camera :
     IDomainEventHandler<CameraLocationChanged>,
     IDomainEventHandler<CameraRecurrencePatternChanged>
 {
-    public Camera(SetupCameraCommand command, string path)
+    public Camera(SetupCamera.SetupCamera command, string path)
     {
         this.ApplyUncommittedEvent(
             new CameraCreated(
@@ -22,9 +22,9 @@ public partial class Camera :
                 )
             );
     }
-    public void Handle(SetupCameraCommand setupCamera, string path)
+    public void Handle(SetupCamera.SetupCamera setupCamera, string path)
     {
-        var cmd = new SetupCameraCommand(setupCamera.Id, setupCamera.ParentId, setupCamera.Description,
+        var cmd = new SetupCamera.SetupCamera(setupCamera.Id, setupCamera.ParentId, setupCamera.Description,
             setupCamera.AdminSettings, setupCamera.FunctionalSettings);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
@@ -33,13 +33,13 @@ public partial class Camera :
         this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path));
     }
     
-    private void HandleLocationChange(SetupCameraCommand setupCamera, string path)
+    private void HandleLocationChange(SetupCamera.SetupCamera setupCamera, string path)
     {
         if(setupCamera.ParentId != this.ParentId)
             this.ApplyUncommittedEvent(new CameraLocationChanged(this.ParentId, setupCamera.ParentId, path));
     }
     
-    private void HandleRecurrencePatternChange(SetupCameraCommand setupCamera)
+    private void HandleRecurrencePatternChange(SetupCamera.SetupCamera setupCamera)
     {
         if(this.AdminSettings.CaptureRecurrencePattern != setupCamera.AdminSettings?.CaptureRecurrencePattern)
             this.ApplyUncommittedEvent(new CameraRecurrencePatternChanged(setupCamera.Id, this.AdminSettings.CaptureRecurrencePattern, setupCamera.AdminSettings?.CaptureRecurrencePattern ?? string.Empty));
