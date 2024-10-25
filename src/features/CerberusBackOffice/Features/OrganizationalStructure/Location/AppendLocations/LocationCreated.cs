@@ -8,12 +8,10 @@ public record LocationCreated(
     string? ParentId,
     string Path,
     string Description,
-    CameraAdminSettings? DefaultCameraAdminSettings,
-    CameraFunctionalSettings? DefaultCameraFunctionalSettings) : IDomainEvent;
+    CameraAdminSettings? DefaultCameraAdminSettings) : IDomainEvent;
     
 public record LocationUpdated(
     string Path,
     string? ParentId,
     string Description,
-    CameraAdminSettings? DefaultCameraAdminSettings,
-    CameraFunctionalSettings? DefaultCameraFunctionalSettings) : IDomainEvent;
+    CameraAdminSettings? DefaultCameraAdminSettings) : IDomainEvent;

@@ -17,7 +17,6 @@ public partial class Camera :
                 command.ParentId,
                 command.Description,
                 command.AdminSettings,
-                command.FunctionalSettings,
                 path
                 )
             );
@@ -25,12 +24,12 @@ public partial class Camera :
     public void Handle(SetupCameraCommand setupCamera, string path)
     {
         var cmd = new SetupCameraCommand(setupCamera.Id, setupCamera.ParentId, setupCamera.Description,
-            setupCamera.AdminSettings, setupCamera.FunctionalSettings);
+            setupCamera.AdminSettings);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
         this.HandleLocationChange(setupCamera, path);
         this.HandleRecurrencePatternChange(setupCamera);
-        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path));
+        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings,  path));
     }
     
     private void HandleLocationChange(SetupCameraCommand setupCamera, string path)
@@ -58,7 +57,6 @@ public partial class Camera :
         this.ParentId = @event.ParentId;
         this.Description = @event.Description;
         this.AdminSettings = @event.AdminSettings;
-        this.FunctionalSettings = @event.FunctionalSettings;
         this.Path = @event.Path;
     }
 

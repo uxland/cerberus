@@ -10,14 +10,14 @@ public partial class Location :
     public Location(SetupLocation command, string path)
     {
         this.ApplyUncommittedEvent(new LocationCreated(command.Id, command.ParentId, path, command.Description,
-            command.DefaultCameraAdminSettings, command.DefaultCameraFunctionalSettings));
+            command.DefaultCameraAdminSettings));
     }
     public void Handle(SetupLocation setupLocation, string path)
     {
-        var reference = new SetupLocation(this.Id, this.ParentId, this.Description, this.DefaultCameraAdminSettings, this.DefaultCameraFunctionalSettings);
+        var reference = new SetupLocation(this.Id, this.ParentId, this.Description, this.DefaultCameraAdminSettings);
         if(reference.Equals(setupLocation) && this.Path == path)
             return;
-        this.ApplyUncommittedEvent(new LocationUpdated(path, setupLocation.ParentId, setupLocation.Description, setupLocation.DefaultCameraAdminSettings, setupLocation.DefaultCameraFunctionalSettings));
+        this.ApplyUncommittedEvent(new LocationUpdated(path, setupLocation.ParentId, setupLocation.Description, setupLocation.DefaultCameraAdminSettings));
     }
 
     public void Apply(LocationCreated @event)
@@ -27,7 +27,6 @@ public partial class Location :
         this.ParentId = @event.ParentId;
         this.Description = @event.Description;
         this.DefaultCameraAdminSettings = @event.DefaultCameraAdminSettings;
-        this.DefaultCameraFunctionalSettings = @event.DefaultCameraFunctionalSettings;
     }
 
     public void Apply(LocationUpdated @event)
@@ -36,6 +35,5 @@ public partial class Location :
         this.ParentId = @event.ParentId;
         this.Description = @event.Description;
         this.DefaultCameraAdminSettings = @event.DefaultCameraAdminSettings;
-        this.DefaultCameraFunctionalSettings = @event.DefaultCameraFunctionalSettings;
     }
 }

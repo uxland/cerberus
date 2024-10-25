@@ -1,5 +1,4 @@
-﻿using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
-using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.GetHierarchyItem;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems.GetHierarchyItem;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.BackOffice.Features.Shared;
 using ExcelDataReader;
@@ -26,8 +25,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
             ParentId: request.ParentId,
             Description: request.Description,
             DefaultCameraAdminSettings:
-            new CameraAdminSettings(null, request.CameraCredentials, request.CapturePattern),
-            DefaultCameraFunctionalSettings: null);
+            new CameraAdminSettings(null, request.CameraCredentials, request.CapturePattern));
         await bus.InvokeAsync(command);
         var addedItem = await bus.InvokeAsync<string?>(new GetHierarchyItem(command.Id));
         return string.IsNullOrEmpty(addedItem) ? NotFound() : Ok(addedItem);
@@ -90,7 +88,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
             var parentId = ReadCell(worksheetProperties.ParentIdColumnIndex);
             var description = ReadCell(worksheetProperties.DescriptionColumnIndex);
             var ipAddress = ReadCell(worksheetProperties.DefaultCameraAdminSettingsIpAddressColumnIndex);
-            var userName = ReadCell(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex)?.ToString() ?? string.Empty;
+            var userName = ReadCell(worksheetProperties.DefaultCameraAdminSettingsUserNameColumnIndex);
             var password = ReadCell(worksheetProperties.DefaultCameraAdminSettingsPasswordColumnIndex);
             var captureRecurrencePattern = dataReader.GetString(worksheetProperties.DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex);
             
@@ -99,11 +97,10 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
                 id,
                 parentId,
                 description,
-                new CameraAdminSettings(ipAddress, new CameraCredentials(userName, password), captureRecurrencePattern),
-                new CameraFunctionalSettings(new List<CameraFilter>())
+                new CameraAdminSettings(ipAddress, new CameraCredentials(userName, password), captureRecurrencePattern)
                 );
-            HierarchicalItemType ParseHierarchicalItemType(string value, HierarchicalItemType defaultValue = HierarchicalItemType.Location) => Enum.TryParse(value, true, out HierarchicalItemType type) ? type : defaultValue;
-            string ReadCell(int cellIndex) => dataReader.GetValue(cellIndex)?.ToString() ?? string.Empty;
+            HierarchicalItemType ParseHierarchicalItemType(string value, HierarchicalItemType defaultValue = HierarchicalItemType.Location) => Enum.TryParse(value, true, out HierarchicalItemType itemType) ? itemType : defaultValue;
+            string ReadCell(int cellIndex) => dataReader.GetValue(cellIndex).ToString() ?? string.Empty;
         }
         private static WorksheetProperties? GetWorksheetProperties(IExcelDataReader dataReader)
         {
@@ -160,7 +157,6 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
             public int DefaultCameraAdminSettingsUserNameColumnIndex { get; set; }= -1;
             public int DefaultCameraAdminSettingsPasswordColumnIndex { get; set; }= -1;
             public int DefaultCameraAdminSettingsCaptureRecurrencePatternColumnIndex { get; set; }= -1;
-            public int DefaultCameraFunctionalSettingsColumnIndex { get; set; }= -1;
 
 
             public bool IsSet

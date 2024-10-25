@@ -1,7 +1,6 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.Core.Domain;
-using Wolverine;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 
@@ -12,8 +11,7 @@ public class Handler(IGenericRepository cameraRepository, IHierarchyItemPathProv
         var settings = await locationSettingsGetter.GetLocationSettings(request.ParentId);
         request = request with
         {
-            AdminSettings = settings.AdminSettings.Merge(request.AdminSettings),
-            FunctionalSettings = settings.FunctionalSettings.Merge(request.FunctionalSettings)
+            AdminSettings = settings.Merge(request.AdminSettings)
         };
         var path = await pathProvider.GetPathAsync(request);
         var camera = await cameraRepository.Rehydrate<Camera>(request.Id);

@@ -6,15 +6,11 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 public sealed class LocationSettingsGetter(IGenericRepository repository):
     ILocationSettingsGetter
 {
-    public async Task<(CameraAdminSettings AdminSettings, CameraFunctionalSettings FunctionalSettings)> GetLocationSettings(string locationId)
+    public async Task<CameraAdminSettings > GetLocationSettings(string locationId)
     {
         var adminSettings = new CameraAdminSettings();
-        var functionalSettings = new CameraFunctionalSettings(new List<CameraFilter>());
         var locations = await GetAllParentLocations(locationId);
-        var settings = locations.Aggregate((adminSettings, functionalSettings), (settings, location) => (
-            settings.adminSettings.Merge(location.DefaultCameraAdminSettings),
-            settings.functionalSettings.Merge(location.DefaultCameraFunctionalSettings)
-        ));
+        var settings = locations.Aggregate(adminSettings, (settings, location) => settings.Merge(location.DefaultCameraAdminSettings));
         return settings;
         
     }
@@ -35,5 +31,5 @@ public sealed class LocationSettingsGetter(IGenericRepository repository):
 
 public interface ILocationSettingsGetter
 {
-    public Task<(CameraAdminSettings AdminSettings, CameraFunctionalSettings FunctionalSettings)> GetLocationSettings(string locationId);
+    public Task<CameraAdminSettings> GetLocationSettings(string locationId);
 }

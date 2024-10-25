@@ -8,8 +8,7 @@ public record SetupCameraCommand(
     string Id,
     string ParentId,
     string Description,
-    CameraAdminSettings? AdminSettings,
-    CameraFunctionalSettings? FunctionalSettings
+    CameraAdminSettings? AdminSettings
 ) : ICommand, IHierarchyItem;
 
 public class SetupLocationFactory : IHierarchySetupCommandFactoryItem
@@ -25,8 +24,7 @@ public class SetupLocationFactory : IHierarchySetupCommandFactoryItem
             item.Id,
             item.ParentId,
             item.Description,
-            item.DefaultCameraAdminSettings,
-            item.DefaultCameraFunctionalSettings
+            item.DefaultCameraAdminSettings
         );
     }
 }
@@ -46,8 +44,7 @@ public record AppendCameraRequest(
             Id ?? Guid.NewGuid().ToString(),
             ParentId,
             Description,
-            new CameraAdminSettings(IpAddress: Url, CameraCredentials, CapturePattern),
-            null
+            new CameraAdminSettings(IpAddress: Url, CameraCredentials, CapturePattern)
         );
     }
 }

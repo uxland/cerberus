@@ -8,7 +8,6 @@ public record CameraCreated(
     string ParentId,
     string Description,
     CameraAdminSettings AdminSettings,
-    CameraFunctionalSettings FunctionalSettings,
     string Path
     ) : IDomainEvent;
 
@@ -17,7 +16,6 @@ public record CameraUpdated(
     string ParentId,
     string Description,
     CameraAdminSettings AdminSettings,
-    CameraFunctionalSettings FunctionalSettings,
     string Path
     ): IDomainEvent;
     

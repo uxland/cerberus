@@ -8,8 +8,7 @@ public record AppendHierarchyItem(
     string Id,
     string? ParentId,
     string Description,
-    CameraAdminSettings? DefaultCameraAdminSettings,
-    CameraFunctionalSettings? DefaultCameraFunctionalSettings
+    CameraAdminSettings? DefaultCameraAdminSettings
 ): ICommand;
 
 public record AppendHierarchyItems(
@@ -19,15 +18,13 @@ public record AppendHierarchyItems(
 public record SetupLocation(string Id,
     string? ParentId,
     string Description,
-    CameraAdminSettings? DefaultCameraAdminSettings,
-    CameraFunctionalSettings? DefaultCameraFunctionalSettings
+    CameraAdminSettings? DefaultCameraAdminSettings
     ): ICommand, IHierarchyItem;
 
 public record CreateLocation(string Id,
     string? ParentId,
     string Description,
-    CameraAdminSettings? DefaultCameraAdminSettings,
-    CameraFunctionalSettings? DefaultCameraFunctionalSettings
+    CameraAdminSettings? DefaultCameraAdminSettings
     ): ICommand, IHierarchyItem;
     
 public record AppendLocationRequest(

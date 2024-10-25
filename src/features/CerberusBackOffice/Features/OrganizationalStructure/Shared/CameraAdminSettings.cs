@@ -21,25 +21,3 @@ public record CameraAdminSettings(
     }
 
 }
-
-public record CameraFilter(
-    string Id,
-    string? JsonArguments
-);
-
-public record CameraFunctionalSettings(
-    List<CameraFilter> Filters
-)
-{
-    public CameraFunctionalSettings Merge(CameraFunctionalSettings? other)
-    {
-        if(other == null)
-            return this;
-        var filters = this.Filters.ToDictionary(c => c.Id, c => c);
-        other.Filters.ForEach(f => filters[f.Id] = f);
-        
-        return new CameraFunctionalSettings(
-            filters.Values.ToList()
-        );
-    }
-}
