@@ -24,8 +24,8 @@ public partial class Camera :
     }
     public void Handle(SetupCameraCommand setupCamera, string path)
     {
-        var cmd = new SetupCameraCommand(setupCamera.Id, setupCamera.ParentId, setupCamera.Description,
-            setupCamera.AdminSettings, setupCamera.FunctionalSettings);
+        var cmd = new SetupCameraCommand(this.Id, this.ParentId, this.Description,
+            this.AdminSettings, this.FunctionalSettings);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
         this.HandleLocationChange(setupCamera, path);

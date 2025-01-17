@@ -55,7 +55,7 @@ export const LocationPage = () => {
               <Tooltip title={"Editar"}>
                 <IconButton
                   color="primary"
-                  onClick={EditSettings(settings || "", itemType)}>
+                  onClick={EditSettings(settings, itemType)}>
                   <ModeEditOutlineIcon />
                 </IconButton>
               </Tooltip>

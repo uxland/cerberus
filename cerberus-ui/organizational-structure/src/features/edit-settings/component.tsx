@@ -1,14 +1,14 @@
-import {
-  useUpdateModal,
-  useUpdateModalActions,
-} from "@cerberus/core/src/providers";
+import {useUpdateModal, useUpdateModalActions,} from "@cerberus/core/src/providers";
 import {Button} from "@mui/material";
-import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
 import {AddEditCameraForm, AddEditLocationForm} from "../../ui-components";
-import {LocationSettings} from "../locations/location-detail/show-location-settings/model";
+import {isValid, LocationSettings} from "../locations/location-detail/show-location-settings/model";
 import {HierarchyItemType} from "../state/hierarchy-item";
+import {notificationService} from "@cerberus/core";
+import {Mediator} from "mediatr-ts";
+import {AddCamera} from "../cameras/add-camera/command.ts";
+import {AddLocation} from "../locations/add-location/command.ts";
 
 export const EditSettings = (
   settings: LocationSettings,
@@ -16,26 +16,7 @@ export const EditSettings = (
 ) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
-
-  const [formData, setFormData] = useState<{
-    cameraDescription: string;
-    locationDescription: string;
-    capturePattern: string;
-    cameraUrl: string;
-    user: string;
-    password: string;
-  }>({
-    cameraDescription: "",
-    locationDescription: "",
-    capturePattern: "",
-    cameraUrl: "",
-    user: "",
-    password: "",
-  });
-
-  const handleChange = (field: keyof typeof formData) => (value: string) => {
-    setFormData((prev) => ({...prev, [field]: value}));
-  };
+  const [editedSettings, setEditedSettings] = useState<LocationSettings | undefined>(undefined)
 
   const successMessage: string = useOrganizationalStructureLocales(
     "editCamera.notifcation.success"
@@ -45,28 +26,37 @@ export const EditSettings = (
   );
 
   const handleSubmit = async () => {
-    const mediator = new Mediator();
-    console.log("Edti càmera paramters", formData);
-    // Falta la llogica de editar la càmera / localitzacio
-
-    // try {
-    //   await mediator.send(
-    //     new EditCameraCommand(
-    //       formData.cameraCode,
-    //       settings.parentId,
-    //       formData.cameraDescription,
-    //       formData.capturePattern,
-    //       formData.cameraUrl,
-    //       {username: formData.user, password: formData.password}
-    //     )
-    //   );
-    //   notificationService.notifySuccess(successMessage);
-    // } catch (e) {
-    //   notificationService.notifyError(errorMessage, e.message);
-    //   console.error(e.message);
-    // }
-    // updateModal(null);
+    const command = itemType === HierarchyItemType.camera ? createEditCamera(editedSettings) : createEditLocation(editedSettings);
+    try {
+      await new Mediator().send(command);
+      notificationService.notifySuccess(successMessage);
+      updateModal(null);
+    }
+    catch (e){
+      notificationService.notifyError(errorMessage, e.message);
+    }
   };
+
+  const createEditCamera = (settings: LocationSettings) => {
+    return new AddCamera(
+        settings.id,
+        settings.parentId,
+        settings.description,
+        settings.adminSettings?.captureRecurrencePattern,
+        settings.adminSettings?.ipAddress,
+        settings.adminSettings?.cameraCredentials
+    )
+  }
+
+  const createEditLocation = (settings: LocationSettings) => {
+    return new AddLocation(
+        settings.parentId,
+        settings.id,
+        settings.description,
+        settings.adminSettings?.captureRecurrencePattern,
+        settings.adminSettings.cameraCredentials
+    )
+  }
 
   const openModal = () => {
     updateModal({
@@ -83,19 +73,14 @@ export const EditSettings = (
         itemType === HierarchyItemType.camera ? (
           <AddEditCameraForm
             showCameraCode={false}
-            onCameraDescriptionChange={handleChange("cameraDescription")}
-            onCapturePatternChange={handleChange("capturePattern")}
-            onUrlChange={handleChange("cameraUrl")}
-            onUserChange={handleChange("user")}
-            onPasswordChange={handleChange("password")}
+            settings={settings}
+            onModelChanged={setEditedSettings}
           />
         ) : (
           <AddEditLocationForm
             showCameraCode={false}
-            onLocationDescriptionChange={handleChange("locationDescription")}
-            onCapturePatternChange={handleChange("capturePattern")}
-            onUserChange={handleChange("user")}
-            onPasswordChange={handleChange("password")}
+            settings={settings}
+            onModelChanged={setEditedSettings}
           />
         ),
       actions: [
@@ -108,7 +93,7 @@ export const EditSettings = (
               size="small"
               color="success"
               fullWidth
-              disabled={!formData.cameraUrl || !formData.cameraDescription}
+              disabled={!isValid(itemType, editedSettings)}
               className="!rounded-2xl !w-52 !text-white !bg-[#afafaf]"
               onClick={handleSubmit}>
               {useOrganizationalStructureLocales("addCamera.submitBtn")}
@@ -130,16 +115,16 @@ export const EditSettings = (
             color="success"
             fullWidth
             className={`!rounded-2xl !w-52 !text-white ${
-              formData.cameraDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
+              editedSettings?.description ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
             }`}
-            disabled={!formData.cameraUrl || !formData.cameraDescription}
+            disabled={!isValid(itemType, editedSettings)}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>
         ),
       },
     ]);
-  }, [formData]);
+  }, [editedSettings]);
 
   return openModal;
 };

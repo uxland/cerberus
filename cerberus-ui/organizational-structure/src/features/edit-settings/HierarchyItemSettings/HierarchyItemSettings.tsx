@@ -4,7 +4,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import {LocationSettings} from "../../../locations/location-detail/show-location-settings/model";
+import {LocationSettings} from "../../locations/location-detail/show-location-settings/model.ts";
 
 export const HierarchyItemSettings = (settings: LocationSettings) => {
   const items = [

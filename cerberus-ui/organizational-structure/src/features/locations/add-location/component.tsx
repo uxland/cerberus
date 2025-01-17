@@ -8,29 +8,15 @@ import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 import {AddLocation as AddLocationCommand} from "./command";
-import {AddEditLocationForm} from "./components/AddLocationForm";
+import {AddEditLocationForm} from "../components/AddLocationForm";
+import {isValid, LocationSettings} from "../location-detail/show-location-settings/model.ts";
 
 export const AddLocationModal = (parentId: string) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
 
-  const [formData, setFormData] = useState<{
-    locationDescription: string;
-    locationCode: string;
-    user: string;
-    password: string;
-    capturePattern: string;
-  }>({
-    locationDescription: "",
-    locationCode: "",
-    user: "",
-    password: "",
-    capturePattern: "",
-  });
+  const [editedSettings, setEditedSettings] = useState<LocationSettings | undefined>(undefined)
 
-  const handleChange = (field: keyof typeof formData) => (value: string) => {
-    setFormData((prev) => ({...prev, [field]: value}));
-  };
 
   const successMessage: string = useOrganizationalStructureLocales(
     "addLocation.notifcation.success"
@@ -45,10 +31,10 @@ export const AddLocationModal = (parentId: string) => {
       await mediator.send(
         new AddLocationCommand(
           parentId,
-          formData.locationCode,
-          formData.locationDescription,
-          formData.capturePattern,
-          {username: formData.user, password: formData.password}
+          editedSettings.id,
+          editedSettings.description,
+          editedSettings.adminSettings?.captureRecurrencePattern,
+         editedSettings?.adminSettings.cameraCredentials
         )
       );
       notificationService.notifySuccess(successMessage);
@@ -68,11 +54,8 @@ export const AddLocationModal = (parentId: string) => {
       content: () => (
         <AddEditLocationForm
           showCameraCode={true}
-          onLocationDescriptionChange={handleChange("locationDescription")}
-          onLocationCodeChange={handleChange("locationCode")}
-          onCapturePatternChange={handleChange("capturePattern")}
-          onUserChange={handleChange("user")}
-          onPasswordChange={handleChange("password")}
+          settings={undefined}
+          onModelChanged={setEditedSettings}
         />
       ),
       actions: [
@@ -85,7 +68,7 @@ export const AddLocationModal = (parentId: string) => {
               size="small"
               color="success"
               fullWidth
-              disabled={!formData.locationCode || !formData.locationDescription}
+              disabled={!isValid(editedSettings)}
               className="!rounded-2xl !w-52 !text-white !bg-[#afafaf]"
               onClick={handleSubmit}>
               {useOrganizationalStructureLocales("addLocation.submitBtn")}
@@ -108,16 +91,16 @@ export const AddLocationModal = (parentId: string) => {
             color="success"
             fullWidth
             className={`!rounded-2xl !w-52 !text-white ${
-              formData.locationDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
+              editedSettings?.locationDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
             }`}
-            disabled={!formData.locationCode || !formData.locationDescription}
+            disabled={!isValid(editedSettings)}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>
         ),
       },
     ]);
-  }, [formData]);
+  }, [editedSettings]);
 
   return openModal;
 };
