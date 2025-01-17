@@ -12,7 +12,7 @@ namespace Cerberus.Core.PythonImageProcessor;
 
 public class FilterExecutor : IFilterExecutor
 {
-    public  (bool Success, string? FilteredImageBase64, string? Message) Execute(string script, dynamic imageBuffer, string jsonArgs, AnalysisMode mode)
+    public  FilterExecutionResult Execute(string script, dynamic imageBuffer, string jsonArgs, AnalysisMode mode)
     {
         try
         {
@@ -39,13 +39,13 @@ public class FilterExecutor : IFilterExecutor
                         }
                     }
 
-                    return (success, filteredImageBase64, string.Empty);
+                    return new FilterExecutionResult(success, filteredImageBase64, string.Empty);
                 }
             }
         }
         catch (Exception e)
         {
-            return (false, null, e.Message);
+            return new FilterExecutionResult(false, null, e.Message);
         }
     }
 
@@ -74,9 +74,10 @@ public class FilterExecutor : IFilterExecutor
     }
 }
 
+public record FilterExecutionResult(bool Success, string? FilteredImageBase64 = null, string? Message = null);
 public interface IFilterExecutor
 {
-    public (bool Success, string? FilteredImageBase64, string? Message) Execute(string script, dynamic imageBuffer,
+    public FilterExecutionResult Execute(string script, dynamic imageBuffer,
         string jsonArgs, AnalysisMode mode);
     public dynamic CreatePythonBuffer(byte[] imageBuffer);
 }

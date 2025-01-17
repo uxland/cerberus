@@ -84,7 +84,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./Snapshots
+      device: ../Snapshots
   certs_volume:
     driver: local
     driver_opts:

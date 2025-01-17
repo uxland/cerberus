@@ -1,7 +1,6 @@
 $repoUrl = "https://github.com/uxland/cerberus"
 $branch  = "demo"
 $folderName = (Split-Path $repoUrl -Leaf).Replace(".git", "")
-$snapshotsFolder = "Snapshots"
 
 if(Test-Path $folderName) {
     # Navigate into the directory
@@ -20,12 +19,6 @@ if(Test-Path $folderName) {
     Set-Location -Path $folderName
 }
 # Check if the Snapshots directory exists
-if(-not (Test-Path $snapshotsFolder))
-{
-    # Create the Snapshots directory
-    New-Item -ItemType Directory -Path $snapshotsFolder
-}
 
 docker-compose down
-$env:BUILD_CONFIGURATION="Release"
 docker-compose -f docker-compose.demo.yml up -d --build
