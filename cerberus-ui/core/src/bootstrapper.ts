@@ -5,14 +5,16 @@ import {container} from "./ioc";
 import {NavigationService} from "./routing";
 import {navigationService} from "./routing/navigation-service.ts";
 import {bootstrapAuth, teardownAuth} from "./auth";
-export const bootstrapCore = async () =>{
+import {useUserInteraction} from "./user-interaction/bootstrapper.ts";
+export const bootstrapCore = () =>{
     console.log('core bootstrapping');
     injectable()(ApiClient);
     injectable()(ApiClientImpl);
     container.bind<ApiClient>(ApiClient).to(ApiClientImpl).inSingletonScope();
     container.bind<Container>(Container).toConstantValue(container);
     container.bind<NavigationService>(NavigationService).toConstantValue(navigationService);
-    return await bootstrapAuth(container);
+    return bootstrapAuth(container)
+        .then(useUserInteraction);
 }
 
 export const teardownCore = async () =>{

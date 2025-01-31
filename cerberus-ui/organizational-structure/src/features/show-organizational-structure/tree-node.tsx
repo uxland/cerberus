@@ -5,13 +5,18 @@ import {Link} from "react-router-dom";
 import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
 import {AddMenu} from "../../ui-components/add-menu/component.tsx";
 import {AddCameraModal} from "../cameras/add-camera/component.tsx";
-import {RemoveCameraModal} from "../cameras/remove-camera/component.tsx";
 import {AddLocationModal} from "../locations/add-location/component.tsx";
 import {
   HierarchyItem,
   HierarchyItemType,
   LocationNode,
 } from "../state/hierarchy-item.ts";
+import {Mediator} from "mediatr-ts";
+import {DeleteCamera} from "../cameras/remove-camera/command.ts";
+
+
+const removeCamera = (id: string, description: string) =>
+    new Mediator().send(new DeleteCamera(id, description));
 
 export const TreeNode = ({node}: {node: LocationNode}) => {
   const icons = {
@@ -77,7 +82,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         <SvgIcon
           color="primary"
           className="opacity-0 group-hover:opacity-100"
-          onClick={RemoveCameraModal(node.id, node.description)}
+          onClick={removeCamera(node.id, node.description)}
           sx={{
             width: "1.6rem",
             height: "1.6rem",

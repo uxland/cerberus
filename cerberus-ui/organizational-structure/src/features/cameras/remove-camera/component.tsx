@@ -5,8 +5,8 @@ import {DeleteCamera} from "./command";
 import {Mediator} from "mediatr-ts";
 import {notificationService} from "@cerberus/core";
 
-export const RemoveCameraModal = (id: string, name: string) => {
-  const updateModal = useUpdateModal();
+export const RemoveCameraModal = (id: string, description: string) => {
+  /*const updateModal = useUpdateModal();
 
   const successMessage: string = useOrganizationalStructureLocales(
     "removeCamera.notifcation.success"
@@ -45,5 +45,5 @@ export const RemoveCameraModal = (id: string, name: string) => {
     });
   };
 
-  return openModal;
+  return openModal;*/
 };
