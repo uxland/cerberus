@@ -70,6 +70,13 @@ export const locales = {
         error: "Error al afegir Càmera",
       },
     },
+    removeCamera: {
+      removeBtn: "Eliminar Càmera",
+      notifcation: {
+        success: "Càmera eliminada correctament",
+        error: "Error al eliminar Càmera",
+      },
+    },
     editCamera: {
       notifcation: {
         success: "Càmera modificada correctament",
