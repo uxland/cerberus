@@ -82,7 +82,7 @@ export const TreeNode = ({node}: {node: LocationNode}) => {
         <SvgIcon
           color="primary"
           className="opacity-0 group-hover:opacity-100"
-          onClick={removeCamera(node.id, node.description)}
+          onClick={() => removeCamera(node.id, node.description)}
           sx={{
             width: "1.6rem",
             height: "1.6rem",

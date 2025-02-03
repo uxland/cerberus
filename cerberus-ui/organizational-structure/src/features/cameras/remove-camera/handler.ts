@@ -15,13 +15,11 @@ const options: ConfirmOptions = {
 @injectable()
 export class DeleteCameraHandler implements IRequestHandler<DeleteCamera, void> {
 
-  // Inyección del cliente API mediante el constructor
   constructor(@inject(ApiClient) private apiClient: ApiClient,
               @inject(ConfirmationManager) private confirmationManager: ConfirmationManager,
               @inject(NotificationService) private notificationService: NotificationService
   ) {}
 
-  // Método que maneja el comando `DeleteCamera`
   async handle(command: DeleteCamera): Promise<void> {
     const confirmed = await this.removalConfirmed()
     if(confirmed) {
@@ -34,15 +32,14 @@ export class DeleteCameraHandler implements IRequestHandler<DeleteCamera, void> 
     const confirmation = await this.confirmationManager.confirm(options)
     return confirmation === "yes"
   }
+  
   async removeCamera(command: DeleteCamera): Promise<void> {
-    // Llamada a la API para eliminar la cámara //funciona
     try {
-      await this.apiClient.delete(`/cameras/${command.cameraId}`)
+      await this.apiClient.delete(`/cameras/${command.cameraId}`);
+      this.notificationService.notifySuccess("Camera deleted successfully");
+    } catch (e) {
+      this.notificationService.notifyError("Error deleting camera", e.message);
+      console.error(e.message);
     }
-    catch (e) {
-      console.log(e)
-      this.notificationService.notifyError("Error deleting camera")
-    }
-    this.notificationService.notifySuccess("Camera deleted successfully")
   }
-}
+} 

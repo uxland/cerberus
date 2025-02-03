@@ -1,3 +1,4 @@
+import { Container, injectable } from "inversify";
 
 export type ConfirmationResult  = "yes" | "no";
 
@@ -11,6 +12,7 @@ export interface ConfirmOptions<TPayload= undefined>{
     componentId?: string | undefined;
 }
 
-export abstract class ConfirmationManager{
-    abstract confirm<TPayload = undefined>(options: ConfirmOptions<TPayload>): Promise<ConfirmationResult>
+@injectable()
+export abstract class ConfirmationManager {
+  abstract confirm<TPayload = undefined>(options: ConfirmOptions<TPayload>): Promise<ConfirmationResult>;
 }
