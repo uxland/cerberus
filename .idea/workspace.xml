@@ -5,20 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/confirmation-manager.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/react-confirmation-manager.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/providers/ModalProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/providers/ModalProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/command.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/component.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/src/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/bootstrapper/modules.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/bootstrapper/modules.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/pnpm-workspace.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/pnpm-workspace.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,10 +28,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="package.json" />
         <option value="PowerShell File" />
         <option value="Dockerfile" />
         <option value="TypeScript JSX File" />
+        <option value="package.json" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -39,7 +39,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="angel-pruebas" />
+        <entry key="$PROJECT_DIR$" value="front/tasks/interaction-manager" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -75,11 +75,12 @@
   "keyToString": {
     "Docker.Demo.executor": "Run",
     "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "Docker.docker-compose.back.yml: Compose Deployment.executor": "Run",
     "JavaScript Debug.Browser Debug.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "front/tasks/interaction-manager",
-    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "git-widget-placeholder": "front/tasks/surveillance-module-setup",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/surveillance",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -97,6 +98,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui/surveillance" />
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -112,6 +114,10 @@
     <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://localhost:5173" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
@@ -122,6 +128,14 @@
       <deployment type="dockerfile">
         <settings>
           <option name="sourceFilePath" value="cerberus-ui/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.back.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.back.yml" />
         </settings>
       </deployment>
       <method v="2" />
@@ -158,6 +172,7 @@
     </configuration>
     <list>
       <item itemvalue="Docker.Demo" />
+      <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
       <item itemvalue="Docker.cerberus-ui/Dockerfile" />
       <item itemvalue="JavaScript Debug.Browser Debug" />
       <item itemvalue="npm.cerberus-ui &gt; build" />
@@ -167,17 +182,17 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.cerberus-ui &gt; dev" />
+        <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
         <item itemvalue="npm.cerberus-ui &gt; build" />
         <item itemvalue="npm.app &gt; build" />
         <item itemvalue="Docker.cerberus-ui/Dockerfile" />
-        <item itemvalue="npm.cerberus-ui &gt; dev" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.120" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.157" />
       </set>
     </attachedChunks>
   </component>
@@ -210,7 +225,8 @@
       <workItem from="1728196765345" duration="7472000" />
       <workItem from="1737101946087" duration="16085000" />
       <workItem from="1737536710686" duration="910000" />
-      <workItem from="1738150067477" duration="12600000" />
+      <workItem from="1738150067477" duration="13828000" />
+      <workItem from="1738752176883" duration="3896000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -332,7 +348,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738150084408</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="chore: progress">
+      <option name="closed" value="true" />
+      <created>1738318774884</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1738318774884</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,6 +407,18 @@
           <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
           <line>31</line>
           <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
+          <line>31</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
+          <line>23</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="81" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

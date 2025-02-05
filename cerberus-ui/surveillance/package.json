@@ -1,0 +1,30 @@
+{
+  "name": "@cerberus/surveillance",
+  "version": "0.0.0",
+  "description": "cerberus surveillance module",
+  "author": "UXLand <dsanchez@uxland.es>",
+  "homepage": "https://github.com/uxland/cerberus.git#readme",
+  "license": "ISC",
+  "main": "index.ts",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uxland/cerberus.git"
+  },
+  "dependencies": {
+    "@cerberus/core": "workspace:^",
+    "@cerberus/shared": "workspace:^",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "5.15.21",
+    "@mui/material": "^5.14.12",
+    "@uxland/react-services": "^1.0.3",
+    "inversify": "^6.0.2",
+    "mediatr-ts": "^1.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
+
