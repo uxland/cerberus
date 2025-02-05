@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/confirmation-manager.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/react-confirmation-manager.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/providers/ModalProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/providers/ModalProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/command.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/component.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/notification-service/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/notification-service/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="angel-pruebas" />
+        <entry key="$PROJECT_DIR$" value="front/tasks/surveillance-module-setup" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -78,7 +67,7 @@
     "JavaScript Debug.Browser Debug.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "front/tasks/interaction-manager",
+    "git-widget-placeholder": "#38 on front/tasks/interaction-manager",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -126,6 +115,14 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration name="docker-compose.back.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.back.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="app &gt; build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/cerberus-ui/app/package.json" />
       <command value="run" />
@@ -158,6 +155,7 @@
     </configuration>
     <list>
       <item itemvalue="Docker.Demo" />
+      <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
       <item itemvalue="Docker.cerberus-ui/Dockerfile" />
       <item itemvalue="JavaScript Debug.Browser Debug" />
       <item itemvalue="npm.cerberus-ui &gt; build" />
@@ -167,10 +165,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.cerberus-ui &gt; dev" />
-        <item itemvalue="npm.cerberus-ui &gt; build" />
         <item itemvalue="npm.app &gt; build" />
+        <item itemvalue="npm.cerberus-ui &gt; build" />
         <item itemvalue="Docker.cerberus-ui/Dockerfile" />
-        <item itemvalue="npm.cerberus-ui &gt; dev" />
+        <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -341,10 +339,10 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="chore: setup" />
     <MESSAGE value="chore: routing added" />
     <MESSAGE value="chore: progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: progress" />
+    <MESSAGE value="chore: setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: setup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -383,6 +381,40 @@
           <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
           <line>31</line>
           <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
+          <line>31</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
+          <line>23</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx</url>
+          <line>18</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
+          <line>32</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/react-confirmation-manager.ts</url>
+          <line>7</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/openConfirmationModal.tsx</url>
+          <line>6</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="89" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
