@@ -1,4 +1,5 @@
 import {Entity} from "@cerberus/shared/src";
+import {HierarchyItemType} from "../../../state/hierarchy-item.ts";
 
 export interface Credentials{
     username: string | undefined;
@@ -16,4 +17,29 @@ export interface LocationSettings extends Entity{
     parentId?: string | undefined;
     description: string;
     adminSettings?: AdminSettings | undefined;
+}
+
+const isNotNullish = (value: string | undefined) => {
+    return value !== undefined && value !== null && value !== ""
+}
+
+const isCameraLocationValid = (settings: LocationSettings | undefined) => {
+    return isNotNullish(settings?.description) && isNotNullish( settings.adminSettings?.ipAddress)
+}
+
+const isLocationValid = (settings: LocationSettings | undefined) => {
+    return isNotNullish(settings?.description)
+}
+
+const noValidation = (settings: LocationSettings | undefined) =>  false
+const validators = {
+    [HierarchyItemType.camera]: isCameraLocationValid,
+    [HierarchyItemType.location]: isLocationValid
+}
+
+
+
+export const isValid =(itemType: HierarchyItemType, settings?: LocationSettings | undefined): boolean => {
+    const  validator = validators[itemType] || noValidation;
+    return validator(settings)
 }

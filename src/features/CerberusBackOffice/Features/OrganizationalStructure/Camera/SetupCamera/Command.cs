@@ -35,7 +35,7 @@ public record AppendCameraRequest(
     string? Id,
     string ParentId,
     string Description,
-    string CapturePattern,
+    string? CapturePattern,
     string Url,
     CameraCredentials? CameraCredentials
 )

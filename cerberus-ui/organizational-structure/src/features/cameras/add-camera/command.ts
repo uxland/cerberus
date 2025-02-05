@@ -1,7 +1,8 @@
 import {IRequest} from "mediatr-ts";
 import {Credentials} from "../../locations/location-detail/show-location-settings/model";
+import {LocationNode} from "../../state/hierarchy-item.ts";
 
-export class AddCamera implements IRequest<any> {
+export class AddCamera implements IRequest<LocationNode> {
   constructor(
     public id: string | undefined,
     public parentId: string | undefined,

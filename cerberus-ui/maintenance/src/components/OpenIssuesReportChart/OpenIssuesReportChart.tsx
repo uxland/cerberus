@@ -57,12 +57,12 @@ const data = [
 ];
 export const OpenIssuesReportChart = () => {
   return (
-    <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]">
-      <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px] w-auto">
+      <div className="flex flex-col gap-6 h-[400px] lg:h-[600px]">
         <Typography variant="h5">
           {useMaintenanceLocales("title.summaryChart")}
         </Typography>
-        <ResponsiveContainer width="100%" height={600}>
+        <ResponsiveContainer width="100%" >
           <BarChart
             data={data}
             barGap={12}

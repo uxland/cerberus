@@ -67,6 +67,8 @@ export const ModalProvider = ({children}: {children: ReactElement}) => {
     setModal((prevModal) => ({...prevModal, actions}));
   }, [actions]);
 
+
+
   return (
     <ModalStateContext.Provider value={modal}>
       <ModalDispatchContext.Provider value={setModal}>

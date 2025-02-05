@@ -21,7 +21,7 @@ public sealed class AppendLocationController(IMessageBus bus): ControllerBase
     [Authorize(Roles = BackOfficeRoles.BackofficeAdmin)]
     public async Task<IActionResult> AppendLocation([FromBody]AppendLocationRequest request)
     {
-        var command = new CreateLocation(
+        var command = new SetupLocation(
             Id: request.Id ?? Guid.NewGuid().ToString(),
             ParentId: request.ParentId,
             Description: request.Description,

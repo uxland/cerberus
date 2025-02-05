@@ -1,7 +1,5 @@
-import {Button, Typography} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
-import {CaptureSnapshots} from "../../../capture-snapshot/command.ts";
 import {HierarchyItemType} from "../../../state/hierarchy-item.ts";
 import {LocationSettings} from "./model.ts";
 import {GetLocationSettings} from "./query.ts";
@@ -10,10 +8,11 @@ export const LocationSettingsView = (props: {
   id: string;
   type: HierarchyItemType;
   content: (settings: LocationSettings) => JSX.Element;
+  onFetchComplete?: (settings: LocationSettings) => void;
 }) => {
   const [settings, setSettings] = useState<LocationSettings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     async function fetchData() {
@@ -23,37 +22,23 @@ export const LocationSettingsView = (props: {
           new GetLocationSettings(props.id, props.type)
         );
         setSettings(settings);
+        if (props.onFetchComplete && settings) {
+          props.onFetchComplete(settings as LocationSettings);
+        }
       } catch (e) {
         setError(e.message);
       } finally {
         setLoading(false);
       }
     }
-    fetchData().then(() => console.log("done"));
-  }, [props]);
+    fetchData();
+  }, [props.id, props.type]);
+
   return (
     <div>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
       {settings && props.content(settings)}
-    </div>
-  );
-};
-
-const LocationSettingsComponent = (settings: LocationSettings) => {
-  const capture = () => new Mediator().send(new CaptureSnapshots(settings.id));
-  return (
-    <div className="flex justify-between">
-      <Typography variant="h2" color="#fff">
-        {settings.path} ({settings.description})
-      </Typography>
-      <Button
-        variant="outlined"
-        className="capture-btn"
-        aria-label="Capture"
-        onClick={capture}>
-        Capture Me
-      </Button>
     </div>
   );
 };

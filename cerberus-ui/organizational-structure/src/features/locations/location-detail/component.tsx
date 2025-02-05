@@ -2,33 +2,42 @@ import {
   MaintenanceSettingsView,
   OpenIssuesView,
   PendingTrainingReviewsView,
+  // RoundsView,
 } from "@cerberus/maintenance";
-import {Box} from "@mui/material";
+// import RoundsView from "../../../../../maintenance/src/features/rounds/list-rounds/component.tsx";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import {Box, IconButton, Tooltip} from "@mui/material";
 import {useEffect, useState} from "react";
-import {useLocation, useParams, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {HeaderComponent, TabsBar} from "../../../ui-components";
+import {EditSettings} from "../../edit-settings/component.tsx";
+import {HierarchyItemSettings} from "../../edit-settings/HierarchyItemSettings/HierarchyItemSettings.tsx";
 import {HierarchyItemType} from "../../state/hierarchy-item.ts";
 import {CameraCapturesView} from "./list-camera-captures/component";
 import {TabPanelProps} from "./model.ts";
 import {LocationSettingsView} from "./show-location-settings/component";
-import {LocationSettingsTable} from "./show-location-settings/show-location-table/component.tsx";
+import {LocationSettings} from "./show-location-settings/model.ts";
 export const LocationPage = () => {
   const {id} = useParams();
-
   const location = useLocation();
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
   const itemType =
     (query.get("item-type") as HierarchyItemType) || HierarchyItemType.location;
   const initialTab = Number.parseInt(query.get("tab") || "0", 10);
+
+  const [settings, setSettings] = useState<LocationSettings | null>(null);
   const [selectedTab, setSelectedTab] = useState(initialTab);
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     params.set("tab", selectedTab.toString());
     navigate({search: params.toString()}, {replace: true});
   }, [selectedTab]);
+
   return (
-    <div className="flex flex-col flex-1 w-full ">
+    <div className="flex flex-col flex-1 w-full">
       <LocationSettingsView id={id} type={itemType} content={HeaderComponent} />
       <div className="flex flex-col flex-1 w-full gap-4">
         <TabsBar
@@ -43,11 +52,28 @@ export const LocationPage = () => {
           <PendingTrainingReviewsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={4}>
-          <LocationSettingsView
-            id={id}
-            type={itemType}
-            content={LocationSettingsTable}
-          />
+          <>
+            <div className="flex !flex-row !justify-end bg-tableBg w-[520px] rounded-t-lg">
+              <Tooltip title={"Editar"}>
+                <IconButton
+                  color="primary"
+                  onClick={EditSettings(settings, itemType)}>
+                  <ModeEditOutlineIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Esborrar"}>
+                <IconButton color="error">
+                  <DeleteForeverIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <LocationSettingsView
+              id={id}
+              type={itemType}
+              content={HierarchyItemSettings}
+              onFetchComplete={(id) => setSettings(id)}
+            />
+          </>
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={6}>
           <CameraCapturesView id={id} />
@@ -55,6 +81,9 @@ export const LocationPage = () => {
         <CustomTabPanel value={selectedTab} index={8}>
           <MaintenanceSettingsView id={id} />
         </CustomTabPanel>
+        {/* <CustomTabPanel value={selectedTab} index={10}> 
+          <RoundsView id={id} />
+        </CustomTabPanel> */}
       </div>
     </div>
   );
@@ -73,4 +102,3 @@ const CustomTabPanel = (props: TabPanelProps) => {
     </div>
   );
 };
-

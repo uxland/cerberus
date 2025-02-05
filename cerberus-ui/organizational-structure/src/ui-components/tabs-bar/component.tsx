@@ -30,13 +30,15 @@ export const TabsBar = (props: {
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
-
+  const roundsLabel = useOrganizationalStructureLocales(
+    "tabs.rounds"
+  );
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
-        flex: "1",
+        flex: "0",
         flexDirection: "row",
         borderBottom: 1,
         borderColor: "divider",
@@ -66,18 +68,23 @@ export const TabsBar = (props: {
           }
           {...a11yProps(TabPanelType.Analysis)}
         />
+        <CustomDivider />
+        <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
         {itemType === HierarchyItemType.camera && <CustomDivider />}
-        {itemType === HierarchyItemType.camera && (
-          <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
-        )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+
         {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        <CustomDivider />
         {itemType === HierarchyItemType.camera && (
           <Tab
             label={maintenancesSettingsLabel}
+            {...a11yProps(TabPanelType.MaintenanceSettings)}
+          />
+        )}
+        {itemType === HierarchyItemType.location && (
+          <Tab
+            label={roundsLabel}
             {...a11yProps(TabPanelType.MaintenanceSettings)}
           />
         )}

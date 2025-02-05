@@ -12,6 +12,7 @@
     "repo:format-files": "biome format --write --no-errors-on-unmatched --colors=force app core maintenance organizational-structure"
   },
   "dependencies": {
+    "pnpm": "^9.15.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.7.0",

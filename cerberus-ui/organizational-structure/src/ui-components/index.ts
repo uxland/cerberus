@@ -1,5 +1,5 @@
+export * from "../features/cameras/components/AddCameraForm";
+export * from "../features/locations/components/AddLocationForm";
 export * from "../features/locations/location-detail/show-location-settings/show-location-header/component";
-export * from "./add-camera/component";
-export * from "./add-location/component";
 export * from "./main-menu/component";
 export * from "./tabs-bar/component";
