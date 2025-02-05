@@ -14,3 +14,4 @@ export * from "./Timer/Timer";
 export * from "./TraingingReviewPerformanceItem/TraingingReviewPerformanceItem";
 export * from "./TrainingErrorsChart/TrainingErrorsChart";
 export * from "./TrainingReviewsPerformanceList/TrainingReviewsPerformanceList";
+export * from "./RoundsTable/RoundsTable";

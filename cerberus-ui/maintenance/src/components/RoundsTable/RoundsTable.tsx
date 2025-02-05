@@ -24,44 +24,44 @@ import {MaintenanceIssueStatus} from "../../features/issues/model";
 import {useMaintenanceLocales} from "../../locales/ca/locales";
 import {NoData} from "../NoData/NoData";
 
-export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
+export const RoundsTable = (props: {issues: MaintenanceIssueSummary[]}) => {
   return (
     <div className="flex flex-col gap-4">
       <Typography variant="h5" className="pl-6">
-        {useMaintenanceLocales("title.openIssues")} ({props.issues.length})
+        {useMaintenanceLocales("title.rounds")} ({props.issues.length})
       </Typography>
       <Paper
         className="custom-table"
         sx={{
           width: "100%",
-          height: "auto",
-          maxHeight: "538px",
+          height: "538px",
           overflow: `${props.issues.length === 0 ? "hidden" : "auto"}`,
         }}>
         <TableContainer component={Paper} className="custom-table">
           <Table sx={{minWidth: 450}} aria-label="simple table">
             <TableHead>
               <TableRow className="font-semibold">
+              ...
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.cameraId")}
+                  {useMaintenanceLocales("roundsTable.roundId")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.status")}
+                  {useMaintenanceLocales("roundsTable.description")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.errorCode")}
+                  {useMaintenanceLocales("roundsTable.lastExecution")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.date")}
+                  {useMaintenanceLocales("roundsTable.lastDuration")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.summary")}
+                  {useMaintenanceLocales("roundsTable.nextExecution")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.location")}
+                  {useMaintenanceLocales("roundsTable.group")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.Actions")}
+                  {useMaintenanceLocales("roundsTable.Actions")}
                 </TableCell>
                 <TableCell align="center" className="table-head"></TableCell>
               </TableRow>

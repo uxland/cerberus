@@ -1,10 +1,11 @@
 import BlurOnOutlinedIcon from "@mui/icons-material/BlurOnOutlined";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
-import {TraingingReviewPerformanceItem} from "../TraingingReviewPerformanceItem/TraingingReviewPerformanceItem";
+import { TraingingReviewPerformanceItem } from "../TraingingReviewPerformanceItem/TraingingReviewPerformanceItem";
+
 export const TrainingReviewsPerformanceList = () => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-2 2xl:grid-cols-4  gap-8 w-full">
+    <div className="flex w-full justify-start items-center gap-6 flex-wrap overflow-x-auto overflow-y-hidden">
       <TraingingReviewPerformanceItem
         title={"Total errors"}
         icon={<ErrorOutlineOutlinedIcon className="kpi-icon error" />}
@@ -29,6 +30,7 @@ export const TrainingReviewsPerformanceList = () => {
         percentage={"+10"}
         type={"error"}
       />
+
     </div>
   );
 };

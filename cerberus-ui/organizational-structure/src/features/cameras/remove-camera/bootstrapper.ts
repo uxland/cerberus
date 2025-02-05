@@ -1,9 +1,10 @@
 import {Container} from "inversify";
 import {DeleteCamera} from "./command";
 import {DeleteCameraHandler} from "./handler";
-import {registerCommandHandler} from "@cerberus/core";
+// import {registerCommandHandler} from "@cerberus/core";
+import {requestHandler} from "mediatr-ts";
 
 export const bootstrapRemoveCamera = (container: Container) => {
-  registerCommandHandler(DeleteCamera, DeleteCameraHandler);
+  requestHandler(DeleteCamera)(DeleteCameraHandler);
   return Promise.resolve(container);
 };

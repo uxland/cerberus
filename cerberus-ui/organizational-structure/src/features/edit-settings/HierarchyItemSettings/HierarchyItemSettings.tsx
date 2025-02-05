@@ -16,7 +16,7 @@ export const HierarchyItemSettings = (settings: LocationSettings) => {
       value: settings?.adminSettings?.captureRecurrencePattern,
     },
     {
-      key: "User name",
+      key: "User namee",
       value: settings?.adminSettings?.cameraCredentials?.username,
     },
     {

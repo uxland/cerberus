@@ -10,7 +10,7 @@ export const OpenIssuesPerformanceItem = (props: {
   type?: string;
 }) => {
   return (
-    <div className="flex flex-col h-30 justify-between bg-tableBg w-96 p-5 rounded-[10px] gap-4">
+    <div className="flex flex-col h-30 items-center bg-tableBg w-full p-5 rounded-[10px] gap-4">
       <Typography className="!text-[12px] uppercase !font-semibold">
         {props.title}
       </Typography>

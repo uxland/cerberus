@@ -30,13 +30,15 @@ export const TabsBar = (props: {
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
-
+  const roundsLabel = useOrganizationalStructureLocales(
+    "tabs.rounds"
+  );
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
-        flex: "1",
+        flex: "0",
         flexDirection: "row",
         borderBottom: 1,
         borderColor: "divider",
@@ -77,6 +79,12 @@ export const TabsBar = (props: {
         {itemType === HierarchyItemType.camera && (
           <Tab
             label={maintenancesSettingsLabel}
+            {...a11yProps(TabPanelType.MaintenanceSettings)}
+          />
+        )}
+        {itemType === HierarchyItemType.location && (
+          <Tab
+            label={roundsLabel}
             {...a11yProps(TabPanelType.MaintenanceSettings)}
           />
         )}

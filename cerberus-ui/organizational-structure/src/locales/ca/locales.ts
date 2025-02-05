@@ -38,6 +38,7 @@ export const locales = {
       settings: "Configuració",
       reports: "Reports",
       maintenancesSettings: "Configuració Manteniment",
+      rounds: "Rondes de supervisió",
     },
     addLocation: {
       title: "Afegir un nova Localizació",

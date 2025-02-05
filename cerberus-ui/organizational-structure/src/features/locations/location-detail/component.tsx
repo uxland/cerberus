@@ -2,7 +2,9 @@ import {
   MaintenanceSettingsView,
   OpenIssuesView,
   PendingTrainingReviewsView,
+  // RoundsView,
 } from "@cerberus/maintenance";
+// import RoundsView from "../../../../../maintenance/src/features/rounds/list-rounds/component.tsx";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import {Box, IconButton, Tooltip} from "@mui/material";
@@ -35,7 +37,7 @@ export const LocationPage = () => {
   }, [selectedTab]);
 
   return (
-    <div className="flex flex-col flex-1 w-full ">
+    <div className="flex flex-col flex-1 w-full">
       <LocationSettingsView id={id} type={itemType} content={HeaderComponent} />
       <div className="flex flex-col flex-1 w-full gap-4">
         <TabsBar
@@ -51,7 +53,7 @@ export const LocationPage = () => {
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={4}>
           <>
-            <div className="flex !flex-row !justify-end bg-tableBg w-[520px]">
+            <div className="flex !flex-row !justify-end bg-tableBg w-[520px] rounded-t-lg">
               <Tooltip title={"Editar"}>
                 <IconButton
                   color="primary"
@@ -79,6 +81,9 @@ export const LocationPage = () => {
         <CustomTabPanel value={selectedTab} index={8}>
           <MaintenanceSettingsView id={id} />
         </CustomTabPanel>
+        {/* <CustomTabPanel value={selectedTab} index={10}> 
+          <RoundsView id={id} />
+        </CustomTabPanel> */}
       </div>
     </div>
   );
