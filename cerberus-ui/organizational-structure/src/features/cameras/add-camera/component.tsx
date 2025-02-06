@@ -10,6 +10,7 @@ import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 import {AddCamera as AddCameraCommand} from "./command";
 import {AddEditCameraForm} from "../components/AddCameraForm";
 import {isValid, LocationSettings} from "../../locations/location-detail/show-location-settings/model.ts";
+import { HierarchyItemType } from "../../state/hierarchy-item.ts";
 
 export const AddCameraModal = (parentId: string) => {
   const updateModal = useUpdateModal();
@@ -96,7 +97,7 @@ export const AddCameraModal = (parentId: string) => {
             className={`!rounded-2xl !w-52 !text-white ${
               editedSettings?.description ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
             }`}
-            disabled={!isValid(editedSettings)}
+            disabled={!isValid(HierarchyItemType.camera, editedSettings)}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>

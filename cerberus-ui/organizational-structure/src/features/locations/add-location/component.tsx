@@ -10,6 +10,7 @@ import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
 import {AddLocation as AddLocationCommand} from "./command";
 import {AddEditLocationForm} from "../components/AddLocationForm";
 import {isValid, LocationSettings} from "../location-detail/show-location-settings/model.ts";
+import { HierarchyItemType } from "../../state/hierarchy-item.ts";
 
 export const AddLocationModal = (parentId: string) => {
   const updateModal = useUpdateModal();
@@ -93,7 +94,7 @@ export const AddLocationModal = (parentId: string) => {
             className={`!rounded-2xl !w-52 !text-white ${
               editedSettings?.locationDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
             }`}
-            disabled={!isValid(editedSettings)}
+            disabled={!isValid(HierarchyItemType.location, editedSettings)}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>

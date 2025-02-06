@@ -71,6 +71,27 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
           setProperty("cameraUrl", ev.target.value)
         }
       />
+      <InputField
+        title={useOrganizationalStructureLocales("addCamera.brandName")}
+        value={formData.brandName}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          setProperty("brandName", ev.target.value)
+        }
+      />
+      <InputField
+        title={useOrganizationalStructureLocales("addCamera.modelName")}
+        value={formData.modelName}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          setProperty("modelName", ev.target.value)
+        }
+      />
+      <InputField
+        title={useOrganizationalStructureLocales("addCamera.price")}
+        value={formData.priceName}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          setProperty("priceName", ev.target.value)
+        }
+      />
       <div className="flex gap-4">
         <InputField
           title={useOrganizationalStructureLocales("addCamera.user")}
