@@ -12,7 +12,9 @@ public record SetupCameraCommand(
     CameraFunctionalSettings? FunctionalSettings,
     string? BrandName,
     string? ModelName,
-    decimal? Price
+    decimal? Price,
+    int? ManufactureYear
+    
 ) : ICommand, IHierarchyItem;
 
 public class SetupLocationFactory : IHierarchySetupCommandFactoryItem
@@ -43,7 +45,8 @@ public record AppendCameraRequest(
     CameraCredentials? CameraCredentials,
     string? BrandName,
     string? ModelName,
-    decimal? Price
+    decimal? Price,
+    int? ManufactureYear
 )
 {
     public SetupCameraCommand ToCreateCamera()
@@ -56,7 +59,8 @@ public record AppendCameraRequest(
             null,
             BrandName,
             ModelName,
-            Price
+            Price,
+            ManufactureYear
         );
     }
 }

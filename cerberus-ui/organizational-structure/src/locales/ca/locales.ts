@@ -64,6 +64,7 @@ export const locales = {
       brandName: "Marca",
       modelName: "Model",
       price: "Preu",
+      manufactureYear: "Any de Fabricació",
       user: "Usuari",
       password: "Contrasenya",
       placeholder: "Afegir ",

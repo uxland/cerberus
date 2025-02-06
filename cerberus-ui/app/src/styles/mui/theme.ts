@@ -68,6 +68,12 @@ const theme = createTheme(paletteTheme, {
 
       color: `${tailwindConfig.theme.colors.white}`,
     },
+    body2: {
+      fontSize: createTheme().typography.pxToRem(12),
+      fontFamily: "Montserrat",
+      fontWeight: "400",
+      color: `${tailwindConfig.theme.colors.white}`,
+    },
   },
   components: {
     MuiTreeItem: {

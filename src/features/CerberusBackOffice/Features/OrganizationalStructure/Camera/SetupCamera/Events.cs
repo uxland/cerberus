@@ -12,7 +12,8 @@ public record CameraCreated(
     string Path,
     string? BrandName,
     string? ModelName,
-    decimal? Price
+    decimal? Price,
+    int? ManufactureYear
     ) : IDomainEvent;
 
 
@@ -24,7 +25,8 @@ public record CameraUpdated(
     string Path,
     string? BrandName,
     string? ModelName,
-    decimal? Price
+    decimal? Price,
+    int? ManufactureYear
     ): IDomainEvent;
     
 public record CameraLocationChanged(

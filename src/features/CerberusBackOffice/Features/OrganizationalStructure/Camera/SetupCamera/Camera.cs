@@ -22,18 +22,19 @@ public partial class Camera :
                 command.BrandName,
                 command.ModelName,
                 command.Price
+                command.ManufactureYear
                 )
             );
     }
     public void Handle(SetupCameraCommand setupCamera, string path)
     {
         var cmd = new SetupCameraCommand(this.Id, this.ParentId, this.Description,
-            this.AdminSettings, this.FunctionalSettings, this.BrandName, this.ModelName, this.Price);
+            this.AdminSettings, this.FunctionalSettings, this.BrandName, this.ModelName, this.Price, this.ManufactureYear);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
         this.HandleLocationChange(setupCamera, path);
         this.HandleRecurrencePatternChange(setupCamera);
-        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path, setupCamera.BrandName, setupCamera.ModelName, setupCamera.Price));
+        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path, setupCamera.BrandName, setupCamera.ModelName, setupCamera.Price, setupCamera.ManufactureYear));
     }
     
     private void HandleLocationChange(SetupCameraCommand setupCamera, string path)
@@ -57,6 +58,7 @@ public partial class Camera :
         this.BrandName = @event.BrandName;
         this.ModelName = @event.ModelName;
         this.Price = @event.Price;
+        this.ManufactureYear = @event.ManufactureYear;
         
     }
 
@@ -71,6 +73,7 @@ public partial class Camera :
         this.BrandName = @event.BrandName;
         this.ModelName = @event.ModelName;
         this.Price = @event.Price;
+        this.ManufactureYear = @event.ManufactureYear;
     }
 
     public void Apply(CameraLocationChanged @event)

@@ -20,6 +20,7 @@ export interface LocationSettings extends Entity{
     brandName?: string | undefined;
     modelName?: string | undefined;
     price?: number | undefined;
+    manufactureYear?: number | undefined;
 }
 
 const isNotNullish = (value: string | undefined) => {

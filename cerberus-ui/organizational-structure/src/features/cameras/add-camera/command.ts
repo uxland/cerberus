@@ -13,5 +13,6 @@ export class AddCamera implements IRequest<LocationNode> {
     public brandName: string | undefined,
     public modelName: string | undefined,
     public price: number | undefined,
+    public manufactureYear: number | undefined
   ) {}
 }

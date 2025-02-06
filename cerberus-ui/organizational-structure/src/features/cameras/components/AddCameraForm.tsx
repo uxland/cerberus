@@ -18,6 +18,7 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
         brandName?: string;
         modelName?: string;
         price?: number;
+        manufactureYear?: number;
     }>({
         cameraDescription: settings?.description,
         capturePattern: settings?.adminSettings?.captureRecurrencePattern,
@@ -27,7 +28,8 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
         cameraCode: settings?.id,
         brandName: settings?.brandName,
         modelName: settings?.modelName,
-        price: settings?.price
+        price: settings?.price,
+        manufactureYear: settings?.manufactureYear
     });
     const setProperty = (property: keyof typeof formData,value: any) => {
         setFormData((prev) => {
@@ -71,6 +73,7 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
           setProperty("cameraUrl", ev.target.value)
         }
       />
+      <div className="flex gap-4">
       <InputField
         title={useOrganizationalStructureLocales("addCamera.brandName")}
         value={formData.brandName}
@@ -85,11 +88,19 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
           setProperty("modelName", ev.target.value)
         }
       />
+      </div>
       <InputField
         title={useOrganizationalStructureLocales("addCamera.price")}
         value={formData.priceName}
         onChange={(ev: ChangeEvent<HTMLInputElement>) =>
           setProperty("priceName", ev.target.value)
+        }
+      />
+      <InputField
+        title={useOrganizationalStructureLocales("addCamera.manufactureYear")}
+        value={formData.manufactureYear}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+          setProperty("manufactureYear", ev.target.value)
         }
       />
       <div className="flex gap-4">

@@ -21,6 +21,7 @@ public class SetupCameraFactory : IHierarchySetupCommandFactoryItem
             item.DefaultCameraFunctionalSettings,
             null,
             null,
+            null,
             null
         );
     }

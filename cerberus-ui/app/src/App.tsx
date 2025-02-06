@@ -81,14 +81,21 @@ export const App = ({ routes }) => {
           <Toasts />
         </Router>
         <button
-          className="absolute top-1/2 -translate-y-1/2 z-50 bg-[#202020] text-white p-2 rounded-r-lg text-2xl"
+          className="absolute top-1/2 -translate-y-1/2 z-50 bg-[#353535] text-white p-2.5 hover:bg-[#636363] transition-colors rounded-r-xl text-2xl"
           onClick={() => setOpen(!open)}
           style={{
             transition: "left 0.3s ease-in-out",
           }}
         >
-          &gt;
+          <svg
+            className="w-5 h-5 fill-current rotate-180"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path d="M14.95121,1.99995L4.95118,11.99842l10.00002,10.00158,3.00344-3.00344-6.72184-6.99814,1.85764-2.12302,4.87201-4.87201-3.01125-3.00344Z" />
+          </svg>
         </button>
+
       </Box>
     </ThemeProvider>
   );

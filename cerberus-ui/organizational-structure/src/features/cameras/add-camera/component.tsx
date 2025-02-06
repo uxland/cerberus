@@ -38,7 +38,8 @@ export const AddCameraModal = (parentId: string) => {
           editedSettings?.adminSettings?.cameraCredentials,
             editedSettings?.brandName,
             editedSettings?.modelName,
-            editedSettings?.price
+            editedSettings?.price,
+            editedSettings?.manufactureYear
         )
       );
       notificationService.notifySuccess(successMessage);
