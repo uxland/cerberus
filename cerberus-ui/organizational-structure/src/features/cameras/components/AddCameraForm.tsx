@@ -15,13 +15,19 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
         user: string;
         password: string;
         cameraCode: string;
+        brandName?: string;
+        modelName?: string;
+        price?: number;
     }>({
         cameraDescription: settings?.description,
         capturePattern: settings?.adminSettings?.captureRecurrencePattern,
         cameraUrl: settings?.adminSettings?.ipAddress,
         user: settings?.adminSettings?.cameraCredentials?.username,
         password: settings?.adminSettings?.cameraCredentials?.password,
-        cameraCode: settings?.id
+        cameraCode: settings?.id,
+        brandName: settings?.brandName,
+        modelName: settings?.modelName,
+        price: settings?.price
     });
     const setProperty = (property: keyof typeof formData,value: any) => {
         setFormData((prev) => {

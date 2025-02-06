@@ -18,19 +18,22 @@ public partial class Camera :
                 command.Description,
                 command.AdminSettings,
                 command.FunctionalSettings,
-                path
+                path,
+                command.BrandName,
+                command.ModelName,
+                command.Price
                 )
             );
     }
     public void Handle(SetupCameraCommand setupCamera, string path)
     {
         var cmd = new SetupCameraCommand(this.Id, this.ParentId, this.Description,
-            this.AdminSettings, this.FunctionalSettings);
+            this.AdminSettings, this.FunctionalSettings, this.BrandName, this.ModelName, this.Price);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
         this.HandleLocationChange(setupCamera, path);
         this.HandleRecurrencePatternChange(setupCamera);
-        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path));
+        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path, setupCamera.BrandName, setupCamera.ModelName, setupCamera.Price));
     }
     
     private void HandleLocationChange(SetupCameraCommand setupCamera, string path)
@@ -50,6 +53,11 @@ public partial class Camera :
     {
         this.Description = @event.Description;
         this.AdminSettings = @event.AdminSettings;
+        this.FunctionalSettings = @event.FunctionalSettings;
+        this.BrandName = @event.BrandName;
+        this.ModelName = @event.ModelName;
+        this.Price = @event.Price;
+        
     }
 
     public void Apply(CameraCreated @event)
@@ -60,6 +68,9 @@ public partial class Camera :
         this.AdminSettings = @event.AdminSettings;
         this.FunctionalSettings = @event.FunctionalSettings;
         this.Path = @event.Path;
+        this.BrandName = @event.BrandName;
+        this.ModelName = @event.ModelName;
+        this.Price = @event.Price;
     }
 
     public void Apply(CameraLocationChanged @event)

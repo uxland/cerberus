@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/notification-service/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/notification-service/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/command.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/components/AddCameraForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/components/AddCameraForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Camera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Command.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Command.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Events.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Events.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/SetupCameraFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/SetupCameraFactory.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,30 +68,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#38 on front/tasks/interaction-manager&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "org/features/extend-camera-model",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -395,25 +403,21 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx</url>
           <line>18</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
           <line>32</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="87" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/react-confirmation-manager.ts</url>
           <line>7</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/openConfirmationModal.tsx</url>
           <line>6</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="89" />
         </line-breakpoint>
       </breakpoints>
