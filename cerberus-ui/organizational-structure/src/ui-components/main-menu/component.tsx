@@ -42,7 +42,7 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
                 <Typography variant="body2" fontWeight="bold" color='#909090'>Nuevas alertas</Typography>
               </div>
               <button
-                className="absolute -right-3 top-1/2 -translate-y-1/2 bg-[#353535] text-white rounded-xl p-2.5 hover:bg-[#636363] transition-colors z-50"
+                className="absolute -right-3 top-1/2 -translate-y-1/2 bg-[#353535] text-white rounded-xl p-3 hover:bg-[#636363] transition-colors z-50"
                 onClick={() => setOpen(!open)}
               >
                 <svg 
