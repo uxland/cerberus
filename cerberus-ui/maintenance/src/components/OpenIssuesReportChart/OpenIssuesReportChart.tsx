@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {useMaintenanceLocales} from "../../locales/ca/locales";
+import { useMaintenanceLocales } from "../../locales/ca/locales";
 
 const data = [
   {
@@ -58,7 +58,7 @@ const data = [
 export const OpenIssuesReportChart = () => {
   return (
     <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px] w-auto">
-      <div className="flex flex-col gap-6 h-[400px] lg:h-[600px]">
+      <div className="flex flex-col gap-6 h-[600px]">
         <Typography variant="h5">
           {useMaintenanceLocales("title.summaryChart")}
         </Typography>
@@ -74,13 +74,13 @@ export const OpenIssuesReportChart = () => {
               dataKey="name"
               height={110}
               tickMargin={20}
-              tick={{fill: "#d7dadb"}}
+              tick={{ fill: "#d7dadb" }}
             />
             <YAxis
               ticks={[0, 50, 100, 150, 200]}
               domain={[0, (dataMax) => dataMax * 1.1]}
               tickMargin={100}
-              tick={{fill: "#d7dadb"}}
+              tick={{ fill: "#d7dadb" }}
             />
             <Legend align="right" width={500} content={<CustomizedLegend />} />
             <Bar dataKey="opened" fill="#ff2366" radius={[4, 4, 0, 0]}>
@@ -100,10 +100,10 @@ export const OpenIssuesReportChart = () => {
 };
 
 const RenderCustomizedLabel = (props: any) => {
-  const {x, y, width, value} = props;
+  const { x, y, width, value } = props;
 
   return (
-    <g style={{filter: "drop-shadow(0px 0px 3px rgb(0 0 0 / 0.08))"}}>
+    <g style={{ filter: "drop-shadow(0px 0px 3px rgb(0 0 0 / 0.08))" }}>
       <text
         x={x + width / 2}
         y={y - 14}
@@ -120,11 +120,11 @@ const RenderCustomizedLabel = (props: any) => {
 };
 
 const CustomizedLegend = (props) => {
-  const {payload} = props;
+  const { payload } = props;
 
   return (
     <div
-      style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
+      style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
       {payload.map((entry, index) => (
         <div
           key={`item-${index}`}
@@ -137,10 +137,10 @@ const CustomizedLegend = (props) => {
             width="14"
             height="14"
             viewBox="0 0 32 32"
-            style={{marginRight: "5px", borderRadius: "50%"}}>
+            style={{ marginRight: "5px", borderRadius: "50%" }}>
             <rect fill={entry.color} width="32" height="32" />
           </svg>
-          <span style={{color: "#d7dadb"}}>Total {entry.value}</span>
+          <span style={{ color: "#d7dadb" }}>Total {entry.value}</span>
         </div>
       ))}
     </div>
