@@ -12,12 +12,12 @@ export interface FilterError {
     filterDescription: string;
 }
 
-export interface FilterErrorView{
+export interface FilterErrorView {
     date: string;
     errorType: ErrorType;
     camera: string;
-    brand: string;
-    model: string;
+    brandName: string;
+    modelName: string;
     year: string;
     filterDescription: string;
 }
@@ -61,27 +61,27 @@ const generateMockFilterErrors = (days: number, errorsPerDay: number): FilterErr
 };
 
 // Example usage
-const mockFilterErrors = generateMockFilterErrors(28, 80); // 28 days, 8 errors per day
+const mockFilterErrors = generateMockFilterErrors(21, 80); // 21 days, 8 errors per day
 
 
 export type Group = "Month" | "Week" | "Day";
 
 
-const toFilterErrorView:(error: FilterError, format: string) => FilterErrorView = (error, format) =>{
-    return{
+const toFilterErrorView: (error: FilterError, format: string) => FilterErrorView = (error, format) => {
+    return {
         ...error,
         date: dfns.format(error.date, format)
     }
 }
 
-const groupByDay: ( ) => FilterErrorView[] = () => mockFilterErrors.map(e => toFilterErrorView(e, "dd/MM/yyyy"));
+const groupByDay: () => FilterErrorView[] = () => mockFilterErrors.map(e => toFilterErrorView(e, "dd/MM/yyyy"));
 
-const groupByMonth: ( ) => FilterErrorView[] = () => mockFilterErrors.map(error =>toFilterErrorView(error, "MM/yyyy"));
+const groupByMonth: () => FilterErrorView[] = () => mockFilterErrors.map(error => toFilterErrorView(error, "MM/yyyy"));
 
 
-const groupByWeek: ( ) => FilterErrorView[] = () => mockFilterErrors.map(error =>toFilterErrorView(error, "w/yyyy"));
+const groupByWeek: () => FilterErrorView[] = () => mockFilterErrors.map(error => toFilterErrorView(error, "w/yyyy"));
 
-export const getMockFilterErrors = (group: Group = "Week")=>{
+export const getMockFilterErrors = (group: Group = "Week") => {
     switch (group) {
         case "Week":
             return groupByWeek();

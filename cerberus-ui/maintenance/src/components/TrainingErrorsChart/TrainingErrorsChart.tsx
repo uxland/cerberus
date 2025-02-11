@@ -1,111 +1,139 @@
-import React, {useEffect, useState} from "react";
-import Typography from "@mui/material/Typography";
+import React, { useState, useEffect } from "react";
 import {
-  Bar,
   BarChart,
+  Bar,
+  XAxis,
+  YAxis,
   CartesianGrid,
   LabelList,
   Legend,
   ResponsiveContainer,
-  XAxis,
-  YAxis,
 } from "recharts";
+import { Typography } from "@mui/material";
 import { useMaintenanceLocales } from "../../locales/ca/locales";
-import {FilterErrorView, getMockFilterErrors} from "../../features";
+import { FilterErrorView, getMockFilterErrors } from "../../features";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 
-const data = [
-  {
-    name: "Week 1",
-    errorByTypeTotals: 110,
-    falsePositivesTotals: 50,
-    falseNegativesTotals: 60,
-    errorsByType: { blobs: 70, blur: 40 },
-    falsePositives: { blobs: 30, blur: 20 },
-    falseNegatives: { blobs: 40, blur: 20 },
-  },
-  {
-    name: "Week 2",
-    errorByTypeTotals: 130,
-    falsePositivesTotals: 50,
-    falseNegativesTotals: 70,
-    errorsByType: { blobs: 80, blur: 50 },
-    falsePositives: { blobs: 35, blur: 15 },
-    falseNegatives: { blobs: 45, blur: 25 },
-  },
-  {
-    name: "Week 3",
-    errorByTypeTotals: 150,
-    falsePositivesTotals: 65,
-    falseNegativesTotals: 85,
-    errorsByType: { blobs: 90, blur: 60 },
-    falsePositives: { blobs: 40, blur: 25 },
-    falseNegatives: { blobs: 50, blur: 35 },
-  },
-];
-
-
-//const filterErrors =  getMockFilterErrors();
-
-//const filterErrors = getMockFilterErrors();
-
-interface DataItem{
-    date: string;
-    totalErrors: number;
-    falsePositives: number;
-    falseNegatives: number;
-    errorsByType: Record<string, number>;
-    falsePositivesByType: Record<string, number>;
-    falseNegativesByType: Record<string, number>;
-    errorsByBrand: Record<string, number>;
-    falsePositivesByBrand: Record<string, number>;
-    falseNegativesByBrand: Record<string, number>;
+interface DataItem {
+  date: string;
+  totalErrors: number;
+  falsePositives: number;
+  falseNegatives: number;
+  errorsByType: Record<string, number>;
+  falsePositivesByType: Record<string, number>;
+  falseNegativesByType: Record<string, number>;
+  errorsByBrand: Record<string, number>;
+  falsePositivesByBrand: Record<string, number>;
+  falseNegativesByBrand: Record<string, number>;
+  errorsByBrandAndType: Record<string, Record<string, number>>;
+  falsePositivesByBrandAndType: Record<string, Record<string, number>>;
+  falseNegativesByBrandAndType: Record<string, Record<string, number>>;
 }
 
 export const TrainingErrorsChart = () => {
   const [selectedErrorTypes, setSelectedErrorTypes] = useState<string[]>([]);
   const [brandNames, setBrandNames] = useState<string[]>([]);
-  const [filterErrors, setFilterErrors] = useState<FilterErrorView[]>(getMockFilterErrors());
+  const [filterErrors, setFilterErrors] = useState<FilterErrorView[]>(
+    getMockFilterErrors()
+  );
   const [dataItems, setDataItems] = useState<DataItem[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedErrorType, setSelectedErrorType] = useState<string>("");
+  const [dynamicTicks, setDynamicTicks] = useState<number[]>([]);
   const colors = {
     blobs: "#4791ff",
     blur: "#ffd950",
   };
-  useEffect(() =>{
-    const filters =  filterErrors.reduce((acc: string[], filter: FilterErrorView) => {
-      if(!acc.includes(filter.filterDescription))
-        acc.push(filter.filterDescription);
-        return acc;
+
+  useEffect(() => {
+    const filters = filterErrors.reduce((acc: string[], filter: FilterErrorView) => {
+      if (!acc.includes(filter.filterDescription)) acc.push(filter.filterDescription);
+      return acc;
     }, []);
     setSelectedErrorTypes(filters);
 
     const brands = filterErrors.reduce((acc: string[], filter) => {
-      if(!acc.includes(filter.brandName))
-        acc.push(filter.brandName);
-        return acc;
+      if (!acc.includes(filter.brandName)) acc.push(filter.brandName);
+      return acc;
     }, []);
     setBrandNames(brands);
 
     const dataItems = filterErrors.reduce((acc: DataItem[], filter: FilterErrorView) => {
       let dataItem = acc.find((item) => item.date === filter.date);
-      if(!dataItem){
-        dataItem = {date: filter.date, totalErrors: 0, falsePositives: 0, falseNegatives: 0, errorsByType: {}, falsePositivesByType: {}, falseNegativesByType: {}, errorsByBrand: {}, falsePositivesByBrand: {}, falseNegativesByBrand: {}} as DataItem;
+      if (!dataItem) {
+        dataItem = {
+          date: filter.date,
+          totalErrors: 0,
+          falsePositives: 0,
+          falseNegatives: 0,
+          errorsByType: {},
+          falsePositivesByType: {},
+          falseNegativesByType: {},
+          errorsByBrand: {},
+          falsePositivesByBrand: {},
+          falseNegativesByBrand: {},
+          errorsByBrandAndType: {},
+          falsePositivesByBrandAndType: {},
+          falseNegativesByBrandAndType: {},
+        } as DataItem;
         acc.push(dataItem);
       }
       dataItem.totalErrors = (dataItem.totalErrors || 0) + 1;
-      dataItem.falsePositives = (dataItem.falsePositives || 0) + (filter.errorType === "False Positive" ? 1 : 0);
-      dataItem.falseNegatives = (dataItem.falseNegatives || 0) + (filter.errorType === "False Negative" ? 1 : 0);
-      dataItem.errorsByType[filter.filterDescription] = (dataItem.errorsByType[filter.filterDescription] || 0) + 1;
-      dataItem.falsePositivesByType[filter.filterDescription] = (dataItem.falsePositivesByType[filter.filterDescription] || 0) + (filter.errorType === "False Positive" ? 1 : 0);
-      dataItem.falseNegativesByType[filter.filterDescription] = (dataItem.falseNegativesByType[filter.filterDescription] || 0) + (filter.errorType === "False Negative" ? 1 : 0);
+      dataItem.falsePositives =
+        (dataItem.falsePositives || 0) + (filter.type === "False Positive" ? 1 : 0);
+      dataItem.falseNegatives =
+        (dataItem.falseNegatives || 0) + (filter.type === "False Negative" ? 1 : 0);
+      dataItem.errorsByType[filter.filterDescription] =
+        (dataItem.errorsByType[filter.filterDescription] || 0) + 1;
+      dataItem.falsePositivesByType[filter.filterDescription] =
+        (dataItem.falsePositivesByType[filter.filterDescription] || 0) +
+        (filter.type === "False Positive" ? 1 : 0);
+      dataItem.falseNegativesByType[filter.filterDescription] =
+        (dataItem.falseNegativesByType[filter.filterDescription] || 0) +
+        (filter.type === "False Negative" ? 1 : 0);
       dataItem.errorsByBrand[filter.brandName] = (dataItem.errorsByBrand[filter.brandName] || 0) + 1;
-      dataItem.falsePositivesByBrand[filter.brandName] = (dataItem.falsePositivesByBrand[filter.brandName] || 0) + (filter.errorType === "False Positive" ? 1 : 0);
-      dataItem.falseNegativesByBrand[filter.brandName] = (dataItem.falseNegativesByBrand[filter.brandName] || 0) + (filter.errorType === "False Negative" ? 1 : 0);
+      dataItem.falsePositivesByBrand[filter.brandName] =
+        (dataItem.falsePositivesByBrand[filter.brandName] || 0) +
+        (filter.type === "False Positive" ? 1 : 0);
+      dataItem.falseNegativesByBrand[filter.brandName] =
+        (dataItem.falseNegativesByBrand[filter.brandName] || 0) +
+        (filter.type === "False Negative" ? 1 : 0);
+
+      if (!dataItem.errorsByBrandAndType[filter.brandName]) {
+        dataItem.errorsByBrandAndType[filter.brandName] = {};
+      }
+      dataItem.errorsByBrandAndType[filter.brandName][filter.filterDescription] =
+        (dataItem.errorsByBrandAndType[filter.brandName][filter.filterDescription] || 0) + 1;
+
+      if (!dataItem.falsePositivesByBrandAndType[filter.brandName]) {
+        dataItem.falsePositivesByBrandAndType[filter.brandName] = {};
+      }
+      dataItem.falsePositivesByBrandAndType[filter.brandName][filter.filterDescription] =
+        (dataItem.falsePositivesByBrandAndType[filter.brandName][filter.filterDescription] || 0) +
+        (filter.type === "False Positive" ? 1 : 0);
+
+      if (!dataItem.falseNegativesByBrandAndType[filter.brandName]) {
+        dataItem.falseNegativesByBrandAndType[filter.brandName] = {};
+      }
+      dataItem.falseNegativesByBrandAndType[filter.brandName][filter.filterDescription] =
+        (dataItem.falseNegativesByBrandAndType[filter.brandName][filter.filterDescription] || 0) +
+        (filter.type === "False Negative" ? 1 : 0);
+
       return acc;
     }, []);
     setDataItems(dataItems);
-  }, [filterErrors]);
 
-  const errorTypes = Object.keys(data[0].errorsByType);
+    console.log(dataItems, "dataItems");
+
+    if (dataItems.length > 0) {
+      const maxTotalErrors = Math.max(...dataItems.map(item => item.totalErrors));
+      const suggestedTicks = calculateSuggestedTicks(0, maxTotalErrors);
+      setDynamicTicks(suggestedTicks);
+    }
+  }, [filterErrors]);
 
   const toggleErrorType = (type: string) => {
     setSelectedErrorTypes((prev) =>
@@ -113,75 +141,91 @@ export const TrainingErrorsChart = () => {
     );
   };
 
-  const selectAllErrorTypes = () => {
-    setSelectedErrorTypes(errorTypes);
-  };
-
-  const deselectAllErrorTypes = () => {
-    setSelectedErrorTypes([]);
-  };
-
-  const isAllSelected = errorTypes.length === selectedErrorTypes.length;
-
-  const toggleSelectAll = () => {
-    if (isAllSelected) {
-      deselectAllErrorTypes();
-    } else {
-      selectAllErrorTypes();
-    }
-  };
-
-  const filteredData = data.map((item) => {
-    const errorsByType = selectedErrorTypes.reduce((acc, type) => {
-      acc[type] = item.errorsByType[type];
-      return acc;
-    }, {} as Record<string, number>);
-
-    const calculatedErrorByTypeTotals = selectedErrorTypes.reduce(
-      (sum, type) => sum + (item.errorsByType[type] || 0),
-      0
-    );
-
-    const falsePositives = selectedErrorTypes.reduce((acc, type) => {
-      acc[type] = item.falsePositives[type];
-      return acc;
-    }, {} as Record<string, number>);
-
-    const calculatedFalsePositivesTotals = selectedErrorTypes.reduce(
-      (sum, type) => sum + (item.falsePositives[type] || 0),
-      0
-    );
-
-    const falseNegatives = selectedErrorTypes.reduce((acc, type) => {
-      acc[type] = item.falseNegatives[type];
-      return acc;
-    }, {} as Record<string, number>);
-
-    const calculatedFalseNegativesTotals = selectedErrorTypes.reduce(
-      (sum, type) => sum + (item.falseNegatives[type] || 0),
-      0
-    );
-
-    return {
+  const filteredDataItems = dataItems.slice(0, 3).map((item) => {
+    const filteredItem = {
       ...item,
-      errorsByType,
-      calculatedErrorByTypeTotals,
-      falsePositives,
-      calculatedFalsePositivesTotals,
-      falseNegatives,
-      calculatedFalseNegativesTotals,
+      totalErrors: 0,
+      falsePositives: 0,
+      falseNegatives: 0,
+      errorsByType: {},
+      falsePositivesByType: {},
+      falseNegativesByType: {},
     };
+
+    selectedErrorTypes.forEach((errorType) => {
+      const errorCount = selectedBrand
+        ? item.errorsByBrandAndType[selectedBrand]?.[errorType] ?? 0
+        : item.errorsByType[errorType] ?? 0;
+      const fpCount = selectedBrand
+        ? item.falsePositivesByBrandAndType[selectedBrand]?.[errorType] ?? 0
+        : item.falsePositivesByType[errorType] ?? 0;
+      const fnCount = selectedBrand
+        ? item.falseNegativesByBrandAndType[selectedBrand]?.[errorType] ?? 0
+        : item.falseNegativesByType[errorType] ?? 0;
+
+      filteredItem.errorsByType[errorType] = errorCount;
+      filteredItem.falsePositivesByType[errorType] = fpCount;
+      filteredItem.falseNegativesByType[errorType] = fnCount;
+      filteredItem.totalErrors += errorCount;
+      filteredItem.falsePositives += fpCount;
+      filteredItem.falseNegatives += fnCount;
+    });
+
+    return filteredItem;
   });
+
+  useEffect(() => {
+    if (filteredDataItems.length > 0) {
+      const maxTotalErrors = Math.max(...filteredDataItems.map(item => item.totalErrors));
+      const suggestedTicks = calculateSuggestedTicks(0, maxTotalErrors);
+      setDynamicTicks(suggestedTicks);
+    }
+  }, [filteredDataItems]);
+
+
+  const calculateSuggestedTicks = (minValue: number, maxValue: number): number[] => {
+    const range = maxValue - minValue;
+    const tickCount = 5;
+    const tickInterval = range / tickCount;
+    const roundTo = 100;
+    const ticks = [];
+
+    for (let i = 0; i <= tickCount; i++) {
+      const tickValue = minValue + i * tickInterval;
+      ticks.push(Math.round(tickValue / roundTo) * roundTo);
+    }
+
+    const uniqueTicks = Array.from(new Set(ticks)).sort((a, b) => a - b);
+    return uniqueTicks;
+  };
 
   return (
     <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]">
       <div className="flex flex-col gap-6 h-[600px]">
-        <Typography variant="h5">
-          {useMaintenanceLocales("title.errorsChart")}
-        </Typography>
+        <Typography variant="h5">{useMaintenanceLocales("title.errorsChart")}</Typography>
+
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <FormControl style={{ minWidth: 120 }}>
+            <InputLabel id="brand-select-label">Marca</InputLabel>
+            <Select
+              labelId="brand-select-label"
+              value={selectedBrand}
+              label="Marca"
+              onChange={(e) => setSelectedBrand(e.target.value)}
+            >
+              <MenuItem value="">Todas</MenuItem>
+              {brandNames.map((brand) => (
+                <MenuItem key={brand} value={brand}>
+                  {brand}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
         <ResponsiveContainer width="100%">
           <BarChart
-            data={filteredData}
+            data={filteredDataItems}
             barGap={50}
             barCategoryGap={12}
             maxBarSize={40}
@@ -189,98 +233,74 @@ export const TrainingErrorsChart = () => {
           >
             <CartesianGrid />
             <XAxis
-              dataKey="name"
+              dataKey="date"
               height={110}
               tickMargin={20}
-              tick={
-                <CustomXAxisTick
-                  x={undefined}
-                  y={undefined}
-                  payload={undefined}
-                />
-              }
+              tick={<CustomXAxisTick x={undefined} y={undefined} payload={undefined} />}
             />
             <YAxis
-              ticks={[0, 25, 50, 75, 100, 125, 150]}
+              ticks={dynamicTicks}
               domain={[0, (dataMax) => dataMax * 1.1]}
               tick={{ fill: "#d7dadb" }}
             />
-            {selectedErrorTypes.map((type) => (
-              <>
-                <Bar
-                  key={`errorsByType-${type}`}
-                  dataKey={`errorsByType.${type}`}
-                  stackId="errorsByType"
-                  fill={colors[type]}
-                >
-                  <LabelList
-                    dataKey={`errorsByType.${type}`}
-                    fill="black"
-                    fontWeight={800}
-                  />
-                  <LabelList
-                    dataKey={"calculatedErrorByTypeTotals"}
-                    content={
-                      <CustomTotalLabel
-                        x={undefined}
-                        y={undefined}
-                        width={10}
-                        value={undefined}
-                      />
-                    }
-                  />
+            {selectedErrorTypes.map((type, index) => (
+              <React.Fragment key={type}>
+                <Bar dataKey={`errorsByType.${type}`} stackId="errorsByType" fill={colors[type]}>
+                  <LabelList dataKey={`errorsByType.${type}`} fill="black" fontWeight={800} />
+                  {selectedErrorTypes.length === 1 || (index === selectedErrorTypes.length - 1) ? (
+                    <LabelList
+                      dataKey="totalErrors"
+                      content={
+                        <CustomTotalLabel x={undefined} y={undefined} width={10} value={undefined} />
+                      }
+                    />
+                  ) : null}
                 </Bar>
                 <Bar
-                  key={`falsePositives-${type}`}
-                  dataKey={`falsePositives.${type}`}
+                  dataKey={`falsePositivesByType.${type}`}
                   stackId="falsePositives"
                   fill={colors[type]}
                   radius={[4, 4, 0, 0]}
                 >
-                  <LabelList
-                    dataKey={`falsePositives.${type}`}
-                    fill="black"
-                    fontWeight={800}
-                  />
-                  <LabelList
-                    dataKey={"calculatedFalsePositivesTotals"}
-                    content={
-                      <CustomTotalLabel
-                        x={undefined}
-                        y={undefined}
-                        width={10}
-                        value={undefined}
-                      />
-                    }
-                  />
+                  <LabelList dataKey={`falsePositivesByType.${type}`} fill="black" fontWeight={800} />
+                  {selectedErrorTypes.length === 1 || (index === selectedErrorTypes.length - 1) ? (
+                    <LabelList
+                      dataKey="falsePositives"
+                      content={
+                        <CustomTotalLabel x={undefined} y={undefined} width={10} value={undefined} />
+                      }
+                    />
+                  ) : null}
                 </Bar>
                 <Bar
-                  key={`falseNegatives-${type}`}
-                  dataKey={`falseNegatives.${type}`}
+                  dataKey={`falseNegativesByType.${type}`}
                   stackId="falseNegatives"
                   fill={colors[type]}
                   radius={[4, 4, 0, 0]}
                 >
-                  <LabelList
-                    dataKey={`falseNegatives.${type}`}
-                    fill="black"
-                    fontWeight={800}
-                  />
-                  <LabelList
-                    dataKey={"calculatedFalseNegativesTotals"}
-                    content={
-                      <CustomTotalLabel
-                        x={undefined}
-                        y={undefined}
-                        width={10}
-                        value={undefined}
-                      />
-                    }
-                  />
+                  <LabelList dataKey={`falseNegativesByType.${type}`} fill="black" fontWeight={800} />
+                  {selectedErrorTypes.length === 1 || (index === selectedErrorTypes.length - 1) ? (
+                    <LabelList
+                      dataKey="falseNegatives"
+                      content={
+                        <CustomTotalLabel x={undefined} y={undefined} width={10} value={undefined} />
+                      }
+                    />
+                  ) : null}
                 </Bar>
-              </>
+              </React.Fragment>
             ))}
-            <Legend align="right" width={150} content={<CustomizedLegend selectedErrorTypes={selectedErrorTypes} colors={colors} toggleErrorType={toggleErrorType} />} />
+            <Legend
+              align="right"
+              width={150}
+              content={
+                <CustomizedLegend
+                  selectedErrorTypes={selectedErrorTypes}
+                  colors={colors}
+                  toggleErrorType={toggleErrorType}
+                />
+              }
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -377,13 +397,7 @@ const CustomizedLegend = ({ selectedErrorTypes, colors, toggleErrorType }) => {
 };
 
 const CustomTotalLabel = ({ x, y, width, value }) => (
-  <text
-    x={x + width / 2}
-    y={y - 20}
-    textAnchor="middle"
-    fill="white"
-    fontWeight={800}
-  >
+  <text x={x + width / 2} y={y - 20} textAnchor="middle" fill="white" fontWeight={800}>
     {value}
   </text>
 );

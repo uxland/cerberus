@@ -44,7 +44,7 @@ const generateMockIssueSummary = (date: Date): IssueSummary => {
     };
 
     if (randomStatus === 'closed') {
-        issueSummary.dedicatedEffort = parseFloat((Math.random() * (300 - 15) + 15).toFixed(2));
+        issueSummary.dedicatedEffort = Math.floor(Math.random() * (30 - 15) + 15);
     }
 
     return issueSummary;
@@ -70,16 +70,16 @@ const generateMockIssueSummaries = (days: number, issuesPerDay: number): IssueSu
 // Example usage
 const mockIssueSummaries = generateMockIssueSummaries(30, 8); // 30 days, 8 issues per day
 console.log(mockIssueSummaries);
-const toView: (issue: IssueSummary, format: string) => IssueSummaryView = (issue, format) =>{ return{...issue, date: dfns.format(issue.date, format)}}
+const toView: (issue: IssueSummary, format: string) => IssueSummaryView = (issue, format) => { return { ...issue, date: dfns.format(issue.date, format) } }
 
-const groupByDay: ( ) => IssueSummaryView[] = () => mockIssueSummaries.map(e => toView(e, "dd/MM/yyyy"));
-const groupByWeek: ( ) => IssueSummaryView[] = () => mockIssueSummaries.map(e => toView(e, "w/yyyy"));
-const groupByMonth: ( ) => IssueSummaryView[] = () => mockIssueSummaries.map(e => toView(e, "MM/yyyy"));
+const groupByDay: () => IssueSummaryView[] = () => mockIssueSummaries.map(e => toView(e, "dd/MM/yyyy"));
+const groupByWeek: () => IssueSummaryView[] = () => mockIssueSummaries.map(e => toView(e, "w/yyyy"));
+const groupByMonth: () => IssueSummaryView[] = () => mockIssueSummaries.map(e => toView(e, "MM/yyyy"));
 
 export type GroupBy = "Day" | "Week" | "Month"
 
-export const listIssues = (group: GroupBy = "Week") =>{
-    switch (group ){
+export const listIssues = (group: GroupBy = "Week") => {
+    switch (group) {
         case "Week":
             return groupByWeek()
         case "Day":
