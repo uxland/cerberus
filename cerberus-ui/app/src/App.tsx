@@ -26,7 +26,7 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import Logo from "./assets/logo/instrumenta.png";
+import Logo from "./assets/logo/instrumentaNoBg.png";
 import { SetNavigation } from "./navigation/set-navigation.ts";
 import theme from "./styles/mui/theme";
 
