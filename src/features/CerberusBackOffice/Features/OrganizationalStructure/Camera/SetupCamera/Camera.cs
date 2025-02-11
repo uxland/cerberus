@@ -21,7 +21,7 @@ public partial class Camera :
                 path,
                 command.BrandName,
                 command.ModelName,
-                command.Price
+                command.Price,
                 command.ManufactureYear
                 )
             );

@@ -10,6 +10,8 @@ import {
   YAxis,
 } from "recharts";
 import { useMaintenanceLocales } from "../../locales/ca/locales";
+import {IssueSummary, IssueSummaryView, listIssues} from "../../features";
+import {useEffect, useState} from "react";
 
 const data = [
   {
@@ -55,7 +57,56 @@ const data = [
     hours: 111,
   },
 ];
+
+interface DataItem{
+    date: string;
+    totalEffort: number;
+    totaIssues: number;
+    issuesByType: {[key: string]: number};
+    issuesByBrand: {[key: string]: number};
+    effortByBrand: {[key: string]: number};
+    effortByType:{[key: string]: number};
+
+}
+
 export const OpenIssuesReportChart = () => {
+  const [issues, setIssues] = useState<IssueSummaryView[]>(listIssues());
+  const [brands, setBrands] = useState<string[]>([]);
+  const [filterDescriptions, setFilterDescriptions] = useState<string[]>([]);
+  const [dataItems, setDataItems] = useState<DataItem[]>([]);
+  useEffect(() => {
+    const brandNames = issues.reduce((acc: string[], issue: IssueSummaryView) => {
+        if (!acc.includes(issue.brandName)) {
+            acc.push(issue.brandName);
+        }
+        return acc;
+    }, []);
+    setBrands(brandNames);
+
+    const filterDescriptions = issues.reduce((acc: string[], issue: IssueSummaryView) => {
+        if (!acc.includes(issue.filterDescription)) {
+            acc.push(issue.filterDescription);
+        }
+        return acc;
+    }, []);
+    setFilterDescriptions(filterDescriptions);
+
+    const dataItems: DataItem[] = issues.reduce((acc: DataItem[], issue: IssueSummaryView) => {
+      let  currentItem = acc.find((item) => item.date ===  issue.date);
+      if(!currentItem){
+        currentItem = {date: issue.date, totaIssues: 0, totalEffort: 0, issuesByType: {}, issuesByBrand: {}, effortByType: {}, effortByBrand: {}} as DataItem;
+        acc.push(currentItem);
+      }
+      currentItem.totaIssues = (currentItem.totaIssues || 0) + 1;
+      currentItem.totalEffort = (currentItem.totalEffort || 0) + (issue.dedicatedEffort || 0);
+      currentItem.issuesByType[issue.filterDescription] = (currentItem.issuesByType[issue.filterDescription] || 0) + 1;
+      currentItem.issuesByBrand[issue.brandName] = (currentItem.issuesByBrand[issue.brandName] || 0) + 1;
+      currentItem.effortByBrand[issue.brandName] = (currentItem.effortByBrand[issue.brandName] || 0) + (issue.dedicatedEffort || 0);
+      currentItem.effortByType[issue.filterDescription] = (currentItem.effortByType[issue.filterDescription] || 0) + (issue.dedicatedEffort || 0);
+      return acc;
+    }, []);
+    setDataItems(dataItems);
+  }, [issues]);
   return (
     <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px] w-auto">
       <div className="flex flex-col gap-6 h-[600px]">

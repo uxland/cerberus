@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import {
   Bar,
@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { useMaintenanceLocales } from "../../locales/ca/locales";
+import {FilterErrorView, getMockFilterErrors} from "../../features";
 
 const data = [
   {
@@ -42,12 +43,67 @@ const data = [
   },
 ];
 
+
+//const filterErrors =  getMockFilterErrors();
+
+//const filterErrors = getMockFilterErrors();
+
+interface DataItem{
+    date: string;
+    totalErrors: number;
+    falsePositives: number;
+    falseNegatives: number;
+    errorsByType: Record<string, number>;
+    falsePositivesByType: Record<string, number>;
+    falseNegativesByType: Record<string, number>;
+    errorsByBrand: Record<string, number>;
+    falsePositivesByBrand: Record<string, number>;
+    falseNegativesByBrand: Record<string, number>;
+}
+
 export const TrainingErrorsChart = () => {
-  const [selectedErrorTypes, setSelectedErrorTypes] = useState<string[]>(['blobs', 'blur']);
+  const [selectedErrorTypes, setSelectedErrorTypes] = useState<string[]>([]);
+  const [brandNames, setBrandNames] = useState<string[]>([]);
+  const [filterErrors, setFilterErrors] = useState<FilterErrorView[]>(getMockFilterErrors());
+  const [dataItems, setDataItems] = useState<DataItem[]>([]);
   const colors = {
     blobs: "#4791ff",
     blur: "#ffd950",
   };
+  useEffect(() =>{
+    const filters =  filterErrors.reduce((acc: string[], filter: FilterErrorView) => {
+      if(!acc.includes(filter.filterDescription))
+        acc.push(filter.filterDescription);
+        return acc;
+    }, []);
+    setSelectedErrorTypes(filters);
+
+    const brands = filterErrors.reduce((acc: string[], filter) => {
+      if(!acc.includes(filter.brandName))
+        acc.push(filter.brandName);
+        return acc;
+    }, []);
+    setBrandNames(brands);
+
+    const dataItems = filterErrors.reduce((acc: DataItem[], filter: FilterErrorView) => {
+      let dataItem = acc.find((item) => item.date === filter.date);
+      if(!dataItem){
+        dataItem = {date: filter.date, totalErrors: 0, falsePositives: 0, falseNegatives: 0, errorsByType: {}, falsePositivesByType: {}, falseNegativesByType: {}, errorsByBrand: {}, falsePositivesByBrand: {}, falseNegativesByBrand: {}} as DataItem;
+        acc.push(dataItem);
+      }
+      dataItem.totalErrors = (dataItem.totalErrors || 0) + 1;
+      dataItem.falsePositives = (dataItem.falsePositives || 0) + (filter.errorType === "False Positive" ? 1 : 0);
+      dataItem.falseNegatives = (dataItem.falseNegatives || 0) + (filter.errorType === "False Negative" ? 1 : 0);
+      dataItem.errorsByType[filter.filterDescription] = (dataItem.errorsByType[filter.filterDescription] || 0) + 1;
+      dataItem.falsePositivesByType[filter.filterDescription] = (dataItem.falsePositivesByType[filter.filterDescription] || 0) + (filter.errorType === "False Positive" ? 1 : 0);
+      dataItem.falseNegativesByType[filter.filterDescription] = (dataItem.falseNegativesByType[filter.filterDescription] || 0) + (filter.errorType === "False Negative" ? 1 : 0);
+      dataItem.errorsByBrand[filter.brandName] = (dataItem.errorsByBrand[filter.brandName] || 0) + 1;
+      dataItem.falsePositivesByBrand[filter.brandName] = (dataItem.falsePositivesByBrand[filter.brandName] || 0) + (filter.errorType === "False Positive" ? 1 : 0);
+      dataItem.falseNegativesByBrand[filter.brandName] = (dataItem.falseNegativesByBrand[filter.brandName] || 0) + (filter.errorType === "False Negative" ? 1 : 0);
+      return acc;
+    }, []);
+    setDataItems(dataItems);
+  }, [filterErrors]);
 
   const errorTypes = Object.keys(data[0].errorsByType);
 
