@@ -1,7 +1,8 @@
-import {CustomDivider} from "@cerberus/core";
-import {Badge, Box, Tab, Tabs} from "@mui/material";
-import {HierarchyItemType} from "../../features/state/hierarchy-item";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
+import { CustomDivider } from "@cerberus/core";
+import { Badge, Box, Tab, Tabs } from "@mui/material";
+import { HierarchyItemType } from "../../features/state/hierarchy-item";
+import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
+
 export enum TabPanelType {
   OpenIssues = 0,
   Analysis = 1,
@@ -19,7 +20,7 @@ export const TabsBar = (props: {
     props.setSelectedTab(newValue);
   };
 
-  const {itemType, selectedTab} = props;
+  const { itemType, selectedTab } = props;
 
   const openIssuesLabel = useOrganizationalStructureLocales("tabs.openIssues");
   const pendingReviewsLabel = useOrganizationalStructureLocales(
@@ -93,7 +94,7 @@ export const TabsBar = (props: {
   );
 };
 
-const CustomTabLabel = ({label, badgeContent, width}) => (
+const CustomTabLabel = ({ label, badgeContent, width }) => (
   <Box display="flex" alignItems="center" minWidth={width} gap={2}>
     <span>{label}</span>
     <Badge
