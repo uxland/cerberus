@@ -21,19 +21,19 @@ export const useMaintenanceLocales = (
 export const locales = {
   [moduleName]: {
     title: {
-      pendingReviews: "Revisions Pendents",
-      openIssues: "Actives",
+      // pendingReviews: "Pendents",
+      // openIssues: "Pendents",
       summaryChart: "Últims reports",
       errorsChart: "Últims reports",
       rounds: "Rondes",
     },
     openIssuesTabs: {
-      table: "Taula",
-      chart: "Gràfic",
+      table: "Actives",
+      chart: "Gràfics",
     },
     pendingReviewsTabs: {
-      table: "Taula",
-      chart: "Gràfic",
+      table: "Revisions Pendents",
+      chart: "Gràfics",
     },
     pendingReviewsTable: {
       id: "Identificador",

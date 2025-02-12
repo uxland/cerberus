@@ -64,7 +64,7 @@ export const TabsBar = (props: {
             <CustomTabLabel
               label={pendingReviewsLabel}
               badgeContent={25}
-              width={105}
+              width={130}
             />
           }
           {...a11yProps(TabPanelType.Analysis)}

@@ -34,8 +34,8 @@ export const OpenIssuesReportChart = () => {
   const [brands, setBrands] = useState<string[]>([]);
   const [filterDescriptions, setFilterDescriptions] = useState<string[]>([]);
   const [dataItems, setDataItems] = useState<DataItem[]>([]);
-  const [selectedBrand, setSelectedBrand] = useState<string>("");
-  const [selectedIssueType, setSelectedIssueType] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("Todas");
+  const [selectedIssueType, setSelectedIssueType] = useState<string>("Todos");
   const [dynamicTicks, setDynamicTicks] = useState<number[]>([]);
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export const OpenIssuesReportChart = () => {
     }, []);
 
     setDataItems(nextDataItems);
-    // console.log(nextDataItems, "nextDataItems");
+    console.log(nextDataItems, "nextDataItems");
 
     if (nextDataItems.length > 0) {
       const maxTotalEffort = Math.max(...nextDataItems.map(item => item.totalEffort));
@@ -112,19 +112,19 @@ export const OpenIssuesReportChart = () => {
 
   const filteredDataItems = dataItems.map((item) => {
     const filteredItem = { ...item };
-    if (selectedBrand) {
-      filteredItem.totaIssues = item.issuesByBrand[selectedBrand] || 0;
-      filteredItem.totalEffort = item.effortByBrand[selectedBrand] || 0;
-    }
 
-    if (selectedIssueType) {
+    if (selectedBrand === "Todas" && selectedIssueType === "Todos") {
+      filteredItem.totaIssues = item.totaIssues;
+      filteredItem.totalEffort = item.totalEffort;
+    } else if (selectedBrand === "Todas") {
       filteredItem.totaIssues = item.issuesByType[selectedIssueType] || 0;
       filteredItem.totalEffort = item.effortByType[selectedIssueType] || 0;
-    }
-
-    if (selectedBrand && selectedIssueType) {
-      filteredItem.totaIssues = item.issuesByBrandAndType[selectedBrand][selectedIssueType] || 0;
-      filteredItem.totalEffort = item.effortByBrandAndType[selectedBrand][selectedIssueType] || 0;
+    } else if (selectedIssueType === "Todos") {
+      filteredItem.totaIssues = item.issuesByBrand[selectedBrand] || 0;
+      filteredItem.totalEffort = item.effortByBrand[selectedBrand] || 0;
+    } else {
+      filteredItem.totaIssues = item.issuesByBrandAndType[selectedBrand]?.[selectedIssueType] || 0;
+      filteredItem.totalEffort = item.effortByBrandAndType[selectedBrand]?.[selectedIssueType] || 0;
     }
     return filteredItem;
   });
@@ -154,7 +154,6 @@ export const OpenIssuesReportChart = () => {
   return (
     <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px] w-auto">
       <div className="flex flex-col gap-6 h-[600px]">
-        <Typography variant="h5">{useMaintenanceLocales("title.summaryChart")}</Typography>
 
         <div style={{ display: "flex", gap: "1rem" }}>
           <FormControl style={{ minWidth: 120 }}>
@@ -165,7 +164,7 @@ export const OpenIssuesReportChart = () => {
               label="Marca"
               onChange={(e) => setSelectedBrand(e.target.value)}
             >
-              <MenuItem value="">Todas</MenuItem>
+              <MenuItem value="Todas">Todas</MenuItem>
               {brands.map((brand) => (
                 <MenuItem key={brand} value={brand}>
                   {brand}
@@ -179,10 +178,10 @@ export const OpenIssuesReportChart = () => {
             <Select
               labelId="issue-type-select-label"
               value={selectedIssueType}
-              label="Tipo de Issue"
+              label="Tipo"
               onChange={(e) => setSelectedIssueType(e.target.value)}
             >
-              <MenuItem value="">Todas</MenuItem>
+              <MenuItem value="Todos">Todos</MenuItem>
               {Object.keys(
                 dataItems.reduce((acc, item) => {
                   Object.keys(item.issuesByType).forEach((type) => (acc[type] = true));
@@ -209,7 +208,7 @@ export const OpenIssuesReportChart = () => {
             <XAxis
               dataKey="date"
               height={110}
-              tickMargin={20}
+              tickMargin={15}
               tick={{ fill: "#d7dadb" }}
             />
             <YAxis

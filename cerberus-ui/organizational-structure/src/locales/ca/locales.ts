@@ -34,7 +34,7 @@ export const locales = {
     delete: "Eliminar",
     tabs: {
       openIssues: "Incidències",
-      pendingReviews: "Anàlisis",
+      pendingReviews: "Rendiment",
       settings: "Configuració",
       reports: "Reports",
       maintenancesSettings: "Configuració Manteniment",

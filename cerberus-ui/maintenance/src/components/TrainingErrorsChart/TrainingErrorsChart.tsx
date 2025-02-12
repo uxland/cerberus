@@ -40,7 +40,7 @@ export const TrainingErrorsChart = () => {
     getMockFilterErrors()
   );
   const [dataItems, setDataItems] = useState<DataItem[]>([]);
-  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("Todas");
   const [selectedErrorType, setSelectedErrorType] = useState<string>("");
   const [dynamicTicks, setDynamicTicks] = useState<number[]>([]);
   const colors = {
@@ -153,15 +153,19 @@ export const TrainingErrorsChart = () => {
     };
 
     selectedErrorTypes.forEach((errorType) => {
-      const errorCount = selectedBrand
-        ? item.errorsByBrandAndType[selectedBrand]?.[errorType] ?? 0
-        : item.errorsByType[errorType] ?? 0;
-      const fpCount = selectedBrand
-        ? item.falsePositivesByBrandAndType[selectedBrand]?.[errorType] ?? 0
-        : item.falsePositivesByType[errorType] ?? 0;
-      const fnCount = selectedBrand
-        ? item.falseNegativesByBrandAndType[selectedBrand]?.[errorType] ?? 0
-        : item.falseNegativesByType[errorType] ?? 0;
+      let errorCount = 0;
+      let fpCount = 0;
+      let fnCount = 0;
+
+      if (selectedBrand === "Todas") {
+        errorCount = item.errorsByType[errorType] ?? 0;
+        fpCount = item.falsePositivesByType[errorType] ?? 0;
+        fnCount = item.falseNegativesByType[errorType] ?? 0;
+      } else {
+        errorCount = item.errorsByBrandAndType[selectedBrand]?.[errorType] ?? 0;
+        fpCount = item.falsePositivesByBrandAndType[selectedBrand]?.[errorType] ?? 0;
+        fnCount = item.falseNegativesByBrandAndType[selectedBrand]?.[errorType] ?? 0;
+      }
 
       filteredItem.errorsByType[errorType] = errorCount;
       filteredItem.falsePositivesByType[errorType] = fpCount;
@@ -202,8 +206,6 @@ export const TrainingErrorsChart = () => {
   return (
     <div className="flex flex-col gap-6 p-6 bg-tableBg rounded-[10px]">
       <div className="flex flex-col gap-6 h-[600px]">
-        <Typography variant="h5">{useMaintenanceLocales("title.errorsChart")}</Typography>
-
         <div style={{ display: "flex", gap: "1rem" }}>
           <FormControl style={{ minWidth: 120 }}>
             <InputLabel id="brand-select-label">Marca</InputLabel>
@@ -213,7 +215,7 @@ export const TrainingErrorsChart = () => {
               label="Marca"
               onChange={(e) => setSelectedBrand(e.target.value)}
             >
-              <MenuItem value="">Todas</MenuItem>
+              <MenuItem value="Todas">Todas</MenuItem>
               {brandNames.map((brand) => (
                 <MenuItem key={brand} value={brand}>
                   {brand}
@@ -235,7 +237,7 @@ export const TrainingErrorsChart = () => {
             <XAxis
               dataKey="date"
               height={110}
-              tickMargin={20}
+              tickMargin={15}
               tick={<CustomXAxisTick x={undefined} y={undefined} payload={undefined} />}
             />
             <YAxis

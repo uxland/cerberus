@@ -1,4 +1,4 @@
-import {splitAndChooseDescription} from "@cerberus/shared/src";
+import { splitAndChooseDescription } from "@cerberus/shared/src";
 import PlayIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
 import StopIcon from "@mui/icons-material/StopCircleOutlined";
 import EyeIcon from "@mui/icons-material/VisibilityOutlined";
@@ -14,22 +14,19 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import {format} from "date-fns";
-import {useNavigate} from "react-router-dom";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import {
   MaintenanceIssueSummary,
   getIssueUrl,
 } from "../../features/issues/list-open-issues/model";
-import {MaintenanceIssueStatus} from "../../features/issues/model";
-import {useMaintenanceLocales} from "../../locales/ca/locales";
-import {NoData} from "../NoData/NoData";
+import { MaintenanceIssueStatus } from "../../features/issues/model";
+import { useMaintenanceLocales } from "../../locales/ca/locales";
+import { NoData } from "../NoData/NoData";
 
-export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
+export const OpenIssuesTable = (props: { issues: MaintenanceIssueSummary[] }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Typography variant="h5" className="pl-6">
-        {useMaintenanceLocales("title.openIssues")} ({props.issues.length})
-      </Typography>
       <Paper
         className="custom-table"
         sx={{
@@ -38,8 +35,8 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
           maxHeight: "538px",
           overflow: `${props.issues.length === 0 ? "hidden" : "auto"}`,
         }}>
-        <TableContainer component={Paper} className="custom-table">
-          <Table sx={{minWidth: 450}} aria-label="simple table">
+        <TableContainer component={Paper} className="custom-table p-2">
+          <Table sx={{ minWidth: 450 }} aria-label="simple table">
             <TableHead>
               <TableRow className="font-semibold">
                 <TableCell align="center" className="table-head">
@@ -67,7 +64,7 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
               </TableRow>
             </TableHead>
             {props.issues.length === 0 ? (
-              <TableBody sx={{position: "relative", height: "500px"}}>
+              <TableBody sx={{ position: "relative", height: "500px" }}>
                 <NoData />
               </TableBody>
             ) : (
@@ -84,7 +81,7 @@ export const OpenIssuesTable = (props: {issues: MaintenanceIssueSummary[]}) => {
   );
 };
 
-const OpenIssueRow = (props: {issue: MaintenanceIssueSummary}) => {
+const OpenIssueRow = (props: { issue: MaintenanceIssueSummary }) => {
   const navigate = useNavigate();
   const handleRowClick = (url) => {
     navigate(url);
@@ -123,7 +120,7 @@ const OpenIssueRow = (props: {issue: MaintenanceIssueSummary}) => {
         title={props.issue.summary}
         placement="right-start"
         arrow
-        sx={{top: "226px"}}>
+        sx={{ top: "226px" }}>
         <TableCell
           size="small"
           component="th"
@@ -137,9 +134,9 @@ const OpenIssueRow = (props: {issue: MaintenanceIssueSummary}) => {
         align="center"
         component="th"
         scope="row">{`${splitAndChooseDescription(
-        props.issue.description,
-        "first"
-      )}`}</TableCell>
+          props.issue.description,
+          "first"
+        )}`}</TableCell>
       <TableCell align="center" width={200} className="flex">
         <IconButton>
           <div className="flex gap-2">

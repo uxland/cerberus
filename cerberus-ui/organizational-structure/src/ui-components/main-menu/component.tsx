@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { OrganizationalStructureTreeNode } from "../../features";
 import { AddLocationModal } from "../../features/locations/add-location/component";
 import { Profile } from "./profile/component";
+import TextField from '@mui/material/TextField';
 
 export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: boolean) => void }) => {
   const { open, setOpen } = props;
@@ -55,7 +56,33 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
               </button>
             </div>
           </div>
-          <div className="h-full pl-2 pr-2 gap-2">
+          <div className="h-full px-4 space-y-4">
+            <div className="flex flex-col items-center">
+              <TextField
+                id="standard-multiline-flexible"
+                label="Buscar dispositivo, grupo..."
+                multiline
+                fullWidth
+                maxRows={4}
+                variant="standard"
+                InputProps={{
+                  style: {
+                    color: '#909090',
+                    fontWeight: '500',
+                  },
+                  sx: {
+                    padding: '10px',
+                  }
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: '#909090',
+                  },
+                }}
+              />
+            </div>
+
+            <OrganizationalStructureTreeNode />
             <Button
               variant="contained"
               size="small"
@@ -65,7 +92,6 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
             >
               Afegir Node Arrel
             </Button>
-            <OrganizationalStructureTreeNode />
           </div>
         </div>
       </Box>
