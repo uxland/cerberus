@@ -7,15 +7,10 @@
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/command.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/command.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/components/AddCameraForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/components/AddCameraForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/location-detail/show-location-settings/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Camera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Command.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Command.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Events.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Events.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/SetupCameraFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/SetupCameraFactory.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,69 +351,22 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
-          <line>35</line>
-          <option name="timeStamp" value="72" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/handler.ts</url>
+          <line>21</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
           <line>28</line>
-          <option name="timeStamp" value="73" />
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
           <line>30</line>
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
-          <line>51</line>
-          <option name="timeStamp" value="75" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/add-location/handler.ts</url>
-          <line>15</line>
-          <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/add-location/handler.ts</url>
-          <line>16</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
-          <line>31</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
-          <line>31</line>
-          <option name="timeStamp" value="80" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
-          <line>23</line>
-          <option name="timeStamp" value="81" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx</url>
-          <line>18</line>
-          <option name="timeStamp" value="82" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
-          <line>32</line>
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/react-confirmation-manager.ts</url>
-          <line>7</line>
-          <option name="timeStamp" value="88" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/openConfirmationModal.tsx</url>
-          <line>6</line>
-          <option name="timeStamp" value="89" />
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="97" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

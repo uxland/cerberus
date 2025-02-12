@@ -44,7 +44,11 @@ export const EditSettings = (
         settings.description,
         settings.adminSettings?.captureRecurrencePattern,
         settings.adminSettings?.ipAddress,
-        settings.adminSettings?.cameraCredentials
+        settings.adminSettings?.cameraCredentials,
+        settings.brandName,
+        settings.modelName,
+        settings.price,
+        settings.manufactureYear
     )
   }
 

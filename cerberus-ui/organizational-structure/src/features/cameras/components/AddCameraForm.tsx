@@ -34,7 +34,18 @@ export const AddEditCameraForm = ( {   showCameraCode, settings, onModelChanged}
     const setProperty = (property: keyof typeof formData,value: any) => {
         setFormData((prev) => {
             const newData = {...prev, [property]: value};
-            onModelChanged({...settings, id: newData.cameraCode, description: newData.cameraDescription, adminSettings: {ipAddress: newData.cameraUrl, captureRecurrencePattern: newData.capturePattern, cameraCredentials: {username: newData.user, password: newData.password}}});
+            onModelChanged({...settings,
+                id: newData.cameraCode,
+                description: newData.cameraDescription,
+                adminSettings: {ipAddress: newData.cameraUrl,
+                    captureRecurrencePattern: newData.capturePattern,
+                    cameraCredentials: {username: newData.user, password: newData.password}},
+                brandName: newData.brandName,
+                modelName: newData.modelName,
+                price: newData.price,
+                manufactureYear: newData.manufactureYear
+            }
+            );
             return newData;
         });
 
