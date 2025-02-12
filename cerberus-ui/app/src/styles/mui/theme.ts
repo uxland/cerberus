@@ -68,6 +68,12 @@ const theme = createTheme(paletteTheme, {
 
       color: `${tailwindConfig.theme.colors.white}`,
     },
+    body2: {
+      fontSize: createTheme().typography.pxToRem(12),
+      fontFamily: "Montserrat",
+      fontWeight: "400",
+      color: `${tailwindConfig.theme.colors.white}`,
+    },
   },
   components: {
     MuiTreeItem: {
@@ -165,21 +171,22 @@ const theme = createTheme(paletteTheme, {
             top: "-.6rem",
           },
           "&.submit-btn": {
-            height: "2.2rem",
-            marginBottom: ".55rem",
+            height: "2.2rem !important",
+            marginBottom: ".55rem !important",
             "&.Mui-disabled": {
               color: `${tailwindConfig.theme.colors.white}`,
               backgroundColor: "#ccc",
             },
           },
-          // Not used yet, will be used in the future
-          // "&.submit modal-btn": {
+
+          // TODO, no s'apliquen els estils en el modal
+          // "&.submit-modal-btn": {
           //   borderRadius: "1rem",
           //   width: "13rem",
           //   color: `${tailwindConfig.theme.colors.white}`,
           //   "&.Mui-disabled": {
           //     color: `${tailwindConfig.theme.colors.white}`,
-          //     backgroundColor: "#ccc",
+          //     backgroundColor: "#afafaf",
           //   },
           // },
         },

@@ -18,19 +18,23 @@ public partial class Camera :
                 command.Description,
                 command.AdminSettings,
                 command.FunctionalSettings,
-                path
+                path,
+                command.BrandName,
+                command.ModelName,
+                command.Price,
+                command.ManufactureYear
                 )
             );
     }
     public void Handle(SetupCameraCommand setupCamera, string path)
     {
-        var cmd = new SetupCameraCommand(setupCamera.Id, setupCamera.ParentId, setupCamera.Description,
-            setupCamera.AdminSettings, setupCamera.FunctionalSettings);
+        var cmd = new SetupCameraCommand(this.Id, this.ParentId, this.Description,
+            this.AdminSettings, this.FunctionalSettings, this.BrandName, this.ModelName, this.Price, this.ManufactureYear);
         if(cmd.Equals(setupCamera) && path == this.Path)
             return;
         this.HandleLocationChange(setupCamera, path);
         this.HandleRecurrencePatternChange(setupCamera);
-        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path));
+        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path, setupCamera.BrandName, setupCamera.ModelName, setupCamera.Price, setupCamera.ManufactureYear));
     }
     
     private void HandleLocationChange(SetupCameraCommand setupCamera, string path)
@@ -50,6 +54,12 @@ public partial class Camera :
     {
         this.Description = @event.Description;
         this.AdminSettings = @event.AdminSettings;
+        this.FunctionalSettings = @event.FunctionalSettings;
+        this.BrandName = @event.BrandName;
+        this.ModelName = @event.ModelName;
+        this.Price = @event.Price;
+        this.ManufactureYear = @event.ManufactureYear;
+        
     }
 
     public void Apply(CameraCreated @event)
@@ -60,6 +70,10 @@ public partial class Camera :
         this.AdminSettings = @event.AdminSettings;
         this.FunctionalSettings = @event.FunctionalSettings;
         this.Path = @event.Path;
+        this.BrandName = @event.BrandName;
+        this.ModelName = @event.ModelName;
+        this.Price = @event.Price;
+        this.ManufactureYear = @event.ManufactureYear;
     }
 
     public void Apply(CameraLocationChanged @event)

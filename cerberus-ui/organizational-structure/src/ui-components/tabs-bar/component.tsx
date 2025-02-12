@@ -1,7 +1,8 @@
-import {CustomDivider} from "@cerberus/core";
-import {Badge, Box, Tab, Tabs} from "@mui/material";
-import {HierarchyItemType} from "../../features/state/hierarchy-item";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
+import { CustomDivider } from "@cerberus/core";
+import { Badge, Box, Tab, Tabs } from "@mui/material";
+import { HierarchyItemType } from "../../features/state/hierarchy-item";
+import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
+
 export enum TabPanelType {
   OpenIssues = 0,
   Analysis = 1,
@@ -19,7 +20,7 @@ export const TabsBar = (props: {
     props.setSelectedTab(newValue);
   };
 
-  const {itemType, selectedTab} = props;
+  const { itemType, selectedTab } = props;
 
   const openIssuesLabel = useOrganizationalStructureLocales("tabs.openIssues");
   const pendingReviewsLabel = useOrganizationalStructureLocales(
@@ -30,13 +31,15 @@ export const TabsBar = (props: {
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
-
+  const roundsLabel = useOrganizationalStructureLocales(
+    "tabs.rounds"
+  );
   return (
     <Box
       sx={{
         width: "100%",
         display: "flex",
-        flex: "1",
+        flex: "0",
         flexDirection: "row",
         borderBottom: 1,
         borderColor: "divider",
@@ -61,23 +64,28 @@ export const TabsBar = (props: {
             <CustomTabLabel
               label={pendingReviewsLabel}
               badgeContent={25}
-              width={105}
+              width={130}
             />
           }
           {...a11yProps(TabPanelType.Analysis)}
         />
+        <CustomDivider />
+        <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
         {itemType === HierarchyItemType.camera && <CustomDivider />}
-        {itemType === HierarchyItemType.camera && (
-          <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
-        )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+
         {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        <CustomDivider />
         {itemType === HierarchyItemType.camera && (
           <Tab
             label={maintenancesSettingsLabel}
+            {...a11yProps(TabPanelType.MaintenanceSettings)}
+          />
+        )}
+        {itemType === HierarchyItemType.location && (
+          <Tab
+            label={roundsLabel}
             {...a11yProps(TabPanelType.MaintenanceSettings)}
           />
         )}
@@ -86,7 +94,7 @@ export const TabsBar = (props: {
   );
 };
 
-const CustomTabLabel = ({label, badgeContent, width}) => (
+const CustomTabLabel = ({ label, badgeContent, width }) => (
   <Box display="flex" alignItems="center" minWidth={width} gap={2}>
     <span>{label}</span>
     <Badge

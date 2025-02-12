@@ -7,30 +7,16 @@ import {Button} from "@mui/material";
 import {Mediator} from "mediatr-ts";
 import {useEffect, useState} from "react";
 import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddCamera} from "../../../ui-components/add-camera/component";
 import {AddCamera as AddCameraCommand} from "./command";
+import {AddEditCameraForm} from "../components/AddCameraForm";
+import {isValid, LocationSettings} from "../../locations/location-detail/show-location-settings/model.ts";
+import { HierarchyItemType } from "../../state/hierarchy-item.ts";
 
 export const AddCameraModal = (parentId: string) => {
   const updateModal = useUpdateModal();
   const updateModalActions = useUpdateModalActions();
 
-  const [formData, setFormData] = useState<{
-    cameraDescription: string;
-    capturePattern: string;
-    cameraUrl: string;
-    user: string;
-    password: string;
-  }>({
-    cameraDescription: "",
-    capturePattern: "",
-    cameraUrl: "",
-    user: "",
-    password: "",
-  });
-
-  const handleChange = (field: keyof typeof formData) => (value: string) => {
-    setFormData((prev) => ({...prev, [field]: value}));
-  };
+  const [editedSettings, setEditedSettings] = useState<LocationSettings | undefined>(undefined)
 
   const successMessage: string = useOrganizationalStructureLocales(
     "addCamera.notifcation.success"
@@ -44,12 +30,16 @@ export const AddCameraModal = (parentId: string) => {
     try {
       await mediator.send(
         new AddCameraCommand(
-          formData.cameraDescription, // TODO quina hauria de ser ID
+          editedSettings.id,
           parentId,
-          formData.cameraDescription,
-          formData.capturePattern, // TODO afegir patro de captura
-          formData.cameraUrl,
-          {username: formData.user, password: formData.password}
+          editedSettings.description,
+          editedSettings?.adminSettings?.captureRecurrencePattern,
+          editedSettings?.adminSettings.ipAddress,
+          editedSettings?.adminSettings?.cameraCredentials,
+            editedSettings?.brandName,
+            editedSettings?.modelName,
+            editedSettings?.price,
+            editedSettings?.manufactureYear
         )
       );
       notificationService.notifySuccess(successMessage);
@@ -62,17 +52,16 @@ export const AddCameraModal = (parentId: string) => {
 
   const openModal = () => {
     updateModal({
-      title: "Afegir un nou Dispositiu",
+      title: "Afegir una nova Càmera",
       maxWidth: "lg",
       closeAction: true,
       className: "",
+
       content: () => (
-        <AddCamera
-          onCameraDescriptionChange={handleChange("cameraDescription")}
-          onCapturePatternChange={handleChange("capturePattern")}
-          onUrlChange={handleChange("cameraUrl")}
-          onUserChange={handleChange("user")}
-          onPasswordChange={handleChange("password")}
+        <AddEditCameraForm
+          showCameraCode={true}
+          settings={undefined}
+            onModelChanged={setEditedSettings}
         />
       ),
       actions: [
@@ -85,7 +74,7 @@ export const AddCameraModal = (parentId: string) => {
               size="small"
               color="success"
               fullWidth
-              disabled={!formData.cameraUrl || !formData.cameraDescription}
+              disabled={!isValid(editedSettings)}
               className="!rounded-2xl !w-52 !text-white !bg-[#afafaf]"
               onClick={handleSubmit}>
               {useOrganizationalStructureLocales("addCamera.submitBtn")}
@@ -107,16 +96,16 @@ export const AddCameraModal = (parentId: string) => {
             color="success"
             fullWidth
             className={`!rounded-2xl !w-52 !text-white ${
-              formData.cameraDescription ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
+              editedSettings?.description ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
             }`}
-            disabled={!formData.cameraUrl || !formData.cameraDescription}
+            disabled={!isValid(HierarchyItemType.camera, editedSettings)}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>
         ),
       },
     ]);
-  }, [formData]);
+  }, [editedSettings]);
 
   return openModal;
 };

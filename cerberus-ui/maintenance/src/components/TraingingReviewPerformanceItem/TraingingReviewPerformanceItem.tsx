@@ -12,7 +12,7 @@ export const TraingingReviewPerformanceItem = (props: {
   type?: string;
 }) => {
   return (
-    <div className="flex flex-col justify-between bg-tableBg w-96 p-4 rounded-[10px] gap-4 h-40">
+    <div className="flex flex-col items-center bg-tableBg  p-4 rounded-[10px] gap-4 h-40 w-full lg:w-96">
       <Typography className="!text-[12px] uppercase !font-semibold">
         {props.title}
       </Typography>

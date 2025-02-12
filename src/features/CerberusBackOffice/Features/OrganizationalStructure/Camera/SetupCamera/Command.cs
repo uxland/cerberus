@@ -9,7 +9,12 @@ public record SetupCameraCommand(
     string ParentId,
     string Description,
     CameraAdminSettings? AdminSettings,
-    CameraFunctionalSettings? FunctionalSettings
+    CameraFunctionalSettings? FunctionalSettings,
+    string? BrandName,
+    string? ModelName,
+    decimal? Price,
+    int? ManufactureYear
+    
 ) : ICommand, IHierarchyItem;
 
 public class SetupLocationFactory : IHierarchySetupCommandFactoryItem
@@ -35,9 +40,13 @@ public record AppendCameraRequest(
     string? Id,
     string ParentId,
     string Description,
-    string CapturePattern,
+    string? CapturePattern,
     string Url,
-    CameraCredentials? CameraCredentials
+    CameraCredentials? CameraCredentials,
+    string? BrandName,
+    string? ModelName,
+    decimal? Price,
+    int? ManufactureYear
 )
 {
     public SetupCameraCommand ToCreateCamera()
@@ -47,7 +56,11 @@ public record AppendCameraRequest(
             ParentId,
             Description,
             new CameraAdminSettings(IpAddress: Url, CameraCredentials, CapturePattern),
-            null
+            null,
+            BrandName,
+            ModelName,
+            Price,
+            ManufactureYear
         );
     }
 }

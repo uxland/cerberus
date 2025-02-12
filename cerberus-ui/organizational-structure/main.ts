@@ -10,3 +10,4 @@ export const bootstrapOrganizationalStructure = (container: Container) => {
     console.log('organizational-structure bootstrapping');
     return  bootstrapFeatures(container)
 }
+

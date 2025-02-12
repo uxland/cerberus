@@ -11,6 +11,11 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
     public string Description { get; set; }
     public CameraAdminSettings AdminSettings { get; set; }
     public CameraFunctionalSettings FunctionalSettings { get; set; }
+    public string? BrandName { get; set; }
+    public string? ModelName { get; set; }
+    public decimal? Price { get; set; }
+    
+    public int? ManufactureYear { get; set; }
 }
 
 public interface ICameraEntityQueryProvider : IEntityQueryProvider<Camera>

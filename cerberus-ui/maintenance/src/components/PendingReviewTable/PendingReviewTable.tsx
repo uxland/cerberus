@@ -1,5 +1,5 @@
-import {getImageUrl} from "@cerberus/core";
-import {splitAndChooseDescription} from "@cerberus/shared/src";
+import { getImageUrl } from "@cerberus/core";
+import { splitAndChooseDescription } from "@cerberus/shared/src";
 import EyeIcon from "@mui/icons-material/VisibilityOutlined";
 import {
   IconButton,
@@ -12,33 +12,31 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import {format} from "date-fns";
-import {useNavigate} from "react-router-dom";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import {
   PendingTrainingReview,
   getPendingReviewUrl,
 } from "../../features/training/list-pending-training-reviews/model";
-import {useMaintenanceLocales} from "../../locales/ca/locales";
-import {ImageComponent} from "../ImageComponent/ImageComponent";
-import {NoData} from "../NoData/NoData";
+import { useMaintenanceLocales } from "../../locales/ca/locales";
+import { ImageComponent } from "../ImageComponent/ImageComponent";
+import { NoData } from "../NoData/NoData";
 
 export const PendingReviewTable = (props: {
   reviews: PendingTrainingReview[];
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Typography variant="h5" className="pl-6">
-        {useMaintenanceLocales("title.pendingReviews")} ({props.reviews.length})
-      </Typography>
       <Paper
         className="custom-table"
         sx={{
           width: "100%",
-          height: "538px",
+          height: "auto",
+          maxHeight: "538px",
           overflow: `${props.reviews.length === 0 ? "hidden" : "auto"}`,
         }}>
-        <TableContainer component={Paper} className="custom-table">
-          <Table sx={{minWidth: 450}} aria-label="simple table">
+        <TableContainer component={Paper} className="custom-table p-2">
+          <Table sx={{ minWidth: 450 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="center" className="table-head">
@@ -61,7 +59,7 @@ export const PendingReviewTable = (props: {
             </TableHead>
 
             {props.reviews.length === 0 ? (
-              <TableBody sx={{position: "relative", height: "500px"}}>
+              <TableBody sx={{ position: "relative", height: "500px" }}>
                 <NoData />
               </TableBody>
             ) : (
@@ -74,11 +72,11 @@ export const PendingReviewTable = (props: {
           </Table>
         </TableContainer>
       </Paper>
-    </div>
+    </div >
   );
 };
 
-const PendingReviewRow = (props: {row: PendingTrainingReview}) => {
+const PendingReviewRow = (props: { row: PendingTrainingReview }) => {
   const navigate = useNavigate();
   const handleRowClick = (url) => {
     navigate(url);

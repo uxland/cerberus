@@ -1,7 +1,7 @@
-import {getNestedValue} from "@cerberus/core";
-import {Paths} from "@cerberus/core/src/utils/auxiliar-types";
-import {useLocalePath} from "@uxland/react-services";
-import {moduleName} from "../../constants";
+import { getNestedValue } from "@cerberus/core";
+import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
+import { useLocalePath } from "@uxland/react-services";
+import { moduleName } from "../../constants";
 
 export type MaintenanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useMaintenanceLocales = (
@@ -21,13 +21,22 @@ export const useMaintenanceLocales = (
 export const locales = {
   [moduleName]: {
     title: {
-      pendingReviews: "Revisions Pendents",
-      openIssues: "Incidències",
+      // pendingReviews: "Pendents",
+      // openIssues: "Pendents",
       summaryChart: "Últims reports",
       errorsChart: "Últims reports",
+      rounds: "Rondes",
+    },
+    openIssuesTabs: {
+      table: "Actives",
+      chart: "Gràfics",
+    },
+    pendingReviewsTabs: {
+      table: "Revisions Pendents",
+      chart: "Gràfics",
     },
     pendingReviewsTable: {
-      id: "Id",
+      id: "Identificador",
       preview: "Preview",
       date: "Data",
       location: "Localització",
@@ -35,12 +44,21 @@ export const locales = {
       Actions: "Accions",
     },
     openIssuesTable: {
-      cameraId: "Id",
-      status: "Status",
+      cameraId: "Identificador",
+      status: "Estat",
       errorCode: "Codi",
       date: "Data",
       summary: "Resum",
       location: "Localització",
+      Actions: "Accions",
+    },
+    roundsTable: {
+      roundId: "Identificador",
+      description: "Descripció",
+      lastExecution: "Última exec",
+      lastDuration: "Última duració",
+      nextExecution: "Següent execució",
+      group: "Grup",
       Actions: "Accions",
     },
     openIssuesForm: {

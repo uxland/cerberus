@@ -1,7 +1,7 @@
-import {getNestedValue} from "@cerberus/core";
-import {Paths} from "@cerberus/core/src/utils/auxiliar-types";
-import {useLocalePath} from "@uxland/react-services";
-import {moduleName} from "../../constants";
+import { getNestedValue } from "@cerberus/core";
+import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
+import { useLocalePath } from "@uxland/react-services";
+import { moduleName } from "../../constants";
 
 export type OrganizationalStructureLocalesPath = Paths<
   (typeof locales)[typeof moduleName]
@@ -30,12 +30,15 @@ export const locales = {
       title: "Adjunta arxiu",
       file: "Pujar arxiu",
     },
+    edit: "Editar",
+    delete: "Eliminar",
     tabs: {
       openIssues: "Incidències",
-      pendingReviews: "Anàlisis",
+      pendingReviews: "Rendiment",
       settings: "Configuració",
       reports: "Reports",
       maintenancesSettings: "Configuració Manteniment",
+      rounds: "Rondes de supervisió",
     },
     addLocation: {
       title: "Afegir un nova Localizació",
@@ -56,7 +59,12 @@ export const locales = {
       title: "Afegir una nova Càmera",
       name: "Nom Càmera",
       capturePattern: "Patró de Captura",
+      cameraCode: "Codi de Càmera",
       url: "URL",
+      brandName: "Marca",
+      modelName: "Model",
+      price: "Preu",
+      manufactureYear: "Any de Fabricació",
       user: "Usuari",
       password: "Contrasenya",
       placeholder: "Afegir ",
@@ -67,8 +75,25 @@ export const locales = {
         error: "Error al afegir Càmera",
       },
     },
+    removeCamera: {
+      removeBtn: "Eliminar Càmera",
+      notifcation: {
+        success: "Càmera eliminada correctament",
+        error: "Error al eliminar Càmera",
+      },
+    },
+    editCamera: {
+      notifcation: {
+        success: "Càmera modificada correctament",
+        error: "Error al modificar Càmera",
+      },
+    },
     addMenu: {
       title: "Afegir Localitzacio o Càmera",
+    },
+    cameraSettings: {
+      id: "Id",
+      description: "Descripció",
     },
   },
 };
