@@ -51,7 +51,7 @@ public class Startup(WebApplicationBuilder builder)
             .BootstrapMaintenance(martenConfiguration);
     }
     
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(WebApplication app, IWebHostEnvironment env)
     {
         app
             .BootstrapOpenApi()
@@ -59,7 +59,7 @@ public class Startup(WebApplicationBuilder builder)
             .BootstrapContentServer(builder);
 
         app.UseRouting();
-
+        
         app.UseAuthentication().
             UseAuthorization();
         app.UseEndpoints(endpoints =>
