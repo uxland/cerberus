@@ -1,14 +1,16 @@
 ﻿using Cerberus.Surveillance.Features.Features.Shared;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
-namespace Cerberus.Surveillance.Features;
 
 [assembly: WolverineModule]
+namespace Cerberus.Surveillance.Features;
+
+
 public static class Bootstrapper
 {
     public static IServiceCollection BootstrapCerberusSurveillanceFeatures(this IServiceCollection services)
     {
-        return services;
+        return services.SetUpAuthorization();
     }
     
     private static IServiceCollection SetUpAuthorization(this IServiceCollection services)

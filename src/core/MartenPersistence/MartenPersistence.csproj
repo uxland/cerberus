@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="Marten" Version="7.37.1" />
         <PackageReference Include="Marten.NodaTime" Version="7.37.1" />
+        <PackageReference Include="WolverineFx.Marten" Version="3.8.1" />
     </ItemGroup>
 
     <ItemGroup>
