@@ -11,7 +11,7 @@ export const OpenIssuesPerformanceItem = (props: {
 }) => {
   return (
     <div className="flex flex-col h-30 items-center bg-tableBg w-full p-5 rounded-[10px] gap-4">
-      <Typography className="!text-[12px] uppercase !font-semibold">
+      <Typography className="!text-sm uppercase !font-semibold text-center">
         {props.title}
       </Typography>
       <div className="flex gap-4">
@@ -20,7 +20,7 @@ export const OpenIssuesPerformanceItem = (props: {
           <div className="flex flex-col">
             <Typography>Actual</Typography>
             <div className="flex gap-2">
-              <Typography className="!text-2xl">
+              <Typography className="!text-xl !font-semibold">
                 {props.currentSevenDays}
               </Typography>
               <Badge
@@ -31,11 +31,11 @@ export const OpenIssuesPerformanceItem = (props: {
             </div>
           </div>
           <CustomDivider className="kpi-divider" />
-          <div className="flex flex-col mt-1">
-            <Typography className="!text-xs !text-grey82">
+          <div className="flex flex-col">
+            <Typography className=" !text-grey82">
               Anterior (7 días)
             </Typography>
-            <Typography className="!text-lg !text-grey82">
+            <Typography className="!text-xl !text-grey82 !font-semibold">
               {props.previousSevenDays}
             </Typography>
           </div>

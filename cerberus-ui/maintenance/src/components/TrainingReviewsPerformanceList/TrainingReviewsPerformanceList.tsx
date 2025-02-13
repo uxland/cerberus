@@ -23,7 +23,7 @@ export const TrainingReviewsPerformanceList = () => {
         type={"error"}
       />
       <TraingingReviewPerformanceItem
-        title={"Errores de blobs"}
+        title={"Errores de obstrucción"}
         icon={<ViewCarouselOutlinedIcon className="kpi-icon" />}
         currentSevenDays={"148"}
         previousSevenDays={"185"}

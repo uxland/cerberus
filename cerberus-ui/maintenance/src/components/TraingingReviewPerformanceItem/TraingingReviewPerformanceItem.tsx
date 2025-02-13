@@ -12,34 +12,39 @@ export const TraingingReviewPerformanceItem = (props: {
   type?: string;
 }) => {
   return (
-    <div className="flex flex-col items-center bg-tableBg  p-4 rounded-[10px] gap-4 h-40 w-full lg:w-96">
-      <Typography className="!text-[12px] uppercase !font-semibold">
+    <div className="flex flex-col items-center bg-tableBg p-4 rounded-[10px] gap-4 w-full lg:w-96">
+      <Typography className="!text-sm uppercase !font-semibold text-center">
         {props.title}
       </Typography>
-      <div className="flex gap-4">
-        <SvgIcon component={() => props.icon}></SvgIcon>
-        <div className="flex gap-10">
+
+      <div className="flex gap-4 items-start">
+        <SvgIcon component={() => props.icon} fontSize="medium" />
+
+        <div className="flex gap-6">
           <div className="flex flex-col">
-            <Typography>Actual</Typography>
+            <Typography className="!text-sm font-semibold mb-1">
+              Actual
+            </Typography>
             <div className="flex flex-col gap-2">
-              <div className="flex gap-2">
-                <Typography className="!text-2xl">
+              <div className="flex items-center gap-2">
+                <Typography className="!text-xl !font-semibold">
                   {props.currentSevenDays}
                 </Typography>
                 <Badge
-                  className={`!text-sm ${props.type ? "text-error" : "text-success"
-                    } `}>
+                  className={`!text-sm px-2 py-1 rounded ${props.type ? "text-error" : "text-success"
+                    }`}
+                >
                   {props.percentage}%
                 </Badge>
               </div>
               <div className="flex flex-col">
-                <Typography className="!text-xs">
+                <Typography className="!text-sm">
                   <span className="!font-bold text-error">
                     {props.currentSevenDays}
                   </span>{" "}
                   F. positivo
                 </Typography>
-                <Typography className="!text-xs">
+                <Typography className="!text-sm">
                   <span className="!font-bold text-error">
                     {props.currentSevenDays}
                   </span>{" "}
@@ -48,24 +53,24 @@ export const TraingingReviewPerformanceItem = (props: {
               </div>
             </div>
           </div>
+
           <CustomDivider className="kpi-divider" />
+
           <div className="flex flex-col">
-            <div className="flex flex-col mt-1">
-              <Typography className="!text-xs !text-grey82">
-                Anterior (7 días)
-              </Typography>
-              <Typography className="!text-lg !text-grey82">
-                {props.previousSevenDays}
-              </Typography>
-            </div>
-            <div className="flex flex-col mt-3">
-              <Typography className="!text-[10px] !text-grey82">
+            <Typography className="!text-sm !text-grey82 font-semibold mb-1">
+              Anterior (7 días)
+            </Typography>
+            <Typography className="!text-xl !font-semibold !text-grey82">
+              {props.previousSevenDays}
+            </Typography>
+            <div className="flex flex-col mt-2 gap-1">
+              <Typography className="!text-sm !text-grey82">
                 <span className="!font-bold text-error">
                   {props.currentSevenDays}
                 </span>{" "}
                 F. positivo
               </Typography>
-              <Typography className="!text-[10px] !text-grey82">
+              <Typography className="!text-sm !text-grey82">
                 <span className="!font-bold text-error">
                   {props.currentSevenDays}
                 </span>{" "}

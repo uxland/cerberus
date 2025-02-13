@@ -1,8 +1,8 @@
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {HierarchyItemType} from "../../../state/hierarchy-item.ts";
-import {LocationSettings} from "./model.ts";
-import {GetLocationSettings} from "./query.ts";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { HierarchyItemType } from "../../../state/hierarchy-item.ts";
+import { LocationSettings } from "./model.ts";
+import { GetLocationSettings } from "./query.ts";
 
 export const LocationSettingsView = (props: {
   id: string;
