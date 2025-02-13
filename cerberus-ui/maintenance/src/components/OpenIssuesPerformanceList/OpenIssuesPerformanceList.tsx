@@ -8,29 +8,29 @@ export const OpenIssuesPerformanceList = () => {
     <div className="flex justify-center items-center">
       <div className="grid lg:grid-cols-2 2xl:grid-cols-4 gap-6 w-full ">
         <OpenIssuesPerformanceItem
-          title={"Open Issues (7 days)"}
-          icon={<ErrorOutlineOutlinedIcon className="kpi-icon error"/>}
+          title={"Incidencias abiertas (7 días)"}
+          icon={<ErrorOutlineOutlinedIcon className="kpi-icon error" />}
           currentSevenDays={"148"}
           previousSevenDays={"185"}
           percentage={"+10"}
           type={"error"}
         />
         <OpenIssuesPerformanceItem
-          title={"Closed issues (7 days)"}
+          title={"Incidencias cerradas (7 días)"}
           icon={<CheckCircleOutlinedIcon className="kpi-icon success" />}
           currentSevenDays={"180"}
           previousSevenDays={"112"}
           percentage={"10"}
         />
         <OpenIssuesPerformanceItem
-          title={"Total effort in hours (7 days)"}
+          title={"Esfuerzo total en horas (7 días)"}
           icon={<AccessAlarmsOutlinedIcon className="kpi-icon warning" />}
           currentSevenDays={"180"}
           previousSevenDays={"185"}
           percentage={"10"}
         />
         <OpenIssuesPerformanceItem
-          title={"Average effort in hours (7 days)"}
+          title={"Esfuerzo promedio en horas (7 días)"}
           icon={<AccessAlarmsOutlinedIcon className="kpi-icon info" />}
           currentSevenDays={"1,78"}
           previousSevenDays={"1,13"}

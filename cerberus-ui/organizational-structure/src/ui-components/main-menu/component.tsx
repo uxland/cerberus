@@ -90,7 +90,7 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
               className="submit-btn"
               onClick={AddLocationModal(undefined)}
             >
-              Afegir Node Arrel
+              Añadir Nodo Raíz
             </Button>
           </div>
         </div>

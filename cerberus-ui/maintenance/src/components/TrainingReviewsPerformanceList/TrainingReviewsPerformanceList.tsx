@@ -7,7 +7,7 @@ export const TrainingReviewsPerformanceList = () => {
   return (
     <div className="flex w-full justify-start items-center gap-6 flex-wrap overflow-x-auto overflow-y-hidden">
       <TraingingReviewPerformanceItem
-        title={"Total errors"}
+        title={"Errores totales"}
         icon={<ErrorOutlineOutlinedIcon className="kpi-icon error" />}
         currentSevenDays={"148"}
         previousSevenDays={"185"}
@@ -15,7 +15,7 @@ export const TrainingReviewsPerformanceList = () => {
         type={"error"}
       />
       <TraingingReviewPerformanceItem
-        title={"Blur errors"}
+        title={"Errores de desenfoque"}
         icon={<BlurOnOutlinedIcon className="kpi-icon" />}
         currentSevenDays={"148"}
         previousSevenDays={"185"}
@@ -23,7 +23,7 @@ export const TrainingReviewsPerformanceList = () => {
         type={"error"}
       />
       <TraingingReviewPerformanceItem
-        title={"Blobs errors"}
+        title={"Errores de blobs"}
         icon={<ViewCarouselOutlinedIcon className="kpi-icon" />}
         currentSevenDays={"148"}
         previousSevenDays={"185"}

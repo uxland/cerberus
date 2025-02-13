@@ -1,5 +1,5 @@
-import {CustomDivider} from "@cerberus/core";
-import {Badge, SvgIcon, Typography} from "@mui/material";
+import { CustomDivider } from "@cerberus/core";
+import { Badge, SvgIcon, Typography } from "@mui/material";
 
 export const OpenIssuesPerformanceItem = (props: {
   title: string;
@@ -18,15 +18,14 @@ export const OpenIssuesPerformanceItem = (props: {
         <SvgIcon component={() => props.icon}></SvgIcon>
         <div className="flex gap-10">
           <div className="flex flex-col">
-            <Typography>Current</Typography>
+            <Typography>Actual</Typography>
             <div className="flex gap-2">
               <Typography className="!text-2xl">
                 {props.currentSevenDays}
               </Typography>
               <Badge
-                className={`!text-sm ${
-                  props.type ? "text-error" : "text-success"
-                } `}>
+                className={`!text-sm ${props.type ? "text-error" : "text-success"
+                  } `}>
                 {props.percentage}%
               </Badge>
             </div>
@@ -34,7 +33,7 @@ export const OpenIssuesPerformanceItem = (props: {
           <CustomDivider className="kpi-divider" />
           <div className="flex flex-col mt-1">
             <Typography className="!text-xs !text-grey82">
-              Previous (7 days)
+              Anterior (7 días)
             </Typography>
             <Typography className="!text-lg !text-grey82">
               {props.previousSevenDays}

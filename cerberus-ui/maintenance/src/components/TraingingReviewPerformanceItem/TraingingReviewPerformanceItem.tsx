@@ -1,4 +1,4 @@
-import {CustomDivider} from "@cerberus/core";
+import { CustomDivider } from "@cerberus/core";
 import Badge from "@mui/material/Badge";
 import SvgIcon from "@mui/material/SvgIcon";
 import Typography from "@mui/material/Typography";
@@ -20,16 +20,15 @@ export const TraingingReviewPerformanceItem = (props: {
         <SvgIcon component={() => props.icon}></SvgIcon>
         <div className="flex gap-10">
           <div className="flex flex-col">
-            <Typography>Current</Typography>
+            <Typography>Actual</Typography>
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
                 <Typography className="!text-2xl">
                   {props.currentSevenDays}
                 </Typography>
                 <Badge
-                  className={`!text-sm ${
-                    props.type ? "text-error" : "text-success"
-                  } `}>
+                  className={`!text-sm ${props.type ? "text-error" : "text-success"
+                    } `}>
                   {props.percentage}%
                 </Badge>
               </div>
@@ -38,13 +37,13 @@ export const TraingingReviewPerformanceItem = (props: {
                   <span className="!font-bold text-error">
                     {props.currentSevenDays}
                   </span>{" "}
-                  F. positive
+                  F. positivo
                 </Typography>
                 <Typography className="!text-xs">
                   <span className="!font-bold text-error">
                     {props.currentSevenDays}
                   </span>{" "}
-                  F. negative
+                  F. negativo
                 </Typography>
               </div>
             </div>
@@ -53,7 +52,7 @@ export const TraingingReviewPerformanceItem = (props: {
           <div className="flex flex-col">
             <div className="flex flex-col mt-1">
               <Typography className="!text-xs !text-grey82">
-                Previous (7 days)
+                Anterior (7 días)
               </Typography>
               <Typography className="!text-lg !text-grey82">
                 {props.previousSevenDays}
@@ -64,13 +63,13 @@ export const TraingingReviewPerformanceItem = (props: {
                 <span className="!font-bold text-error">
                   {props.currentSevenDays}
                 </span>{" "}
-                F. positive
+                F. positivo
               </Typography>
               <Typography className="!text-[10px] !text-grey82">
                 <span className="!font-bold text-error">
                   {props.currentSevenDays}
                 </span>{" "}
-                F. negative
+                F. negativo
               </Typography>
             </div>
           </div>

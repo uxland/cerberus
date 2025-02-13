@@ -124,7 +124,7 @@ export const TrainingErrorsChart = () => {
 
       return acc;
     }, []);
-    setDataItems(dataItems);
+    setDataItems(dataItems.reverse());
 
     console.log(dataItems, "dataItems");
 
@@ -324,9 +324,9 @@ const CustomXAxisTick = ({ x, y, payload }) => {
         fill="white"
         fontSize={14}
         fontWeight={600}
-        fontFamily="Montserrat"
+        fontFamily="sans-serif"
       >
-        Total E.
+        Total
       </text>
       <text
         x={0}
@@ -336,9 +336,9 @@ const CustomXAxisTick = ({ x, y, payload }) => {
         fill="white"
         fontSize={14}
         fontWeight={600}
-        fontFamily="Montserrat"
+        fontFamily="sans-serif"
       >
-        False P.
+        Falso P
       </text>
       <text
         x={90}
@@ -348,19 +348,21 @@ const CustomXAxisTick = ({ x, y, payload }) => {
         fill="white"
         fontSize={14}
         fontWeight={600}
-        fontFamily="Montserrat"
+        fontFamily="sans-serif"
       >
-        False N.
+        Falso N
       </text>
       <text
         x={0}
         y={14}
         dy={16}
         textAnchor="middle"
-        fill="white"
-        fontFamily="Montserrat"
+        fontSize={16}
+        fontWeight={500}
+        fill="#d7dadb"
+        fontFamily="sans-serif"
       >
-        {week}
+        Semana {week.split("")[0]}
       </text>
     </g>
   );
@@ -368,20 +370,19 @@ const CustomXAxisTick = ({ x, y, payload }) => {
 
 const CustomizedLegend = ({ selectedErrorTypes, colors, toggleErrorType }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "flex-start",
-        gap: "10px",
-      }}
-    >
+    <div style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
       {Object.keys(colors).map((type) => (
         <div
           key={type}
           className="flex items-center"
           onClick={() => toggleErrorType(type)}
-          style={{ cursor: "pointer", opacity: selectedErrorTypes.includes(type) ? 1 : 0.3 }}
+          style={{
+            cursor: "pointer",
+            opacity: selectedErrorTypes.includes(type) ? 1 : 0.3,
+            display: "flex",
+            alignItems: "center",
+            margin: "0 10px",
+          }}
         >
           <svg
             width="14"
@@ -391,7 +392,7 @@ const CustomizedLegend = ({ selectedErrorTypes, colors, toggleErrorType }) => {
           >
             <rect fill={colors[type]} width="32" height="32" />
           </svg>
-          <span style={{ color: "#d7dadb", fontFamily: "Montserrat" }}>{type}</span>
+          <span style={{ color: "#d7dadb", fontFamily: "Montserrat" }}>{type === 'blur' ? 'Desenfoque' : type === 'blobs' ? 'Obstrucción' : type}</span>
         </div>
       ))}
     </div>

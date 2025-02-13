@@ -13,6 +13,7 @@ import {
 } from "../state/hierarchy-item.ts";
 import { Mediator } from "mediatr-ts";
 import { DeleteCamera } from "../cameras/remove-camera/command.ts";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const removeCamera = (id: string, description: string) =>
   new Mediator().send(new DeleteCamera(id, description));
@@ -22,11 +23,6 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
     camera: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M15.333 7.556v8.888H4.223V7.556h11.11m1.111-2.223H3.111C2.497 5.333 2 5.831 2 6.444v11.112c0 .613.497 1.11 1.111 1.11h13.333c.614 0 1.112-.497 1.112-1.11V13.67L22 18.116V5.889l-4.444 4.444V6.444c0-.613-.498-1.11-1.112-1.11Z" />
-      </svg>
-    ),
-    delete: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M3 6h18v2H3V6zm2 3h14v12H5V9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2z" />
       </svg>
     ),
   };
@@ -40,23 +36,40 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
       className={`${node.type === HierarchyItemType.camera ? "flex items-center group relative" : "flex relative"
         }`}
       style={{ width: "100%" }}>
-      {node.type === HierarchyItemType.camera && (
-        <SvgIcon
-          color="primary"
-          sx={{
-            width: "1.6rem",
-            height: "1.6rem",
-            fill: "currentColor",
-            position: "absolute",
-            left: "20px",
-          }}>
-          {icons.camera}
-        </SvgIcon>
-      )}
       <TreeItem
         itemId={node.id}
-        label={<Link to={getItemUrl(node)}>{node.description}</Link>}
-        sx={{ flex: 1, marginLeft: node.type === HierarchyItemType.camera ? "2.5rem" : "0" }}>
+        label={
+          <Link
+            to={getItemUrl(node)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              textDecoration: "none",
+              color: "inherit",
+              width: "100%",
+            }}
+          >
+            {node.type === HierarchyItemType.camera && (
+              <SvgIcon
+                color="primary"
+                sx={{
+                  width: "1.6rem",
+                  height: "1.6rem",
+                  fill: "currentColor",
+                  marginRight: "0.5rem",
+                }}
+              >
+                {icons.camera}
+              </SvgIcon>
+            )}
+            {node.description}
+          </Link>
+        }
+        sx={{
+          flex: 1,
+          marginLeft: "0",
+        }}
+      >
         {node.children.map((child) => (
           <TreeNode key={child.id} node={child} />
         ))}
@@ -79,7 +92,7 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
         </Tooltip>
       )}
       {node.type === HierarchyItemType.camera && (
-        <SvgIcon
+        <DeleteOutlineIcon
           color="primary"
           className="opacity-0 group-hover:opacity-100"
           onClick={() => removeCamera(node.id, node.description)}
@@ -90,9 +103,7 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
             position: "absolute",
             right: "0",
             cursor: "pointer",
-          }}>
-          {icons.delete}
-        </SvgIcon>
+          }} />
       )}
     </div>
   );

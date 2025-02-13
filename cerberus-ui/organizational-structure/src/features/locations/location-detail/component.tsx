@@ -2,24 +2,22 @@ import {
   MaintenanceSettingsView,
   OpenIssuesView,
   PendingTrainingReviewsView,
-  // RoundsView,
 } from "@cerberus/maintenance";
-// import RoundsView from "../../../../../maintenance/src/features/rounds/list-rounds/component.tsx";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import {Box, IconButton, Tooltip} from "@mui/material";
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {HeaderComponent, TabsBar} from "../../../ui-components";
-import {EditSettings} from "../../edit-settings/component.tsx";
-import {HierarchyItemSettings} from "../../edit-settings/HierarchyItemSettings/HierarchyItemSettings.tsx";
-import {HierarchyItemType} from "../../state/hierarchy-item.ts";
-import {CameraCapturesView} from "./list-camera-captures/component";
-import {TabPanelProps} from "./model.ts";
-import {LocationSettingsView} from "./show-location-settings/component";
-import {LocationSettings} from "./show-location-settings/model.ts";
+import { Box, IconButton, Tooltip } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { HeaderComponent, TabsBar } from "../../../ui-components";
+import { EditSettings } from "../../edit-settings/component.tsx";
+import { HierarchyItemSettings } from "../../edit-settings/HierarchyItemSettings/HierarchyItemSettings.tsx";
+import { HierarchyItemType } from "../../state/hierarchy-item.ts";
+import { CameraCapturesView } from "./list-camera-captures/component";
+import { TabPanelProps } from "./model.ts";
+import { LocationSettingsView } from "./show-location-settings/component";
+import { LocationSettings } from "./show-location-settings/model.ts";
 export const LocationPage = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
@@ -33,7 +31,7 @@ export const LocationPage = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     params.set("tab", selectedTab.toString());
-    navigate({search: params.toString()}, {replace: true});
+    navigate({ search: params.toString() }, { replace: true });
   }, [selectedTab]);
 
   return (
@@ -67,6 +65,7 @@ export const LocationPage = () => {
                 </IconButton>
               </Tooltip>
             </div>
+            {/* /////// */}
             <LocationSettingsView
               id={id}
               type={itemType}
@@ -81,16 +80,13 @@ export const LocationPage = () => {
         <CustomTabPanel value={selectedTab} index={8}>
           <MaintenanceSettingsView id={id} />
         </CustomTabPanel>
-        {/* <CustomTabPanel value={selectedTab} index={10}> 
-          <RoundsView id={id} />
-        </CustomTabPanel> */}
       </div>
     </div>
   );
 };
 
 const CustomTabPanel = (props: TabPanelProps) => {
-  const {children, value, index, ...other} = props;
+  const { children, value, index, ...other } = props;
   return (
     <div
       role="tabpanel"
@@ -98,7 +94,7 @@ const CustomTabPanel = (props: TabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}>
-      {value === index && <Box sx={{p: 3}}>{children}</Box>}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };

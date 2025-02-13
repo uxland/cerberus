@@ -31,9 +31,7 @@ export const TabsBar = (props: {
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
-  const roundsLabel = useOrganizationalStructureLocales(
-    "tabs.rounds"
-  );
+
   return (
     <Box
       sx={{
@@ -64,7 +62,7 @@ export const TabsBar = (props: {
             <CustomTabLabel
               label={pendingReviewsLabel}
               badgeContent={25}
-              width={130}
+              width={140}
             />
           }
           {...a11yProps(TabPanelType.Analysis)}
@@ -83,12 +81,7 @@ export const TabsBar = (props: {
             {...a11yProps(TabPanelType.MaintenanceSettings)}
           />
         )}
-        {itemType === HierarchyItemType.location && (
-          <Tab
-            label={roundsLabel}
-            {...a11yProps(TabPanelType.MaintenanceSettings)}
-          />
-        )}
+
       </Tabs>
     </Box>
   );

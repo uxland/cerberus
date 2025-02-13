@@ -4,24 +4,40 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import {LocationSettings} from "../../locations/location-detail/show-location-settings/model.ts";
+import { LocationSettings } from "../../locations/location-detail/show-location-settings/model.ts";
 
 export const HierarchyItemSettings = (settings: LocationSettings) => {
   const items = [
-    {key: "ID", value: settings?.id},
-    {key: "Description", value: settings?.description},
-    {key: "Address", value: settings?.adminSettings?.ipAddress},
+    { key: "ID", value: settings?.id },
+    { key: "Descripción", value: settings?.description },
+    { key: "Dirección", value: settings?.adminSettings?.ipAddress },
     {
-      key: "Capture pattern",
+      key: "Patrón de captura",
       value: settings?.adminSettings?.captureRecurrencePattern,
     },
     {
-      key: "User namee",
+      key: "Nombre de usuario",
       value: settings?.adminSettings?.cameraCredentials?.username,
     },
     {
-      key: "Password",
+      key: "Contraseña",
       value: settings?.adminSettings?.cameraCredentials?.password,
+    },
+    {
+      key: "Marca",
+      value: settings?.brandName
+    },
+    {
+      key: "Modelo",
+      value: settings?.modelName
+    },
+    {
+      key: "Precio",
+      value: settings?.price
+    },
+    {
+      key: "Año de Fabricación",
+      value: settings?.manufactureYear
     },
   ];
 
@@ -30,7 +46,7 @@ export const HierarchyItemSettings = (settings: LocationSettings) => {
       <TableContainer component={Paper} className="flex-1">
         <Table className="custom-table bg-tableBg">
           <TableBody>
-            {items.map(({key, value}, index) => (
+            {items.map(({ key, value }, index) => (
               <TableRow key={index}>
                 <TableCell className="!font-semibold">{key}</TableCell>
                 <TableCell>{value ? value : "N/A"}</TableCell>

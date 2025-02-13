@@ -99,7 +99,7 @@ export const OpenIssuesReportChart = () => {
       return acc;
     }, []);
 
-    setDataItems(nextDataItems);
+    setDataItems(nextDataItems.reverse());
     console.log(nextDataItems, "nextDataItems");
 
     if (nextDataItems.length > 0) {
@@ -112,7 +112,8 @@ export const OpenIssuesReportChart = () => {
 
   const filteredDataItems = dataItems.map((item) => {
     const filteredItem = { ...item };
-
+    const weekNumber = item.date.split("")[0];
+    filteredItem.date = `Semana ${weekNumber}`;
     if (selectedBrand === "Todas" && selectedIssueType === "Todos") {
       filteredItem.totaIssues = item.totaIssues;
       filteredItem.totalEffort = item.totalEffort;
@@ -174,7 +175,7 @@ export const OpenIssuesReportChart = () => {
           </FormControl>
 
           <FormControl style={{ minWidth: 120 }}>
-            <InputLabel id="issue-type-select-label">Tipus</InputLabel>
+            <InputLabel id="issue-type-select-label">Filtro</InputLabel>
             <Select
               labelId="issue-type-select-label"
               value={selectedIssueType}
@@ -189,7 +190,11 @@ export const OpenIssuesReportChart = () => {
                 }, {})
               ).map((type) => (
                 <MenuItem key={type} value={type}>
-                  {type}
+                  {type === "blobs"
+                    ? "Obstrucción"
+                    : type === "blur"
+                      ? "Desenfoque"
+                      : type}
                 </MenuItem>
               ))}
             </Select>
@@ -274,9 +279,9 @@ const CustomizedLegend = (props) => {
           </svg>
           <span style={{ color: "#d7dadb" }}>
             {entry.dataKey === "totaIssues"
-              ? "Issues"
+              ? "Incidencias"
               : entry.dataKey === "totalEffort"
-                ? "Effort"
+                ? "Esfuerzo (h)"
                 : entry.dataKey}
           </span>
         </div>

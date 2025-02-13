@@ -1,7 +1,7 @@
-import {Button, Typography} from '@mui/material';
-import {Mediator} from 'mediatr-ts';
-import {CaptureSnapshots} from '../../../../capture-snapshot/command';
-import {LocationSettings} from '../model';
+import { Button, Typography } from '@mui/material';
+import { Mediator } from 'mediatr-ts';
+import { CaptureSnapshots } from '../../../../capture-snapshot/command';
+import { LocationSettings } from '../model';
 
 export const HeaderComponent = (settings: LocationSettings) => {
   const capture = () => new Mediator().send(new CaptureSnapshots(settings.id));
@@ -16,7 +16,7 @@ export const HeaderComponent = (settings: LocationSettings) => {
         className='capture-btn'
         aria-label='Capture'
         onClick={capture}>
-        Capture Me
+        Hacer captura
       </Button>
     </div>
   );
