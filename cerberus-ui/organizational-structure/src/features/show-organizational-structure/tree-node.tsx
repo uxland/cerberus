@@ -102,6 +102,7 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
             fill: "currentColor",
             position: "absolute",
             right: "0",
+            marginRight: "0.5rem",
             cursor: "pointer",
           }} />
       )}
