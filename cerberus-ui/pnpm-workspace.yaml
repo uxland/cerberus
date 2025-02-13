@@ -4,3 +4,4 @@ packages:
   - './maintenance'
   - './organizational-structure'
   - './shared'
+  - './surveillance'
