@@ -5,41 +5,56 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import { LocationSettings } from "../../locations/location-detail/show-location-settings/model.ts";
+import { HierarchyItemType } from "../../state/hierarchy-item.ts";
 
-export const HierarchyItemSettings = (settings: LocationSettings) => {
-  const items = [
-    { key: "ID", value: settings?.id },
-    { key: "Descripción", value: settings?.description },
-    { key: "Dirección", value: settings?.adminSettings?.ipAddress },
-    {
-      key: "Patrón de captura",
-      value: settings?.adminSettings?.captureRecurrencePattern,
-    },
-    {
-      key: "Nombre de usuario",
-      value: settings?.adminSettings?.cameraCredentials?.username,
-    },
-    {
-      key: "Contraseña",
-      value: settings?.adminSettings?.cameraCredentials?.password,
-    },
-    {
-      key: "Marca",
-      value: settings?.brandName
-    },
-    {
-      key: "Modelo",
-      value: settings?.modelName
-    },
-    {
-      key: "Precio",
-      value: settings?.price
-    },
-    {
-      key: "Año de Fabricación",
-      value: settings?.manufactureYear
-    },
-  ];
+export const HierarchyItemSettings = (settings: LocationSettings, itemType: HierarchyItemType) => {
+  let items = [];
+  console.log("Settings:", settings);
+  console.log("ItemType:", itemType);
+  if (itemType === HierarchyItemType.location) {
+    items = [
+      { key: "ID", value: settings?.id },
+      { key: "Descripción", value: settings?.description },
+      {
+        key: "Patrón de captura",
+        value: settings?.adminSettings?.captureRecurrencePattern,
+      },
+    ];
+  } else if (itemType === HierarchyItemType.camera) {
+    items = [
+      { key: "ID", value: settings?.id },
+      { key: "Descripción", value: settings?.description },
+      { key: "URL", value: settings?.adminSettings?.ipAddress },
+      {
+        key: "Patrón de captura",
+        value: settings?.adminSettings?.captureRecurrencePattern,
+      },
+      {
+        key: "Nombre de usuario",
+        value: settings?.adminSettings?.cameraCredentials?.username,
+      },
+      {
+        key: "Contraseña",
+        value: settings?.adminSettings?.cameraCredentials?.password,
+      },
+      {
+        key: "Marca",
+        value: settings?.brandName
+      },
+      {
+        key: "Modelo",
+        value: settings?.modelName
+      },
+      {
+        key: "Precio",
+        value: settings?.price
+      },
+      {
+        key: "Año de Fabricación",
+        value: settings?.manufactureYear
+      },
+    ];
+  }
 
   return (
     <div className="flex flex-col gap-8 w-[520px]">

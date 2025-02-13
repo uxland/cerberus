@@ -69,7 +69,7 @@ export const LocationPage = () => {
             <LocationSettingsView
               id={id}
               type={itemType}
-              content={HierarchyItemSettings}
+              content={(settings) => HierarchyItemSettings(settings, itemType)}
               onFetchComplete={(id) => setSettings(id)}
             />
           </>
