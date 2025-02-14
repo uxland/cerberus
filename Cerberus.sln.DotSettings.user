@@ -10,8 +10,8 @@
   &lt;Assembly Path="C:\Users\dpina\.nuget\packages\marten\7.16.0\lib\net8.0\Marten.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\dpina\.nuget\packages\wolverinefx\2.8.2\lib\net8.0\Wolverine.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=231c5116_002Dc27d_002D413e_002D94af_002D02854f4c6f83/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;features&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75::net8.0::Cerberus.Core.XabeFFMpegClient.XabeFfMpegClientTests.TestXabeFFMpegClient&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=231c5116_002Dc27d_002D413e_002D94af_002D02854f4c6f83/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;features&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75::net8.0::Cerberus.Core.XabeFFMpegClient.XabeFfMpegClientTests.TestXabeFFMpegClient&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
