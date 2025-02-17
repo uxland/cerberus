@@ -33,6 +33,9 @@ importers:
       '@cerberus/organizational-structure':
         specifier: workspace:^
         version: link:../organizational-structure
+      '@cerberus/surveillance':
+        specifier: workspace:^
+        version: link:../surveillance
       '@react-keycloak/web':
         specifier: ^3.4.0
         version: 3.4.0(keycloak-js@26.0.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.3)
@@ -261,6 +264,42 @@ importers:
         version: 6.24.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   shared: {}
+
+  surveillance:
+    dependencies:
+      '@cerberus/core':
+        specifier: workspace:^
+        version: link:../core
+      '@cerberus/shared':
+        specifier: workspace:^
+        version: link:../shared
+      '@emotion/react':
+        specifier: ^11.11.1
+        version: 11.11.4(@types/react@18.3.3)(react@18.3.1)
+      '@emotion/styled':
+        specifier: ^11.11.0
+        version: 11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@mui/icons-material':
+        specifier: 5.15.21
+        version: 5.15.21(@mui/material@5.16.0(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.3)(react@18.3.1)
+      '@mui/material':
+        specifier: ^5.14.12
+        version: 5.16.0(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@uxland/react-services':
+        specifier: ^1.0.3
+        version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0)(typescript@5.5.3))
+      inversify:
+        specifier: ^6.0.2
+        version: 6.0.2
+      mediatr-ts:
+        specifier: ^1.2.1
+        version: 1.2.1
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
 
 packages:
 
@@ -8903,11 +8942,7 @@ snapshots:
       jest-runner: 26.6.3
       jest-runtime: 26.6.3
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   '@jest/transform@26.6.2':
     dependencies:
@@ -12729,11 +12764,7 @@ snapshots:
       stack-utils: 2.0.6
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   jest-cli@26.6.3:
     dependencies:

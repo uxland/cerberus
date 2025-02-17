@@ -20,6 +20,7 @@
     "@cerberus/core": "workspace:^",
     "@cerberus/maintenance": "workspace:^",
     "@cerberus/organizational-structure": "workspace:^",
+    "@cerberus/surveillance": "workspace:^",
     "@uxland/react-services": "^1.0.3"
   },
   "devDependencies": {
