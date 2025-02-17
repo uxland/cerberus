@@ -78,7 +78,7 @@ const groupByMonth: () => IssueSummaryView[] = () => mockIssueSummaries.map(e =>
 
 export type GroupBy = "Day" | "Week" | "Month"
 
-export const listIssues = (group: GroupBy = "Week") => {
+export const listIssues = (group: GroupBy) => {
     switch (group) {
         case "Week":
             return groupByWeek()

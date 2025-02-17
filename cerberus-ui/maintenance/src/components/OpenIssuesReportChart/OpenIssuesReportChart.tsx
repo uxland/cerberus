@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import {
   Bar,
   BarChart,
@@ -9,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useMaintenanceLocales } from "../../locales/ca/locales";
 import { IssueSummaryView, listIssues } from "../../features";
 import { useEffect, useState } from "react";
 import Select from "@mui/material/Select";
@@ -30,7 +28,8 @@ interface DataItem {
 }
 
 export const OpenIssuesReportChart = () => {
-  const [issues, setIssues] = useState<IssueSummaryView[]>(listIssues());
+  const [selectedInterval, setSelectedInterval] = useState<string>("Week");
+  const [issues, setIssues] = useState<IssueSummaryView[]>(listIssues(selectedInterval));
   const [brands, setBrands] = useState<string[]>([]);
   const [filterDescriptions, setFilterDescriptions] = useState<string[]>([]);
   const [dataItems, setDataItems] = useState<DataItem[]>([]);
@@ -109,11 +108,16 @@ export const OpenIssuesReportChart = () => {
     }
   }, [issues]);
 
+  useEffect(() => {
+    setIssues(listIssues(selectedInterval));
+  }, [selectedInterval]);
 
   const filteredDataItems = dataItems.map((item) => {
     const filteredItem = { ...item };
-    const weekNumber = item.date.split("")[0];
-    filteredItem.date = `Semana ${weekNumber}`;
+
+    filteredItem.date = item.date;
+
+
     if (selectedBrand === "Todas" && selectedIssueType === "Todos") {
       filteredItem.totaIssues = item.totaIssues;
       filteredItem.totalEffort = item.totalEffort;
@@ -197,6 +201,19 @@ export const OpenIssuesReportChart = () => {
                       : type}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+          <FormControl style={{ minWidth: 120, marginLeft: "auto" }}>
+            <InputLabel id="interval-select-label">Intervalo</InputLabel>
+            <Select
+              labelId="interval-select-label"
+              value={selectedInterval}
+              label="Intervalo"
+              onChange={(e) => setSelectedInterval(e.target.value)}
+            >
+              <MenuItem value="Week">Semanal</MenuItem>
+              <MenuItem value="Month">Mensual</MenuItem>
+              <MenuItem value="Day">Diario</MenuItem>
             </Select>
           </FormControl>
         </div>

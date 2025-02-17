@@ -1,5 +1,5 @@
 import * as colors from '@mui/material/colors';
-import {Config} from 'tailwindcss';
+import { Config } from 'tailwindcss';
 //MUI palette replace tailwind palette
 
 const config: Config = {
@@ -23,6 +23,9 @@ const config: Config = {
         primaryGrey: '#121212',
         grey82: '#828282',
         tableBg: '#1f1f1f',
+        formSelect: '#fed950',
+        formSelectHover: '#fdd033',
+        secondaryHover: '#02a365',
       },
     },
     screens: {

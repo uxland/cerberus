@@ -14,9 +14,10 @@ import {
 import { Mediator } from "mediatr-ts";
 import { DeleteCamera } from "../cameras/remove-camera/command.ts";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { RemoveCameraModal } from "../cameras/remove-camera/component.tsx";
 
-const removeCamera = (id: string, description: string) =>
-  new Mediator().send(new DeleteCamera(id, description));
+// const removeCamera = (id: string, description: string) => RemoveCameraModal(id, description);
+// new Mediator().send(new DeleteCamera(id, description));
 
 export const TreeNode = ({ node }: { node: LocationNode }) => {
   const icons = {
@@ -95,7 +96,7 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
         <DeleteOutlineIcon
           color="primary"
           className="opacity-0 group-hover:opacity-100"
-          onClick={() => removeCamera(node.id, node.description)}
+          onClick={RemoveCameraModal(node.id, node.description)}
           sx={{
             width: "1.6rem",
             height: "1.6rem",

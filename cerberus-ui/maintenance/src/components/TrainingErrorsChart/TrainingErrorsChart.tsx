@@ -36,8 +36,9 @@ interface DataItem {
 export const TrainingErrorsChart = () => {
   const [selectedErrorTypes, setSelectedErrorTypes] = useState<string[]>([]);
   const [brandNames, setBrandNames] = useState<string[]>([]);
+  const [selectedInterval, setSelectedInterval] = useState<string>("Week");
   const [filterErrors, setFilterErrors] = useState<FilterErrorView[]>(
-    getMockFilterErrors()
+    getMockFilterErrors(selectedInterval)
   );
   const [dataItems, setDataItems] = useState<DataItem[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string>("Todas");
@@ -47,6 +48,10 @@ export const TrainingErrorsChart = () => {
     blobs: "#4791ff",
     blur: "#ffd950",
   };
+
+  useEffect(() => {
+    setFilterErrors(getMockFilterErrors(selectedInterval));
+  }, [selectedInterval]);
 
   useEffect(() => {
     const filters = filterErrors.reduce((acc: string[], filter: FilterErrorView) => {
@@ -151,6 +156,7 @@ export const TrainingErrorsChart = () => {
       falsePositivesByType: {},
       falseNegativesByType: {},
     };
+    filteredItem.date = item.date;
 
     selectedErrorTypes.forEach((errorType) => {
       let errorCount = 0;
@@ -221,6 +227,19 @@ export const TrainingErrorsChart = () => {
                   {brand}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+          <FormControl style={{ minWidth: 120, marginLeft: "auto" }}>
+            <InputLabel id="interval-select-label">Intervalo</InputLabel>
+            <Select
+              labelId="interval-select-label"
+              value={selectedInterval}
+              label="Intervalo"
+              onChange={(e) => setSelectedInterval(e.target.value)}
+            >
+              <MenuItem value="Week">Semanal</MenuItem>
+              <MenuItem value="Month">Mensual</MenuItem>
+              <MenuItem value="Day">Diario</MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -362,7 +381,7 @@ const CustomXAxisTick = ({ x, y, payload }) => {
         fill="#d7dadb"
         fontFamily="sans-serif"
       >
-        Semana {week.split("")[0]}
+        {week}
       </text>
     </g>
   );

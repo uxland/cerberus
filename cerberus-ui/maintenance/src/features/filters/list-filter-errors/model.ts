@@ -64,7 +64,7 @@ const generateMockFilterErrors = (days: number, errorsPerDay: number): FilterErr
 const mockFilterErrors = generateMockFilterErrors(21, 80); // 21 days, 8 errors per day
 
 
-export type Group = "Month" | "Week" | "Day";
+export type GroupBy = "Month" | "Week" | "Day";
 
 
 const toFilterErrorView: (error: FilterError, format: string) => FilterErrorView = (error, format) => {
@@ -78,10 +78,9 @@ const groupByDay: () => FilterErrorView[] = () => mockFilterErrors.map(e => toFi
 
 const groupByMonth: () => FilterErrorView[] = () => mockFilterErrors.map(error => toFilterErrorView(error, "MM/yyyy"));
 
-
 const groupByWeek: () => FilterErrorView[] = () => mockFilterErrors.map(error => toFilterErrorView(error, "w/yyyy"));
 
-export const getMockFilterErrors = (group: Group = "Week") => {
+export const getMockFilterErrors = (group: GroupBy) => {
     switch (group) {
         case "Week":
             return groupByWeek();
