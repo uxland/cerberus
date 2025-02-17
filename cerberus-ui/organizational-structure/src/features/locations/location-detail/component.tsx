@@ -16,6 +16,8 @@ import { CameraCapturesView } from "./list-camera-captures/component";
 import { TabPanelProps } from "./model.ts";
 import { LocationSettingsView } from "./show-location-settings/component";
 import { LocationSettings } from "./show-location-settings/model.ts";
+import { OperationsView } from "@cerberus/surveillance";
+
 export const LocationPage = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -75,10 +77,13 @@ export const LocationPage = () => {
           </>
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={6}>
-          <CameraCapturesView id={id} />
+          <OperationsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={8}>
           <MaintenanceSettingsView id={id} />
+        </CustomTabPanel>
+        <CustomTabPanel value={selectedTab} index={10}>
+          <CameraCapturesView id={id} />
         </CustomTabPanel>
       </div>
     </div>

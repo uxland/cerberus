@@ -1,6 +1,6 @@
-import {addRoute, registerRouteComponent, store} from "@cerberus/core";
-import {SurveillanceOperationEditor} from "./component.ts";
-import {Container} from "inversify";
+import { addRoute, registerRouteComponent, store } from "@cerberus/core";
+import { SurveillanceOperationEditor } from "./component";
+import { Container } from "inversify";
 
 
 export const useCreateOperation = (container: Container) => {
@@ -8,7 +8,7 @@ export const useCreateOperation = (container: Container) => {
     store.dispatch(
         addRoute({
             path: "surveillance/operations/:operationId",
-            registerRouteComponent: SurveillanceOperationEditor.name,
+            componentName: SurveillanceOperationEditor.name,
             name: "operation-editor"
         })
     );

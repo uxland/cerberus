@@ -214,6 +214,9 @@ importers:
       '@cerberus/shared':
         specifier: workspace:^
         version: link:../shared
+      '@cerberus/surveillance':
+        specifier: workspace:^
+        version: link:../surveillance
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.4(@types/react@18.3.3)(react@18.3.1)
@@ -288,6 +291,9 @@ importers:
       '@uxland/react-services':
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0)(typescript@5.5.3))
+      date-fns:
+        specifier: 3.6.0
+        version: 3.6.0
       inversify:
         specifier: ^6.0.2
         version: 6.0.2
@@ -300,6 +306,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.24.0
+        version: 6.24.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
 packages:
 

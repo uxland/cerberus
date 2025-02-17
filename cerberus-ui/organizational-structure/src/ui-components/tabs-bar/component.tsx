@@ -9,6 +9,7 @@ export enum TabPanelType {
   Settings = 2,
   Reports = 3,
   MaintenanceSettings = 4,
+  Operations = 5,
 }
 
 export const TabsBar = (props: {
@@ -31,7 +32,9 @@ export const TabsBar = (props: {
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
-
+  const operationsLabel = useOrganizationalStructureLocales(
+    "tabs.operations"
+  );
   return (
     <Box
       sx={{
@@ -69,17 +72,23 @@ export const TabsBar = (props: {
         />
         <CustomDivider />
         <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
+        <CustomDivider />
+        <Tab
+          label={operationsLabel}
+          {...a11yProps(TabPanelType.Operations)}
+        />
         {itemType === HierarchyItemType.camera && <CustomDivider />}
 
         {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
-        <CustomDivider />
+        {itemType === HierarchyItemType.camera && <CustomDivider />}
         {itemType === HierarchyItemType.camera && (
           <Tab
             label={maintenancesSettingsLabel}
             {...a11yProps(TabPanelType.MaintenanceSettings)}
           />
+
         )}
 
       </Tabs>

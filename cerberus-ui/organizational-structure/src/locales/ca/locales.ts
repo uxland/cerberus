@@ -38,6 +38,7 @@ export const locales = {
       settings: "Configuración",
       reports: "Informes",
       maintenancesSettings: "Configuración Mantenimiento",
+      operations: "Operativas",
       rounds: "Rondas de supervisión",
     },
     addLocation: {

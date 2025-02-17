@@ -67,6 +67,8 @@ export const App = ({ routes }) => {
           >
             <Routes>
               {routes.map((route: any) => {
+                console.log("Route:", route); // Log the route object
+
                 const Component = getRouteComponent(route.componentName);
                 return (
                   <Route
