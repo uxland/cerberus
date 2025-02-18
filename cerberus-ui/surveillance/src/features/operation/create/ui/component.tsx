@@ -1,30 +1,58 @@
-import {useState} from "react";
 import {
     convertQuestionToType, OperationQuestion,
     OperationQuestionType,
-    produceQuestion, setOperationText, setQuestion,
+    produceQuestion, removeQuestion, setOperationText, setQuestion,
     SurveillanceOperationFormModel
 } from "../domain";
-import {createOptionsEditor} from "./shared.tsx";
-
-export const SurveillanceOperationForm = ({initialModel}: {initialModel: SurveillanceOperationFormModel}) =>{
+import { createOptionsEditor } from "./shared.tsx";
+import { InputField } from "@cerberus/core";
+import { useState } from "react";
+export const SurveillanceOperationForm = ({ initialModel }: { initialModel: SurveillanceOperationFormModel }) => {
     const [model, setModel] = useState<SurveillanceOperationFormModel>(initialModel);
 
-    const handleAddQuestion = (type: OperationQuestionType | undefined) =>{
+    const handleAddQuestion = (type: OperationQuestionType | undefined) => {
         setModel(produceQuestion(type, model));
     }
-    const handleChangeQuestionType = (questionId: string, type: OperationQuestionType) =>
-        setModel(convertQuestionToType(model, questionId, type));
-   const handleTextChange = (text: string) => setModel(setOperationText(model, text));
 
-   const handleSetQuestion = (questionId: string, question: OperationQuestion) => setModel(setQuestion(model, questionId, question));
+    const handleChangeQuestionType = (questionId: string, type: OperationQuestionType) => {
+        setModel(convertQuestionToType(model, questionId, type));
+    }
+
+    const handleTextChange = (text: string) => {
+        setModel(setOperationText(model, text));
+    }
+
+    const handleSetQuestion = (questionId: string, question: OperationQuestion) => {
+        setModel(setQuestion(model, questionId, question));
+    }
+
+    const handleRemoveQuestion = (questionId: string) => {
+        setModel(removeQuestion(model, questionId));
+    }
 
     return (
-        <div>
-            <div>Surveillance editor</div>
+        <div className="space-y-6">
+            <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
+                <h1 className="font-bold text-primary">Creación de Operativa - </h1>
+                <InputField
+                    title=""
+                    onChange={handleTextChange}
+                    placeholder="Añade el nombre de tu nueva operativa"
+                />
+            </div>
             {model.questions.map((q) =>
-                createOptionsEditor(q, { setQuestion: handleSetQuestion, changeQuestionType: handleChangeQuestionType })
-            )}
+                createOptionsEditor(q, {
+                    setQuestion: (questionId: string, question: OperationQuestion) => handleSetQuestion(questionId, question),
+                    changeQuestionType: (questionId: string, type: OperationQuestionType) => handleChangeQuestionType(questionId, type),
+                    removeQuestion: handleRemoveQuestion,
+                }))}
+            <button
+                type="button"
+                className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
+                onClick={() => (handleAddQuestion(undefined))}
+            >
+                + Añadir pregunta
+            </button>
         </div>
     );
 }

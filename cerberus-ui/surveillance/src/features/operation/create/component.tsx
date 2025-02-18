@@ -6,6 +6,7 @@ import { Mediator } from 'mediatr-ts';
 import { CreateOperation } from './command';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { notificationService } from '@cerberus/core';
+import { SurveillanceOperationForm } from './ui/component';
 type QuestionType = "Opciones" | "Númerico" | "Texto Libre";
 type ResponseSubtype = "Única" | "Múltiple";
 type Required = "Sí" | "No";
@@ -185,6 +186,7 @@ export const SurveillanceOperationEditor = () => {
                     Proceder
                 </button>
             </div>
+            <SurveillanceOperationForm initialModel={{ name: "", questions: [] }} />
         </div>
     );
 }

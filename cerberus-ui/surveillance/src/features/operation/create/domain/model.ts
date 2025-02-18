@@ -1,7 +1,7 @@
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
-export interface OperationQuestion{
+export interface OperationQuestion {
     __type: OperationQuestionType;
     id: string;
     text: string;
@@ -14,7 +14,7 @@ export interface SurveillanceOperationFormModel {
 }
 
 
-export interface Option{
+export interface Option {
     code: string;
     text: string;
 }
@@ -38,14 +38,17 @@ export interface FloatQuestion extends OperationQuestion {
 }
 
 export const setOperationText = (model: SurveillanceOperationFormModel, text: string): SurveillanceOperationFormModel =>
-    ({...model, name: text});
+    ({ ...model, name: text });
 
 export const appendQuestion = (model: SurveillanceOperationFormModel, question: OperationQuestion): SurveillanceOperationFormModel =>
-    ({...model, questions: [...model.questions, question]});
+    ({ ...model, questions: [...model.questions, question] });
 
 export const setQuestion = (model: SurveillanceOperationFormModel, questionId: string, question: OperationQuestion): SurveillanceOperationFormModel =>
-    ({...model, questions: model.questions.map(q => q.id === questionId ? question : q)});
+    ({ ...model, questions: model.questions.map(q => q.id === questionId ? question : q) });
 
-export const setQuestionText = (question: OperationQuestion, text: string): OperationQuestion => ({...question, text});
+export const setQuestionText = (question: OperationQuestion, text: string): OperationQuestion => ({ ...question, text });
 
-export const setQuestionMandatory = (question: OperationQuestion, isMandatory: boolean): OperationQuestion => ({...question, isMandatory});
+export const setQuestionMandatory = (question: OperationQuestion, isMandatory: boolean): OperationQuestion => ({ ...question, isMandatory });
+
+export const removeQuestion = (model: SurveillanceOperationFormModel, questionId: string): SurveillanceOperationFormModel =>
+    ({ ...model, questions: model.questions.filter(q => q.id !== questionId) });

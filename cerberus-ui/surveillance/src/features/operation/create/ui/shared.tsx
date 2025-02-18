@@ -1,11 +1,16 @@
-import {OperationQuestion, OperationQuestionType, OptionsQuestion} from "../domain";
-import {OptionsQuestionInput} from "./options-question-input";
-import {GenericQuestionInput} from "./generic-question-input.tsx";
-export interface OperationQuestionActions{
-    setQuestion(question: OperationQuestion): void;
-    changeQuestionType(question: OperationQuestion, type: OperationQuestionType): void;
+import { OperationQuestion, OperationQuestionType, OptionsQuestion } from "../domain";
+import { OptionsQuestionInput } from "./options-question-input";
+import { GenericQuestionInput } from "./generic-question-input.tsx";
+export interface OperationQuestionActions {
+    setQuestion(questionId: string, question: OperationQuestion): void;
+    removeQuestion(questionId: string): void;
+    changeQuestionType(questionId: string, type: OperationQuestionType): void;
 }
 
 export const createOptionsEditor = (question: OperationQuestion, actions: OperationQuestionActions) => {
-    return question.__type === "Options" ?  OptionsQuestionInput({question, actions}) : GenericQuestionInput({question, actions});
+    return (
+        <div className="flex flex-col gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full" key={question.id}>
+            {question.__type === "Options" ? OptionsQuestionInput({ question, actions }) : GenericQuestionInput({ question, actions })}
+        </div>
+    );
 }

@@ -6,10 +6,11 @@ interface SelectProps {
     options: string[];
     onSelect: (option: string) => void;
     classes?: string;
+    selected?: string;
 }
 
-export const Select = ({ title, options, onSelect, classes }: SelectProps) => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+export const Select = ({ title, options, onSelect, classes, selected }: SelectProps) => {
+    const [selectedOption, setSelectedOption] = useState<string | null>(selected || null);
 
     const handleOptionClick = (option: string) => {
         setSelectedOption(option);

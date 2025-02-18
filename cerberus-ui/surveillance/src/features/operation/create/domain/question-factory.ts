@@ -6,10 +6,10 @@ import {
 } from "./model.ts";
 
 
-type questionFactory  = (model: SurveillanceOperationFormModel) => OperationQuestion;
+type questionFactory = (model: SurveillanceOperationFormModel) => OperationQuestion;
 
 
-const createQuestionId = (model: SurveillanceOperationFormModel): string =>{
+const createQuestionId = (model: SurveillanceOperationFormModel): string => {
     return (model.questions || []).length.toString() + 1;
 }
 
@@ -36,10 +36,10 @@ const factoryMap: Record<OperationQuestionType, questionFactory> = {
 
 export const produceQuestion = (type: OperationQuestionType | undefined, model: SurveillanceOperationFormModel): SurveillanceOperationFormModel => {
     const factory = factoryMap[type || "Options"];
-    const operation =factory(model);
+    const operation = factory(model);
     return appendQuestion(model, operation);
 }
 export const convertQuestionToType = (model: SurveillanceOperationFormModel, questionId: string, targetType: OperationQuestionType): SurveillanceOperationFormModel => {
-    const operation ={... factoryMap[targetType](model), id: questionId};
+    const operation = { ...factoryMap[targetType](model), id: questionId };
     return setQuestion(model, questionId, operation);
 }
