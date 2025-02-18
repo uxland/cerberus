@@ -29,3 +29,4 @@ export const setOptionCode = (question: OptionsQuestion, optionCode: string, cod
 export const setTypology = (question: OptionsQuestion, typology: OptionsTypology): OptionsQuestion => {
     return {...question, typology};
 }
+//ToDO: remove option
