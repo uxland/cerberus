@@ -10,7 +10,7 @@ export interface OperationQuestionActions {
 export const createOptionsEditor = (question: OperationQuestion, actions: OperationQuestionActions) => {
     return (
         <div className="flex flex-col gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full" key={question.id}>
-            {question.__type === "Options" ? OptionsQuestionInput({ question, actions }) : GenericQuestionInput({ question, actions })}
+            {question.__type === "Options" ? OptionsQuestionInput({ question: question as OptionsQuestion, actions }) : GenericQuestionInput({ question, actions })}
         </div>
     );
 }

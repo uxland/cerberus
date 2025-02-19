@@ -5,6 +5,7 @@ import { ListOperations } from "./query.ts";
 import { nop } from "@cerberus/core";
 import { getOperationUrl, OperationSummary } from "./model.ts";
 import { OperationsTable } from "../../../components/index.ts";
+import { Typography } from "@mui/material";
 
 export const OperationsView = (props: { id: string }) => {
     const [operations, setOperations] = useState<OperationSummary[]>([]);
@@ -29,24 +30,33 @@ export const OperationsView = (props: { id: string }) => {
     }, [props]);
 
     const handleCreateOperation = () => {
-        // Redirige a la ruta para crear una nueva operativa
         navigate("/surveillance/operations/new");
     };
 
     return (
-        <div>
+        <div className="space-y-6">
             {loading && <div>Loading...</div>}
             {error && <div>Error: {error}</div>}
+            <div className="flex justify-end gap-2">
+                <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-xl hover:bg-formSelect">+</button>
+                <div className="flex flex-col justify-center rounded-md gap-2 mr-4">
+                    <Typography className="!text-xs !font-semibold"> Anadir</Typography>
+                    <Typography className="!text-xs !font-semibold"> Ronda</Typography>
+
+                </div>
+                <button className="bg-[#313131] py-1 px-3 rounded-md text-white font-bold text-xl hover:bg-[#505050]"
+                    onClick={handleCreateOperation}>+</button>
+                <div className="flex flex-col justify-center rounded-md gap-2">
+                    <Typography className="!text-xs !font-semibold"> Anadir</Typography>
+                    <Typography className="!text-xs !font-semibold"> Operativa</Typography>
+
+                </div>
+            </div>
             {operations && (
                 <div>
                     <OperationsTable operations={operations} />
                 </div>
             )}
-            <div style={{ marginTop: 20 }}>
-                <button onClick={handleCreateOperation}>
-                    Crear nueva operativa
-                </button>
-            </div>
         </div>
     );
 };

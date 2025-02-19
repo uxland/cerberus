@@ -95,7 +95,7 @@ export const SurveillanceOperationEditor = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
+            {/* <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
                 <h1 className="font-bold text-primary">Creación de Operativa - </h1>
                 <InputField
                     title=""
@@ -185,7 +185,7 @@ export const SurveillanceOperationEditor = () => {
                     className="text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full ml-auto hover:bg-secondaryHover">
                     Proceder
                 </button>
-            </div>
+            </div> */}
             <SurveillanceOperationForm initialModel={{ name: "", questions: [] }} />
         </div>
     );
