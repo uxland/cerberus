@@ -48,7 +48,9 @@ export const TabsBar = (props: {
       <Tabs
         value={selectedTab}
         onChange={handleChange}
-        aria-label="organizational-tab">
+        aria-label="organizational-tab"
+        variant="scrollable"
+        scrollButtons="auto">
         <Tab
           label={
             <CustomTabLabel
