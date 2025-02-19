@@ -1,31 +1,33 @@
 import React from "react";
-import { OperationQuestion, OperationQuestionType, setQuestionText } from "../domain";
+import {OperationQuestion, OperationQuestionType, questionOptionValues, setQuestionText} from "../domain";
 import { OperationQuestionActions } from "./shared.tsx";
-import { InputField, Select } from "@cerberus/core";
+import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useFormContext } from "react-hook-form";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
     actions: OperationQuestionActions;
+
 }
 
 export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ question, actions }) => {
-    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        actions.setQuestion(question.id, setQuestionText(question, e.target.value));
-    };
-
-    const handleMandatoryChange = (value: string) => {
-        const isMandatory = value === "Sí";
-        actions.setQuestion(question.id, { ...question, isMandatory });
-    };
-
-    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        actions.changeQuestionType(question.id, e.target.value as OperationQuestionType);
+    const handleTypeChange = (value: OperationQuestionType) => {
+        actions.changeQuestionType(question.id, value);
     };
 
     const handleRemoveQuestion = () => {
         actions.removeQuestion(question.id);
     };
+
+    const formContext = useFormContext();
+
+    if (!formContext) {
+        console.error("`useFormContext()` is null. Ensure Select is inside `FormProvider`.");
+        return null; // Avoid rendering if form context is missing
+    }
+
+    const { register, formState:{errors} } = formContext;
 
     return (
         <div key={question.id}>
@@ -35,27 +37,29 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
             </div>
             <div className="flex flex-row gap-4 mt-2 items-center">
 
-                <InputField
-                    title=""
-                    onChange={handleTextChange}
+                <FormInputField
+                    label="Texto de la pregunta"
+                    name={`${actions.path}.text`}
                     placeholder="..."
-                    value={question.text}
+                    register={register}
+                    type="text"
+                    error={errors[actions.path]?.text}
                 />
 
             </div>
             <div className="flex gap-4 mt-2">
                 <Select
                     title="Tipología de respuesta"
-                    options={["Options", "Text", "Integer", "Float"]}
-                    onSelect={(value) => handleTypeChange({ target: { value } } as any)}
+                    options = {questionOptionValues}
                     selected={question.__type}
+                    onChanged={handleTypeChange}
                 />
-                <Select
+              {/*  <Select
                     title="Obligatoriedad"
                     options={["Sí", "No"]}
                     onSelect={(value) => handleMandatoryChange(value)}
                     selected={question.isMandatory ? "Sí" : "No"}
-                />
+                />*/}
             </div>
         </div>
     );

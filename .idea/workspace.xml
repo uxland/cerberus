@@ -5,19 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/command.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/list-operations/bootsrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/list-operations/component.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/list-operations/handler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/list-operations/model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/list-operations/query.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/InputField/FormInputField.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/InputField/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/validation.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/Select/Select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/Select/Select.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/question-factory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/domain/question-factory.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/generic-question-input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/generic-question-input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/shared.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/shared.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +44,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="front/tasks/surveillance-module-setup" />
+        <entry key="$PROJECT_DIR$" value="surv/features/create-operation" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,10 +80,10 @@
   "keyToString": {
     "Docker.Demo.executor": "Run",
     "Docker.cerberus-ui/Dockerfile.executor": "Run",
-    "JavaScript Debug.Browser Debug.executor": "Debug",
+    "JavaScript Debug.Browser Debug.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "surv/features/create-operation",
+    "git-widget-placeholder": "surv/features/create-round",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -220,6 +226,8 @@
       <workItem from="1737536710686" duration="910000" />
       <workItem from="1738150067477" duration="12600000" />
       <workItem from="1739532817010" duration="2311000" />
+      <workItem from="1739956939506" duration="634000" />
+      <workItem from="1739957925892" duration="18193000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -374,10 +382,34 @@
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/bootstrapper.ts</url>
-          <line>4</line>
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>42</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="98" />
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>52</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/generic-question-input.tsx</url>
+          <line>25</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>46</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>47</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="122" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

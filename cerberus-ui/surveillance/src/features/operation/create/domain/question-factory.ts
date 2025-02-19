@@ -10,7 +10,8 @@ type questionFactory = (model: SurveillanceOperationFormModel) => OperationQuest
 
 
 const createQuestionId = (model: SurveillanceOperationFormModel): string => {
-    return (model.questions || []).length.toString() + 1;
+    const id = (model.questions || []).length + 1
+    return id.toString();
 }
 
 const operationFactory = (type: OperationQuestionType) => (model: SurveillanceOperationFormModel): OperationQuestion => {
@@ -34,12 +35,10 @@ const factoryMap: Record<OperationQuestionType, questionFactory> = {
     "Float": operationFactory("Float")
 }
 
-export const produceQuestion = (type: OperationQuestionType | undefined, model: SurveillanceOperationFormModel): SurveillanceOperationFormModel => {
+export const produceQuestion = (type: OperationQuestionType | undefined, model: SurveillanceOperationFormModel): OperationQuestion => {
     const factory = factoryMap[type || "Options"];
-    const operation = factory(model);
-    return appendQuestion(model, operation);
+    return  factory(model);
 }
-export const convertQuestionToType = (model: SurveillanceOperationFormModel, questionId: string, targetType: OperationQuestionType): SurveillanceOperationFormModel => {
-    const operation = { ...factoryMap[targetType](model), id: questionId };
-    return setQuestion(model, questionId, operation);
+export const convertQuestionToType = (model: SurveillanceOperationFormModel, questionId: string, targetType: OperationQuestionType): OperationQuestion => {
+    return { ...factoryMap[targetType](model), id: questionId };
 }
