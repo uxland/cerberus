@@ -17,7 +17,7 @@ import { TabPanelProps } from "./model.ts";
 import { LocationSettingsView } from "./show-location-settings/component";
 import { LocationSettings } from "./show-location-settings/model.ts";
 import { OperationsView } from "@cerberus/surveillance";
-import { SurveillanceRoundsEditor } from "@cerberus/surveillance";
+import { RoundsView } from "@cerberus/surveillance";
 
 export const LocationPage = () => {
   const { id } = useParams();
@@ -81,7 +81,7 @@ export const LocationPage = () => {
           <OperationsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={8}>
-          <SurveillanceRoundsEditor id={id} />
+          <RoundsView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={10}>
           <MaintenanceSettingsView id={id} />

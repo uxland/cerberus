@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
+import { Mediator } from 'mediatr-ts';
 export const SurveillanceRoundsEditor = () => {
 
+    useEffect(() => {
+        // const cameras = new Mediator().send(new ListCaptureCameras());
+    }, []);
 
     return (
         <div className="mb-96 space-y-6">

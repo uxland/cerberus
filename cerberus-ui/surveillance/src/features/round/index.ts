@@ -1,10 +1,10 @@
-// import { Container } from "inversify";
-// import { useListOperations } from "./list-operations/bootsrapper.ts";
-// import { useCreateRound } from "./create/bootstrapper.ts";
+import { Container } from "inversify";
+import { useListRounds } from "./list/bootsrapper.ts";
+import { useCreateRound } from "./create/bootstrapper.ts";
 
-// export const useOperation = (container: Container) =>
-//     useListOperations(container)
-//         .then(useCreateOperation);
+export const useRound = (container: Container) =>
+    useListRounds(container)
+        .then(useCreateRound);
 
-// export * from './list';
+export * from './list';
 export * from './create';

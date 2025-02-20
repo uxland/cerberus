@@ -9,7 +9,7 @@ export interface OperationQuestion {
     options?: string[];
 }
 
-export class CreateOperation implements IRequest<void> {
+export class CreateRounds implements IRequest<void> {
     id?: string;
     name: string;
     questions: OperationQuestion[];
