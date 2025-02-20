@@ -6,17 +6,22 @@ type InputFieldProps = {
     name: string;
     type?: string;
     register: any;
+    placeholder?: string;
     error?: FieldError;
 };
 
-const InputField: React.FC<InputFieldProps> = ({ label, name, type = "text", register, error }) => {
+export const FormInputField: React.FC<InputFieldProps> = ({ label, name, type = "text", register, placeholder, error }) => {
     return (
-        <div className="input-group">
+        <div className={`flex flex-col flex-1 gap-2`}>
             <label htmlFor={name}>{label}</label>
-            <input id={name} type={type} {...register(name)} />
+            <input
+                id={name}
+                type={type}
+                placeholder={placeholder}
+                {...register(name)}
+                className="w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292]"
+            />
             {error && <p className="error">{error.message}</p>}
         </div>
     );
 };
-
-export const FormInputField = InputField;

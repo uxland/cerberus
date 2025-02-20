@@ -1,52 +1,81 @@
 import React from "react";
-import {OperationQuestion, OperationQuestionType, questionOptionValues} from "../domain";
+import { OperationQuestion, OperationQuestionType, questionOptionValues, isMandatoryValues, optionTypologyValues, OptionsTypology } from "../domain";
 import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
     actions: OperationQuestionActions;
-
 }
 
 export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ question, actions }) => {
     const handleTypeChange = (value: OperationQuestionType) => {
         actions.changeQuestionType(question.id, value);
     };
+    const handleIsMandatoryChange = (value: string) => {
+        actions.setQuestion(question.id, { ...question, isMandatory: value === "true" });
+    };
+
+    const handleTypologyChange = (value: string) => {
+        actions.setQuestion(question.id, { ...question, typology: value as OptionsTypology });
+    };
 
     const handleRemoveQuestion = () => {
         actions.removeQuestion(question.id);
     };
+    console.log("question", question);
 
-    const { register, formState:{errors} } = actions.formMethods;
+    const { register, formState: { errors } } = actions.formMethods;
 
     return (
         <div key={question.id}>
             <div className="flex gap-4 justify-between items-center">
-                <h1 className="font-bold">Pregunta {question.id} </h1>
-                <button type={"button"} onClick={handleRemoveQuestion} className='flex bg-red-500 p-1 rounded-full hover:bg-red-300 '><DeleteOutlineIcon /></button>
+                <h1 className="font-bold">{useSurveillanceLocales("operation.create.question.title")} {question.id}</h1>
+                <button
+                    type="button"
+                    onClick={handleRemoveQuestion}
+                    className="flex bg-red-500 p-1 rounded-full hover:bg-red-300"
+                >
+                    <DeleteOutlineIcon />
+                </button>
             </div>
-            <div className="flex flex-row gap-4 mt-2 items-center">
 
+            <div className="flex flex-row gap-4 mt-2 items-center">
                 <FormInputField
-                    label="Texto de la pregunta"
                     name={`${actions.path}.text`}
                     placeholder="..."
                     register={register}
                     type="text"
                     error={errors[actions.path]?.text}
                 />
-
             </div>
-            <div className="flex gap-4 mt-2">
+
+            <div className="flex gap-4 my-4">
                 <Select
-                    title="Tipología de respuesta"
-                    options = {questionOptionValues}
+                    title={useSurveillanceLocales("operation.create.question.type")}
+                    options={questionOptionValues}
                     selected={question.__type}
                     onChanged={handleTypeChange}
                     formMethods={actions.formMethods}
                 />
+                <Select
+                    title={useSurveillanceLocales("operation.create.question.isMandatory")}
+                    options={isMandatoryValues.map(m => ({ value: String(m.value), label: m.label }))}
+                    selected={String(question.isMandatory)}
+                    onChanged={handleIsMandatoryChange}
+                    formMethods={actions.formMethods}
+                />
+                {question.__type === "Options" && (
+                    <Select
+                        title={useSurveillanceLocales("operation.create.question.subtype")}
+                        options={optionTypologyValues}
+                        selected={question.typology}
+                        onChanged={handleTypologyChange}
+                        formMethods={actions.formMethods}
+                    />
+                )}
             </div>
         </div>
     );

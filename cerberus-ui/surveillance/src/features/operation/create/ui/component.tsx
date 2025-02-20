@@ -13,16 +13,17 @@ import { z } from 'zod';
 import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
+import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 
-
-interface SurveillanceOperationFormArgs{
+interface SurveillanceOperationFormArgs {
     initialModel?: SurveillanceOperationFormModel;
     onSubmitRequested?: (data: SurveillanceOperationFormModel) => void;
 }
-export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested}: SurveillanceOperationFormArgs) => {
+
+export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: SurveillanceOperationFormArgs) => {
     const formMethods = useForm<OperationForm>({
         resolver: zodResolver(SurveillanceOperationFormModelSchema),
-        defaultValues: initialModel || {name: '', questions: []}
+        defaultValues: initialModel || { name: '', questions: [] }
     });
     const {
         register,
@@ -57,10 +58,10 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested}: Su
     };
 
     const handleSetQuestion = (questionId: string, question: OperationQuestion) => {
-       updateQuestion(question);
+        updateQuestion(question);
     };
 
-    const updateQuestion = (question: OperationQuestion) =>{
+    const updateQuestion = (question: OperationQuestion) => {
         const currentQuestions = (operation.questions as OperationQuestion[]).map(q => q.id === question.id ? question : q);
         setValue('questions', currentQuestions);
         replace([...currentQuestions]);
@@ -72,45 +73,45 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested}: Su
     };
 
     return (
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
-                    <h1 className="font-bold text-primary">Creación de Operativa - </h1>
-                    <FormInputField
-                        label="Nombre de la operativa"
-                        name="name"
-                        register={register}
-                        error={errors.name}
-                        type="text"
-                    />
-                </div>
-                {fields.map((q, index) =>
-                    createQuestionEditor(q, {
-                        setQuestion: (questionId: string, question: OperationQuestion) => handleSetQuestion(questionId, question),
-                        changeQuestionType: (questionId: string, type: OperationQuestionType) => handleChangeQuestionType(questionId, type),
-                        removeQuestion: handleRemoveQuestion,
-                        index,
-                        path: `questions.${index}`,
-                        formMethods
-                    }))}
-                <div className="flex gap-4">
-                    <button
-                        type="button"
-                        className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
-                        onClick={() => handleAddQuestion(undefined)}
-                    >
-                        + Añadir pregunta
-                    </button>
-                    <button
-                        type="button"
-                        className="text-xs uppercase bg-[#313131] text-white font-bold py-2 px-8 rounded-full hover:bg-[#505050]">
-                        Previsualizar
-                    </button>
-                </div>
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
+                <h1 className="font-bold text-primary">{useSurveillanceLocales("operation.create.title")} - </h1>
+                <FormInputField
+                    name="name"
+                    register={register}
+                    placeholder={useSurveillanceLocales("operation.create.placeholder")}
+                    error={errors.name}
+                    type="text"
+                />
+            </div>
+            {fields.map((q, index) =>
+                createQuestionEditor(q, {
+                    setQuestion: (questionId: string, question: OperationQuestion) => handleSetQuestion(questionId, question),
+                    changeQuestionType: (questionId: string, type: OperationQuestionType) => handleChangeQuestionType(questionId, type),
+                    removeQuestion: handleRemoveQuestion,
+                    index,
+                    path: `questions.${index}`,
+                    formMethods
+                }))}
+            <div className="flex gap-4">
                 <button
-                    type="submit"
-                    className="flex text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full ml-auto hover:bg-secondaryHover">
-                    Proceder
+                    type="button"
+                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
+                    onClick={() => handleAddQuestion(undefined)}
+                >
+                    {useSurveillanceLocales("operation.create.question.addQuestion")}
                 </button>
-            </form>
+                <button
+                    type="button"
+                    className="text-xs uppercase bg-[#313131] text-white font-bold py-2 px-8 rounded-full hover:bg-[#505050]">
+                    {useSurveillanceLocales("operation.create.preview")}
+                </button>
+            </div>
+            <button
+                type="submit"
+                className="flex text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full ml-auto hover:bg-secondaryHover">
+                {useSurveillanceLocales("operation.create.proceed")}
+            </button>
+        </form>
     );
 };
