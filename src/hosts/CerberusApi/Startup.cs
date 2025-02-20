@@ -59,10 +59,11 @@ public class Startup(WebApplicationBuilder builder)
             .BootstrapContentServer(builder);
 
         app.UseRouting();
-        
-        app.UseAuthentication().
-            UseAuthorization();
-        app.UseEndpoints(endpoints =>
+
+        app.UseAuthentication()
+            .UseAuthorization();
+        app.BootstrapRouting()
+            .UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });

@@ -1,6 +1,7 @@
 ﻿using Cerberus.Core.PythonImageProcessor;
 using Cerberus.Maintenance.Features;
 using Cerberus.Maintenance.Persistence;
+using Cerberus.Surveillance.Persistence;
 using Marten;
 
 namespace Cerberus.Api.Bootstrap;

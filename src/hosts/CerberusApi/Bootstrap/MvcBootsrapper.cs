@@ -3,7 +3,7 @@ using Cerberus.BackOffice;
 
 namespace Cerberus.Api.Bootstrap;
 
-public static class MvcBootstrapper
+internal static class MvcBootstrapper
 {
     public static IServiceCollection BootstrapMvc(this IServiceCollection services)
     {
@@ -15,5 +15,10 @@ public static class MvcBootstrapper
             .AddCerberusBackOfficeFeatures()
             .AddControllersAsServices();
         return services;
+    }
+    
+    public static WebApplication BootstrapRouting(this WebApplication app)
+    {
+        return app.BootstrapSurveillanceRouting();
     }
 }

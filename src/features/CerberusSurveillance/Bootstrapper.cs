@@ -1,4 +1,7 @@
-﻿using Cerberus.Surveillance.Features.Features.Shared;
+﻿using Cerberus.Surveillance.Features.Features.Operation;
+using Cerberus.Surveillance.Features.Features.Operation.List;
+using Cerberus.Surveillance.Features.Features.Shared;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
 
@@ -21,5 +24,10 @@ public static class Bootstrapper
             options.AddPolicy(SurveillancePolicies.Management, policy => policy.RequireClaim("roles", SurveillanceRoles.Admin, SurveillanceRoles.Manager));
         });
         return services;
+    }
+    
+    public static WebApplication SetupSurveillanceRouting(this WebApplication app)
+    {
+        return app.SetupOperationRouting();
     }
 }

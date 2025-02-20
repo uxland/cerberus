@@ -70,6 +70,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XabeFFMegClient.Tests", "te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CerberusSurveillance", "src\features\CerberusSurveillance\CerberusSurveillance.csproj", "{5D60AB10-2B02-43A8-A84F-6CF1F02C9938}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveillancePersistence", "src\core\SurveillancePersistence\SurveillancePersistence.csproj", "{1F5D6F7A-6B25-48CA-B0A2-C8298566639D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,7 @@ Global
 		{1DB49CE2-65FE-4BFE-A043-9BCB426AC84A} = {5CFB0868-53CF-415E-9EFC-FF4F926F2D96}
 		{F56ADB78-BCCF-464E-9F0A-DEEF17FDFD75} = {7A2FE6DF-2085-482D-BE28-E74BC4BC2A7D}
 		{5D60AB10-2B02-43A8-A84F-6CF1F02C9938} = {D57D5F5D-55AF-41A6-9107-68BBC3731EDF}
+		{1F5D6F7A-6B25-48CA-B0A2-C8298566639D} = {5CFB0868-53CF-415E-9EFC-FF4F926F2D96}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E2D39E3A-D420-4FA6-993C-E21DF431AF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -176,5 +179,9 @@ Global
 		{5D60AB10-2B02-43A8-A84F-6CF1F02C9938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D60AB10-2B02-43A8-A84F-6CF1F02C9938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D60AB10-2B02-43A8-A84F-6CF1F02C9938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F5D6F7A-6B25-48CA-B0A2-C8298566639D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F5D6F7A-6B25-48CA-B0A2-C8298566639D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F5D6F7A-6B25-48CA-B0A2-C8298566639D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F5D6F7A-6B25-48CA-B0A2-C8298566639D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
