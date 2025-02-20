@@ -27,7 +27,7 @@ export const OperationsView = (props: { id: string }) => {
     return (
         <div className="space-y-6">
             {loading && <div>Loading...</div>}
-            {error && <div>Error: {error}</div>}
+            {error && <div>Error: {String(error)}</div>}
             <div className="flex justify-end gap-2">
                 <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-xl hover:bg-formSelect">+</button>
                 <div className="flex flex-col justify-center rounded-md gap-2 mr-4">
