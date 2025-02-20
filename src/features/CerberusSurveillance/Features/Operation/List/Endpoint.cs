@@ -10,7 +10,7 @@ internal static class Endpoint
     {
         app.MapGet("/api/surveillance/operations", async (IReadModelQueryProvider queryProvider) =>
         {
-            var operations = await queryProvider.List<SurveillanceOperationSummary>();
+            var operations = await queryProvider.ListAsJson<SurveillanceOperationSummary>();
             return Results.Ok(operations);
         });
         return app;

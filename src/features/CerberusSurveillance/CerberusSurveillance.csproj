@@ -17,4 +17,8 @@
       <ProjectReference Include="..\..\core\DomainCore\DomainCore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Operation\Edit\" />
+    </ItemGroup>
+
 </Project>

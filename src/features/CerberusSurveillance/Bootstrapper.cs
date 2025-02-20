@@ -1,4 +1,5 @@
-﻿using Cerberus.Surveillance.Features.Features.Operation;
+﻿using System.Text.Json.Serialization.Metadata;
+using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Operation.List;
 using Cerberus.Surveillance.Features.Features.Shared;
 using Microsoft.AspNetCore.Builder;
@@ -29,5 +30,10 @@ public static class Bootstrapper
     public static WebApplication SetupSurveillanceRouting(this WebApplication app)
     {
         return app.SetupOperationRouting();
+    }
+
+    public static DefaultJsonTypeInfoResolver UseSurveillanceSerialization(this DefaultJsonTypeInfoResolver resolver)
+    {
+        return resolver.UseOperationJsonTypeInfo();
     }
 }

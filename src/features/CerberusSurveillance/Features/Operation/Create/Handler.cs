@@ -13,6 +13,7 @@ public static class Handler
         };
         await VerifyItDoesNotExist(command.Id!, repository);
         var operation = new SurveillanceOperation(cmd);
+        repository.Create(operation);
     }
 
     private static async Task VerifyItDoesNotExist(string operationId, IGenericRepository repository)

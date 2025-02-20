@@ -1,6 +1,6 @@
-import { IRequest } from "mediatr-ts";
 import { OperationSummary } from "./model.ts";
+import {RequestBase} from "@cerberus/core";
 
-export class ListOperations implements IRequest<OperationSummary[]> {
-    constructor(public id: string) { }
+export class ListOperations extends RequestBase<OperationSummary[]> {
+
 }

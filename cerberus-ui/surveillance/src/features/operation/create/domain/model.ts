@@ -15,12 +15,17 @@ export interface OperationQuestion {
     isMandatory: boolean;
 }
 
+
+
 export interface SurveillanceOperationFormModel {
     name: string;
     questions: OperationQuestion[];
 }
 
-
+export const defaultOperationModel: SurveillanceOperationFormModel = {
+    name: "",
+    questions: []
+}
 export interface Option {
     code: string;
     text: string;

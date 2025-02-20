@@ -1,15 +1,13 @@
-import { IRequestHandler } from "mediatr-ts";
 import { ListOperations } from "./query.ts";
 import { OperationSummary } from "./model.ts";
-import { ApiClient } from "@cerberus/shared/src";
-import { inject, injectable } from "inversify";
+import { injectable } from "inversify";
+import {HandlerBase} from "@cerberus/core";
+import {operationsEndpointUrl} from "../constants.ts";
 
 @injectable()
-export class ListOperationsHandler implements IRequestHandler<ListOperations, OperationSummary[]> {
-    constructor(@inject(ApiClient) private apiClient: ApiClient) {
+export class ListOperationsHandler extends HandlerBase<OperationSummary[], ListOperations> {
+    handle(request: ListOperations): Promise<OperationSummary[]> {
+        return  this.handleRequest(request, () => this.apiClient.get<OperationSummary[]>(operationsEndpointUrl))
     }
-    async handle(query: ListOperations): Promise<OperationSummary[]> {
-        const item: { path: string } = await this.apiClient.get(`hierarchy-items/${query.id}`);
-        return await this.apiClient.get<OperationSummary[]>(`/operations/${item.path}/surveillance-operations`); // ???
-    }
+
 }

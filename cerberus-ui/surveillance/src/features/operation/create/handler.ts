@@ -2,7 +2,6 @@ import { injectable } from "inversify";
 import {EditOrCreateOperation} from "./command.ts";
 import {HandlerBase} from "@cerberus/core";
 import {operationsEndpointUrl} from "../constants.ts";
-import {surveillanceEndpointUrl} from "../../constants.ts";
 
 @injectable()
 export class EditCreateOperationHandler extends HandlerBase<void, EditOrCreateOperation> {
@@ -18,11 +17,11 @@ export class EditCreateOperationHandler extends HandlerBase<void, EditOrCreateOp
 
 
     private async editOperation(request: EditOrCreateOperation): Promise<void> {
-        return this.apiClient.put<void>(`${surveillanceEndpointUrl}${operationsEndpointUrl}${request.id}`, request.operation);
+        return this.apiClient.put<void>(`${operationsEndpointUrl}${request.id}`, {body: <any>request.operation});
     }
 
     private async createOperation(request: EditOrCreateOperation): Promise<void> {
-        return this.apiClient.post<void>(`${surveillanceEndpointUrl}${operationsEndpointUrl}`, request.operation);
+        return this.apiClient.post<void>(operationsEndpointUrl, {body: <any>request.operation});
     }
 
 }

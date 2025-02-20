@@ -15,16 +15,7 @@ export const OperationsView = (props: { id: string }) => {
 
     useEffect(() => {
         async function fetchData() {
-            try {
-                setLoading(true);
-                setError(undefined);
-                const operations = await new Mediator().send(new ListOperations(props.id));
-                setOperations(operations);
-            } catch (e: any) {
-                setError(e.message);
-            } finally {
-                setLoading(false);
-            }
+            await new Mediator().send(new ListOperations(setOperations, setLoading, setError))
         }
         fetchData().then(nop);
     }, [props]);

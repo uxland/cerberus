@@ -48,7 +48,8 @@ public class Startup(WebApplicationBuilder builder)
             .UseMartenPersistence(builder.Configuration, builder.Environment);
         services
             .BootstrapBackOffice(builder.Configuration, martenConfiguration)
-            .BootstrapMaintenance(martenConfiguration);
+            .BootstrapMaintenance()
+            .BootstrapSurveillance();
     }
     
     public void Configure(WebApplication app, IWebHostEnvironment env)

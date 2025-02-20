@@ -1,4 +1,7 @@
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
+using Cerberus.Api.Bootstrap;
+using Cerberus.Surveillance.Features;
 using Lamar.Microsoft.DependencyInjection;
 using NodaTime.Serialization.SystemTextJson;
 using Oakton;
@@ -14,8 +17,8 @@ public class Program
         builder.Host.UseLamar();
         builder.Services.ConfigureHttpJsonOptions(options =>
         {
-            options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-            options.SerializerOptions.ConfigureForNodaTime(NodaTime.DateTimeZoneProviders.Tzdb);
+            options.SerializerOptions.BootstrapJsonSerialization()
+                .ConfigureForNodaTime(NodaTime.DateTimeZoneProviders.Tzdb);
         });
         builder.Host.ApplyOaktonExtensions();
 
@@ -29,7 +32,5 @@ public class Program
     }
 }
 
-public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
 
-[JsonSerializable(typeof(Todo[]))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext;
+

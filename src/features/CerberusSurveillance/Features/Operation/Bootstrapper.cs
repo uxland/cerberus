@@ -1,4 +1,5 @@
 ﻿using Cerberus.Surveillance.Features.Features.Operation.Create;
+using Cerberus.Surveillance.Features.Features.Operation.Get;
 using Cerberus.Surveillance.Features.Features.Operation.List;
 using Microsoft.AspNetCore.Builder;
 
@@ -9,6 +10,7 @@ internal static class Bootstrapper
     public static WebApplication SetupOperationRouting(this WebApplication app)
     {
         return app.UseCreateOperation()
-            .UseListOperations();
+            .UseListOperations()
+            .UseGetOperation();
     }
 }
