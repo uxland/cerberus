@@ -1,7 +1,12 @@
-import { OperationQuestion, OperationQuestionType, OptionsQuestion } from "../domain";
+import {OperationForm, OperationQuestion, OperationQuestionType, OptionsQuestion} from "../domain";
 import { OptionsQuestionInput } from "./options-question-input";
 import { GenericQuestionInput } from "./generic-question-input.tsx";
-export interface OperationQuestionActions {
+import {UseFormReturn} from "react-hook-form";
+
+export interface OperationFormArgs{
+    formMethods: UseFormReturn<OperationForm>;
+}
+export interface OperationQuestionActions extends OperationFormArgs{
     setQuestion(questionId: string, question: OperationQuestion): void;
     removeQuestion(questionId: string): void;
     changeQuestionType(questionId: string, type: OperationQuestionType): void;

@@ -1,9 +1,9 @@
+import { FormInputField, InputField, Select } from "@cerberus/core";
 import React from "react";
-import { OperationQuestionActions } from "./shared.tsx";
 import { OptionsQuestion, OptionsTypology } from "../domain";
+import { appendOption, removeOption, setOptionCode, setOptionText, setTypology } from "../domain";
 import { GenericQuestionInput } from "./generic-question-input";
-import { appendOption, removeOption, setOptionCode, setOptionText, setTypology } from "../domain/options-question.ts";
-import { InputField, Select } from "@cerberus/core";
+import { OperationQuestionActions } from "./shared.tsx";
 
 export const OptionsQuestionInput = ({
     question,
@@ -15,20 +15,11 @@ export const OptionsQuestionInput = ({
     const handleAppendOption = () =>
         actions.setQuestion(question.id, appendOption(question, undefined));
 
-    const handleOptionTextChange =
-        (optionCode: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
-            actions.setQuestion(question.id, setOptionText(question, optionCode, e.target.value));
-
-    const handleOptionCodeChange =
-        (optionCode: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
-            actions.setQuestion(question.id, setOptionCode(question, optionCode, e.target.value));
-
-    const handleSetTipology = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        actions.setQuestion(question.id, setTypology(question, e.target.value as OptionsTypology));
-    };
     const handleRemoveOption = (optionCode: string) => {
         actions.setQuestion(question.id, removeOption(question, optionCode));
     };
+
+
     console.log("question", question);
     return (
         <div>
@@ -39,11 +30,19 @@ export const OptionsQuestionInput = ({
                         <div key={option.code}>
                             <h1 className="font-bold mt-2">Respuesta {index + 1}</h1>
                             <div className="flex gap-4 mt-2 items-center">
-                                <InputField
-                                    title=""
+                                <FormInputField
+                                    label="Code"
                                     placeholder="..."
-                                    value={option.text}
-                                    onChange={handleOptionTextChange(option.code)}
+                                    register={actions.formMethods.register}
+                                   type={"text"}
+                                    name={`${actions.path}.options.${index}.code`}
+                                />
+                                <FormInputField
+                                    label="Text"
+                                    placeholder="..."
+                                    register={actions.formMethods.register}
+                                    type={"text"}
+                                    name={`${actions.path}.options.${index}.text`}
                                 />
                                 <button
                                     type="button"

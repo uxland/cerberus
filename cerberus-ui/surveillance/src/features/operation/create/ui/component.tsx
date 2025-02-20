@@ -1,5 +1,5 @@
 import {
-    convertQuestionToType, OperationQuestion,
+    convertQuestionToType, OperationForm, OperationQuestion,
     OperationQuestionType,
     produceQuestion, setQuestion,
     SurveillanceOperationFormModel
@@ -14,14 +14,16 @@ import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
 
-type OperationForm = z.infer<typeof SurveillanceOperationFormModelSchema>;
 
-export const SurveillanceOperationForm = () => {
-    const methods = useForm<OperationForm>({
+interface SurveillanceOperationFormArgs{
+    initialModel?: SurveillanceOperationFormModel;
+    onSubmitRequested?: (data: SurveillanceOperationFormModel) => void;
+}
+export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested}: SurveillanceOperationFormArgs) => {
+    const formMethods = useForm<OperationForm>({
         resolver: zodResolver(SurveillanceOperationFormModelSchema),
-        defaultValues: {name: '', questions: []}
+        defaultValues: initialModel || {name: '', questions: []}
     });
-
     const {
         register,
         control,
@@ -29,7 +31,7 @@ export const SurveillanceOperationForm = () => {
         setValue,
         formState: { errors },
         watch
-    } = methods;
+    } = formMethods;
 
     const { fields, append, remove, replace } = useFieldArray({
         control,
@@ -40,7 +42,7 @@ export const SurveillanceOperationForm = () => {
     const operation = watch();
 
     const onSubmit = async (data: OperationForm) => {
-        await new Mediator().send(new CreateOperation(data.name, data.questions as OperationQuestion[]));
+        onSubmitRequested?.(data as SurveillanceOperationFormModel);
     };
 
     const handleAddQuestion = (type: OperationQuestionType | undefined) => {
@@ -50,16 +52,18 @@ export const SurveillanceOperationForm = () => {
     };
 
     const handleChangeQuestionType = (questionId: string, type: OperationQuestionType) => {
-        const currentQuestions = operation.questions as OperationQuestion[];
-        const index = currentQuestions.findIndex((q) => q.id === questionId);
         const question = convertQuestionToType(operation as SurveillanceOperationFormModel, questionId, type);
-        currentQuestions[index] = question;
-        setValue('questions', currentQuestions);
-        replace([...currentQuestions]);
+        updateQuestion(question);
     };
 
     const handleSetQuestion = (questionId: string, question: OperationQuestion) => {
-        setModel(setQuestion(model, questionId, question));
+       updateQuestion(question);
+    };
+
+    const updateQuestion = (question: OperationQuestion) =>{
+        const currentQuestions = (operation.questions as OperationQuestion[]).map(q => q.id === question.id ? question : q);
+        setValue('questions', currentQuestions);
+        replace([...currentQuestions]);
     };
 
     const handleRemoveQuestion = (questionId: string) => {
@@ -68,7 +72,6 @@ export const SurveillanceOperationForm = () => {
     };
 
     return (
-        <FormProvider {...methods}>
             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
                     <h1 className="font-bold text-primary">Creación de Operativa - </h1>
@@ -86,7 +89,8 @@ export const SurveillanceOperationForm = () => {
                         changeQuestionType: (questionId: string, type: OperationQuestionType) => handleChangeQuestionType(questionId, type),
                         removeQuestion: handleRemoveQuestion,
                         index,
-                        path: `questions.${index}`
+                        path: `questions.${index}`,
+                        formMethods
                     }))}
                 <div className="flex gap-4">
                     <button
@@ -108,6 +112,5 @@ export const SurveillanceOperationForm = () => {
                     Proceder
                 </button>
             </form>
-        </FormProvider>
     );
 };

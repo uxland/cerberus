@@ -1,5 +1,5 @@
 import {
-    appendQuestion,
+    appendQuestion, getQuestionById,
     OperationQuestion,
     OperationQuestionType, setQuestion,
     SurveillanceOperationFormModel
@@ -10,10 +10,12 @@ type questionFactory = (model: SurveillanceOperationFormModel) => OperationQuest
 
 
 const createQuestionId = (model: SurveillanceOperationFormModel): string => {
-    const id = (model.questions || []).length + 1
-    return id.toString();
-}
-
+    const maxId = (model.questions || [])
+        .map(question => Number.parseInt(question.id, 10))
+        .filter(id => !Number.isNaN(id))
+        .reduce((max, id) => Math.max(max, id), 0);
+    return (maxId + 1).toString();
+};
 const operationFactory = (type: OperationQuestionType) => (model: SurveillanceOperationFormModel): OperationQuestion => {
     return <OperationQuestion>{
         __type: type,
@@ -40,5 +42,6 @@ export const produceQuestion = (type: OperationQuestionType | undefined, model: 
     return  factory(model);
 }
 export const convertQuestionToType = (model: SurveillanceOperationFormModel, questionId: string, targetType: OperationQuestionType): OperationQuestion => {
-    return { ...factoryMap[targetType](model), id: questionId };
+    const question = getQuestionById(model, questionId);
+    return { ...factoryMap[targetType](model), id: questionId, text: question?.text , isMandatory: question?.isMandatory };
 }

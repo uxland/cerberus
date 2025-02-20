@@ -7,8 +7,12 @@ export interface OptionsQuestion extends OperationQuestion {
 }
 
 const createOptionId = (question: OptionsQuestion): string => {
-    return (question.options || []).length.toString() + 1;
-}
+    const maxId = question.options
+        .map(option => Number.parseInt(option.code, 10))
+        .filter(code => !Number.isNaN(code))
+        .reduce((max, code) => Math.max(max, code), 0);
+    return (maxId + 1).toString();
+};
 
 export const appendOption = (question: OptionsQuestion, code: string | undefined) => {
     const option = <Option>{

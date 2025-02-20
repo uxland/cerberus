@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
-import { useFormContext } from "react-hook-form";
+import {UseFormReturn} from "react-hook-form";
 
 interface SelectProps {
     title: string;
@@ -10,16 +10,11 @@ interface SelectProps {
     path?: string;
     name?: string;
     onChanged?: (value: string) => void;
+    formMethods?: UseFormReturn<unknown>;
 }
 
-export const Select = ({ title, options, classes, path, name, selected, onChanged }: SelectProps) => {
-    const formContext = useFormContext();
-
-    if (!formContext) {
-        console.error("`useFormContext()` is null. Ensure Select is inside `FormProvider`.");
-        return null; // Avoid rendering if form context is missing
-    }
-    const { watch, setValue } = formContext;
+export const Select = ({ title, options, classes, path, name, selected, onChanged, formMethods }: SelectProps) => {
+    const { watch, setValue } = formMethods;
     const selectedValue = selected || name && path && watch(`${path}.${name}`);
     const setOption = (value: string) => {
        if(onChanged) onChanged(value);

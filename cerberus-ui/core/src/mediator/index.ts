@@ -62,17 +62,17 @@ export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> i
 
     protected async handleRequest<Request extends RequestBase<TResult>>(request:Request, handler: RequestBaseHandler<TResult, Request>): Promise<TResult>{
         try {
-            request.setBusy(true);
-            const state = await handler(request);
-            request.setState(state);
-            return state;
+            request.setBusy?.(true);
+            const response = await handler(request);
+            request.setState?.(response);
+            return response;
         }
         catch (e) {
             console.log(e);
-            request.setError(e);
+            request.setError?.(e);
         }
         finally {
-            request.setBusy(false);
+            request.setBusy?.(false);
         }
 
     }
@@ -80,9 +80,9 @@ export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> i
 
 export abstract class RequestBase<TResult> implements IRequest<TResult> {
     protected constructor(
-        public setState: SetState<TResult>,
-        public setBusy: SetState<boolean>,
-        public setError: SetState<Error>
+        public setState?: SetState<TResult> | undefined,
+        public setBusy?: SetState<boolean> | undefined,
+        public setError?: SetState<Error> | undefined,
     ) {
     }
 }

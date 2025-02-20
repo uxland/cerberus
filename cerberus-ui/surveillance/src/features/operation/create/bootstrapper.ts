@@ -1,7 +1,9 @@
-import { addRoute, registerRouteComponent, store } from "@cerberus/core";
+import {addRoute, registerCommandHandler, registerRouteComponent, store} from "@cerberus/core";
 import { SurveillanceOperationEditor } from "./component";
 import { Container } from "inversify";
 
+import {EditCreateOperationHandler} from "./handler.ts";
+import { EditOrCreateOperation} from './command.ts'
 
 export const useCreateOperation = (container: Container) => {
     registerRouteComponent(SurveillanceOperationEditor.name, SurveillanceOperationEditor);
@@ -12,5 +14,6 @@ export const useCreateOperation = (container: Container) => {
             name: "operation-editor"
         })
     );
+    registerCommandHandler(EditOrCreateOperation, EditCreateOperationHandler);
     return Promise.resolve(container);
 }

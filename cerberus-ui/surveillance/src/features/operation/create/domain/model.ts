@@ -59,3 +59,5 @@ export const setQuestionMandatory = (question: OperationQuestion, isMandatory: b
 
 export const removeQuestion = (model: SurveillanceOperationFormModel, questionId: string): SurveillanceOperationFormModel =>
     ({ ...model, questions: model.questions.filter(q => q.id !== questionId) });
+export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
+    model.questions.find(q => q.id === questionId);

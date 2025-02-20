@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+export type OperationForm = z.infer<typeof SurveillanceOperationFormModelSchema>;
 const OperationQuestionTypeSchema = z.enum(["Options", "Text", "Integer", "Float"]);
 
 const BaseOperationQuestionSchema = z.object({
