@@ -2,15 +2,18 @@
 using Cerberus.Surveillance.Features.Features.Operation.Get;
 using Cerberus.Surveillance.Features.Features.Operation.List;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 
 namespace Cerberus.Surveillance.Features.Features.Operation;
 
 internal static class Bootstrapper
 {
-    public static WebApplication SetupOperationRouting(this WebApplication app)
+    public static RouteGroupBuilder SetupOperationRouting(this RouteGroupBuilder app)
     {
-        return app.UseCreateOperation()
+        var operationsGroup = app.MapGroup("/operations");
+        operationsGroup.UseCreateOperation()
             .UseListOperations()
             .UseGetOperation();
+        return app;
     }
 }

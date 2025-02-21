@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Wolverine;
 
 namespace Cerberus.Surveillance.Features.Features.Operation.Create;
 
 internal static class Endpoint
 {
-    public static WebApplication UseCreateOperation(this WebApplication app)
+    public static RouteGroupBuilder UseCreateOperation(this RouteGroupBuilder app)
     {
-        app.MapPost("/api/surveillance/operations", async (CreateOperation command, IMessageBus messageBus) =>
+        app.MapPost("", async (CreateOperation command, IMessageBus messageBus) =>
         {
             await messageBus.InvokeAsync(command);
             return Results.Created();

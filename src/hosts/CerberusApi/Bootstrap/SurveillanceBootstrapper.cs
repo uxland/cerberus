@@ -13,9 +13,11 @@ internal static class SurveillanceBootstrapper
             .BootstrapCerberusSurveillanceFeatures();
     }
     
-    public static WebApplication BootstrapSurveillanceRouting(this WebApplication app)
+    public static RouteGroupBuilder BootstrapSurveillanceRouting(this RouteGroupBuilder app)
     {
-        return app
+        var apiGroup = app.MapGroup("/api");
+        apiGroup
             .SetupSurveillanceRouting();
+        return app;
     }
 }

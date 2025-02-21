@@ -3,6 +3,7 @@ using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Operation.List;
 using Cerberus.Surveillance.Features.Features.Shared;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
 
@@ -27,9 +28,11 @@ public static class Bootstrapper
         return services;
     }
     
-    public static WebApplication SetupSurveillanceRouting(this WebApplication app)
+    public static RouteGroupBuilder SetupSurveillanceRouting(this RouteGroupBuilder app)
     {
-        return app.SetupOperationRouting();
+        var surveillanceGroup = app.MapGroup("/surveillance");
+        surveillanceGroup.SetupOperationRouting();
+        return app;
     }
 
     public static DefaultJsonTypeInfoResolver UseSurveillanceSerialization(this DefaultJsonTypeInfoResolver resolver)

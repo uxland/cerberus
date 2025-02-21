@@ -1,14 +1,15 @@
 ﻿using Cerberus.Core.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace Cerberus.Surveillance.Features.Features.Operation.List;
 
 internal static class Endpoint
 {
-    public static WebApplication UseListOperations(this WebApplication app)
+    public static RouteGroupBuilder UseListOperations(this RouteGroupBuilder app)
     {
-        app.MapGet("/api/surveillance/operations", async (IReadModelQueryProvider queryProvider) =>
+        app.MapGet("", async (IReadModelQueryProvider queryProvider) =>
         {
             var operations = await queryProvider.ListAsJson<SurveillanceOperationSummary>();
             return Results.Ok(operations);

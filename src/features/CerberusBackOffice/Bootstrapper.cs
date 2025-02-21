@@ -1,9 +1,11 @@
 ﻿using Cerberus.BackOffice.Features.Captures;
+using Cerberus.BackOffice.Features.OrganizationalStructure;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.BackOffice.Features.OrganizationalStructure.HierarchyItems;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.BackOffice.Features.Shared;
 using Cerberus.MvcUtilities;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
@@ -13,7 +15,7 @@ using Wolverine.Attributes;
 namespace Cerberus.BackOffice;
 
 
-public static class DependencyInjection
+public static class Bootstrapper
 {
     public static IServiceCollection UseCerberusBackOfficeFeatures(this IServiceCollection services, IConfiguration configuration)
     {
@@ -22,7 +24,6 @@ public static class DependencyInjection
             .UseSharedOrganizationStructure()
             .UseCaptureFeatures(configuration)
             .SetUpAuthorization();
-        
         
     }
     
@@ -43,7 +44,12 @@ public static class DependencyInjection
                 options.OutputFormatters.Add(new OutputFormatter<IEnumerable<HierarchyItem>>(Features.OrganizationalStructure.HierarchyItems.GetAll.LocationsController.ProducesMediaType));
             }
         );
-        return builder.AddApplicationPart(typeof(DependencyInjection).Assembly);
+        return builder.AddApplicationPart(typeof(Bootstrapper).Assembly);
+    }
+    
+    public static RouteGroupBuilder SetupBackOfficeRouting(this RouteGroupBuilder app)
+    {
+        return app.SetupOrganizationalStructureRouting();
     }
 }
 

@@ -45,7 +45,7 @@ public class Startup(WebApplicationBuilder builder)
             .SetupConfigurations(builder.Configuration)
             .UseLogging()
             .BootstrapXabeFFMpegClient()
-            .UseMartenPersistence(builder.Configuration, builder.Environment);
+            .UseMartenPersistence(builder.Configuration, builder.Environment, JsonSerialization.TypeInfoResolver);
         services
             .BootstrapBackOffice(builder.Configuration, martenConfiguration)
             .BootstrapMaintenance()

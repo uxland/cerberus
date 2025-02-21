@@ -22,13 +22,14 @@ internal static class MvcBootstrapper
     
     public static WebApplication BootstrapRouting(this WebApplication app)
     {
-        return app.BootstrapSurveillanceRouting();
+        var apiGroup = app.MapGroup("/api");
+        apiGroup.BootstrapSurveillanceRouting()
+            .SetupBackOfficeRouting();
+        return app;
     }
     public static JsonSerializerOptions BootstrapJsonSerialization(this JsonSerializerOptions options)
     {
-        var context = new DefaultJsonTypeInfoResolver();
-        context.UseSurveillanceSerialization();
-        options.TypeInfoResolverChain.Insert(0, context);
+        options.TypeInfoResolverChain.Insert(0, JsonSerialization.TypeInfoResolver);
         return options;
     }
 }

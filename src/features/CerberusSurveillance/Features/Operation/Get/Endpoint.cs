@@ -1,18 +1,18 @@
 ﻿using Cerberus.Core.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using static System.String;
+using Microsoft.AspNetCore.Routing;
 
 namespace Cerberus.Surveillance.Features.Features.Operation.Get;
 
 public static class Endpoint
 {
-    public static WebApplication UseGetOperation(this WebApplication app)
+    public static RouteGroupBuilder UseGetOperation(this RouteGroupBuilder app)
     {
-        app.MapGet("/api/surveillance/operations/{id}", async (string id, IReadModelQueryProvider queryProvider) =>
+        app.MapGet("/{id}", async (string id, IReadModelQueryProvider queryProvider) =>
         {
-           var operation = await queryProvider.RehydrateAsJson<SurveillanceOperation>(id);
-           return IsNullOrEmpty(operation) ? Results.NotFound() : Results.Ok(operation);
+            var operation = await queryProvider.RehydrateAsJson<SurveillanceOperation>(id);
+            return string.IsNullOrEmpty(operation) ? Results.NotFound() : Results.Ok(operation);
         });
         return app;
     }
