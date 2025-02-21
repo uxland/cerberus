@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Mediator } from "mediatr-ts";
 import { ListRounds } from "./query.ts";
 import { nop } from "@cerberus/core";
-import { getRoundUrl, RoundSummary } from "./model.ts";
-import { OperationsTable } from "../../../components/index.ts";
+import { RoundSummary } from "./model.ts";
 import { Typography } from "@mui/material";
+import { RoundsTable } from "./components/component.tsx";
 
 export const RoundsView = (props: { id: string }) => {
     const [rounds, setRounds] = useState<RoundSummary[]>([]);
@@ -15,16 +15,7 @@ export const RoundsView = (props: { id: string }) => {
 
     useEffect(() => {
         async function fetchData() {
-            try {
-                setLoading(true);
-                setError(undefined);
-                const rounds = await new Mediator().send(new ListRounds(props.id));
-                setRounds(rounds);
-            } catch (e: any) {
-                setError(e.message);
-            } finally {
-                setLoading(false);
-            }
+            await new Mediator().send(new ListRounds(props.id, setRounds, setLoading, setError));
         }
         fetchData().then(nop);
     }, [props]);
@@ -44,11 +35,11 @@ export const RoundsView = (props: { id: string }) => {
                     <Typography className="!text-xs !font-semibold"> Ronda</Typography>
                 </div>
             </div>
-            {/* {rounds && (
+            {rounds && (
                 <div>
-                    <OperationsTable rounds={rounds} />
+                    <RoundsTable rounds={rounds} />
                 </div>
-            )} */}
+            )}
         </div>
     );
 };

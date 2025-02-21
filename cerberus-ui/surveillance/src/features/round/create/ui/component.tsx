@@ -1,8 +1,6 @@
 import {
-    convertQuestionToType, OperationForm, OperationQuestion,
-    OperationQuestionType,
-    produceQuestion, setQuestion,
-    SurveillanceOperationFormModel
+    setCamera,
+    SurveillanceRoundFormModel
 } from "../domain";
 import { createQuestionEditor } from "./shared.tsx";
 import { FormInputField } from "@cerberus/core";

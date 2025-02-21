@@ -5,7 +5,7 @@ import { IRequestHandler } from "mediatr-ts";
 import { CreateOperation } from "./command";
 
 @injectable()
-export class CreateOperationHandler implements IRequestHandler<CreateOperation, any> {
+export class CreateRoundHandler implements IRequestHandler<CreateOperation, any> {
     constructor(@inject(ApiClient) private apiClient: ApiClient) { }
 
     async handle(command: CreateOperation): Promise<any> {
