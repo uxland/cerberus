@@ -6,4 +6,6 @@ public record LocationHierarchicalItem(
     string Id,
     string Description,
     HierarchicalItemType Type,
-    List<LocationHierarchicalItem> Children );
+    List<LocationHierarchicalItem> Children,
+    string? StreamingUrl = null
+    );

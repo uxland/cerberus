@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
-import { Mediator } from 'mediatr-ts';
+import { useParams } from 'react-router-dom';
+import {RoundEditionData} from "./domain";
+import {GetRoundEditionData} from "./get-round-edition-data.ts";
 export const SurveillanceRoundsEditor = () => {
 
+    const [roundEditionData, setRoundEditionData] = useState<RoundEditionData>(null);
+    const [isBusy, setIsBusy] = useState(false);
+    const [error, setError] = useState<string | undefined>(undefined);
+    const {locationId, roundId } = useParams<{locationId: string,  roundId: string }>();
     useEffect(() => {
         // const cameras = new Mediator().send(new ListCaptureCameras());
-    }, []);
+        async function fetchRoundData(){
+            new Mediator().send(new GetRoundEditionData(locationId, roundId, setRoundEditionData, setIsBusy, setError));
+        }
+    }, [locationId, roundId]);
 
     return (
         <div className="mb-96 space-y-6">

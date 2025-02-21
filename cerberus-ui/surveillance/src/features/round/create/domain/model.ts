@@ -1,44 +1,77 @@
+import {OperationSummary} from "../../../operation/list-operations/model.ts";
+import { v4 as uuidv4 } from 'uuid';
+import {
+    LocationHierarchicalItem
+} from "@cerberus/organizational-structure";
 
-
-export interface Camera {
+export interface Round{
     id: string;
+    rootLocationId: string;
     description: string;
-    url: string;
-    capturePattern: string;
-    username?: string;
-    password?: string;
-    brand?: string;
-    model?: string;
-    price?: number;
-    yearOfManufacture?: number;
+    cronExpression: string;
+    estimatedDuration?: number;
+    assignedTo?: string;
+    inspections: Inspection[];
 }
-export interface Operation {
+
+export interface Inspection{
     id: string;
-    description: string;
-    questions: [];
+    cameraId: string;
+    cameraDescription: string;
+    streamingUrl?: string;
+    operationId: string;
+    operationDescription: string;
+    order: number;
 }
 
-export interface SurveillanceRoundFormModel {
-    description: string;
-    cameras: Camera[];
-    operation: Operation[];
+export interface RoundEditionData{
+    round: Round;
+    operations: OperationSummary[];
+    locations:  LocationHierarchicalItem[];
 }
 
-export const defaultRoundModel: SurveillanceRoundFormModel = {
-    description: "",
-    cameras: [],
-    operation: []
+export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem{
+    inRound: boolean;
 }
+const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
+    const cameras: LocationHierarchicalItem[] = [];
 
-export const setRoundDescription = (model: SurveillanceRoundFormModel, description: string): SurveillanceRoundFormModel =>
-    ({ ...model, description: description });
+    const traverse = (items: LocationHierarchicalItem[]) => {
+        for (const item of items) {
+            if (item.type === "Camera") {
+                cameras.push(item);
+            }
+            if (item.children && item.children.length > 0) {
+                traverse(item.children);
+            }
+        }
+    };
 
+    traverse(locations);
+    return cameras;
+};
 
-export const setCamera = (model: SurveillanceRoundFormModel, cameraId: string, camera: Camera): SurveillanceRoundFormModel =>
-    ({ ...model, cameras: model.cameras.map(c => c.id === cameraId ? camera : c) });
-
-export const removeCamera = (model: SurveillanceRoundFormModel, cameraId: string): SurveillanceRoundFormModel =>
-    ({ ...model, cameras: model.cameras.filter(c => c.id !== cameraId) });
-
-export const getCameraById = (model: SurveillanceRoundFormModel, cameraId: string): Camera | undefined =>
-    model.cameras.find(c => c.id === cameraId);
+export const produceRoundEditionData = (locationId: string, operations: OperationSummary[], locations: LocationHierarchicalItem[]): RoundEditionData => {
+    const defaultOperation = operations[0];
+    const inspections = getCamerasFromHierarchy(locations).map((camera, index) => (<Inspection>{
+        id: (index + 1).toString(),
+        cameraId: camera.id,
+        cameraDescription: camera.description,
+        streamingUrl: camera.streamingUrl,
+        operationId: defaultOperation?.id,
+        operationDescription: defaultOperation?.description,
+        order: index
+    }));
+    const round: Round = {
+        id: uuidv4().toString(),
+        rootLocationId: locationId,
+        description: undefined,
+        cronExpression: undefined,
+        inspections
+    }
+    return {
+        round,
+        operations,
+        locations
+    }
+}
