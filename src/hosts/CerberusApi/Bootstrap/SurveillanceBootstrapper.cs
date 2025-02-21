@@ -15,9 +15,7 @@ internal static class SurveillanceBootstrapper
     
     public static RouteGroupBuilder BootstrapSurveillanceRouting(this RouteGroupBuilder app)
     {
-        var apiGroup = app.MapGroup("/api");
-        apiGroup
+        return app
             .SetupSurveillanceRouting();
-        return app;
     }
 }
