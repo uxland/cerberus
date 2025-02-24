@@ -21,7 +21,7 @@ export const RoundsView = (props: { id: string }) => {
     }, [props]);
 
     const handleCreateRound = () => {
-        navigate("/surveillance/rounds/new");
+        navigate(`/surveillance/locations/${props.id}/rounds/new`);
     };
 
     return (

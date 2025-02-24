@@ -8,104 +8,70 @@ import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
+import { Typography } from "@mui/material";
+import { RoundEditionData } from "../domain/model.ts";
+import { LocationHierarchicalItem } from "@cerberus/organizational-structure";
+import { OperationSummary } from "../../../operation/list-operations/model.ts";
 
-interface SurveillanceOperationFormArgs {
-    initialModel?: SurveillanceOperationFormModel;
-    onSubmitRequested?: (data: SurveillanceOperationFormModel) => void;
+interface SurveillanceRoundFormArgs {
+    roundEditionData?: RoundEditionData;
+    // onSubmitRequested?: (data: SurveillanceOperationFormModel) => void;
 }
 
-export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: SurveillanceOperationFormArgs) => {
-    const formMethods = useForm<OperationForm>({
-        resolver: zodResolver(SurveillanceOperationFormModelSchema),
-        defaultValues: initialModel || { name: '', questions: [] }
-    });
-    const {
-        register,
-        control,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-        watch
-    } = formMethods;
+export const RoundEditionForm = ({ roundEditionData }) => {
 
-    const { fields, append, remove, replace } = useFieldArray({
-        control,
-        name: "questions",
-        keyName: "__id"
-    });
-
-    const operation = watch();
-
-    const onSubmit = async (data: OperationForm) => {
-        onSubmitRequested?.(data as SurveillanceOperationFormModel);
-    };
-
-    const handleAddQuestion = (type: OperationQuestionType | undefined) => {
-        const currentState = watch();
-        const question = produceQuestion(type, currentState as SurveillanceOperationFormModel);
-        append(question);
-    };
-
-    const handleChangeQuestionType = (questionId: string, type: OperationQuestionType) => {
-        const question = convertQuestionToType(operation as SurveillanceOperationFormModel, questionId, type);
-        updateQuestion(question);
-    };
-
-    const handleSetQuestion = (questionId: string, question: OperationQuestion) => {
-        updateQuestion(question);
-    };
-
-    const updateQuestion = (question: OperationQuestion) => {
-        const currentQuestions = (operation.questions as OperationQuestion[]).map(q => q.id === question.id ? question : q);
-        setValue('questions', currentQuestions);
-        replace([...currentQuestions]);
-    };
-
-    const handleRemoveQuestion = (questionId: string) => {
-        const index = fields.findIndex((q) => q.id === questionId);
-        remove(index);
-    };
 
     return (
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
-                <h1 className="font-bold text-primary">{useSurveillanceLocales("operation.create.title")} - </h1>
-                <FormInputField
-                    name="name"
-                    register={register}
-                    placeholder={useSurveillanceLocales("operation.create.placeholder")}
-                    error={errors.name}
-                    type="text"
-                />
+        <div className="space-y-6">
+            <div className="flex flex-col gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
+                <h1 className="font-bold text-primary">Creación de Ronda</h1>
             </div>
-            {fields.map((q, index) =>
-                createQuestionEditor(q, {
-                    setQuestion: (questionId: string, question: OperationQuestion) => handleSetQuestion(questionId, question),
-                    changeQuestionType: (questionId: string, type: OperationQuestionType) => handleChangeQuestionType(questionId, type),
-                    removeQuestion: handleRemoveQuestion,
-                    index,
-                    path: `questions.${index}`,
-                    formMethods
-                }))}
             <div className="flex gap-4">
-                <button
-                    type="button"
-                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
-                    onClick={() => handleAddQuestion(undefined)}
-                >
-                    {useSurveillanceLocales("operation.create.question.addQuestion")}
-                </button>
-                <button
-                    type="button"
-                    className="text-xs uppercase bg-[#313131] text-white font-bold py-2 px-8 rounded-full hover:bg-[#505050]">
-                    {useSurveillanceLocales("operation.create.preview")}
-                </button>
+                <button className="bg-primary py-3 px-5 rounded-md text-black font-bold text-xl hover:bg-formSelect">+</button>
+                <button className="bg-[#313131] py-3 px-5 rounded-md text-white font-bold text-xl hover:bg-[#505050]">+</button>
+                <div className="flex flex-col justify-center bg-tableBg px-4 rounded-md gap-2">
+                    <Typography className="!text-xs !font-semibold"> 10 cámaras</Typography>
+                    <Typography className="!text-xs !font-semibold">Diario - 10:00 p.m.</Typography>
+                </div>
+                <div className="flex flex-col justify-center bg-tableBg px-4 rounded-md gap-2">
+                    <Typography className="!text-xs !font-semibold">Grupo Asignado: Grupo 1</Typography>
+                    <Typography className="!text-xs !font-semibold">Duración aproximada de la ronda: 20 mins.</Typography>
+                </div>
+                <div className="flex gap-4 items-center ml-auto">
+                    <button className="text-xs uppercase bg-[#313131] text-white font-bold py-2 px-4 rounded-full hover:bg-[#505050] flex items-center justify-center">
+                        Asignar operativa
+                    </button>
+                    <button className="text-xs uppercase bg-secondary text-white font-bold py-2 px-4 rounded-full ml-auto hover:bg-secondaryHover">
+                        Proceder
+                    </button>
+                </div>
             </div>
-            <button
-                type="submit"
-                className="flex text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full ml-auto hover:bg-secondaryHover">
-                {useSurveillanceLocales("operation.create.proceed")}
-            </button>
-        </form>
+
+            <div className="grid grid-cols-5 gap-6">
+                {roundEditionData?.locations.map((location: LocationHierarchicalItem) => (
+                    <div key={location.id} className="space-y-2">
+                        <img className="rounded-md border border-[3px] border-primary" src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg" alt={location.description} />
+                        <Typography className="text-center !text-xs px-2">{location.description}</Typography>
+                    </div>
+                ))}
+            </div>
+
+            {roundEditionData && (
+                <div>
+                    <h2>Round Details</h2>
+                    <p>Round ID: {roundEditionData.round.id}</p>
+                    <p>Root Location ID: {roundEditionData.round.rootLocationId}</p>
+
+                    <h2>Operations</h2>
+                    <ul>
+                        {roundEditionData.operations.map((operation: OperationSummary) => (
+                            <li key={operation.id}>
+                                {operation.description} (ID: {operation.id})
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
     );
 };

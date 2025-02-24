@@ -1,10 +1,10 @@
-import {OperationSummary} from "../../../operation/list-operations/model.ts";
+import { OperationSummary } from "../../../operation/list-operations/model.ts";
 import { v4 as uuidv4 } from 'uuid';
 import {
     LocationHierarchicalItem
 } from "@cerberus/organizational-structure";
 
-export interface Round{
+export interface Round {
     id: string;
     rootLocationId: string;
     description: string;
@@ -14,7 +14,7 @@ export interface Round{
     inspections: Inspection[];
 }
 
-export interface Inspection{
+export interface Inspection {
     id: string;
     cameraId: string;
     cameraDescription: string;
@@ -24,15 +24,33 @@ export interface Inspection{
     order: number;
 }
 
-export interface RoundEditionData{
+export interface RoundEditionData {
     round: Round;
     operations: OperationSummary[];
-    locations:  LocationHierarchicalItem[];
+    locations: LocationHierarchicalItem[];
 }
 
-export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem{
+export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem {
     inRound: boolean;
 }
+
+export const appendCameraToRound = (round: Round, camera: LocationHierarchicalItem, Operation: OperationSummary): Round => {
+    const newInspection: Inspection = {
+        id: uuidv4().toString(),
+        cameraId: camera.id,
+        cameraDescription: camera.description,
+        streamingUrl: camera.streamingUrl,
+        operationId: Operation.id,
+        operationDescription: Operation.description,
+        order: round.inspections.length
+    };
+
+    return {
+        ...round,
+        inspections: [...round.inspections, newInspection]
+    };
+};
+
 const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
     const cameras: LocationHierarchicalItem[] = [];
 
