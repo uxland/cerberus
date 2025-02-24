@@ -43,5 +43,18 @@ export const locales = {
         },
       },
     },
+    round: {
+      create: {
+        title: "Creación de Ronda",
+        placeholder: "Añade un nombre a tu nueva ronda",
+        addCamera: "+",
+        addGroup: "+",
+        cameras: "cámaras",
+        groupAssigned: "Grupo Asignado",
+        duration: "Duración aproximada de la ronda",
+        proceed: "Proceder",
+        asignOperation: "Asignar operativa",
+      },
+    },
   },
 };

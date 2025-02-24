@@ -6,65 +6,73 @@ import { OperationSummary } from "../../../operation/list-operations/model.ts";
 import { Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { FormInputField } from '@cerberus/core';
+import { useSurveillanceLocales } from '../../../../locales/ca/locales.ts';
 
 interface SurveillanceRoundFormArgs {
     roundEditionData?: RoundEditionData;
-    // onSubmitRequested?: (data: SurveillanceOperationFormModel) => void;
 }
 
 export const RoundEditionForm = ({ roundEditionData }) => {
-    const [selectedOperations, setSelectedOperations] = useState<string[]>([]);
-    const [selectedCameras, setSelectedCameras] = useState<string[]>([]);
+    const [cameraAssignments, setCameraAssignments] = useState<{ [cameraId: string]: string }>({});
+    const [selectedCamera, setSelectedCamera] = useState<string>('');
 
-    const handleOperationSelect = (event: SelectChangeEvent<string[]>) => {
-        setSelectedOperations(event.target.value as string[]);
-        console.log(selectedOperations)
+    const handleOperationSelect = (event: SelectChangeEvent<string>) => {
+        const operationId = event.target.value as string;
+        setCameraAssignments(prev => ({
+            ...prev,
+            [selectedCamera]: operationId
+        }));
+        console.log(cameraAssignments);
     };
+
     const handleCameraSelect = (locationId: string) => {
-        setSelectedCameras((prevSelected) => {
-            if (prevSelected.includes(locationId)) {
-                return prevSelected.filter((id) => id !== locationId);
-            } else {
-                return [...prevSelected, locationId];
-            }
-        });
+        setSelectedCamera(locationId);
+    };
+
+    const getSelectedOperationForCamera = (cameraId: string): string => {
+        return cameraAssignments[cameraId] || '';
     };
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
-                <h1 className="font-bold text-primary">Creación de Ronda</h1>
+            <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
+                <h1 className="font-bold text-primary">{useSurveillanceLocales("round.create.title")}</h1>
+                <FormInputField
+                    name="name"
+                    register={() => { }}
+                    placeholder={useSurveillanceLocales("round.create.placeholder")}
+                    type="text"
+                />
             </div>
             <div className="flex gap-4">
-                <button className="bg-primary py-4 px-6 rounded-md text-black font-bold text-xl hover:bg-formSelect">+</button>
-                <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">+</button>
+                <button className="bg-primary py-4 px-6 rounded-md text-black font-bold text-xl hover:bg-formSelect">{useSurveillanceLocales("round.create.addCamera")}</button>
+                <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">{useSurveillanceLocales("round.create.addGroup")}</button>
                 <div className="flex flex-col justify-center bg-tableBg px-4 rounded-md gap-2">
-                    <Typography className="!text-xs !font-semibold"> 10 cámaras</Typography>
+                    <Typography className="!text-xs !font-semibold"> {(roundEditionData.locations).length} {useSurveillanceLocales("round.create.cameras")}</Typography>
                     <Typography className="!text-xs !font-semibold">Diario - 10:00 p.m.</Typography>
                 </div>
                 <div className="flex flex-col justify-center bg-tableBg px-4 rounded-md gap-2">
-                    <Typography className="!text-xs !font-semibold">Grupo Asignado: Grupo 1</Typography>
-                    <Typography className="!text-xs !font-semibold">Duración aproximada de la ronda: 20 mins.</Typography>
-                </div>
-                <div className="flex gap-4 items-center ml-auto">
+                    <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.groupAssigned")}: Grupo 1</Typography>
+                    <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.duration")}: 20 mins.</Typography></div>
 
+                <div className="flex gap-4 items-center ml-auto">
                     <Select
-                        multiple
-                        value={selectedOperations}
+                        value={getSelectedOperationForCamera(selectedCamera)}
                         onChange={handleOperationSelect}
                         IconComponent={KeyboardArrowDownIcon}
                         displayEmpty
                         size="medium"
                         className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold  px-6 rounded-full hover:bg-[#505050] flex items-center justify-center"
                         renderValue={(selected) =>
-                            selected.length
+                            selected
                                 ? <span className="font-bold">
                                     {roundEditionData.operations
-                                        .filter((o) => selected.includes(o.id))
+                                        .filter((o) => o.id === selected)
                                         .map((o) => o.description)
                                         .join(', ')}
                                 </span>
-                                : <span className="font-bold">Asignar Operativa</span>
+                                : <span className="font-bold">{useSurveillanceLocales("round.create.asignOperation")}</span>
                         }
                         sx={{
                             width: '250px',
@@ -75,19 +83,12 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                     >
                         {roundEditionData?.operations.map((operation) => (
                             <MenuItem key={operation.id} value={operation.id} className="!text-[0.7rem]">
-                                <input
-                                    type="checkbox"
-                                    readOnly
-                                    checked={selectedOperations.includes(operation.id)}
-                                    className="mr-2 accent-primary"
-                                />
-
                                 {operation.description}
                             </MenuItem>
                         ))}
                     </Select>
                     <button className="text-[0.8rem] uppercase bg-secondary text-white font-bold py-4 px-10 rounded-sm ml-auto hover:bg-secondaryHover">
-                        Proceder
+                        {useSurveillanceLocales("round.create.proceed")}
                     </button>
                 </div>
             </div>
@@ -100,7 +101,7 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                         onClick={() => handleCameraSelect(location.id)}
                     >
                         <img
-                            className={`rounded-md  ${selectedCameras.includes(location.id) ? 'opacity-50' : 'border border-[3px] border-primary'}`}
+                            className={`rounded-md  ${selectedCamera === location.id ? 'border border-[3px] border-primary' : 'opacity-50'}`}
                             src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg"
                             alt={location.description}
                         />
@@ -109,7 +110,7 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                 ))}
             </div>
 
-            {roundEditionData && (
+            {/* {roundEditionData && (
                 <div>
                     <h2>Round Details</h2>
                     <p>Round ID: {roundEditionData.round.id}</p>
@@ -124,7 +125,7 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                         ))}
                     </ul>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

@@ -34,22 +34,6 @@ export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem 
     inRound: boolean;
 }
 
-export const appendCameraToRound = (round: Round, camera: LocationHierarchicalItem, Operation: OperationSummary): Round => {
-    const newInspection: Inspection = {
-        id: uuidv4().toString(),
-        cameraId: camera.id,
-        cameraDescription: camera.description,
-        streamingUrl: camera.streamingUrl,
-        operationId: Operation.id,
-        operationDescription: Operation.description,
-        order: round.inspections.length
-    };
-
-    return {
-        ...round,
-        inspections: [...round.inspections, newInspection]
-    };
-};
 
 const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
     const cameras: LocationHierarchicalItem[] = [];
