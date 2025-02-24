@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     LocationHierarchicalItem
 } from "@cerberus/organizational-structure";
+import { Camera } from "@mui/icons-material";
 
 export interface Round {
     id: string;
@@ -34,7 +35,34 @@ export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem 
     inRound: boolean;
 }
 
+interface CameraAssignments {
+    [cameraId: string]: {
+        operationId: string;
+        operationDescription: string;
+        cameraId: string;
+        cameraDescription: string;
+        streamingUrl?: string;
+    };
+}
 
+export const produceInspections = (assignments: CameraAssignments): Inspection[] => {
+    const inspections: Inspection[] = Object.entries(assignments).map(
+        ([cameraId, assignment], index) => {
+            const inspection: Inspection = {
+                id: (index + 1).toString(),
+                cameraId: assignment.cameraId,
+                cameraDescription: assignment.cameraDescription,
+                streamingUrl: assignment.streamingUrl || undefined,
+                operationId: assignment.operationId,
+                operationDescription: assignment.operationDescription,
+                order: index + 1,
+            };
+            return inspection;
+        }
+    );
+
+    return inspections;
+};
 const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
     const cameras: LocationHierarchicalItem[] = [];
 

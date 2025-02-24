@@ -1,1 +1,1 @@
-export * from "./OperativesTable/component";
+export * from "../features/operation/list-operations/operations-table/component";

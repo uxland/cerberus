@@ -19,9 +19,9 @@ import { useNavigate } from "react-router-dom";
 
 import {
     OperationSummary, getOperationUrl
-} from "../../features/operation/list-operations/model";
+} from "../model";
 
-import { NoData } from "../NoData/NoData";
+import { NoData } from "../../../../components/NoData/NoData";
 
 export const OperationsTable = (props: { operations: OperationSummary[] }) => {
     return (
@@ -81,13 +81,9 @@ const OpetationRow = (props: { operation: OperationSummary }) => {
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.operation.id}
             </TableCell>
-            <TableCell
-                align="center"
-                component="th"
-                scope="row">{`${splitAndChooseDescription(
-                    props.operation.description,
-                    "first"
-                )}`}</TableCell>
+            <TableCell size="small" component="th" scope="row" align="center">
+                {props.operation.description}
+            </TableCell>
         </TableRow>
     );
 };

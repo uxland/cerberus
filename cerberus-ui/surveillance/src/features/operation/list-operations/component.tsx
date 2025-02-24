@@ -29,12 +29,6 @@ export const OperationsView = (props: { id: string }) => {
             {loading && <div>Loading...</div>}
             {error && <div>Error: {String(error)}</div>}
             <div className="flex justify-end gap-2">
-                <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-xl hover:bg-formSelect">+</button>
-                <div className="flex flex-col justify-center rounded-md gap-2 mr-4">
-                    <Typography className="!text-xs !font-semibold"> Anadir</Typography>
-                    <Typography className="!text-xs !font-semibold"> Ronda</Typography>
-
-                </div>
                 <button className="bg-[#313131] py-1 px-3 rounded-md text-white font-bold text-xl hover:bg-[#505050]"
                     onClick={handleCreateOperation}>+</button>
                 <div className="flex flex-col justify-center rounded-md gap-2">
