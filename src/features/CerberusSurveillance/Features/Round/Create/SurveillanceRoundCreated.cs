@@ -10,5 +10,5 @@ public record SurveillanceRoundCreated(
     string CronExpression,
     int? EstimatedDuration, 
     string? AssignedTo, 
-    IEnumerable<IInspection> Inspections
+    IEnumerable<Inspection> Inspections
 ) : IDomainEvent;

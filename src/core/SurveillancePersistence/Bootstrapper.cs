@@ -1,4 +1,5 @@
 ﻿using Cerberus.Surveillance.Features.Features.Operation;
+using Cerberus.Surveillance.Features.Features.Round;
 using Cerberus.Surveillance.Persistence.Projections;
 using Marten;
 using Marten.Events.Projections;
@@ -26,6 +27,8 @@ public static class Bootstrapper
     {
         marten.Projections.Snapshot<SurveillanceOperation>(SnapshotLifecycle.Inline);
         marten.Projections.Add<SurveillanceOperationSummaryProjection>(ProjectionLifecycle.Inline);
+        marten.Projections.Snapshot<SurveillanceRound>(SnapshotLifecycle.Inline);
+        marten.Projections.Add<SurveillanceRoundSummaryProjection>(ProjectionLifecycle.Inline);
         return marten;
     }
     
