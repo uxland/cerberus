@@ -15,7 +15,7 @@ public partial class SurveillanceRound
                 cmd.CronExpression,
                 cmd.EstimatedDuration,
                 cmd.AssignedTo,
-                new List<Inspection>()
+                cmd.Inspections
             )
         );
     }

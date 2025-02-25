@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     LocationHierarchicalItem
 } from "@cerberus/organizational-structure";
-import { Camera } from "@mui/icons-material";
 
 export interface Round {
     id: string;

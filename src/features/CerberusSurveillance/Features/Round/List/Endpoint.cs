@@ -9,9 +9,11 @@ internal static class Endpoint
 {
     public static RouteGroupBuilder UseListRounds(this RouteGroupBuilder app)
     {
-        app.MapGet("", async (IReadModelQueryProvider queryProvider) =>
+        app.MapGet("", async (IReadModelQueryProvider queryProvider, string? rootLocationId) =>
         {
-            var rounds = await queryProvider.ListAsJson<SurveillanceRoundSummary>();
+            var spec = SurveillanceRoundSummarySpecifications.ByRootLocation(rootLocationId);
+            var all = await queryProvider.List<SurveillanceRoundSummary>();
+            var rounds = all.Where(x => spec == null || spec.IsSatisfiedBy(x)).ToList();
             return Results.Ok(rounds);
         });
         return app;

@@ -11,7 +11,7 @@ internal static class Endpoint
     {
         app.MapGet("/{id}", async (string id, IReadModelQueryProvider queryProvider) =>
         {
-            var round = await queryProvider.RehydrateAsJson<SurveillanceRound>(id);
+            var round = await queryProvider.RehydrateAsJson<SurveillanceRoundDetail>(id);
             if (string.IsNullOrEmpty(round))
                 return Results.NotFound();
             return Results.Ok(round);
