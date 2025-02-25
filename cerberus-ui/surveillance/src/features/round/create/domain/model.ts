@@ -49,7 +49,7 @@ export const produceInspections = (assignments: CameraAssignments): Inspection[]
     const inspections: Inspection[] = Object.entries(assignments).map(
         ([cameraId, assignment], index) => {
             const inspection: Inspection = {
-                id: (index + 1).toString(),
+                id: uuidv4().toString(),
                 cameraId: assignment.cameraId,
                 cameraDescription: assignment.cameraDescription,
                 streamingUrl: assignment.streamingUrl || undefined,

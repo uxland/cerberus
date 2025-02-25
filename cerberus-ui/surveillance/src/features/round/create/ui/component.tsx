@@ -12,8 +12,8 @@ import 'react-js-cron/dist/styles.css';
 import './style.css';
 import { SPANISH_LOCALE } from './locale/cron-spanish.ts';
 import { produceInspections } from '../domain/model.ts';
-
-import { Round } from '../domain';
+import { Round, roundSchema } from '../domain/validation.ts';
+import { } from '../domain';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 
@@ -28,6 +28,7 @@ export const RoundEditionForm = ({ roundEditionData }) => {
         formState: { errors },
         setValue,
     } = useForm<Round>({
+        resolver: zodResolver(roundSchema),
         defaultValues: {
             id: roundEditionData.round.id || "",
             rootLocationId: roundEditionData.round.rootLocationId || "",
@@ -75,6 +76,10 @@ export const RoundEditionForm = ({ roundEditionData }) => {
     const getSelectedOperationForCamera = (cameraId: string): string => {
         return cameraAssignments[cameraId]?.operationId || '';
     };
+    useEffect(() => {
+        const inspections = produceInspections(cameraAssignments);
+        setValue("inspections", inspections);
+    }, [cameraAssignments, setValue]);
 
     useEffect(() => {
         setValue("cronExpression", cronValue);
@@ -82,11 +87,9 @@ export const RoundEditionForm = ({ roundEditionData }) => {
 
     }, [cronValue, setValue]);
     const onSubmit = async (data: Round) => {
-        const inspections = produceInspections(cameraAssignments);
-        setValue("inspections", inspections);
-        register("inspections");
         console.log("SUCCESS", data);
     }
+    console.log(errors);
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
             <div className="flex flex-col gap-4 bg-tableBg py-4 px-6 rounded-[10px] w-full">
@@ -97,12 +100,17 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                         register={register}
                         placeholder={useSurveillanceLocales("round.create.placeholder")}
                         type="text"
+                        error={errors.description}
                     />
                 </div>
                 <div className='space-y-2 flex items-center gap-4 mt-1'>
                     <h1 className="font-bold text-primary mb-1">{useSurveillanceLocales("round.create.cronExpressionInput")}:</h1>
                     <Cron value={cronValue} setValue={setCronValue} className="my-project-cron" locale={SPANISH_LOCALE} />
+                    {errors.cronExpression && (
+                        <p className="text-red-500">{errors.cronExpression.message}</p>
+                    )}
                 </div>
+
                 <div className='space-y-2 flex items-center gap-4'>
                     <h1 className="font-bold text-primary">{useSurveillanceLocales("round.create.groupInput")}:</h1>
                     <Select
@@ -202,56 +210,6 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                             ))}
                         </Select>
                     </FormControl>
-                    {/* <Select
-                        value={getSelectedOperationForCamera(selectedCamera)}
-                        onChange={handleOperationSelect}
-                        IconComponent={KeyboardArrowDownIcon}
-                        displayEmpty
-                        size="medium"
-                        className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold  px-6 rounded-full hover:bg-[#505050] flex items-center justify-center bo"
-                        renderValue={(selected) =>
-                            selected
-                                ? <span className="font-bold">
-                                    {roundEditionData.operations
-                                        .filter((o) => o.id === selected)
-                                        .map((o) => o.description)
-                                        .join(', ')}
-                                </span>
-                                : <span className="font-bold">{asignOperation}</span>
-                        }
-                        sx={{
-                            width: '250px',
-                            '.MuiSvgIcon-root': {
-                                color: 'white',
-                            },
-                        }}
-                        MenuProps={{
-                            PaperProps: {
-                                style: {
-                                    backgroundColor: '#1e1e1e',
-                                    color: 'white',
-                                },
-                            },
-                        }}
-                    >
-                        {roundEditionData?.operations.map((operation) => (
-                            <MenuItem
-                                key={operation.id}
-                                value={operation.id}
-                                className="!text-[0.7rem]"
-                                sx={{
-                                    '&:hover': {
-                                        backgroundColor: '#333',
-                                    },
-                                    '&.Mui-selected': {
-                                        backgroundColor: '#444',
-                                    },
-                                }}
-                            >
-                                {operation.description}
-                            </MenuItem>
-                        ))}
-                    </Select> */}
                     <button type='submit' className="text-[0.8rem] uppercase bg-secondary text-white font-bold py-4 px-10 rounded-sm ml-auto hover:bg-secondaryHover">
                         {useSurveillanceLocales("round.create.proceed")}
                     </button>
@@ -274,22 +232,8 @@ export const RoundEditionForm = ({ roundEditionData }) => {
                     </div>
                 ))}
             </div>
-
-            {roundEditionData && (
-                <div>
-                    <h2>Round Details</h2>
-                    <p>Round ID: {roundEditionData.round.id}</p>
-                    <p>Root Location ID: {roundEditionData.round.rootLocationId}</p>
-
-                    <h2>Operations</h2>
-                    <ul>
-                        {roundEditionData.operations.map((operation: OperationSummary) => (
-                            <li key={operation.id}>
-                                {operation.description} (ID: {operation.id})
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            {errors.inspections && (
+                <p className="text-red-500">{errors.inspections.message}</p>
             )}
         </form>
     );

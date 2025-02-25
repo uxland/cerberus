@@ -21,7 +21,7 @@ export const FormInputField: React.FC<InputFieldProps> = ({ label, name, type = 
                 {...register(name)}
                 className="w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292]"
             />
-            {error && <p className="error">{error.message}</p>}
+            {error && <p className="error text-red-500">{error.message}</p>}
         </div>
     );
 };
