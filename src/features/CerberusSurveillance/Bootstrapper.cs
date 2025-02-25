@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization.Metadata;
 using Cerberus.Surveillance.Features.Features.Operation;
+using Cerberus.Surveillance.Features.Features.Round;
+using Cerberus.Surveillance.Features.Features.Round.List;
 using Cerberus.Surveillance.Features.Features.Operation.List;
 using Cerberus.Surveillance.Features.Features.Shared;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +34,7 @@ public static class Bootstrapper
     {
         var surveillanceGroup = app.MapGroup("/surveillance");
         surveillanceGroup.SetupOperationRouting();
+        surveillanceGroup.SetupRoundRouting();
         return app;
     }
 

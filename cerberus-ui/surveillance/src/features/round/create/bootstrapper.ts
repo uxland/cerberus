@@ -1,7 +1,9 @@
-import { addRoute, registerRouteComponent, store } from "@cerberus/core";
+import { addRoute, registerCommandHandler, registerRouteComponent, store } from "@cerberus/core";
 import { SurveillanceRoundsEditor } from "./component";
 import { Container } from "inversify";
-import {useGetRoundEditionData} from "./get-round-edition-data.ts";
+import { useGetRoundEditionData } from "./get-round-edition-data.ts";
+import { EditOrCreateRound } from "./command.ts";
+import { EditCreateRoundHandler } from "./handler.ts";
 
 
 export const useCreateRound = (container: Container) => {
@@ -13,8 +15,6 @@ export const useCreateRound = (container: Container) => {
             name: "round-editor"
         })
     );
+    registerCommandHandler(EditOrCreateRound, EditCreateRoundHandler);
     return useGetRoundEditionData(container);
 }
-
-// surveillance/rounds/new?locationId=1
-// surveillance/rounds/1

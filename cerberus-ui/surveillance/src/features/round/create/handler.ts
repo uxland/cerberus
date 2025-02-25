@@ -1,23 +1,25 @@
-import { store } from "@cerberus/core";
-import { ApiClient } from "@cerberus/shared/src";
-import { inject, injectable } from "inversify";
-import { IRequestHandler } from "mediatr-ts";
-import { CreateOperation } from "./command";
+import { injectable, inject } from "inversify";
+import { HandlerBase } from "@cerberus/core";
+import { roundsEndpointUrl } from "../constants";
+import { EditOrCreateRound } from "./command";
 
 @injectable()
-export class CreateRoundHandler implements IRequestHandler<CreateOperation, any> {
-    constructor(@inject(ApiClient) private apiClient: ApiClient) { }
+export class EditCreateRoundHandler extends HandlerBase<void, EditOrCreateRound> {
+    handle(request: EditOrCreateRound): Promise<void> {
+        return this.handleRequest(request, this.editOrCreateRound.bind(this));
+    }
 
-    async handle(command: CreateOperation): Promise<any> {
-        try {
-            const operation = await this.apiClient.post<any>("/operations", {
-                body: command as any,
-            });
-            console.log('Operation created', operation);
-            return operation;
-        } catch (error) {
-            console.error("Error creating operation:", error);
-            throw error;
-        }
+    private async editOrCreateRound(request: EditOrCreateRound): Promise<void> {
+        const task = request.id ? this.editRound(request) : this.createRound(request);
+        await task;
+        this.navigationService.navigateBack();
+    }
+
+    private async editRound(request: EditOrCreateRound): Promise<void> {
+        return this.apiClient.put<void>(`${roundsEndpointUrl}/${request.id}`, { body: <any>request.round });
+    }
+
+    private async createRound(request: EditOrCreateRound): Promise<void> {
+        return this.apiClient.post<void>(roundsEndpointUrl, { body: <any>request.round });
     }
 }

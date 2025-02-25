@@ -21,7 +21,7 @@ interface SurveillanceRoundFormArgs {
     roundEditionData?: RoundEditionData;
 }
 
-export const RoundEditionForm = ({ roundEditionData }) => {
+export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }) => {
     const {
         register,
         handleSubmit,
@@ -87,6 +87,7 @@ export const RoundEditionForm = ({ roundEditionData }) => {
 
     }, [cronValue, setValue]);
     const onSubmit = async (data: Round) => {
+        onSubmitRequested?.(data as Round);
         console.log("SUCCESS", data);
     }
     console.log(errors);
