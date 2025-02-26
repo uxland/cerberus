@@ -29,6 +29,7 @@ export const locales = {
     upload: {
       title: "Adjuntar archivo",
       file: "Subir archivo",
+      placeholder: "Subir archivo en formato .xlsx,.xls",
     },
     edit: "Editar",
     delete: "Eliminar",
@@ -95,6 +96,12 @@ export const locales = {
     cameraSettings: {
       id: "Id",
       description: "Descripción",
+    },
+    mainMenu: {
+      activeAlerts: "Alertas activas",
+      newAlerts: "Nuevas alertas",
+      search: "Buscar dispositivo, grupo...",
+      addRootNode: "Añadir Nodo Raíz",
     },
   },
 };

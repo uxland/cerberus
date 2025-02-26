@@ -1,9 +1,9 @@
-import {Button, CircularProgress, Typography} from "@mui/material";
-import {Mediator} from "mediatr-ts";
-import {MuiFileInput} from "mui-file-input";
-import {useState} from "react";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales.ts";
-import {UploadOrganizationStructureFile} from "./command.ts";
+import { Button, CircularProgress, Typography } from "@mui/material";
+import { Mediator } from "mediatr-ts";
+import { MuiFileInput } from "mui-file-input";
+import { useState } from "react";
+import { useOrganizationalStructureLocales } from "../../locales/ca/locales.ts";
+import { UploadOrganizationStructureFile } from "./command.ts";
 
 export const OrganizationalStructureFileUploader = () => {
   const [file, setFile] = useState(null);
@@ -34,7 +34,7 @@ export const OrganizationalStructureFileUploader = () => {
       <div className="flex gap-4 w-[500px] items-end">
         <div className="flex items-center justify-center w-80">
           {uploading ? (
-            <CircularProgress style={{marginTop: 16, color: "#fff"}} />
+            <CircularProgress style={{ marginTop: 16, color: "#fff" }} />
           ) : (
             <MuiFileInput
               value={file}
@@ -42,10 +42,10 @@ export const OrganizationalStructureFileUploader = () => {
               color="secondary"
               size="small"
               onChange={handleFileChange}
-              inputProps={{accept: ".xlsx,.xls"}}
+              inputProps={{ accept: ".xlsx,.xls" }}
               fullWidth
               margin="normal"
-              placeholder="Pujar arxiu format .xlsx,.xls "
+              placeholder={useOrganizationalStructureLocales("upload.placeholder")}
             />
           )}
         </div>

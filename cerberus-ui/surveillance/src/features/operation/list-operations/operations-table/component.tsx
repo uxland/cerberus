@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-
+import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 import {
     OperationSummary, getOperationUrl
 } from "../model";
@@ -39,10 +39,10 @@ export const OperationsTable = (props: { operations: OperationSummary[] }) => {
                         <TableHead>
                             <TableRow className="font-semibold">
                                 <TableCell align="center" className="table-head">
-                                    id
+                                    {useSurveillanceLocales("operation.table.id")}
                                 </TableCell>
                                 <TableCell align="center" className="table-head">
-                                    Description
+                                    {useSurveillanceLocales("operation.table.description")}
                                 </TableCell>
                             </TableRow>
                         </TableHead>

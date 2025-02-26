@@ -8,6 +8,7 @@ import { OrganizationalStructureTreeNode } from "../../features";
 import { AddLocationModal } from "../../features/locations/add-location/component";
 import { Profile } from "./profile/component";
 import TextField from '@mui/material/TextField';
+import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
 
 export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: boolean) => void }) => {
   const { open, setOpen } = props;
@@ -36,11 +37,11 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
             <div className="flex p-4 bg-[#202020] relative">
               <div className="flex flex-col items-start gap-y-1">
                 <Typography variant="h3" fontWeight="bold">154</Typography>
-                <Typography variant="body2" fontWeight="bold" color='#909090'>Alertas Activas</Typography>
+                <Typography variant="body2" fontWeight="bold" color='#909090'>{useOrganizationalStructureLocales('mainMenu.activeAlerts')}</Typography>
               </div>
               <div className="flex flex-col items-start gap-y-1 ml-8">
                 <Typography variant="h3" fontWeight="bold">11</Typography>
-                <Typography variant="body2" fontWeight="bold" color='#909090'>Nuevas alertas</Typography>
+                <Typography variant="body2" fontWeight="bold" color='#909090'>{useOrganizationalStructureLocales('mainMenu.newAlerts')}</Typography>
               </div>
               <button
                 className="absolute -right-3 top-1/2 -translate-y-1/2 bg-[#353535] text-white rounded-xl p-3 hover:bg-[#636363] transition-colors z-50"
@@ -60,7 +61,7 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
             <div className="flex flex-col items-center">
               <TextField
                 id="standard-multiline-flexible"
-                label="Buscar dispositivo, grupo..."
+                label={useOrganizationalStructureLocales('mainMenu.search')}
                 multiline
                 fullWidth
                 maxRows={4}
@@ -90,7 +91,7 @@ export const MainMenu = (props: { logo: string, open: boolean, setOpen: (open: b
               className="submit-btn"
               onClick={AddLocationModal(undefined)}
             >
-              Añadir Nodo Raíz
+              {useOrganizationalStructureLocales('mainMenu.addRootNode')}
             </Button>
           </div>
         </div>

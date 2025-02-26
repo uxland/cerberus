@@ -35,13 +35,17 @@ export const locales = {
           isMandatory: "Obligatoriedad",
           option: {
             title: "Respuesta",
-            addOption: "+ Añadir respuesta",
+            addOption: "+ Añadir opción",
             code: "Código",
             text: "Texto",
             delete: "Eliminar",
           }
         },
       },
+      table: {
+        id: "ID",
+        description: "Descripción",
+      }
     },
     round: {
       create: {
@@ -57,6 +61,13 @@ export const locales = {
         asignOperation: "Operativa",
         cronExpressionInput: "Cronología",
         cronExpression: "Ciclo",
+      },
+      table: {
+        id: "ID",
+        description: "Descripción",
+        assignedTo: "Asignado a",
+        cronExpression: "Cronología",
+        actions: "Acciones",
       },
     },
   },

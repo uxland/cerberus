@@ -1,12 +1,12 @@
 import {
     convertQuestionToType, OperationForm, OperationQuestion,
     OperationQuestionType,
-    produceQuestion, setQuestion,
+    produceQuestion,
     SurveillanceOperationFormModel
 } from "../domain";
 import { createQuestionEditor } from "./shared.tsx";
 import { FormInputField } from "@cerberus/core";
-import { useForm, useFieldArray, FormProvider } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
@@ -39,7 +39,11 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
     const operation = watch();
 
     const onSubmit = async (data: OperationForm) => {
-        onSubmitRequested?.(data as SurveillanceOperationFormModel);
+        try {
+            await onSubmitRequested?.(data as SurveillanceOperationFormModel);
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
     };
 
     const handleAddQuestion = (type: OperationQuestionType | undefined) => {

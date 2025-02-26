@@ -52,15 +52,6 @@ export const locales = {
       location: "Localización",
       Actions: "Acciones",
     },
-    roundsTable: {
-      roundId: "Identificador",
-      description: "Descripción",
-      lastExecution: "Última ejecución",
-      lastDuration: "Última duración",
-      nextExecution: "Siguiente ejecución",
-      group: "Grupo",
-      Actions: "Acciones",
-    },
     openIssuesForm: {
       title: "Error de la Descripción",
       resolutionTime: "Tiempo de Resolución",

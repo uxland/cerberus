@@ -8,7 +8,7 @@ import {
   OpenIssuesTable,
 } from "../../../components/index.ts";
 import { useMaintenanceLocales } from "../../../locales/ca/locales";
-import { OperationForm, RoundForm } from "./Pruebas/testform.tsx";
+import { RoundInspectionView } from "./Pruebas/testform.tsx";
 import { MaintenanceIssueSummary } from "./model.ts";
 import { ListOpenIssues } from "./query.ts";
 
@@ -63,8 +63,7 @@ export const OpenIssuesView = (props: { id: string }) => {
             <OpenIssuesReportChart />
           </TabPanel>
           <TabPanel value={selectedTab} index={2}>
-            <RoundForm />
-            <OperationForm />
+            <RoundInspectionView />
           </TabPanel>
         </Box>
       )}
