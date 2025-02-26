@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\features\CerberusBackOffice\CerberusBackOffice.csproj" />
       <ProjectReference Include="..\..\features\CerberusSurveillance\CerberusSurveillance.csproj" />
     </ItemGroup>
 

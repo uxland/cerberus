@@ -3,6 +3,4 @@ using Marten.Events.Aggregation;
 
 namespace Cerberus.Surveillance.Persistence.Projections;
 
-public class SurveillanceRoundSummaryProjection: SingleStreamProjection<SurveillanceRoundSummary>
-{
-}
+public class SurveillanceRoundSummaryProjection: SingleStreamProjection<SurveillanceRoundSummary>;

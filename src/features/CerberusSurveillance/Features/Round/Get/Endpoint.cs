@@ -12,9 +12,9 @@ internal static class Endpoint
         app.MapGet("/{id}", async (string id, IReadModelQueryProvider queryProvider) =>
         {
             var round = await queryProvider.RehydrateAsJson<SurveillanceRoundDetail>(id);
-            if (string.IsNullOrEmpty(round))
-                return Results.NotFound();
-            return Results.Ok(round);
+            return string.IsNullOrEmpty(round) ? 
+                Results.NotFound() : 
+                Results.Ok(round);
         });
         return app;
     }
