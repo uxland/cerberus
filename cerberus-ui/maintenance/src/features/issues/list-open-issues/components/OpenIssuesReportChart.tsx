@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { IssueSummaryView, listIssues } from "../../features";
+import { IssueSummaryView, listIssues } from "../../..";
 import { useEffect, useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";

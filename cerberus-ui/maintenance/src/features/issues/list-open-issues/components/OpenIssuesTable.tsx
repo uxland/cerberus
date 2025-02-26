@@ -19,10 +19,10 @@ import { useNavigate } from "react-router-dom";
 import {
   MaintenanceIssueSummary,
   getIssueUrl,
-} from "../../features/issues/list-open-issues/model";
-import { MaintenanceIssueStatus } from "../../features/issues/model";
-import { useMaintenanceLocales } from "../../locales/ca/locales";
-import { NoData } from "../NoData/NoData";
+} from "../model";
+import { MaintenanceIssueStatus } from "../../model";
+import { useMaintenanceLocales } from "../../../../locales/ca/locales";
+import { NoData } from "../../../../components/NoData/NoData";
 
 export const OpenIssuesTable = (props: { issues: MaintenanceIssueSummary[] }) => {
   return (

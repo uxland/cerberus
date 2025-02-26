@@ -17,10 +17,10 @@ import { useNavigate } from "react-router-dom";
 import {
   PendingTrainingReview,
   getPendingReviewUrl,
-} from "../../features/training/list-pending-training-reviews/model";
-import { useMaintenanceLocales } from "../../locales/ca/locales";
-import { ImageComponent } from "../ImageComponent/ImageComponent";
-import { NoData } from "../NoData/NoData";
+} from "../list-pending-training-reviews/model";
+import { useMaintenanceLocales } from "../../../locales/ca/locales";
+import { ImageComponent } from "../../../components/ImageComponent/ImageComponent";
+import { NoData } from "../../../components/NoData/NoData";
 
 export const PendingReviewTable = (props: {
   reviews: PendingTrainingReview[];

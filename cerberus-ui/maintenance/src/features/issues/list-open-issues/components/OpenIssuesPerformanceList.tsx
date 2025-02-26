@@ -1,7 +1,7 @@
 import AccessAlarmsOutlinedIcon from "@mui/icons-material/AccessAlarmsOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import { OpenIssuesPerformanceItem } from "../OpenIssuesPerformanceItem/OpenIssuesPerformanceItem";
+import { OpenIssuesPerformanceItem } from "./OpenIssuesPerformanceItem";
 
 export const OpenIssuesPerformanceList = () => {
   return (

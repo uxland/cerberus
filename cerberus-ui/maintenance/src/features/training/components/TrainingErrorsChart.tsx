@@ -10,8 +10,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Typography } from "@mui/material";
-import { useMaintenanceLocales } from "../../locales/ca/locales";
-import { FilterErrorView, getMockFilterErrors } from "../../features";
+import { useMaintenanceLocales } from "../../../locales/ca/locales";
+import { FilterErrorView, getMockFilterErrors } from "../..";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";

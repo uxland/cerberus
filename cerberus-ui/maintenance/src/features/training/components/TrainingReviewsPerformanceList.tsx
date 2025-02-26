@@ -1,7 +1,7 @@
 import BlurOnOutlinedIcon from "@mui/icons-material/BlurOnOutlined";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import ViewCarouselOutlinedIcon from "@mui/icons-material/ViewCarouselOutlined";
-import { TraingingReviewPerformanceItem } from "../TraingingReviewPerformanceItem/TraingingReviewPerformanceItem";
+import { TraingingReviewPerformanceItem } from "./TraingingReviewPerformanceItem";
 
 export const TrainingReviewsPerformanceList = () => {
   return (

@@ -1,11 +1,11 @@
-import {CustomButton} from "@cerberus/core";
+import { CustomButton } from "@cerberus/core";
 import Typography from "@mui/material/Typography";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {MaintenanceSettings as MaintenanceSettingsModel} from "../../features/filters/view-camera-maintenance-settings/model.ts";
-import {MaintenanceMode} from "../../features/model.ts";
-import {useMaintenanceLocales} from "../../locales/ca/locales.ts";
-import {MaintenanceFilterSettingsItem} from "../MaintenanceFilterSettingsItem/MaintenanceFilterSettingsItem.tsx";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MaintenanceSettings as MaintenanceSettingsModel } from "../model.ts";
+import { MaintenanceMode } from "../../../model.ts";
+import { useMaintenanceLocales } from "../../../../locales/ca/locales.ts";
+import { MaintenanceFilterSettingsItem } from "./MaintenanceFilterSettingsItem.tsx";
 export const MaintenanceSettings = ({
   settings,
   cameraId,
