@@ -1,7 +1,7 @@
 import {
-    appendQuestion, getQuestionById,
+    getQuestionById,
     OperationQuestion,
-    OperationQuestionType, setQuestion,
+    OperationQuestionType,
     SurveillanceOperationFormModel
 } from "./model.ts";
 

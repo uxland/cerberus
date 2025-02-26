@@ -1,3 +1,4 @@
+import {OptionsTypology} from "./options-question.ts";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -16,6 +17,11 @@ export interface OperationQuestion {
 }
 
 
+export interface NormalityRange<T>{
+    lowerBound?: T | undefined;
+    upperBound?: T | undefined;
+}
+
 
 export interface SurveillanceOperationFormModel {
     name: string;
@@ -26,12 +32,6 @@ export const defaultOperationModel: SurveillanceOperationFormModel = {
     name: "",
     questions: []
 }
-export interface Option {
-    code: string;
-    text: string;
-}
-
-export type OptionsTypology = "Single" | "Multiple";
 
 export const optionTypologyValues: Array<{ value: OptionsTypology, label: string }> = [
     { value: "Single", label: "Única" },
@@ -51,12 +51,14 @@ export interface IntegerQuestion extends OperationQuestion {
     __type: "Integer";
     min: number | undefined;
     max: number | undefined;
+    normalityRange?: NormalityRange<number>;
 }
 
 export interface FloatQuestion extends OperationQuestion {
     __type: "Float";
     min: number | undefined;
     max: number | undefined;
+    normalityRange?: NormalityRange<number>;
 }
 
 export const setOperationText = (model: SurveillanceOperationFormModel, text: string): SurveillanceOperationFormModel =>

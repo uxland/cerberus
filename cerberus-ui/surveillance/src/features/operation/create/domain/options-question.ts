@@ -1,4 +1,12 @@
-import { OperationQuestion, Option, OptionsTypology } from "./model.ts";
+import { OperationQuestion } from "./model.ts";
+
+export interface Option {
+    code: string;
+    text: string;
+    isAnomalous: boolean;
+}
+
+export type OptionsTypology = "Single" | "Multiple";
 
 export interface OptionsQuestion extends OperationQuestion {
     __type: "Options";
