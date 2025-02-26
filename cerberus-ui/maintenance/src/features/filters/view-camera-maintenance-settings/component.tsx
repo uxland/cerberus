@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { MaintenanceSettings } from "../../../components/index.ts";
 import { CameraMaintenanceSettings } from "./model.ts";
 import GetCameraMaintenanceSettings from "./query.ts";
-import { Box, CircularProgress } from "@mui/material";
 
 export const MaintenanceSettingsView = (props: { id: string }) => {
   const [settings, setSettings] = useState<CameraMaintenanceSettings | null>(
@@ -21,18 +20,15 @@ export const MaintenanceSettingsView = (props: { id: string }) => {
       setLoading
     );
     new Mediator().send(query).then(nop);
-  }, [props.id]);
+  }, [props.id]); // Dependencia modificada
 
   return (
     <div>
-      {loading ? (
-        <Box className="flex justify-center items-center">
-          <CircularProgress />
-        </Box>
-      ) : settings ? (
+      {/* {loading && <div>Loading.</div>} */}
+      {/* {error && <div>Error: {error}</div>} */}
+      {settings && (
         <MaintenanceSettings settings={settings} cameraId={props.id} />
-      ) : null}
-      {error && <div>Error: {error}</div>}
+      )}
     </div>
   );
 };
