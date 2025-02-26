@@ -170,9 +170,9 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }) => {
 
                 <div className="flex gap-4 items-center ml-auto">
                     <FormControl style={{ minWidth: 120 }}>
-                        <InputLabel id="brand-select-label">{asignOperation}</InputLabel>
+                        <InputLabel id="operation-select-label">{asignOperation}</InputLabel>
                         <Select
-                            labelId="brand-select-label"
+                            labelId="operation-select-label"
                             value={getSelectedOperationForCamera(selectedCamera)}
                             label="Operativa"
                             className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold  px-6 rounded-full hover:bg-[#505050] flex items-center justify-center bo"

@@ -6,7 +6,7 @@ import { TrainingErrorsChart } from "../components/TrainingErrorsChart.tsx";
 import { TrainingReviewsPerformanceList } from "../components/TrainingReviewsPerformanceList.tsx";
 import { PendingTrainingReview } from "./model.ts";
 import { ListPendingReviewsByLocation } from "./query.ts";
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab, Box, CircularProgress } from "@mui/material";
 import { useMaintenanceLocales } from "../../../locales/ca/locales.ts";
 
 export const PendingTrainingReviewsView = (props: { id: string }) => {
@@ -45,9 +45,11 @@ export const PendingTrainingReviewsView = (props: { id: string }) => {
 
   return (
     <div>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
-      {reviews && (
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Box>
+      ) : reviews ? (
         <Box sx={{ width: "100%" }}>
           <TrainingReviewsPerformanceList />
           <Tabs value={selectedTab} onChange={handleChange} aria-label="open-issues-tabs" style={{ marginTop: "20px", marginBottom: "20px" }}>
@@ -61,7 +63,8 @@ export const PendingTrainingReviewsView = (props: { id: string }) => {
             <TrainingErrorsChart />
           </TabPanel>
         </Box>
-      )}
+      ) : null}
+      {error && <div>Error: {error}</div>}
     </div>
   );
 };

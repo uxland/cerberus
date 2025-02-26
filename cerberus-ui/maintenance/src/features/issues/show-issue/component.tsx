@@ -1,16 +1,16 @@
-import {getImageUrl, nop} from "@cerberus/core";
-import {Typography} from "@mui/material";
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {HeaderBar, ImageComponent} from "../../../components/index.ts";
-import {MaintenanceIssueStatus} from "../model.ts";
-import {CloseIssueForm} from "./close-issue/component.tsx";
-import {GetIssueDetail} from "./getIssueDetail.ts";
-import {MaintenanceIssueDetail} from "./model.ts";
-import {StartIssueForm} from "./start-issue/component.tsx";
+import { getImageUrl, nop } from "@cerberus/core";
+import { Typography, CircularProgress, Box } from "@mui/material";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { HeaderBar, ImageComponent } from "../../../components/index.ts";
+import { MaintenanceIssueStatus } from "../model.ts";
+import { CloseIssueForm } from "./close-issue/component.tsx";
+import { GetIssueDetail } from "./getIssueDetail.ts";
+import { MaintenanceIssueDetail } from "./model.ts";
+import { StartIssueForm } from "./start-issue/component.tsx";
 export const MaintenanceIssuePage = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [issue, setIssue] = useState<MaintenanceIssueDetail>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(undefined);
@@ -33,15 +33,20 @@ export const MaintenanceIssuePage = () => {
 
   return (
     <div>
-      {loading && <div>Loading...</div>}
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Box>
+      ) : (
+        issue && IssueComponent({ issue })
+      )}
       {error && <div>Error: {error}</div>}
-      {issue && IssueComponent({issue})}
     </div>
   );
 };
 
-const IssueComponent = (props: {issue: MaintenanceIssueDetail}) => {
-  const {issue} = props;
+const IssueComponent = (props: { issue: MaintenanceIssueDetail }) => {
+  const { issue } = props;
 
   return (
     <div className="flex flex-col w-full gap-6">

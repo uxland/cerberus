@@ -4,7 +4,7 @@ import { Mediator } from "mediatr-ts";
 import { ListRounds } from "./query.ts";
 import { nop } from "@cerberus/core";
 import { RoundSummary } from "./model.ts";
-import { Typography } from "@mui/material";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import { RoundsTable } from "./components/component.tsx";
 
 export const RoundsView = (props: { id: string }) => {
@@ -25,21 +25,26 @@ export const RoundsView = (props: { id: string }) => {
     };
 
     return (
-        <div className="space-y-6">
-            {loading && <div>Loading...</div>}
-            {error && <div>Error: {error}</div>}
-            <div className="flex justify-end gap-2">
-                <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-xl hover:bg-formSelect" onClick={handleCreateRound}>+</button>
-                <div className="flex flex-col justify-center rounded-md gap-2 mr-4">
-                    <Typography className="!text-xs !font-semibold"> Anadir</Typography>
-                    <Typography className="!text-xs !font-semibold"> Ronda</Typography>
-                </div>
-            </div>
-            {rounds && (
-                <div>
+        <div >
+            {loading ? (
+                <Box className="flex justify-center items-center">
+                    <CircularProgress />
+                </Box>
+            ) : rounds ? (
+                <div className="space-y-6">
+                    <div className="flex justify-end gap-2">
+                        <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-xl hover:bg-formSelect" onClick={handleCreateRound}>+</button>
+                        <div className="flex flex-col justify-center rounded-md gap-2 mr-4">
+                            <Typography className="!text-xs !font-semibold"> Anadir</Typography>
+                            <Typography className="!text-xs !font-semibold"> Ronda</Typography>
+                        </div>
+                    </div>
                     <RoundsTable rounds={rounds} />
                 </div>
-            )}
+            ) : null
+            }
+            {error && <div>Error: {error}</div>}
+
         </div>
     );
 };

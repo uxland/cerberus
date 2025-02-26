@@ -1,7 +1,7 @@
 import { nop } from "@cerberus/core";
 import { Mediator } from "mediatr-ts";
 import { useEffect, useState } from "react";
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab, Box, CircularProgress } from "@mui/material";
 import {
   OpenIssuesPerformanceList,
   OpenIssuesReportChart,
@@ -46,9 +46,11 @@ export const OpenIssuesView = (props: { id: string }) => {
 
   return (
     <div>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
-      {issues && (
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Box>
+      ) : issues ? (
         <Box sx={{ width: "100%" }}>
           <OpenIssuesPerformanceList />
           <Tabs value={selectedTab} onChange={handleChange} aria-label="open-issues-tabs" style={{ marginTop: "20px", marginBottom: "20px" }}>
@@ -66,7 +68,8 @@ export const OpenIssuesView = (props: { id: string }) => {
             <RoundInspectionView />
           </TabPanel>
         </Box>
-      )}
+      ) : null}
+      {error && <div>Error: {error}</div>}
     </div>
   );
 };

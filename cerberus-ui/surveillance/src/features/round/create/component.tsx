@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { RoundEditionData } from "./domain";
 import { Mediator } from "mediatr-ts";
@@ -15,7 +15,6 @@ export const SurveillanceRoundsEditor = () => {
     const [error, setError] = useState<string | undefined>(undefined);
     const { locationId, roundId } = useParams<{ locationId: string, roundId: string }>();
     useEffect(() => {
-        // const cameras = new Mediator().send(new ListCaptureCameras());
         async function fetchRoundData() {
             new Mediator().send(new GetRoundEditionData(locationId, roundId, setRoundEditionData, setBusy, setError));
         }
@@ -27,8 +26,13 @@ export const SurveillanceRoundsEditor = () => {
     }
     return (
         <div>
-            {busy && <div>Busy</div>}
-            {roundEditionData && <RoundEditionForm roundEditionData={roundEditionData} onSubmitRequested={submitRound} />}
+            {busy ? (
+                <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                    <CircularProgress />
+                </Box>
+            ) : (
+                roundEditionData && <RoundEditionForm roundEditionData={roundEditionData} onSubmitRequested={submitRound} />
+            )}
             {error && <div>Error: {String(error)}</div>}
         </div>
 

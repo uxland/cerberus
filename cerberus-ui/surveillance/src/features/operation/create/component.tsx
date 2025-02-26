@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Mediator } from "mediatr-ts";
 import { GetOperation } from "./get-operation.ts";
 import { nop } from "@cerberus/core";
+import { CircularProgress, Box } from '@mui/material';
 export const SurveillanceOperationEditor = () => {
 
     const [error, setError] = useState<string | undefined>(undefined);
@@ -35,8 +36,13 @@ export const SurveillanceOperationEditor = () => {
 
     return (
         <div className="space-y-6">
-            {busy && <div>Busy</div>}
-            {loadingModel === false && <SurveillanceOperationForm initialModel={originalOperation} onSubmitRequested={submitOperation} />}
+            {(busy || loadingModel) ? (
+                <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <SurveillanceOperationForm initialModel={originalOperation} onSubmitRequested={submitOperation} />
+            )}
             {error && <div>Error: {String(error)}</div>}
         </div>
     );

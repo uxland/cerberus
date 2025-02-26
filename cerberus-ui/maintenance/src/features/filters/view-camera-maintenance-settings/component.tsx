@@ -1,11 +1,12 @@
-import {nop} from "@cerberus/core";
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {MaintenanceSettings} from "../../../components/index.ts";
-import {CameraMaintenanceSettings} from "./model.ts";
+import { nop } from "@cerberus/core";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { MaintenanceSettings } from "../../../components/index.ts";
+import { CameraMaintenanceSettings } from "./model.ts";
 import GetCameraMaintenanceSettings from "./query.ts";
+import { Box, CircularProgress } from "@mui/material";
 
-export const MaintenanceSettingsView = (props: {id: string}) => {
+export const MaintenanceSettingsView = (props: { id: string }) => {
   const [settings, setSettings] = useState<CameraMaintenanceSettings | null>(
     null
   );
@@ -20,15 +21,18 @@ export const MaintenanceSettingsView = (props: {id: string}) => {
       setLoading
     );
     new Mediator().send(query).then(nop);
-  }, [props.id]); // Dependencia modificada
+  }, [props.id]);
 
   return (
     <div>
-      {/* {loading && <div>Loading.</div>} */}
-      {/* {error && <div>Error: {error}</div>} */}
-      {settings && (
+      {loading ? (
+        <Box className="flex justify-center items-center">
+          <CircularProgress />
+        </Box>
+      ) : settings ? (
         <MaintenanceSettings settings={settings} cameraId={props.id} />
-      )}
+      ) : null}
+      {error && <div>Error: {error}</div>}
     </div>
   );
 };
