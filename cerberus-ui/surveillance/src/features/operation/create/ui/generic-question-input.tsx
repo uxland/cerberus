@@ -25,6 +25,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     const handleRemoveQuestion = () => {
         actions.removeQuestion(question.id);
     };
+
     console.log("question", question);
 
     const { register, formState: { errors } } = actions.formMethods;
@@ -77,6 +78,27 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                     />
                 )}
             </div>
+            {question.__type != "Options" && question.__type != "Text" && (
+                <div>
+                    Rango de normalidad
+                    <div className="flex gap-2">
+                        <FormInputField
+                            name={`${actions.path}.normalityRange.lowerBound`}
+                            type="number"
+                            register={register}
+                            placeholder="Lower Bound"
+                            error={errors[actions.path]?.normalityRange?.lowerBound}
+                        />
+                        <FormInputField
+                            name={`${actions.path}.normalityRange.upperBound`}
+                            type="number"
+                            register={register}
+                            placeholder="Upper Bound"
+                            error={errors[actions.path]?.normalityRange?.upperBound}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { RoundSummary, getRoundUrl } from "../model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 import { NoData } from "../../../../components/NoData/NoData";
-import EyeIcon from "@mui/icons-material/VisibilityOutlined";
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
@@ -56,7 +56,7 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
                         ) : (
                             <TableBody className="h-420">
                                 {props.rounds.map((row) => (
-                                    <OpetationRow round={row} key={row.id} />
+                                    <RoundRow round={row} key={row.id} />
                                 ))}
                             </TableBody>
                         )}
@@ -67,20 +67,33 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     );
 };
 
-const OpetationRow = (props: { round: RoundSummary }) => {
+const RoundRow = (props: { round: RoundSummary }) => {
     const navigate = useNavigate();
-    const handleRowClick = (url) => {
-        navigate(url);
-    };
-    const formatDateString = (dateString) => {
-        const date = new Date(dateString);
-        return format(date, "dd/MM/yyyy hh:mm:ss a");
+
+    // Handler for starting a new run
+    const handleStartRun = async () => {
+        try {
+            // Call your backend API to start a new run
+            const response = await fetch(`/api/rounds/${props.round.id}/run`, {
+                method: 'POST',
+            });
+
+            if (!response.ok) throw new Error('Failed to start run');
+
+            const data = await response.json();
+            console.log('Run started:', data);
+            // navigate(data.url);
+
+            // Alternatively, if backend returns the ID and you construct URL client-side:
+            // const runId = data.runId;
+            // navigate(getRoundUrl(props.round.id, runId));
+        } catch (error) {
+            console.error('Error starting run:', error);
+        }
     };
 
     return (
-        <TableRow
-            key={props.round.id}
-            onClick={() => handleRowClick(getRoundUrl(props.round))}>
+        <TableRow>
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.round.id}
             </TableCell>
@@ -94,8 +107,8 @@ const OpetationRow = (props: { round: RoundSummary }) => {
                 {props.round.cronExpression}
             </TableCell>
             <TableCell align="center" width={200} className="flex">
-                <IconButton>
-                    <EyeIcon color="info" />
+                <IconButton onClick={handleStartRun}>
+                    <PlayCircleOutlineIcon color="success" />
                 </IconButton>
                 <IconButton>
                     <DeleteOutlineIcon color="error" />

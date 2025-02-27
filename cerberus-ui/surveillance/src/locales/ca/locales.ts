@@ -33,6 +33,7 @@ export const locales = {
           type: "Tipología de respuesta",
           subtype: "Subtipología de respuesta",
           isMandatory: "Obligatoriedad",
+          normalityRange: "Rango de normalidad",
           option: {
             title: "Respuesta",
             addOption: "+ Añadir opción",

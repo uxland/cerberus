@@ -1,4 +1,4 @@
-import {OptionsTypology} from "./options-question.ts";
+import { OptionsTypology } from "./options-question.ts";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -17,7 +17,7 @@ export interface OperationQuestion {
 }
 
 
-export interface NormalityRange<T>{
+export interface NormalityRange<T> {
     lowerBound?: T | undefined;
     upperBound?: T | undefined;
 }

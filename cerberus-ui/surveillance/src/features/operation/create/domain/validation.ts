@@ -19,12 +19,20 @@ const IntegerQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Integer"),
     min: z.number().optional(),
     max: z.number().optional(),
+    normalityRange: z.object({
+        lowerBound: z.number().optional(),
+        upperBound: z.number().optional(),
+    }).optional(),
 });
 
 const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Float"),
     min: z.number().optional(),
     max: z.number().optional(),
+    normalityRange: z.object({
+        lowerBound: z.number().optional(),
+        upperBound: z.number().optional(),
+    }).optional(),
 });
 
 const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
