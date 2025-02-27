@@ -70,10 +70,8 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
 const RoundRow = (props: { round: RoundSummary }) => {
     const navigate = useNavigate();
 
-    // Handler for starting a new run
     const handleStartRun = async () => {
         try {
-            // Call your backend API to start a new run
             const response = await fetch(`/api/rounds/${props.round.id}/run`, {
                 method: 'POST',
             });
@@ -82,11 +80,8 @@ const RoundRow = (props: { round: RoundSummary }) => {
 
             const data = await response.json();
             console.log('Run started:', data);
-            // navigate(data.url);
+            navigate(data.url);
 
-            // Alternatively, if backend returns the ID and you construct URL client-side:
-            // const runId = data.runId;
-            // navigate(getRoundUrl(props.round.id, runId));
         } catch (error) {
             console.error('Error starting run:', error);
         }

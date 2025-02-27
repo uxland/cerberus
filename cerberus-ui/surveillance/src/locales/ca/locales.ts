@@ -29,11 +29,14 @@ export const locales = {
         proceed: "Proceder",
         question: {
           title: "Pregunta",
+          placeholder: "...",
           addQuestion: "+ Añadir pregunta",
           type: "Tipología de respuesta",
           subtype: "Subtipología de respuesta",
           isMandatory: "Obligatoriedad",
           normalityRange: "Rango de normalidad",
+          lowerBoundPlaceholder: "Valor mínimo",
+          upperBoundPlaceholder: "Valor máximo",
           option: {
             title: "Respuesta",
             addOption: "+ Añadir opción",

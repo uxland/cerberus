@@ -46,7 +46,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
             <div className="flex flex-row gap-4 mt-2 items-center">
                 <FormInputField
                     name={`${actions.path}.text`}
-                    placeholder="..."
+                    placeholder={useSurveillanceLocales("operation.create.question.placeholder")}
                     register={register}
                     type="text"
                     error={errors[actions.path]?.text}
@@ -80,20 +80,20 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
             </div>
             {question.__type != "Options" && question.__type != "Text" && (
                 <div>
-                    Rango de normalidad
+                    {useSurveillanceLocales("operation.create.question.normalityRange")}
                     <div className="flex gap-2">
                         <FormInputField
                             name={`${actions.path}.normalityRange.lowerBound`}
                             type="number"
                             register={register}
-                            placeholder="Lower Bound"
+                            placeholder={useSurveillanceLocales("operation.create.question.lowerBoundPlaceholder")} // Updated
                             error={errors[actions.path]?.normalityRange?.lowerBound}
                         />
                         <FormInputField
                             name={`${actions.path}.normalityRange.upperBound`}
                             type="number"
                             register={register}
-                            placeholder="Upper Bound"
+                            placeholder={useSurveillanceLocales("operation.create.question.upperBoundPlaceholder")} // Updated
                             error={errors[actions.path]?.normalityRange?.upperBound}
                         />
                     </div>
