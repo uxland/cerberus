@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization.Metadata;
 using Cerberus.Surveillance.Features.Features.Operation;
+using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Features.Features.Round;
 using Cerberus.Surveillance.Features.Features.Round.List;
 using Cerberus.Surveillance.Features.Features.Operation.List;
@@ -19,7 +20,7 @@ public static class Bootstrapper
     {
         return services.SetUpAuthorization();
     }
-    
+
     private static IServiceCollection SetUpAuthorization(this IServiceCollection services)
     {
         return services.AddAuthorization(options =>
@@ -29,12 +30,13 @@ public static class Bootstrapper
         });
         return services;
     }
-    
+
     public static RouteGroupBuilder SetupSurveillanceRouting(this RouteGroupBuilder app)
     {
         var surveillanceGroup = app.MapGroup("/surveillance");
         surveillanceGroup.SetupOperationRouting();
         surveillanceGroup.SetupRoundRouting();
+        surveillanceGroup.SetupRunRouting();
         return app;
     }
 

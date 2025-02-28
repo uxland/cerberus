@@ -7,12 +7,12 @@ namespace Cerberus.Surveillance.Features.Features.Run.Create;
 
 public static class Endpoint
 {
-    public  static RouteGroupBuilder UseCreateRun(this RouteGroupBuilder app)
+    public static RouteGroupBuilder UseCreateRun(this RouteGroupBuilder app)
     {
         app.MapPost("", async (CreateRun command, IMessageBus messageBus) =>
         {
-            var url = await messageBus.InvokeAsync<string>(command); //surveillance/runs/{id}
-            return Results.Created(url, url);
+            var runId = await messageBus.InvokeAsync<string>(command);
+            return Results.Created($"/surveillance/runs/{runId}", new { id = runId });
         });
         return app;
     }

@@ -14,7 +14,7 @@ export const SurveillanceRunEditor = () => {
     const [busy, setBusy] = useState<boolean>(false);
     const [loadingModel, setLoadingModel] = useState<boolean>(false);
     const [runEditionData, setRunEditionData] = useState<Run | undefined>(undefined);
-    const { id } = useParams<{ id: string }>();
+    const { runId: id } = useParams<{ runId: string }>();
     useEffect(() => {
         console.log(id);
         async function fetchOperation() {

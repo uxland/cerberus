@@ -5,24 +5,30 @@ import { EditOrCreateRun } from "./command";
 import { GetRun } from "./query";
 import { Run } from "./domain/model";
 
+// ??? Esta bien que el handler devuelva un string?
 @injectable()
-export class EditOrCreateRunHanlder extends HandlerBase<void, EditOrCreateRun> {
-    handle(request: EditOrCreateRun): Promise<void> {
+export class EditOrCreateRunHanlder extends HandlerBase<string, EditOrCreateRun> {
+    handle(request: EditOrCreateRun): Promise<string> {
         return this.handleRequest(request, this.editOrCreateRun.bind(this));
     }
 
-    private async editOrCreateRun(request: EditOrCreateRun): Promise<void> {
-        const task = request.run ? this.editRun(request) : this.createRun(request);
-        await task;
+    private async editOrCreateRun(request: EditOrCreateRun): Promise<string> {
+        const id = request.run ? await this.editRun(request) : await this.createRun(request);
+        return id;
     }
 
-    private async createRun(request: EditOrCreateRun): Promise<void> {
-        const route = await this.apiClient.post<string>(runsEndpointUrl, { body: <any>request.roundId });
-        this.navigationService.navigateTo(route);
+    private async createRun(request: EditOrCreateRun): Promise<string> {
+        const run = await this.apiClient.post<{ id: string }>(runsEndpointUrl, {
+            body: { roundId: request.roundId }
+        });
+        return run.id;
     }
 
-    private async editRun(request: EditOrCreateRun): Promise<void> {
-        return this.apiClient.put<void>(`${runsEndpointUrl}/${request.run.id}`, { body: <any>request.run });
+    private async editRun(request: EditOrCreateRun): Promise<string> {
+        await this.apiClient.put<void>(`${runsEndpointUrl}/${request.run.id}`, {
+            body: <any>request.run
+        });
+        return request.run.id;
     }
 }
 

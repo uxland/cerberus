@@ -1,15 +1,16 @@
 using Cerberus.Surveillance.Features.Features.Run.Create;
 using NodaTime;
+using System;
 
 namespace Cerberus.Surveillance.Features.Features.Run;
 
 public partial class SurveillanceRun
 {
-    public SurveillanceRun(CreateRun cmd)
+    public SurveillanceRun(CreateRun cmd, string runId) : this()
     {
         this.ApplyUncommittedEvent(
             new SurveillanceRunCreated(
-                cmd.Id!,
+                runId,
                 cmd.RoundId
             )
         );
