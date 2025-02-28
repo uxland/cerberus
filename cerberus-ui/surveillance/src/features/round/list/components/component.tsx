@@ -1,4 +1,3 @@
-import { splitAndChooseDescription } from "@cerberus/shared/src";
 import {
     Paper,
     Table,
@@ -9,14 +8,14 @@ import {
     TableRow,
     IconButton,
 } from "@mui/material";
-import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { RoundSummary, getRoundUrl } from "../model";
+import { RoundSummary } from "../model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 import { NoData } from "../../../../components/NoData/NoData";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-
+import { Mediator } from "mediatr-ts";
+import { EditOrCreateRun } from "../../../run/create/command";
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
         <div className="flex flex-col gap-4">
@@ -72,15 +71,8 @@ const RoundRow = (props: { round: RoundSummary }) => {
 
     const handleStartRun = async () => {
         try {
-            const response = await fetch(`/api/rounds/${props.round.id}/run`, {
-                method: 'POST',
-            });
-
-            if (!response.ok) throw new Error('Failed to start run');
-
-            const data = await response.json();
-            console.log('Run started:', data);
-            navigate(data.url);
+            await new Mediator().send(new EditOrCreateRun(props.round.id, undefined, undefined, undefined));
+            navigate(`/surveillance/runs/${props.round.id}`);
 
         } catch (error) {
             console.error('Error starting run:', error);

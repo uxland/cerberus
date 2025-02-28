@@ -42,6 +42,11 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
         label={
           <Link
             to={getItemUrl(node)}
+            onClick={(event) => {
+              if (window.location.pathname === `/locations/${node.id}`) {
+                event.preventDefault();
+              }
+            }}
             style={{
               display: "flex",
               alignItems: "center",

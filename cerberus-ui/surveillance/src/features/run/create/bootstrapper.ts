@@ -1,19 +1,20 @@
 import { addRoute, registerCommandHandler, registerRouteComponent, store } from "@cerberus/core";
-import { StartRunComponent } from "./component";
+import { SurveillanceRunEditor } from "./component";
 import { Container } from "inversify";
-import { useGetRunStartData } from "./get-run-start-data";
-import { StartRun } from "./command";
-import { StartRunHandler } from "./handler";
+import { EditOrCreateRun } from "./command";
+import { GetRun } from "./query";
+import { EditOrCreateRunHanlder, GetRoundEditionDataHandler } from "./handler";
 
-export const useStartRun = (container: Container) => {
-    registerRouteComponent(StartRunComponent.name, StartRunComponent);
+export const useCreateRun = (container: Container) => {
+    registerRouteComponent(SurveillanceRunEditor.name, SurveillanceRunEditor);
     store.dispatch(
         addRoute({
-            path: "surveillance/rounds/:roundId/run",
-            componentName: StartRunComponent.name,
-            name: "run-starter"
+            path: "surveillance/runs/:runId",
+            componentName: SurveillanceRunEditor.name,
+            name: "run-create"
         })
     );
-    registerCommandHandler(StartRun, StartRunHandler);
-    return useGetRunStartData(container);
+    registerCommandHandler(EditOrCreateRun, EditOrCreateRunHanlder);
+    registerCommandHandler(GetRun, GetRoundEditionDataHandler);
+    return container;
 }

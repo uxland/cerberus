@@ -121,7 +121,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }) => {
                         onChange={(e) => setSelectedGroup(e.target.value)}
                         displayEmpty
                         size="small"
-                        className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center bo"
+                        className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
                         sx={{
                             '.MuiSvgIcon-root': {
                                 color: 'white',
@@ -175,7 +175,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }) => {
                             labelId="operation-select-label"
                             value={getSelectedOperationForCamera(selectedCamera)}
                             label="Operativa"
-                            className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold  px-6 rounded-full hover:bg-[#505050] flex items-center justify-center bo"
+                            className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
                             sx={{
                                 '.MuiSvgIcon-root': {
                                     color: 'white',

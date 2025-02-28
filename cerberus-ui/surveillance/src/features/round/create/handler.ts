@@ -1,4 +1,4 @@
-import { injectable, inject } from "inversify";
+import { injectable } from "inversify";
 import { HandlerBase } from "@cerberus/core";
 import { roundsEndpointUrl } from "../constants";
 import { EditOrCreateRound } from "./command";

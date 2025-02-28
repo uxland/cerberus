@@ -11,6 +11,10 @@ interface GenericQuestionInputProps {
 }
 
 export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ question, actions }) => {
+    const normalityRange = useSurveillanceLocales("operation.create.question.normalityRange")
+    const lowerBoundPlaceholder = useSurveillanceLocales("operation.create.question.lowerBoundPlaceholder")
+    const upperBoundPlaceholder = useSurveillanceLocales("operation.create.question.upperBoundPlaceholder")
+
     const handleTypeChange = (value: OperationQuestionType) => {
         actions.changeQuestionType(question.id, value);
     };
@@ -80,20 +84,20 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
             </div>
             {question.__type != "Options" && question.__type != "Text" && (
                 <div>
-                    {useSurveillanceLocales("operation.create.question.normalityRange")}
+                    <h1 className="font-bold">{normalityRange}</h1>
                     <div className="flex gap-2">
                         <FormInputField
                             name={`${actions.path}.normalityRange.lowerBound`}
                             type="number"
                             register={register}
-                            placeholder={useSurveillanceLocales("operation.create.question.lowerBoundPlaceholder")} // Updated
+                            placeholder={lowerBoundPlaceholder}
                             error={errors[actions.path]?.normalityRange?.lowerBound}
                         />
                         <FormInputField
                             name={`${actions.path}.normalityRange.upperBound`}
                             type="number"
                             register={register}
-                            placeholder={useSurveillanceLocales("operation.create.question.upperBoundPlaceholder")} // Updated
+                            placeholder={upperBoundPlaceholder}
                             error={errors[actions.path]?.normalityRange?.upperBound}
                         />
                     </div>
