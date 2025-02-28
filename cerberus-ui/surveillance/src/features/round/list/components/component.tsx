@@ -72,7 +72,7 @@ const RoundRow = (props: { round: RoundSummary }) => {
     const handleStartRun = async () => {
         try {
             await new Mediator().send(new EditOrCreateRun(props.round.id, undefined, undefined, undefined));
-            navigate(`/surveillance/runs/${props.round.id}`);
+            // navigate(`/surveillance/runs/${props.round.id}`);
 
         } catch (error) {
             console.error('Error starting run:', error);

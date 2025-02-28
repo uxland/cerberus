@@ -16,6 +16,7 @@ export const SurveillanceRunEditor = () => {
     const [runEditionData, setRunEditionData] = useState<Run | undefined>(undefined);
     const { id } = useParams<{ id: string }>();
     useEffect(() => {
+        console.log(id);
         async function fetchOperation() {
             if (id) {
                 try {

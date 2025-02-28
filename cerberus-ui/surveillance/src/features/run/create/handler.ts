@@ -12,7 +12,7 @@ export class EditOrCreateRunHanlder extends HandlerBase<void, EditOrCreateRun> {
     }
 
     private async editOrCreateRun(request: EditOrCreateRun): Promise<void> {
-        const task = request.run.id ? this.editRun(request) : this.createRun(request);
+        const task = request.run ? this.editRun(request) : this.createRun(request);
         await task;
     }
 

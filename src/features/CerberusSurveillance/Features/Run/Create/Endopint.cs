@@ -9,7 +9,7 @@ public static class Endpoint
 {
     public  static RouteGroupBuilder UseCreateRun(this RouteGroupBuilder app)
     {
-        app.MapPost("", async (CreateSurveillanceRun command, IMessageBus messageBus) =>
+        app.MapPost("", async (CreateRun command, IMessageBus messageBus) =>
         {
             var url = await messageBus.InvokeAsync<string>(command); //surveillance/runs/{id}
             return Results.Created(url, url);
