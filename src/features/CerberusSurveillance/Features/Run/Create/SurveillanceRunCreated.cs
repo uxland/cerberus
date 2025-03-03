@@ -5,5 +5,8 @@ namespace Cerberus.Surveillance.Features.Features.Run.Create;
 
 public record SurveillanceRunCreated(
     string Id,
-    string RoundId
+    string RoundId,
+    string RootLocationId,
+    string? AssignedGroupId,
+    List<InspectionRun> InspectionRuns
 ) : IDomainEvent;

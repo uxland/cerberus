@@ -12,7 +12,7 @@ public static class Endpoint
         app.MapPost("", async (CreateRun command, IMessageBus messageBus) =>
         {
             var runId = await messageBus.InvokeAsync<string>(command);
-            return Results.Created($"/surveillance/runs/{runId}", new { id = runId });
+            return Results.Created($"/surveillance/runs/{runId}", new { Id = runId });
         });
         return app;
     }

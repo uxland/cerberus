@@ -42,6 +42,7 @@ public static class Bootstrapper
 
     public static DefaultJsonTypeInfoResolver UseSurveillanceSerialization(this DefaultJsonTypeInfoResolver resolver)
     {
-        return resolver.UseOperationJsonTypeInfo();
+        return resolver.UseOperationJsonTypeInfo()
+            .UseOperationRunJsonTypeInfo();
     }
 }

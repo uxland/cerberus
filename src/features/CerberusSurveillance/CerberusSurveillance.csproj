@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\core\DomainCore\DomainCore.csproj" />
+      <ProjectReference Include="..\CerberusBackOffice\CerberusBackOffice.csproj" />
     </ItemGroup>
 
 </Project>

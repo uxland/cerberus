@@ -9,7 +9,7 @@ public partial class SurveillanceRound: AggregateRoot
         
     }
     public string ExecutionRecurrencePattern { get; private set; }
-    public string? GroupAssigneeId { get;  private set; }
+    public string? AssignedGroupId { get;  private set; }
     public string? RootLocationId { get;  private set; }
     public string? Description { get; private set; }
     
