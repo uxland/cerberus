@@ -2,9 +2,9 @@
 import { RequestBase, SetState } from "@cerberus/core";
 import { Run } from "./domain/model";
 
-export class EditOrCreateRun extends RequestBase<string> {
-    constructor(public roundId: string | undefined, public run: Run | undefined, setBusy: SetState<boolean>, setError: SetState<Error>) {
-        super(undefined, setBusy, setError);
+export class CreateRun extends RequestBase<string> {
+    constructor(public roundId: string | undefined, setBusy: SetState<boolean>) {
+        super(undefined, setBusy, undefined);
 
     }
 }

@@ -1,5 +1,4 @@
 using Cerberus.Core.Domain;
-using System.Collections.Generic;
 
 namespace Cerberus.Surveillance.Features.Features.Run.Create;
 
@@ -8,5 +7,6 @@ public record SurveillanceRunCreated(
     string RoundId,
     string RootLocationId,
     string? AssignedGroupId,
-    List<InspectionRun> InspectionRuns
+    IEnumerable<InspectionRun> InspectionRuns,
+    RunStatus Status
 ) : IDomainEvent;

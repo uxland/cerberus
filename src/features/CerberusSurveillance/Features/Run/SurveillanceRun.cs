@@ -19,7 +19,7 @@ public partial class SurveillanceRun() : AggregateRoot()
 
     public RunStatus Status { get; private set; }
     
-    public List<InspectionRun> InspectionRuns { get; private set; }
+    public IEnumerable<InspectionRun> InspectionRuns { get; private set; }
 
     public string? CurrentInspectionRunId { get; private set; }
 

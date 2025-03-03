@@ -8,14 +8,14 @@ import {
     TableRow,
     IconButton,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { RoundSummary } from "../model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 import { NoData } from "../../../../components/NoData/NoData";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Mediator } from "mediatr-ts";
-import { EditOrCreateRun } from "../../../run/create/command";
+import { CreateRun } from "../../../run/create/command";
+import {useState} from "react";
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
         <div className="flex flex-col gap-4">
@@ -67,12 +67,14 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
 };
 
 const RoundRow = (props: { round: RoundSummary }) => {
-    const navigate = useNavigate();
+    //onst navigate = useNavigate();
+
+    const [busy, setBusy] = useState<boolean>(false)
 
     const handleStartRun = async () => {
         try {
-            const urlId = await new Mediator().send(new EditOrCreateRun(props.round.id, undefined, undefined, undefined));
-            navigate(`/surveillance/runs/${urlId}`);
+            await new Mediator().send(new CreateRun(props.round.id, setBusy));
+            //navigate(`/surveillance/runs/${urlId}`);
 
         } catch (error) {
             console.error('Error starting run:', error);

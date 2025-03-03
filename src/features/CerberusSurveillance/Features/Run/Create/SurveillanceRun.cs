@@ -4,13 +4,14 @@ namespace Cerberus.Surveillance.Features.Features.Run;
 
 public partial class SurveillanceRun
 {
-    public SurveillanceRun(string id, string rootLocationId, string roundId, string? assignedGroupId, List<InspectionRun> inspectionRuns): this()
+    public SurveillanceRun(string id, string rootLocationId, string roundId, string? assignedGroupId, IEnumerable<InspectionRun> inspectionRuns): this()
     {
         this.ApplyUncommittedEvent(new SurveillanceRunCreated(id,
             rootLocationId,
             roundId,
             assignedGroupId,
-            inspectionRuns
+            inspectionRuns,
+            RunStatus.Pending
         ));
     }
 
@@ -21,5 +22,6 @@ public partial class SurveillanceRun
         this.RootLocationId = @event.RootLocationId;
         this.AssignedGroupId = @event.AssignedGroupId;
         this.InspectionRuns = @event.InspectionRuns;
+        this.Status = @event.Status;
     }
 }

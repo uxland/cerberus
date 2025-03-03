@@ -2,7 +2,7 @@
 
 namespace Cerberus.Surveillance.Features.Features.Run;
 
-public record OperationRun( string OperationId, string Description , List<OperationRunQuestionAnswer> Answers, string? AdditionalComments = null);
+public record OperationRun( string OperationId, string Description , IEnumerable<OperationRunQuestionAnswer> Answers, string? AdditionalComments = null);
 
 public record OperationRunQuestionAnswer(IOperationQuestion Question, IOperationAnswer? Answer = null);
 public interface IOperationAnswer

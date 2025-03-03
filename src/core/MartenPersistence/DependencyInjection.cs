@@ -57,7 +57,8 @@ public static class DependencyInjection
                 serializerOptions.IgnoreReadOnlyFields = true;
                 serializerOptions.IgnoreReadOnlyProperties = false;
                 serializerOptions.WriteIndented = true;
-                serializerOptions.TypeInfoResolverChain.Insert(0, jsonTypeInfoResolver ?? new DefaultJsonTypeInfoResolver());
+                serializerOptions.TypeInfoResolver = jsonTypeInfoResolver;
+                
             }
         );
         return options;
