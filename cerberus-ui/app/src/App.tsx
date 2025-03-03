@@ -31,17 +31,21 @@ import { SetNavigation } from "./navigation/set-navigation.ts";
 import theme from "./styles/mui/theme";
 
 initializeHooks();
-export const App = ({ routes }) => {
+
+const AppContent = ({ routes }) => {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    new Mediator().send(new SetNavigation(useNavigate)).then(nop);
-  }, []);
+    new Mediator().send(new SetNavigation(navigate)).then(nop);
+  }, [navigate]);
+
   const { initialized } = useKeycloak();
 
   if (!initialized) {
     return <Fetching />;
   }
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -53,35 +57,32 @@ export const App = ({ routes }) => {
           transition: "grid-template-columns 0.3s ease-in-out",
         }}
       >
-        <Router>
-          <MainMenu logo={Logo} open={open} setOpen={setOpen} />
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              margin: "0vw",
-              padding: "2rem",
-              overflow: "auto",
-            }}
-          >
-            <Routes>
-              {routes.map((route: any) => {
-                console.log("Route:", route);
-
-                const Component = getRouteComponent(route.componentName);
-                return (
-                  <Route
-                    key={route.name}
-                    path={route.path}
-                    Component={Component}
-                  />
-                );
-              })}
-            </Routes>
-          </Box>
-          <Toasts />
-        </Router>
+        <MainMenu logo={Logo} open={open} setOpen={setOpen} />
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            margin: "0vw",
+            padding: "2rem",
+            overflow: "auto",
+          }}
+        >
+          <Routes>
+            {routes.map((route: any) => {
+              console.log("Route:", route);
+              const Component = getRouteComponent(route.componentName);
+              return (
+                <Route
+                  key={route.name}
+                  path={route.path}
+                  Component={Component}
+                />
+              );
+            })}
+          </Routes>
+        </Box>
+        <Toasts />
         <button
           className="absolute top-1/2 -translate-y-1/2 z-50 bg-[#353535] text-white p-2.5 hover:bg-[#636363] transition-colors rounded-r-xl text-2xl"
           onClick={() => setOpen(!open)}
@@ -97,11 +98,16 @@ export const App = ({ routes }) => {
             <path d="M14.95121,1.99995L4.95118,11.99842l10.00002,10.00158,3.00344-3.00344-6.72184-6.99814,1.85764-2.12302,4.87201-4.87201-3.01125-3.00344Z" />
           </svg>
         </button>
-
       </Box>
     </ThemeProvider>
   );
 };
+
+export const App = ({ routes }) => (
+  <Router>
+    <AppContent routes={routes} />
+  </Router>
+);
 
 const mapStateToProps = (state: any) => ({
   routes: state.routes,

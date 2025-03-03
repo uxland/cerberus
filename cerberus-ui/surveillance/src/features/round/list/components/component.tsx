@@ -7,6 +7,7 @@ import {
     TableHead,
     TableRow,
     IconButton,
+    CircularProgress,
 } from "@mui/material";
 import { RoundSummary } from "../model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
@@ -15,7 +16,8 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Mediator } from "mediatr-ts";
 import { CreateRun } from "../../../run/create/command";
-import {useState} from "react";
+import { useState } from "react";
+
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
         <div className="flex flex-col gap-4">
@@ -67,17 +69,16 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
 };
 
 const RoundRow = (props: { round: RoundSummary }) => {
-    //onst navigate = useNavigate();
-
-    const [busy, setBusy] = useState<boolean>(false)
+    const [busy, setBusy] = useState<boolean>(false);
 
     const handleStartRun = async () => {
         try {
+            setBusy(true);
             await new Mediator().send(new CreateRun(props.round.id, setBusy));
-            //navigate(`/surveillance/runs/${urlId}`);
-
         } catch (error) {
             console.error('Error starting run:', error);
+        } finally {
+            setBusy(false);
         }
     };
 
@@ -96,8 +97,15 @@ const RoundRow = (props: { round: RoundSummary }) => {
                 {props.round.cronExpression}
             </TableCell>
             <TableCell align="center" width={200} className="flex">
-                <IconButton onClick={handleStartRun}>
-                    <PlayCircleOutlineIcon color="success" />
+                <IconButton
+                    onClick={handleStartRun}
+                    disabled={busy}
+                >
+                    {busy ? (
+                        <CircularProgress size={24} color="success" />
+                    ) : (
+                        <PlayCircleOutlineIcon color="success" />
+                    )}
                 </IconButton>
                 <IconButton>
                     <DeleteOutlineIcon color="error" />
