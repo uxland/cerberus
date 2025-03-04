@@ -33,6 +33,7 @@ export const SurveillanceRunEditor = () => {
     }, [id, start]);
 
     const submitOperation = async (run: Run) => {
+        //EditRun **
         await new Mediator().send(new CreateRun(run, setBusy, setError));
     }
 

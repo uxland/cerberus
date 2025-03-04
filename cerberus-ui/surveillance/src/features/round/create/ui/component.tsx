@@ -15,7 +15,7 @@ import { produceInspections } from '../domain/model.ts';
 import { Round, roundSchema } from '../domain/validation.ts';
 import { } from '../domain';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, useFieldArray, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 interface SurveillanceRoundFormArgs {
     roundEditionData?: RoundEditionData;
