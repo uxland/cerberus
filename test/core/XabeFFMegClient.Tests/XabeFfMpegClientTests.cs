@@ -2,7 +2,6 @@ using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 using Cerberus.Core.XabeFFMpegClient.CaptureMiddlewares;
 using Cerberus.Core.XabeFFMpegClient.ConversionBuilders;
 using Cerberus.IntegrationTest.Utilities.Logger;
-using Lamar;
 using Microsoft.Extensions.Options;
 using Xunit.Abstractions;
 
