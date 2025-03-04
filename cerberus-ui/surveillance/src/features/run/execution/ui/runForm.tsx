@@ -14,10 +14,11 @@ import {
     OperationRunQuestionAnswer
 } from "../domain/model";
 import { Inspection } from "./inspection";
+import { IOperationAnswer } from "../domain/model";
 
 interface SurveillanceRunFormArgs {
     runEditionData?: Run;
-    onSubmitRequested?: (run: Run) => void;
+    onSubmitRequested?: (runId: string, inspectionId: string, answers: OperationRunQuestionAnswer[]) => void;
 }
 
 
@@ -97,6 +98,7 @@ const dummyRun: Run = {
     inspectionRuns: createDummyInspections("1"),
 };
 
+
 export const SurveillanceRunForm = ({ runEditionData, onSubmitRequested }: SurveillanceRunFormArgs) => {
     const [run, setRun] = useState<Run>(dummyRun);
     const [selectedInspection, setSelectedInspection] = useState<InspectionRun | null>(dummyRun.inspectionRuns[0]);
@@ -111,6 +113,11 @@ export const SurveillanceRunForm = ({ runEditionData, onSubmitRequested }: Surve
         console.log(selectedInspection);
     }, [selectedInspection]);
 
+    const handleInspectionSubmit = (inspectionId: string, answers: OperationRunQuestionAnswer[]) => {
+        if (onSubmitRequested && run && run.id) {
+            onSubmitRequested(run.id, inspectionId, answers);
+        }
+    };
     return (
         <>
             <div>
@@ -123,7 +130,7 @@ export const SurveillanceRunForm = ({ runEditionData, onSubmitRequested }: Surve
                             <Typography className="!text-grey82 !font-semibold"> {selectedInspection.cameraDescription} </Typography>
                         </div>
                         <Inspection
-                            inspection={selectedInspection}
+                            inspection={selectedInspection} onSubmit={handleInspectionSubmit}
                         />
                     </div>
                 )}

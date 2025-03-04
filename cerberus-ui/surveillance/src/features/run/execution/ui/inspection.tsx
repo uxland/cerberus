@@ -1,14 +1,14 @@
 import { Typography } from "@mui/material";
 import { Select } from "@cerberus/core";
 import React from 'react';
-import { OperationRun, OptionAnswer, TextAnswer, IntegerAnswer, FloatAnswer } from "../domain/model";
+import { OptionAnswer, TextAnswer, IntegerAnswer, FloatAnswer } from "../domain/model";
 import { useForm } from "react-hook-form";
-import { InspectionRun, Run } from "../domain/model";
+import { InspectionRun, Run, OperationRunQuestionAnswer } from "../domain/model";
 import { FormInputField } from "@cerberus/core";
 
 interface InspectionProps {
     inspection: InspectionRun;
-    onSubmit?: (run: Run) => void;
+    onSubmit?: (inspectionId: string, answers: OperationRunQuestionAnswer[]) => void;
 }
 
 export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
@@ -32,9 +32,8 @@ export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
     const { register, handleSubmit, setValue, watch } = formMethods;
 
     const onSubmitForm = (data: InspectionRun) => {
-        console.log("Form submitted with data:", data);
         if (onSubmit) {
-            onSubmit(data as unknown as Run);
+            onSubmit(data.id, data.operationRun.answers);
         }
     };
 

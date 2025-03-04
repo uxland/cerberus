@@ -6,7 +6,8 @@ import { Mediator } from "mediatr-ts";
 import { nop } from "@cerberus/core";
 import { CircularProgress, Box, Button } from '@mui/material';
 import { Run } from './domain/model.ts';
-import { CreateRun } from "../create/command.ts";
+import { SetRunInspection } from './command.ts';
+import { OperationRunQuestionAnswer } from './domain/model.ts';
 
 export const SurveillanceRunEditor = () => {
     const [start, setStart] = useState<boolean>(false);
@@ -32,9 +33,9 @@ export const SurveillanceRunEditor = () => {
         }
     }, [id, start]);
 
-    const submitOperation = async (run: Run) => {
-        //EditRun **
-        await new Mediator().send(new CreateRun(run, setBusy, setError));
+    const submitOperation = async (id: string, inspectionId: string, answers: OperationRunQuestionAnswer[]) => {
+
+        await new Mediator().send(new SetRunInspection(id, inspectionId, answers, setRunEditionData, setBusy));
     }
 
     const handleStart = () => {
