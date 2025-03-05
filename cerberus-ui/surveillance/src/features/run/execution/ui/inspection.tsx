@@ -3,7 +3,7 @@ import { Select } from "@cerberus/core";
 import React from 'react';
 import { OptionAnswer, TextAnswer, IntegerAnswer, FloatAnswer } from "../domain/model";
 import { useForm } from "react-hook-form";
-import { InspectionRun, Run, OperationRunQuestionAnswer } from "../domain/model";
+import { InspectionRun, OperationRunQuestionAnswer } from "../domain/model";
 import { FormInputField } from "@cerberus/core";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 
@@ -36,6 +36,7 @@ export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
     const { register, handleSubmit, setValue, watch } = formMethods;
 
     const onSubmitForm = (data: InspectionRun) => {
+        console.log("data", data)
         if (onSubmit) {
             onSubmit(data.id, data.operationRun.answers);
         }
@@ -66,9 +67,7 @@ export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
                                             label: option.code
                                         })) || []}
                                         formMethods={formMethods}
-                                        selected={
-                                            (item.answer as OptionAnswer)?.values.find(v => v.isAnomalous === false)?.code || ""
-                                        }
+
                                     />
                                 )}
 

@@ -9,6 +9,8 @@ import { Round } from "./domain";
 import { RoundEditionForm } from './ui/component.tsx';
 import { EditOrCreateRound } from './command.ts';
 import { useNavigate } from 'react-router-dom';
+import { useMediatorRequest } from '@cerberus/core';
+
 export const SurveillanceRoundsEditor = () => {
     const navigate = useNavigate();
     const [roundEditionData, setRoundEditionData] = useState<RoundEditionData>(null);
@@ -17,13 +19,23 @@ export const SurveillanceRoundsEditor = () => {
     const { locationId, roundId } = useParams<{ locationId: string, roundId: string }>();
     useEffect(() => {
         async function fetchRoundData() {
-            new Mediator().send(new GetRoundEditionData(locationId, roundId, setRoundEditionData, setBusy, setError));
+            useMediatorRequest({
+                command: new GetRoundEditionData(locationId, roundId),
+                setBusy: setBusy,
+                setError: setError,
+                setState: setRoundEditionData
+            });
         }
         fetchRoundData().then(nop);
     }, [locationId, roundId]);
+
     const submitRound = async (round: Round) => {
-        const command = new EditOrCreateRound(roundId === "new" ? undefined : roundId, round, setBusy, setError);
-        await new Mediator().send(command);
+        const command = new EditOrCreateRound(roundId === "new" ? undefined : roundId, round);
+        await useMediatorRequest({
+            command: command,
+            setBusy: setBusy,
+            setError: setError,
+        })
     }
     return (
         <div>

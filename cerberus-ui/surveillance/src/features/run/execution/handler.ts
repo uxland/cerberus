@@ -25,7 +25,7 @@ export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> 
     }
 
     private async setRunInspectionInBackend(request: SetRunInspection): Promise<Run> {
-        const response = await this.apiClient.put<{ run: Run }>(`${runsEndpointUrl}/${request.id}/inspection/${request.inspectionId}`, {
+        const response = await this.apiClient.put<{ run: Run }>(`${runsEndpointUrl}/${request.id}/inspections/${request.inspectionId}`, {
             body: <any>{ id: request.id, inspectionId: request.inspectionId, answers: request.answers }
         });
         return response.run;

@@ -6,10 +6,11 @@ import { ListLocationSubHierarchy, LocationHierarchicalItem } from "@cerberus/or
 import { ListOperations } from "../../operation/list-operations/query.ts";
 import { Container } from "inversify";
 import { produceRoundEditionData } from "./domain/model";
+import { IRequest } from "mediatr-ts";
 
-export class GetRoundEditionData extends RequestBase<RoundEditionData> {
-    constructor(public locationId: string, public roundId: string, setState: SetState<RoundEditionData>, setBusy: SetState<boolean>, setError: SetState<string | undefined>) {
-        super(setState, setBusy, setError);
+export class GetRoundEditionData extends RequestBase<RoundEditionData> implements IRequest<RoundEditionData> {
+    constructor(public locationId: string, public roundId: string) {
+        super();
     }
 }
 

@@ -9,6 +9,7 @@ import { Run } from './domain/model.ts';
 import { SetRunInspection } from './command.ts';
 import { OperationRunQuestionAnswer } from './domain/model.ts';
 import { useSurveillanceLocales } from '../../../locales/ca/locales.ts';
+import { useMediatorRequest } from '@cerberus/core';
 
 export const SurveillanceRunEditor = () => {
     const startButtonTitle = useSurveillanceLocales('run.set.start');
@@ -36,9 +37,16 @@ export const SurveillanceRunEditor = () => {
     }, [id, start]);
 
     const submitOperation = async (id: string, inspectionId: string, answers: OperationRunQuestionAnswer[]) => {
-
-        await new Mediator().send(new SetRunInspection(id, inspectionId, answers, setRunEditionData, setBusy));
+        console.log("Submit", id, inspectionId, answers);
+        // await new Mediator().send(new SetRunInspection(id, inspectionId, answers, setRunEditionData, setBusy));
+        await useMediatorRequest({
+            command: new SetRunInspection(id, inspectionId, answers),
+            setBusy: setBusy,
+            setError: setError,
+            setState: setRunEditionData
+        });
     }
+
 
     const handleStart = () => {
         setStart(true);
