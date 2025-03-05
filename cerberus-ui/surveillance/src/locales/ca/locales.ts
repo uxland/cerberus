@@ -49,6 +49,10 @@ export const locales = {
       table: {
         id: "ID",
         description: "Descripción",
+        actions: {
+          title: "Acciones",
+          delete: "Eliminar",
+        }
       }
     },
     round: {
@@ -71,7 +75,11 @@ export const locales = {
         description: "Descripción",
         assignedTo: "Asignado a",
         cronExpression: "Cronología",
-        actions: "Acciones",
+        actions: {
+          title: "Acciones",
+          start: "Iniciar",
+          delete: "Eliminar",
+        }
       },
     },
     run: {

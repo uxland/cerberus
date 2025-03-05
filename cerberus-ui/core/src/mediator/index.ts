@@ -7,16 +7,16 @@ import {
     notificationHandler,
     requestHandler,
 } from "mediatr-ts";
-import {inject, injectable} from "inversify";
-import {ApiClient} from "@cerberus/shared/src";
-import {NavigationService} from "../routing";
-import {SetState} from "../state";
+import { inject, injectable } from "inversify";
+import { ApiClient } from "@cerberus/shared/src";
+import { NavigationService } from "../routing";
+import { SetState } from "../state";
 
 interface Constructor<T> {
-    new (...args: any[]): T;
+    new(...args: any[]): T;
 }
 
-export interface CommandHandlerPair{
+export interface CommandHandlerPair {
     command: Constructor<IRequest<any>>;
     handler: Constructor<IRequestHandler<any, any>>;
 }
@@ -60,7 +60,7 @@ export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> i
     }
     abstract handle(request: TRequest): Promise<TResult>;
 
-    protected async handleRequest<Request extends RequestBase<TResult>>(request:Request, handler: RequestBaseHandler<TResult, Request>): Promise<TResult>{
+    protected async handleRequest<Request extends RequestBase<TResult>>(request: Request, handler: RequestBaseHandler<TResult, Request>): Promise<TResult> {
         try {
             request.setBusy?.(true);
             const response = await handler(request);

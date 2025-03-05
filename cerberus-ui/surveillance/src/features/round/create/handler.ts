@@ -6,7 +6,7 @@ import { EditOrCreateRound } from "./command";
 @injectable()
 export class EditCreateRoundHandler extends HandlerBase<void, EditOrCreateRound> {
     handle(request: EditOrCreateRound): Promise<void> {
-        return this.handleRequest(request, this.editOrCreateRound.bind(this));
+        return this.editOrCreateRound(request);
     }
 
     private async editOrCreateRound(request: EditOrCreateRound): Promise<void> {

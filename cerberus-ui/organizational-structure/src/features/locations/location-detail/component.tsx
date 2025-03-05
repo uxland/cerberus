@@ -18,6 +18,7 @@ import { LocationSettingsView } from "./show-location-settings/component";
 import { LocationSettings } from "./show-location-settings/model.ts";
 import { OperationsView } from "@cerberus/surveillance";
 import { RoundsView } from "@cerberus/surveillance";
+import { useOrganizationalStructureLocales } from "../../../locales/ca/locales.ts";
 
 export const LocationPage = () => {
   const { id } = useParams();
@@ -55,14 +56,14 @@ export const LocationPage = () => {
         <CustomTabPanel value={selectedTab} index={4}>
           <>
             <div className="flex !flex-row !justify-end bg-tableBg w-[520px] rounded-t-lg">
-              <Tooltip title={"Editar"}>
+              <Tooltip title={useOrganizationalStructureLocales("edit")}>
                 <IconButton
                   color="primary"
                   onClick={EditSettings(settings, itemType)}>
                   <ModeEditOutlineIcon />
                 </IconButton>
               </Tooltip>
-              <Tooltip title={"Esborrar"}>
+              <Tooltip title={useOrganizationalStructureLocales("delete")}>
                 <IconButton color="error">
                   <DeleteForeverIcon />
                 </IconButton>

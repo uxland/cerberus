@@ -1,7 +1,3 @@
-import { splitAndChooseDescription } from "@cerberus/shared/src";
-import PlayIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
-import StopIcon from "@mui/icons-material/StopCircleOutlined";
-import EyeIcon from "@mui/icons-material/VisibilityOutlined";
 import {
     IconButton,
     Paper,
@@ -12,8 +8,8 @@ import {
     TableHead,
     TableRow,
     Tooltip,
-    Typography,
 } from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
@@ -43,6 +39,9 @@ export const OperationsTable = (props: { operations: OperationSummary[] }) => {
                                 </TableCell>
                                 <TableCell align="center" className="table-head">
                                     {useSurveillanceLocales("operation.table.description")}
+                                </TableCell>
+                                <TableCell align="center" className="table-head">
+                                    {useSurveillanceLocales("operation.table.actions.title")}
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -83,6 +82,13 @@ const OpetationRow = (props: { operation: OperationSummary }) => {
             </TableCell>
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.operation.description}
+            </TableCell>
+            <TableCell>
+                <Tooltip title={useSurveillanceLocales("operation.table.actions.delete")}>
+                    <IconButton>
+                        <DeleteOutlineIcon color="error" />
+                    </IconButton>
+                </Tooltip>
             </TableCell>
         </TableRow>
     );

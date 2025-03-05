@@ -5,7 +5,7 @@ import { nop } from "@cerberus/core";
 import { OperationSummary } from "./model.ts";
 import { OperationsTable } from "../../../components/index.ts";
 import { Typography, Box, CircularProgress } from "@mui/material";
-import { useMediatorRequest } from "@cerberus/core";
+import { sendMediatorRequest } from "@cerberus/core";
 
 export const OperationsView = (props: { id: string }) => {
     const [operations, setOperations] = useState<OperationSummary[]>([]);
@@ -14,17 +14,15 @@ export const OperationsView = (props: { id: string }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function fetchData() {
-            useMediatorRequest(
-                {
-                    command: new ListOperations(),
-                    setBusy: setLoading,
-                    setError: setError,
-                    setState: setOperations
-                }
-            )
+        async function fetchOperations() {
+            sendMediatorRequest({
+                command: new ListOperations(),
+                setBusy: setLoading,
+                setError: setError,
+                setState: setOperations
+            });
         }
-        fetchData().then(nop);
+        fetchOperations().then(nop);
     }, [props]);
 
     const handleCreateOperation = () => {

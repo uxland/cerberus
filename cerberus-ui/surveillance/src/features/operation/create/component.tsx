@@ -7,25 +7,24 @@ import { Mediator } from "mediatr-ts";
 import { GetOperation } from "./get-operation.ts";
 import { nop } from "@cerberus/core";
 import { CircularProgress, Box } from '@mui/material';
-import { useMediatorRequest } from '@cerberus/core';
+import { sendMediatorRequest } from '@cerberus/core';
 
 export const SurveillanceOperationEditor = () => {
 
     const [error, setError] = useState<string | undefined>(undefined);
     const [busy, setBusy] = useState<boolean>(false);
-    const [loadingModel, setLoadingModel] = useState<boolean>(false);
     const [originalOperation, setOriginalOperation] = useState<SurveillanceOperationFormModel | undefined>(defaultOperationModel);
     const { operationId } = useParams<{ operationId: string }>();
+
     useEffect(() => {
         async function fetchOperation() {
             if (operationId && operationId !== "new") {
-
-                try {
-                    setLoadingModel(true);
-                    await new Mediator().send(new GetOperation(operationId, setOriginalOperation, setBusy, setError));
-                } finally {
-                    setLoadingModel(false);
-                }
+                sendMediatorRequest({
+                    command: new GetOperation(operationId),
+                    setBusy: setBusy,
+                    setError: setError,
+                    setState: setOriginalOperation
+                });
             }
         }
         fetchOperation().then(nop);
@@ -33,7 +32,7 @@ export const SurveillanceOperationEditor = () => {
 
     const submitOperation = async (operation: SurveillanceOperationFormModel) => {
         const command = new EditOrCreateOperation(operationId === "new" ? undefined : operationId, operation);
-        useMediatorRequest({
+        sendMediatorRequest({
             command: command,
             setBusy: setBusy,
             setError: setError,
@@ -42,7 +41,7 @@ export const SurveillanceOperationEditor = () => {
 
     return (
         <div className="space-y-6">
-            {(busy || loadingModel) ? (
+            {busy ? (
                 <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
                     <CircularProgress />
                 </Box>

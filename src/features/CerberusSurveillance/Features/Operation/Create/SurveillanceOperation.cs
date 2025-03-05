@@ -9,12 +9,12 @@ public partial class SurveillanceOperation
       this.ApplyUncommittedEvent(
          new SurveillanceOperationCreated(
             cmd.Id!,
-            cmd.Name,
+            cmd.Description,
             cmd.Questions
          )
       );
    }
-   
+
    public void Apply(SurveillanceOperationCreated @event)
    {
       this.Id = @event.Id;

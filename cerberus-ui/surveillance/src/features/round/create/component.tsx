@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { CircularProgress, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { RoundEditionData } from "./domain";
-import { Mediator } from "mediatr-ts";
 import { GetRoundEditionData } from "./get-round-edition-data.ts";
 import { nop } from "@cerberus/core";
 import { Round } from "./domain";
 import { RoundEditionForm } from './ui/component.tsx';
 import { EditOrCreateRound } from './command.ts';
 import { useNavigate } from 'react-router-dom';
-import { useMediatorRequest } from '@cerberus/core';
+import { sendMediatorRequest } from '@cerberus/core';
 
 export const SurveillanceRoundsEditor = () => {
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ export const SurveillanceRoundsEditor = () => {
     const { locationId, roundId } = useParams<{ locationId: string, roundId: string }>();
     useEffect(() => {
         async function fetchRoundData() {
-            useMediatorRequest({
+            sendMediatorRequest({
                 command: new GetRoundEditionData(locationId, roundId),
                 setBusy: setBusy,
                 setError: setError,
@@ -31,7 +30,7 @@ export const SurveillanceRoundsEditor = () => {
 
     const submitRound = async (round: Round) => {
         const command = new EditOrCreateRound(roundId === "new" ? undefined : roundId, round);
-        await useMediatorRequest({
+        await sendMediatorRequest({
             command: command,
             setBusy: setBusy,
             setError: setError,

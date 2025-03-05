@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mediator } from "mediatr-ts";
 import { ListRounds } from "./query.ts";
 import { nop } from "@cerberus/core";
 import { RoundSummary } from "./model.ts";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { RoundsTable } from "./components/component.tsx";
+import { sendMediatorRequest } from "@cerberus/core";
 
 export const RoundsView = (props: { id: string }) => {
     const [rounds, setRounds] = useState<RoundSummary[]>([]);
@@ -14,10 +14,15 @@ export const RoundsView = (props: { id: string }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function fetchData() {
-            await new Mediator().send(new ListRounds(props.id, setRounds, setLoading, setError));
+        async function fetchRounds() {
+            sendMediatorRequest({
+                command: new ListRounds(props.id),
+                setBusy: setLoading,
+                setError: setError,
+                setState: setRounds
+            });
         }
-        fetchData().then(nop);
+        fetchRounds().then(nop);
     }, [props]);
 
     const handleCreateRound = () => {

@@ -98,19 +98,21 @@ export const TreeNode = ({ node }: { node: LocationNode }) => {
         </Tooltip>
       )}
       {node.type === HierarchyItemType.camera && (
-        <DeleteOutlineIcon
-          color="primary"
-          className="opacity-0 group-hover:opacity-100"
-          onClick={RemoveCameraModal(node.id, node.description)}
-          sx={{
-            width: "1.6rem",
-            height: "1.6rem",
-            fill: "currentColor",
-            position: "absolute",
-            right: "0",
-            marginRight: "0.5rem",
-            cursor: "pointer",
-          }} />
+        <Tooltip title={useOrganizationalStructureLocales("delete")}>
+          <DeleteOutlineIcon
+            color="primary"
+            className="opacity-0 group-hover:opacity-100"
+            onClick={RemoveCameraModal(node.id, node.description)}
+            sx={{
+              width: "1.6rem",
+              height: "1.6rem",
+              fill: "currentColor",
+              position: "absolute",
+              right: "0",
+              marginRight: "0.5rem",
+              cursor: "pointer",
+            }} />
+        </Tooltip>
       )}
     </div>
   );

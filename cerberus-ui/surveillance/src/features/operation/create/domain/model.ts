@@ -24,12 +24,12 @@ export interface NormalityRange<T> {
 
 
 export interface SurveillanceOperationFormModel {
-    name: string;
+    description: string;
     questions: OperationQuestion[];
 }
 
 export const defaultOperationModel: SurveillanceOperationFormModel = {
-    name: "",
+    description: "",
     questions: []
 }
 
@@ -62,7 +62,7 @@ export interface FloatQuestion extends OperationQuestion {
 }
 
 export const setOperationText = (model: SurveillanceOperationFormModel, text: string): SurveillanceOperationFormModel =>
-    ({ ...model, name: text });
+    ({ ...model, description: text });
 
 export const appendQuestion = (model: SurveillanceOperationFormModel, question: OperationQuestion): SurveillanceOperationFormModel =>
     ({ ...model, questions: [...model.questions, question] });

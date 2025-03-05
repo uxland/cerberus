@@ -16,7 +16,7 @@ export class GetRunEditionDataHandler extends HandlerBase<Run, GetRun> {
 @injectable()
 export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> {
     handle(request: SetRunInspection): Promise<Run> {
-        return this.handleRequest(request, this.setRunInspection.bind(this));
+        return this.setRunInspection(request);
     }
 
     private async setRunInspection(request: SetRunInspection): Promise<Run> {

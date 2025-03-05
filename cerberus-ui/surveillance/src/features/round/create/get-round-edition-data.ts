@@ -8,15 +8,13 @@ import { Container } from "inversify";
 import { produceRoundEditionData } from "./domain/model";
 import { IRequest } from "mediatr-ts";
 
-export class GetRoundEditionData extends RequestBase<RoundEditionData> implements IRequest<RoundEditionData> {
-    constructor(public locationId: string, public roundId: string) {
-        super();
-    }
+export class GetRoundEditionData implements IRequest<RoundEditionData> {
+    constructor(public locationId: string, public roundId: string) { }
 }
 
 class GetRoundEditionDataHandler extends HandlerBase<RoundEditionData, GetRoundEditionData> {
     handle(request: GetRoundEditionData): Promise<RoundEditionData> {
-        return this.handleRequest(request, this.fetchRoundEditionData.bind(this));
+        return this.fetchRoundEditionData(request);
     }
 
     private async fetchRoundEditionData({ locationId, roundId }: GetRoundEditionData): Promise<RoundEditionData> {

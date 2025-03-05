@@ -50,7 +50,12 @@ export const locales = {
       date: "Fecha",
       summary: "Resumen",
       location: "Localización",
-      Actions: "Acciones",
+      Actions: {
+        title: "Acciones",
+        watch: "Ver",
+        start: "iniciar",
+        stop: "parar",
+      }
     },
     openIssuesForm: {
       title: "Error de la Descripción",

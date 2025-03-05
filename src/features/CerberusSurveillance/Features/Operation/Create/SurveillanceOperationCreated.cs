@@ -2,4 +2,4 @@
 
 namespace Cerberus.Surveillance.Features.Features.Operation.Create;
 
-public record SurveillanceOperationCreated(string Id, string Description, IEnumerable<IOperationQuestion> Questions): IDomainEvent;
+public record SurveillanceOperationCreated(string Id, string Description, IEnumerable<IOperationQuestion> Questions) : IDomainEvent;

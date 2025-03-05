@@ -10,11 +10,11 @@ interface MediatorRequestProps<T> {
     setError?: SetState<any>;
     setState?: SetState<T>;
 }
-export const useMediatorRequest = async <T>({ command, setBusy, setError, setState }: MediatorRequestProps<T>) => {
-
+export const sendMediatorRequest = async <T>({ command, setBusy, setError, setState }: MediatorRequestProps<T>) => {
     try {
         setBusy?.(true);
         const request = await new Mediator().send(command);
+        console.log("request", request);
         setState?.(request);
     }
     catch (error) {

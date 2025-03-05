@@ -53,6 +53,6 @@ const QuestionSchema = z.discriminatedUnion("__type", [
 
 export const SurveillanceOperationFormModelSchema = z.object({
     id: z.string().optional(),
-    name: z.string().nonempty("Operation name is required"),
+    description: z.string().nonempty("Operation name is required"),
     questions: z.array(QuestionSchema).nonempty("At least one question is required"),
 });

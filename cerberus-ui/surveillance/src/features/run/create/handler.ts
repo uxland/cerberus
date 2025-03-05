@@ -6,7 +6,7 @@ import { CreateRun } from "./command";
 @injectable()
 export class CreateRunHandler extends HandlerBase<string, CreateRun> {
     handle(request: CreateRun): Promise<string> {
-        return this.handleRequest(request, this.createRun.bind(this));
+        return this.createRun(request);
     }
 
     private async createRun(request: CreateRun): Promise<string> {
@@ -16,6 +16,7 @@ export class CreateRunHandler extends HandlerBase<string, CreateRun> {
     }
 
     private async createRunInBackend(request: CreateRun): Promise<string> {
+        console.log("request", request);
         const run = await this.apiClient.post<{ id: string }>(runsEndpointUrl, {
             body: <any>{ roundId: request.roundId }
         });

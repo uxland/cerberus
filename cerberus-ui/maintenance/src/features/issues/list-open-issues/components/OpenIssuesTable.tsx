@@ -58,7 +58,7 @@ export const OpenIssuesTable = (props: { issues: MaintenanceIssueSummary[] }) =>
                   {useMaintenanceLocales("openIssuesTable.location")}
                 </TableCell>
                 <TableCell align="center" className="table-head">
-                  {useMaintenanceLocales("openIssuesTable.Actions")}
+                  {useMaintenanceLocales("openIssuesTable.Actions.title")}
                 </TableCell>
                 <TableCell align="center" className="table-head"></TableCell>
               </TableRow>
@@ -140,11 +140,23 @@ const OpenIssueRow = (props: { issue: MaintenanceIssueSummary }) => {
       <TableCell align="center" width={200} className="flex">
         <IconButton>
           <div className="flex gap-2">
-            <EyeIcon color="info" />
+            <Tooltip title={useMaintenanceLocales("openIssuesTable.Actions.watch")}>
+              <IconButton>
+                <EyeIcon color="info" />
+              </IconButton>
+            </Tooltip>
             {props.issue.status === "Open" ? (
-              <PlayIcon color="primary" />
+              <Tooltip title={useMaintenanceLocales("openIssuesTable.Actions.start")}>
+                <IconButton>
+                  <PlayIcon color="primary" />
+                </IconButton>
+              </Tooltip>
             ) : (
-              <StopIcon color="success" />
+              <Tooltip title={useMaintenanceLocales("openIssuesTable.Actions.stop")}>
+                <IconButton>
+                  <StopIcon color="success" />
+                </IconButton>
+              </Tooltip>
             )}
           </div>
         </IconButton>

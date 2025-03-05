@@ -19,7 +19,7 @@ interface SurveillanceOperationFormArgs {
 export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: SurveillanceOperationFormArgs) => {
     const formMethods = useForm<OperationForm>({
         resolver: zodResolver(SurveillanceOperationFormModelSchema),
-        defaultValues: initialModel || { name: '', questions: [] }
+        defaultValues: initialModel || { description: '', questions: [] }
     });
     const {
         register,
@@ -40,6 +40,7 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
 
     const onSubmit = async (data: OperationForm) => {
         try {
+            console.log("Data", data);
             await onSubmitRequested?.(data as SurveillanceOperationFormModel);
         } catch (error) {
             console.error("Error submitting form:", error);
@@ -77,10 +78,10 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
             <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
                 <h1 className="font-bold text-primary">{useSurveillanceLocales("operation.create.title")} - </h1>
                 <FormInputField
-                    name="name"
+                    name="description"
                     register={register}
                     placeholder={useSurveillanceLocales("operation.create.placeholder")}
-                    error={errors.name}
+                    error={errors.description}
                     type="text"
                 />
             </div>

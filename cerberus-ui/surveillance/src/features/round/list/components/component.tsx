@@ -8,17 +8,17 @@ import {
     TableRow,
     IconButton,
     CircularProgress,
+    Tooltip,
 } from "@mui/material";
 import { RoundSummary } from "../model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 import { NoData } from "../../../../components/NoData/NoData";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Mediator } from "mediatr-ts";
 import { CreateRun } from "../../../run/create/command";
 import { useState } from "react";
-import { useMediatorRequest } from "@cerberus/core";
-
+import { sendMediatorRequest } from "@cerberus/core";
+import { Mediator } from "mediatr-ts";
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
         <div className="flex flex-col gap-4">
@@ -47,7 +47,7 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
                                     {useSurveillanceLocales("round.table.cronExpression")}
                                 </TableCell>
                                 <TableCell align="center" className="table-head">
-                                    {useSurveillanceLocales("round.table.actions")}
+                                    {useSurveillanceLocales("round.table.actions.title")}
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -73,17 +73,12 @@ const RoundRow = (props: { round: RoundSummary }) => {
     const [busy, setBusy] = useState<boolean>(false);
 
     const handleStartRun = async () => {
-        try {
-            setBusy(true);
-            useMediatorRequest({
-                command: new CreateRun(props.round.id),
-                setBusy: setBusy,
-            });
-        } catch (error) {
-            console.error('Error starting run:', error);
-        } finally {
-            setBusy(false);
-        }
+        // const request = await new Mediator().send(new CreateRun(props.round.id, setBusy));
+        // console.log("request", props.round.id);
+        sendMediatorRequest({
+            command: new CreateRun(props.round.id),
+            setBusy: setBusy,
+        });
     };
 
     return (
@@ -101,19 +96,24 @@ const RoundRow = (props: { round: RoundSummary }) => {
                 {props.round.cronExpression}
             </TableCell>
             <TableCell align="center" width={200} className="flex">
-                <IconButton
-                    onClick={handleStartRun}
-                    disabled={busy}
-                >
-                    {busy ? (
-                        <CircularProgress size={24} color="success" />
-                    ) : (
-                        <PlayCircleOutlineIcon color="success" />
-                    )}
-                </IconButton>
-                <IconButton>
-                    <DeleteOutlineIcon color="error" />
-                </IconButton>
+                <Tooltip title={useSurveillanceLocales("round.table.actions.start")}>
+                    <IconButton
+                        onClick={handleStartRun}
+                        disabled={busy}
+                    >
+                        {busy ? (
+                            <CircularProgress size={24} color="success" />
+
+                        ) : (
+                            <PlayCircleOutlineIcon color="success" />
+                        )}
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={useSurveillanceLocales("round.table.actions.delete")}>
+                    <IconButton>
+                        <DeleteOutlineIcon color="error" />
+                    </IconButton>
+                </Tooltip>
             </TableCell>
         </TableRow>
     );
