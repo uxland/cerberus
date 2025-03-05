@@ -1,10 +1,10 @@
 
-import { RequestBase, SetState } from "@cerberus/core";
+import { RequestBase } from "@cerberus/core";
+import { IRequest } from "mediatr-ts";
 
-export class CreateRun extends RequestBase<string> {
-    constructor(public roundId: string | undefined, setBusy: SetState<boolean>) {
-        super(undefined, setBusy, undefined);
-
+export class CreateRun extends RequestBase<string> implements IRequest<string> {
+    constructor(public roundId: string | undefined) {
+        super();
     }
 }
 

@@ -1,9 +1,6 @@
 import { OperationSummary } from "./model.ts";
-import { RequestBase } from "@cerberus/core";
-import { SetState } from "react";
+import { IRequest } from "mediatr-ts";
 
-export class ListOperations extends RequestBase<OperationSummary[]> {
-    constructor(setState: SetState<OperationSummary[]>, setBusy: SetState<boolean>, setError: SetState<Error>) {
-        super(setState, setBusy, setError);
-    }
+export class ListOperations implements IRequest<OperationSummary[]> {
+    constructor() { }
 }

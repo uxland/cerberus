@@ -17,6 +17,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Mediator } from "mediatr-ts";
 import { CreateRun } from "../../../run/create/command";
 import { useState } from "react";
+import { useMediatorRequest } from "@cerberus/core";
 
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
@@ -74,7 +75,10 @@ const RoundRow = (props: { round: RoundSummary }) => {
     const handleStartRun = async () => {
         try {
             setBusy(true);
-            await new Mediator().send(new CreateRun(props.round.id, setBusy));
+            useMediatorRequest({
+                command: new CreateRun(props.round.id),
+                setBusy: setBusy,
+            });
         } catch (error) {
             console.error('Error starting run:', error);
         } finally {

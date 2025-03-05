@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mediator } from "mediatr-ts";
 import { ListOperations } from "./query.ts";
 import { nop } from "@cerberus/core";
-import { getOperationUrl, OperationSummary } from "./model.ts";
+import { OperationSummary } from "./model.ts";
 import { OperationsTable } from "../../../components/index.ts";
 import { Typography, Box, CircularProgress } from "@mui/material";
+import { useMediatorRequest } from "@cerberus/core";
 
 export const OperationsView = (props: { id: string }) => {
     const [operations, setOperations] = useState<OperationSummary[]>([]);
@@ -15,7 +15,14 @@ export const OperationsView = (props: { id: string }) => {
 
     useEffect(() => {
         async function fetchData() {
-            await new Mediator().send(new ListOperations(setOperations, setLoading, setError))
+            useMediatorRequest(
+                {
+                    command: new ListOperations(),
+                    setBusy: setLoading,
+                    setError: setError,
+                    setState: setOperations
+                }
+            )
         }
         fetchData().then(nop);
     }, [props]);

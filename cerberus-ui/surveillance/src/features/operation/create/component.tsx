@@ -7,6 +7,8 @@ import { Mediator } from "mediatr-ts";
 import { GetOperation } from "./get-operation.ts";
 import { nop } from "@cerberus/core";
 import { CircularProgress, Box } from '@mui/material';
+import { useMediatorRequest } from '@cerberus/core';
+
 export const SurveillanceOperationEditor = () => {
 
     const [error, setError] = useState<string | undefined>(undefined);
@@ -30,8 +32,12 @@ export const SurveillanceOperationEditor = () => {
     }, [operationId]);
 
     const submitOperation = async (operation: SurveillanceOperationFormModel) => {
-        const command = new EditOrCreateOperation(operationId === "new" ? undefined : operationId, operation, setBusy, setError);
-        await new Mediator().send(command);
+        const command = new EditOrCreateOperation(operationId === "new" ? undefined : operationId, operation);
+        useMediatorRequest({
+            command: command,
+            setBusy: setBusy,
+            setError: setError,
+        })
     }
 
     return (

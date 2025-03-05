@@ -20,8 +20,8 @@ const IntegerQuestionSchema = BaseOperationQuestionSchema.extend({
     min: z.number().optional(),
     max: z.number().optional(),
     normalityRange: z.object({
-        lowerBound: z.number().optional(),
-        upperBound: z.number().optional(),
+        lowerBound: z.coerce.number().optional(),
+        upperBound: z.coerce.number().optional(),
     }).optional(),
 });
 
@@ -30,8 +30,8 @@ const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
     min: z.number().optional(),
     max: z.number().optional(),
     normalityRange: z.object({
-        lowerBound: z.number().optional(),
-        upperBound: z.number().optional(),
+        lowerBound: z.coerce.number().optional(),
+        upperBound: z.coerce.number().optional(),
     }).optional(),
 });
 
