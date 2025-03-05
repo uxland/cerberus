@@ -1,20 +1,16 @@
 import { Typography } from "@mui/material";
-import { Select } from "@cerberus/core";
 import React, { useState, useEffect } from 'react';
 import {
     Run,
     RunStatus,
     InspectionRun,
-    IOperationQuestion,
     TextAnswer,
     IntegerAnswer,
     FloatAnswer,
     OptionAnswer,
-    OptionAnswerItem,
     OperationRunQuestionAnswer
 } from "../domain/model";
 import { Inspection } from "./inspection";
-import { IOperationAnswer } from "../domain/model";
 
 interface SurveillanceRunFormArgs {
     runEditionData?: Run;

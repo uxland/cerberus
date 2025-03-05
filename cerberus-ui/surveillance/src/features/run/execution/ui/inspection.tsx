@@ -5,6 +5,7 @@ import { OptionAnswer, TextAnswer, IntegerAnswer, FloatAnswer } from "../domain/
 import { useForm } from "react-hook-form";
 import { InspectionRun, Run, OperationRunQuestionAnswer } from "../domain/model";
 import { FormInputField } from "@cerberus/core";
+import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 
 interface InspectionProps {
     inspection: InspectionRun;
@@ -12,6 +13,9 @@ interface InspectionProps {
 }
 
 export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
+    const formTitle = useSurveillanceLocales('run.set.formTitle');
+    const additionalComments = useSurveillanceLocales('run.set.aditionalComments');
+    const proceed = useSurveillanceLocales('run.set.proceed');
     const formMethods = useForm<InspectionRun>({
         defaultValues: {
             id: inspection.id,
@@ -43,7 +47,7 @@ export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
                 <img className="max-h-full object-contain" src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg" alt="" />
             </div>
             <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col bg-tableBg p-4 md:p-6 rounded-[10px] w-full h-full gap-3">
-                <h1 className="text-lg font-bold mb-2">Formulario</h1>
+                <h1 className="text-lg font-bold mb-2">{formTitle}</h1>
                 <Typography className="uppercase !text-grey82 !font-semibold"> Operativa: {inspection.operationRun.description} </Typography>
                 <span className="bg-[#313131] block p-[1px] w-full"></span>
                 <div className="flex-grow flex flex-col justify-between">
@@ -101,7 +105,7 @@ export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
                                 )}
                             </div>
                         ))}
-                        <Typography className="mt-3">Comentarios adicionales</Typography>
+                        <Typography className="mt-3">{additionalComments}</Typography>
                         <textarea
                             className="bg-[#313131] w-full min-h-[80px] p-2 rounded"
                             {...register("operationRun.additionalComments")}
@@ -111,7 +115,7 @@ export const Inspection = ({ inspection, onSubmit }: InspectionProps) => {
                         type="submit"
                         className="flex text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full ml-auto mt-4 hover:bg-secondaryHover"
                     >
-                        Proceder
+                        {proceed}
                     </button>
                 </div>
             </form>

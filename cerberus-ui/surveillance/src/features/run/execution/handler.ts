@@ -16,15 +16,15 @@ export class GetRunEditionDataHandler extends HandlerBase<Run, GetRun> {
 @injectable()
 export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> {
     handle(request: SetRunInspection): Promise<Run> {
-        return this.handleRequest(request, this.editRun.bind(this));
+        return this.handleRequest(request, this.setRunInspection.bind(this));
     }
 
-    private async editRun(request: SetRunInspection): Promise<Run> {
-        const run = await this.editRunInBackend(request);
+    private async setRunInspection(request: SetRunInspection): Promise<Run> {
+        const run = await this.setRunInspectionInBackend(request);
         return run;
     }
 
-    private async editRunInBackend(request: SetRunInspection): Promise<Run> {
+    private async setRunInspectionInBackend(request: SetRunInspection): Promise<Run> {
         const response = await this.apiClient.put<{ run: Run }>(`${runsEndpointUrl}/${request.id}/inspection/${request.inspectionId}`, {
             body: <any>{ id: request.id, inspectionId: request.inspectionId, answers: request.answers }
         });

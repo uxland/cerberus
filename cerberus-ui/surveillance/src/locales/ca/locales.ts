@@ -74,5 +74,14 @@ export const locales = {
         actions: "Acciones",
       },
     },
+    run: {
+      set: {
+        formTitle: "Ronda de Supervisión",
+        start: "Empezar ronda de supervisión ahora",
+        aditionalComments: "Comentarios adicionales",
+        proceed: "Proceder",
+        send: "Enviar",
+      },
+    },
   },
 };

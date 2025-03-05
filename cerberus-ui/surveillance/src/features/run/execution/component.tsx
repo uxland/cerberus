@@ -8,8 +8,10 @@ import { CircularProgress, Box, Button } from '@mui/material';
 import { Run } from './domain/model.ts';
 import { SetRunInspection } from './command.ts';
 import { OperationRunQuestionAnswer } from './domain/model.ts';
+import { useSurveillanceLocales } from '../../../locales/ca/locales.ts';
 
 export const SurveillanceRunEditor = () => {
+    const startButtonTitle = useSurveillanceLocales('run.set.start');
     const [start, setStart] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [busy, setBusy] = useState<boolean>(false);
@@ -46,7 +48,7 @@ export const SurveillanceRunEditor = () => {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
                 <Button variant="contained" color="primary" onClick={handleStart}>
-                    Empezar ronda de supervisión ahora
+                    {startButtonTitle}
                 </Button>
             </Box>
         );
