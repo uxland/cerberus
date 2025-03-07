@@ -69,6 +69,7 @@ public static class DependencyInjection
         options.DatabaseSchemaName = "read_model";
         options.Events.DatabaseSchemaName = "event_store";
         options.Events.StreamIdentity = StreamIdentity.AsString;
+        options.Events.UseIdentityMapForAggregates = true;
         return options;
     }
 

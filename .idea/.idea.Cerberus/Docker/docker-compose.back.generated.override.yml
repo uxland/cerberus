@@ -2,38 +2,20 @@
 services:
   cerberus-back:
     build:
-      context: "C:\\Users\\dpina\\RiderProjects\\cerberus-2"
+      context: "/Users/danipinartnadal/RiderProjects/cerberus"
       dockerfile: "src/hosts/CerberusApi/Dockerfile"
       target: "base"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/JetBrains/RiderDebuggerTools/linux-x64/JetBrains.Debugger.Worker"
-    - "--runtimeconfig"
-    - "/opt/JetBrains/RiderDebuggerTools/JetBrains.Debugger.Worker.runtimeconfig.json"
-    - "--mode=server"
-    - "--frontend-port=57000"
-    - "--backend-port=57200"
-    - "--roslyn-worker-port=57400"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/CerberusApi.dll"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/JetBrains/RiderDebuggerTools"
-      RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "cerberusapi:dev"
-    ports:
-    - "127.0.0.1:57000:57000"
-    - "127.0.0.1:57200:57200"
-    - "127.0.0.1:57400:57400"
+    ports: []
     volumes:
-    - "C:\\Users\\dpina\\RiderProjects\\cerberus-2\\src\\hosts\\CerberusApi:/app:rw"
-    - "C:\\Users\\dpina\\RiderProjects\\cerberus-2:/src:rw"
-    - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
-    - "C:\\Users\\dpina\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.3.5\\\
-      Linux64:/opt/JetBrains/RiderDebuggerTools"
-    - "C:\\Users\\dpina\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
-    - "C:\\Users\\dpina\\AppData\\Local\\JetBrains\\Rider2024.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2025_3_04_09_55_55:/var/opt/JetBrains/RiderDebuggerTools:rw"
+    - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusApi:/app:rw"
+    - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
+    - "/Users/danipinartnadal/.nuget/packages:/root/.nuget/packages"
     working_dir: "/app"

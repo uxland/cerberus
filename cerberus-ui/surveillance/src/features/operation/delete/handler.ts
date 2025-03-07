@@ -10,6 +10,7 @@ export class DeleteOperationHandler extends HandlerBase<void, DeleteOperation> {
     }
 
     deleteOperation(request: DeleteOperation): Promise<void> {
+        //Ask user for confirmation
         return this.apiClient.delete(`${operationsEndpointUrl}${request.id}`);
     }
 }

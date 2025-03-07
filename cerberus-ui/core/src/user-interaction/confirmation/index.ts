@@ -5,4 +5,4 @@ export * from './confirmation-manager.ts'
 
 export const useConfirmation = (container: Container) => useReactConfirmationManager(container);
 
-export * from './confirmationProvider.tsx'
+//export * from './confirmationProvider.tsx'
