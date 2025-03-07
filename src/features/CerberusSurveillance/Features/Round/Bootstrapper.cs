@@ -3,6 +3,7 @@ using Cerberus.Surveillance.Features.Features.Round.Get;
 using Cerberus.Surveillance.Features.Features.Round.List;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Cerberus.Surveillance.Features.Features.Round.Delete;
 
 namespace Cerberus.Surveillance.Features.Features.Round;
 
@@ -13,7 +14,8 @@ internal static class Bootstrapper
         var roundsGroup = app.MapGroup("/rounds");
         roundsGroup.UseCreateRound()
             .UseListRounds()
-            .UseGetRound();
+            .UseGetRound()
+            .UseDeleteRound();
         return app;
     }
 }

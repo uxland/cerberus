@@ -6,8 +6,6 @@ import { operationsEndpointUrl } from "../constants.ts";
 @injectable()
 export class EditCreateOperationHandler extends HandlerBase<void, EditOrCreateOperation> {
     handle(request: EditOrCreateOperation): Promise<void> {
-        console.log("requestttt", request);
-
         return this.editOrCreateOperation(request);
     }
 

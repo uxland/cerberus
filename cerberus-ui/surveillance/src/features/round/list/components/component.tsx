@@ -18,7 +18,8 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { CreateRun } from "../../../run/create/command";
 import { useState } from "react";
 import { sendMediatorRequest } from "@cerberus/core";
-import { Mediator } from "mediatr-ts";
+import { DeleteRound } from "../../delete/command";
+
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
         <div className="flex flex-col gap-4">
@@ -80,7 +81,12 @@ const RoundRow = (props: { round: RoundSummary }) => {
             setBusy: setBusy,
         });
     };
-
+    const handleDeleteRound = async () => {
+        sendMediatorRequest({
+            command: new DeleteRound(props.round.id),
+            setBusy: setBusy,
+        });
+    }
     return (
         <TableRow>
             <TableCell size="small" component="th" scope="row" align="center">
@@ -110,8 +116,13 @@ const RoundRow = (props: { round: RoundSummary }) => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={useSurveillanceLocales("round.table.actions.delete")}>
-                    <IconButton>
-                        <DeleteOutlineIcon color="error" />
+                    <IconButton onClick={handleDeleteRound}>
+                        {busy ? (
+                            <CircularProgress size={24} color="error" />
+
+                        ) : (
+                            <DeleteOutlineIcon color="error" />
+                        )}
                     </IconButton>
                 </Tooltip>
             </TableCell>

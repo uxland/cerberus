@@ -52,6 +52,7 @@ export const locales = {
         actions: {
           title: "Acciones",
           delete: "Eliminar",
+          edit: "Editar",
         }
       }
     },

@@ -1,4 +1,5 @@
 ﻿using Cerberus.Surveillance.Features.Features.Operation.Create;
+using Cerberus.Surveillance.Features.Features.Operation.Delete;
 using Cerberus.Surveillance.Features.Features.Operation.Get;
 using Cerberus.Surveillance.Features.Features.Operation.List;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +14,8 @@ internal static class Bootstrapper
         var operationsGroup = app.MapGroup("/operations");
         operationsGroup.UseCreateOperation()
             .UseListOperations()
-            .UseGetOperation();
+            .UseGetOperation()
+            .UseDeleteOperation();
         return app;
     }
 }

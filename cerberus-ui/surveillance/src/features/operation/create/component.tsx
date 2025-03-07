@@ -3,7 +3,6 @@ import { SurveillanceOperationForm } from './ui/component';
 import { defaultOperationModel, SurveillanceOperationFormModel } from "./domain";
 import { EditOrCreateOperation } from "./command.ts";
 import { useParams } from "react-router-dom";
-import { Mediator } from "mediatr-ts";
 import { GetOperation } from "./get-operation.ts";
 import { nop } from "@cerberus/core";
 import { CircularProgress, Box } from '@mui/material';

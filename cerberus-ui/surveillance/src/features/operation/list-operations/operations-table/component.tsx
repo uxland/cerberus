@@ -8,16 +8,19 @@ import {
     TableHead,
     TableRow,
     Tooltip,
+    CircularProgress,
 } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
 import {
     OperationSummary, getOperationUrl
 } from "../model";
-
 import { NoData } from "../../../../components/NoData/NoData";
+import { sendMediatorRequest } from "@cerberus/core";
+import { DeleteOperation } from "../../delete/command";
+import { useState } from "react";
 
 export const OperationsTable = (props: { operations: OperationSummary[] }) => {
     return (
@@ -64,19 +67,20 @@ export const OperationsTable = (props: { operations: OperationSummary[] }) => {
 };
 
 const OpetationRow = (props: { operation: OperationSummary }) => {
+    const [busy, setBusy] = useState<boolean>(false);
     const navigate = useNavigate();
     const handleRowClick = (url) => {
         navigate(url);
     };
-    const formatDateString = (dateString) => {
-        const date = new Date(dateString);
-        return format(date, "dd/MM/yyyy hh:mm:ss a");
-    };
 
+    const handleDeleteOperation = async () => {
+        sendMediatorRequest({
+            command: new DeleteOperation(props.operation.id),
+            setBusy: setBusy,
+        })
+    };
     return (
-        <TableRow
-            key={props.operation.id}
-            onClick={() => handleRowClick(getOperationUrl(props.operation))}>
+        <TableRow key={props.operation.id}>
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.operation.id}
             </TableCell>
@@ -84,11 +88,27 @@ const OpetationRow = (props: { operation: OperationSummary }) => {
                 {props.operation.description}
             </TableCell>
             <TableCell>
-                <Tooltip title={useSurveillanceLocales("operation.table.actions.delete")}>
-                    <IconButton>
-                        <DeleteOutlineIcon color="error" />
+                <Tooltip title={useSurveillanceLocales("operation.table.actions.edit")}>
+                    <IconButton onClick={() => handleRowClick(getOperationUrl(props.operation))}>
+                        {busy ? (
+                            <CircularProgress size={24} color="info" />
+
+                        ) : (
+                            <EditIcon color="info" />
+                        )}
                     </IconButton>
                 </Tooltip>
+                <Tooltip title={useSurveillanceLocales("operation.table.actions.delete")}>
+                    <IconButton onClick={handleDeleteOperation}>
+                        {busy ? (
+                            <CircularProgress size={24} color="error" />
+
+                        ) : (
+                            <DeleteOutlineIcon color="error" />
+                        )}
+                    </IconButton>
+                </Tooltip>
+
             </TableCell>
         </TableRow>
     );
