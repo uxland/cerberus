@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
 using Cerberus.Core.Domain;
 using Cerberus.Core.MartenPersistence.QueryProviders;
 using Cerberus.Core.MartenPersistence.Repositories;
@@ -17,10 +17,10 @@ namespace Cerberus.Core.MartenPersistence;
 public static class DependencyInjection
 {
     public static MartenServiceCollectionExtensions.MartenConfigurationExpression UseMartenPersistence(this IServiceCollection services,
-        IConfiguration configuration, IHostEnvironment environment, IJsonTypeInfoResolver? jsonTypeInfoResolver = null)
+        IConfiguration configuration, IHostEnvironment environment)
     {
         var result = services
-            .AddMartenDb(configuration, environment, jsonTypeInfoResolver);
+            .AddMartenDb(configuration, environment);
         services
             .AddScoped<IUnitOfWork, MartenUoW>()
             .AddScoped<IReadModelQueryProvider, ReadModelQueryProvider>()
@@ -29,7 +29,7 @@ public static class DependencyInjection
     }
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMartenDb(this IServiceCollection services, IConfiguration configuration,
-        IHostEnvironment environment, IJsonTypeInfoResolver? jsonTypeInfoResolver = null)
+        IHostEnvironment environment)
     {
         return services.AddMarten(options =>
             {
@@ -37,7 +37,7 @@ public static class DependencyInjection
                 if (!environment.IsProduction())
                     options.AutoCreateSchemaObjects = AutoCreate.All;
                 options
-                    .SetupSerialization(jsonTypeInfoResolver)
+                    .SetupSerialization()
                     .ConfigureEventSore()
                     .ConfigureMetadata()
                     .UseNodaTime();
@@ -47,7 +47,7 @@ public static class DependencyInjection
             .AddAsyncDaemon(DaemonMode.HotCold);
     }
 
-    internal static StoreOptions SetupSerialization(this StoreOptions options, IJsonTypeInfoResolver? jsonTypeInfoResolver = null)
+    internal static StoreOptions SetupSerialization(this StoreOptions options)
     {
         options.UseSystemTextJsonForSerialization(
             EnumStorage.AsString,
@@ -57,7 +57,8 @@ public static class DependencyInjection
                 serializerOptions.IgnoreReadOnlyFields = true;
                 serializerOptions.IgnoreReadOnlyProperties = false;
                 serializerOptions.WriteIndented = true;
-                serializerOptions.TypeInfoResolver = jsonTypeInfoResolver;
+                serializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                serializerOptions.AllowOutOfOrderMetadataProperties = true;
                 
             }
         );

@@ -14,7 +14,7 @@ public static class PostgresQLContainerSetup
     public static async Task<PostgreSqlContainer> StartPostgresQlContainer()
     {
         var container = new PostgreSqlBuilder()
-            .WithImage("postgres:16")
+            .WithImage("postgres:17")
             .Build();
         await container.StartAsync();
         return container;

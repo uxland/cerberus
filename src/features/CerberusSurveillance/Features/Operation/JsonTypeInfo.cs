@@ -20,7 +20,7 @@ public static class OperationJsonTypeInfo
         typeInfo.PolymorphismOptions.DerivedTypes.Add(new JsonDerivedType(typeof(FloatQuestion), "Float"));
     }
     
-    internal static DefaultJsonTypeInfoResolver UseOperationJsonTypeInfo(this DefaultJsonTypeInfoResolver resolver)
+    public static DefaultJsonTypeInfoResolver UseOperationJsonTypeInfo(this DefaultJsonTypeInfoResolver resolver)
     {
         resolver.Modifiers.Add(OperationQuestionSerializer);
         return resolver;

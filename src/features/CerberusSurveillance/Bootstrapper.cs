@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization.Metadata;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization.Metadata;
 using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Features.Features.Round;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Wolverine.Attributes;
 
 [assembly: WolverineModule]
+[assembly: InternalsVisibleTo("CerberusSurveillance.Tests")]
 namespace Cerberus.Surveillance.Features;
 
 
