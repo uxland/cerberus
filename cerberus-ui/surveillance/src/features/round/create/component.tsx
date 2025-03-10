@@ -7,11 +7,9 @@ import { nop } from "@cerberus/core";
 import { Round } from "./domain";
 import { RoundEditionForm } from './ui/component.tsx';
 import { EditOrCreateRound } from './command.ts';
-import { useNavigate } from 'react-router-dom';
 import { sendMediatorRequest } from '@cerberus/core';
 
 export const SurveillanceRoundsEditor = () => {
-    const navigate = useNavigate();
     const [roundEditionData, setRoundEditionData] = useState<RoundEditionData>(null);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);

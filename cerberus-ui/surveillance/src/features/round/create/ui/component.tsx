@@ -17,10 +17,6 @@ import { CameraItem } from './camera-item.tsx';
 import { CameraDetails } from './camera-details.tsx';
 import { z } from 'zod';
 
-interface SurveillanceRoundFormArgs {
-    roundEditionData?: RoundEditionData;
-}
-
 export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roundEditionData: RoundEditionData, onSubmitRequested: any }) => {
     const dynamicSchema = roundSchema.superRefine((data, ctx) => {
         const requiredInspections = roundEditionData?.round.inspections.length || 0;
@@ -181,19 +177,23 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
             </div>
 
             <div className="grid grid-cols-5 gap-6">
-                <div className="col-span-4 grid grid-cols-4 gap-6">
-                    {/* <button className="bg-primary py-4 px-6 rounded-md text-black font-bold text-xl hover:bg-formSelect">{useSurveillanceLocales("round.create.addCamera")}</button>
+                <div className="col-span-3 lg:col-span-4">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {/* <button className="bg-primary py-4 px-6 rounded-md text-black font-bold text-xl hover:bg-formSelect">{useSurveillanceLocales("round.create.addCamera")}</button>
                     <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">{useSurveillanceLocales("round.create.addGroup")}</button> */}
-                    <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
-                        <Typography className="!text-xs !font-semibold"> {(roundEditionData.locations).length} {useSurveillanceLocales("round.create.cameras")}</Typography>
-                        <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.cronExpression")} - {cronValue} </Typography>
-                    </div>
-                    <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
-                        <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.groupAssigned")}: {selectedGroup}</Typography>
-                        <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.duration")}: 20 mins.</Typography>
+                        <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
+                            <Typography className="!text-xs !font-semibold"> {(roundEditionData.locations).length} {useSurveillanceLocales("round.create.cameras")}</Typography>
+                            <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.cronExpression")} - {cronValue} </Typography>
+                        </div>
+                        <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
+                            <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.groupAssigned")}: {selectedGroup}</Typography>
+                            <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.duration")}: 20 mins.</Typography>
+                        </div>
                     </div>
                 </div>
-                <div className="col-span-1 flex items-center justify-end">
+
+                <div className="col-span-2 lg:col-span-1 flex items-center justify-end">
                     <button type='submit' className="w-full text-[0.8rem] uppercase bg-secondary text-white font-bold py-4 px-10 rounded-md hover:bg-secondaryHover">
                         {useSurveillanceLocales("round.create.proceed")}
                     </button>
@@ -201,20 +201,22 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
             </div>
 
             <div className="grid grid-cols-5 gap-6">
-                <div className="col-span-4 grid grid-cols-4 gap-6">
-                    {roundEditionData?.round.inspections.map((camera) => (
-                        <CameraItem
-                            key={camera.cameraId}
-                            camera={camera}
-                            isSelected={selectedCamera === camera.cameraId}
-                            hasOperation={!!cameraAssignments[camera.cameraId]}
-                            operationDescription={cameraAssignments[camera.cameraId]?.operationDescription || ''}
-                            onSelect={handleCameraSelect}
-                        />
-                    ))}
+                <div className="col-span-3 lg:col-span-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {roundEditionData?.round.inspections.map((camera) => (
+                            <CameraItem
+                                key={camera.cameraId}
+                                camera={camera}
+                                isSelected={selectedCamera === camera.cameraId}
+                                hasOperation={!!cameraAssignments[camera.cameraId]}
+                                operationDescription={cameraAssignments[camera.cameraId]?.operationDescription || ''}
+                                onSelect={handleCameraSelect}
+                            />
+                        ))}
+                    </div>
                 </div>
 
-                <div className="col-span-1">
+                <div className="col-span-2 lg:col-span-1">
                     <CameraDetails
                         camera={roundEditionData?.locations.find(c => c.id === selectedCamera) || null}
                         selectedCamera={selectedCamera}
