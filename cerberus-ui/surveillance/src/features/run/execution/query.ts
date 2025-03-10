@@ -1,12 +1,8 @@
 
-import { RequestBase, SetState } from "@cerberus/core";
-import { Run } from "./domain/model";
+import { IRequest } from "mediatr-ts";
 
-export class GetRun extends RequestBase<void> {
-    constructor(public id: string | undefined, setState: SetState<Run>, setBusy: SetState<boolean>, setError: SetState<Error>) {
-        super(setState, setBusy, setError);
-
-    }
+export class GetRun implements IRequest<void> {
+    constructor(public id: string | undefined) { }
 }
 
 

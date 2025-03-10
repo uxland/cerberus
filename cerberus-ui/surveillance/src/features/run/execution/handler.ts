@@ -8,10 +8,9 @@ import { SetRunInspection } from "./command";
 @injectable()
 export class GetRunEditionDataHandler extends HandlerBase<Run, GetRun> {
     handle(request: GetRun): Promise<Run> {
-        return this.handleRequest(request, () => this.apiClient.get<Run>(`${runsEndpointUrl}/${request.id}`));
+        return this.apiClient.get<Run>(`${runsEndpointUrl}/${request.id}`);
     }
 }
-
 
 @injectable()
 export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> {

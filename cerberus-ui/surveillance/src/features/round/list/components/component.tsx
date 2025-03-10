@@ -74,8 +74,6 @@ const RoundRow = (props: { round: RoundSummary }) => {
     const [busy, setBusy] = useState<boolean>(false);
 
     const handleStartRun = async () => {
-        // const request = await new Mediator().send(new CreateRun(props.round.id, setBusy));
-        // console.log("request", props.round.id);
         sendMediatorRequest({
             command: new CreateRun(props.round.id),
             setBusy: setBusy,

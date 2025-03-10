@@ -62,12 +62,12 @@ export const produceInspections = (assignments: CameraAssignments): Inspection[]
 
     return inspections;
 };
-const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
+export const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
     const cameras: LocationHierarchicalItem[] = [];
 
     const traverse = (items: LocationHierarchicalItem[]) => {
         for (const item of items) {
-            if (item.type === "Camera") {
+            if (item.type === "Camera" || item.type === 1) {
                 cameras.push(item);
             }
             if (item.children && item.children.length > 0) {
@@ -82,7 +82,10 @@ const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): Locatio
 
 export const produceRoundEditionData = (locationId: string, operations: OperationSummary[], locations: LocationHierarchicalItem[]): RoundEditionData => {
     const defaultOperation = operations[0];
-    const inspections = getCamerasFromHierarchy(locations).map((camera, index) => (<Inspection>{
+
+    const cameras = getCamerasFromHierarchy(locations);
+
+    const inspections = cameras.map((camera, index) => (<Inspection>{
         id: (index + 1).toString(),
         cameraId: camera.id,
         cameraDescription: camera.description,
@@ -91,6 +94,7 @@ export const produceRoundEditionData = (locationId: string, operations: Operatio
         operationDescription: defaultOperation?.description,
         order: index
     }));
+
     const round: Round = {
         id: uuidv4().toString(),
         rootLocationId: locationId,
@@ -98,9 +102,10 @@ export const produceRoundEditionData = (locationId: string, operations: Operatio
         cronExpression: undefined,
         inspections
     }
+
     return {
         round,
         operations,
-        locations
+        locations: cameras
     }
 }

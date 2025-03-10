@@ -100,6 +100,7 @@ export const SurveillanceRunForm = ({ runEditionData, onSubmitRequested }: Surve
     const [selectedInspection, setSelectedInspection] = useState<InspectionRun | null>(dummyRun.inspectionRuns[0]);
 
     useEffect(() => {
+        console.log("RUNEDITIONDATA", runEditionData);
         if (runEditionData) {
             setRun(runEditionData);
         }

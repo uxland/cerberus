@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { SurveillanceRunForm } from './ui/runForm.tsx';
 import { GetRun } from "./query.ts";
 import { useParams } from "react-router-dom";
-import { Mediator } from "mediatr-ts";
 import { nop } from "@cerberus/core";
 import { CircularProgress, Box, Button } from '@mui/material';
 import { Run } from './domain/model.ts';
@@ -10,6 +9,7 @@ import { SetRunInspection } from './command.ts';
 import { OperationRunQuestionAnswer } from './domain/model.ts';
 import { useSurveillanceLocales } from '../../../locales/ca/locales.ts';
 import { sendMediatorRequest } from '@cerberus/core';
+import { navigationService } from '@cerberus/core/src/routing/navigation-service.ts';
 
 export const SurveillanceRunEditor = () => {
     const startButtonTitle = useSurveillanceLocales('run.set.start');
@@ -23,12 +23,12 @@ export const SurveillanceRunEditor = () => {
         console.log(id);
         async function fetchOperation() {
             if (id) {
-                try {
-                    setBusy(true);
-                    await new Mediator().send(new GetRun(id, setRunEditionData, setBusy, setError));
-                } finally {
-                    setBusy(false);
-                }
+                await sendMediatorRequest({
+                    command: new GetRun(id),
+                    setBusy: setBusy,
+                    setError: setError,
+                    setState: setRunEditionData
+                });
             }
         }
         if (start) {
@@ -38,7 +38,6 @@ export const SurveillanceRunEditor = () => {
 
     const submitOperation = async (id: string, inspectionId: string, answers: OperationRunQuestionAnswer[]) => {
         console.log("Submit", id, inspectionId, answers);
-        // await new Mediator().send(new SetRunInspection(id, inspectionId, answers, setRunEditionData, setBusy));
         await sendMediatorRequest({
             command: new SetRunInspection(id, inspectionId, answers),
             setBusy: setBusy,
@@ -47,16 +46,22 @@ export const SurveillanceRunEditor = () => {
         });
     }
 
-
     const handleStart = () => {
         setStart(true);
     };
 
+    const handleGoBack = () => {
+        navigationService.navigateBack();
+    };
+
     if (!start) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh" flexDirection="column" gap={2}>
                 <Button variant="contained" color="primary" onClick={handleStart}>
                     {startButtonTitle}
+                </Button>
+                <Button variant="outlined" color="error" onClick={handleGoBack} sx={{ mt: 2 }}>
+                    Volver
                 </Button>
             </Box>
         );
