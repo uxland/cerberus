@@ -11,24 +11,35 @@ import './style.css';
 import { SPANISH_LOCALE } from './locale/cron-spanish.ts';
 import { produceInspections } from '../domain/model.ts';
 import { Round, roundSchema } from '../domain/validation.ts';
-import { } from '../domain';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form";
 import { CameraItem } from './camera-item.tsx';
 import { CameraDetails } from './camera-details.tsx';
+import { z } from 'zod';
 
 interface SurveillanceRoundFormArgs {
     roundEditionData?: RoundEditionData;
 }
 
 export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roundEditionData: RoundEditionData, onSubmitRequested: any }) => {
+    const dynamicSchema = roundSchema.superRefine((data, ctx) => {
+        const requiredInspections = roundEditionData?.round.inspections.length || 0;
+        if (data.inspections.length < requiredInspections) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ["inspections"],
+                message: `All cameras must have an operation assigned`,
+            });
+        }
+    });
+
     const {
         register,
         handleSubmit,
         formState: { errors },
         setValue,
     } = useForm<Round>({
-        resolver: zodResolver(roundSchema),
+        resolver: zodResolver(dynamicSchema),
         defaultValues: {
             id: roundEditionData.round.id || "",
             rootLocationId: roundEditionData.round.rootLocationId || "",
@@ -43,6 +54,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const [selectedGroup, setSelectedGroup] = useState<string>('');
     const groups = ["Supervisor", "Operador", "Técnico"];
 
+    const assignGroup = useSurveillanceLocales("round.create.assignGroup");
     const cameraDetails = useSurveillanceLocales("round.create.cameraDetails");
     const cameraName = useSurveillanceLocales("round.create.cameraName");
     const operation = useSurveillanceLocales("round.create.operation");
@@ -129,7 +141,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                         onChange={(e) => setSelectedGroup(e.target.value)}
                         displayEmpty
                         size="small"
-                        className="!text-[0.8rem] uppercase bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
+                        className="!text-[0.8rem] bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
                         sx={{
                             '.MuiSvgIcon-root': {
                                 color: 'white',
@@ -144,6 +156,9 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                             },
                         }}
                     >
+                        <MenuItem value="" disabled>
+                            <em>{assignGroup}</em>
+                        </MenuItem>
                         {groups.map((group, index) => (
                             <MenuItem
                                 key={index}

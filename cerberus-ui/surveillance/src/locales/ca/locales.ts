@@ -65,6 +65,7 @@ export const locales = {
         cameras: "cámaras",
         groupInput: "Grupo",
         groupAssigned: "Grupo Asignado",
+        assignGroup: "Asignar grupo",
         duration: "Duración aproximada de la ronda",
         proceed: "Proceder",
         cronExpressionInput: "Cronología",

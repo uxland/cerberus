@@ -19,7 +19,7 @@ export const roundSchema = z.object({
             operationDescription: z.string().nonempty(),
             order: z.number().min(1, "Order must be at least 1"),
         })
-    ).min(1, 'At least one operation assigned to a camera is required'),
+    ).nonempty("All cameras must have an operation assigned"),
 });
 
 
