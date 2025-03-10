@@ -21,7 +21,7 @@ interface SurveillanceRoundFormArgs {
     roundEditionData?: RoundEditionData;
 }
 
-export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }) => {
+export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }:{roundEditionData: RoundEditionData, onSubmitRequested: any}) => {
     const {
         register,
         handleSubmit,
@@ -218,18 +218,18 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }) => {
             </div>
 
             <div className="grid grid-cols-5 gap-6">
-                {roundEditionData?.locations.map((location: LocationHierarchicalItem) => (
+                {roundEditionData?.round.inspections.map((camera: LocationHierarchicalItem) => (
                     <div
-                        key={location.id}
+                        key={camera.id}
                         className="space-y-2 cursor-pointer"
-                        onClick={() => handleCameraSelect(location.id)}
+                        onClick={() => handleCameraSelect(camera.id)}
                     >
                         <img
-                            className={`rounded-md  ${selectedCamera === location.id ? 'border border-[3px] border-primary' : 'opacity-50'}`}
+                            className={`rounded-md  ${selectedCamera === camera.id ? 'border border-[3px] border-primary' : 'opacity-50'}`}
                             src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg"
-                            alt={location.description}
+                            alt={camera.description}
                         />
-                        <Typography className="text-center !text-xs px-2">{location.description}</Typography>
+                        <Typography className="text-center !text-xs px-2">{camera.description}</Typography>
                     </div>
                 ))}
             </div>

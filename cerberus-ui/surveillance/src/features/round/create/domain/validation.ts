@@ -22,4 +22,10 @@ export const roundSchema = z.object({
     ).min(1, 'At least one operation assigned to a camera is required'),
 });
 
+
+export const InspectionSchema = z.object({
+    operationId: z.string().nonempty(),
+    operationDescription: z.string().nonempty(),
+})
+
 export type Round = z.infer<typeof roundSchema>;
