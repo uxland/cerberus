@@ -1,3 +1,5 @@
+import {OperationQuestion} from "../../../operation/create/domain";
+
 export interface Run {
     id: string;
     roundId: string;
@@ -31,15 +33,10 @@ export interface OperationRun {
 }
 
 export interface OperationRunQuestionAnswer {
-    question: IOperationQuestion;
+    question: OperationQuestion;
     answer?: IOperationAnswer;
 }
 
-export interface IOperationQuestion {
-    code: string;
-    text: string;
-    type: string;
-}
 
 export interface IOperationAnswer {
     isAnomalous: boolean;
@@ -73,6 +70,29 @@ export enum RunStatus {
     Pending = "Pending",
     Running = "Running",
     Completed = "Completed",
-    Failed = "Failed",
-    Cancelled = "Cancelled"
+    Dismissed = "Dismissed",
+}
+
+export const getCurrentInspectionRun = (run: Run): InspectionRun | undefined => {
+    return run.inspectionRuns.find(ir => ir.id === run.currentInspectionRunId);
+}
+
+export const setInspectionResponse = (inspectionRun: InspectionRun, question: OperationQuestion, answer: IOperationAnswer): InspectionRun => {
+    const answers = inspectionRun.operationRun.answers.map(a => {
+        if (a.question.id === question.id) {
+            return {
+                question,
+                answer
+            }
+        }
+        return a;
+    });
+
+    return {
+        ...inspectionRun,
+        operationRun: {
+            ...inspectionRun.operationRun,
+            answers
+        }
+    }
 }

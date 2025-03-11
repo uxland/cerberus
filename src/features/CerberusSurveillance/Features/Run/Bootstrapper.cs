@@ -1,5 +1,6 @@
 ﻿using Cerberus.Surveillance.Features.Features.Run.Create;
 using Cerberus.Surveillance.Features.Features.Run.Get;
+using Cerberus.Surveillance.Features.Features.Run.Start;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -11,7 +12,8 @@ internal static class Bootstrapper
     {
         var runsGroup = app.MapGroup("/runs");
         runsGroup.UseCreateRun()
-            .UseGetRun();
+            .UseGetRun()
+            .UseStartRun();
         return app;
     }
 }
