@@ -30,6 +30,7 @@ class GetRoundEditionDataHandler extends HandlerBase<RoundEditionData, GetRoundE
 
     private async retrieveRound(roundId: string, masterDataFetch: Promise<[LocationHierarchicalItem[], OperationSummary[]]>): Promise<RoundEditionData> {
         const round = await this.fetchRound(roundId);
+        console.log("Retrieve round:", round);
         const [locations, operations] = await masterDataFetch;
         return {
             round,

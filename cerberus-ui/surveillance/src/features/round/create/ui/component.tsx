@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from "@mui/material";
-import { RoundEditionData } from "../domain/model.ts";
+import { RoundEditionData, Inspection, createOrUpdateInspection, removeInspection } from "../domain/model.ts";
 import { MenuItem } from "@mui/material";
 import Select from '@mui/material/Select';
 import { FormInputField } from '@cerberus/core';
@@ -9,7 +9,6 @@ import { Cron } from 'react-js-cron'
 import 'react-js-cron/dist/styles.css';
 import './style.css';
 import { SPANISH_LOCALE } from './locale/cron-spanish.ts';
-import { produceInspections } from '../domain/model.ts';
 import { Round, roundSchema } from '../domain/validation.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form";
@@ -19,7 +18,7 @@ import { z } from 'zod';
 
 export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roundEditionData: RoundEditionData, onSubmitRequested: any }) => {
     const dynamicSchema = roundSchema.superRefine((data, ctx) => {
-        const requiredInspections = roundEditionData?.round.inspections.length || 0;
+        const requiredInspections = roundEditionData?.locations.length || 0;
         if (data.inspections.length < requiredInspections) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -36,7 +35,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         setValue,
     } = useForm<Round>({
         resolver: zodResolver(dynamicSchema),
-        defaultValues: {
+        defaultValues: roundEditionData.round || {
             id: roundEditionData.round.id || "",
             rootLocationId: roundEditionData.round.rootLocationId || "",
             estimatedDuration: 20,
@@ -44,12 +43,13 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         },
     });
 
-    const [cameraAssignments, setCameraAssignments] = useState<{ [cameraId: string]: string }>({});
+
+
+    const [inspections, setInspections] = useState<Inspection[]>(roundEditionData.round.inspections);
     const [selectedCamera, setSelectedCamera] = useState<string>('');
     const [cronValue, setCronValue] = useState('30 5 * * 1,6');
-    const [selectedGroup, setSelectedGroup] = useState<string>('');
+    const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const groups = ["Supervisor", "Operador", "Técnico"];
-
     const assignGroup = useSurveillanceLocales("round.create.assignGroup");
     const cameraDetails = useSurveillanceLocales("round.create.cameraDetails");
     const cameraName = useSurveillanceLocales("round.create.cameraName");
@@ -63,11 +63,10 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
 
     const handleOperationSelectFromDetails = (operationId: string) => {
         if (!operationId && selectedCamera) {
-            setCameraAssignments(prev => {
-                const newAssignments = { ...prev };
-                delete newAssignments[selectedCamera];
-                return newAssignments;
-            });
+            // Eliminar la inspección
+            setInspections(currentInspections =>
+                removeInspection(selectedCamera, currentInspections)
+            );
             return;
         }
 
@@ -75,27 +74,25 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         const camera = roundEditionData.locations.find((l) => l.id === selectedCamera);
 
         if (operation && camera) {
-            setCameraAssignments(prev => ({
-                ...prev,
-                [selectedCamera]: {
-                    operationId: operation.id,
-                    operationDescription: operation.description,
-                    cameraId: camera.id,
-                    cameraDescription: camera.description,
-                    cameraStreamingUrl: camera.streamingUrl,
-                }
-            }));
+            // Crear o actualizar la inspección
+            setInspections(currentInspections =>
+                createOrUpdateInspection(operation, camera, currentInspections)
+            );
         }
     };
-
+    useEffect(() => {
+        if (roundEditionData?.round?.inspections?.length > 0) {
+            setInspections(roundEditionData.round.inspections);
+        }
+    }, [roundEditionData]);
     const handleCameraSelect = (locationId: string) => {
         setSelectedCamera(locationId);
+        console.log("inspections", inspections)
     };
 
     useEffect(() => {
-        const inspections = produceInspections(cameraAssignments);
         setValue("inspections", inspections);
-    }, [cameraAssignments, setValue]);
+    }, [inspections, setValue]);
 
     useEffect(() => {
         setValue("cronExpression", cronValue);
@@ -108,8 +105,9 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     }
     console.log(errors);
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-            <div className="flex flex-col gap-4 bg-tableBg py-4 px-6 rounded-[10px] w-full">
+        <form onSubmit={handleSubmit(onSubmit, (formErrors) => {
+            console.error("Validation failed:", formErrors);
+        })} className='space-y-6'>            <div className="flex flex-col gap-4 bg-tableBg py-4 px-6 rounded-[10px] w-full">
                 <div className='flex gap-4 items-center'>
                     <h1 className="font-bold text-primary">{roundEditionData.round.rootLocationId} - {useSurveillanceLocales("round.create.title")}</h1>
                     <FormInputField
@@ -203,13 +201,13 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
             <div className="grid grid-cols-5 gap-6">
                 <div className="col-span-3 lg:col-span-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {roundEditionData?.round.inspections.map((camera) => (
+                        {roundEditionData?.locations.map((camera) => (
                             <CameraItem
-                                key={camera.cameraId}
+                                key={camera.id}
                                 camera={camera}
-                                isSelected={selectedCamera === camera.cameraId}
-                                hasOperation={!!cameraAssignments[camera.cameraId]}
-                                operationDescription={cameraAssignments[camera.cameraId]?.operationDescription || ''}
+                                isSelected={selectedCamera === camera.id}
+                                hasOperation={inspections.some(i => i.cameraId === camera.id)}
+                                operationDescription={inspections.find(i => i.cameraId === camera.id)?.operationDescription || ''}
                                 onSelect={handleCameraSelect}
                             />
                         ))}
@@ -220,7 +218,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     <CameraDetails
                         camera={roundEditionData?.locations.find(c => c.id === selectedCamera) || null}
                         selectedCamera={selectedCamera}
-                        assignedOperation={cameraAssignments[selectedCamera]}
+                        assignedOperation={inspections.find(i => i.cameraId === selectedCamera)}
                         cameraDetails={cameraDetails}
                         cameraId={cameraId}
                         cameraName={cameraName}

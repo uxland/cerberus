@@ -10,6 +10,7 @@ export class EditCreateRoundHandler extends HandlerBase<void, EditOrCreateRound>
     }
 
     private async editOrCreateRound(request: EditOrCreateRound): Promise<void> {
+        console.log("Send Round:", request.round);
         const task = request.id ? this.editRound(request) : this.createRound(request);
         await task;
         this.navigationService.navigateBack();

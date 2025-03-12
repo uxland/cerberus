@@ -9,7 +9,7 @@ using Marten.Events.Aggregation;
 
 namespace Cerberus.Surveillance.Persistence.Projections;
 
-public class SurveillanceRoundDetailProjection: SingleStreamProjection<SurveillanceRoundDetail>
+public class SurveillanceRoundDetailProjection : SingleStreamProjection<SurveillanceRoundDetail>
 {
     public async Task<SurveillanceRoundDetail> Create(IEvent<SurveillanceRoundCreated> @event, IQuerySession querySession)
     {
@@ -23,7 +23,7 @@ public class SurveillanceRoundDetailProjection: SingleStreamProjection<Surveilla
             ExecutionRecurrencePattern: createdEvent.CronExpression,
             AssignedTo: createdEvent.AssignedTo,
             EstimatedDuration: createdEvent.EstimatedDuration
-        );        
+        );
     }
 
 
@@ -31,8 +31,9 @@ public class SurveillanceRoundDetailProjection: SingleStreamProjection<Surveilla
         Inspection inspection)
     {
         var operationTask = querySession.LoadAsync<SurveillanceOperation>(inspection.OperationId);
-        var camera =await  querySession.LoadAsync<Camera>(inspection.CameraId);
+        var camera = await querySession.LoadAsync<Camera>(inspection.CameraId);
         var operation = await operationTask;
+
         return new InspectionDetail(
             inspection.Id,
             inspection.CameraId,

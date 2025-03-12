@@ -1,7 +1,7 @@
-import {ExecutionStepArgs} from "../model.ts";
-import {Box, Button} from "@mui/material";
-import {StartRun} from "./command.ts";
-import {useSurveillanceLocales} from "../../../../locales/ca/locales.ts";
+import { ExecutionStepArgs } from "../model.ts";
+import { Box, Button } from "@mui/material";
+import { StartRun } from "./command.ts";
+import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 
 export interface StartSurveillanceRunProps extends ExecutionStepArgs {
     runId: string;

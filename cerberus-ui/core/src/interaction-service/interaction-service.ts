@@ -1,12 +1,12 @@
-import {interfaces, injectable, inject, Container} from "inversify";
+import { interfaces, injectable, inject, Container } from "inversify";
 import * as React from "react";
 
-export interface ConfirmationResult<T = undefined>{
+export interface ConfirmationResult<T = undefined> {
     confirmed: boolean
     result: T | undefined;
 }
 
-export interface ConfirmationContentProps<TData, TResult = undefined>{
+export interface ConfirmationContentProps<TData, TResult = undefined> {
     data: TData | undefined
     setResult: (result: TResult) => void
     setIsValid: (isValid: boolean) => void,
@@ -14,7 +14,7 @@ export interface ConfirmationContentProps<TData, TResult = undefined>{
     cancel: () => void,
 }
 
-export interface ConfirmationOptions{
+export interface ConfirmationOptions {
     title?: string | undefined,
     showTitle?: boolean | undefined,
     showConfirmButton?: boolean | undefined,
@@ -25,7 +25,7 @@ export interface ConfirmationOptions{
 
 @injectable()
 export abstract class InteractionService {
-    constructor(@inject(Container) protected  container: Container) {
+    constructor(@inject(Container) protected container: Container) {
     }
     abstract confirm<TData = undefined, TResult = undefined>(
         data: TData | undefined,

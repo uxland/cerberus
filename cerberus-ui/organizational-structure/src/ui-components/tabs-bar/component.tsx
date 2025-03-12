@@ -5,12 +5,12 @@ import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
 
 export enum TabPanelType {
   OpenIssues = 0,
-  Analysis = 1,
-  Settings = 2,
-  Reports = 3,
-  MaintenanceSettings = 4,
-  Operations = 5,
-  Rounds = 6,
+  Analysis = 2,
+  Settings = 4,
+  Reports = 6,
+  MaintenanceSettings = 10,
+  Operations = 6,
+  Rounds = 8,
 }
 
 export const TabsBar = (props: {

@@ -19,6 +19,8 @@ import { CreateRun } from "../../../run/create/command";
 import { useState } from "react";
 import { sendMediatorRequest } from "@cerberus/core";
 import { DeleteRound } from "../../delete/command";
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
 
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
@@ -71,20 +73,34 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
 };
 
 const RoundRow = (props: { round: RoundSummary }) => {
-    const [busy, setBusy] = useState<boolean>(false);
+    const [busyEdit, setBusyEdit] = useState<boolean>(false);
+    const [busyStart, setBusyStart] = useState<boolean>(false);
+    const [busyDelete, setBusyDelete] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const handleStartRun = async () => {
         sendMediatorRequest({
             command: new CreateRun(props.round.id),
-            setBusy: setBusy,
+            setBusy: setBusyStart,
         });
     };
+
     const handleDeleteRound = async () => {
         sendMediatorRequest({
             command: new DeleteRound(props.round.id),
-            setBusy: setBusy,
+            setBusy: setBusyDelete,
         });
     }
+
+    const handleEditRound = async () => {
+        setBusyEdit(true);
+        try {
+            navigate(`/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}`);
+        } finally {
+            setBusyEdit(false);
+        }
+    }
+
     return (
         <TableRow>
             <TableCell size="small" component="th" scope="row" align="center">
@@ -99,25 +115,38 @@ const RoundRow = (props: { round: RoundSummary }) => {
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.round.cronExpression}
             </TableCell>
-            <TableCell align="center" width={200} className="flex">
+            <TableCell align="center" width={200} className="flex justify-center gap-1">
+                <Tooltip title={useSurveillanceLocales("round.table.actions.edit")}>
+                    <IconButton
+                        onClick={handleEditRound}
+                        disabled={busyEdit || busyStart || busyDelete}
+                    >
+                        {busyEdit ? (
+                            <CircularProgress size={24} color="info" />
+                        ) : (
+                            <EditIcon color="info" />
+                        )}
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title={useSurveillanceLocales("round.table.actions.start")}>
                     <IconButton
                         onClick={handleStartRun}
-                        disabled={busy}
+                        disabled={busyEdit || busyStart || busyDelete}
                     >
-                        {busy ? (
+                        {busyStart ? (
                             <CircularProgress size={24} color="success" />
-
                         ) : (
                             <PlayCircleOutlineIcon color="success" />
                         )}
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={useSurveillanceLocales("round.table.actions.delete")}>
-                    <IconButton onClick={handleDeleteRound}>
-                        {busy ? (
+                    <IconButton
+                        onClick={handleDeleteRound}
+                        disabled={busyEdit || busyStart || busyDelete}
+                    >
+                        {busyDelete ? (
                             <CircularProgress size={24} color="error" />
-
                         ) : (
                             <DeleteOutlineIcon color="error" />
                         )}

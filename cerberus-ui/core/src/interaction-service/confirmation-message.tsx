@@ -1,5 +1,5 @@
-import {ConfirmationContentProps} from "./interaction-service.ts";
+import { ConfirmationContentProps } from "./interaction-service.ts";
 
-export const ConfirmationMessage = ({data}: ConfirmationContentProps<string>) =>{
+export const ConfirmationMessage = ({ data }: ConfirmationContentProps<string>) => {
     return (<div>{data}</div>)
 }

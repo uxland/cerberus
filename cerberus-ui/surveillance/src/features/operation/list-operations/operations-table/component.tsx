@@ -67,18 +67,26 @@ export const OperationsTable = (props: { operations: OperationSummary[] }) => {
 };
 
 const OpetationRow = (props: { operation: OperationSummary }) => {
-    const [busy, setBusy] = useState<boolean>(false);
+    const [busyEdit, setBusyEdit] = useState<boolean>(false);
+    const [busyDelete, setBusyDelete] = useState<boolean>(false);
     const navigate = useNavigate();
+
     const handleRowClick = (url) => {
-        navigate(url);
+        setBusyEdit(true);
+        try {
+            navigate(url);
+        } finally {
+            setBusyEdit(false);
+        }
     };
 
     const handleDeleteOperation = async () => {
         sendMediatorRequest({
             command: new DeleteOperation(props.operation.id),
-            setBusy: setBusy,
+            setBusy: setBusyDelete,
         })
     };
+
     return (
         <TableRow key={props.operation.id}>
             <TableCell size="small" component="th" scope="row" align="center">
@@ -87,28 +95,31 @@ const OpetationRow = (props: { operation: OperationSummary }) => {
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.operation.description}
             </TableCell>
-            <TableCell>
+            <TableCell align="center" className="flex justify-center gap-2">
                 <Tooltip title={useSurveillanceLocales("operation.table.actions.edit")}>
-                    <IconButton onClick={() => handleRowClick(getOperationUrl(props.operation))}>
-                        {busy ? (
+                    <IconButton
+                        onClick={() => handleRowClick(getOperationUrl(props.operation))}
+                        disabled={busyEdit || busyDelete}
+                    >
+                        {busyEdit ? (
                             <CircularProgress size={24} color="info" />
-
                         ) : (
                             <EditIcon color="info" />
                         )}
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={useSurveillanceLocales("operation.table.actions.delete")}>
-                    <IconButton onClick={handleDeleteOperation}>
-                        {busy ? (
+                    <IconButton
+                        onClick={handleDeleteOperation}
+                        disabled={busyEdit || busyDelete}
+                    >
+                        {busyDelete ? (
                             <CircularProgress size={24} color="error" />
-
                         ) : (
                             <DeleteOutlineIcon color="error" />
                         )}
                     </IconButton>
                 </Tooltip>
-
             </TableCell>
         </TableRow>
     );

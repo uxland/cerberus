@@ -88,6 +88,7 @@ export const locales = {
         cronExpression: "Cronología",
         actions: {
           title: "Acciones",
+          edit: "Editar",
           start: "Iniciar",
           delete: "Eliminar",
         }

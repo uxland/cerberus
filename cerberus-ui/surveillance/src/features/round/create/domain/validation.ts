@@ -14,7 +14,7 @@ export const roundSchema = z.object({
             id: z.string().uuid(),
             cameraId: z.string().min(1, "Camera ID is required"),
             cameraDescription: z.string().nonempty("Camera description is required"),
-            streamingUrl: z.string().optional(),
+            streamingUrl: z.string().nullable().optional(),
             operationId: z.string().nonempty(),
             operationDescription: z.string().nonempty(),
             order: z.number().min(1, "Order must be at least 1"),

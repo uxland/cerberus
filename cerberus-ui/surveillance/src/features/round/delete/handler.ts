@@ -5,8 +5,14 @@ import { injectable } from "inversify";
 
 @injectable()
 export class DeleteRoundHandler extends HandlerBase<void, DeleteRound> {
-    handle(request: DeleteRound): Promise<void> {
-        return this.deleteRound(request);
+    async handle(request: DeleteRound): Promise<void> {
+        await this.askForConfirmation(request) ? await this.deleteRound(request) : null;
+    }
+
+    private async askForConfirmation(request: DeleteRound): Promise<boolean> {
+        const message = `Are you sure you want to delete round: ${request.id}?`;
+        const confirmationResult = await this.interactionService.confirmMessage(message);
+        return confirmationResult.confirmed;
     }
 
     deleteRound(request: DeleteRound): Promise<void> {

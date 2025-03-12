@@ -34,34 +34,6 @@ export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem 
     inRound: boolean;
 }
 
-interface CameraAssignments {
-    [cameraId: string]: {
-        operationId: string;
-        operationDescription: string;
-        cameraId: string;
-        cameraDescription: string;
-        streamingUrl?: string;
-    };
-}
-
-export const produceInspections = (assignments: CameraAssignments): Inspection[] => {
-    const inspections: Inspection[] = Object.entries(assignments).map(
-        ([cameraId, assignment], index) => {
-            const inspection: Inspection = {
-                id: uuidv4().toString(),
-                cameraId: assignment.cameraId,
-                cameraDescription: assignment.cameraDescription,
-                streamingUrl: assignment.streamingUrl || undefined,
-                operationId: assignment.operationId,
-                operationDescription: assignment.operationDescription,
-                order: index + 1,
-            };
-            return inspection;
-        }
-    );
-
-    return inspections;
-};
 export const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): LocationHierarchicalItem[] => {
     const cameras: LocationHierarchicalItem[] = [];
 
@@ -85,22 +57,12 @@ export const produceRoundEditionData = (locationId: string, operations: Operatio
 
     const cameras = getCamerasFromHierarchy(locations);
 
-    const inspections = cameras.map((camera, index) => (<Inspection>{
-        id: (index + 1).toString(),
-        cameraId: camera.id,
-        cameraDescription: camera.description,
-        streamingUrl: camera.streamingUrl,
-        operationId: defaultOperation?.id,
-        operationDescription: defaultOperation?.description,
-        order: index
-    }));
-
     const round: Round = {
         id: uuidv4().toString(),
         rootLocationId: locationId,
         description: undefined,
         cronExpression: undefined,
-        inspections
+        inspections: []
     }
 
     return {
@@ -109,3 +71,50 @@ export const produceRoundEditionData = (locationId: string, operations: Operatio
         locations: cameras
     }
 }
+
+
+
+export const createOrUpdateInspection = (
+    operation: OperationSummary | null,
+    camera: LocationHierarchicalItem | null,
+    currentInspections: Inspection[]
+): Inspection[] => {
+    if (!operation || !camera) {
+        return currentInspections;
+    }
+
+    const existingIndex = currentInspections.findIndex(i => i.cameraId === camera.id);
+
+    const newInspection: Inspection = {
+        id: existingIndex >= 0 ? currentInspections[existingIndex].id : uuidv4(),
+        cameraId: camera.id,
+        cameraDescription: camera.description,
+        streamingUrl: camera.streamingUrl,
+        operationId: operation.id,
+        operationDescription: operation.description,
+        order: existingIndex >= 0 ? currentInspections[existingIndex].order : currentInspections.length + 1
+    };
+
+    if (existingIndex >= 0) {
+        const newInspections = [...currentInspections];
+        newInspections[existingIndex] = newInspection;
+        return newInspections;
+    } else {
+        return [...currentInspections, newInspection];
+    }
+};
+
+
+export const removeInspection = (
+    cameraId: string,
+    currentInspections: Inspection[]
+): Inspection[] => {
+    const filteredInspections = currentInspections.filter(inspection =>
+        inspection.cameraId !== cameraId
+    );
+
+    return filteredInspections.map((inspection, index) => ({
+        ...inspection,
+        order: index + 1
+    }));
+};

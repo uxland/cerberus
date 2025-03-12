@@ -16,15 +16,21 @@ export const SurveillanceRoundsEditor = () => {
     const { locationId, roundId } = useParams<{ locationId: string, roundId: string }>();
     useEffect(() => {
         async function fetchRoundData() {
-            sendMediatorRequest({
+            await sendMediatorRequest({
                 command: new GetRoundEditionData(locationId, roundId),
                 setBusy: setBusy,
                 setError: setError,
                 setState: setRoundEditionData
             });
         }
-        fetchRoundData().then(nop);
+        fetchRoundData().then(nop)
     }, [locationId, roundId]);
+
+    useEffect(() => {
+        if (roundEditionData) {
+            console.log("Round data updated:", roundEditionData);
+        }
+    }, [roundEditionData]);
 
     const submitRound = async (round: Round) => {
         const command = new EditOrCreateRound(roundId === "new" ? undefined : roundId, round);
