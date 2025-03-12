@@ -5,10 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/CreateOrUpdate/IRoundSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Cerberus/Docker/docker-compose.back.generated.override.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MartenPersistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MartenPersistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/handler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/handler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundDetailProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Operation/Get/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Operation/Get/Endpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Operation/SurveillanceOperation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Operation/SurveillanceOperation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Create/Command.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/CreateOrUpdate/Commands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Create/Endpoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/CreateOrUpdate/Endpoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Create/Handler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/CreateOrUpdate/Handler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Create/SurveillanceRound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/CreateOrUpdate/SurveillanceRound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Create/SurveillanceRoundCreated.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/CreateOrUpdate/SurveillanceRoundCreated.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Get/SurveillanceRoundDetail.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/Get/SurveillanceRoundDetail.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/List/SurveillanceRoundSummary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/List/SurveillanceRoundSummary.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/SurveillanceRound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Round/SurveillanceRound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/InspectionRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/InspectionRun.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/SurveillanceRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/SurveillanceRun.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,6 +237,10 @@
       <workItem from="1740809526388" duration="12966000" />
       <workItem from="1741168592559" duration="338000" />
       <workItem from="1741169338710" duration="2076000" />
+      <workItem from="1741413472240" duration="1625000" />
+      <workItem from="1741770851103" duration="589000" />
+      <workItem from="1741787001966" duration="1103000" />
+      <workItem from="1741788440996" duration="2471000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />

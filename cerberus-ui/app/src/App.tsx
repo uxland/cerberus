@@ -29,7 +29,6 @@ import {
 import Logo from "./assets/logo/instrumentaNoBg.png";
 import { SetNavigation } from "./navigation/set-navigation.ts";
 import theme from "./styles/mui/theme";
-import { UserInteractionProvider } from "@cerberus/core";
 
 initializeHooks();
 
@@ -49,8 +48,6 @@ const AppContent = ({ routes }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <UserInteractionProvider>
-
         <Box
           sx={{
             display: "grid",
@@ -102,8 +99,6 @@ const AppContent = ({ routes }) => {
             </svg>
           </button>
         </Box>
-      </UserInteractionProvider>
-
     </ThemeProvider>
   );
 };

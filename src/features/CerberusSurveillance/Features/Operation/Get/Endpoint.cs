@@ -1,4 +1,7 @@
-﻿using Cerberus.Core.Domain;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
+using Cerberus.Core.Domain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -11,8 +14,8 @@ public static class Endpoint
     {
         app.MapGet("/{id}", async (string id, IReadModelQueryProvider queryProvider) =>
         {
-            var operation = await queryProvider.RehydrateAsJson<SurveillanceOperation>(id);
-            return string.IsNullOrEmpty(operation) ? Results.NotFound() : Results.Ok(operation);
+            var operationJson = await queryProvider.RehydrateAsJson<SurveillanceOperation>(id);
+            return string.IsNullOrEmpty(operationJson) ? Results.NotFound() : Results.Ok(operationJson);
         });
         return app;
     }

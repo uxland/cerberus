@@ -8,15 +8,15 @@ public partial class SurveillanceRound: AggregateRoot
     {
         
     }
-    public string ExecutionRecurrencePattern { get; private set; }
-    public string? AssignedGroupId { get;  private set; }
-    public string? RootLocationId { get;  private set; }
-    public string? Description { get; private set; }
+    public string ExecutionRecurrencePattern { get; set; }
+    public string? AssignedGroupId { get;  set; }
+    public string? RootLocationId { get;  set; }
+    public string? Description { get; set; }
     
-    public List<Inspection> Inspections { get;  private set; }
+    public List<Inspection> Inspections { get;  set; }
     
-    public Duration? EstimatedDuration { get;  private set; }
+    public Duration? EstimatedDuration { get;  set; }
     
-    public string? AssignedTo { get;  private set; }
+    public string? AssignedTo { get;  set; }
     
 }

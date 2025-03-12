@@ -1,5 +1,4 @@
 ﻿using Cerberus.Surveillance.Features.Features.Operation;
-using Cerberus.Surveillance.Features.Features.Round;
 using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Persistence.Projections;
 using Marten;

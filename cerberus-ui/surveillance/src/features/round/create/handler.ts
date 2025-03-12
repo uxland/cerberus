@@ -17,7 +17,7 @@ export class EditCreateRoundHandler extends HandlerBase<void, EditOrCreateRound>
     }
 
     private async editRound(request: EditOrCreateRound): Promise<void> {
-        return this.apiClient.put<void>(`${roundsEndpointUrl}/${request.id}`, { body: <any>request.round });
+        return this.apiClient.put<void>(`${roundsEndpointUrl}${request.id}`, { body: <any>request.round });
     }
 
     private async createRound(request: EditOrCreateRound): Promise<void> {
