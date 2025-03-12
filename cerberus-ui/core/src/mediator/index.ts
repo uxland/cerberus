@@ -11,6 +11,7 @@ import { inject, injectable } from "inversify";
 import { ApiClient } from "@cerberus/shared/src";
 import { NavigationService } from "../routing";
 import { SetState } from "../state";
+import {InteractionService} from "../interaction-service";
 
 interface Constructor<T> {
     new(...args: any[]): T;
@@ -56,7 +57,7 @@ type RequestBaseHandler<TResult, TRequest extends RequestBase<TResult>> = (reque
 
 @injectable()
 export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> implements IRequestHandler<TRequest, TResult> {
-    public constructor(@inject(ApiClient) protected apiClient: ApiClient, @inject(NavigationService) protected navigationService: NavigationService) {
+    public constructor(@inject(ApiClient) protected apiClient: ApiClient, @inject(NavigationService) protected navigationService: NavigationService, @inject(InteractionService) protected interactionService: InteractionService) {
     }
     abstract handle(request: TRequest): Promise<TResult>;
 

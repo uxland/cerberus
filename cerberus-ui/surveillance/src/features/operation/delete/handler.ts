@@ -5,12 +5,19 @@ import { injectable } from "inversify";
 
 @injectable()
 export class DeleteOperationHandler extends HandlerBase<void, DeleteOperation> {
-    handle(request: DeleteOperation): Promise<void> {
-        return this.deleteOperation(request);
+    async handle(request: DeleteOperation): Promise<void> {
+        const confirmed = await this.askForConfirmation(request);
+        if (confirmed)
+            await this.deleteOperation(request);
     }
 
     deleteOperation(request: DeleteOperation): Promise<void> {
-        //Ask user for confirmation
         return this.apiClient.delete(`${operationsEndpointUrl}${request.id}`);
+    }
+
+    private async askForConfirmation(request: DeleteOperation): Promise<boolean> {
+        const message = `Are you sure you want to delete operation ${request.id}?`;
+        const confirmationResult = await this.interactionService.confirmMessage(message);
+        return confirmationResult.confirmed;
     }
 }

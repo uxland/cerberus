@@ -125,8 +125,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0)(typescript@5.5.3))
       axios:
-        specifier: ^1.7.2
-        version: 1.7.2
+        specifier: 1.8.2
+        version: 1.8.2
       inversify:
         specifier: ^6.0.2
         version: 6.0.2
@@ -142,6 +142,9 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
       react-hook-form:
         specifier: ^7.54.2
         version: 7.54.2(react@18.3.1)
@@ -2486,8 +2489,8 @@ packages:
     resolution: {integrity: sha512-QbUdXJVTpvUTHU7871ppZkdOLBeGUKBQWHkHrvN2V9IQWGMt61zf3B45BtzjxEJzYuj0JBjBZP/hmYS/R9pmAw==}
     engines: {node: '>=4'}
 
-  axios@1.7.2:
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  axios@1.8.2:
+    resolution: {integrity: sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==}
 
   axobject-query@3.1.1:
     resolution: {integrity: sha512-goKlv8DZrK9hUh975fnHzhNIO4jUnFCfv/dszV5VwUGDFjI6vQ2VwoyjYjYNEbBE8AH87TduWP5uyDR1D+Iteg==}
@@ -10605,7 +10608,7 @@ snapshots:
 
   axe-core@4.9.1: {}
 
-  axios@1.7.2:
+  axios@1.8.2:
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.5(supports-color@6.1.0))
       form-data: 4.0.0
@@ -13534,11 +13537,7 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:
