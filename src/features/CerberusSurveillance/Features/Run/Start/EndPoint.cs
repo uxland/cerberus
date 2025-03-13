@@ -9,9 +9,9 @@ public static class EndPoint
 {
     public static RouteGroupBuilder UseStartRun(this RouteGroupBuilder app)
     {
-        app.MapPut("/{id}:start", async (StartRun command, IMessageBus messageBus) =>
+        app.MapPut("/{id}:start", async (string id, IMessageBus messageBus) =>
         {
-            var run = await messageBus.InvokeAsync<SurveillanceRun>(command);
+            var run = await messageBus.InvokeAsync<SurveillanceRun>(new StartRun(id));
             return Results.Ok(run);
         });
         return app;

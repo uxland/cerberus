@@ -71,6 +71,7 @@ public static class DependencyInjection
         options.Events.DatabaseSchemaName = "event_store";
         options.Events.StreamIdentity = StreamIdentity.AsString;
         options.Events.UseIdentityMapForAggregates = true;
+        
         return options;
     }
 
@@ -81,6 +82,8 @@ public static class DependencyInjection
         {
             x.Metadata.CorrelationId.Enabled = true;
             x.Metadata.CausationId.Enabled = true;
+            x.Metadata.LastModifiedBy.Enabled = true;
+            x.Metadata.LastModifiedBy.Enabled = true;
         });
         return options;
     }

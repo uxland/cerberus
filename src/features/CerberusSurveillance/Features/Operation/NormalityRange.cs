@@ -7,4 +7,9 @@ public record NormalityRange<T> (T? LowerBound, T? UpperBound) where T : struct,
     {
         return (LowerBound == null || value.CompareTo(LowerBound.Value) >= 0) && (UpperBound == null || value.CompareTo(UpperBound.Value) <= 0);
     }
+    
+    public bool IsOutOfRange(T value)
+    {
+        return !IsWithinRange(value);
+    }
 }

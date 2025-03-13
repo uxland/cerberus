@@ -1,7 +1,5 @@
 ﻿
 using Cerberus.Core.Domain;
-using Cerberus.Surveillance.Features.Features.Operation;
-using Cerberus.Surveillance.Features.Features.Round;
 using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Run;
@@ -25,7 +23,6 @@ public partial class InspectionRun() : Entity()
     public OperationRun OperationRun { get; set; }
     
     public string? ExecutorId { get; set; }
-
     
 }
 

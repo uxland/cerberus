@@ -4,7 +4,7 @@ namespace Cerberus.Surveillance.Features.Features.Run;
 
 public partial  class SurveillanceRun
 {
-    public void Handle(MoveToNextInspection cmd)
+    public void Handle(MoveToNextInspection _)
     {
         var next = this.InspectionRuns.FirstOrDefault(x => x.Status == RunStatus.Pending);
         if(next != null)
