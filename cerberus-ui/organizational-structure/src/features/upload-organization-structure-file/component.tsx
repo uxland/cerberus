@@ -10,6 +10,10 @@ export const OrganizationalStructureFileUploader = () => {
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
 
+  const uploadTitle = useOrganizationalStructureLocales("upload.title");
+  const uploadPlaceholder = useOrganizationalStructureLocales("upload.placeholder");
+  const uploadFileText = useOrganizationalStructureLocales("upload.file");
+
   const submit = async (event) => {
     setError("");
     event.preventDefault();
@@ -26,10 +30,11 @@ export const OrganizationalStructureFileUploader = () => {
   const handleFileChange = (newFile) => {
     setFile(newFile);
   };
+
   return (
     <form onSubmit={submit}>
       <Typography variant="h6" component="h6">
-        {useOrganizationalStructureLocales("upload.title")}
+        {uploadTitle}
       </Typography>
       <div className="flex gap-4 w-[500px] items-end">
         <div className="flex items-center justify-center w-80">
@@ -45,7 +50,7 @@ export const OrganizationalStructureFileUploader = () => {
               inputProps={{ accept: ".xlsx,.xls" }}
               fullWidth
               margin="normal"
-              placeholder={useOrganizationalStructureLocales("upload.placeholder")}
+              placeholder={uploadPlaceholder}
             />
           )}
         </div>
@@ -56,7 +61,7 @@ export const OrganizationalStructureFileUploader = () => {
           type="submit"
           fullWidth
           className="submit-btn flex-1">
-          {useOrganizationalStructureLocales("upload.file")}
+          {uploadFileText}
         </Button>
         {error && (
           <Typography variant="h6" color="error" component="h6">
