@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 
-namespace Cerberus.Surveillance.Features.Features.Round.Create;
+namespace Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 
 public record SurveillanceRoundCreated(
     string Id,

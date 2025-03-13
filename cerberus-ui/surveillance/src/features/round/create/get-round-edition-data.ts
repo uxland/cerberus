@@ -5,7 +5,7 @@ import { OperationSummary } from "../../operation/list-operations/model.ts";
 import { ListLocationSubHierarchy, LocationHierarchicalItem } from "@cerberus/organizational-structure";
 import { ListOperations } from "../../operation/list-operations/query.ts";
 import { Container } from "inversify";
-import { produceRoundEditionData } from "./domain/model";
+import { produceRoundEditionData, getCamerasFromHierarchy } from "./domain/model";
 import { IRequest } from "mediatr-ts";
 
 export class GetRoundEditionData implements IRequest<RoundEditionData> {
@@ -32,10 +32,11 @@ class GetRoundEditionDataHandler extends HandlerBase<RoundEditionData, GetRoundE
         const round = await this.fetchRound(roundId);
         console.log("Retrieve round:", round);
         const [locations, operations] = await masterDataFetch;
+        const cameras = getCamerasFromHierarchy(locations);
         return {
             round,
             operations,
-            locations
+            locations: cameras
         }
     }
 

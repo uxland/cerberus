@@ -1,4 +1,4 @@
-﻿using Cerberus.Surveillance.Features.Features.Operation.Create;
+﻿using Cerberus.Surveillance.Features.Features.Operation.CreateOrUpdate;
 using Cerberus.Surveillance.Features.Features.Operation.Delete;
 using Cerberus.Surveillance.Features.Features.Operation.Get;
 using Cerberus.Surveillance.Features.Features.Operation.List;
@@ -12,7 +12,7 @@ internal static class Bootstrapper
     public static RouteGroupBuilder SetupOperationRouting(this RouteGroupBuilder app)
     {
         var operationsGroup = app.MapGroup("/operations");
-        operationsGroup.UseCreateOperation()
+        operationsGroup.UseCreateOrUpdateOperation()
             .UseListOperations()
             .UseGetOperation()
             .UseDeleteOperation();

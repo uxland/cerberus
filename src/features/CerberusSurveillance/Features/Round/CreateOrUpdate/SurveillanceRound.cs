@@ -1,5 +1,4 @@
-﻿using Cerberus.Surveillance.Features.Features.Round.Create;
-using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
+﻿using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Round;
@@ -27,7 +26,7 @@ public partial class SurveillanceRound
         this.Id = @event.Id;
         this.UpdateSettings(@event.Settings);
     }
-    
+
     public void Apply(SurveillanceRoundUpdated @event)
     {
         this.UpdateSettings(@event.Settings);
