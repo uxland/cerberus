@@ -10,6 +10,6 @@ public partial class InspectionRun
         this.CameraDescription = cameraDescription;
         this.CameraStreamingUrl = cameraStreamingUrl;
         this.OperationRun = operationRun;
-        this.Status = RunStatus.Running;
+        this.Status = RunStatus.Pending;
     }
 }
