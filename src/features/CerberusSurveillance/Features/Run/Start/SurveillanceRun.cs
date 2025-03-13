@@ -28,9 +28,9 @@ public partial class SurveillanceRun
         {
             case RunStatus.Pending:
                 return true;
-            case RunStatus.Completed:
+            case RunStatus.Released:
             case RunStatus.Dismissed:
-                throw new BusinessException("Run is already completed or dismissed");
+                throw new BusinessException("Run is already released or dismissed");
             default:
                 return false;
         }

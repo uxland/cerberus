@@ -5,5 +5,6 @@ public enum RunStatus
     Pending,
     Running,
     Completed,
-    Dismissed
+    Dismissed,
+    Released
 }

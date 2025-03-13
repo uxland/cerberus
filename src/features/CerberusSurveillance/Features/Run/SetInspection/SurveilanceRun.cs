@@ -27,6 +27,8 @@ public partial class SurveillanceRun
     {
         var inspectionRun = this.GetInspectionRunById(runsInspectionSet.InspectionId);
         inspectionRun?.Apply(runsInspectionSet);
+        if(this.CanRelease)
+            this.Status = RunStatus.Completed;
     }
     
 }

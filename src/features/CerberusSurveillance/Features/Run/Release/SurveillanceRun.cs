@@ -22,6 +22,6 @@ public partial class SurveillanceRun
     {
         this.EndedAt = @event.At;
         this.EndedBy = @event.By;
-        this.Status = RunStatus.Completed;
+        this.Status = RunStatus.Released;
     }
 }
