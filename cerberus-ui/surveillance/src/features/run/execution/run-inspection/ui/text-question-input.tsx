@@ -2,6 +2,7 @@ import { OperationRunQuestionAnswer } from "../../domain/model.ts";
 import { FormInputField } from "@cerberus/core";
 import { UseFormReturn } from "react-hook-form";
 import { ExecutionForm } from '../domain/validation.ts';
+import { Typography } from "@mui/material";
 
 interface TextQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<ExecutionForm>;
@@ -15,7 +16,7 @@ export const TextQuestionInput = (props: TextQuestionInputProps) => {
 
     return (
         <>
-            {props.question.text}
+            <Typography > {props.question.text} </Typography>
             <FormInputField
                 type="text"
                 className="bg-[#313131] w-full p-2 rounded"

@@ -2,6 +2,7 @@ import { OperationRunQuestionAnswer } from "../../domain/model.ts";
 import { FormInputField } from "@cerberus/core";
 import { UseFormReturn } from "react-hook-form";
 import { ExecutionForm } from '../domain/validation.ts';
+import { Typography } from "@mui/material";
 
 interface FloatQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<ExecutionForm>;
@@ -15,8 +16,7 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
 
     return (
         <>
-            {props.question.text}
-
+            <Typography > {props.question.text} </Typography>
             <FormInputField
                 type="number"
                 step="0.1"

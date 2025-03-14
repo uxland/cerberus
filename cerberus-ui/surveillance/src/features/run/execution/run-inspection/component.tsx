@@ -30,7 +30,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
         },
     });
-    const { register, handleSubmit, setValue, watch } = formMethods;
+    const { register, handleSubmit } = formMethods;
 
 
     const onSubmitForm = (data: ExecutionForm) => {

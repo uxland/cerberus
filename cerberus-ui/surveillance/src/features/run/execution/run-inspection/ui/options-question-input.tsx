@@ -2,6 +2,7 @@ import { OperationRunQuestionAnswer } from "../../domain/model.ts";
 import { Select } from "@cerberus/core";
 import { OptionsQuestion } from "../../../../operation/create/domain";
 import { UseFormReturn } from "react-hook-form";
+import { Typography } from "@mui/material";
 
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<any>;
@@ -16,7 +17,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
 
     return (
         <>
-            {question.text}
+            <Typography > {question.text} </Typography>
             <Select
                 formMethods={props.formMethods}
                 name={"answer"}
