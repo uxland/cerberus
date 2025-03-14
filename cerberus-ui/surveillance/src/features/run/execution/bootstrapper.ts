@@ -2,11 +2,11 @@ import { addRoute, registerRouteComponent, store } from "@cerberus/core";
 import { SurveillanceRunEditor } from "./component";
 import { Container } from "inversify";
 import { GetRun } from "./query";
-import { GetRunEditionDataHandler, SetRunInspectionHandler } from "./handler";
+import { GetRunEditionDataHandler } from "./handler";
 import { registerCommandHandler } from "@cerberus/core";
-import { SetRunInspection } from "./command";
-import {useStartRun} from "./start";
-import {useRunInspection} from "./run-inspection/bootstraper.ts";
+// import { SetRunInspection } from "./command";
+import { useStartRun } from "./start";
+import { useRunInspection } from "./run-inspection/bootstraper.ts";
 
 export const useExecuteRun = (container: Container) => {
     registerRouteComponent(SurveillanceRunEditor.name, SurveillanceRunEditor);
@@ -18,7 +18,7 @@ export const useExecuteRun = (container: Container) => {
         })
     );
     registerCommandHandler(GetRun, GetRunEditionDataHandler);
-    registerCommandHandler(SetRunInspection, SetRunInspectionHandler);
+    // registerCommandHandler(SetRunInspection, SetRunInspectionHandler);
     return useStartRun(container)
         .then(useRunInspection);
 }

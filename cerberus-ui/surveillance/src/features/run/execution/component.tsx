@@ -5,13 +5,12 @@ import { useParams } from "react-router-dom";
 import { nop } from "@cerberus/core";
 import { CircularProgress, Box, Button } from '@mui/material';
 import { getCurrentInspectionRun, Run, RunStatus } from './domain/model.ts';
-import { SetRunInspection } from './command.ts';
 import { OperationRunQuestionAnswer } from './domain/model.ts';
 import { sendMediatorRequest } from '@cerberus/core';
 import { navigationService } from '@cerberus/core/src/routing/navigation-service.ts';
 import { IRequest } from "mediatr-ts";
 import * as React from "react";
-import {ExecutionStepArgs, StepExecutor} from "./model.ts";
+import { ExecutionStepArgs, StepExecutor } from "./model.ts";
 import { StartSurveillanceRun } from "./start";
 import { InspectionRunEditor } from "./run-inspection/component.tsx";
 
@@ -43,9 +42,10 @@ export const SurveillanceRunEditor = () => {
             }
         }
         fetchOperation().then(nop);
+
     }, [id]);
     const StepComponent = drawContent(runEditionData);
-    const stepData: ExecutionStepArgs = {run: runEditionData, handler: executeStep};
+    const stepData: ExecutionStepArgs = { run: runEditionData, handler: executeStep };
     return (
         <div className="space-y-6">
             {busy ? (
@@ -53,7 +53,7 @@ export const SurveillanceRunEditor = () => {
                     <CircularProgress />
                 </Box>
             ) : (
-                <StepComponent {...stepData}/>
+                <StepComponent {...stepData} />
             )}
             {error && <div>Error: {String(error)}</div>}
         </div>
@@ -61,16 +61,16 @@ export const SurveillanceRunEditor = () => {
 }
 
 type ExecutionFactory = (run: Run) => React.ComponentType;
-const componentsMap: {[key: string]: ExecutionFactory} = {
-     [RunStatus.Pending]: StartSurveillanceRun,
-     [RunStatus.Running]: InspectionRunEditor,
- }
- const NoContent = () =>{
-     return (<div>...</div>);
- }
+const componentsMap: { [key: string]: ExecutionFactory } = {
+    [RunStatus.Pending]: StartSurveillanceRun,
+    [RunStatus.Running]: InspectionRunEditor,
+}
+const NoContent = () => {
+    return (<div>...</div>);
+}
 
- const drawContent:  (run: Run | undefined ) => React.ComponentType = (run) => {
-     if(!run) return NoContent
-     const factory = componentsMap[run.status];
-     return factory
- }
+const drawContent: (run: Run | undefined) => React.ComponentType = (run) => {
+    if (!run) return NoContent
+    const factory = componentsMap[run.status];
+    return factory
+}

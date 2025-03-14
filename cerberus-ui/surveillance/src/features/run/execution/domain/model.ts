@@ -1,4 +1,4 @@
-import {OperationQuestion} from "../../../operation/create/domain";
+import { OperationQuestion } from "../../../operation/create/domain";
 
 export interface Run {
     id: string;
@@ -74,7 +74,7 @@ export enum RunStatus {
 }
 
 export const getCurrentInspectionRun = (run: Run): InspectionRun | undefined => {
-    return run.inspectionRuns.find(ir => ir.id === run.currentInspectionRunId);
+    return run.inspectionRuns.find(ir => ir.inspectionId === run.currentInspectionRunId);
 }
 
 export const setInspectionResponse = (inspectionRun: InspectionRun, question: OperationQuestion, answer: IOperationAnswer): InspectionRun => {
@@ -95,4 +95,17 @@ export const setInspectionResponse = (inspectionRun: InspectionRun, question: Op
             answers
         }
     }
+}
+
+
+//
+interface OperationAnswer {
+    questionId: string;
+    answer: any;
+}
+export interface InspectionRunData {
+    runId: string;
+    inspectionId: string;
+    additionalComments: string | undefined;
+    answers: OperationAnswer[];
 }

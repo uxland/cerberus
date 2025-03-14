@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Typography from "@mui/material/Typography";
-import { UseFormReturn } from "react-hook-form";
+import { FieldError, UseFormReturn } from "react-hook-form";
 
 interface SelectProps {
     title: string;
@@ -11,9 +11,10 @@ interface SelectProps {
     name?: string;
     onChanged?: (value: string) => void;
     formMethods?: UseFormReturn<unknown>;
+    error?: FieldError;
 }
 
-export const Select = ({ title, options, classes, path, name, selected, onChanged, formMethods }: SelectProps) => {
+export const Select = ({ title, options, classes, path, name, selected, onChanged, formMethods, error }: SelectProps) => {
     const [selectedOption, setSelectedOption] = useState<string | null>(selected || null);
     const { watch, setValue } = formMethods || {};
     const selectedValue = selected || (name && path && watch && watch(`${path}.${name}`));
@@ -48,6 +49,8 @@ export const Select = ({ title, options, classes, path, name, selected, onChange
                         {option.label}
                     </button>
                 ))}
+                {error && <p className="error text-red-500">{error.message}</p>}
+
             </div>
         </div>
     );
