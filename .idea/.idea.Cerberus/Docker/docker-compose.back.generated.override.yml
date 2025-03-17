@@ -24,9 +24,9 @@ services:
       RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "cerberusapi:dev"
     ports:
-    - "127.0.0.1:57007:57000"
-    - "127.0.0.1:57207:57200"
-    - "127.0.0.1:57407:57400"
+    - "127.0.0.1:57002:57000"
+    - "127.0.0.1:57202:57200"
+    - "127.0.0.1:57402:57400"
     volumes:
     - "C:\\Users\\dpina\\RiderProjects\\cerberus-2\\src\\hosts\\CerberusApi:/app:rw"
     - "C:\\Users\\dpina\\RiderProjects\\cerberus-2:/src:rw"
@@ -35,5 +35,5 @@ services:
       Linux64:/opt/JetBrains/RiderDebuggerTools"
     - "C:\\Users\\dpina\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     - "C:\\Users\\dpina\\AppData\\Local\\JetBrains\\Rider2024.3\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2025_3_13_16_14_54:/var/opt/JetBrains/RiderDebuggerTools:rw"
+      JetBrains.Debugger.Worker.2025_3_17_09_58_37:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"

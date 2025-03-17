@@ -14,6 +14,7 @@ export interface Run {
 }
 
 export interface InspectionRun {
+    id: string;
     inspectionId: string;
     cameraId: string;
     cameraStreamingUrl: string;

@@ -11,6 +11,7 @@ export interface InspectionRunData {
     inspectionId: string;
     additionalComments: string | undefined;
     answers: OperationAnswer[];
+    startedAt: Date | undefined;
 }
 
 export const getCurrentInspection: (run: Run) => InspectionRun | undefined = (run) => run.inspectionRuns.find(ir => ir.inspectionId === run.currentInspectionRunId);
