@@ -67,9 +67,12 @@
       - "5004:5004/udp"  # RTP media stream
       - "5005:5005/udp"  # RTCP feedback (if needed)
       - "6000-6200:6000-6200/udp"  # WebRTC UDP range
+    volumes:
+      - ./mediaserver/certs:/certs
     environment:
         - NODE_ENV=production
     restart: unless-stopped
+    
 volumes:
   snapshots_volume:
     driver: local
@@ -83,3 +86,9 @@ volumes:
       type: none
       o: bind
       device: ./keycloak
+  media_server_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./mediaserver

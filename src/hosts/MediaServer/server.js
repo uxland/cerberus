@@ -1,11 +1,20 @@
 const express = require("express");
-const http = require("http");
+const fs = require("fs");
+const https = require("https");
 const socketIo = require("socket.io");
 const mediasoup = require("mediasoup");
 const cors = require("cors");
 
 const app = express();
-const server = http.createServer(app);
+const options = {
+	key: fs.readFileSync("/certs/privkey.pem"),  // ✅ Use the generated key
+	cert: fs.readFileSync("/certs/fullchain.pem"),  // ✅ Use the generated certificate
+};
+const server = https.createServer(options, app);
+
+const transports = new Map(); // ✅ Store transports by their ID
+
+const consumers = new Map(); // ✅ Store all consumers
 
 const io = socketIo(server, {
 	cors: {
@@ -31,18 +40,81 @@ const producers = {}; // Store producer IDs
 		],
 	});
 
-	transport = await router.createPlainTransport({
-		listenIp: "0.0.0.0",
-		rtcpMux: false,
-		comedia: true,
+	const transport = await router.createPlainTransport({
+		listenIp: "0.0.0.0", // ✅ Listen on all interfaces
+		rtcpMux: true,       // ✅ Use RTCP multiplexing
+		comedia: true,       // ✅ Allow remote initiation
+		port: 5004,          // ✅ Ensure it matches FFmpeg destination
+	});
+	console.log(`✅ MediaSoup listening on port ${transport.tuple.localPort}`);
+
+	console.log("📹 Available MediaSoup Codecs:", router.rtpCapabilities.codecs);
+
+	console.log("✅ MediaSoup Listening for RTP at:", transport.tuple.localPort);
+
+	await transport.connect({ ip: "127.0.0.1", port: 5004 });
+
+	console.log("✅ Transport connected to 127.0.0.1:", transport.tuple.localPort);
+
+	const videoCodec = router.rtpCapabilities.codecs.find(c => c.mimeType.toLowerCase() === "video/h264");
+
+	if (!videoCodec) {
+		console.error("❌ No compatible video codec found!");
+		return;
+	}
+
+// ✅ Ensure SSRC is explicitly set
+	/*producer = await transport.produce({
+		kind: "video",
+		rtpParameters: {
+			mid: "0",
+			codecs: [{
+				mimeType: videoCodec.mimeType,
+				clockRate: videoCodec.clockRate,
+				payloadType: videoCodec.preferredPayloadType,
+				rtcpFeedback: videoCodec.rtcpFeedback,
+				parameters: {
+					...videoCodec.parameters,
+					"packetization-mode": 1,  // ✅ Ensure proper fragmentation handling
+					"profile-level-id": "42e01f"  // ✅ Baseline H264 profile (safe for WebRTC)
+				}
+			}],
+			encodings: [{
+				ssrc: 1234567
+			}]
+		}
+	});*/
+	producer = await transport.produce({
+		kind: "video",
+		rtpParameters: {
+			mid: "0",
+			codecs: [{
+				mimeType: "video/H264",
+				clockRate: 90000,
+				payloadType: 101,  // ✅ Match FFmpeg
+				rtcpFeedback: videoCodec.rtcpFeedback,
+				parameters: videoCodec.parameters
+			}],
+			encodings: [{
+				ssrc: 1234567  // ✅ Must match FFmpeg
+			}]
+		}
 	});
 
-	console.log("✅ Listening for RTP at:", transport.tuple.localPort);
-	await transport.connect({ ip: "127.0.0.1", port: 5004 }); // ✅ Ensure FFmpeg is sending RTP here
+	setInterval(async () => {
+		if (producer) {
+			const stats = await producer.getStats();
+			console.log("📊 Producer Stats:", stats.length ? stats : "❌ No RTP packets received.");
 
-	// Create a producer when FFmpeg starts streaming
-	producer = await transport.produce({ kind: "video", rtpParameters: {} });
-	producers.video = producer.id; // Store producer ID
+			if (stats.length > 0) {
+				stats.forEach((s) => {
+					console.log(`✅ Producer ${s.type}: packetsSent=${s.packetsSent}, bitrate=${s.bitrate}`);
+				});
+			}
+		}
+	}, 5000);
+
+	producers["video"] = producer;
 
 	console.log("✅ Producer created:", producer.id);
 
@@ -63,6 +135,9 @@ const producers = {}; // Store producer IDs
 					preferUdp: true,
 				});
 
+				// ✅ Store transport in a Map
+				transports.set(webRtcTransport.id, webRtcTransport);
+
 				console.log("✅ WebRTC Transport created:", webRtcTransport.id);
 
 				callback({
@@ -79,16 +154,33 @@ const producers = {}; // Store producer IDs
 
 		socket.on("consume", async ({ transportId, producerId, rtpCapabilities }, callback) => {
 			try {
-				if (!router.canConsume({ producerId: producers[producerId], rtpCapabilities })) {
-					callback({ error: "Cannot consume the producer" });
-					return;
+				const producer = producers[producerId]; // ✅ Get the producer
+				if (!producer) {
+					console.error("❌ Error: Producer not found for ID:", producerId);
+					return callback({ error: "Producer not found" });
 				}
 
-				const consumer = await router.createTransport(transportId).consume({
-					producerId: producers[producerId],
+				if (!router.canConsume({ producerId: producer.id, rtpCapabilities })) {
+					console.error("❌ Cannot consume this producer!");
+					return callback({ error: "Cannot consume the producer" });
+				}
+
+				// ✅ Retrieve the correct transport
+				const transport = transports.get(transportId);
+				if (!transport) {
+					console.error("❌ Transport not found for ID:", transportId);
+					return callback({ error: "Transport not found" });
+				}
+
+				// ✅ Create the consumer
+				const consumer = await transport.consume({
+					producerId: producer.id,
 					rtpCapabilities,
-					paused: false,
+					paused: true,
 				});
+
+				// ✅ Store consumer in Map
+				consumers.set(consumer.id, consumer);
 
 				console.log("✅ Consumer created:", consumer.id);
 
@@ -103,6 +195,26 @@ const producers = {}; // Store producer IDs
 				callback({ error: error.message });
 			}
 		});
+
+
+		socket.on("resumeConsumer", async ({ consumerId }, callback) => {
+			try {
+				const consumer = consumers.get(consumerId);
+				if (!consumer) {
+					console.error("❌ Consumer not found:", consumerId);
+					return callback({ error: "Consumer not found" });
+				}
+
+				await consumer.resume();
+				console.log("✅ Consumer Resumed:", consumer.id);
+
+				callback({ success: true });
+			} catch (error) {
+				console.error("❌ Error resuming consumer:", error);
+				callback({ error: error.message });
+			}
+		});
+
 	});
 
 	server.listen(3000, () => console.log("✅ MediaSoup WebSocket server running on port 3000"));
