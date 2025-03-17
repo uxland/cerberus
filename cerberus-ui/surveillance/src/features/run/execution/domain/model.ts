@@ -98,14 +98,3 @@ export const setInspectionResponse = (inspectionRun: InspectionRun, question: Op
 }
 
 
-//
-interface OperationAnswer {
-    questionId: string;
-    answer: any;
-}
-export interface InspectionRunData {
-    runId: string;
-    inspectionId: string;
-    additionalComments: string | undefined;
-    answers: OperationAnswer[];
-}

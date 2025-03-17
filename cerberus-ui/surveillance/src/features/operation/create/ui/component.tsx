@@ -74,7 +74,9 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
     };
 
     return (
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, (formErrors) => {
+            console.error("Validation failed:", formErrors);
+        })} className="space-y-6" >
             <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
                 <h1 className="font-bold text-primary">{useSurveillanceLocales("operation.create.title")} - </h1>
                 <FormInputField
