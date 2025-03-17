@@ -10,13 +10,16 @@ interface TextQuestionInputProps extends OperationRunQuestionAnswer {
 }
 
 export const TextQuestionInput = (props: TextQuestionInputProps) => {
+    const isMandatory = props.question.isMandatory;
     const { register, formState } = props.formMethods;
     const fieldPath = `answers.${props.index}.answer`;
     const questionIdPath = `answers.${props.index}.questionId` as const;
 
     return (
         <>
-            <Typography > {props.question.text} </Typography>
+            <Typography>
+                {props.question.text} {isMandatory && <span className="text-error font-bold">*</span>}
+            </Typography>
             <FormInputField
                 type="text"
                 className="bg-[#313131] w-full p-2 rounded"

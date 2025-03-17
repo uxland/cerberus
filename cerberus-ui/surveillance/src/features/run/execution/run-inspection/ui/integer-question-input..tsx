@@ -10,13 +10,16 @@ interface IntegerQuestionInputProps extends OperationRunQuestionAnswer {
 }
 
 export const IntegerQuestionInput = (props: IntegerQuestionInputProps) => {
+    const isMandatory = props.question.isMandatory;
     const { register, formState } = props.formMethods;
     const fieldPath = `answers.${props.index}.answer`;
     const questionIdPath = `answers.${props.index}.questionId` as const;
 
     return (
         <>
-            <Typography > {props.question.text} </Typography>
+            <Typography>
+                {props.question.text} {isMandatory && <span className="text-error font-bold">*</span>}
+            </Typography>
             <FormInputField
                 type="number"
                 step="1"

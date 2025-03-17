@@ -10,6 +10,7 @@ interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
 }
 
 export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
+    const isMandatory = props.question.isMandatory;
     const { register, formState } = props.formMethods;
     const question = props.question as OptionsQuestion;
     const fieldPath = `answers.${props.index}`;
@@ -17,7 +18,9 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
 
     return (
         <>
-            <Typography > {question.text} </Typography>
+            <Typography>
+                {question.text} {isMandatory && <span className="text-error font-bold">*</span>}
+            </Typography>
             <Select
                 formMethods={props.formMethods}
                 name={"answer"}

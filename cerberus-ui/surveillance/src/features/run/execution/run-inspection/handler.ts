@@ -2,7 +2,7 @@ import { HandlerBase } from "@cerberus/core";
 import { Run } from "../domain/model.ts";
 import { SetRunInspection } from './command.ts';
 import { injectable } from "inversify";
-import {InspectionRunData} from "./domain/model.ts";
+import { InspectionRunData } from "./domain/model.ts";
 
 @injectable()
 export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> {
@@ -17,6 +17,7 @@ const adaptRequest: (data: InspectionRunData) => RequestInit = (data: Inspection
         acc[answer.questionId] = answer.answer;
         return acc;
     }, {});
+    console.log("startedAt", data.startedAt);
     const payload = {
         answers,
         additionalComments: data.additionalComments,
