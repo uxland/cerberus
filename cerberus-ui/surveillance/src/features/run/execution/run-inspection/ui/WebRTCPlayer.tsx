@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import * as mediasoupClient from "mediasoup-client";
+import {nop} from "@cerberus/core";
 
 export default function WebRTCPlayer() {
     const remoteVideoRef = useRef(null);
     const [socket, setSocket] = useState(null);
     const [device, setDevice] = useState(null);
-    const [producerTransport, setProducerTransport] = useState(null);
     const [consumerTransport, setConsumerTransport] = useState(null);
-    const [producer, setProducer] = useState(null);
     const [consumer, setConsumer] = useState(null);
     const [rtpCapabilities, setRtpCapabilities] = useState(null);
 
@@ -53,124 +52,175 @@ export default function WebRTCPlayer() {
         };
     }, []);
 
+    useEffect(() => {
+        const connect = async () =>{
+            const capabilities = await getRtpCapabilities();
+            const device = await createDevice(capabilities);
+            const consumerTransport = await createRecvTransport(socket, device);
+            const consumer = await connectRecvTransport(consumerTransport, socket, device);
+            connectStream(consumer);
+            resumeStream(consumer);
+        }
+        connect().then(nop)
+    }, [socket]);
+
+    const resumeStream = (consumer) => {
+        socket.emit("consumer-resume", { consumerId: consumer.id });
+    }
+    const connectStream = (consumer =>{
+        const stream = new MediaStream();
+        stream.addTrack(consumer.track);
+
+        console.log("🎥 MediaStream object:", stream);
+
+        // ✅ Ensure the ref exists before setting
+        if (remoteVideoRef.current) {
+            remoteVideoRef.current.srcObject = stream;
+            remoteVideoRef.current.muted = false;
+            remoteVideoRef.current.volume = 1;
+
+            remoteVideoRef.current.onloadedmetadata = () => {
+                console.log("🎥 Metadata loaded, playing video...");
+                remoteVideoRef.current.play().catch((error) => {
+                    console.error("❌ Video play error:", error);
+                });
+            };
+
+            console.log("✅ Remote video element updated!");
+        } else {
+            console.warn("⚠️ Remote video ref is null!");
+        }
+
+    })
 
     const getRtpCapabilities = () => {
-        if (!socket) return;
-
-        socket.emit("getRtpCapabilities", (data) => {
-            console.log("🎯 Received RTP Capabilities:", data.rtpCapabilities);
-            setRtpCapabilities(data.rtpCapabilities);
+        if (!socket) return Promise.resolve();
+        return new Promise((resolve) => {
+            socket.emit("getRtpCapabilities", (data) => {
+                console.log("🎯 Received RTP Capabilities:", data.rtpCapabilities);
+                setRtpCapabilities(data.rtpCapabilities);
+                resolve(data.rtpCapabilities);
+            });
         });
     };
 
-    const createDevice = async () => {
+    const createDevice = async (capabilities) => {
         try {
-            if (!rtpCapabilities) {
+            if (!capabilities) {
                 console.error("❌ Cannot create device. No RTP capabilities available.");
                 return;
             }
 
             const newDevice = new mediasoupClient.Device();
-            await newDevice.load({ routerRtpCapabilities: rtpCapabilities });
+            await newDevice.load({ routerRtpCapabilities: capabilities });
             setDevice(newDevice);
-
             console.log("✅ Mediasoup Device created.");
+            return newDevice;
         } catch (error) {
             console.error("❌ Error creating Mediasoup Device:", error);
+            throw error;
         }
     };
 
-    const createRecvTransport = async () => {
-        if (!socket || !device) return;
+    const createRecvTransport = (socket, device) => {
+        if (!socket || !device) return Promise.resolve(undefined);
+        return new Promise((resolve, fail) => {
+            socket.emit("createWebRtcTransport", { sender: false }, ({ params }) => {
+                if (params.error) {
+                    console.error("❌ Error creating Recv Transport:", params.error);
+                    resolve(undefined);
+                }
 
-        socket.emit("createWebRtcTransport", { sender: false }, ({ params }) => {
-            if (params.error) {
-                console.error("❌ Error creating Recv Transport:", params.error);
-                return;
-            }
+                console.log("✅ Recv Transport created:", params);
 
-            console.log("✅ Recv Transport created:", params);
+                const transport = device.createRecvTransport(params);
+                setConsumerTransport(transport);
 
-            const transport = device.createRecvTransport(params);
-            setConsumerTransport(transport);
-
-            transport.on("connect", async ({ dtlsParameters }, callback, errback) => {
-                socket.emit("transport-recv-connect", { dtlsParameters }, (response) => {
-                    if (response?.error) {
-                        console.error("❌ Recv Transport connection failed!", response.error);
-                        errback(response.error);
-                    } else {
-                        console.log("✅ Recv Transport connected!");
-                        callback();
-                    }
+                transport.on("connect", async ({ dtlsParameters }, callback, errback) => {
+                    socket.emit("transport-recv-connect", { dtlsParameters }, (response) => {
+                        if (response?.error) {
+                            console.error("❌ Recv Transport connection failed!", response.error);
+                            errback(response.error);
+                        } else {
+                            console.log("✅ Recv Transport connected!");
+                            callback();
+                        }
+                    });
+                    callback();
                 });
-                callback();
+                resolve(transport);
             });
-        });
+        })
+
     };
 
-    const connectRecvTransport = async () => {
-        if (!consumerTransport || !socket || !device) return;
-
-        socket.emit("consume", { rtpCapabilities: device.rtpCapabilities }, async ({ params }) => {
-            if (params.error) {
-                console.error("❌ Error consuming media:", params.error);
-                return;
-            }
-
-            console.log("✅ Consuming media:", params);
-
-            const newConsumer = await consumerTransport.consume({
-                id: params.id,
-                producerId: params.producerId,
-                kind: params.kind,
-                rtpParameters: params.rtpParameters,
-            });
-
-            console.log("🎥 Received track:", newConsumer.track);
-            console.log("🎥 Kind:", newConsumer.kind);
-
-            setConsumer(newConsumer);
-
-            // ✅ Ensure track is valid
-            if (!newConsumer.track) {
-                console.error("❌ No track received!");
-                return;
-            }
-
-            // ✅ Create a new MediaStream and add the track
-            const stream = new MediaStream();
-            stream.addTrack(newConsumer.track);
-
-            console.log("🎥 MediaStream object:", stream);
-
-            // ✅ Ensure the ref exists before setting
-            if (remoteVideoRef.current) {
-                remoteVideoRef.current.srcObject = stream;
-                remoteVideoRef.current.muted = false;
-                remoteVideoRef.current.volume = 1;
-
-                remoteVideoRef.current.onloadedmetadata = () => {
-                    console.log("🎥 Metadata loaded, playing video...");
-                    remoteVideoRef.current.play().catch((error) => {
-                        console.error("❌ Video play error:", error);
-                    });
-                };
-
-                console.log("✅ Remote video element updated!");
-            } else {
-                console.warn("⚠️ Remote video ref is null!");
-            }
-
-            // ✅ Resume the consumer
-            socket.emit("consumer-resume", { consumerId: newConsumer.id }, (response) => {
-                if (response.error) {
-                    console.error("❌ Error resuming consumer:", response.error);
-                } else {
-                    console.log("✅ Consumer resumed successfully!");
+    const connectRecvTransport = (consumerTransport, socket, device) => {
+        if (!consumerTransport || !socket || !device) Promise.resolve(undefined);
+        return new Promise((resolve, fail) => {
+            socket.emit("consume", { rtpCapabilities: device.rtpCapabilities }, async ({ params }) => {
+                if (params.error) {
+                    console.error("❌ Error consuming media:", params.error);
+                    fail(params.error);
+                    return;
                 }
+
+                console.log("✅ Consuming media:", params);
+
+                const newConsumer = await consumerTransport.consume({
+                    id: params.id,
+                    producerId: params.producerId,
+                    kind: params.kind,
+                    rtpParameters: params.rtpParameters,
+                });
+
+                console.log("🎥 Received track:", newConsumer.track);
+                console.log("🎥 Kind:", newConsumer.kind);
+
+                setConsumer(newConsumer);
+
+                // ✅ Ensure track is valid
+                if (!newConsumer.track) {
+                    console.error("❌ No track received!");
+                    fail("No track received!");
+                    return;
+                }
+                resolve(newConsumer);
+                return;
+                // ✅ Create a new MediaStream and add the track
+                const stream = new MediaStream();
+                stream.addTrack(newConsumer.track);
+
+                console.log("🎥 MediaStream object:", stream);
+
+                // ✅ Ensure the ref exists before setting
+                if (remoteVideoRef.current) {
+                    remoteVideoRef.current.srcObject = stream;
+                    remoteVideoRef.current.muted = false;
+                    remoteVideoRef.current.volume = 1;
+
+                    remoteVideoRef.current.onloadedmetadata = () => {
+                        console.log("🎥 Metadata loaded, playing video...");
+                        remoteVideoRef.current.play().catch((error) => {
+                            console.error("❌ Video play error:", error);
+                        });
+                    };
+
+                    console.log("✅ Remote video element updated!");
+                } else {
+                    console.warn("⚠️ Remote video ref is null!");
+                }
+
+                // ✅ Resume the consumer
+                socket.emit("consumer-resume", { consumerId: newConsumer.id }, (response) => {
+                    if (response.error) {
+                        console.error("❌ Error resuming consumer:", response.error);
+                    } else {
+                        console.log("✅ Consumer resumed successfully!");
+                    }
+                });
             });
-        });
+        })
+
     };
 
 
@@ -184,22 +234,6 @@ export default function WebRTCPlayer() {
                     <td colSpan="2">
                         <div id="sharedBtns">
                             <video ref={remoteVideoRef} className="video" autoPlay playsInline />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan="2">
-                        <div id="sharedBtns">
-                            <button onClick={getRtpCapabilities}>2. Get Rtp Capabilities</button>
-                            <button onClick={createDevice}>3. Create Device</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="sharedBtns">
-                            <button onClick={createRecvTransport}>6. Create Recv Transport</button>
-                            <button onClick={connectRecvTransport}>7. Connect Recv Transport & Consume</button>
                         </div>
                     </td>
                 </tr>
