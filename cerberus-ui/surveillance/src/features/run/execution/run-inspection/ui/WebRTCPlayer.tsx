@@ -3,7 +3,6 @@ import io from "socket.io-client";
 import * as mediasoupClient from "mediasoup-client";
 
 export default function WebRTCPlayer() {
-    const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
     const [socket, setSocket] = useState(null);
     const [device, setDevice] = useState(null);
@@ -54,18 +53,6 @@ export default function WebRTCPlayer() {
         };
     }, []);
 
-    const getLocalStream = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            if (localVideoRef.current) {
-                localVideoRef.current.srcObject = stream;
-            }
-
-            console.log("✅ Local stream acquired.");
-        } catch (error) {
-            console.error("❌ Error accessing local stream:", error);
-        }
-    };
 
     const getRtpCapabilities = () => {
         if (!socket) return;
@@ -90,58 +77,6 @@ export default function WebRTCPlayer() {
             console.log("✅ Mediasoup Device created.");
         } catch (error) {
             console.error("❌ Error creating Mediasoup Device:", error);
-        }
-    };
-
-    const createSendTransport = async () => {
-        if (!socket || !device) return;
-
-        socket.emit("createWebRtcTransport", { sender: true }, ({ params }) => {
-            if (params.error) {
-                console.error("❌ Error creating Send Transport:", params.error);
-                return;
-            }
-
-            console.log("✅ Send Transport created:", params);
-
-            const transport = device.createSendTransport(params);
-            setProducerTransport(transport);
-
-            transport.on("connect", async ({ dtlsParameters }, callback, errback) => {
-                socket.emit("transport-connect", { dtlsParameters }, (response) => {
-                    if (response?.error) {
-                        console.error("❌ Send Transport connection failed!", response.error);
-                        errback(response.error);
-                    } else {
-                        console.log("✅ Send Transport connected!");
-                        callback();
-                    }
-                });
-            });
-
-            transport.on("produce", async ({ kind, rtpParameters, appData }, callback, errback) => {
-                socket.emit("transport-produce", { kind, rtpParameters, appData }, ({ id }) => {
-                    callback({ id });
-                });
-            });
-        });
-    };
-
-    const connectSendTransport = async () => {
-        if (!producerTransport || !localVideoRef.current) return;
-
-        const track = localVideoRef.current.srcObject.getVideoTracks()[0];
-
-        try {
-            const newProducer = await producerTransport.produce({ track });
-            setProducer(newProducer);
-
-            console.log("✅ Producing media:", newProducer.id);
-
-            newProducer.on("trackended", () => console.log("❌ Track ended"));
-            newProducer.on("transportclose", () => console.log("❌ Transport closed"));
-        } catch (error) {
-            console.error("❌ Error producing media:", error);
         }
     };
 
@@ -244,29 +179,11 @@ export default function WebRTCPlayer() {
         <div>
             <h3>🎥 WebRTC Player</h3>
             <table>
-                <thead>
-                <tr>
-                    <th>Local Video</th>
-                    <th>Remote Video</th>
-                </tr>
-                </thead>
                 <tbody>
                 <tr>
-                    <td>
-                        <div id="sharedBtns">
-                            <video ref={localVideoRef} className="video" autoPlay playsInline muted />
-                        </div>
-                    </td>
-                    <td>
+                    <td colSpan="2">
                         <div id="sharedBtns">
                             <video ref={remoteVideoRef} className="video" autoPlay playsInline />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="sharedBtns">
-                            <button onClick={getLocalStream}>1. Get Local Video</button>
                         </div>
                     </td>
                 </tr>
@@ -279,12 +196,6 @@ export default function WebRTCPlayer() {
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <div id="sharedBtns">
-                            <button onClick={createSendTransport}>4. Create Send Transport</button>
-                            <button onClick={connectSendTransport}>5. Connect Send Transport & Produce</button>
-                        </div>
-                    </td>
                     <td>
                         <div id="sharedBtns">
                             <button onClick={createRecvTransport}>6. Create Recv Transport</button>
