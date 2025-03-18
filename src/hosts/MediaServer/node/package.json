@@ -6,7 +6,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server2.js"
   },
-  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -14,13 +13,11 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "httpolyglot": "^0.1.2",
     "mediasoup": "^3.15.6",
-    "mediasoup-client": "^3.9.2",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "httpolyglot": "^0.1.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^2.0.12"
   }
 }

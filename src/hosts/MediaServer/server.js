@@ -1,16 +1,16 @@
 const express = require("express");
 const fs = require("fs");
-const https = require("http");
+const https = require("httpolyglot");
 const socketIo = require("socket.io");
 const mediasoup = require("mediasoup");
 const cors = require("cors");
 
 const app = express();
-/*const options = {
+const options = {
 	key: fs.readFileSync("/certs/privkey.pem"),  // ✅ Use the generated key
 	cert: fs.readFileSync("/certs/fullchain.pem"),  // ✅ Use the generated certificate
-};*/
-const server = https.createServer(app);
+};
+const server = https.createServer(options, app)
 
 const transports = new Map(); // ✅ Store transports by their ID
 
@@ -129,7 +129,7 @@ const producers = {}; // Store producer IDs
 		socket.on("createTransport", async (callback) => {
 			try {
 				const webRtcTransport = await router.createWebRtcTransport({
-					listenIps: [{ ip: "0.0.0.0", announcedIp: "your-public-ip" }], // Replace with your public IP if needed
+					listenIps: [{ ip: "0.0.0.0", announcedIp: "127.0.0.1" }], // Replace with your public IP if needed
 					enableUdp: true,
 					enableTcp: true,
 					preferUdp: true,

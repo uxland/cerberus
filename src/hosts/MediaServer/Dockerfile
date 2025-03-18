@@ -17,13 +17,14 @@ COPY src/hosts/MediaServer/package-lock.json  ./
 RUN npm install
 
 # Copy MediaSoup server files
-COPY src/hosts/MediaServer/ .
+COPY src/hosts/MediaServer/app.js ./app.js
 
-COPY src/hosts/MediaServer/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
-# Expose ports for WebRTC and RTP
-EXPOSE 3000 5004 5005 6000-6200/udp
+EXPOSE 3000
+
+EXPOSE 20000-20020
+
+EXPOSE 10000-10100
 
 # Start MediaSoup server and FFmpeg at container startup
-CMD ["/entrypoint.sh"]
+CMD ["node", "app.js"]
