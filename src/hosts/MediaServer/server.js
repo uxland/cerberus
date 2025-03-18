@@ -1,16 +1,16 @@
 const express = require("express");
 const fs = require("fs");
-const https = require("https");
+const https = require("http");
 const socketIo = require("socket.io");
 const mediasoup = require("mediasoup");
 const cors = require("cors");
 
 const app = express();
-const options = {
+/*const options = {
 	key: fs.readFileSync("/certs/privkey.pem"),  // ✅ Use the generated key
 	cert: fs.readFileSync("/certs/fullchain.pem"),  // ✅ Use the generated certificate
-};
-const server = https.createServer(options, app);
+};*/
+const server = https.createServer(app);
 
 const transports = new Map(); // ✅ Store transports by their ID
 
