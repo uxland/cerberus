@@ -1,33 +1,64 @@
+/**
+ * integrating mediasoup server with a node.js application
+ */
+
+/* Please follow mediasoup installation requirements */
+/* https://mediasoup.org/documentation/v3/mediasoup/installation/ */
 import express from 'express'
+const app = express()
+
 import https from 'httpolyglot'
 import fs from 'fs'
+import path from 'path'
+const __dirname = path.resolve()
+
 import { Server } from 'socket.io'
 import mediasoup from 'mediasoup'
 import { spawn } from 'child_process';
 import cors from 'cors';
 
-const app = express();
-app.use(cors({ origin: "https://cerberus-react-ui:5173", credentials: true }));
-const options = {
-	key: fs.readFileSync("/certs/privkey.pem"),  // ✅ Use the generated key
-	cert: fs.readFileSync("/certs/fullchain.pem"),  // ✅ Use the generated certificate
-};
-const httpsServer = https.createServer(options, app)
-httpsServer.listen(3000, () => {
-	console.log('listening on port: ' + 3000)
-})
-const io = new Server(httpsServer, {cors: {
-		origin: [
-			"https://cerberus-react-ui:5173",
-			"http://localhost:63343"
-		],
-		methods: ["GET", "POST"],
-		credentials: true,
-	},
-	transports: ["websocket", "polling"], // ✅ Ensure WebSocket transport is enabled
-});
 
-const peers = io.of('/mediasoup')
+/*/const startGStreamer = () => {
+  console.log("Starting GStreamer...");
+
+  const gst = spawn('gst-launch-1.0', [
+    'rtspsrc', `location=rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast`,
+    'protocols=tcp', 'latency=100', '!',
+    'rtph265depay', '!', 'h265parse', '!', 'avdec_h265', '!', // ✅ Decode H265
+    'x264enc', 'tune=zerolatency', '!', 'rtph264pay', 'pt=101', 'ssrc=1234567', 'mtu=1200', '!',
+    'udpsink', 'host=127.0.0.1', 'port=5004'
+  ]);
+
+  gst.stderr.on('data', (data) => {
+    console.error(`GStreamer stderr: ${data}`);
+  });
+
+  gst.stdout.on('data', (data) => {
+    console.log(`GStreamer stdout: ${data}`);
+  });
+
+  gst.on('close', (code) => {
+    console.log(`GStreamer process exited with code ${code}`);
+  });
+
+  gst.on('error', (err) => {
+    console.error(`GStreamer error: ${err.message}`);
+  });
+
+  return gst;
+};
+
+const gstProcess = startGStreamer();*/
+
+
+
+// Graceful shutdown
+/*process.on('SIGINT', () => {
+  console.log('Stopping GStreamer...');
+  gstProcess.kill('SIGTERM');
+  process.exit();
+});*/
+
 
 const startFFmpeg = () => {
 	console.log('Starting FFmpeg...');
@@ -77,6 +108,35 @@ process.on('SIGINT', () => {
 	process.exit();
 });
 
+app.use(cors({ origin: "https://cerberus-react-ui:5173", credentials: true }));
+
+app.get('/', (req, res) => {
+	res.send('Hello from mediasoup app!')
+})
+
+app.use('/sfu', express.static(path.join(__dirname, 'public')))
+
+// SSL cert for HTTPS access
+const options = {
+	key: fs.readFileSync('/certs/ssl/key.pem', 'utf-8'),
+	cert: fs.readFileSync('/certs/ssl/cert.pem', 'utf-8')
+}
+
+const httpsServer = https.createServer(options, app)
+httpsServer.listen(3000, () => {
+	console.log('listening on port: ' + 3000)
+})
+
+const io = new Server(httpsServer, {cors: {
+		origin: "https://cerberus-react-ui:5173",  // ✅ Fixed CORS issue
+		methods: ["GET", "POST"],
+		credentials: true,
+	},
+	transports: ["websocket", "polling"], // ✅ Ensure WebSocket transport is enabled
+});
+
+// socket.io namespace (could represent a room?)
+const peers = io.of('/mediasoup')
 
 /**
  * Worker
@@ -88,7 +148,9 @@ process.on('SIGINT', () => {
  **/
 let worker
 let router
+let producerTransport
 let consumerTransport
+let producer
 let consumer
 
 let ffmpegTransport
@@ -113,8 +175,8 @@ const mediaCodecs = [
 
 const createWorker = async () => {
 	worker = await mediasoup.createWorker({
-		rtcMinPort: 2000,
-		rtcMaxPort: 2020,
+		rtcMinPort: 20000,
+		rtcMaxPort: 22000,
 	})
 	console.log(`worker pid ${worker.pid}`)
 
@@ -222,9 +284,41 @@ const createffmpegProducer = async (tx) => {
 		// Client emits a request to create server side Transport
 		// We need to differentiate between the producer and consumer transports
 		socket.on('createWebRtcTransport', async ({ sender }, callback) => {
-			consumerTransport = await createWebRtcTransport(callback)
+			console.log(`Is this a sender request? ${sender}`)
+			// The client indicates if it is a producer or a consumer
+			// if sender is true, indicates a producer else a consumer
+			if (sender)
+				producerTransport = await createWebRtcTransport(callback)
+			else
+				consumerTransport = await createWebRtcTransport(callback)
 		})
 
+		// see client's socket.emit('transport-connect', ...)
+		socket.on('transport-connect', async ({ dtlsParameters }) => {
+			console.log('DTLS PARAMS... ', { dtlsParameters })
+			await producerTransport.connect({ dtlsParameters })
+		})
+
+		// see client's socket.emit('transport-produce', ...)
+		socket.on('transport-produce', async ({ kind, rtpParameters, appData }, callback) => {
+			// call produce based on the prameters from the client
+			producer = await producerTransport.produce({
+				kind,
+				rtpParameters,
+			})
+
+			console.log('Producer ID: ', producer.id, producer.kind)
+
+			producer.on('transportclose', () => {
+				console.log('transport for this producer closed ')
+				producer.close()
+			})
+
+			// Send back to the client the Producer's id
+			callback({
+				id: producer.id
+			})
+		})
 
 		// see client's socket.emit('transport-recv-connect', ...)
 		socket.on('transport-recv-connect', async ({ dtlsParameters }) => {

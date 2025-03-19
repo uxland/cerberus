@@ -1,5 +1,4 @@
-﻿version: "3.8"
-
+﻿
 services:
   postgres:
     image: postgres:17
@@ -63,23 +62,13 @@ services:
 
   media-server:
     build:
-      context: .
-      dockerfile: src/hosts/MediaServer/Dockerfile
+      context: ./src/hosts/MediaServer
+      dockerfile: Dockerfile.deploy
     ports:
-      - "3000:3000"
-      - "5004:5004/udp"
-      - "5005:5005/udp"
-      - "20000-20020:20000-20020"
-        # - "10000-10100:10000-10100"
+     - "3000:3000"
+     - "20000-22000:20000-22000"
     volumes:
-      - ./mediaserver/certs:/certs
-    environment:
-      - NODE_ENV=production
-    restart: unless-stopped
-    depends_on:
-      cerberus-back:
-        condition: service_started
-
+     -  ./src/hosts/MediaServer/certs:/certs/ssl
 volumes:
   snapshots_volume:
     driver: local
@@ -95,9 +84,3 @@ volumes:
       o: bind
       device: ./keycloak
 
-  media_server_volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./mediaserver
