@@ -21,6 +21,8 @@ import { sendMediatorRequest } from "@cerberus/core";
 import { DeleteRound } from "../../delete/command";
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from "react-router-dom";
+import EyeIcon from "@mui/icons-material/VisibilityOutlined";
+import { ListRuns } from "../../../run/list/query";
 
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
@@ -76,6 +78,8 @@ const RoundRow = (props: { round: RoundSummary }) => {
     const [busyEdit, setBusyEdit] = useState<boolean>(false);
     const [busyStart, setBusyStart] = useState<boolean>(false);
     const [busyDelete, setBusyDelete] = useState<boolean>(false);
+    const [busyList, setBusyList] = useState<boolean>(false);
+
     const navigate = useNavigate();
 
     const handleStartRun = async () => {
@@ -101,6 +105,14 @@ const RoundRow = (props: { round: RoundSummary }) => {
         }
     }
 
+    const handleListRuns = async () => {
+        setBusyList(true);
+        try {
+            navigate(`/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}/runs`);
+        } finally {
+            setBusyList(false);
+        }
+    }
     return (
         <TableRow>
             <TableCell size="small" component="th" scope="row" align="center">
@@ -131,7 +143,7 @@ const RoundRow = (props: { round: RoundSummary }) => {
                 <Tooltip title={useSurveillanceLocales("round.table.actions.start")}>
                     <IconButton
                         onClick={handleStartRun}
-                        disabled={busyEdit || busyStart || busyDelete}
+                        disabled={busyEdit || busyStart || busyDelete || busyList}
                     >
                         {busyStart ? (
                             <CircularProgress size={24} color="success" />
@@ -143,12 +155,24 @@ const RoundRow = (props: { round: RoundSummary }) => {
                 <Tooltip title={useSurveillanceLocales("round.table.actions.delete")}>
                     <IconButton
                         onClick={handleDeleteRound}
-                        disabled={busyEdit || busyStart || busyDelete}
+                        disabled={busyEdit || busyStart || busyDelete || busyList}
                     >
                         {busyDelete ? (
                             <CircularProgress size={24} color="error" />
                         ) : (
                             <DeleteOutlineIcon color="error" />
+                        )}
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"Ver inspecciones"}>
+                    <IconButton
+                        onClick={handleListRuns}
+                        disabled={busyEdit || busyStart || busyDelete || busyList}
+                    >
+                        {busyList ? (
+                            <CircularProgress size={24} color="secondary" />
+                        ) : (
+                            <EyeIcon sx={{ color: "#9c27b0" }} />
                         )}
                     </IconButton>
                 </Tooltip>

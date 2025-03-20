@@ -54,6 +54,7 @@ export const locales = {
           title: "Acciones",
           delete: "Eliminar",
           edit: "Editar",
+          listInspections: "Ver inspecciones",
         }
       }
     },
@@ -105,11 +106,9 @@ export const locales = {
       },
       release: {
         title: "Finalizar Ronda de Supervisión",
-        confirmationQuestion: "¿Quieres terminar la ronda de supervisión ahora?",
         additionalComments: "Comentarios adicionales",
         confirm: "Finalizar Ronda",
         cancel: "Cancelar",
-        confirmCheckboxText: "Confirmar finalización"
       },
       details: {
         title: "Detalles de la Ronda",

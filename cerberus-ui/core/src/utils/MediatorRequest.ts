@@ -14,7 +14,6 @@ export const sendMediatorRequest = async <T>({ command, setBusy, setError, setSt
     try {
         setBusy?.(true);
         const request = await new Mediator().send(command);
-        console.log("request", request);
         setState?.(request);
     }
     catch (error) {

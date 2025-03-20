@@ -11,6 +11,7 @@ import { ExecutionStepArgs } from "./model.ts";
 import { StartSurveillanceRun } from "./start";
 import { InspectionRunEditor } from "./run-inspection/component.tsx";
 import ReleaseSurveillanceRun from "./release/component.tsx";
+import { ru } from 'date-fns/locale';
 
 export const SurveillanceRunEditor = () => {
     const [error, setError] = useState<string | undefined>(undefined);
@@ -28,7 +29,6 @@ export const SurveillanceRunEditor = () => {
     }
 
     useEffect(() => {
-        console.log(id);
         async function fetchOperation() {
             if (id) {
                 await sendMediatorRequest({
@@ -40,7 +40,6 @@ export const SurveillanceRunEditor = () => {
             }
         }
         fetchOperation().then(nop);
-
     }, [id]);
     const StepComponent = drawContent(runEditionData);
     const stepData: ExecutionStepArgs = { run: runEditionData, handler: executeStep };

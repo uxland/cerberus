@@ -9,7 +9,6 @@ import { useState } from "react";
 
 export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepArgs) {
     const title = useSurveillanceLocales("run.release.title");
-    const confirmationQuestion = useSurveillanceLocales("run.release.confirmationQuestion");
     const additionalComments = useSurveillanceLocales("run.release.additionalComments");
     const confirmButtonText = useSurveillanceLocales("run.release.confirm");
     const cancelButtonText = useSurveillanceLocales("run.release.cancel");
@@ -19,12 +18,10 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
     const runLocation = useSurveillanceLocales("run.details.location");
     const runStatus = useSurveillanceLocales("run.details.status");
     const inspectionsCompleted = useSurveillanceLocales("run.details.inspectionsCompleted");
-    const confirmCheckboxText = useSurveillanceLocales("run.release.confirmCheckboxText");
 
     const completedInspections = run.inspectionRuns.filter(i => i.status === "Completed").length;
 
     const [comments, setComments] = useState<string>("");
-    const [isConfirmed, setIsConfirmed] = useState<boolean>(false);
 
     const formatDate = (dateStr: string) => {
         try {
@@ -36,9 +33,6 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
     };
 
     const handleConfirm = () => {
-        if (!isConfirmed) {
-            return;
-        }
         sendMediatorRequest({ command: new ReleaseRun(run.id, comments) });
     };
 
@@ -87,20 +81,46 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
                                 {run.inspectionRuns.map((inspection, index) => (
                                     <div
                                         key={inspection.inspectionId}
-                                        className="bg-[#313131] p-3 rounded-lg mb-2 flex justify-between items-center"
+                                        className="bg-[#313131] p-3 rounded-lg mb-2 flex justify-between items-center relative"
                                     >
+                                        {/* <div
+                                            className={`absolute top-1 right-1 w-2 h-2 rounded-full ${inspection.operationRun && inspection.operationRun.answers &&
+                                                inspection.operationRun.answers.some(a => a.answer && a.answer.isAnomalous === true)
+                                                ? inspection.operationRun.answers.filter(a => a.answer && a.answer.isAnomalous === true).length > 1
+                                                    ? "bg-red-500"
+                                                    : "bg-yellow-500"
+                                                : "bg-green-500"
+                                                }`}
+                                        ></div> */}
+
                                         <div>
                                             <Typography className="font-semibold">{inspection.cameraDescription}</Typography>
                                             <Typography className="text-sm text-grey82">
                                                 {formatDate(inspection.startedAt)}
                                             </Typography>
                                         </div>
-                                        <span className={`px-2 py-1 rounded-full text-xs ${inspection.status === "Completed"
+                                        <span className={`px-2 py-1 rounded-full text-xs ${inspection.operationRun && inspection.operationRun.answers &&
+                                                inspection.operationRun.answers.some(a => a.answer && a.answer.isAnomalous === true)
+                                                ?
+                                                inspection.operationRun.answers.filter(a => a.answer && a.answer.isAnomalous === true).length > 1
+                                                    ? "bg-red-900 text-red-300"
+                                                    : "bg-yellow-900 text-yellow-300"
+                                                : "bg-green-900 text-green-300"
+                                            }`}>
+                                            {inspection.operationRun && inspection.operationRun.answers &&
+                                                inspection.operationRun.answers.some(a => a.answer && a.answer.isAnomalous === true)
+                                                ? inspection.operationRun.answers.filter(a => a.answer && a.answer.isAnomalous === true).length > 1
+                                                    ? "Múltiples anomalías"
+                                                    : "Anomalía detectada"
+                                                : "Normal"
+                                            }
+                                        </span>
+                                        {/* <span className={`px-2 py-1 rounded-full text-xs ${inspection.status === "Completed"
                                             ? "bg-green-900 text-green-300"
                                             : "bg-yellow-900 text-yellow-300"
                                             }`}>
                                             {inspection.status}
-                                        </span>
+                                        </span> */}
                                     </div>
                                 ))}
                             </div>
@@ -116,23 +136,7 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
 
                     <div className="flex-grow">
                         <div className="mb-8 flex flex-col">
-                            <div className="bg-[#313131] p-6 rounded-lg mb-6 w-full">
-                                <Typography variant="h6" className="text-center mb-4 text-white">
-                                    {confirmationQuestion}
-                                </Typography>
 
-                                <div className="flex justify-center mt-2">
-                                    <label className="flex items-center cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            className="w-5 h-5 mr-2"
-                                            onChange={e => setIsConfirmed(e.target.checked)}
-                                            checked={isConfirmed}
-                                        />
-                                        <span>{confirmCheckboxText}</span>
-                                    </label>
-                                </div>
-                            </div>
 
                             <Typography className="mb-3">{additionalComments}</Typography>
                             <textarea

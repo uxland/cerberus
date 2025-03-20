@@ -48,8 +48,7 @@ export const RoundsView = (props: { id: string }) => {
                 </div>
             ) : null
             }
-            {error && <div>Error: {error}</div>}
-
+            {error && <div>Error: {String(error)}</div>}
         </div>
     );
 };
