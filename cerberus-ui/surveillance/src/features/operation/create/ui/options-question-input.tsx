@@ -5,6 +5,7 @@ import { appendOption, removeOption } from "../domain";
 import { GenericQuestionInput } from "./generic-question-input";
 import { OperationQuestionActions } from "./shared.tsx";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
+import { isAnomalousValues } from "../domain";
 
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
@@ -17,6 +18,8 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
     const questionOptionText = useSurveillanceLocales("operation.create.question.option.text");
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.option.delete");
     const questionOptionAddOption = useSurveillanceLocales("operation.create.question.option.addOption");
+    const questionOptionIsAnomalous = useSurveillanceLocales("operation.create.question.option.isAnomalous");
+    const { formState: { errors } } = actions.formMethods;
 
     const handleAppendOption = () => {
         actions.setQuestion(question.id, appendOption(question, undefined));
@@ -25,6 +28,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
         actions.setQuestion(question.id, removeOption(question, optionCode));
     };
 
+    console.log("errors", errors)
     return (
         <div>
             <GenericQuestionInput question={question} actions={actions} />
@@ -32,17 +36,22 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
             {question.__type === "Options" && (
                 <div>
                     {question.options.map((option, index) => (
-                        <div key={option.code}>
-                            <h1 className="font-bold mt-2">
-                                {questionOptionTitle} {index + 1}
-                            </h1>
-                            <div className="flex gap-4 mt-2 items-center">
+                        <div key={option.code} >
+                            <div className="flex items-center mt-6">
+                                <h1 className="font-bold">
+                                    {questionOptionTitle} {index + 1}
+                                </h1>
+
+                            </div>
+                            <div className="flex gap-4 my-2 items-end">
                                 <FormInputField
                                     label={questionOptionCode}
                                     placeholder="..."
                                     register={actions.formMethods.register}
                                     type="text"
                                     name={`${actions.path}.options.${index}.code`}
+                                    error={errors[actions.path]?.options?.[index]?.code}
+
                                 />
                                 <FormInputField
                                     label={questionOptionText}
@@ -50,15 +59,24 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                     register={actions.formMethods.register}
                                     type="text"
                                     name={`${actions.path}.options.${index}.text`}
+                                    error={errors[actions.path]?.options?.[index]?.text}
                                 />
                                 <button
                                     type="button"
-                                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
+                                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover mb-1"
                                     onClick={() => handleRemoveOption(option.code)}
                                 >
                                     {questionOptionDelete}
                                 </button>
                             </div>
+                            <Select
+                                name="isAnomalous"
+                                title={questionOptionIsAnomalous}
+                                path={`${actions.path}.options.${index}`}
+                                options={isAnomalousValues.map(m => ({ value: String(m.value), label: m.label }))}
+                                selected={String(question.options[index].isAnomalous)}
+                                formMethods={actions.formMethods}
+                            />
                         </div>
                     ))}
 

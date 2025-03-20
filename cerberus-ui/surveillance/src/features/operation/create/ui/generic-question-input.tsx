@@ -23,7 +23,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     };
 
     const handleTypologyChange = (value: string) => {
-        actions.setQuestion(question.id, { ...question, typology: value as OptionsTypology });
+        actions.setQuestion(question.id, { ...question, type: value as OptionsTypology });
     };
 
     const handleRemoveQuestion = () => {
@@ -76,7 +76,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                     <Select
                         title={useSurveillanceLocales("operation.create.question.subtype")}
                         options={optionTypologyValues}
-                        selected={question.typology}
+                        selected={question.type}
                         onChanged={handleTypologyChange}
                         formMethods={actions.formMethods}
                     />

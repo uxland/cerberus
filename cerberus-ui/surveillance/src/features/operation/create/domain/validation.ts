@@ -40,8 +40,9 @@ const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
     options: z.array(z.object({
         code: z.string().nonempty("Option code is required"),
         text: z.string().nonempty("Option text is required"),
-    })).nonempty("At least one option is required"),
-    typology: z.enum(["Single", "Multiple"]),
+        isAnomalous: z.boolean(),
+    })).min(2, "At least two options are required"),
+    type: z.enum(["Single", "Multiple"]),
 });
 
 const QuestionSchema = z.discriminatedUnion("__type", [

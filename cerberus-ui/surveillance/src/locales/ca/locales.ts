@@ -2,6 +2,7 @@ import { getNestedValue } from "@cerberus/core";
 import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
 import { useLocalePath } from "@uxland/react-services";
 import { moduleName } from "../../constants";
+import { is } from "date-fns/locale";
 
 export type SurveillanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useSurveillanceLocales = (
@@ -38,10 +39,11 @@ export const locales = {
           lowerBoundPlaceholder: "Valor mínimo",
           upperBoundPlaceholder: "Valor máximo",
           option: {
-            title: "Respuesta",
+            title: "Opción",
             addOption: "+ Añadir opción",
             code: "Código",
             text: "Texto",
+            isAnomalous: "Opción anómala",
             delete: "Eliminar",
           }
         },

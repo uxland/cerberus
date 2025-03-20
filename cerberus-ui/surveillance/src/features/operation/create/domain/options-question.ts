@@ -11,7 +11,7 @@ export type OptionsTypology = "Single" | "Multiple";
 export interface OptionsQuestion extends OperationQuestion {
     __type: "Options";
     options: Option[];
-    typology: OptionsTypology;
+    type: OptionsTypology;
 }
 
 const createOptionId = (question: OptionsQuestion): string => {
@@ -25,7 +25,8 @@ const createOptionId = (question: OptionsQuestion): string => {
 export const appendOption = (question: OptionsQuestion, code: string | undefined) => {
     const option = <Option>{
         code: code || createOptionId(question),
-        text: ""
+        text: "",
+        isAnomalous: false
     }
     return { ...question, options: [...question.options, option] };
 }
@@ -38,8 +39,8 @@ export const setOptionCode = (question: OptionsQuestion, optionCode: string, cod
     return { ...question, options: question.options.map(o => o.code === optionCode ? { ...o, code } : o) };
 }
 
-export const setTypology = (question: OptionsQuestion, typology: OptionsTypology): OptionsQuestion => {
-    return { ...question, typology };
+export const setTypology = (question: OptionsQuestion, type: OptionsTypology): OptionsQuestion => {
+    return { ...question, type };
 }
 
 export const removeOption = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {

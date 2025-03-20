@@ -8,7 +8,10 @@ export const questionOptionValues: Array<{ value: OperationQuestionType, label: 
     { value: "Integer", label: "Entero" },
     { value: "Float", label: "Decimal" }
 ]
-
+export const isAnomalousValues: Array<{ value: boolean, label: string }> = [
+    { value: true, label: "Sí" },
+    { value: false, label: "No" }
+]
 export interface OperationQuestion {
     __type: OperationQuestionType;
     id: string;

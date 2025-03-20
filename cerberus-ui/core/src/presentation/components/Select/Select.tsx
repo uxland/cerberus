@@ -24,11 +24,13 @@ export const Select = ({ title, options, classes, path, name, selected, onChange
     }, [selectedValue]);
 
     const handleOptionClick = (optionValue: string) => {
+        const parsedValue =
+            optionValue === "true" ? true : optionValue === "false" ? false : optionValue;
         setSelectedOption(optionValue);
         if (onChanged) {
-            onChanged(optionValue);
+            onChanged(parsedValue);
         } else if (formMethods && path && name) {
-            setValue(`${path}.${name}`, optionValue);
+            setValue(`${path}.${name}`, parsedValue);
         }
     };
 

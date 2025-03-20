@@ -28,7 +28,7 @@ const operationOptionsFactory = (model: SurveillanceOperationFormModel): Operati
     return <OperationQuestion>{
         ...operationFactory("Options")(model),
         options: [],
-        typology: "Single"
+        type: "Single"
     }
 }
 const operationIntFloatFactory = (type: OperationQuestionType) => (model: SurveillanceOperationFormModel): OperationQuestion => {
