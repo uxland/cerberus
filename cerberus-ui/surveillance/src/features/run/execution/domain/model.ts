@@ -72,6 +72,7 @@ export enum RunStatus {
     Running = "Running",
     Completed = "Completed",
     Dismissed = "Dismissed",
+    Released = "Released"
 }
 
 export const getCurrentInspectionRun = (run: Run): InspectionRun | undefined => {

@@ -6,6 +6,6 @@ import { Run } from '../domain/model.ts'
 @injectable()
 export class StartRunHandler extends HandlerBase<Run, StartRun> {
     handle(request: StartRun): Promise<Run> {
-        return this.apiClient.put<Run>(`surveillance/runs/${request.id}:start`, request);
+        return this.apiClient.put<Run>(`surveillance/runs/${request.id}:start`, {});
     }
 }

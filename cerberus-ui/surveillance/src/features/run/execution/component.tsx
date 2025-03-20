@@ -10,6 +10,7 @@ import * as React from "react";
 import { ExecutionStepArgs } from "./model.ts";
 import { StartSurveillanceRun } from "./start";
 import { InspectionRunEditor } from "./run-inspection/component.tsx";
+import ReleaseSurveillanceRun from "./release/component.tsx";
 
 export const SurveillanceRunEditor = () => {
     const [error, setError] = useState<string | undefined>(undefined);
@@ -61,6 +62,7 @@ type ExecutionFactory = (run: Run) => React.ComponentType;
 const componentsMap: { [key: string]: ExecutionFactory } = {
     [RunStatus.Pending]: StartSurveillanceRun,
     [RunStatus.Running]: InspectionRunEditor,
+    [RunStatus.Completed]: ReleaseSurveillanceRun
 }
 const NoContent = () => {
     return (<div>...</div>);
