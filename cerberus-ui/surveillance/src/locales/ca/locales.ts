@@ -2,7 +2,6 @@ import { getNestedValue } from "@cerberus/core";
 import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
 import { useLocalePath } from "@uxland/react-services";
 import { moduleName } from "../../constants";
-import { is } from "date-fns/locale";
 
 export type SurveillanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useSurveillanceLocales = (
@@ -104,6 +103,22 @@ export const locales = {
         proceed: "Proceder",
         send: "Enviar",
       },
+      release: {
+        title: "Finalizar Ronda de Supervisión",
+        confirmationQuestion: "¿Quieres terminar la ronda de supervisión ahora?",
+        additionalComments: "Comentarios adicionales",
+        confirm: "Finalizar Ronda",
+        cancel: "Cancelar",
+        confirmCheckboxText: "Confirmar finalización"
+      },
+      details: {
+        title: "Detalles de la Ronda",
+        startedAt: "Iniciada el",
+        inspections: "Inspecciones",
+        location: "Ubicación",
+        status: "Estado",
+        inspectionsCompleted: "Inspecciones completadas"
+      }
     },
   },
 };
