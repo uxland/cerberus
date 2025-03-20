@@ -32,6 +32,7 @@ public static class Bootstrapper
         marten.Projections.Add<SurveillanceRoundDetailProjection>(ProjectionLifecycle.Inline);
         
         marten.Projections.Snapshot<SurveillanceRun>(SnapshotLifecycle.Inline);
+        marten.Projections.Add<SurveillanceRunSummaryProjection>(ProjectionLifecycle.Inline);
         return marten;
     }
     
