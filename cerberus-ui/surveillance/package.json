@@ -32,6 +32,8 @@
     "react-router-dom": "^6.24.0",
     "uuid": "^11.1.0",
     "zod": "^3.24.2",
-    "react-js-cron": "^5.0.1"
+    "react-js-cron": "^5.0.1",
+    "mediasoup-client": "^3.9.2",
+    "socket.io-client": "^4.8.1"
   }
 }

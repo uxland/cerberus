@@ -60,15 +60,6 @@ services:
     volumes:
       - snapshots_volume:/app/Snapshots
 
-  media-server:
-    build:
-      context: ./src/hosts/MediaServer
-      dockerfile: Dockerfile.deploy
-    ports:
-     - "3000:3000"
-     - "20000-22000:20000-22000"
-    volumes:
-     -  ./src/hosts/MediaServer/certs:/certs/ssl
 volumes:
   snapshots_volume:
     driver: local

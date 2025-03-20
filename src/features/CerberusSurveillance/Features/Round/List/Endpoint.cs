@@ -12,8 +12,7 @@ internal static class Endpoint
         app.MapGet("", async (IReadModelQueryProvider queryProvider, string? rootLocationId) =>
         {
             var spec = SurveillanceRoundSummarySpecifications.ByRootLocation(rootLocationId);
-            var all = await queryProvider.List<SurveillanceRoundSummary>();
-            var rounds = all.Where(x => spec == null || spec.IsSatisfiedBy(x)).ToList();
+            var rounds = await queryProvider.List<SurveillanceRoundSummary>(spec);
             return Results.Ok(rounds);
         });
         return app;

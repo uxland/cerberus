@@ -30,6 +30,11 @@ internal static class Extensions
     internal static List<string> ToOptionsAnswer(this object? value)
     {
         if(value == null) return [];
+        if (value is string)
+        {
+            var str = value.ToString();
+            return string.IsNullOrEmpty(str) ? [] : [str];
+        }
         if(value is IEnumerable enumerable) return enumerable.Cast<object>().Where(x => x != null).Select(x => x.ToString()).Where(x => string.IsNullOrEmpty(x)).ToList();
         return new List<string> { value.ToString() ?? string.Empty }.Where(x => !string.IsNullOrEmpty(x)).ToList();
     }
