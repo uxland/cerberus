@@ -39,4 +39,4 @@ EXPOSE 20000-22000
 
 EXPOSE 10000-10100
 
-CMD ["npm", "start"]
+CMD ["node", "app.js"]

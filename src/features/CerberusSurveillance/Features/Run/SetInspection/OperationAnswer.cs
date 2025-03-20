@@ -16,7 +16,7 @@ internal static class OperationAnswer
     {
         var parseResult = self.Answers.Select(x =>
         {
-            var answerParser = AnswerParsers[x.GetType()];
+            var answerParser = AnswerParsers[x.Question.GetType()];
             return answerParser.ParseQuestionAnswer(x.Question, answers);
         }).ToList();
         var error = string.Join(Environment.NewLine,

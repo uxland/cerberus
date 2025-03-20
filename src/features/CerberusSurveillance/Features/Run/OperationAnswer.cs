@@ -1,8 +1,13 @@
 ﻿using System.Collections;
+using System.Text.Json.Serialization;
 
 namespace Cerberus.Surveillance.Features.Features.Run;
 
-
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "__type")]
+[JsonDerivedType(typeof(OptionAnswer), "Options")]
+[JsonDerivedType(typeof(TextAnswer), "Text")]
+[JsonDerivedType(typeof(IntegerAnswer), "Integer")]
+[JsonDerivedType(typeof(FloatAnswer), "Float")]
 public interface IOperationAnswer
 {
     bool IsAnomalous { get; }
