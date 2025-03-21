@@ -1,6 +1,6 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 using Cerberus.Core.Domain;
-using Cerberus.Surveillance.Features.Features.Round;
+using Cerberus.Surveillance.Features.Features.Round.List;
 using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Run.List;
@@ -13,19 +13,22 @@ public record SurveillanceRunSummary(
     string RoundDescription,
     string Performer,
     Instant StartTime,
-    Instant EndTime
+    Instant EndTime,
+    int TotalAnomalies,
+    int InspectionWithAnomalies
 ) : IEntity
 {
-    public SurveillanceRunSummary(SurveillanceRun run, SurveillanceRound round, Location location): this(
+    public static SurveillanceRunSummary CreateSurveillanceRunSummary(SurveillanceRun run,
+        SurveillanceRoundSummary round, Location location) => new SurveillanceRunSummary(
         run.Id,
         run.RootLocationId,
         location.Description,
         run.RoundId,
-        round.Description ?? string.Empty,
+        round.Description,
         run.EndedBy ?? string.Empty,
         run.StartedAt.GetValueOrDefault(),
-        run.EndedAt.GetValueOrDefault()
-    )
-    {
-    }
+        run.EndedAt.GetValueOrDefault(),
+        run.InspectionRuns.SelectMany(x => x.OperationRun.Answers).Count(x => x.Answer?.IsAnomalous ?? false),
+        run.InspectionRuns.Count(x => x.OperationRun.Answers.Any(y => y.Answer?.IsAnomalous ?? false))
+    );
 }

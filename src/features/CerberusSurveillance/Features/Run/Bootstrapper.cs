@@ -1,5 +1,6 @@
 ﻿using Cerberus.Surveillance.Features.Features.Run.Create;
 using Cerberus.Surveillance.Features.Features.Run.Get;
+using Cerberus.Surveillance.Features.Features.Run.List;
 using Cerberus.Surveillance.Features.Features.Run.Release;
 using Cerberus.Surveillance.Features.Features.Run.SetInspection;
 using Cerberus.Surveillance.Features.Features.Run.Start;
@@ -17,7 +18,8 @@ internal static class Bootstrapper
             .UseGetRun()
             .UseStartRun()
             .UseSetRunInspection()
-            .UseReleaseRun();
+            .UseReleaseRun()
+            .UseListRuns();
         return app;
     }
 }

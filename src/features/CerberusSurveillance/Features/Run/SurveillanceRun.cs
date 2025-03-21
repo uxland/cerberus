@@ -34,7 +34,7 @@ public partial class SurveillanceRun() : AggregateRoot()
     
     public bool CanStart() => this.Status == RunStatus.Pending;
 
-    public bool CanRelease => this.Status == RunStatus.Running && this.AreAllInspectionsCompleted();
+    public bool CanRelease =>this.AreAllInspectionsCompleted();
 
 
     private bool AreAllInspectionsCompleted() => this.InspectionRuns.All(x => x.Status == RunStatus.Completed || x.Status == RunStatus.Dismissed);

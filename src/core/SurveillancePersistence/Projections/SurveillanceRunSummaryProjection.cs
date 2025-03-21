@@ -1,5 +1,5 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
-using Cerberus.Surveillance.Features.Features.Round;
+using Cerberus.Surveillance.Features.Features.Round.List;
 using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Features.Features.Run.List;
 using Cerberus.Surveillance.Features.Features.Run.Release;
@@ -20,11 +20,12 @@ public class SurveillanceRunSummaryProjection: SingleStreamProjection<Surveillan
     private static async Task<SurveillanceRunSummary> CreateSurveillanceRunSummary(IQuerySession querySession, string id, SurveillanceRunReleased releasedEvent)
     {
         var run = await querySession.LoadAsync<SurveillanceRun>(id);
-        
-        return new SurveillanceRunSummary(
+        var round = await querySession.LoadAsync<SurveillanceRoundSummary>(run!.RoundId);
+        var location = await querySession.LoadAsync<Location>(run.RootLocationId);
+        return SurveillanceRunSummary.CreateSurveillanceRunSummary(
            run: run ?? throw new InvalidOperationException(),
-           round: await querySession.LoadAsync<SurveillanceRound>(run!.RoundId)! ?? throw new InvalidOperationException(),
-           location: await querySession.LoadAsync<Location>(run.RootLocationId)! ?? throw new InvalidOperationException()
+           round: round ?? throw new InvalidOperationException(),
+           location: location ?? throw new InvalidOperationException()
         );
     }
 }

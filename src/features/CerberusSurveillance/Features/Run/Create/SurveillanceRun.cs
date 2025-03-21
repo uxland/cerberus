@@ -7,8 +7,8 @@ public partial class SurveillanceRun
     public SurveillanceRun(string id, string rootLocationId, string roundId, string? assignedGroupId, IEnumerable<InspectionRun> inspectionRuns): this()
     {
         this.ApplyUncommittedEvent(new SurveillanceRunCreated(id,
-            rootLocationId,
             roundId,
+            rootLocationId,
             assignedGroupId,
             inspectionRuns,
             RunStatus.Pending
