@@ -114,6 +114,11 @@ app.get('/', (req, res) => {
 	res.send('Hello from mediasoup app!')
 })
 
+app.get('/kill-ffmpeg', (req, res) => {
+	ffmpegProcess.kill('SIGTERM');
+	res.send('FFMpeg killed')
+})
+
 app.use('/sfu', express.static(path.join(__dirname, 'public')))
 
 // SSL cert for HTTPS access
