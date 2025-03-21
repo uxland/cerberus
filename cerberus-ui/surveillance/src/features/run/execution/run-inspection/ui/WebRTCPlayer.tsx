@@ -3,6 +3,9 @@ import io from "socket.io-client";
 import * as mediasoupClient from "mediasoup-client";
 import {nop} from "@cerberus/core";
 
+// @ts-ignore
+const streamingUrl = `${import.meta.env.VITE_CERBERUS_STREAMING_URL}/mediasoup`;
+
 export default function WebRTCPlayer() {
     const remoteVideoRef = useRef(null);
     const [socket, setSocket] = useState(null);
@@ -26,7 +29,7 @@ export default function WebRTCPlayer() {
     }, [consumer]);
 
     useEffect(() => {
-        const newSocket = io("wss://localhost:3000/mediasoup", {
+        const newSocket = io(streamingUrl, {
             transports: ["websocket"],
             timeout: 5000,
             reconnectionAttempts: 5,

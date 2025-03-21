@@ -99,12 +99,12 @@ const startFFmpeg = () => {
 	return ffmpeg;
 };
 
-const ffmpegProcess = startFFmpeg();
+let ffmpegProcess = startFFmpeg();
 
 // Graceful shutdown
 process.on('SIGINT', () => {
 	console.log('Stopping FFmpeg...');
-	ffmpegProcess.kill('SIGTERM');
+	if(ffmpegProcess) ffmpegProcess.kill('SIGTERM');
 	process.exit();
 });
 
@@ -115,8 +115,20 @@ app.get('/', (req, res) => {
 })
 
 app.get('/kill-ffmpeg', (req, res) => {
-	ffmpegProcess.kill('SIGTERM');
-	res.send('FFMpeg killed')
+	try{
+		ffmpegProcess.stdin.setEncoding('utf8');
+		ffmpegProcess.stdin.write('q');
+		setTimeout(() =>{
+			ffmpegProcess.kill('SIGTERM');
+			process.exit();
+			ffmpegProcess = undefined;
+		}, 5000)
+		res.send('FFMpeg killed')	
+	}catch (e) {
+		ffmpegProcess.kill('SIGTERM');
+		res.send('FFMpeg killed after error')
+	}
+	
 })
 
 app.use('/sfu', express.static(path.join(__dirname, 'public')))

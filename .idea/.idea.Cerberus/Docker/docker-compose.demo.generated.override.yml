@@ -8,7 +8,7 @@ services:
     command: []
     entrypoint:
     - "dotnet"
-    - "/app/bin/Debug/net8.0/CerberusApi.dll"
+    - "/app/bin/Debug/net9.0/CerberusApi.dll"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"

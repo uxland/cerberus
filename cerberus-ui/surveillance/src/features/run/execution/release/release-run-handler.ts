@@ -7,6 +7,4 @@ export class ReleaseRunHandler extends HandlerBase<void, ReleaseRun> {
         await this.apiClient.put(`${runsEndpointUrl}${request.id}:release`, {body: <any>{additionalComments: request.additionalComments}});
         this.navigationService.navigateBack()
     }
-
-
 }
