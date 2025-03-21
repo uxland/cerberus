@@ -63,7 +63,7 @@
       dockerfile: Dockerfile.deploy
     ports:
       - "3000:3000"
-      - "20000-22000:20000-22000"
+      - "20000-20020:20000-20020"
     volumes:
       -  ./src/hosts/MediaServer/certs:/certs/ssl
   cerberus-ui:
