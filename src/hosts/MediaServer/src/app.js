@@ -193,7 +193,7 @@ const mediaCodecs = [
 const createWorker = async () => {
 	worker = await mediasoup.createWorker({
 		rtcMinPort: 20000,
-		rtcMaxPort: 22000,
+		rtcMaxPort: 20020,
 	})
 	console.log(`worker pid ${worker.pid}`)
 
