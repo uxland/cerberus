@@ -1,55 +1,59 @@
-import { ExecutionStepArgs } from "../model.ts";
 import { Typography } from "@mui/material";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { sendMediatorRequest } from "@cerberus/core";
-import { ReleaseRun } from "./command.ts";
+import { Run, InspectionRun } from "../../execution/domain/model.ts";
 import { useState } from "react";
 
-export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepArgs) {
-    const title = useSurveillanceLocales("run.release.title");
-    const additionalComments = useSurveillanceLocales("run.release.additionalComments");
-    const confirmButtonText = useSurveillanceLocales("run.release.confirm");
-    const cancelButtonText = useSurveillanceLocales("run.release.cancel");
+export const RunReport = ({ run }: { run: Run }) => {
     const runDetailsTitle = useSurveillanceLocales("run.details.title");
     const runStartedAt = useSurveillanceLocales("run.details.startedAt");
     const runInspections = useSurveillanceLocales("run.details.inspections");
     const runLocation = useSurveillanceLocales("run.details.location");
     const runStatus = useSurveillanceLocales("run.details.status");
     const inspectionsCompleted = useSurveillanceLocales("run.details.inspectionsCompleted");
-    const runIdLabel = useSurveillanceLocales("run.details.id");
-    const commentsPlaceholder = useSurveillanceLocales("run.release.commentsPlaceholder");
-    const notApplicable = useSurveillanceLocales("run.common.notApplicable");
+    const runId = useSurveillanceLocales("run.details.id");
+    const videoTitle = useSurveillanceLocales("run.report.videoTitle");
+    const videoDetails = useSurveillanceLocales("run.report.videoDetails");
+    const cameraLabel = useSurveillanceLocales("run.report.cameraLabel");
+    const durationLabel = useSurveillanceLocales("run.report.durationLabel");
+    const dateLabel = useSurveillanceLocales("run.report.dateLabel");
+    const notAvailable = useSurveillanceLocales("run.report.notAvailable");
+    const videoNotSupported = useSurveillanceLocales("run.report.videoNotSupported");
     const normalStatus = useSurveillanceLocales("run.anomalyStatuses.normal");
     const singleAnomalyStatus = useSurveillanceLocales("run.anomalyStatuses.singleAnomaly");
     const multipleAnomaliesStatus = useSurveillanceLocales("run.anomalyStatuses.multipleAnomalies");
 
-    const completedInspections = run.inspectionRuns.filter(i => i.status === "Completed").length;
-
-    const [comments, setComments] = useState<string>("");
-
+    const [selectedInspection, setSelectedInspection] = useState<InspectionRun>(run.inspectionRuns?.[0]);
     const formatDate = (dateStr: string) => {
         try {
             const date = new Date(dateStr);
             return format(date, "dd MMM yyyy, HH:mm:ss", { locale: es });
         } catch (e) {
-            return dateStr;
+            return dateStr || "";
         }
     };
+    const calculateDuration = (startDate: string, endDate: string): string => {
+        try {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
 
-    const handleConfirm = () => {
-        sendMediatorRequest({ command: new ReleaseRun(run.id, comments) });
+            const diff = end.getTime() - start.getTime();
+
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        } catch (e) {
+            return "00:00";
+        }
     };
-
-    const handleCancel = () => { };
-
 
     return (
         <div className="flex flex-col min-h-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden">
             <div className="flex items-center gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0">
-                <Typography className="uppercase !text-primary !font-semibold">{run.roundId || notApplicable}</Typography>
-                <Typography className="uppercase">{run.rootLocationId || notApplicable}</Typography>
+                <Typography className="uppercase !text-primary !font-semibold">{run.roundId || "N/A"}</Typography>
+                <Typography className="uppercase">{run.rootLocationId || "N/A"}</Typography>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow mt-4 overflow-hidden">
@@ -60,34 +64,36 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
                     <div className="grid grid-cols-1 gap-4">
                         <div className="bg-[#313131] p-4 rounded-lg">
                             <div className="flex justify-between items-center mb-2">
-                                <Typography className="text-grey82">{runIdLabel}:</Typography>
-                                <Typography className="font-semibold">{run.id ? run.id.substring(0, 8) : notApplicable}</Typography>
+                                <Typography className="text-grey82">{runId}:</Typography>
+                                <Typography className="font-semibold">{run.id ? run.id.substring(0, 8) : "N/A"}</Typography>
                             </div>
                             <div className="flex justify-between items-center mb-2">
                                 <Typography className="text-grey82">{runLocation}:</Typography>
-                                <Typography className="font-semibold">{run.rootLocationId || notApplicable}</Typography>
+                                <Typography className="font-semibold">{run.rootLocationId || "N/A"}</Typography>
                             </div>
                             <div className="flex justify-between items-center mb-2">
                                 <Typography className="text-grey82">{runStartedAt}:</Typography>
-                                <Typography className="font-semibold">{run.startedAt ? formatDate(run.startedAt) : notApplicable}</Typography>
+                                <Typography className="font-semibold">{run.startedAt ? formatDate(run.startedAt) : "N/A"}</Typography>
                             </div>
                             <div className="flex justify-between items-center mb-2">
                                 <Typography className="text-grey82">{runStatus}:</Typography>
-                                <Typography className="font-semibold">{run.status || notApplicable}</Typography>
+                                <Typography className="font-semibold">{run.status || "N/A"}</Typography>
                             </div>
                             <div className="flex justify-between items-center">
                                 <Typography className="text-grey82">{inspectionsCompleted}:</Typography>
-                                <Typography className="font-semibold">{completedInspections} / {run.inspectionRuns.length}</Typography>
+                                <Typography className="font-semibold">{run.inspectionRuns?.length || 0} / {run.inspectionRuns?.length || 0}</Typography>
                             </div>
                         </div>
 
                         <div className="mt-2">
                             <h2 className="text-lg font-bold mb-2">{runInspections}</h2>
                             <div className="max-h-[400px] overflow-y-auto pr-1">
-                                {run.inspectionRuns.map((inspection, index) => (
+                                {run.inspectionRuns?.map((inspection) => (
                                     <div
                                         key={inspection.inspectionId}
-                                        className="bg-[#313131] p-3 rounded-lg mb-2 flex justify-between items-center relative"
+                                        className={`bg-[#313131] p-3 rounded-lg mb-2 flex justify-between items-center relative cursor-pointer ${selectedInspection?.id === inspection.id ? "border border-primary" : ""
+                                            }`}
+                                        onClick={() => setSelectedInspection(inspection)}
                                     >
                                         <div>
                                             <Typography className="font-semibold">{inspection.cameraDescription}</Typography>
@@ -120,37 +126,49 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
 
                 <div className="flex flex-col bg-tableBg p-6 rounded-[10px]">
                     <div className="flex-shrink-0">
-                        <h1 className="text-xl font-bold mb-4">{title}</h1>
+                        <h1 className="text-xl font-bold mb-4">{videoTitle}</h1>
                         <span className="bg-[#313131] block p-[1px] w-full mb-5"></span>
                     </div>
 
-                    <div className="flex-grow">
-                        <div className="mb-8 flex flex-col">
-                            <Typography className="mb-3">{additionalComments}</Typography>
-                            <textarea
-                                className="bg-[#313131] w-full min-h-[120px] p-3 rounded"
-                                onChange={e => setComments(e.target.value)}
-                                value={comments}
-                                placeholder={commentsPlaceholder}
-                            />
+                    <div className="flex-grow flex flex-col">
+                        <div className="relative w-full h-0 pb-[56.25%] bg-[#1a1a1a] rounded-lg mb-4">
+                            <video
+                                className="absolute top-0 left-0 w-full h-full object-contain rounded-lg"
+                                controls
+                                poster={selectedInspection?.cameraStreamingUrl}
+                            >
+                                <source src="/assets/sample-video.mp4" type="video/mp4" />
+                                {videoNotSupported}
+                            </video>
                         </div>
-                    </div>
 
-                    <div className="flex justify-end gap-4 mt-4 flex-shrink-0">
-                        <button
-                            type="button"
-                            onClick={handleCancel}
-                            className="text-xs uppercase bg-[#313131] text-white font-bold py-2 px-8 rounded-full hover:bg-opacity-80"
-                        >
-                            {cancelButtonText}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleConfirm}
-                            className="text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full hover:bg-secondaryHover"
-                        >
-                            {confirmButtonText}
-                        </button>
+                        <div className="bg-[#313131] p-4 rounded-lg space-y-3">
+                            <Typography className="font-semibold text-lg text-primary border-b border-[#414141] pb-2">
+                                {videoDetails}
+                            </Typography>
+                            <div className="flex justify-between items-center">
+                                <Typography className="text-grey82 font-medium">{cameraLabel}:</Typography>
+                                <Typography className="font-semibold">
+                                    {selectedInspection ? selectedInspection.cameraDescription : notAvailable}
+                                </Typography>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <Typography className="text-grey82 font-medium">{durationLabel}:</Typography>
+                                <Typography className="font-semibold">
+                                    {selectedInspection && selectedInspection.startedAt && selectedInspection.endedAt
+                                        ? calculateDuration(selectedInspection.startedAt, selectedInspection.endedAt)
+                                        : "00:00"}
+                                </Typography>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <Typography className="text-grey82 font-medium">{dateLabel}:</Typography>
+                                <Typography className="font-semibold">
+                                    {selectedInspection && selectedInspection.startedAt
+                                        ? formatDate(selectedInspection.startedAt)
+                                        : notAvailable}
+                                </Typography>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -109,6 +109,7 @@ export const locales = {
         additionalComments: "Comentarios adicionales",
         confirm: "Finalizar Ronda",
         cancel: "Cancelar",
+        commentsPlaceholder: "Escribe aquí tus comentarios finales sobre la ronda...",
       },
       details: {
         title: "Detalles de la Ronda",
@@ -116,7 +117,25 @@ export const locales = {
         inspections: "Inspecciones",
         location: "Ubicación",
         status: "Estado",
-        inspectionsCompleted: "Inspecciones completadas"
+        inspectionsCompleted: "Inspecciones completadas",
+        id: "ID"
+      },
+      report: {
+        videoTitle: "Grabación de la cámara",
+        videoDetails: "Detalles de la grabación",
+        cameraLabel: "Cámara",
+        durationLabel: "Duración",
+        dateLabel: "Fecha",
+        notAvailable: "No disponible",
+        videoNotSupported: "Tu navegador no soporta la reproducción de videos.",
+      },
+      anomalyStatuses: {
+        normal: "Normal",
+        singleAnomaly: "Anomalía detectada",
+        multipleAnomalies: "Múltiples anomalías"
+      },
+      common: {
+        notApplicable: "N/A",
       }
     },
   },

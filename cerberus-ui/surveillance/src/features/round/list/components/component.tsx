@@ -20,9 +20,8 @@ import { useState } from "react";
 import { sendMediatorRequest } from "@cerberus/core";
 import { DeleteRound } from "../../delete/command";
 import EditIcon from '@mui/icons-material/Edit';
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import EyeIcon from "@mui/icons-material/VisibilityOutlined";
-import { ListRuns } from "../../../run/list/query";
 
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
@@ -75,12 +74,8 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
 };
 
 const RoundRow = (props: { round: RoundSummary }) => {
-    const [busyEdit, setBusyEdit] = useState<boolean>(false);
     const [busyStart, setBusyStart] = useState<boolean>(false);
     const [busyDelete, setBusyDelete] = useState<boolean>(false);
-    const [busyList, setBusyList] = useState<boolean>(false);
-
-    const navigate = useNavigate();
 
     const handleStartRun = async () => {
         sendMediatorRequest({
@@ -96,23 +91,9 @@ const RoundRow = (props: { round: RoundSummary }) => {
         });
     }
 
-    const handleEditRound = async () => {
-        setBusyEdit(true);
-        try {
-            navigate(`/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}`);
-        } finally {
-            setBusyEdit(false);
-        }
-    }
+    const editUrl = `/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}`;
+    const listRunsUrl = `/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}/runs`;
 
-    const handleListRuns = async () => {
-        setBusyList(true);
-        try {
-            navigate(`/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}/runs`);
-        } finally {
-            setBusyList(false);
-        }
-    }
     return (
         <TableRow>
             <TableCell size="small" component="th" scope="row" align="center">
@@ -129,21 +110,18 @@ const RoundRow = (props: { round: RoundSummary }) => {
             </TableCell>
             <TableCell align="center" width={200} className="flex justify-center gap-1">
                 <Tooltip title={useSurveillanceLocales("round.table.actions.edit")}>
-                    <IconButton
-                        onClick={handleEditRound}
-                        disabled={busyEdit || busyStart || busyDelete}
-                    >
-                        {busyEdit ? (
-                            <CircularProgress size={24} color="info" />
-                        ) : (
+                    <Link to={editUrl} className="cursor-pointer">
+                        <IconButton
+                            disabled={busyStart || busyDelete}
+                        >
                             <EditIcon color="info" />
-                        )}
-                    </IconButton>
+                        </IconButton>
+                    </Link>
                 </Tooltip>
                 <Tooltip title={useSurveillanceLocales("round.table.actions.start")}>
                     <IconButton
                         onClick={handleStartRun}
-                        disabled={busyEdit || busyStart || busyDelete || busyList}
+                        disabled={busyStart || busyDelete}
                     >
                         {busyStart ? (
                             <CircularProgress size={24} color="success" />
@@ -155,7 +133,7 @@ const RoundRow = (props: { round: RoundSummary }) => {
                 <Tooltip title={useSurveillanceLocales("round.table.actions.delete")}>
                     <IconButton
                         onClick={handleDeleteRound}
-                        disabled={busyEdit || busyStart || busyDelete || busyList}
+                        disabled={busyStart || busyDelete}
                     >
                         {busyDelete ? (
                             <CircularProgress size={24} color="error" />
@@ -165,16 +143,13 @@ const RoundRow = (props: { round: RoundSummary }) => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title={"Ver inspecciones"}>
-                    <IconButton
-                        onClick={handleListRuns}
-                        disabled={busyEdit || busyStart || busyDelete || busyList}
-                    >
-                        {busyList ? (
-                            <CircularProgress size={24} color="secondary" />
-                        ) : (
+                    <Link to={listRunsUrl} className="cursor-pointer">
+                        <IconButton
+                            disabled={busyStart || busyDelete}
+                        >
                             <EyeIcon sx={{ color: "#9c27b0" }} />
-                        )}
-                    </IconButton>
+                        </IconButton>
+                    </Link>
                 </Tooltip>
             </TableCell>
         </TableRow>
