@@ -14,6 +14,7 @@ public record SurveillanceRunSummary(
     string Performer,
     Instant StartTime,
     Instant EndTime,
+    Instant PlannedAt,
     int TotalAnomalies,
     int InspectionWithAnomalies
 ) : IEntity
@@ -28,6 +29,7 @@ public record SurveillanceRunSummary(
         run.EndedBy ?? string.Empty,
         run.StartedAt.GetValueOrDefault(),
         run.EndedAt.GetValueOrDefault(),
+        run.PlannedAt,
         run.InspectionRuns.SelectMany(x => x.OperationRun.Answers).Count(x => x.Answer?.IsAnomalous ?? false),
         run.InspectionRuns.Count(x => x.OperationRun.Answers.Any(y => y.Answer?.IsAnomalous ?? false))
     );

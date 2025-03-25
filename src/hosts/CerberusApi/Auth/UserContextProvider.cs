@@ -22,7 +22,8 @@ internal class UserContextProvider: IUserContextProvider
         var id = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var name = claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
         var roles = claimsPrincipal.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
-        return new User(id ?? string.Empty, name ?? string.Empty, roles);
+        var groups = claimsPrincipal.FindAll(ClaimTypes.GroupSid).Select(c => c.Value).ToArray();
+        return new User(id ?? string.Empty, name ?? string.Empty, roles, groups);
     }
     
 }

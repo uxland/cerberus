@@ -2,15 +2,16 @@ using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.Core.Domain;
 using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Round;
+using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Run.Create;
 
 internal static class RunFactories
 {
-    public static async Task<SurveillanceRun> ProduceRun(this SurveillanceRound round, IGenericRepository repository)
+    public static async Task<SurveillanceRun> ProduceRun(this SurveillanceRound round, IGenericRepository repository, Instant plannedAtl)
     {
         var inspections = await Task.WhenAll(round.Inspections.OrderBy(x => x.Order).Select((i, index) => i.ProduceRun(index, repository)));
-        return new SurveillanceRun(Guid.NewGuid().ToString(), round.RootLocationId!, round.Id, round.AssignedGroupId, inspections.ToList());
+        return new SurveillanceRun(round.SurveillanceRunId(plannedAtl), round.RootLocationId!, round.Id, round.AssignedGroupId, inspections.ToList(), plannedAtl);
     }
 
     private static async Task<InspectionRun> ProduceRun(this Inspection inspection, int id, IGenericRepository repository)
@@ -27,4 +28,6 @@ internal static class RunFactories
         return new OperationRun(operation.Id, operation.Description, answers.ToList());
     }
     
+    public static string SurveillanceRunId(this SurveillanceRound round, Instant plannedAt) =>
+        $"{round.Id}:{plannedAt.ToUnixTimeMilliseconds()}";
 }

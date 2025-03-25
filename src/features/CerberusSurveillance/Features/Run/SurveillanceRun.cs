@@ -19,6 +19,8 @@ public partial class SurveillanceRun() : AggregateRoot()
     public string? EndedBy { get; set; }
     
     public Instant? EndedAt { get; set; }
+    
+    public Instant PlannedAt { get; set; }
 
     public RunStatus Status { get; set; }
     
