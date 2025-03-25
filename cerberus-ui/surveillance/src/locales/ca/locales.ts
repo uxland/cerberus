@@ -54,7 +54,6 @@ export const locales = {
           title: "Acciones",
           delete: "Eliminar",
           edit: "Editar",
-          listInspections: "Ver inspecciones",
         }
       }
     },
@@ -93,6 +92,7 @@ export const locales = {
           edit: "Editar",
           start: "Iniciar",
           delete: "Eliminar",
+          view: "Ver inspecciones",
         }
       },
     },

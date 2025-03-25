@@ -3,7 +3,6 @@ import { sendMediatorRequest } from '@cerberus/core';
 import { GetRun } from '../execution/query';
 import { Box, CircularProgress } from "@mui/material";
 import { useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
 import { RunReport } from './ui/report';
 
 export const RunReportView = () => {

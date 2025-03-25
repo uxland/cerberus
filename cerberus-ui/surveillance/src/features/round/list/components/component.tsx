@@ -110,13 +110,13 @@ const RoundRow = (props: { round: RoundSummary }) => {
             </TableCell>
             <TableCell align="center" width={200} className="flex justify-center gap-1">
                 <Tooltip title={useSurveillanceLocales("round.table.actions.edit")}>
-                    <Link to={editUrl} className="cursor-pointer">
-                        <IconButton
-                            disabled={busyStart || busyDelete}
-                        >
-                            <EditIcon color="info" />
-                        </IconButton>
-                    </Link>
+                    <IconButton
+                        component={Link}
+                        to={editUrl}
+                        disabled={busyStart || busyDelete}
+                    >
+                        <EditIcon color="info" />
+                    </IconButton>
                 </Tooltip>
                 <Tooltip title={useSurveillanceLocales("round.table.actions.start")}>
                     <IconButton
@@ -142,14 +142,14 @@ const RoundRow = (props: { round: RoundSummary }) => {
                         )}
                     </IconButton>
                 </Tooltip>
-                <Tooltip title={"Ver inspecciones"}>
-                    <Link to={listRunsUrl} className="cursor-pointer">
-                        <IconButton
-                            disabled={busyStart || busyDelete}
-                        >
-                            <EyeIcon sx={{ color: "#9c27b0" }} />
-                        </IconButton>
-                    </Link>
+                <Tooltip title={useSurveillanceLocales("round.table.actions.view")}>
+                    <IconButton
+                        component={Link}
+                        to={listRunsUrl}
+                        disabled={busyStart || busyDelete}
+                    >
+                        <EyeIcon sx={{ color: "#9c27b0" }} />
+                    </IconButton>
                 </Tooltip>
             </TableCell>
         </TableRow>
