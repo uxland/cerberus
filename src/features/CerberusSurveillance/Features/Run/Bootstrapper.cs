@@ -2,6 +2,7 @@
 using Cerberus.Surveillance.Features.Features.Run.Get;
 using Cerberus.Surveillance.Features.Features.Run.List;
 using Cerberus.Surveillance.Features.Features.Run.Release;
+using Cerberus.Surveillance.Features.Features.Run.Schedule;
 using Cerberus.Surveillance.Features.Features.Run.SetInspection;
 using Cerberus.Surveillance.Features.Features.Run.Start;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +21,8 @@ internal static class Bootstrapper
             .UseSetRunInspection()
             .UseReleaseRun()
             .UseListRuns();
+        var operatorsGroup = app.MapGroup("/operators");
+        operatorsGroup.UseOperatorsSchedule();
         return app;
     }
 }
