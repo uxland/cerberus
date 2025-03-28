@@ -1,20 +1,24 @@
-import { addRoute, registerRouteComponent, store } from "@cerberus/core";
-import { RunSummaryView } from "./component.tsx";
+
 import { Container } from "inversify";
-import { ListRuns } from "./query.ts";
-import { ListRunsHandler } from "./handler.ts";
+import { useListRunsByLocation } from "./byLocation";
+import { useListRunsByRound } from "./byRound";
+import { addRoute, registerRouteComponent, store } from "@cerberus/core";
+import { RunSummaryView } from "./component";
+import { ListRuns } from "./query";
+import { ListRunsHandler } from "./handler";
 import { registerCommandHandler } from "@cerberus/core";
 
-
-export const useListRuns = (container: Container) => {
+export const useRunList = (container: Container) => {
     registerRouteComponent(RunSummaryView.name, RunSummaryView);
     store.dispatch(
         addRoute({
-            path: "surveillance/locations/:locationId/rounds/:roundId/runs",
+            path: "surveillance/runs",
             componentName: RunSummaryView.name,
             name: "run-summary"
         })
     );
     registerCommandHandler(ListRuns, ListRunsHandler);
-    return Promise.resolve(container);
+
+    return useListRunsByLocation(container)
+        .then(useListRunsByRound)
 }

@@ -4,13 +4,12 @@ import { HierarchyItemType } from "../../features/state/hierarchy-item";
 import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
 
 export enum TabPanelType {
-  OpenIssues = 0,
-  Analysis = 2,
+  // OpenIssues = 0,
+  // Analysis = 2,
   Settings = 4,
   Reports = 6,
-  MaintenanceSettings = 10,
-  Operations = 6,
-  Rounds = 8,
+  MaintenanceSettings = 8,
+  Rounds = 6,
 }
 
 export const TabsBar = (props: {
@@ -33,11 +32,15 @@ export const TabsBar = (props: {
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
-  const operationsLabel = useOrganizationalStructureLocales(
-    "tabs.operations"
-  );
+
   const roundsLabel = useOrganizationalStructureLocales(
     "tabs.rounds"
+  );
+  const capturesLabel = useOrganizationalStructureLocales(
+    "tabs.captures"
+  );
+  const inspectionsLabel = useOrganizationalStructureLocales(
+    "tabs.inspections"
   );
   return (
     <Box
@@ -55,7 +58,7 @@ export const TabsBar = (props: {
         aria-label="organizational-tab"
         variant="scrollable"
         scrollButtons="auto">
-        <Tab
+        {/* <Tab
           label={
             <CustomTabLabel
               label={openIssuesLabel}
@@ -76,23 +79,18 @@ export const TabsBar = (props: {
           }
           {...a11yProps(TabPanelType.Analysis)}
         />
-        <CustomDivider />
+        <CustomDivider /> */}
         <Tab label={settingsLabel} {...a11yProps(TabPanelType.Settings)} />
-        <CustomDivider />
-        <Tab
-          label={operationsLabel}
-          {...a11yProps(TabPanelType.Operations)}
-        />
         <CustomDivider />
         {itemType === HierarchyItemType.location && (
           <Tab
             label={roundsLabel}
             {...a11yProps(TabPanelType.Rounds)}
           />)}
-        {itemType === HierarchyItemType.camera && (
+        {/* {itemType === HierarchyItemType.camera && (
           <Tab label={reportsLabel} {...a11yProps(TabPanelType.Reports)} />
         )}
-        {itemType === HierarchyItemType.camera && <CustomDivider />}
+        {itemType === HierarchyItemType.camera && <CustomDivider />} */}
         {itemType === HierarchyItemType.camera && (
           <Tab
             label={maintenancesSettingsLabel}
@@ -100,7 +98,21 @@ export const TabsBar = (props: {
           />
 
         )}
+        <CustomDivider />
+        {itemType === HierarchyItemType.camera ? (
+          <Tab
+            label={capturesLabel}
+            {...a11yProps(TabPanelType.MaintenanceSettings)}
+          />
 
+        ) : itemType === HierarchyItemType.location ? (
+          <Tab
+            label={inspectionsLabel}
+            {...a11yProps(TabPanelType.MaintenanceSettings)}
+          />
+        ) :
+          null
+        }
       </Tabs>
     </Box>
   );

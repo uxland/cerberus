@@ -1,9 +1,9 @@
 import { HandlerBase, registerCommandHandler } from "@cerberus/core";
 import { Round, RoundEditionData } from "./domain";
 import { Mediator } from "mediatr-ts";
-import { OperationSummary } from "../../operation/list-operations/model.ts";
+import { OperationSummary } from "../../operation/list/model.ts";
 import { ListLocationSubHierarchy, LocationHierarchicalItem } from "@cerberus/organizational-structure";
-import { ListOperations } from "../../operation/list-operations/query.ts";
+import { ListOperations } from "../../operation/list/query.ts";
 import { Container } from "inversify";
 import { produceRoundEditionData, getCamerasFromHierarchy } from "./domain/model";
 import { IRequest } from "mediatr-ts";

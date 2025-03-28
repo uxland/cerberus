@@ -16,9 +16,9 @@ import { CameraCapturesView } from "./list-camera-captures/component";
 import { TabPanelProps } from "./model.ts";
 import { LocationSettingsView } from "./show-location-settings/component";
 import { LocationSettings } from "./show-location-settings/model.ts";
-import { OperationsView } from "@cerberus/surveillance";
 import { RoundsView } from "@cerberus/surveillance";
 import { useOrganizationalStructureLocales } from "../../../locales/ca/locales.ts";
+import { LocationRunsView } from "@cerberus/surveillance/src/features/run/list/byLocation/component.tsx";
 
 export const LocationPage = () => {
   const { id } = useParams();
@@ -40,20 +40,20 @@ export const LocationPage = () => {
 
   return (
     <div className="flex flex-col flex-1 w-full">
-      <LocationSettingsView id={id} type={itemType} content={HeaderComponent} />
+      {/* <LocationSettingsView id={id} type={itemType} content={HeaderComponent} /> */}
       <div className="flex flex-col flex-1 w-full gap-4">
         <TabsBar
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
           itemType={itemType}
         />
-        <CustomTabPanel value={selectedTab} index={0}>
+        {/* <CustomTabPanel value={selectedTab} index={0}>
           <OpenIssuesView id={id} />
         </CustomTabPanel>
         <CustomTabPanel value={selectedTab} index={2}>
           <PendingTrainingReviewsView id={id} />
-        </CustomTabPanel>
-        <CustomTabPanel value={selectedTab} index={4}>
+        </CustomTabPanel> */}
+        <CustomTabPanel value={selectedTab} index={0}>
           <>
             <div className="flex !flex-row !justify-end bg-tableBg w-[520px] rounded-t-lg">
               <Tooltip title={useOrganizationalStructureLocales("edit")}>
@@ -78,18 +78,29 @@ export const LocationPage = () => {
             />
           </>
         </CustomTabPanel>
-        <CustomTabPanel value={selectedTab} index={6}>
-          <OperationsView id={id} />
-        </CustomTabPanel>
-        <CustomTabPanel value={selectedTab} index={8}>
-          <RoundsView id={id} />
-        </CustomTabPanel>
-        <CustomTabPanel value={selectedTab} index={10}>
-          <MaintenanceSettingsView id={id} />
-        </CustomTabPanel>
-        <CustomTabPanel value={selectedTab} index={12}>
-          <CameraCapturesView id={id} />
-        </CustomTabPanel>
+        {itemType === HierarchyItemType.location ? (
+          <CustomTabPanel value={selectedTab} index={2}>
+            <RoundsView id={id} />
+          </CustomTabPanel>
+        ) : itemType === HierarchyItemType.camera ? (
+          <CustomTabPanel value={selectedTab} index={2}>
+            <MaintenanceSettingsView id={id} />
+            <CameraCapturesView id={id} />
+
+          </CustomTabPanel>
+        ) : null}
+
+        {itemType === HierarchyItemType.location ? (
+          <CustomTabPanel value={selectedTab} index={4}>
+            <LocationRunsView id={id} />
+          </CustomTabPanel>
+        ) : itemType === HierarchyItemType.camera ? (
+          <CustomTabPanel value={selectedTab} index={4}>
+            <CameraCapturesView id={id} />
+          </CustomTabPanel>
+        ) : null}
+
+
 
       </div>
     </div>

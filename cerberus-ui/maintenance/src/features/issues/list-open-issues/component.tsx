@@ -8,7 +8,6 @@ import {
   OpenIssuesTable,
 } from "../../../components/index.ts";
 import { useMaintenanceLocales } from "../../../locales/ca/locales";
-import { RoundInspectionView } from "./Pruebas/testform.tsx";
 import { MaintenanceIssueSummary } from "./model.ts";
 import { ListOpenIssues } from "./query.ts";
 
@@ -56,7 +55,6 @@ export const OpenIssuesView = (props: { id: string }) => {
           <Tabs value={selectedTab} onChange={handleChange} aria-label="open-issues-tabs" style={{ marginTop: "20px", marginBottom: "20px" }}>
             <Tab label={tab1} {...a11yProps(0)} />
             <Tab label={tab2} {...a11yProps(1)} />
-            {/* <Tab label={"Pruebas"} {...a11yProps(2)} /> */}
           </Tabs>
           <TabPanel value={selectedTab} index={0}>
             <OpenIssuesTable issues={issues} />
@@ -64,9 +62,7 @@ export const OpenIssuesView = (props: { id: string }) => {
           <TabPanel value={selectedTab} index={1}>
             <OpenIssuesReportChart />
           </TabPanel>
-          <TabPanel value={selectedTab} index={2}>
-            <RoundInspectionView />
-          </TabPanel>
+
         </Box>
       ) : null}
       {error && <div>Error: {error}</div>}

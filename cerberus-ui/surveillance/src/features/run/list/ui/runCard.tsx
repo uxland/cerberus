@@ -21,7 +21,7 @@ export const RunCard = (run: any) => {
 
     return (
         <div key={run.id} className="rounded-[10px] p-5 bg-[#292929] border border-[#444444] hover:border-[#555555] hover:bg-[#313131] transition duration-300 ease-in-out">
-            <div className="flex flex-col xl:flex-row gap-6">
+            <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-1 space-y-4">
                     <div>
                         <Typography className="!text-gray-400 uppercase !font-semibold text-xs mb-1">ID</Typography>

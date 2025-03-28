@@ -7,7 +7,6 @@ import { registerCommandHandler } from "@cerberus/core";
 import { useStartRun } from "./start";
 import { useRunInspection } from "./run-inspection/bootstraper.ts";
 import { useReleaseRun } from "./release";
-import { useListRuns } from "../list/bootstrapper.ts";
 
 export const useExecuteRun = (container: Container) => {
     registerRouteComponent(SurveillanceRunEditor.name, SurveillanceRunEditor);
@@ -22,5 +21,4 @@ export const useExecuteRun = (container: Container) => {
     return useStartRun(container)
         .then(useRunInspection)
         .then(useReleaseRun)
-        .then(useListRuns);
 }

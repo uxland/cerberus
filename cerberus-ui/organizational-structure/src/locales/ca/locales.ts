@@ -39,8 +39,10 @@ export const locales = {
       settings: "Configuración",
       reports: "Informes",
       maintenancesSettings: "Configuración Mantenimiento",
+      captures: "Capturas",
       operations: "Operativas",
       rounds: "Rondas de supervisión",
+      inspections: "Inspecciones",
     },
     addLocation: {
       title: "Añadir una nueva Localización",

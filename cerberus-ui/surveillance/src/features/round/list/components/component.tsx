@@ -9,6 +9,8 @@ import {
     IconButton,
     CircularProgress,
     Tooltip,
+    Menu,
+    MenuItem
 } from "@mui/material";
 import { RoundSummary } from "../model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales";
@@ -22,6 +24,7 @@ import { DeleteRound } from "../../delete/command";
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from "react-router-dom";
 import EyeIcon from "@mui/icons-material/VisibilityOutlined";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     return (
@@ -73,11 +76,16 @@ export const RoundsTable = (props: { rounds: RoundSummary[] }) => {
     );
 };
 
+// ...existing code...
+
 const RoundRow = (props: { round: RoundSummary }) => {
     const [busyStart, setBusyStart] = useState<boolean>(false);
     const [busyDelete, setBusyDelete] = useState<boolean>(false);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
 
     const handleStartRun = async () => {
+        handleClose();
         sendMediatorRequest({
             command: new CreateRun(props.round.id),
             setBusy: setBusyStart,
@@ -85,14 +93,58 @@ const RoundRow = (props: { round: RoundSummary }) => {
     };
 
     const handleDeleteRound = async () => {
+        handleClose();
         sendMediatorRequest({
             command: new DeleteRound(props.round.id),
             setBusy: setBusyDelete,
         });
     }
 
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     const editUrl = `/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}`;
     const listRunsUrl = `/surveillance/locations/${props.round.rootLocationId}/rounds/${props.round.id}/runs`;
+
+    const menuItems = [
+        {
+            label: useSurveillanceLocales("round.table.actions.edit"),
+            onClick: () => { },
+            icon: <EditIcon color="info" fontSize="small" />,
+            component: Link,
+            to: editUrl,
+            disabled: busyStart || busyDelete
+        },
+        {
+            label: useSurveillanceLocales("round.table.actions.start"),
+            onClick: handleStartRun,
+            icon: busyStart ?
+                <CircularProgress size={18} sx={{ color: "#6B7280" }} /> :
+                <PlayCircleOutlineIcon color="success" fontSize="small" />,
+            disabled: busyStart || busyDelete
+        },
+        {
+            label: useSurveillanceLocales("round.table.actions.delete"),
+            onClick: handleDeleteRound,
+            icon: busyDelete ?
+                <CircularProgress size={18} sx={{ color: "#6B7280" }} /> :
+                <DeleteOutlineIcon color="error" fontSize="small" />,
+            disabled: busyStart || busyDelete
+        },
+        {
+            label: useSurveillanceLocales("round.table.actions.view"),
+            onClick: () => { },
+            icon: <EyeIcon sx={{ color: "#9c27b0" }} fontSize="small" />,
+            component: Link,
+            to: listRunsUrl,
+            disabled: busyStart || busyDelete
+        }
+    ];
 
     return (
         <TableRow>
@@ -108,49 +160,62 @@ const RoundRow = (props: { round: RoundSummary }) => {
             <TableCell size="small" component="th" scope="row" align="center">
                 {props.round.cronExpression}
             </TableCell>
-            <TableCell align="center" width={200} className="flex justify-center gap-1">
-                <Tooltip title={useSurveillanceLocales("round.table.actions.edit")}>
-                    <IconButton
-                        component={Link}
-                        to={editUrl}
-                        disabled={busyStart || busyDelete}
-                    >
-                        <EditIcon color="info" />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={useSurveillanceLocales("round.table.actions.start")}>
-                    <IconButton
-                        onClick={handleStartRun}
-                        disabled={busyStart || busyDelete}
-                    >
-                        {busyStart ? (
-                            <CircularProgress size={24} color="success" />
-                        ) : (
-                            <PlayCircleOutlineIcon color="success" />
-                        )}
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={useSurveillanceLocales("round.table.actions.delete")}>
-                    <IconButton
-                        onClick={handleDeleteRound}
-                        disabled={busyStart || busyDelete}
-                    >
-                        {busyDelete ? (
-                            <CircularProgress size={24} color="error" />
-                        ) : (
-                            <DeleteOutlineIcon color="error" />
-                        )}
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title={useSurveillanceLocales("round.table.actions.view")}>
-                    <IconButton
-                        component={Link}
-                        to={listRunsUrl}
-                        disabled={busyStart || busyDelete}
-                    >
-                        <EyeIcon sx={{ color: "#9c27b0" }} />
-                    </IconButton>
-                </Tooltip>
+            <TableCell align="center" width={100}>
+                <IconButton
+                    aria-label="more"
+                    id="round-actions-button"
+                    aria-controls={open ? "round-actions-menu" : undefined}
+                    aria-expanded={open ? "true" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                >
+                    <MoreVertIcon sx={{ color: "#d1d5db" }} />
+                </IconButton>
+                <Menu
+                    id="round-actions-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        "aria-labelledby": "round-actions-button",
+                    }}
+                    PaperProps={{
+                        elevation: 3,
+                        sx: {
+                            mt: 1,
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                        }
+                    }}
+                >
+                    {menuItems.map((item, index) => (
+                        <MenuItem
+                            key={index}
+                            component={item.component || 'li'}
+                            to={item.to}
+                            disabled={item.disabled}
+                            onClick={() => {
+                                if (item.onClick) item.onClick();
+                                if (!item.component) handleClose();
+                            }}
+                            sx={{
+                                gap: 2,
+                                minWidth: '200px',
+                                py: 1.2,
+                                px: 2,
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                                },
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: '20px'
+                                }
+                            }}
+                        >
+                            {item.icon}
+                            <span style={{ fontWeight: 500 }}>{item.label}</span>
+                        </MenuItem>
+                    ))}
+                </Menu>
             </TableCell>
         </TableRow>
     );

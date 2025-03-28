@@ -1,4 +1,4 @@
-import { OperationSummary } from "../../../operation/list-operations/model.ts";
+import { OperationSummary } from "../../../operation/list/model.ts";
 import { v4 as uuidv4 } from 'uuid';
 import {
     LocationHierarchicalItem

@@ -1,1 +1,1 @@
-export * from "../features/operation/list-operations/operations-table/component";
+export * from "../features/operation/list/operations-table/component";

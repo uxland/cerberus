@@ -7,6 +7,7 @@ import { Mediator } from "mediatr-ts";
 import { useEffect, useState } from "react";
 import { Capture } from "./model.ts";
 import { ListCapturesByCameraId } from "./query.ts";
+import { sendMediatorRequest } from "@cerberus/core";
 
 export const CameraCapturesView = (props: { id: string }) => {
   const [captures, setCaptures] = useState<Capture[] | null>(null);
@@ -14,11 +15,12 @@ export const CameraCapturesView = (props: { id: string }) => {
   const [error, setError] = useState(undefined);
 
   useEffect(() => {
-    new Mediator()
-      .send(
-        new ListCapturesByCameraId(props.id, setCaptures, setLoading, setError)
-      )
-      .then(nop);
+    sendMediatorRequest({
+      command: new ListCapturesByCameraId(props.id),
+      setBusy: setLoading,
+      setError: setError,
+      setState: setCaptures,
+    });
   }, [props]);
   return (
     <div>

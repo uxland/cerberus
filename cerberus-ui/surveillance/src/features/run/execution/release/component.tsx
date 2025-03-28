@@ -46,7 +46,7 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
 
 
     return (
-        <div className="flex flex-col min-h-[calc(100vh-80px)] md:h-[calc(100vh-80px)] overflow-hidden">
+        <div className="flex flex-col min-h-[calc(100vh-80px)] md:h-[calc(100vh)] overflow-hidden">
             <div className="flex items-center gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0">
                 <Typography className="uppercase !text-primary !font-semibold">{run.roundId || notApplicable}</Typography>
                 <Typography className="uppercase">{run.rootLocationId || notApplicable}</Typography>
