@@ -11,7 +11,7 @@ const notificationHandlers = [
 ]
 
 export const bootstrapAuth = async(container: Container) => {
-    teardownAuth(container);
+    await teardownAuth(container);
     for (const {notification, handler} of notificationHandlers) {
         registerNotificationHandler(notification, handler);
     }

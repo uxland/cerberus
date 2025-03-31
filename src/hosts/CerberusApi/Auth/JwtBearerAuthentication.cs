@@ -53,6 +53,17 @@ internal static class JwtBearerAuthentication
                                 }
                             }
                         }
+                        
+                        // 👇 Add support for extracting groups
+                        var groupsClaim = context.Principal.FindFirst("groups");
+                        if (groupsClaim != null)
+                        {
+                            var groupsArray = JArray.Parse(groupsClaim.Value);
+                            foreach (var group in groupsArray)
+                            {
+                                claimsIdentity.AddClaim(new Claim("groups", group.ToString()));
+                            }
+                        }
                     }
                     return Task.CompletedTask;
                 },
@@ -63,12 +74,23 @@ internal static class JwtBearerAuthentication
                 },
                 OnMessageReceived = context =>
                 {
-                    var authorization = context.Request.Headers["Authorization"];
-                    if (string.IsNullOrEmpty(authorization))
+                    // 1. First check if it's a WebSocket request with access_token in query
+                    var accessToken = context.Request.Query["access_token"];
+                    var path = context.HttpContext.Request.Path;
+
+                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/surveillanceHub"))
                     {
+                        context.Token = accessToken;
                         return Task.CompletedTask;
                     }
-                    context.Token = authorization.ToString().Replace("Bearer ", string.Empty);
+
+                    // 2. Fallback to Authorization header (for normal HTTP API calls)
+                    var authorization = context.Request.Headers["Authorization"];
+                    if (!string.IsNullOrEmpty(authorization))
+                    {
+                        context.Token = authorization.ToString().Replace("Bearer ", string.Empty);
+                    }
+
                     return Task.CompletedTask;
                 }
             };

@@ -1,0 +1,230 @@
+﻿{
+  "id": "cerberus",
+  "realm": "cerberus",
+  "enabled": true,
+  "displayName": "Cerberus",
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "registrationAllowed": false,
+  "users": [
+    {
+      "username": "org-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeMe123!",
+          "temporary": true
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus-api": [
+          "organization-structure::manager"
+        ]
+      }
+    },
+    {
+      "username": "maint-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeMe123!",
+          "temporary": true
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus-api": [
+          "maintenance::manager"
+        ]
+      }
+    },
+    {
+      "username": "maint-consultant",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeMe123!",
+          "temporary": true
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus-api": [
+          "maintenance::consultant"
+        ]
+      }
+    },
+    {
+      "username": "maint-operator",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeMe123!",
+          "temporary": true
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus-api": [
+          "maintenance::operator"
+        ]
+      }
+    },
+    {
+      "username": "surv-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeMe123!",
+          "temporary": true
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus-api": [
+          "surveillance::manager"
+        ]
+      }
+    },
+    {
+      "username": "surv-keeper",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "changeMe123!",
+          "temporary": true
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus-api": [
+          "surveillance::keeper"
+        ]
+      }
+    }
+  ],
+  "roles": {
+    "client": {
+      "cerberus-api": [
+        {
+          "name": "organization-structure::manager"
+        },
+        {
+          "name": "maintenance::manager"
+        },
+        {
+          "name": "maintenance::consultant"
+        },
+        {
+          "name": "maintenance::operator"
+        },
+        {
+          "name": "surveillance::manager"
+        },
+        {
+          "name": "surveillance::keeper"
+        }
+      ]
+    }
+  },
+  "clients": [
+    {
+      "clientId": "cerberus-api",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "rootUrl": "",
+      "redirectUris": [],
+      "webOrigins": [],
+      "protocolMappers": [
+        {
+          "name": "rootLocationId",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "rootLocationId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "claim.name": "rootLocationId",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "userProfile": {
+    "attributes": [
+      {
+        "name": "rootLocationId",
+        "displayName": "Root Location",
+        "required": [
+          "admin"
+        ],
+        "permissions": {
+          "view": [
+            "admin"
+          ],
+          "edit": [
+            "admin"
+          ]
+        },
+        "validators": {
+          "length": {
+            "min": 1
+          }
+        }
+      }
+    ]
+  }
+}
