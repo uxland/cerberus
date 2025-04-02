@@ -36,6 +36,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\core\BackOfficePersistence\BackOfficePersistence.csproj"/>
         <ProjectReference Include="..\..\core\image-processing\PythonImageProcessor\PythonImageProcessor.csproj"/>
+        <ProjectReference Include="..\..\core\KeycloakClient\KeycloakClient.csproj" />
         <ProjectReference Include="..\..\core\MaintenancePerisistence\MaintenancePerisistence.csproj"/>
         <ProjectReference Include="..\..\core\SurveillancePersistence\SurveillancePersistence.csproj" />
         <ProjectReference Include="..\..\core\XabeFFMpegClient\XabeFFMpegClient.csproj"/>

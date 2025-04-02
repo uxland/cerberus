@@ -4,6 +4,7 @@ using Cerberus.Api.Setup;
 using Cerberus.BackOffice;
 using Cerberus.Core.MartenPersistence;
 using Cerberus.Core.XabeFFMpegClient;
+using KeycloakClient;
 using Microsoft.OpenApi.Models;
 
 namespace Cerberus.Api;
@@ -48,6 +49,7 @@ public class Startup(WebApplicationBuilder builder)
             .UseMartenPersistence(builder.Configuration, builder.Environment);
         services
             .BootstrapServices()
+            .UseKeycloakClient(builder.Configuration)
             .BootstrapBackOffice(builder.Configuration, martenConfiguration)
             .BootstrapMaintenance()
             .BootstrapSurveillance();

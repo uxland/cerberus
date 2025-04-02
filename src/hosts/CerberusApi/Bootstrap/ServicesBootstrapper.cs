@@ -1,4 +1,5 @@
-﻿using NodaTime;
+﻿using KeycloakClient;
+using NodaTime;
 
 namespace Cerberus.Api.Bootstrap;
 

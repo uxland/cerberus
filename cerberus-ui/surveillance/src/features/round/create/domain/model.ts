@@ -28,6 +28,12 @@ export interface RoundEditionData {
     round: Round;
     operations: OperationSummary[];
     locations: LocationHierarchicalItem[];
+    groups: SurveillanceGroup[];
+}
+
+export interface SurveillanceGroup{
+    id: string;
+    description: string;
 }
 
 export interface RoundLocationHierarchicalItem extends LocationHierarchicalItem {
@@ -39,7 +45,7 @@ export const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): 
 
     const traverse = (items: LocationHierarchicalItem[]) => {
         for (const item of items) {
-            if (item.type === "Camera" || item.type === 1) {
+            if (item.type === "Camera" || (<any>item.type) === 1) {
                 cameras.push(item);
             }
             if (item.children && item.children.length > 0) {
@@ -52,9 +58,7 @@ export const getCamerasFromHierarchy = (locations: LocationHierarchicalItem[]): 
     return cameras;
 };
 
-export const produceRoundEditionData = (locationId: string, operations: OperationSummary[], locations: LocationHierarchicalItem[]): RoundEditionData => {
-    const defaultOperation = operations[0];
-
+export const produceRoundEditionData = (locationId: string, operations: OperationSummary[], locations: LocationHierarchicalItem[], groups: SurveillanceGroup[]): RoundEditionData => {
     const cameras = getCamerasFromHierarchy(locations);
 
     const round: Round = {
@@ -68,7 +72,8 @@ export const produceRoundEditionData = (locationId: string, operations: Operatio
     return {
         round,
         operations,
-        locations: cameras
+        locations: cameras,
+        groups
     }
 }
 
