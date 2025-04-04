@@ -40,6 +40,7 @@ internal static class JwtBearerAuthentication
                 {
                     if (context.Principal?.Identity is ClaimsIdentity claimsIdentity)
                     {
+                        //claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.Principal.FindFirst(ClaimTypes.NameIdentifier)?.Value));
                         var resourceAccess = context.Principal.FindFirst("resource_access");
                         if (resourceAccess != null)
                         {
@@ -49,20 +50,16 @@ internal static class JwtBearerAuthentication
                             {
                                 foreach (var role in roles)
                                 {
-                                    claimsIdentity.AddClaim(new Claim("roles", role));
+                                    claimsIdentity.AddClaim(new Claim("role", role));
                                 }
                             }
                         }
                         
                         // 👇 Add support for extracting groups
-                        var groupsClaim = context.Principal.FindFirst("groups");
-                        if (groupsClaim != null)
+                        var groupClaims = context.Principal.FindAll("groups").ToList();
+                        foreach (var groupClaim in groupClaims)
                         {
-                            var groupsArray = JArray.Parse(groupsClaim.Value);
-                            foreach (var group in groupsArray)
-                            {
-                                claimsIdentity.AddClaim(new Claim("groups", group.ToString()));
-                            }
+                            claimsIdentity.AddClaim(new Claim("group", groupClaim.Value));
                         }
                     }
                     return Task.CompletedTask;

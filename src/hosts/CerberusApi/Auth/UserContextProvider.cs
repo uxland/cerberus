@@ -20,9 +20,9 @@ internal class UserContextProvider: IUserContextProvider
         if (claimsPrincipal == null || !claimsPrincipal.Identity?.IsAuthenticated == true)
             return User.Anonymous;
         var id = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var name = claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value;
-        var roles = claimsPrincipal.FindAll(ClaimTypes.Role).Select(c => c.Value).ToArray();
-        var groups = claimsPrincipal.FindAll(ClaimTypes.GroupSid).Select(c => c.Value).ToArray();
+        var name = claimsPrincipal.FindFirst("name")?.Value;
+        var roles = claimsPrincipal.FindAll("role").Select(c => c.Value).ToArray();
+        var groups = claimsPrincipal.FindAll("group").Select(c => c.Value).ToArray();
         return new User(id ?? string.Empty, name ?? string.Empty, roles, groups);
     }
     

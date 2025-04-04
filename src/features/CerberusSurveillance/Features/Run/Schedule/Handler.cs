@@ -7,8 +7,9 @@ namespace Cerberus.Surveillance.Features.Features.Run.Schedule;
 
 public static class Handler
 {
-    public static async Task<List<ScheduledRun>> Handle(GetUserSchedule query, IReadModelQueryProvider queryProvider)
+    public static async Task<List<ScheduledRun>> Handle(GetUserSchedule query, IReadModelQueryProvider queryProvider, IUserContextProvider userContextProvider)
     {
+        var aux = userContextProvider.CurrentUser;
         var allDayRunsTask = queryProvider.GetAllDayRuns();
         var runs = await queryProvider.GetTodayPerformedRuns(query);
         var allDayRuns = await allDayRunsTask;
