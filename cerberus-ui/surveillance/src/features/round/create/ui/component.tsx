@@ -49,7 +49,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const [selectedCamera, setSelectedCamera] = useState<string>('');
     const [cronValue, setCronValue] = useState('30 5 * * 1,6');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
-    const groups = ["Supervisor", "Operador", "Técnico"];
+    const [groups, setGroups] = useState(roundEditionData.groups || []);
     const assignGroup = useSurveillanceLocales("round.create.assignGroup");
     const cameraDetails = useSurveillanceLocales("round.create.cameraDetails");
     const cameraName = useSurveillanceLocales("round.create.cameraName");
@@ -156,7 +156,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                         {groups.map((group, index) => (
                             <MenuItem
                                 key={index}
-                                value={group}
+                                value={group.id}
                                 className="!text-[0.7rem]"
                                 sx={{
                                     '&:hover': {
@@ -167,7 +167,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                                     },
                                 }}
                             >
-                                {group}
+                                {group.description}
                             </MenuItem>
                         ))}
                     </Select>

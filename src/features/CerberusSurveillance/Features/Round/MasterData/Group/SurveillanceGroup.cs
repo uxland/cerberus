@@ -1,3 +1,3 @@
-﻿namespace Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate.MasterData.Group;
+﻿namespace Cerberus.Surveillance.Features.Features.Round.MasterData.Group;
 
 public record SurveillanceGroup(string Id, string Description);

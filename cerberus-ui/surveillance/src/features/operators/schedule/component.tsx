@@ -145,7 +145,7 @@ export const ScheduledRunsView = () => {
         console.log("scheduler", scheduledRuns);
     }, [scheduledRuns]);
 
-    const events = [
+    /*const events = [
         {
             event_id: 1,
             title: "Ronda de supervisión 1",
@@ -202,7 +202,7 @@ export const ScheduledRunsView = () => {
                 }
             }
         },
-    ];
+    ];*/
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -210,14 +210,14 @@ export const ScheduledRunsView = () => {
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <CircularProgress />
                 </Box>
-            ) : events ? (
+            ) : scheduledRuns ? (
                 <div className="dark-scheduler" style={{ backgroundColor: "#1f1f1f", padding: "20px", borderRadius: "10px" }}>
                     <Scheduler
                         disableViewNavigator={true}
                         agenda={false}
                         view="day"
                         editable={false}
-                        events={events}
+                        events={scheduledRuns}
                         selectedDate={new Date()}
                         navigation={true}
                     />

@@ -2,6 +2,7 @@ using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.Core.Domain;
 using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Round;
+using Cerberus.Surveillance.Features.Features.Round.List;
 using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Run.Create;
@@ -29,5 +30,7 @@ internal static class RunFactories
     }
     
     public static string SurveillanceRunId(this SurveillanceRound round, Instant plannedAt) =>
+        $"{round.Id}:{plannedAt.ToUnixTimeMilliseconds()}";
+    public static string SurveillanceRunId(this SurveillanceRoundSummary round, Instant plannedAt) =>
         $"{round.Id}:{plannedAt.ToUnixTimeMilliseconds()}";
 }

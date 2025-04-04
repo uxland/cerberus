@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using NodaTime;
+using NodaTime.Extensions;
 using Wolverine;
 
 namespace Cerberus.Surveillance.Features.Features.Run.Schedule;
@@ -12,7 +13,10 @@ internal static class Endpoint
     {
         app.MapGet("/schedule", async (IMessageBus messageBus, IClock clock) =>
         {
-            var query = new GetUserSchedule(UserId: "1", GroupId: "1", Day: clock.GetCurrentInstant(), Zone: DateTimeZoneProviders.Tzdb.GetSystemDefault());
+            var timeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull("Europe/Madrid");
+            var zonedClock = clock.InZone(timeZone);
+            var today = zonedClock.GetCurrentInstant();
+            var query = new GetUserSchedule(UserId: "1", GroupId: "1", Day: today, Zone: timeZone);
             var scheduled = await messageBus.InvokeAsync<List<ScheduledRun>>(query);
             return Results.Ok(scheduled);
         });

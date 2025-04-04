@@ -58,7 +58,7 @@ class GetRoundEditionDataHandler extends HandlerBase<RoundEditionData, GetRoundE
     }
 
     private fetchGroups(): Promise<SurveillanceGroup[]> {
-        return this.apiClient.get("surveillance/rounds/master-data/groups");
+        return  this.apiClient.get<SurveillanceGroup[]>("surveillance/rounds/master-data/groups");
     }
 }
 

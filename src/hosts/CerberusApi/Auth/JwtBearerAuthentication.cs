@@ -50,7 +50,7 @@ internal static class JwtBearerAuthentication
                             {
                                 foreach (var role in roles)
                                 {
-                                    claimsIdentity.AddClaim(new Claim("role", role));
+                                    claimsIdentity.AddClaim(new Claim("roles", role));
                                 }
                             }
                         }
@@ -59,7 +59,7 @@ internal static class JwtBearerAuthentication
                         var groupClaims = context.Principal.FindAll("groups").ToList();
                         foreach (var groupClaim in groupClaims)
                         {
-                            claimsIdentity.AddClaim(new Claim("group", groupClaim.Value));
+                            claimsIdentity.AddClaim(new Claim("groups", groupClaim.Value));
                         }
                     }
                     return Task.CompletedTask;

@@ -1,6 +1,6 @@
 import { IRequest } from "mediatr-ts";
-import { ScheduledRunSummary } from "./model";
+import {ScheduledRunSummary, SchedulerEvent} from "./model";
 
-export class ListScheduledRuns implements IRequest<ScheduledRunSummary[]> {
+export class ListScheduledRuns implements IRequest<SchedulerEvent[]> {
     constructor() { }
 }

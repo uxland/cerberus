@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Cerberus.Surveillance.Features.Features.Round.MasterData.Group;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Wolverine;
@@ -11,8 +12,8 @@ internal static class EndPoint
     {
         app.MapGet("", async (IMessageBus messageBus) =>
         {
-            var groups = await messageBus.InvokeAsync<IEnumerable<SurveillanceGroup>>(new ListSurveillanceGroups());
-            Results.Ok(groups);
+            var groups = await messageBus.InvokeAsync<List<SurveillanceGroup>>(new ListSurveillanceGroups());
+            return Results.Ok(groups);
         });
         return app;
     }
