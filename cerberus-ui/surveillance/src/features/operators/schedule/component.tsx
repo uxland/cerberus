@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { sendMediatorRequest } from '@cerberus/core';
 import { ListScheduledRuns } from './query';
 import { Box, CircularProgress } from "@mui/material";
+import { AcquireRun } from '../../run/acquire/command';
 
 const darkTheme = createTheme({
     palette: {
@@ -203,7 +204,13 @@ export const ScheduledRunsView = () => {
             }
         },
     ];*/
-
+    const startShceduledRun = (event: any) => {
+        sendMediatorRequest({
+            command: new AcquireRun(event.run.id),
+            setBusy: setBusy,
+            setError: setError,
+        })
+        };
     return (
         <ThemeProvider theme={darkTheme}>
             {busy ? (
@@ -220,6 +227,9 @@ export const ScheduledRunsView = () => {
                         events={scheduledRuns}
                         selectedDate={new Date()}
                         navigation={true}
+                        onEventClick={(event) => {
+                            startShceduledRun(event);
+                        }}
                     />
                 </div>
             ) : null}

@@ -17,7 +17,7 @@ export interface ScheduledRunSummary {
     endedBy?: Date | null;
 }
 
-export interface SchedulerEvent{
+export interface SchedulerEvent {
     event_id: string;
     title: string,
     start: Date,
@@ -44,7 +44,7 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
         title: run.description,
         start: plannedAt,
         end: end,
-        color: "#f38b00",
+        color: run.status === RunStatus.Pending ? "#96f300" : "#ed4204",
         editable: false,
         deletable: false,
         sx: {
@@ -58,4 +58,4 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
     }
 }
 
-export const toEvents = (runs: ScheduledRunSummary[]): SchedulerEvent[] =>  (runs || []).map(toEvent);
+export const toEvents = (runs: ScheduledRunSummary[]): SchedulerEvent[] => (runs || []).map(toEvent);

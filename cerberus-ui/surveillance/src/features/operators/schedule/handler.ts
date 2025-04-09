@@ -1,6 +1,6 @@
 import { HandlerBase } from "@cerberus/core";
 import { ListScheduledRuns } from "./query";
-import {ScheduledRunSummary, SchedulerEvent, toEvents} from "./model";
+import { ScheduledRunSummary, SchedulerEvent, toEvents } from "./model";
 import { surveillanceEndpointUrl } from "../../constants";
 
 export class ListShceduledRunsHandler extends HandlerBase<SchedulerEvent[], ListScheduledRuns> {

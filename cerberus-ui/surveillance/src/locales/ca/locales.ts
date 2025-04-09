@@ -97,6 +97,9 @@ export const locales = {
       },
     },
     run: {
+      acquire: {
+        message: "¿Quieres comenzar ahora la ronda de supervisión?"
+      },
       set: {
         formTitle: "Ronda de Supervisión",
         start: "Empezar ronda de supervisión ahora",

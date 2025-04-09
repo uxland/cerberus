@@ -11,7 +11,6 @@ import { ExecutionStepArgs } from "./model.ts";
 import { StartSurveillanceRun } from "./start";
 import { InspectionRunEditor } from "./run-inspection/component.tsx";
 import ReleaseSurveillanceRun from "./release/component.tsx";
-import { ru } from 'date-fns/locale';
 
 export const SurveillanceRunEditor = () => {
     const [error, setError] = useState<string | undefined>(undefined);

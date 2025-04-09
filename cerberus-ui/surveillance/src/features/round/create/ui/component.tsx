@@ -47,7 +47,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
 
     const [inspections, setInspections] = useState<Inspection[]>(roundEditionData.round.inspections);
     const [selectedCamera, setSelectedCamera] = useState<string>('');
-    const [cronValue, setCronValue] = useState('30 5 * * 1,6');
+    const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const [groups, setGroups] = useState(roundEditionData.groups || []);
     const assignGroup = useSurveillanceLocales("round.create.assignGroup");
