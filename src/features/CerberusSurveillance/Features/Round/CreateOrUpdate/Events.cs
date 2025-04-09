@@ -1,6 +1,4 @@
 ﻿using Cerberus.Core.Domain;
-using System.Collections.Generic;
-using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 
 namespace Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 
@@ -12,4 +10,10 @@ public record SurveillanceRoundCreated(
 public record SurveillanceRoundUpdated(
     string Id,
     RoundSettings Settings
+) : IDomainEvent;
+
+public record SurveillanceRoundExecutionRecurrencePatternChanged(
+    string Id,
+    string PreviousRecurrencePattern,
+    string NewRecurrencePattern
 ) : IDomainEvent;

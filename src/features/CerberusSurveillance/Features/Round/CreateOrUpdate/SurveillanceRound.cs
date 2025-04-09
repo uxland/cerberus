@@ -1,9 +1,13 @@
-﻿using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
+﻿using Cerberus.Core.Domain;
+using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Round;
 
-public partial class SurveillanceRound
+public partial class SurveillanceRound:
+    IDomainEventHandler<SurveillanceRoundCreated>,
+    IDomainEventHandler<SurveillanceRoundUpdated>,
+    IDomainEventHandler<SurveillanceRoundExecutionRecurrencePatternChanged>
 {
     public SurveillanceRound(CreateRound cmd)
     {
@@ -18,6 +22,14 @@ public partial class SurveillanceRound
 
     public void Handle(UpdateRound cmd)
     {
+        if(cmd.Settings.CronExpression != this.ExecutionRecurrencePattern)
+            this.ApplyUncommittedEvent(
+                new SurveillanceRoundExecutionRecurrencePatternChanged(
+                    this.Id,
+                    this.ExecutionRecurrencePattern,
+                    cmd.Settings.CronExpression
+                )
+            );
         this.ApplyUncommittedEvent(
             new SurveillanceRoundUpdated(this.Id, cmd.Settings));
     }
@@ -31,6 +43,10 @@ public partial class SurveillanceRound
     {
         this.UpdateSettings(@event.Settings);
     }
+    public void Apply(SurveillanceRoundExecutionRecurrencePatternChanged @event)
+    {
+        this.ExecutionRecurrencePattern = @event.NewRecurrencePattern;
+    }
 
     private void UpdateSettings(RoundSettings settings)
     {
@@ -41,4 +57,6 @@ public partial class SurveillanceRound
         this.AssignedTo = @settings.AssignedTo;
         this.Inspections = @settings.Inspections.ToList();
     }
+
+    
 }
