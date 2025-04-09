@@ -32,22 +32,13 @@ export interface SchedulerEvent{
             boxShadow: string,
         }
     }
-    /*color: "#f38b00",
-    editable: false,
-    deletable: false,
-    sx: {
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-        '&:hover': {
-            backgroundColor: "#2a2a2a",
-            boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
-        }
-    }*/
+    run: ScheduledRunSummary
 }
 
 const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
     const plannedAt = new Date(run.plannedAt);
     const end = new Date(run.plannedAt)
-    end.setMinutes(end.getMinutes() + 20)
+    end.setMinutes(end.getMinutes() + 60)
     return {
         event_id: run.id,
         title: run.description,
@@ -62,7 +53,8 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
                 backgroundColor: "#2a2a2a",
                 boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
             }
-        }
+        },
+        run
     }
 }
 
