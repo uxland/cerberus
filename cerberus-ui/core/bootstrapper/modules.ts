@@ -3,4 +3,5 @@ export const moduleNames = {
   core: 'core',
   maintenance: 'maintenance',
   organizationalStructure: 'organizational-structure',
+  surveillance: 'surveillance',
 };

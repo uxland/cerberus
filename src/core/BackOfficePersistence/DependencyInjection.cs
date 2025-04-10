@@ -44,7 +44,8 @@ public static class DependencyInjection
         return options;
     }
     
-    private static MartenServiceCollectionExtensions.MartenConfigurationExpression ConfigureSubscriptions(this MartenServiceCollectionExtensions.MartenConfigurationExpression options)
+    private static void ConfigureSubscriptions(
+        this MartenServiceCollectionExtensions.MartenConfigurationExpression options)
     {
         options.AddSubscriptionWithServices<CameraRecurrencePatternSubscription>(ServiceLifetime.Singleton, o =>
         {
@@ -52,7 +53,6 @@ public static class DependencyInjection
             o.IncludeType<CameraCreated>();
             o.IncludeType<CameraRecurrencePatternChanged>();
         });
-        return options;
     }
     
     private static void SetupIndexes(this StoreOptions options)

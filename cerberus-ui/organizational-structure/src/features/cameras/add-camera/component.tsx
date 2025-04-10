@@ -1,15 +1,16 @@
-import {notificationService} from "@cerberus/core";
+import { notificationService } from "@cerberus/core";
 import {
   useUpdateModal,
   useUpdateModalActions,
 } from "@cerberus/core/src/providers";
-import {Button} from "@mui/material";
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {useOrganizationalStructureLocales} from "../../../locales/ca/locales";
-import {AddCamera as AddCameraCommand} from "./command";
-import {AddEditCameraForm} from "../components/AddCameraForm";
-import {isValid, LocationSettings} from "../../locations/location-detail/show-location-settings/model.ts";
+import { Button } from "@mui/material";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { useOrganizationalStructureLocales } from "../../../locales/ca/locales";
+import { AddCamera as AddCameraCommand } from "./command";
+import { AddEditCameraForm } from "../components/AddCameraForm";
+import { isValid, LocationSettings } from "../../locations/location-detail/show-location-settings/model.ts";
+import { HierarchyItemType } from "../../state/hierarchy-item.ts";
 
 export const AddCameraModal = (parentId: string) => {
   const updateModal = useUpdateModal();
@@ -34,7 +35,11 @@ export const AddCameraModal = (parentId: string) => {
           editedSettings.description,
           editedSettings?.adminSettings?.captureRecurrencePattern,
           editedSettings?.adminSettings.ipAddress,
-          editedSettings?.adminSettings?.cameraCredentials
+          editedSettings?.adminSettings?.cameraCredentials,
+          editedSettings?.brandName,
+          editedSettings?.modelName,
+          editedSettings?.price,
+          editedSettings?.manufactureYear
         )
       );
       notificationService.notifySuccess(successMessage);
@@ -47,7 +52,7 @@ export const AddCameraModal = (parentId: string) => {
 
   const openModal = () => {
     updateModal({
-      title: "Afegir una nova Càmera",
+      title: "Agregar una nueva Cámara",
       maxWidth: "lg",
       closeAction: true,
       className: "",
@@ -56,7 +61,7 @@ export const AddCameraModal = (parentId: string) => {
         <AddEditCameraForm
           showCameraCode={true}
           settings={undefined}
-            onModelChanged={setEditedSettings}
+          onModelChanged={setEditedSettings}
         />
       ),
       actions: [
@@ -90,10 +95,9 @@ export const AddCameraModal = (parentId: string) => {
             size="small"
             color="success"
             fullWidth
-            className={`!rounded-2xl !w-52 !text-white ${
-              editedSettings?.description ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
-            }`}
-            disabled={!isValid(editedSettings)}
+            className={`!rounded-2xl !w-52 !text-white ${editedSettings?.description ? "!bg-[#02bc77]" : "!bg-[#afafaf]"
+              }`}
+            disabled={!isValid(HierarchyItemType.camera, editedSettings)}
             onClick={handleSubmit}>
             {useOrganizationalStructureLocales("addLocation.submitBtn")}
           </Button>

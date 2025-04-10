@@ -7,7 +7,7 @@ namespace Cerberus.BackOffice.Features.Captures.Triggers.Jobs;
 
 public class CaptureJob(IReadModelQueryProvider queryProvider, IMessageBus messageBus): IJob
 {
-    public const string JobKey = "CaptureJob";
+    public const string JobKey = "BackOffice::CaptureJob";
     public async Task Execute(IJobExecutionContext context)
     {
         var triggerId = context.Trigger.Key.Name;

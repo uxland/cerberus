@@ -7,6 +7,7 @@ export const InputField = (props: {
   required?: boolean;
   value?: string;
   classes?: string;
+  placeholder?: string;
 }) => {
   return (
     <div className={`flex flex-col flex-1 gap-2 ${props.classes}`}>
@@ -16,6 +17,7 @@ export const InputField = (props: {
         onChange={props.onChange}
         variant="outlined"
         required={props.required === true ? true : false}
+        placeholder={props.placeholder}
         sx={{
           width: "100%",
           height: "40px",

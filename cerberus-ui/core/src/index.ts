@@ -7,5 +7,5 @@ export * from "./presentation";
 export * from "./routing";
 export * from "./mediator";
 export * from "./state";
-export * from "./user-interaction";
+export * from "./interaction-service";
 export * from "./utils";

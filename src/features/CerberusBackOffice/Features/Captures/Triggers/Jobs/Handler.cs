@@ -9,10 +9,12 @@ public static class Handler
         var trigger = TriggerBuilder.Create()
             .WithIdentity(captureTriggerEnabled.RecurrencePattern)
             .ForJob(CaptureJob.JobKey)
-            .WithCronSchedule(captureTriggerEnabled.RecurrencePattern, x => x.WithMisfireHandlingInstructionIgnoreMisfires().InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Madrid")))
+            .WithCronSchedule(captureTriggerEnabled.RecurrencePattern,
+                x => x.WithMisfireHandlingInstructionIgnoreMisfires()
+                    .InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("Europe/Madrid")))
             .Build();
         var scheduler = schedulerFactory.GetScheduler().Result;
-       scheduler.ScheduleJob(trigger);
+        scheduler.ScheduleJob(trigger);
     }
 
     public static Task Handle(CaptureTriggerDisabled captureTriggerDisabled, IScheduler scheduler)

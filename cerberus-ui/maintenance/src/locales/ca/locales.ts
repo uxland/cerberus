@@ -1,7 +1,7 @@
-import {getNestedValue} from "@cerberus/core";
-import {Paths} from "@cerberus/core/src/utils/auxiliar-types";
-import {useLocalePath} from "@uxland/react-services";
-import {moduleName} from "../../constants";
+import { getNestedValue } from "@cerberus/core";
+import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
+import { useLocalePath } from "@uxland/react-services";
+import { moduleName } from "../../constants";
 
 export type MaintenanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useMaintenanceLocales = (
@@ -21,81 +21,85 @@ export const useMaintenanceLocales = (
 export const locales = {
   [moduleName]: {
     title: {
-      pendingReviews: "Revisions Pendents",
-      openIssues: "Incidències",
-      summaryChart: "Últims reports",
-      errorsChart: "Últims reports",
-      rounds: "Rondes",
+      // pendingReviews: "Pendientes",
+      // openIssues: "Pendientes",
+      summaryChart: "Últimos reportes",
+      errorsChart: "Últimos reportes",
+      rounds: "Rondas",
+    },
+    openIssuesTabs: {
+      table: "Activas",
+      chart: "Gráficos",
+    },
+    pendingReviewsTabs: {
+      table: "Revisiones Pendientes",
+      chart: "Gráficos",
     },
     pendingReviewsTable: {
       id: "Identificador",
-      preview: "Preview",
-      date: "Data",
-      location: "Localització",
-      Description: "Description",
-      Actions: "Accions",
+      preview: "Vista previa",
+      date: "Fecha",
+      location: "Localización",
+      Description: "Descripción",
+      Actions: "Acciones",
     },
     openIssuesTable: {
       cameraId: "Identificador",
-      status: "Estat",
-      errorCode: "Codi",
-      date: "Data",
-      summary: "Resum",
-      location: "Localització",
-      Actions: "Accions",
-    },
-    roundsTable: {
-      roundId: "Identificador",
-      description: "Descripció",
-      lastExecution: "Última exec",
-      lastDuration: "Última duració",
-      nextExecution: "Següent execució",
-      group: "Grup",
-      Actions: "Accions",
+      status: "Estado",
+      errorCode: "Código",
+      date: "Fecha",
+      summary: "Resumen",
+      location: "Localización",
+      Actions: {
+        title: "Acciones",
+        watch: "Ver",
+        start: "iniciar",
+        stop: "parar",
+      }
     },
     openIssuesForm: {
-      title: "Error de la Descripció",
-      resolutionTime: "Temps de Resolució",
+      title: "Error de la Descripción",
+      resolutionTime: "Tiempo de Resolución",
       notification: {
         open: {
-          onSuccess: "Incidència oberta correctament",
-          onError: "Error en començar inscidència",
+          onSuccess: "Incidencia abierta correctamente",
+          onError: "Error al abrir incidencia",
         },
         close: {
-          onSuccess: "Incidència tancada correctament",
-          onError: "Error en tancar incidència",
+          onSuccess: "Incidencia cerrada correctamente",
+          onError: "Error al cerrar incidencia",
         },
       },
     },
     trainingReviewForm: {
       notification: {
-        onSuccess: "Dades enviades correctament",
-        onError: "Error en enviar dades",
+        onSuccess: "Datos enviados correctamente",
+        onError: "Error al enviar datos",
       },
     },
     maintenanceSettings: {
-      title: "Configuració Manteniment",
-      status: "Estat",
+      title: "Configuración Mantenimiento",
+      status: "Estado",
       calibrate: "Calibrar",
       calibrateCameraFilters: {
-        title: "Calibratge de filtre",
-        camera: "Càmara",
-        filter: "Filtre",
+        title: "Calibración de filtro",
+        camera: "Cámara",
+        filter: "Filtro",
         captureNumber: {
-          title: "Nº Captures",
+          title: "Nº Capturas",
         },
       },
       calibrateItem: {
         original: "Original",
         calibrated: "Transformada",
       },
-      changeType: "Canviar a ",
-      filter: "Filtre",
-      noFilters: "No hi ha filtres disponibles",
-      onSubmit: "Guardar Paràmetres",
+      changeType: "Cambiar a ",
+      filter: "Filtro",
+      noFilters: "No hay filtros disponibles",
+      onSubmit: "Guardar Parámetros",
       type: {
-        training: "Manteniment",
-        production: "Producció",
+        training: "Mantenimiento",
+        production: "Producción",
       },
     },
   },

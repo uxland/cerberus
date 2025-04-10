@@ -2,36 +2,20 @@
 services:
   cerberus-back:
     build:
-      context: "/Users/danipinartnadal/RiderProjects/cerberus"
+      context: "C:\\Users\\dpina\\RiderProjects\\cerberus-2"
       dockerfile: "src/hosts/CerberusApi/Dockerfile"
       target: "base"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/JetBrains/RiderDebuggerTools/linux-arm64/JetBrains.Debugger.Worker"
-    - "--runtimeconfig"
-    - "/opt/JetBrains/RiderDebuggerTools/JetBrains.Debugger.Worker.runtimeconfig.json"
-    - "--mode=server"
-    - "--frontend-port=57000"
-    - "--backend-port=57200"
-    - "--roslyn-worker-port=57400"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/CerberusApi.dll"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/JetBrains/RiderDebuggerTools"
-      RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "cerberusapi:dev"
-    ports:
-    - "127.0.0.1:57010:57000"
-    - "127.0.0.1:57210:57200"
-    - "127.0.0.1:57410:57400"
+    ports: []
     volumes:
-    - "/Users/danipinartnadal/RiderProjects/cerberus/src/hosts/CerberusApi:/app:rw"
-    - "/Users/danipinartnadal/RiderProjects/cerberus:/src:rw"
-    - "/Users/danipinartnadal/.nuget/packages:/root/.nuget/packages"
-    - "/Users/danipinartnadal/.local/share/JetBrains/RiderRemoteDebugger/2024.3.3/LinuxArm64:/opt/JetBrains/RiderDebuggerTools"
-    - "/Users/danipinartnadal/Applications/Rider.app/Contents/bin/backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
-    - "/Users/danipinartnadal/Library/Logs/JetBrains/Rider2024.3/DebuggerWorker/JetBrains.Debugger.Worker.2025_1_17_13_48_36:/var/opt/JetBrains/RiderDebuggerTools:rw"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus-2\\src\\hosts\\CerberusApi:/app:rw"
+    - "C:\\Users\\dpina\\RiderProjects\\cerberus-2:/src:rw"
+    - "C:\\Users\\dpina\\.nuget\\packages:/root/.nuget/packages"
     working_dir: "/app"

@@ -8,5 +8,5 @@ export * from './notification-service';
 export const useNotificationService = (container: Container) => {
     injectable()(NotificationService)
     container.bind(NotificationService).to(NotificationServiceImplementation).inTransientScope();
-    return container
+    return Promise.resolve(container);
 }

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Cerberus.Surveillance.Features</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="9.0.8" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.3.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
+      <PackageReference Include="NodaTime" Version="3.2.2" />
+      <PackageReference Include="Quartz" Version="3.14.0" />
+      <PackageReference Include="WolverineFx" Version="3.12.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\core\DomainCore\DomainCore.csproj" />
+      <ProjectReference Include="..\CerberusBackOffice\CerberusBackOffice.csproj" />
+    </ItemGroup>
+
+</Project>

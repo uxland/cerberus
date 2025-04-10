@@ -12,8 +12,8 @@ const paletteTheme = createTheme({
     secondary: {
       main: `${tailwindConfig.theme.colors.secondary}`,
     },
-    success: {main: `${tailwindConfig.theme.colors.success}`},
-    info: {main: `${tailwindConfig.theme.colors.info}`},
+    success: { main: `${tailwindConfig.theme.colors.success}` },
+    info: { main: `${tailwindConfig.theme.colors.info}` },
   },
 });
 
@@ -68,6 +68,12 @@ const theme = createTheme(paletteTheme, {
 
       color: `${tailwindConfig.theme.colors.white}`,
     },
+    body2: {
+      fontSize: createTheme().typography.pxToRem(12),
+      fontFamily: "Montserrat",
+      fontWeight: "400",
+      color: `${tailwindConfig.theme.colors.white}`,
+    },
   },
   components: {
     MuiTreeItem: {
@@ -75,6 +81,11 @@ const theme = createTheme(paletteTheme, {
         root: {
           textAlign: "left",
           color: `${tailwindConfig.theme.colors.white}`,
+        },
+        content: {
+          "&.Mui-selected": {
+            backgroundColor: '#3b2900 !important',
+          },
         },
         label: {
           fontSize: "1rem",

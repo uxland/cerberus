@@ -1,0 +1,51 @@
+.my-project-cron-field>span {
+    font-weight: bold;
+    color: #fff;
+}
+
+.my-project-cron-error .my-project-cron-field>span {
+    color: #ff4d4f;
+}
+
+:where(.css-dev-only-do-not-override-1v613y0).ant-select-multiple .ant-select-selection-overflow {
+    flex: none !important;
+}
+
+.my-project-cron .my-project-cron-select>div:first-child {
+    border-radius: 10px;
+    background-color: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+.my-project-cron-select-dropdown .ant-select-item-option {
+    background-color: #222;
+    color: #fff;
+}
+
+.my-project-cron-select-dropdown:hover .ant-select-item-option:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+.my-project-cron-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: #555;
+    color: #fff;
+}
+
+.my-project-cron-clear-button {
+    border-radius: 10px;
+    background-color: #444;
+    color: #222;
+    border-color: #666;
+}
+
+.my-project-cron-clear-button:hover {
+    background-color: #666;
+    color: #fff;
+    border-color: #888;
+}
+
+.ant-select-arrow svg {
+    fill: white !important;
+}

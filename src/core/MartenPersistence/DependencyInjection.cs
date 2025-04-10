@@ -1,4 +1,5 @@
-﻿using Cerberus.Core.Domain;
+﻿using System.Text.Json.Serialization;
+using Cerberus.Core.Domain;
 using Cerberus.Core.MartenPersistence.QueryProviders;
 using Cerberus.Core.MartenPersistence.Repositories;
 using Marten;
@@ -55,6 +56,10 @@ public static class DependencyInjection
             {
                 serializerOptions.IgnoreReadOnlyFields = true;
                 serializerOptions.IgnoreReadOnlyProperties = false;
+                serializerOptions.WriteIndented = true;
+                serializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                serializerOptions.AllowOutOfOrderMetadataProperties = true;
+                
             }
         );
         return options;
@@ -65,6 +70,8 @@ public static class DependencyInjection
         options.DatabaseSchemaName = "read_model";
         options.Events.DatabaseSchemaName = "event_store";
         options.Events.StreamIdentity = StreamIdentity.AsString;
+        options.Events.UseIdentityMapForAggregates = true;
+        
         return options;
     }
 
@@ -75,6 +82,8 @@ public static class DependencyInjection
         {
             x.Metadata.CorrelationId.Enabled = true;
             x.Metadata.CausationId.Enabled = true;
+            x.Metadata.LastModifiedBy.Enabled = true;
+            x.Metadata.LastModifiedBy.Enabled = true;
         });
         return options;
     }

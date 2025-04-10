@@ -1,7 +1,7 @@
-import {getNestedValue} from "@cerberus/core";
-import {Paths} from "@cerberus/core/src/utils/auxiliar-types";
-import {useLocalePath} from "@uxland/react-services";
-import {moduleName} from "../../constants";
+import { getNestedValue } from "@cerberus/core";
+import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
+import { useLocalePath } from "@uxland/react-services";
+import { moduleName } from "../../constants";
 
 export type OrganizationalStructureLocalesPath = Paths<
   (typeof locales)[typeof moduleName]
@@ -22,74 +22,88 @@ export const useOrganizationalStructureLocales = (
 export const locales = {
   [moduleName]: {
     views: {
-      captures: "Captures",
-      camera: "Càmera",
-      location: "Localització",
+      captures: "Capturas",
+      camera: "Cámara",
+      location: "Localización",
     },
     upload: {
-      title: "Adjunta arxiu",
-      file: "Pujar arxiu",
+      title: "Adjuntar archivo",
+      file: "Subir archivo",
+      placeholder: "Subir archivo en formato .xlsx,.xls",
     },
     edit: "Editar",
     delete: "Eliminar",
     tabs: {
-      openIssues: "Incidències",
-      pendingReviews: "Anàlisis",
-      settings: "Configuració",
-      reports: "Reports",
-      maintenancesSettings: "Configuració Manteniment",
-      rounds: "Rondes de supervisió",
+      openIssues: "Incidencias",
+      pendingReviews: "Rendimiento",
+      settings: "Configuración",
+      reports: "Informes",
+      maintenancesSettings: "Configuración Mantenimiento",
+      captures: "Capturas",
+      operations: "Operativas",
+      rounds: "Rondas de supervisión",
+      inspections: "Inspecciones",
     },
     addLocation: {
-      title: "Afegir un nova Localizació",
-      description: "Nom Localització",
-      locationCode: "Codi de Localització",
-      capturePattern: "Patró de Captura",
-      placeholder: "Afegir ",
-      user: "Usuari",
-      password: "Contrasenya",
-      submitBtn: "Afegir",
-      addBtn: "Afegir Localització",
+      title: "Añadir una nueva Localización",
+      description: "Nombre Localización",
+      locationCode: "Código de Localización",
+      capturePattern: "Patrón de Captura",
+      placeholder: "Añadir ",
+      user: "Usuario",
+      password: "Contraseña",
+      submitBtn: "Añadir",
+      addBtn: "Añadir Localización",
       notifcation: {
-        success: "Localització afegida correctament",
-        error: "Error al afegir Localització",
+        success: "Localización añadida correctamente",
+        error: "Error al añadir Localización",
       },
     },
     addCamera: {
-      title: "Afegir una nova Càmera",
-      name: "Nom Càmera",
-      capturePattern: "Patró de Captura",
-      cameraCode: "Codi de Càmera",
+      title: "Añadir una nueva Cámara",
+      name: "Nombre Cámara",
+      capturePattern: "Patrón de Captura",
+      cameraCode: "Código de Cámara",
       url: "URL",
-      user: "Usuari",
-      password: "Contrasenya",
-      placeholder: "Afegir ",
-      submitBtn: "Afegir",
-      addBtn: "Afegir Càmera",
+      brandName: "Marca",
+      modelName: "Modelo",
+      price: "Precio",
+      manufactureYear: "Año de Fabricación",
+      user: "Usuario",
+      password: "Contraseña",
+      placeholder: "Añadir ",
+      submitBtn: "Añadir",
+      addBtn: "Añadir Cámara",
       notifcation: {
-        success: "Càmera afegida correctament",
-        error: "Error al afegir Càmera",
+        success: "Cámara añadida correctamente",
+        error: "Error al añadir Cámara",
       },
     },
     removeCamera: {
-      removeBtn: "Eliminar Càmera",
+      removeBtn: "Eliminar Cámara",
       notifcation: {
-        success: "Càmera eliminada correctament",
-        error: "Error al eliminar Càmera",
+        success: "Cámara eliminada correctamente",
+        error: "Error al eliminar Cámara",
       },
     },
     editCamera: {
       notifcation: {
-        success: "Càmera modificada correctament",
-        error: "Error al modificar Càmera",
+        success: "Cámara modificada correctamente",
+        error: "Error al modificar Cámara",
       },
     },
     addMenu: {
-      title: "Afegir Localitzacio o Càmera",
+      title: "Añadir Localización o Cámara",
     },
     cameraSettings: {
       id: "Id",
-      description: "Descripció",
+      description: "Descripción",
+    },
+    mainMenu: {
+      activeAlerts: "Alertas activas",
+      newAlerts: "Nuevas alertas",
+      search: "Buscar dispositivo, grupo...",
+      addRootNode: "Añadir Nodo Raíz",
     },
   },
 };

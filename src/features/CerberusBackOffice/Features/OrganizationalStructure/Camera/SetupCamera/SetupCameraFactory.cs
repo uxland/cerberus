@@ -18,7 +18,11 @@ public class SetupCameraFactory : IHierarchySetupCommandFactoryItem
             item.ParentId!,
             item.Description,
             item.DefaultCameraAdminSettings,
-            item.DefaultCameraFunctionalSettings
+            item.DefaultCameraFunctionalSettings,
+            "", 
+            "", 
+            null,
+            1975
         );
     }
 }

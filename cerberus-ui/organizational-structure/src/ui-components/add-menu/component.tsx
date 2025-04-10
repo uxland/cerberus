@@ -3,8 +3,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import {useState} from "react";
-import {useOrganizationalStructureLocales} from "../../locales/ca/locales";
+import { useState } from "react";
+import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
 
 enum AddMenuType {
   LOCATION = "addLocation",
@@ -49,7 +49,7 @@ export const AddMenu = (props: {
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleClick}
-          sx={{top: "-4px"}}>
+          sx={{ top: "-4px" }}>
           <MoreVertIcon color="primary" />
         </IconButton>
       )}
@@ -64,9 +64,9 @@ export const AddMenu = (props: {
               "aria-labelledby": "lock-button",
               role: "listbox",
             }}
-            classes={{paper: "w-[200px]"}}>
+            classes={{ paper: "w-[200px]" }}>
             {options.map((option) => (
-              <div className="flex" key={option}>
+              <div className="flex pl-2" key={option}>
                 <AddIcon
                   color="primary"
                   sx={{
@@ -74,7 +74,7 @@ export const AddMenu = (props: {
                   }}
                 />
                 <MenuItem
-                  sx={{paddingBottom: "4px", fontWeight: "500 !important"}}
+                  sx={{ paddingBottom: "4px", fontWeight: "500 !important" }}
                   onClick={
                     AddMenuType.LOCATION === option
                       ? handleAddLocation

@@ -1,4 +1,5 @@
-﻿using Marten;
+﻿using System.Text.Json.Serialization.Metadata;
+using Marten;
 using Weasel.Core;
 
 namespace Cerberus.Core.MartenPersistence;

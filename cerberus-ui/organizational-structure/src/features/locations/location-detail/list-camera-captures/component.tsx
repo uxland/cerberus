@@ -1,30 +1,35 @@
-import {getImageUrl, nop} from "@cerberus/core";
+import { getImageUrl, nop } from "@cerberus/core";
 
-import {ImageComponent} from "@cerberus/maintenance";
-import {List, ListItem, Typography} from "@mui/material";
-import {format} from "date-fns/format";
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {Capture} from "./model.ts";
-import {ListCapturesByCameraId} from "./query.ts";
+import { ImageComponent } from "@cerberus/maintenance";
+import { List, ListItem, Typography, CircularProgress, Box } from "@mui/material";
+import { format } from "date-fns/format";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { Capture } from "./model.ts";
+import { ListCapturesByCameraId } from "./query.ts";
+import { sendMediatorRequest } from "@cerberus/core";
 
-export const CameraCapturesView = (props: {id: string}) => {
+export const CameraCapturesView = (props: { id: string }) => {
   const [captures, setCaptures] = useState<Capture[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(undefined);
 
   useEffect(() => {
-    new Mediator()
-      .send(
-        new ListCapturesByCameraId(props.id, setCaptures, setLoading, setError)
-      )
-      .then(nop);
+    sendMediatorRequest({
+      command: new ListCapturesByCameraId(props.id),
+      setBusy: setLoading,
+      setError: setError,
+      setState: setCaptures,
+    });
   }, [props]);
   return (
     <div>
-      {loading && <div>Loading...</div>}
+      {loading ? (
+        <Box className="flex justify-center items-center">
+          <CircularProgress />
+        </Box>
+      ) : captures ? CaptureListComponent(captures) : null}
       {error && <div>Error: {error}</div>}
-      {captures && CaptureListComponent(captures)}
     </div>
   );
 };

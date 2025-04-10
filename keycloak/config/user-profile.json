@@ -1,0 +1,19 @@
+{
+    "attributes": [
+      {
+        "name": "rootLocationId",
+        "displayName": "Root Location",
+        "required": ["admin"],
+        "permissions": {
+          "view": ["admin"],
+          "edit": ["admin"]
+        },
+        "validators": {
+          "length": {
+            "min": 1
+          }
+        }
+      }
+    ]
+  }
+  

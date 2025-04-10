@@ -9,6 +9,10 @@ export class AddCamera implements IRequest<LocationNode> {
     public description: string,
     public capturePattern: string,
     public url: string | undefined,
-    public cameraCredentials: Credentials | undefined
+    public cameraCredentials: Credentials | undefined,
+    public brandName: string | undefined,
+    public modelName: string | undefined,
+    public price: number | undefined,
+    public manufactureYear: number | undefined
   ) {}
 }

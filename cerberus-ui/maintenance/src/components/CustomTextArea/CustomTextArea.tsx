@@ -6,7 +6,7 @@ export const CustomTextArea = (onchange: any) => {
     <Box
       component={TextareaAutosize}
       onChange={onchange}
-      placeholder="Write a comment..."
+      placeholder="Escribe un comentario..."
       sx={{
         width: "100%",
         backgroundColor: "#313131",

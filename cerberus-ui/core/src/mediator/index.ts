@@ -7,16 +7,18 @@ import {
     notificationHandler,
     requestHandler,
 } from "mediatr-ts";
-import {inject, injectable} from "inversify";
-import {ApiClient} from "@cerberus/shared/src";
-import {NavigationService} from "../routing";
-import {SetState} from "../state";
+import { inject, injectable } from "inversify";
+import { ApiClient } from "@cerberus/shared/src";
+import { NavigationService } from "../routing";
+import { SetState } from "../state";
+import {InteractionService} from "../interaction-service";
+import {NotificationService} from "@uxland/react-services";
 
 interface Constructor<T> {
-    new (...args: any[]): T;
+    new(...args: any[]): T;
 }
 
-export interface CommandHandlerPair{
+export interface CommandHandlerPair {
     command: Constructor<IRequest<any>>;
     handler: Constructor<IRequestHandler<any, any>>;
 }
@@ -56,23 +58,23 @@ type RequestBaseHandler<TResult, TRequest extends RequestBase<TResult>> = (reque
 
 @injectable()
 export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> implements IRequestHandler<TRequest, TResult> {
-    public constructor(@inject(ApiClient) protected apiClient: ApiClient, @inject(NavigationService) protected navigationService: NavigationService) {
+    public constructor(@inject(ApiClient) protected apiClient: ApiClient, @inject(NavigationService) protected navigationService: NavigationService, @inject(InteractionService) protected interactionService: InteractionService, @inject(NotificationService) protected notificationService: NotificationService) {
     }
     abstract handle(request: TRequest): Promise<TResult>;
 
-    protected async handleRequest<Request extends RequestBase<TResult>>(request:Request, handler: RequestBaseHandler<TResult, Request>): Promise<TResult>{
+    protected async handleRequest<Request extends RequestBase<TResult>>(request: Request, handler: RequestBaseHandler<TResult, Request>): Promise<TResult> {
         try {
-            request.setBusy(true);
-            const state = await handler(request);
-            request.setState(state);
-            return state;
+            request.setBusy?.(true);
+            const response = await handler(request);
+            request.setState?.(response);
+            return response;
         }
         catch (e) {
             console.log(e);
-            request.setError(e);
+            request.setError?.(e);
         }
         finally {
-            request.setBusy(false);
+            request.setBusy?.(false);
         }
 
     }
@@ -80,9 +82,9 @@ export abstract class HandlerBase<TResult, TRequest extends IRequest<TResult>> i
 
 export abstract class RequestBase<TResult> implements IRequest<TResult> {
     protected constructor(
-        public setState: SetState<TResult>,
-        public setBusy: SetState<boolean>,
-        public setError: SetState<Error>
+        public setState?: SetState<TResult> | undefined,
+        public setBusy?: SetState<boolean> | undefined,
+        public setError?: SetState<Error> | undefined,
     ) {
     }
 }

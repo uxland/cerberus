@@ -1,11 +1,11 @@
-import {nop} from "@cerberus/core";
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {MaintenanceSettings} from "../../../components/index.ts";
-import {CameraMaintenanceSettings} from "./model.ts";
+import { nop } from "@cerberus/core";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { MaintenanceSettings } from "../../../components/index.ts";
+import { CameraMaintenanceSettings } from "./model.ts";
 import GetCameraMaintenanceSettings from "./query.ts";
 
-export const MaintenanceSettingsView = (props: {id: string}) => {
+export const MaintenanceSettingsView = (props: { id: string }) => {
   const [settings, setSettings] = useState<CameraMaintenanceSettings | null>(
     null
   );

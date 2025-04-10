@@ -1,4 +1,4 @@
-import {getImageUrl, nop, notificationService} from "@cerberus/core";
+import { getImageUrl, nop, notificationService } from "@cerberus/core";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -6,16 +6,16 @@ import FormGroup from "@mui/material/FormGroup";
 import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import Typography from "@mui/material/Typography";
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {CustomTextArea} from "../../../components/CustomTextArea/CustomTextArea.tsx";
-import {ImageComponent} from "../../../components/ImageComponent/ImageComponent.tsx";
-import {HeaderBar} from "../../../components/index.ts";
-import {useMaintenanceLocales} from "../../../locales/ca/locales.ts";
-import {FilterResult} from "../../issues/show-issue/model.ts";
-import {FulfillTrainingReview} from "./command.ts";
-import {GetPendingTrainingReview} from "./get-pending-training-review.ts";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CustomTextArea } from "../../../components/CustomTextArea/CustomTextArea.tsx";
+import { ImageComponent } from "../../../components/ImageComponent/ImageComponent.tsx";
+import { HeaderBar } from "../../../components/index.ts";
+import { useMaintenanceLocales } from "../../../locales/ca/locales.ts";
+import { FilterResult } from "../../issues/show-issue/model.ts";
+import { FulfillTrainingReview } from "./command.ts";
+import { GetPendingTrainingReview } from "./get-pending-training-review.ts";
 import {
   FilterResultReview,
   TrainingReview,
@@ -23,9 +23,10 @@ import {
   isValidReview,
   updateTrainingReviewResult,
 } from "./model.ts";
+import { CircularProgress, Box } from "@mui/material";
 
 export const FulfillTrainingReviewPage = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [trainingReview, setTrainingReview] =
     useState<TrainingReview>(undefined);
   const [error, setError] = useState<string>(undefined);
@@ -54,14 +55,17 @@ export const FulfillTrainingReviewPage = () => {
   }, [id]);
   return (
     <div>
-      {loading && <div>loading</div>}
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <CircularProgress />
+        </Box>
+      ) : trainingReview ? <FiltersReview trainingReview={trainingReview} /> : null}
       {error && <div>error</div>}
-      {trainingReview && <FiltersReview trainingReview={trainingReview} />}
     </div>
   );
 };
 
-const FiltersReview = (props: {trainingReview: TrainingReview}) => {
+const FiltersReview = (props: { trainingReview: TrainingReview }) => {
   const [reviewResult, setReviewResult] = useState(
     initialFilterResultReview(props.trainingReview)
   );
@@ -171,9 +175,9 @@ const FilterReviewForm = (props: {
   onChange: (result: FilterResultReview) => void;
 }) => {
   const agree = () =>
-    props.onChange({agreement: true, comment: props.currentResult.comment});
+    props.onChange({ agreement: true, comment: props.currentResult.comment });
   const disagree = () =>
-    props.onChange({agreement: false, comment: props.currentResult.comment});
+    props.onChange({ agreement: false, comment: props.currentResult.comment });
 
   const getStyles = (isAgreement, isError) => {
     if (isAgreement)
@@ -182,7 +186,7 @@ const FilterReviewForm = (props: {
     return "!text-[12px] !capitalize !text-gray-300 !border-gray-300 opacity-40";
   };
 
-  const {agreement} = props.currentResult;
+  const { agreement } = props.currentResult;
   const isAgreementTrue = agreement === true;
   const isAgreementFalse = agreement === false;
   const successSelectedStyles = getStyles(isAgreementTrue, false);
@@ -243,7 +247,7 @@ const TextArea = (props: {
   result: FilterResultReview;
 }) => {
   const setComment = (comment: string) =>
-    props.onChange({agreement: props.result.agreement, comment});
+    props.onChange({ agreement: props.result.agreement, comment });
   const handleChange = (event) => {
     const comment = event.target.value;
     setComment(comment);
@@ -251,7 +255,7 @@ const TextArea = (props: {
   return <CustomTextArea onChange={handleChange} />;
 };
 
-const HeaderContent = (props: {trainingReview: TrainingReview}) => {
+const HeaderContent = (props: { trainingReview: TrainingReview }) => {
   return (
     <div className="flex gap-4">
       <div className="flex gap-2">

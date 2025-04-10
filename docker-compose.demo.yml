@@ -19,8 +19,9 @@
     ports:
       - "8443:8443"
     volumes:
-      - ./keycloak/config/cerberus-realm.json:/opt/keycloak/data/import/cerberus-realm.json
+      - ./keycloak/config/cerberus-realm-setup.json:/opt/keycloak/data/import/cerberus-realm.json
       - ./keycloak/certs/keycloak.p12:/opt/keycloak/conf/keycloak.p12
+      - ./keycloak/config/user-profile.json:/opt/keycloak/conf/user-profile.json
     command:
       - "start"
       - '--https-port=8443'
@@ -57,6 +58,15 @@
       - keycloak
     volumes:
       - snapshots_volume:/app/Snapshots
+  media-server:
+    build:
+      context: ./src/hosts/MediaServer
+      dockerfile: Dockerfile.deploy
+    ports:
+      - "3000:3000"
+      - "20000-20020:20000-20020"
+    volumes:
+      -  ./src/hosts/MediaServer/certs:/certs/ssl
   cerberus-ui:
     build:
         context: ./cerberus-ui
@@ -69,6 +79,7 @@
       VITE_AUTH_CLIENT_ID: "cerberus"
       VITE_CERBERUS_BACKEND_URL: "http://cerberus-back:8080"
       VITE_CERBERUS_IMAGES_URL: "http://cerberus-back:8080/images"
+      VITE_CERBERUS_STREAMING_URL: "wss://media-server:3000"
     depends_on:
       - cerberus-back
     extra_hosts:
@@ -84,13 +95,8 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ../Snapshots
-  certs_volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./certs
+      device: ./Snapshots
+
   keycloak_volume:
     driver: local
     driver_opts:

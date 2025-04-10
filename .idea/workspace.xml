@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/acquire/command.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/bootstrapper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/notification-service/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/notification-service/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="front/tasks/surveillance-module-setup" />
+        <entry key="$PROJECT_DIR$" value="surv/features/create-operation" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,30 +59,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#38 on front/tasks/interaction-manager&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "surv/features/run-schedule",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -155,27 +154,27 @@
     </configuration>
     <list>
       <item itemvalue="Docker.Demo" />
-      <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
       <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+      <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
       <item itemvalue="JavaScript Debug.Browser Debug" />
-      <item itemvalue="npm.cerberus-ui &gt; build" />
       <item itemvalue="npm.app &gt; build" />
+      <item itemvalue="npm.cerberus-ui &gt; build" />
       <item itemvalue="npm.cerberus-ui &gt; dev" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.cerberus-ui &gt; dev" />
-        <item itemvalue="npm.app &gt; build" />
         <item itemvalue="npm.cerberus-ui &gt; build" />
-        <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+        <item itemvalue="npm.app &gt; build" />
         <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
+        <item itemvalue="Docker.cerberus-ui/Dockerfile" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.120" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
       </set>
     </attachedChunks>
   </component>
@@ -209,6 +208,22 @@
       <workItem from="1737101946087" duration="16085000" />
       <workItem from="1737536710686" duration="910000" />
       <workItem from="1738150067477" duration="12600000" />
+      <workItem from="1739532817010" duration="2311000" />
+      <workItem from="1739956939506" duration="634000" />
+      <workItem from="1739957925892" duration="18301000" />
+      <workItem from="1740130666942" duration="5646000" />
+      <workItem from="1740205471824" duration="304000" />
+      <workItem from="1740475925583" duration="3806000" />
+      <workItem from="1740809526388" duration="12966000" />
+      <workItem from="1741168592559" duration="338000" />
+      <workItem from="1741169338710" duration="2076000" />
+      <workItem from="1741413472240" duration="1625000" />
+      <workItem from="1741770851103" duration="589000" />
+      <workItem from="1741787001966" duration="1103000" />
+      <workItem from="1741788440996" duration="2471000" />
+      <workItem from="1743797938721" duration="9750000" />
+      <workItem from="1744181911864" duration="166000" />
+      <workItem from="1744182090503" duration="8703000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -330,7 +345,31 @@
       <option name="project" value="LOCAL" />
       <updated>1738150084408</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="chore: progress">
+      <option name="closed" value="true" />
+      <created>1739980465576</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1739980465576</updated>
+    </task>
+    <task id="LOCAL-00017" summary="chore: progress">
+      <option name="closed" value="true" />
+      <created>1741006613020</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1741006613020</updated>
+    </task>
+    <task id="LOCAL-00018" summary="chore: progress">
+      <option name="closed" value="true" />
+      <created>1744198422643</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1744198422643</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -340,81 +379,97 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="chore: routing added" />
-    <MESSAGE value="chore: progress" />
     <MESSAGE value="chore: setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: setup" />
+    <MESSAGE value="chore: progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: progress" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
-          <line>35</line>
-          <option name="timeStamp" value="72" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/handler.ts</url>
+          <line>21</line>
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
           <line>28</line>
-          <option name="timeStamp" value="73" />
+          <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
+          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
           <line>30</line>
-          <option name="timeStamp" value="74" />
+          <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>41</line>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>56</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/generic-question-input.tsx</url>
+          <line>33</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
+          <line>50</line>
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
           <line>51</line>
-          <option name="timeStamp" value="75" />
+          <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/add-location/handler.ts</url>
-          <line>15</line>
-          <option name="timeStamp" value="77" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/component.tsx</url>
+          <line>47</line>
+          <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/add-location/handler.ts</url>
-          <line>16</line>
-          <option name="timeStamp" value="78" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/component.tsx</url>
+          <line>155</line>
+          <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/edit-settings/component.tsx</url>
-          <line>31</line>
-          <option name="timeStamp" value="79" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/get-round-edition-data.ts</url>
+          <line>39</line>
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
-          <line>31</line>
-          <option name="timeStamp" value="80" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/get-round-edition-data.ts</url>
+          <line>30</line>
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
-          <line>23</line>
-          <option name="timeStamp" value="81" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/get-round-edition-data.ts</url>
+          <line>60</line>
+          <option name="timeStamp" value="127" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/show-organizational-structure/tree-node.tsx</url>
-          <line>18</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="82" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/model.ts</url>
+          <line>39</line>
+          <option name="timeStamp" value="133" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/remove-camera/handler.ts</url>
-          <line>32</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="87" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/model.ts</url>
+          <line>41</line>
+          <option name="timeStamp" value="134" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/react-confirmation-manager.ts</url>
-          <line>7</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="88" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/component.tsx</url>
+          <line>213</line>
+          <option name="timeStamp" value="135" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation/openConfirmationModal.tsx</url>
-          <line>6</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="89" />
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/component.tsx</url>
+          <line>219</line>
+          <option name="timeStamp" value="136" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

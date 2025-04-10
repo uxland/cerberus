@@ -1,45 +1,20 @@
-import { inject, injectable } from "inversify";
-import { IRequestHandler } from "mediatr-ts";
-import { ApiClient } from "@cerberus/shared/src";
+import { injectable } from "inversify";
+import { HandlerBase } from "@cerberus/core";
 import { DeleteCamera } from "./command";
-import {ConfirmationManager, ConfirmOptions} from "@cerberus/core";
-import {NotificationService} from "@uxland/react-services";
 
-const options: ConfirmOptions = {
-  title: "Delete Camera",
-  message: "Are you sure you want to delete this camera?",
-  availableResponses: ["yes", "no"]
-}
-
-// Inyectable
 @injectable()
-export class DeleteCameraHandler implements IRequestHandler<DeleteCamera, void> {
-
-  constructor(@inject(ApiClient) private apiClient: ApiClient,
-              @inject(ConfirmationManager) private confirmationManager: ConfirmationManager,
-              @inject(NotificationService) private notificationService: NotificationService
-  ) {}
-
+export class DeleteCameraHandler extends HandlerBase<void, DeleteCamera> {
   async handle(command: DeleteCamera): Promise<void> {
-    const confirmed = await this.removalConfirmed()
-    if(confirmed) {
-      await this.removeCamera(command)
-    }
-
+    await this.askForConfirmation(command) ? await this.removeCamera(command) : null;
   }
 
-  async removalConfirmed(): Promise<boolean> {
-    const confirmation = await this.confirmationManager.confirm(options)
-    return confirmation === "yes"
+  private async askForConfirmation(request: DeleteCamera): Promise<boolean> {
+    const message = `Are you sure you want to delete camera: ${request.id}?`;
+    const confirmationResult = await this.interactionService.confirmMessage(message);
+    return confirmationResult.confirmed;
   }
-  
-  async removeCamera(command: DeleteCamera): Promise<void> {
-    try {
-      await this.apiClient.delete(`/cameras/${command.cameraId}`);
-      this.notificationService.notifySuccess("Camera deleted successfully");
-    } catch (e) {
-      this.notificationService.notifyError("Error deleting camera", e.message);
-      console.error(e.message);
-    }
+
+  private async removeCamera(command: DeleteCamera): Promise<void> {
+    return this.apiClient.delete(`/cameras/${command.id}`);
   }
-} 
+}

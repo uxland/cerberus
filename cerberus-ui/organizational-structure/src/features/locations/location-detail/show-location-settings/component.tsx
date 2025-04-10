@@ -1,8 +1,9 @@
-import {Mediator} from "mediatr-ts";
-import {useEffect, useState} from "react";
-import {HierarchyItemType} from "../../../state/hierarchy-item.ts";
-import {LocationSettings} from "./model.ts";
-import {GetLocationSettings} from "./query.ts";
+import { Mediator } from "mediatr-ts";
+import { useEffect, useState } from "react";
+import { HierarchyItemType } from "../../../state/hierarchy-item.ts";
+import { LocationSettings } from "./model.ts";
+import { GetLocationSettings } from "./query.ts";
+import { Box, CircularProgress } from "@mui/material";
 
 export const LocationSettingsView = (props: {
   id: string;
@@ -36,9 +37,12 @@ export const LocationSettingsView = (props: {
 
   return (
     <div>
-      {loading && <div>Loading...</div>}
+      {loading ? (
+        <Box className="flex justify-center items-center">
+          <CircularProgress />
+        </Box>
+      ) : settings ? props.content(settings) : null}
       {error && <div>Error: {error}</div>}
-      {settings && props.content(settings)}
     </div>
   );
 };

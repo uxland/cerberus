@@ -9,7 +9,11 @@ public record CameraCreated(
     string Description,
     CameraAdminSettings AdminSettings,
     CameraFunctionalSettings FunctionalSettings,
-    string Path
+    string Path,
+    string? BrandName,
+    string? ModelName,
+    decimal? Price,
+    int? ManufactureYear
     ) : IDomainEvent;
 
 
@@ -18,7 +22,11 @@ public record CameraUpdated(
     string Description,
     CameraAdminSettings AdminSettings,
     CameraFunctionalSettings FunctionalSettings,
-    string Path
+    string Path,
+    string? BrandName,
+    string? ModelName,
+    decimal? Price,
+    int? ManufactureYear
     ): IDomainEvent;
     
 public record CameraLocationChanged(
