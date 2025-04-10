@@ -3,8 +3,6 @@ using System.Text.Json.Serialization.Metadata;
 using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Features.Features.Round;
-using Cerberus.Surveillance.Features.Features.Round.List;
-using Cerberus.Surveillance.Features.Features.Operation.List;
 using Cerberus.Surveillance.Features.Features.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -20,7 +18,8 @@ public static class Bootstrapper
 {
     public static IServiceCollection BootstrapCerberusSurveillanceFeatures(this IServiceCollection services)
     {
-        return services.SetUpAuthorization();
+        return services.SetUpAuthorization()
+            .UseRuns();
     }
 
     private static IServiceCollection SetUpAuthorization(this IServiceCollection services)

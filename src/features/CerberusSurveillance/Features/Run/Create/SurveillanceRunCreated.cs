@@ -10,5 +10,6 @@ public record SurveillanceRunCreated(
     string? AssignedGroupId,
     IEnumerable<InspectionRun> InspectionRuns,
     RunStatus Status,
-    Instant PlannedAt
+    Instant PlannedAt,
+    bool IsSpontaneous
 ) : IDomainEvent;

@@ -19,8 +19,9 @@
     ports:
       - "8443:8443"
     volumes:
-      - ./keycloak/config/cerberus-realm.json:/opt/keycloak/data/import/cerberus-realm.json
+      - ./keycloak/config/cerberus-realm-setup.json:/opt/keycloak/data/import/cerberus-realm.json
       - ./keycloak/certs/keycloak.p12:/opt/keycloak/conf/keycloak.p12
+      - ./keycloak/config/user-profile.json:/opt/keycloak/conf/user-profile.json
     command:
       - "start"
       - '--https-port=8443'

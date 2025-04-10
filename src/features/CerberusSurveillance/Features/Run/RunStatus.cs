@@ -6,5 +6,6 @@ public enum RunStatus
     Running,
     Completed,
     Dismissed,
-    Released
+    Released,
+    Cancelled,
 }

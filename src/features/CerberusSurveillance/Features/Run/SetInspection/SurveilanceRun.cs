@@ -12,6 +12,7 @@ public partial class SurveillanceRun
         var answers = inspectionRun.OperationRun.ParseAnswers(cmd.OperationAnswers);
         if(!answers.Success)
             throw new BusinessException(answers.Error!);
+        this.ValidateOwnerShip(cmd.By);
         this.ApplyUncommittedEvent(
             new RunsInspectionSet(InspectionId: cmd.InspectionId,
                 By: cmd.By,
@@ -27,6 +28,11 @@ public partial class SurveillanceRun
     {
         var inspectionRun = this.GetInspectionRunById(runsInspectionSet.InspectionId);
         inspectionRun?.Apply(runsInspectionSet);
+        if (inspectionRun != null)
+        {
+            this.LastActivityAt = runsInspectionSet.EndedAt;
+            this.LastActivityBy = runsInspectionSet.By;
+        }
         if(this.CanRelease)
             this.Status = RunStatus.Completed;
     }

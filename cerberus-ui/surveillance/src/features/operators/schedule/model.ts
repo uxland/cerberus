@@ -2,7 +2,9 @@ export enum RunStatus {
     Pending = 'Pending',
     InProgress = 'InProgress',
     Completed = 'Completed',
-    Cancelled = 'Cancelled'
+    Cancelled = 'Cancelled',
+    Released = 'Released',
+    Dismissed = 'Dismissed',
 }
 
 export interface ScheduledRunSummary {
@@ -59,3 +61,9 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
 }
 
 export const toEvents = (runs: ScheduledRunSummary[]): SchedulerEvent[] => (runs || []).map(toEvent);
+
+const endedStatus = [RunStatus.Released, RunStatus.Cancelled, RunStatus.Dismissed];
+
+export const isInCourse = (run: ScheduledRunSummary): boolean => {
+    return !endedStatus.includes(run.status);
+}

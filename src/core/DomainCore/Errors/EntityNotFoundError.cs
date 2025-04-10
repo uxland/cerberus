@@ -16,3 +16,6 @@ public class EntityNotFoundException<TEntity>(string message): EntityNotFoundExc
 
 public class BusinessException(string message)
     : Exception(message);
+
+public class UnauthorizedAccessException(string message)
+    : BusinessException(message);

@@ -1,7 +1,7 @@
 ﻿using Cerberus.Core.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KeycloakClient.Features.UserGroup;
+namespace Cerberus.Core.KeycloakClient.Features.UserGroup;
 
 internal static class Bootstrapper
 {

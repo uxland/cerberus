@@ -54,7 +54,7 @@ public partial class SurveillanceRound:
         this.Description = @settings.Description;
         this.ExecutionRecurrencePattern = @settings.CronExpression;
         this.EstimatedDuration = @settings.EstimatedDuration.HasValue ? Duration.FromMinutes(@settings.EstimatedDuration.Value) : null;
-        this.AssignedTo = @settings.AssignedTo;
+        this.AssignedGroupId = @settings.AssignedTo;
         this.Inspections = @settings.Inspections.ToList();
     }
 

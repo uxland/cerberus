@@ -1,10 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
-using KeycloakClient.Features;
 using Microsoft.Extensions.Options;
 
-namespace KeycloakClient.Shared;
+namespace Cerberus.Core.KeycloakClient.Shared;
 
 public class KeycloakApiClient(HttpClient httpClient,  IOptions<KeycloakOptions> options)
 {

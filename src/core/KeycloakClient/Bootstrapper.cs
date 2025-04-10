@@ -1,10 +1,9 @@
-﻿using KeycloakClient.Features;
-using KeycloakClient.Features.UserGroup;
-using KeycloakClient.Shared;
+﻿using Cerberus.Core.KeycloakClient.Features.UserGroup;
+using Cerberus.Core.KeycloakClient.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KeycloakClient;
+namespace Cerberus.Core.KeycloakClient;
 
 public static class Bootstrapper
 {

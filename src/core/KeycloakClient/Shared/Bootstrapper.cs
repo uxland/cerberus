@@ -1,8 +1,7 @@
-﻿using KeycloakClient.Features;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace KeycloakClient.Shared;
+namespace Cerberus.Core.KeycloakClient.Shared;
 
 internal static class Bootstrapper
 {

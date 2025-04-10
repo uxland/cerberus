@@ -1,4 +1,5 @@
 ﻿using Cerberus.Core.Domain;
+using Cerberus.Core.Domain.CronExpressions;
 using Cerberus.Surveillance.Features.Features.Round;
 using Cerberus.Surveillance.Features.Features.Round.List;
 using NodaTime;
@@ -33,7 +34,7 @@ public static class Handler
     private static async Task<IEnumerable<ScheduledRun>> GetAllDayRuns(this IReadModelQueryProvider queryProvider, User user, GetUserSchedule query)
     {
         var rounds = await queryProvider.List<SurveillanceRoundSummary>(SurveillanceRoundSummarySpecifications.ByAssignedTo(user.MemberOf));
-        return rounds.SelectMany(x => x.GetPlannedRunsForRound(query));
+        return rounds.SelectMany(x => x.GetPlannedRunsForRound(query).ToList());
     }
 
     private static List<ScheduledRun> GetPlannedRunsForRound(this SurveillanceRoundSummary round, GetUserSchedule query)
@@ -54,30 +55,5 @@ public static class Handler
         }
         return result;
     }
-
-    private static Instant? ToInstant(this DateTimeOffset? dateTimeOffset, DateTimeZone timeZone)
-    {
-        if(dateTimeOffset == null)
-            return null;
-        var instant = Instant.FromDateTimeOffset(dateTimeOffset.Value);
-        var zonedDateTime = instant.InZone(timeZone);
-        var adjustedZonedDateTime = zonedDateTime.Date.At(new LocalTime(dateTimeOffset.Value.Hour, dateTimeOffset.Value.Minute, dateTimeOffset.Value.Second)).InZoneStrictly(timeZone);
-        return adjustedZonedDateTime.ToInstant();
-    }
-    private static string SanitizeForQuartz(this string cron)
-    {
-        var parts = cron.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-        if (parts.Length == 5)
-            parts = new[] { "0" }.Concat(parts).ToArray();
-
-        if (parts.Length != 6)
-            throw new FormatException("Expected a 6-part Quartz cron expression");
-
-        // Fix DOM/DOW ambiguity: if both are "*", set DOM to "?"
-        if (parts[3] != "?" && parts[5] != "?")
-            parts[3] = "?"; // default: prioritize day-of-week
-
-        return string.Join(" ", parts);
-    }
+    
 }

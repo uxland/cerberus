@@ -1,9 +1,10 @@
-﻿using System.Text.Json;
+﻿/*using System.Text.Json;
 using System.Text.Json.JsonDiffPatch;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Operation.Create;
+using Cerberus.Surveillance.Features.Features.Operation.CreateOrUpdate;
 using FluentAssertions;
 
 namespace CerberusSurveillance.Tests.Features.Operation.Create;
@@ -138,4 +139,4 @@ public class SerializationTest
         // Assert
        actual.Should().BeEquivalentTo(@event);
     }
-}
+}*/

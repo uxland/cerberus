@@ -11,8 +11,8 @@ public static class Endpoint
     {
         app.MapPost("", async (CreateRun command, IMessageBus messageBus) =>
         {
-            var runId = await messageBus.InvokeAsync<string>(command);
-            return Results.Created($"/surveillance/runs/{runId}", new { Id = runId });
+            var runId = await messageBus.InvokeAsync<SurveillanceRunCreated>(command);
+            return Results.Created($"/surveillance/runs/{runId}", new { Id = runId.Id });
         });
         return app;
     }

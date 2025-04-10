@@ -13,8 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Marten.NodaTime" Version="7.38.1" />
-        <PackageReference Include="NodaTime" Version="3.2.1" />
+        <PackageReference Include="Marten.NodaTime" Version="7.39.6" />
+        <PackageReference Include="NodaTime" Version="3.2.2" />
     </ItemGroup>
 
     <ItemGroup>

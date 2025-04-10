@@ -17,6 +17,6 @@ public partial class SurveillanceRound: AggregateRoot
     
     public Duration? EstimatedDuration { get;  set; }
     
-    public string? AssignedTo { get;  set; }
+  
     
 }

@@ -1,8 +1,8 @@
 ﻿using Cerberus.Core.Domain;
-using KeycloakClient.Shared;
+using Cerberus.Core.KeycloakClient.Shared;
 using Microsoft.Extensions.Options;
 
-namespace KeycloakClient.Features.UserGroup;
+namespace Cerberus.Core.KeycloakClient.Features.UserGroup;
 
 public class UserGroupProvider(KeycloakApiClient apiClient, IOptions<KeycloakOptions> options) : IUserGroupProvider
 {

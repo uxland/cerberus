@@ -8,6 +8,7 @@ public partial class SurveillanceRun
     public void Handle(ReleaseRun cmd)
     {
         this.ValidateCanRelease();
+        this.ValidateOwnerShip(cmd.By);
         this.ApplyUncommittedEvent(new SurveillanceRunReleased(cmd.At, cmd.By));
     }
 
@@ -23,5 +24,7 @@ public partial class SurveillanceRun
         this.EndedAt = @event.At;
         this.EndedBy = @event.By;
         this.Status = RunStatus.Released;
+        this.LastActivityAt = @event.At;
+        this.LastActivityBy = @event.By;
     }
 }

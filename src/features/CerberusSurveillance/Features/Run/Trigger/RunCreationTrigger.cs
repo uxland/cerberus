@@ -1,11 +1,11 @@
-using Cerberus.BackOffice.Features.Captures.Triggers;
+
 using Cerberus.Core.Domain;
 
 namespace Cerberus.Surveillance.Features.Features.Run.Trigger;
 
 public partial class RunCreationTrigger: AggregateRoot,
-    IDomainEventHandler<CaptureTriggerEnabled>,
-    IDomainEventHandler<CaptureTriggerDisabled>
+    IDomainEventHandler<RunCreationTriggerEnabled>,
+    IDomainEventHandler<RunCreationTriggerDisabled>
 {
     public RunCreationTrigger()
     {
@@ -28,15 +28,16 @@ public partial class RunCreationTrigger: AggregateRoot,
             this.ApplyUncommittedEvent(new RunCreationTriggerDisabled(this.RecurrencePattern));
     }
     
-    public void Apply(CaptureTriggerEnabled @event)
+    public void Apply(RunCreationTriggerEnabled @event)
     {
         this.Enabled = true;
     }
 
-    public void Apply(CaptureTriggerDisabled @event)
+    public void Apply(RunCreationTriggerDisabled @event)
     {
         this.Enabled = false;
     }
+    
 }
 
 public record RunCreationTriggerEnabled(string RecurrencePattern) : IDomainEvent;

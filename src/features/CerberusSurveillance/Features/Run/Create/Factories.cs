@@ -9,10 +9,10 @@ namespace Cerberus.Surveillance.Features.Features.Run.Create;
 
 internal static class RunFactories
 {
-    public static async Task<SurveillanceRun> ProduceRun(this SurveillanceRound round, IGenericRepository repository, Instant plannedAtl)
+    public static async Task<SurveillanceRun> ProduceRun(this SurveillanceRound round, IGenericRepository repository, Instant plannedAt, bool isSpontaneous)
     {
         var inspections = await Task.WhenAll(round.Inspections.OrderBy(x => x.Order).Select((i, index) => i.ProduceRun(index, repository)));
-        return new SurveillanceRun(round.SurveillanceRunId(plannedAtl), round.RootLocationId!, round.Id, round.AssignedGroupId, inspections.ToList(), plannedAtl);
+        return new SurveillanceRun(round.SurveillanceRunId(plannedAt), round.RootLocationId!, round.Id, round.AssignedGroupId, inspections.ToList(), plannedAt, isSpontaneous);
     }
 
     private static async Task<InspectionRun> ProduceRun(this Inspection inspection, int id, IGenericRepository repository)
@@ -31,6 +31,18 @@ internal static class RunFactories
     
     public static string SurveillanceRunId(this SurveillanceRound round, Instant plannedAt) =>
         $"{round.Id}:{plannedAt.ToUnixTimeMilliseconds()}";
+
+    public static (string RoundId, Instant PlannedAt) GetRoundIdAndPlannedInstant(this string runId)
+    {
+        var parts = runId.Split(':');
+        if (parts.Length != 2)
+            throw new ArgumentException($"Invalid runId format: {runId}");
+        
+        var roundId = parts[0];
+        var plannedAt = Instant.FromUnixTimeMilliseconds(long.Parse(parts[1]));
+        return (roundId, plannedAt);
+    }
     public static string SurveillanceRunId(this SurveillanceRoundSummary round, Instant plannedAt) =>
         $"{round.Id}:{plannedAt.ToUnixTimeMilliseconds()}";
+    
 }

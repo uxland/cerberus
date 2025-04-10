@@ -30,7 +30,7 @@
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.3.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.1" />
-        <PackageReference Include="WolverineFx" Version="3.10.2" />
+        <PackageReference Include="WolverineFx" Version="3.12.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,6 +38,7 @@
         <ProjectReference Include="..\..\core\image-processing\PythonImageProcessor\PythonImageProcessor.csproj"/>
         <ProjectReference Include="..\..\core\KeycloakClient\KeycloakClient.csproj" />
         <ProjectReference Include="..\..\core\MaintenancePerisistence\MaintenancePerisistence.csproj"/>
+        <ProjectReference Include="..\..\core\SignalRClientPublisher\SignalRClientPublisher.csproj" />
         <ProjectReference Include="..\..\core\SurveillancePersistence\SurveillancePersistence.csproj" />
         <ProjectReference Include="..\..\core\XabeFFMpegClient\XabeFFMpegClient.csproj"/>
     </ItemGroup>

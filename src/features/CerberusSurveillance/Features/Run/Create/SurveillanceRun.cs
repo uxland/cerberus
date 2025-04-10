@@ -5,7 +5,7 @@ namespace Cerberus.Surveillance.Features.Features.Run;
 
 public partial class SurveillanceRun
 {
-    public SurveillanceRun(string id, string rootLocationId, string roundId, string? assignedGroupId, IEnumerable<InspectionRun> inspectionRuns, Instant plannedAt): this()
+    public SurveillanceRun(string id, string rootLocationId, string roundId, string? assignedGroupId, IEnumerable<InspectionRun> inspectionRuns, Instant plannedAt, bool isSpontaneous): this()
     {
         this.ApplyUncommittedEvent(new SurveillanceRunCreated(id,
             roundId,
@@ -13,7 +13,8 @@ public partial class SurveillanceRun
             assignedGroupId,
             inspectionRuns,
             RunStatus.Pending,
-            plannedAt
+            plannedAt,
+            isSpontaneous
         ));
     }
 

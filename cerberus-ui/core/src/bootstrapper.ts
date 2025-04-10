@@ -7,6 +7,7 @@ import {navigationService} from "./routing/navigation-service.ts";
 import {bootstrapAuth, teardownAuth} from "./auth";
 import {useNotificationService} from "./notification-service";
 import {userInteractionService, teardownInteractionService} from "./interaction-service";
+import {usePubSubSubService} from "./pubsub/pubsub-service.ts";
 export const bootstrapCore = () =>{
     console.log('core bootstrapping');
     injectable()(ApiClient);
@@ -16,7 +17,8 @@ export const bootstrapCore = () =>{
     container.bind<NavigationService>(NavigationService).toConstantValue(navigationService);
     return bootstrapAuth(container)
         .then(useNotificationService)
-        .then(userInteractionService);
+        .then(userInteractionService)
+        .then(usePubSubSubService);
 }
 
 export const teardownCore = async () =>{

@@ -5,6 +5,7 @@ import { sendMediatorRequest } from '@cerberus/core';
 import { ListScheduledRuns } from './query';
 import { Box, CircularProgress } from "@mui/material";
 import { AcquireRun } from '../../run/acquire/command';
+import {isInCourse, ScheduledRunSummary} from "./model.ts";
 
 const darkTheme = createTheme({
     palette: {
@@ -146,67 +147,12 @@ export const ScheduledRunsView = () => {
         console.log("scheduler", scheduledRuns);
     }, [scheduledRuns]);
 
-    /*const events = [
-        {
-            event_id: 1,
-            title: "Ronda de supervisión 1",
-            start: new Date(new Date().setHours(9, 0, 0, 0)),
-            end: new Date(new Date().setHours(10, 0, 0, 0)),
-            color: "#f38b00",
-            editable: false,
-            deletable: false,
-            sx: {
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                '&:hover': {
-                    backgroundColor: "#2a2a2a",
-                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
-                }
-            }
-        },
-        {
-            event_id: 2,
-            color: "#f38b00",
-            title: "Ronda de supervisión 2",
-            start: new Date(new Date().setHours(14, 0, 0, 0)),
-            end: new Date(new Date().setHours(15, 0, 0, 0)),
-            sx: {
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                '&:hover': {
-                    backgroundColor: "#2a2a2a",
-                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
-                }
-            }
-        },
-        {
-            event_id: 3,
-            title: "Ronda de supervisión 3",
-            start: new Date(new Date().setHours(14, 0, 0, 0)),
-            end: new Date(new Date().setHours(15, 0, 0, 0)),
-            sx: {
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                '&:hover': {
-                    backgroundColor: "#2a2a2a",
-                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
-                }
-            }
-        },
-        {
-            event_id: 4,
-            title: "Ronda de supervisión 4",
-            start: new Date(new Date().setHours(13, 0, 0, 0)),
-            end: new Date(new Date().setHours(15, 0, 0, 0)),
-            sx: {
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                '&:hover': {
-                    backgroundColor: "#2a2a2a",
-                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
-                }
-            }
-        },
-    ];*/
+
     const startShceduledRun = (event: any) => {
+        const run: ScheduledRunSummary = event.run;
+        if(!isInCourse(run)) return Promise.resolve();
         sendMediatorRequest({
-            command: new AcquireRun(event.run.id),
+            command: new AcquireRun(run.id, run.description, run.roundId),
             setBusy: setBusy,
             setError: setError,
         })
@@ -223,6 +169,14 @@ export const ScheduledRunsView = () => {
                         disableViewNavigator={true}
                         agenda={false}
                         view="day"
+                        day={
+                            {
+                                startHour: 0,
+                                endHour: 24,
+                                step: 60,
+                                navigation: false
+                            }
+                        }
                         editable={false}
                         events={scheduledRuns}
                         selectedDate={new Date()}

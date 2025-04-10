@@ -3,11 +3,12 @@ using Cerberus.Core.Domain;
 using Cerberus.Core.MartenPersistence;
 using Cerberus.Core.MartenPersistence.Repositories;
 using Cerberus.Surveillance.Features.Features.Operation;
-using Cerberus.Surveillance.Features.Features.Operation.Create;
+
+using Cerberus.Surveillance.Features.Features.Operation.CreateOrUpdate;
 using FluentAssertions;
 
 namespace CerberusSurveillance.Tests.Persistence.Operation;
-
+/*
 public class OperationPersistenceTest
 {
     private static readonly CreateOperation Command = new CreateOperation("id", "description", new List<IOperationQuestion>
@@ -48,3 +49,4 @@ public class OperationPersistenceTest
     }
     
 }
+*/

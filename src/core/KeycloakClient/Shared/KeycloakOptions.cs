@@ -1,4 +1,4 @@
-﻿namespace KeycloakClient.Features;
+﻿namespace Cerberus.Core.KeycloakClient.Shared;
 
 public class KeycloakOptions
 {

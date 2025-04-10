@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Cerberus.BackOffice;
 using NodaTime.Serialization.SystemTextJson;
+using SignalRClientPublisher;
 
 namespace Cerberus.Api.Bootstrap;
 
@@ -22,6 +23,7 @@ internal static class MvcBootstrapper
     
     public static WebApplication BootstrapRouting(this WebApplication app)
     {
+        app.MapHub<CerberusHub>("/cerberus-hub");
         var apiGroup = app.MapGroup("/api");
         apiGroup.BootstrapSurveillanceRouting()
             .SetupBackOfficeRouting();

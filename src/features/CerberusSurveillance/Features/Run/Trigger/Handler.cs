@@ -1,4 +1,5 @@
 using Cerberus.Core.Domain;
+using Cerberus.Core.Domain.CronExpressions;
 using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 using Cerberus.Surveillance.Features.Features.Run.Trigger.Create;
 using Cerberus.Surveillance.Features.Features.Run.Trigger.EjectRounds;
@@ -33,7 +34,7 @@ public static class Handler
 
     private static RunCreationTrigger Create(string recurrencePattern, string roundId, IGenericRepository repository)
     {
-        var trigger = new RunCreationTrigger(new CreateRunCreationTrigger(recurrencePattern, [roundId]));
+        var trigger = new RunCreationTrigger(new CreateRunCreationTrigger(recurrencePattern.SanitizeForQuartz(), [roundId]));
         repository.Create(trigger);
         return trigger;
     }
