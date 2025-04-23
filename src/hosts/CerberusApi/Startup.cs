@@ -1,11 +1,9 @@
 ﻿using Cerberus.Api.Bootstrap;
 using Cerberus.Api.Bootstrap.OpenApi;
 using Cerberus.Api.Setup;
-using Cerberus.BackOffice;
 using Cerberus.Core.KeycloakClient;
 using Cerberus.Core.MartenPersistence;
 using Cerberus.Core.XabeFFMpegClient;
-using Microsoft.OpenApi.Models;
 using SignalRClientPublisher;
 
 namespace Cerberus.Api;
@@ -20,8 +18,8 @@ public class Startup(WebApplicationBuilder builder)
     ];
     public void ConfigureServices(IServiceCollection services)
     {
-        services.BootstrapAuthentication(builder.Configuration);
-        services.BootstrapMvc()
+        services.UseKeycloakClient(builder.Configuration)
+            .BootstrapMvc()
             .BootstrapOpenApi();
         services.AddSignalR();
         services.AddCors(options =>
@@ -53,7 +51,6 @@ public class Startup(WebApplicationBuilder builder)
             .UseSignalRClientPublisher()
             .BootstrapServices()
             .BootstrapQuartz(builder.Configuration)
-            .UseKeycloakClient(builder.Configuration)
             .BootstrapBackOffice(builder.Configuration, martenConfiguration)
             .BootstrapMaintenance()
             .BootstrapSurveillance(martenConfiguration);

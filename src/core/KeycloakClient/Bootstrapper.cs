@@ -1,4 +1,5 @@
-﻿using Cerberus.Core.KeycloakClient.Features.UserGroup;
+﻿using Cerberus.Core.KeycloakClient.Features.Auth;
+using Cerberus.Core.KeycloakClient.Features.UserGroup;
 using Cerberus.Core.KeycloakClient.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ public static class Bootstrapper
     {
         services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
         return services.SetupKeycloakClient()
-            .UseUserGroupProvider();
+            .UseUserGroupProvider()
+            .UseKeyCloakAuth(configuration);
     }
 }

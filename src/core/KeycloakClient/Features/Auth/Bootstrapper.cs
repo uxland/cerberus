@@ -1,21 +1,17 @@
-using System.Security.Claims;
-using Cerberus.Api.Auth;
 using Cerberus.Core.Domain;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Cerberus.Api.Bootstrap;
+namespace Cerberus.Core.KeycloakClient.Features.Auth;
 
-internal static class AuthenticationBootstrapper
+internal static class Bootstrapper
 {
-    internal static IServiceCollection BootstrapAuthentication(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection UseKeyCloakAuth(this IServiceCollection services, IConfiguration configuration)
     {
         var authority = configuration.GetSection("Authentication:Authority").Value;
         var audience = configuration.GetSection("Authentication:Audience").Value;
         return services.AddHttpContextAccessor()
             .AddSingleton<IUserContextProvider, UserContextProvider>()
             .AddJwtBearerAuthentication(authority, audience);
-        
     }
 }
