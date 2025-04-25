@@ -5,44 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/Bootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Bootstrap/ContentServerBootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Bootstrap/CorsBootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Bootstrap/JsonBootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Entities/CameraConfig.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Entities/CameraStream.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Entities/webrtcbin_worker.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Services/Bootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Services/CameraConfigService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Services/StreamManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/SignalingApi.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/SignalingApi.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/WebRtcSignalingHub.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/appsettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/gradle/libs.versions.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/gradle/wrapper/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/src/main/kotlin/com/cerberus/Application.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/src/main/kotlin/com/cerberus/plugins/Koin.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/src/main/kotlin/com/cerberus/plugins/Routing.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/src/main/kotlin/com/cerberus/plugins/Serialization.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/src/main/kotlin/com/cerberus/services/SignalingService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/KtorSignalingApi/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cerberus.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/KeycloakClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/KeycloakClient.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SignalRClientPublisher/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SignalRClientPublisher/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Auth/JwtBearerAuthentication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/JwtBearerAuthentication.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Auth/UserContextProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/UserContextProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Bootstrap/AuthenticationBootstrapper.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -90,30 +85,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tasks/improve-streaming&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "tasks/improve-streaming",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/dpina/RiderProjects/cerberus-2/src/hosts/KtorSignalingApi",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -127,9 +127,24 @@
       <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/state" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.Browser Debug">
+  <component name="RunManager" selected="Ktor.Unnamed">
     <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://localhost:5173" useFirstLineBreakpoints="true">
       <method v="2" />
+    </configuration>
+    <configuration name="Unnamed" type="KtorApplicationConfigurationType" factoryName="Ktor" nameIsGenerated="true">
+      <module name="KtorSignalingApi" />
+      <option name="alternativeJrePath" />
+      <option name="alternativeJrePathEnabled" value="false" />
+      <option name="includeProvidedScope" value="false" />
+      <option name="mainClass" />
+      <option name="passParentEnvs" value="true" />
+      <option name="programParameters" value="" />
+      <option name="shortenCommandLine" />
+      <option name="vmParameters" />
+      <option name="workingDirectory" value="C:\Users\dpina\RiderProjects\cerberus-2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
@@ -184,10 +199,12 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Docker.Back" />
       <item itemvalue="Docker.Demo" />
       <item itemvalue="Docker.cerberus-ui/Dockerfile" />
       <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
       <item itemvalue="JavaScript Debug.Browser Debug" />
+      <item itemvalue="Ktor.Unnamed" />
       <item itemvalue="npm.app &gt; build" />
       <item itemvalue="npm.cerberus-ui &gt; build" />
       <item itemvalue="npm.cerberus-ui &gt; dev" />
@@ -205,7 +222,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -259,6 +277,7 @@
       <workItem from="1744724496613" duration="599000" />
       <workItem from="1744876217362" duration="599000" />
       <workItem from="1744967135354" duration="626000" />
+      <workItem from="1745587651697" duration="3110000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />

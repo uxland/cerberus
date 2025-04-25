@@ -1,0 +1,43 @@
+{
+    "name": "Kotlin GStreamer Development",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mathiasfrohlich.Kotlin",
+                "fwcd.kotlin",
+                "vscjava.vscode-java-pack",
+                "redhat.java",
+                "vscjava.vscode-gradle",
+                "richardwillis.vscode-gradle-extension-pack",
+                "vscjava.vscode-java-debug",
+                "vscjava.vscode-java-test"
+            ]
+        },
+        "jetbrains": {
+            "plugins": [
+                "org.jetbrains.kotlin",
+                "org.jetbrains.plugins.gradle",
+                "com.intellij.gradle"
+            ]
+        }
+    },
+    "forwardPorts": [8080],
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "23",
+            "installGradle": true,
+            "jdkDistro": "oracle"
+        }
+    },
+    "containerEnv": {
+        "GRADLE_USER_HOME": "/home/vscode/.gradle",
+        "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current",
+        "PATH": "/usr/lib/jvm/msopenjdk-current/bin:${PATH}"
+    },
+    "postCreateCommand": "gradle wrapper --gradle-version 8.10 && sudo mkdir -p /bin && sudo ln -sf $JAVA_HOME/bin/java /bin/java"
+}
