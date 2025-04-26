@@ -18,7 +18,7 @@ public class Startup(WebApplicationBuilder builder)
     ];
     public void ConfigureServices(IServiceCollection services)
     {
-        services.UseKeycloakClient(builder.Configuration)
+        services.UseKeycloakClient(builder.Configuration, "/cerberus-hub")
             .BootstrapMvc()
             .BootstrapOpenApi();
         services.AddSignalR();

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
-import {keycloak} from "@cerberus/core";
+import {keycloak, nop} from "@cerberus/core";
 // @ts-ignore
-const streamingUrl = `${import.meta.env.VITE_CERBERUS_STREAMING_URL}/api/signal-hub`;
+const streamingUrl = `${import.meta.env.VITE_CERBERUS_STREAMING_URL}/api/signaling-hub`;
 
 export default function WebRTCPlayer({ cameraId }: { cameraId: string }) {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -10,32 +10,34 @@ export default function WebRTCPlayer({ cameraId }: { cameraId: string }) {
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
 
     useEffect(() => {
-        const connect = new signalR.HubConnectionBuilder()
-            .withUrl(streamingUrl, {
-                accessTokenFactory: () => keycloak.token,
-            }) // Adjust to your backend URL
-            .withAutomaticReconnect()
-            .build();
-
-        connect.on("ReceiveAnswer", async (sdpAnswer: string) => {
-            if (peerConnection) {
-                const desc = new RTCSessionDescription({ type: "answer", sdp: sdpAnswer });
-                await peerConnection.setRemoteDescription(desc);
-                console.log("✅ SDP answer set");
-            }
-        });
-
-        connect.start()
-            .then(() => {
-                console.log("✅ SignalR connected");
+        const initConnection = async () => {
+            if(connection) return;
+            const connect = new signalR.HubConnectionBuilder()
+                .withUrl(streamingUrl, {
+                    accessTokenFactory: () => keycloak.token,
+                }) // Adjust to your backend URL
+                .withAutomaticReconnect()
+                .build();
+             try {
+                await connect.start();
                 setConnection(connect);
-            })
-            .catch(err => console.error("❌ SignalR connection failed:", err));
-
+             }
+             catch (e) {
+                 console.error("❌ SignalR connection failed:", e);
+             }
+            connect.on("ReceiveAnswer", async (sdpAnswer: string) => {
+                if (peerConnection) {
+                    const desc = new RTCSessionDescription({ type: "answer", sdp: sdpAnswer });
+                    await peerConnection.setRemoteDescription(desc);
+                    console.log("✅ SDP answer set");
+                }
+            });
+        }
+        initConnection().then(nop);
         return () => {
-            connect.stop();
+            connection?.stop();
         };
-    }, []);
+    }, [cameraId]);
 
     useEffect(() => {
         if (!connection || peerConnection) return;

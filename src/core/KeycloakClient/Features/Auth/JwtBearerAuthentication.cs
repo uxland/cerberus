@@ -9,7 +9,7 @@ namespace Cerberus.Core.KeycloakClient.Features.Auth;
 internal static class JwtBearerAuthentication
 {
     internal static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services, string? authority,
-        string? audience)
+        string? audience, params string[] signalRHubs)
     {
         services.AddAuthentication(options =>
         {
@@ -71,14 +71,19 @@ internal static class JwtBearerAuthentication
                 },
                 OnMessageReceived = context =>
                 {
-                    var accessToken = context.Request.Query["access_token"];
+                    
                     var path = context.HttpContext.Request.Path;
-
-                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/cerberus-hub"))
+                    if (signalRHubs.Any(hub => path.StartsWithSegments(hub)))
                     {
-                        context.Token = accessToken;
-                        return Task.CompletedTask;
+                        var accessToken = context.Request.Query["access_token"];
+                        if(!string.IsNullOrEmpty(accessToken))
+                        {
+                            context.Token = accessToken;
+                            return Task.CompletedTask;
+                        }
                     }
+
+                    
 
                     var authorization = context.Request.Headers["Authorization"];
                     if (!string.IsNullOrEmpty(authorization))

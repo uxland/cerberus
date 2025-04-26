@@ -4,18 +4,9 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <InvariantGlobalization>false</InvariantGlobalization>
-        <PublishAot>false</PublishAot>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>Cerberus.Signaling.Api</RootNamespace>
-        <LangVersion>13</LangVersion>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
-        <PackageReference Include="NodaTime" Version="3.2.2" />
-        <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.3.0" />
-    </ItemGroup>
 
     <ItemGroup>
       <Content Include="..\..\..\.dockerignore">
@@ -24,13 +15,22 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\core\DomainCore\DomainCore.csproj" />
       <ProjectReference Include="..\..\core\KeycloakClient\KeycloakClient.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <None Update="Entities\webrtcbin_worker.py">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
+      <None Update="webrtcbin_worker.py">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NodaTime" Version="3.2.2" />
+      <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.3.0" />
     </ItemGroup>
 
 </Project>

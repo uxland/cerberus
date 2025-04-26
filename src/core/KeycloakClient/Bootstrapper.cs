@@ -8,11 +8,11 @@ namespace Cerberus.Core.KeycloakClient;
 
 public static class Bootstrapper
 {
-    public static IServiceCollection UseKeycloakClient(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection UseKeycloakClient(this IServiceCollection services, IConfiguration configuration, params string [] signalRHubs)
     {
         services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
         return services.SetupKeycloakClient()
             .UseUserGroupProvider()
-            .UseKeyCloakAuth(configuration);
+            .UseKeyCloakAuth(configuration, signalRHubs);
     }
 }

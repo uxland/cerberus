@@ -61,6 +61,25 @@ services:
     volumes:
       - snapshots_volume:/app/Snapshots
 
+  cerberus-signaling:
+    build:
+      context: .
+      dockerfile: src/hosts/CerberusSignalingApi/Dockerfile
+      args:
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}
+    ports:
+      - "5566:8080"
+    environment:
+      Backends__PostgresQL__Marten: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+      Backends__PostgresQL__Quartz: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office Quartz;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+      SnaphotCaptures__FolderRoot: "/app/Snapshots"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    volumes:
+      - snapshots_volume:/app/Snapshots
 volumes:
   snapshots_volume:
     driver: local

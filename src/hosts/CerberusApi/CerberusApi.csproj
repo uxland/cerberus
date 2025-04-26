@@ -43,8 +43,4 @@
         <ProjectReference Include="..\..\core\XabeFFMpegClient\XabeFFMpegClient.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Auth\" />
-    </ItemGroup>
-
 </Project>

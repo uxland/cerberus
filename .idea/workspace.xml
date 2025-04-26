@@ -5,39 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/Bootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Bootstrap/ContentServerBootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Bootstrap/CorsBootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Bootstrap/JsonBootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Entities/CameraConfig.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Entities/CameraStream.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Entities/webrtcbin_worker.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Properties/launchSettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Services/Bootstrapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Services/CameraConfigService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Services/StreamManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/SignalingApi.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/SignalingApi.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/WebRtcSignalingHub.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/appsettings.Development.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/appsettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Bootstrap/ContentServerBootstrapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Bootstrap/CorsBootstrapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Bootstrap/JsonBootstrapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/CerberusSignalingApi.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/CerberusSignalingApi.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Dockerfile1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Entities/CameraConfig.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Entities/CameraStream.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Entities/webrtcbin_worker.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Properties/launchSettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Services/Bootstrapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Services/CameraConfigService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Services/StreamManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/WebRtcSignalingHub.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/appsettings.Development.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/appsettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/webrtcbin_worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cerberus.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/.env.production" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/component.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.back.development.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.back.development.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.demo.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.demo.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/KeycloakClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/KeycloakClient.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SignalRClientPublisher/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SignalRClientPublisher/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Auth/JwtBearerAuthentication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/JwtBearerAuthentication.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Auth/UserContextProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/UserContextProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Bootstrap/AuthenticationBootstrapper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/JwtBearerAuthentication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Features/Auth/JwtBearerAuthentication.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/SignalingApi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/SignalingApi/SignalingApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/SignalingApi.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/SignalingApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/SignalingApi/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +96,7 @@
   &quot;keyToString&quot;: {
     &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
     &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;tasks/improve-streaming&quot;,
@@ -127,7 +129,7 @@
       <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/state" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.Browser Debug">
+  <component name="RunManager" selected="npm.cerberus-ui &gt; dev">
     <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://localhost:5173" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
@@ -184,6 +186,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Docker.Demo" />
       <item itemvalue="Docker.cerberus-ui/Dockerfile" />
       <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
@@ -259,6 +262,7 @@
       <workItem from="1744724496613" duration="599000" />
       <workItem from="1744876217362" duration="599000" />
       <workItem from="1744967135354" duration="626000" />
+      <workItem from="1745656890734" duration="824000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -437,56 +441,6 @@
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
-          <line>41</line>
-          <option name="timeStamp" value="99" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
-          <line>56</line>
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/generic-question-input.tsx</url>
-          <line>33</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
-          <line>50</line>
-          <option name="timeStamp" value="121" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/component.tsx</url>
-          <line>51</line>
-          <option name="timeStamp" value="122" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/component.tsx</url>
-          <line>47</line>
-          <option name="timeStamp" value="123" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/component.tsx</url>
-          <line>155</line>
-          <option name="timeStamp" value="124" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/get-round-edition-data.ts</url>
-          <line>39</line>
-          <option name="timeStamp" value="125" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/get-round-edition-data.ts</url>
-          <line>30</line>
-          <option name="timeStamp" value="126" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/get-round-edition-data.ts</url>
-          <line>60</line>
-          <option name="timeStamp" value="127" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/model.ts</url>
           <line>41</line>
           <option name="timeStamp" value="133" />
@@ -505,6 +459,56 @@
           <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/component.tsx</url>
           <line>180</line>
           <option name="timeStamp" value="136" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>44</line>
+          <option name="timeStamp" value="137" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>47</line>
+          <option name="timeStamp" value="138" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>50</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>57</line>
+          <option name="timeStamp" value="140" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>63</line>
+          <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>25</line>
+          <option name="timeStamp" value="150" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>21</line>
+          <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>22</line>
+          <option name="timeStamp" value="152" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>28</line>
+          <option name="timeStamp" value="153" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
+          <line>66</line>
+          <option name="timeStamp" value="154" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
