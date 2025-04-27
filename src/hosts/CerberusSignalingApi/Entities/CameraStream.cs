@@ -1,121 +1,120 @@
-using System.Text.Json;
+using System.Diagnostics;
 
 namespace Cerberus.Signaling.Api.Entities;
 
-using System.Diagnostics;
-
-public class CameraStream(string cameraId, CameraConfig config)
+public class CameraStream
 {
-    private readonly HashSet<string> _clients = new();
-    private Process? _workerProcess;
+    private readonly ILogger<CameraStream> _logger;
+    private Process? _process;
     private StreamWriter? _stdin;
-    private Task? _readerTask;
-    private readonly Dictionary<string, TaskCompletionSource<string>> _pendingAnswers = new();
 
-    public bool IsRunning => _workerProcess != null && !_workerProcess.HasExited;
-    public bool HasClients => _clients.Count > 0;
-
-    public void AddClient(string connectionId) => _clients.Add(connectionId);
-    public void RemoveClient(string connectionId) => _clients.Remove(connectionId);
-
-    public async Task StartAsync()
+    public CameraStream(ILogger<CameraStream> logger)
     {
-        _workerProcess = new Process
+        _logger = logger;
+    }
+
+    public async Task StartAsync(string cameraId)
+    {
+        _logger.LogInformation("Starting Python worker for camera {CameraId}", cameraId);
+
+        var startInfo = new ProcessStartInfo
         {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = "python3",
-                Arguments = $"webrtcbin_worker.py \"{config.TransportType}\" \"{config.Codec}\" \"{config.Url}\"", // must be in working directory
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            }
+            FileName = "python3",
+            Arguments = "webrtcbin_worker.py",
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            WorkingDirectory = "/app"
         };
 
-        _workerProcess.Start();
-        _stdin = _workerProcess.StandardInput;
-        _readerTask = Task.Run(() => ReadStdoutAsync(_workerProcess.StandardOutput));
-        _ = Task.Run(() => LogOutput(_workerProcess.StandardError));
+        _process = new Process { StartInfo = startInfo };
+        _process.Start();
+        _stdin = _process.StandardInput;
 
-        await Task.CompletedTask;
-    }
-
-    public void Stop()
-    {
-        if (_workerProcess != null && !_workerProcess.HasExited)
+        _ = Task.Run(async () =>
         {
-            _workerProcess.Kill();
-        }
-    }
-
-    private async Task ReadStdoutAsync(StreamReader stdout)
-    {
-        while (!stdout.EndOfStream)
-        {
-            var line = await stdout.ReadLineAsync();
-            if (line == null) continue;
-
-            var msg = JsonSerializer.Deserialize<Dictionary<string, object>>(line);
-            if (msg == null || !msg.ContainsKey("type")) continue;
-
-            switch (msg["type"]?.ToString())
+            while (!_process.StandardOutput.EndOfStream)
             {
-                case "sdp-answer":
-                    foreach (var tcs in _pendingAnswers.Values)
-                        tcs.TrySetResult(msg["sdp"]?.ToString() ?? "");
-                    _pendingAnswers.Clear();
-                    break;
-
-                case "ice-candidate":
-                    // TODO: forward to React client(s)
-                    break;
+                var line = await _process.StandardOutput.ReadLineAsync();
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    _logger.LogInformation("📥 Python Output: {Line}", line);
+                }
             }
+        });
+
+        _ = Task.Run(async () =>
+        {
+            while (!_process.StandardError.EndOfStream)
+            {
+                var error = await _process.StandardError.ReadLineAsync();
+                if (!string.IsNullOrWhiteSpace(error))
+                {
+                    _logger.LogWarning("⚠️ Python Error: {Error}", error);
+                }
+            }
+        });
+    }
+
+    public async Task SendOfferAsync(string sdpOffer)
+    {
+        if (_stdin == null)
+        {
+            _logger.LogError("❌ Cannot send SDP offer. Stdin is null.");
+            return;
         }
-    }
 
-    private void LogOutput(StreamReader reader)
-    {
-        while (!reader.EndOfStream)
-            Console.WriteLine(reader.ReadLine());
-    }
-
-    public async Task<string> HandleOfferAsync(string connectionId, string sdpOffer)
-    {
-        if (_stdin == null) throw new InvalidOperationException("Worker not running");
-        var payload = new
+        var message = new
         {
             type = "sdp-offer",
             sdp = sdpOffer
         };
 
-        var json = JsonSerializer.Serialize(payload);
-        var tcs = new TaskCompletionSource<string>();
-        _pendingAnswers[connectionId] = tcs;
+        var json = System.Text.Json.JsonSerializer.Serialize(message);
         await _stdin.WriteLineAsync(json);
         await _stdin.FlushAsync();
-        return await tcs.Task;
+
+        _logger.LogInformation("📤 Sent SDP Offer to Python worker.");
     }
 
-    public async Task HandleIceCandidate(string connectionId, string candidate)
+    public async Task SendIceCandidateAsync(string candidate)
     {
-        if (_stdin == null) return;
+        if (_stdin == null)
+        {
+            _logger.LogError("❌ Cannot send ICE candidate. Stdin is null.");
+            return;
+        }
 
-        var payload = new
+        var message = new
         {
             type = "ice-candidate",
             candidate = candidate,
             sdpMLineIndex = 0
         };
 
-        var json = JsonSerializer.Serialize(payload);
+        var json = System.Text.Json.JsonSerializer.Serialize(message);
         await _stdin.WriteLineAsync(json);
         await _stdin.FlushAsync();
+
+        _logger.LogInformation("📤 Sent ICE Candidate to Python worker.");
     }
 
-    private string BuildPipeline(CameraConfig config)
+    public void Kill()
     {
-        return ""; // handled in Python for now
+        try
+        {
+            if (_process != null && !_process.HasExited)
+            {
+                _logger.LogInformation("🛑 Killing Python worker process.");
+                _process.Kill();
+                _process.Dispose();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "⚠️ Failed to kill Python worker process");
+        }
     }
 }

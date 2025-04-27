@@ -16,6 +16,7 @@ public class Program
         builder.Services.UseKeycloakClient(builder.Configuration, "/api/signaling-hub");
         builder.Services.UseCors();
         builder.Services.AddSignalR();
+        builder.Services.AddLogging();
         builder.Services.UseServices();
         
 

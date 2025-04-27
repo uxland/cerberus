@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Cerberus.Signaling.Api;
 
-public class WebRtcSignalingHub(StreamManager streamManager) : Hub
+public class WebRtcSignalingHub(StreamManager streamManager, ILogger<WebRtcSignalingHub> logger) : Hub
 {
     public async Task SendOffer(string cameraId, string sdpOffer)
     {
+        logger.LogInformation("📥 Received SendOffer from client for camera {CameraId}", cameraId);
         var sdpAnswer = await streamManager.HandleOfferAsync(cameraId, Context.ConnectionId, sdpOffer);
         await Clients.Caller.SendAsync("ReceiveAnswer", sdpAnswer);
     }

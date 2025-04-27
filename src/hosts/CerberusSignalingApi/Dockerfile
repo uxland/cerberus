@@ -1,20 +1,6 @@
-﻿# Stage 1: Build .NET app
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["src/hosts/CerberusSignalingApi/CerberusSignalingApi.csproj", "src/hosts/CerberusSignalingApi/"]
-COPY ["src/core/DomainCore/DomainCore.csproj", "src/core/DomainCore/"]
-COPY ["src/core/KeycloakClient/KeycloakClient.csproj", "src/core/KeycloakClient/"]
-RUN dotnet restore "src/hosts/CerberusSignalingApi/CerberusSignalingApi.csproj"
-COPY . .
-WORKDIR "/src/src/hosts/CerberusSignalingApi"
-RUN dotnet build "./CerberusSignalingApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CerberusSignalingApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+WORKDIR /app
+EXPOSE 8080
 
 # 3. Now install Ubuntu Python + GStreamer normally
 RUN apt-get update && apt-get install -y \
@@ -30,13 +16,28 @@ RUN apt-get update && apt-get install -y \
     gir1.2-gst-plugins-base-1.0 \
     gir1.2-gst-plugins-bad-1.0 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Stage 1: Build .NET app
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Debug
+WORKDIR /src
+COPY ["src/hosts/CerberusSignalingApi/CerberusSignalingApi.csproj", "src/hosts/CerberusSignalingApi/"]
+COPY ["src/core/DomainCore/DomainCore.csproj", "src/core/DomainCore/"]
+COPY ["src/core/KeycloakClient/KeycloakClient.csproj", "src/core/KeycloakClient/"]
+RUN dotnet restore "src/hosts/CerberusSignalingApi/CerberusSignalingApi.csproj"
+COPY . .
+WORKDIR "/src/src/hosts/CerberusSignalingApi"
+RUN dotnet build "CerberusSignalingApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Debug
+RUN dotnet publish "CerberusSignalingApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+
+FROM base AS final
 # App directory
 WORKDIR /app
-
 # Copy published app from build stage
 COPY --from=publish /app/publish .
 COPY src/hosts/CerberusSignalingApi/webrtcbin_worker.py .
-
-EXPOSE 5566
-
-ENTRYPOINT ["dotnet", "SignalingApi.dll"]
+ENTRYPOINT ["dotnet", "CerberusSignalingApi.dll"]
