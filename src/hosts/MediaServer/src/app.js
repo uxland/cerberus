@@ -7,6 +7,7 @@
 import express from 'express'
 const app = express()
 
+import getPort,  {portNumbers}  from 'get-port';
 import https from 'httpolyglot'
 import fs from 'fs'
 import path from 'path'
@@ -16,99 +17,37 @@ import { Server } from 'socket.io'
 import mediasoup from 'mediasoup'
 import { spawn } from 'child_process';
 import cors from 'cors';
+import CameraStream from "./camera-stream.js";
 
-
-/*/const startGStreamer = () => {
-  console.log("Starting GStreamer...");
-
-  const gst = spawn('gst-launch-1.0', [
-    'rtspsrc', `location=rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast`,
-    'protocols=tcp', 'latency=100', '!',
-    'rtph265depay', '!', 'h265parse', '!', 'avdec_h265', '!', // ✅ Decode H265
-    'x264enc', 'tune=zerolatency', '!', 'rtph264pay', 'pt=101', 'ssrc=1234567', 'mtu=1200', '!',
-    'udpsink', 'host=127.0.0.1', 'port=5004'
-  ]);
-
-  gst.stderr.on('data', (data) => {
-    console.error(`GStreamer stderr: ${data}`);
-  });
-
-  gst.stdout.on('data', (data) => {
-    console.log(`GStreamer stdout: ${data}`);
-  });
-
-  gst.on('close', (code) => {
-    console.log(`GStreamer process exited with code ${code}`);
-  });
-
-  gst.on('error', (err) => {
-    console.error(`GStreamer error: ${err.message}`);
-  });
-
-  return gst;
-};
-
-const gstProcess = startGStreamer();*/
-
-
-
-// Graceful shutdown
-/*process.on('SIGINT', () => {
-  console.log('Stopping GStreamer...');
-  gstProcess.kill('SIGTERM');
-  process.exit();
-});*/
-
-
-const startFFmpeg = () => {
-	console.log('Starting FFmpeg...');
-
-	const ffmpeg = spawn('ffmpeg', [
-		'-rtsp_transport', 'tcp',
-		'-i', 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast',
-		'-vf', 'scale=1280:720,format=yuv420p',
-		'-c:v', 'libx264', '-preset', 'ultrafast', '-tune', 'zerolatency',
-		'-profile:v', 'baseline', // ✅ Ensures compatibility
-		'-level:v', '3.1',       // ✅ Matches profile-level-id "42e01f"
-		'-g', '30', '-r', '30',
-		'-pix_fmt', 'yuv420p', '-b:v', '1500k', '-bufsize', '1500k',
-		'-payload_type', '101', '-ssrc', '1234567', '-pkt_size', '1200',
-		'-f', 'rtp', 'rtp://127.0.0.1:5004',
-
-		'-loglevel', 'warning',  // ✅ Show only warnings and errors
-		'-nostats'               // ✅ Hide real-time stats
-	]);
-
-
-	ffmpeg.stdout.on('data', (data) => {
-		console.log(`FFmpeg stdout: ${data}`);
+const activeCameras = {}; // cameraId -> { gstProcess, transport, producer }
+const killProcesses = () => {
+	Object.keys(activeCameras).forEach(async(cameraId) => {
+		const camera = activeCameras[cameraId];
+		await camera.stop();
 	});
+}
 
-	ffmpeg.stderr.on('data', (data) => {
-		console.error(`FFmpeg stderr: ${data}`);
-	});
-
-	ffmpeg.on('close', (code) => {
-		console.log(`FFmpeg process exited with code ${code}`);
-	});
-
-	ffmpeg.on('error', (err) => {
-		console.error(`FFmpeg error: ${err.message}`);
-	});
-
-	return ffmpeg;
-};
-
-let ffmpegProcess = startFFmpeg();
+const getCameraById = async(cameraId) => {
+	if (activeCameras[cameraId]) {
+		return activeCameras[cameraId];
+	} else {
+		const cameraStream = new CameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast'}        );
+		await cameraStream.start();
+		activeCameras[cameraId] = cameraStream;
+		return cameraStream;
+	}
+}
 
 // Graceful shutdown
 process.on('SIGINT', () => {
-	console.log('Stopping FFmpeg...');
-	if(ffmpegProcess) ffmpegProcess.kill('SIGTERM');
-	process.exit();
+  console.log('Stopping GStreamer...');
+  killProcesses();
+  process.exit();
 });
 
-app.use(cors({ origin: "https://cerberus-react-ui:5173", credentials: true }));
+
+
+app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://cerberus-react-ui", "https://cerberus-ui:5173"], credentials: true }));
 
 app.get('/', (req, res) => {
 	res.send('Hello from mediasoup app!')
@@ -116,12 +55,11 @@ app.get('/', (req, res) => {
 
 app.get('/kill-ffmpeg', (req, res) => {
 	try{
-		ffmpegProcess.stdin.setEncoding('utf8');
-		ffmpegProcess.stdin.write('q');
+		/*ffmpegProcess.stdin.setEncoding('utf8');
+		ffmpegProcess.stdin.write('q');*/
 		setTimeout(() =>{
-			ffmpegProcess.kill('SIGTERM');
+			killProcesses()
 			process.exit();
-			ffmpegProcess = undefined;
 		}, 5000)
 		res.send('FFMpeg killed')	
 	}catch (e) {
@@ -170,9 +108,6 @@ let consumerTransport
 let producer
 let consumer
 
-let ffmpegTransport
-let ffmpegProducer
-
 const mediaCodecs = [
 	{
 		kind: 'audio',
@@ -206,62 +141,11 @@ const createWorker = async () => {
 
 	return worker
 }
-const createffmpegTransport = async (router) => {
-
-	const tx = await router.createPlainTransport({
-		listenIp: "0.0.0.0", // ✅ Listen on all interfaces
-		rtcpMux: true,       // ✅ Use RTCP multiplexing
-		comedia: true,       // ✅ Allow remote initiation
-		port: 5004,          // ✅ Ensure it matches FFmpeg destination
-	});
-	console.log(`✅ MediaSoup listening on port ${tx.tuple.localPort}`);
-
-	console.log("📹 Available MediaSoup Codecs:", router.rtpCapabilities.codecs);
-
-	console.log("✅ MediaSoup Listening for RTP at:", tx.tuple.localPort);
-
-	await tx.connect({ ip: "127.0.0.1", port: 5004 });
-
-	console.log("✅ Transport connected to 127.0.0.1:", tx.tuple.localPort);
-
-
-	return tx;
-}
-const createffmpegProducer = async (tx) => {
-
-	const videoCodec = router.rtpCapabilities.codecs.find(c => c.mimeType.toLowerCase() === "video/h264");
-
-	if (!videoCodec) {
-		console.error("❌ No compatible video codec found!");
-		return undefined;
-	}
-	const  px  = await tx.produce({
-		kind: "video",
-		rtpParameters: {
-			mid: "0",
-			codecs: [{
-				mimeType: "video/H264",
-				clockRate: 90000,
-				payloadType: 101,  // ✅ Match FFmpeg
-				rtcpFeedback: videoCodec.rtcpFeedback,
-				parameters: {
-					"packetization-mode": 0,
-				}
-			}],
-			encodings: [{
-				ssrc: 1234567  // ✅ Must match FFmpeg
-			}]
-		}
-	});
-	return px;
-}
 (async () => {
 
 	// We create a Worker as soon as our application starts
 	worker = await createWorker();
 	router = await worker.createRouter({ mediaCodecs, })
-	ffmpegTransport = await createffmpegTransport(router);
-	ffmpegProducer = await createffmpegProducer(ffmpegTransport);
 	// This is an Array of RtpCapabilities
 	// https://mediasoup.org/documentation/v3/mediasoup/rtp-parameters-and-capabilities/#RtpCodecCapability
 	// list of media codecs supported by mediasoup ...
@@ -278,13 +162,6 @@ const createffmpegProducer = async (tx) => {
 			// do some cleanup
 			console.log('peer disconnected')
 		})
-
-		// worker.createRouter(options)
-		// options = { mediaCodecs, appData }
-		// mediaCodecs -> defined above
-		// appData -> custom application data - we are not supplying any
-		// none of the two are required
-
 
 		// Client emits a request for RTP Capabilities
 		// This event responds to the request
@@ -343,11 +220,11 @@ const createffmpegProducer = async (tx) => {
 			await consumerTransport.connect({ dtlsParameters })
 		})
 
-		socket.on('consume', async ({ rtpCapabilities }, callback) => {
+		socket.on('consume', async ({ rtpCapabilities, cameraId }, callback) => {
 			try {
-				// Check if router can consume from FFmpeg
+				const camera = await getCameraById(cameraId)
 				if (!router.canConsume({
-					producerId: ffmpegProducer.id,
+					producerId: camera.producer.id,
 					rtpCapabilities
 				})) {
 					console.error("❌ Client does not support FFmpeg stream");
@@ -356,9 +233,11 @@ const createffmpegProducer = async (tx) => {
 					return;
 				}
 
+
+
 				// Create Consumer for the client
 				consumer = await consumerTransport.consume({
-					producerId: ffmpegProducer.id,
+					producerId: camera.producer.id,
 					rtpCapabilities,
 					paused: false,
 				});
@@ -376,7 +255,7 @@ const createffmpegProducer = async (tx) => {
 				callback({
 					params: {
 						id: consumer.id,
-						producerId: ffmpegProducer.id,
+						producerId: camera.producer.id,
 						kind: consumer.kind,
 						rtpParameters: consumer.rtpParameters,
 					}

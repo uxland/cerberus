@@ -13,6 +13,7 @@
   "type": "module",
   "dependencies": {
     "express": "^4.17.1",
+    "get-port": "^7.1.0",
     "httpolyglot": "^0.1.2",
     "mediasoup": "^3.8.3",
     "mediasoup-client": "^3.6.37",

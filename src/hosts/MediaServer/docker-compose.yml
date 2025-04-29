@@ -7,7 +7,7 @@ services:
     tty: true
     ports:
       - "3000:3000"
-      - "20000-22000:20000-22000"
+      - "20000-20020:20000-20020"
     volumes:
       - ./src:/usr/src
       - ./certs:/certs/ssl

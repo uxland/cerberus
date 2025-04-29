@@ -8,7 +8,8 @@ import { useForm } from "react-hook-form";
 import { SetRunInspection } from "./command.ts";
 import { createExecutionFormSchema, ExecutionForm } from "./domain/validation.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import WebRTCPlayer from "./ui/WebRTCPlayer.tsx";
+import {WebRTCPlayer} from "@cerberus/core/";
+//import WebRTCPlayer from "./ui/WebRTCPlayer.tsx";
 
 export interface InspectionRunProps extends ExecutionStepArgs {
     inspection: InspectionRun;
