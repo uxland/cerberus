@@ -28,7 +28,7 @@ const killProcesses = () => {
 
 const getCameraById = async(cameraId) => {
 	if (activeCameras[cameraId]) {
-		return activeCameras[id];
+		return activeCameras[cameraId];
 	} else {
 		const cameraStream = new CameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast'}        );
 		await cameraStream.start();
@@ -143,6 +143,7 @@ const createWorker = async () => {
 	// We create a Worker as soon as our application starts
 	worker = await createWorker();
 	router = await worker.createRouter({ mediaCodecs, })
+	router = await worker.createRouter({ mediaCodecs, })
 	// This is an Array of RtpCapabilities
 	// https://mediasoup.org/documentation/v3/mediasoup/rtp-parameters-and-capabilities/#RtpCodecCapability
 	// list of media codecs supported by mediasoup ...
@@ -184,10 +185,7 @@ const createWorker = async () => {
 		socket.on('createWebRtcTransport', async ({ sender }, callback) => {
 			consumerTransport = await createWebRtcTransport(callback)
 		})
-
-		// see client's socket.emit('transport-recv-connect', ...)
 		socket.on('transport-recv-connect', async ({ dtlsParameters }) => {
-			console.log(`DTLS PARAMS: ${dtlsParameters}`)
 			await consumerTransport.connect({ dtlsParameters })
 		})
 

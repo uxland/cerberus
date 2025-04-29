@@ -67,8 +67,6 @@ export class StreamingClient {
 
 	getRtpCapabilities(callback) {
 		const rtpCapabilities = this.router.rtpCapabilities
-		console.log('rtp Capabilities', rtpCapabilities)
-		// call callback from the client and send back the rtpCapabilities
 		callback({rtpCapabilities})
 	}
 
@@ -82,7 +80,6 @@ export class StreamingClient {
 				}], enableUdp: true, enableTcp: true, preferUdp: true,
 			}
 
-			// https://mediasoup.org/documentation/v3/mediasoup/api/#router-createWebRtcTransport
 			this.transport = await this.router.createWebRtcTransport(webRtcTransport_options)
 			console.log(`transport id: ${this.transport.id}`)
 
@@ -117,7 +114,6 @@ export class StreamingClient {
 	}
 
 	async connect({ dtlsParameters }){
-		console.log(`DTLS PARAMS: ${dtlsParameters}`)
 		await this.transport.connect({ dtlsParameters });
 	}
 	async consume({ rtpCapabilities, cameraId }, callback){
@@ -141,6 +137,7 @@ export class StreamingClient {
 				paused: false,
 			});
 
+			await this.consumer.resume();
 			this.consumer.on('transportclose', () => {
 				console.log("Consumer Transport closed");
 			});
@@ -168,7 +165,6 @@ export class StreamingClient {
 	}
 
 	async resume(){
-		console.log('consumer resume')
 		await this.consumer.resume()
 	}
 }
