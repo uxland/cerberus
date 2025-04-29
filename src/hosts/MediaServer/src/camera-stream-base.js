@@ -31,6 +31,13 @@ export default class CameraStreamBase{
 		console.log(`CameraStream ${this.cameraId} stopped.`);
 	}
 
+	canConsume({rtpCapabilities}){
+		return this.router.canConsume({
+			producerId: this.producer.id,
+			rtpCapabilities
+		});
+	}
+
 	stopGst(){
 		try {
 			if (this.gstProcess) {

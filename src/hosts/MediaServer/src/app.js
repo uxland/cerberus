@@ -7,7 +7,6 @@
 import express from 'express'
 const app = express()
 
-import getPort,  {portNumbers}  from 'get-port';
 import https from 'httpolyglot'
 import fs from 'fs'
 import path from 'path'
@@ -15,11 +14,11 @@ const __dirname = path.resolve()
 
 import { Server } from 'socket.io'
 import mediasoup from 'mediasoup'
-import { spawn } from 'child_process';
 import cors from 'cors';
 import CameraStream from "./camera-stream.js";
+import {StreamingClient} from "./streaming-client.js";
 
-const activeCameras = {}; // cameraId -> { gstProcess, transport, producer }
+const activeCameras = {};
 const killProcesses = () => {
 	Object.keys(activeCameras).forEach(async(cameraId) => {
 		const camera = activeCameras[cameraId];
@@ -29,7 +28,7 @@ const killProcesses = () => {
 
 const getCameraById = async(cameraId) => {
 	if (activeCameras[cameraId]) {
-		return activeCameras[cameraId];
+		return activeCameras[id];
 	} else {
 		const cameraStream = new CameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast'}        );
 		await cameraStream.start();
@@ -103,8 +102,6 @@ const peers = io.of('/mediasoup')
  **/
 let worker
 let router
-let producerTransport
-let consumerTransport
 let producer
 let consumer
 
@@ -153,6 +150,13 @@ const createWorker = async () => {
 
 
 	peers.on('connection', async socket => {
+		const client = new StreamingClient({socket, streamFactory:getCameraById, router});
+		client.start();
+		socket.on('disconnect', async () => {
+			await client.stop();
+		})
+		return Promise.resolve();
+		let consumerTransport = undefined
 		console.log(socket.id)
 		socket.emit('connection-success', {
 			socketId: socket.id
@@ -178,40 +182,7 @@ const createWorker = async () => {
 		// Client emits a request to create server side Transport
 		// We need to differentiate between the producer and consumer transports
 		socket.on('createWebRtcTransport', async ({ sender }, callback) => {
-			console.log(`Is this a sender request? ${sender}`)
-			// The client indicates if it is a producer or a consumer
-			// if sender is true, indicates a producer else a consumer
-			if (sender)
-				producerTransport = await createWebRtcTransport(callback)
-			else
-				consumerTransport = await createWebRtcTransport(callback)
-		})
-
-		// see client's socket.emit('transport-connect', ...)
-		socket.on('transport-connect', async ({ dtlsParameters }) => {
-			console.log('DTLS PARAMS... ', { dtlsParameters })
-			await producerTransport.connect({ dtlsParameters })
-		})
-
-		// see client's socket.emit('transport-produce', ...)
-		socket.on('transport-produce', async ({ kind, rtpParameters, appData }, callback) => {
-			// call produce based on the prameters from the client
-			producer = await producerTransport.produce({
-				kind,
-				rtpParameters,
-			})
-
-			console.log('Producer ID: ', producer.id, producer.kind)
-
-			producer.on('transportclose', () => {
-				console.log('transport for this producer closed ')
-				producer.close()
-			})
-
-			// Send back to the client the Producer's id
-			callback({
-				id: producer.id
-			})
+			consumerTransport = await createWebRtcTransport(callback)
 		})
 
 		// see client's socket.emit('transport-recv-connect', ...)
