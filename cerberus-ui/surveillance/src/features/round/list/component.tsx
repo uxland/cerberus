@@ -14,6 +14,7 @@ export const RoundsView = (props: { id: string }) => {
     const [error, setError] = useState(undefined);
     const navigate = useNavigate();
     const createRound = useSurveillanceLocales("round.create.createRound");
+
     useEffect(() => {
         async function fetchRounds() {
             sendMediatorRequest({

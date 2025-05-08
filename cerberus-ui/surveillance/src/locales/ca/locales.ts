@@ -22,6 +22,7 @@ export const locales = {
   [moduleName]: {
     operation: {
       create: {
+        createOperation: "Crear Operativa",
         title: "Creación de Operativa",
         placeholder: "Añade nombre a tu nueva operativa",
         addOperative: "Añadir operativa",

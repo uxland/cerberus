@@ -41,22 +41,41 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
     const plannedAt = new Date(run.plannedAt);
     const end = new Date(run.plannedAt)
     end.setMinutes(end.getMinutes() + 60)
+
+    let color;
+    switch (run.status) {
+        case RunStatus.Pending:
+            color = "#FFC107";
+            break;
+        case RunStatus.InProgress:
+            color = "#FF9800";
+            break;
+        case RunStatus.Completed:
+            color = "#66BB6A";
+            break;
+        default:
+            color = "#ed4204";
+    }
+
+
     return {
         event_id: run.id,
         title: run.description,
         start: plannedAt,
         end: end,
-        color: run.status === RunStatus.Pending ? "#96f300" : "#ed4204",
+        color: color,
         editable: false,
         deletable: false,
         sx: {
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
             '&:hover': {
-                backgroundColor: "#2a2a2a",
+                backgroundColor: color === "#FFC107" ? "#ffd54f" :
+                    color === "#FF9800" ? "#ffb74d" :
+                        color === "#66BB6A" ? "#81c784" : "#ef5350",
                 boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
             }
         },
-        run
+        run,
     }
 }
 
