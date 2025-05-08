@@ -145,6 +145,14 @@ export const locales = {
       },
       common: {
         notApplicable: "N/A",
+      },
+      card: {
+        location: "Ubicación",
+        round: "Ronda",
+        performer: "Realizada por",
+        duration: "Duración",
+        anomalies: "Anomalías",
+        inspectionsWithIssues: "Inspecciones con problemas"
       }
     },
   },
