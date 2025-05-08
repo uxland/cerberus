@@ -6,13 +6,14 @@ import { RoundSummary } from "./model.ts";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { RoundsTable } from "./components/component.tsx";
 import { sendMediatorRequest } from "@cerberus/core";
+import { useSurveillanceLocales } from "../../../locales/ca/locales.ts";
 
 export const RoundsView = (props: { id: string }) => {
     const [rounds, setRounds] = useState<RoundSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(undefined);
     const navigate = useNavigate();
-
+    const createRound = useSurveillanceLocales("round.create.createRound");
     useEffect(() => {
         async function fetchRounds() {
             sendMediatorRequest({
@@ -40,8 +41,7 @@ export const RoundsView = (props: { id: string }) => {
                     <div className="flex justify-end gap-2">
                         <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-xl hover:bg-formSelect" onClick={handleCreateRound}>+</button>
                         <div className="flex flex-col justify-center rounded-md gap-2 mr-4">
-                            <Typography className="!text-xs !font-semibold"> Anadir</Typography>
-                            <Typography className="!text-xs !font-semibold"> Ronda</Typography>
+                            <Typography className="!text-xs !font-semibold"> {createRound}</Typography>
                         </div>
                     </div>
                     <RoundsTable rounds={rounds} />

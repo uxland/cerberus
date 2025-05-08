@@ -59,6 +59,7 @@ export const locales = {
     },
     round: {
       create: {
+        createRound: "Crear Ronda",
         title: "Creación de Ronda",
         placeholder: "Añade un nombre a tu nueva ronda",
         addCamera: "+",
@@ -98,7 +99,11 @@ export const locales = {
     },
     run: {
       acquire: {
-        message: "¿Quieres comenzar ahora la ronda de supervisión?"
+        message: "¿Quieres comenzar ahora la ronda de supervisión?",
+        messageWithName: "¿Quieres comenzar ahora la ronda de supervisión con nombre: {description}?",
+        confirmButton: "Aceptar",
+        cancelButton: "Cancelar",
+        title: "Confirmación de ronda"
       },
       set: {
         formTitle: "Ronda de Supervisión",
