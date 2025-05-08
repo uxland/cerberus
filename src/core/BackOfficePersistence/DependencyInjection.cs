@@ -73,5 +73,4 @@ public static class DependencyInjection
             .AddTransient<IEntityQueryProvider<Location>, LocationEntityQueryProvider>()
             .AddTransient<ICaptureQueryProvider, CaptureEntityQueryProvider>();
     }
-    
 }

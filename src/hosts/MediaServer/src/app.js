@@ -34,6 +34,7 @@ const getCameraById = async(cameraId) => {
 		await cameraStream.start();
 		activeCameras[cameraId] = cameraStream;
 		return cameraStream;
+		//throw new Error(`Camera id ${cameraId} not found`);
 	}
 }
 
@@ -47,7 +48,7 @@ process.on('SIGINT', () => {
 
 
 app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://cerberus-react-ui", "https://cerberus-ui:5173"], credentials: true }));
-
+app.use(express.json());
 app.get('/', (req, res) => {
 	res.send('Hello from mediasoup app!')
 })
@@ -70,6 +71,30 @@ app.get('/kill-ffmpeg', (req, res) => {
 
 app.use('/sfu', express.static(path.join(__dirname, 'public')))
 
+app.put('/api/streams/:cameraId/start', async (req, res) => {
+	const { cameraId } = req.params;
+	console.log(`Request Starting camera ${cameraId}`);
+	const { rtspUrl, encoding } = req.body;
+	if (!cameraId || !rtspUrl || !encoding) {
+		return res.status(400).json({ error: 'Missing required parameters' });
+	}
+	if(!activeCameras[cameraId]){
+		const cameraStream = new CameraStream({router, cameraId, streamingUrl: rtspUrl});
+		await cameraStream.start();
+		activeCameras[cameraId] = cameraStream;
+		console.log(`Stream for camera ${cameraId} started`);
+	}
+	res.send("Camera started");
+});
+
+app.put('/api/streams/:cameraId/stop', async (req, res) => {
+	const { cameraId } = req.params;
+	const camera = activeCameras[cameraId];
+	await camera?.stop();
+	delete activeCameras[cameraId];
+	res.send('Camera stopped');
+});
+
 // SSL cert for HTTPS access
 const options = {
 	key: fs.readFileSync('/certs/ssl/key.pem', 'utf-8'),
@@ -90,7 +115,7 @@ const io = new Server(httpsServer, {cors: {
 });
 
 // socket.io namespace (could represent a room?)
-const peers = io.of('/mediasoup')
+const peers = io.of('/media-soup')
 
 /**
  * Worker
@@ -143,11 +168,6 @@ const createWorker = async () => {
 	// We create a Worker as soon as our application starts
 	worker = await createWorker();
 	router = await worker.createRouter({ mediaCodecs, })
-	router = await worker.createRouter({ mediaCodecs, })
-	// This is an Array of RtpCapabilities
-	// https://mediasoup.org/documentation/v3/mediasoup/rtp-parameters-and-capabilities/#RtpCodecCapability
-	// list of media codecs supported by mediasoup ...
-	// https://github.com/versatica/mediasoup/blob/v3/src/supportedRtpCapabilities.ts
 
 
 	peers.on('connection', async socket => {
@@ -157,142 +177,7 @@ const createWorker = async () => {
 			await client.stop();
 		})
 		return Promise.resolve();
-		let consumerTransport = undefined
-		console.log(socket.id)
-		socket.emit('connection-success', {
-			socketId: socket.id
-		})
 
-		socket.on('disconnect', () => {
-			// do some cleanup
-			console.log('peer disconnected')
-		})
-
-		// Client emits a request for RTP Capabilities
-		// This event responds to the request
-		socket.on('getRtpCapabilities', (callback) => {
-
-			const rtpCapabilities = router.rtpCapabilities
-
-			console.log('rtp Capabilities', rtpCapabilities)
-
-			// call callback from the client and send back the rtpCapabilities
-			callback({ rtpCapabilities })
-		})
-
-		// Client emits a request to create server side Transport
-		// We need to differentiate between the producer and consumer transports
-		socket.on('createWebRtcTransport', async ({ sender }, callback) => {
-			consumerTransport = await createWebRtcTransport(callback)
-		})
-		socket.on('transport-recv-connect', async ({ dtlsParameters }) => {
-			await consumerTransport.connect({ dtlsParameters })
-		})
-
-		socket.on('consume', async ({ rtpCapabilities, cameraId }, callback) => {
-			try {
-				const camera = await getCameraById(cameraId)
-				if (!router.canConsume({
-					producerId: camera.producer.id,
-					rtpCapabilities
-				})) {
-					console.error("❌ Client does not support FFmpeg stream");
-					console.log(JSON.stringify(rtpCapabilities, null, 2))
-					callback({ error: "Cannot consume stream" });
-					return;
-				}
-
-
-
-				// Create Consumer for the client
-				consumer = await consumerTransport.consume({
-					producerId: camera.producer.id,
-					rtpCapabilities,
-					paused: false,
-				});
-
-				consumer.on('transportclose', () => {
-					console.log("Consumer Transport closed");
-				});
-
-				consumer.on('producerclose', () => {
-					console.log("FFmpeg Producer closed");
-					consumer.close();
-				});
-
-				// Send Consumer parameters to the client
-				callback({
-					params: {
-						id: consumer.id,
-						producerId: camera.producer.id,
-						kind: consumer.kind,
-						rtpParameters: consumer.rtpParameters,
-					}
-				});
-
-			} catch (error) {
-				console.error(error.message);
-				callback({ error: error.message });
-			}
-		});
-
-
-		socket.on('consumer-resume', async () => {
-			console.log('consumer resume')
-			await consumer.resume()
-		})
 	})
-
-	const createWebRtcTransport = async (callback) => {
-		try {
-			// https://mediasoup.org/documentation/v3/mediasoup/api/#WebRtcTransportOptions
-			const webRtcTransport_options = {
-				listenIps: [
-					{
-						ip: '0.0.0.0', // replace with relevant IP address
-						announcedIp: '127.0.0.1',
-					}
-				],
-				enableUdp: true,
-				enableTcp: true,
-				preferUdp: true,
-			}
-
-			// https://mediasoup.org/documentation/v3/mediasoup/api/#router-createWebRtcTransport
-			let transport = await router.createWebRtcTransport(webRtcTransport_options)
-			console.log(`transport id: ${transport.id}`)
-
-			transport.on('dtlsstatechange', dtlsState => {
-				if (dtlsState === 'closed') {
-					transport.close()
-				}
-			})
-
-			transport.on('close', () => {
-				console.log('transport closed')
-			})
-
-			// send back to the client the following prameters
-			callback({
-				// https://mediasoup.org/documentation/v3/mediasoup-client/api/#TransportOptions
-				params: {
-					id: transport.id,
-					iceParameters: transport.iceParameters,
-					iceCandidates: transport.iceCandidates,
-					dtlsParameters: transport.dtlsParameters,
-				}
-			})
-
-			return transport
-
-		} catch (error) {
-			console.log(error)
-			callback({
-				params: {
-					error: error
-				}
-			})
-		}
-	}
 })();
 

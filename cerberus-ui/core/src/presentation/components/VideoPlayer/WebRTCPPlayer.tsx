@@ -6,7 +6,7 @@ import {ApiClient} from "@cerberus/shared/src";
 import {nop} from "../../../utils";
 
 // @ts-ignore
-const streamingUrl = `${import.meta.env.VITE_CERBERUS_STREAMING_URL}/mediasoup`;
+//const streamingUrl = `${import.meta.env.VITE_CERBERUS_STREAMING_URL}/mediasoup`;
 
 interface StreamInfo{
     streamUrl: string;
@@ -14,7 +14,7 @@ interface StreamInfo{
 
 const getStreamInfo = async (cameraId: string) => {
     const apiClient = container.get(ApiClient);
-    const streamInfo = await apiClient.put<StreamInfo>(`cameras/${cameraId}:start`, {})
+    const streamInfo = await apiClient.put<StreamInfo>(`organizational-structure/cameras/${cameraId}:join-stream`, {})
     return streamInfo;
 };
 
@@ -41,31 +41,36 @@ export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
     }, [consumer]);
 
     useEffect( () => {
-       // const streamInfo = await getStreamInfo(cameraId);
-        const newSocket = io(streamingUrl, {
-            transports: ["websocket"],
-            timeout: 5000,
-            reconnectionAttempts: 5,
-            reconnectionDelay: 5000,
-        });
+        const connect = async () => {
+            const {streamUrl} = await getStreamInfo(cameraId);
+            const newSocket = io(streamUrl, {
+                transports: ["websocket"],
+                timeout: 5000,
+                reconnectionAttempts: 5,
+                reconnectionDelay: 5000,
+            });
 
-        newSocket.on("connect", () => {
-            console.log("✅ WebSocket connected!");
-        });
+            newSocket.on("connect", () => {
+                console.log("✅ WebSocket connected!");
+            });
 
-        newSocket.on("disconnect", () => {
-            console.log("❌ WebSocket disconnected.");
-        });
+            newSocket.on("disconnect", () => {
+                console.log("❌ WebSocket disconnected.");
+            });
 
-        newSocket.on("connection-success", ({ socketId }) => {
-            console.log("✅ Connected to Mediasoup:", socketId);
-            setSocket(newSocket);
-        });
+            newSocket.on("connection-success", ({ socketId }) => {
+                console.log("✅ Connected to Mediasoup:", socketId);
+                setSocket(newSocket);
+            });
+        }
 
+        if(!socket)
+            connect().then(nop);
         return () => {
-            newSocket.disconnect();
+            socket?.disconnect();
         };
-    }, [cameraId]);
+
+    }, [cameraId, socket]);
 
     useEffect(() => {
         const connect = async () =>{
@@ -76,7 +81,7 @@ export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
             connectStream(consumer);
             resumeStream(consumer);
         }
-        connect().then(nop)
+        socket && connect().then(nop)
     }, [socket]);
 
     const resumeStream = (consumer) => {
