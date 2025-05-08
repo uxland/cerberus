@@ -100,9 +100,8 @@ const AppContent = ({ routes }) => {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            margin: "0vw",
-            padding: "0",
-            overflow: "auto",
+            height: "100%",
+            overflow: "hidden"
           }}
         >
           <AppBar
@@ -164,7 +163,13 @@ const AppContent = ({ routes }) => {
               </Box>
             </Box>
           </AppBar>
-          <Box sx={{ padding: "2rem" }}>
+          <Box
+            sx={{
+              padding: "2rem",
+              flexGrow: 1,
+              overflow: "auto"
+            }}
+          >
             <Routes>
               {routes.map((route: any) => {
                 console.log("Route:", route);
