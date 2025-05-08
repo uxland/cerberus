@@ -3,7 +3,7 @@ import { Run, InspectionRun } from "../../domain/model.ts";
 
 
 interface OperationAnswer {
-    questionId: string;
+    questionId: string | string[];
     answer: any;
 }
 export interface InspectionRunData {

@@ -1,9 +1,8 @@
 import { OperationRunQuestionAnswer } from "../../domain/model.ts";
-import { Select } from "@cerberus/core";
-import { OptionsQuestion } from "../../../../operation/create/domain";
+import { Select, MultipleSelect } from "@cerberus/core";
+import { OptionsQuestion, type OptionsTypology } from "../../../../operation/create/domain";
 import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
-
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<any>;
     index: number;
@@ -21,7 +20,19 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
             <Typography>
                 {question.text} {isMandatory && <span className="text-error font-bold">*</span>}
             </Typography>
-            <Select
+            {question.type === "Multiple" ? (
+                <MultipleSelect
+                    formMethods={props.formMethods}
+                    name={"answer"}
+                    path={fieldPath}
+                    title={''}
+                    options={question.options.map(option => ({
+                        value: option.code,
+                        label: option.text
+                    })) || []}
+                    error={formState.errors?.answers?.[props.index]?.answer}
+                />
+            ) : (<Select
                 formMethods={props.formMethods}
                 name={"answer"}
                 path={fieldPath}
@@ -31,7 +42,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                     label: option.text
                 })) || []}
                 error={formState.errors?.answers?.[props.index]?.answer}
-            />
+            />)}
             <input
                 type="hidden"
                 {...register(questionIdPath)}
