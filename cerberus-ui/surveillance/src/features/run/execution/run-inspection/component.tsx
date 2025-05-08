@@ -38,7 +38,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
     };
 
     return (
-        <div className="flex flex-col h-[calc(100vh-80px)] overflow-hidden">
+        <div className="flex flex-col h-full overflow-hidden">
             {inspection && (
                 <div className="flex items-center gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0">
                     <Typography className="uppercase !text-primary !font-semibold">{run.roundId}</Typography>
