@@ -85,6 +85,7 @@ const AppContent = ({ routes }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box
+        id="app"
         sx={{
           display: "grid",
           gridTemplateColumns: open ? "300px 1fr" : "40px 1fr",
@@ -167,7 +168,8 @@ const AppContent = ({ routes }) => {
             sx={{
               padding: "2rem",
               flexGrow: 1,
-              overflow: "auto"
+              overflow: "auto",
+              height: "100%",
             }}
           >
             <Routes>
@@ -184,8 +186,8 @@ const AppContent = ({ routes }) => {
               })}
             </Routes>
           </Box>
+          <Toasts />
         </Box>
-        <Toasts />
         <button
           className="absolute top-1/2 -translate-y-1/2 z-50 bg-[#353535] text-white p-2.5 hover:bg-[#636363] transition-colors rounded-r-xl text-2xl"
           onClick={() => setOpen(!open)}

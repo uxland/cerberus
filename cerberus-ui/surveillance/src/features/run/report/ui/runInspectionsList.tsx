@@ -32,9 +32,9 @@ export const RunInspectionsList = ({
     runInspectionsTitle,
 }: RunInspectionsListProps) => {
     return (
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col h-full">
             <h2 className="text-lg font-bold mb-2">{runInspectionsTitle}</h2>
-            <div className="max-h-[400px] overflow-y-auto pr-1">
+            <div className="h-0 flex-grow overflow-y-auto pr-1">
                 {inspections.map((inspection) => {
                     const hasAnomaly =
                         inspection.operationRun &&

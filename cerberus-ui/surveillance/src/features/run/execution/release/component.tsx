@@ -26,43 +26,43 @@ export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepAr
     const handleCancel = () => { };
 
     return (
-        <div className="flex flex-col gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0 space-y-4">
-            <div className="flex flex-col h-full overflow-hidden">
-                <div className="flex items-center gap-2  py-3 px-6 rounded-[10px] w-full flex-shrink-0">
-                    <Typography className="uppercase !text-primary !font-semibold">{run.roundId || notApplicable}</Typography>
-                    <Typography className="uppercase">{run.rootLocationId || notApplicable}</Typography>
-                </div>
+        // <div className="flex flex-col gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0 space-y-4">
+        <div className="flex flex-col h-full overflow-hidden">
+            <div className="flex items-center gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0">
+                <Typography className="uppercase !text-primary !font-semibold">{run.roundId || notApplicable}</Typography>
+                <Typography className="uppercase">{run.rootLocationId || notApplicable}</Typography>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow mt-4 overflow-hidden">
-                    <div className="flex flex-col p-6 rounded-[10px]">
-                        <h1 className="text-xl font-bold mb-4">{runDetailsTitle}</h1>
-                        <span className="bg-[#313131] block p-[1px] w-full mb-5"></span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow mt-4 overflow-hidden">
+                <div className="flex flex-col bg-tableBg p-6 rounded-[10px]">
+                    <h1 className="text-xl font-bold mb-4">{runDetailsTitle}</h1>
+                    <span className="bg-[#313131] block p-[1px] w-full mb-5"></span>
 
-                        <RunDetailsCard run={run} />
+                    <RunDetailsCard run={run} />
 
-                        <RunInspectionsList
-                            inspections={run.inspectionRuns || []}
-                            selectedInspectionId={null}
-                            onSelectInspection={() => { }}
-                            singleAnomalyStatus={singleAnomalyStatus}
-                            multipleAnomaliesStatus={multipleAnomaliesStatus}
-                            normalStatus={normalStatus}
-                            runInspectionsTitle={runInspections}
-                        />
-                    </div>
-
-                    <ReleaseActions
-                        runId={run.id}
-                        title={title}
-                        additionalComments={additionalComments}
-                        confirmButtonText={confirmButtonText}
-                        cancelButtonText={cancelButtonText}
-                        commentsPlaceholder={commentsPlaceholder}
-                        onCancel={handleCancel}
-                        onConfirm={handleConfirm}
+                    <RunInspectionsList
+                        inspections={run.inspectionRuns || []}
+                        selectedInspectionId={null}
+                        onSelectInspection={() => { }}
+                        singleAnomalyStatus={singleAnomalyStatus}
+                        multipleAnomaliesStatus={multipleAnomaliesStatus}
+                        normalStatus={normalStatus}
+                        runInspectionsTitle={runInspections}
                     />
                 </div>
+
+                <ReleaseActions
+                    runId={run.id}
+                    title={title}
+                    additionalComments={additionalComments}
+                    confirmButtonText={confirmButtonText}
+                    cancelButtonText={cancelButtonText}
+                    commentsPlaceholder={commentsPlaceholder}
+                    onCancel={handleCancel}
+                    onConfirm={handleConfirm}
+                />
             </div>
         </div>
+        // </div>
     );
 }

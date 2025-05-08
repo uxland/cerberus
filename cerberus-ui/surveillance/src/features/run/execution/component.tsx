@@ -43,7 +43,7 @@ export const SurveillanceRunEditor = () => {
     const StepComponent = drawContent(runEditionData);
     const stepData: ExecutionStepArgs = { run: runEditionData, handler: executeStep };
     return (
-        <div className="space-y-6 h-full">
+        <>
             {busy ? (
                 <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
                     <CircularProgress />
@@ -52,7 +52,7 @@ export const SurveillanceRunEditor = () => {
                 <StepComponent {...stepData} />
             )}
             {error && <div>Error: {String(error)}</div>}
-        </div>
+        </>
     )
 }
 

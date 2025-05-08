@@ -130,6 +130,13 @@ export const locales = {
         id: "ID"
       },
       report: {
+        detailsCard: {
+          id: "ID",
+          location: "Ubicación",
+          start: "Inicio",
+          status: "Estado",
+          inspections: "Inspecciones",
+        },
         videoTitle: "Grabación de la cámara",
         videoDetails: "Detalles de la grabación",
         cameraLabel: "Cámara",

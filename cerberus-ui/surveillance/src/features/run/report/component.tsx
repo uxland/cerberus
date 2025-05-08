@@ -35,9 +35,7 @@ export const RunReportView = () => {
                     <CircularProgress />
                 </Box>
             ) : run ? (
-                <div >
-                    <RunReport run={run} />
-                </div>
+                <RunReport run={run} />
             ) : null}
             {error && <div>Error: {String(error)}</div>}
         </>
