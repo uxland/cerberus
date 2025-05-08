@@ -5,7 +5,7 @@ import { sendMediatorRequest } from '@cerberus/core';
 import { ListScheduledRuns } from './query';
 import { Box, CircularProgress } from "@mui/material";
 import { AcquireRun } from '../../run/acquire/command';
-import {isInCourse, ScheduledRunSummary} from "./model.ts";
+import { isInCourse, ScheduledRunSummary } from "./model.ts";
 
 const darkTheme = createTheme({
     palette: {
@@ -150,13 +150,13 @@ export const ScheduledRunsView = () => {
 
     const startShceduledRun = (event: any) => {
         const run: ScheduledRunSummary = event.run;
-        if(!isInCourse(run)) return Promise.resolve();
+        if (!isInCourse(run)) return Promise.resolve();
         sendMediatorRequest({
             command: new AcquireRun(run.id, run.description, run.roundId),
             setBusy: setBusy,
             setError: setError,
         })
-        };
+    };
     return (
         <ThemeProvider theme={darkTheme}>
             {busy ? (
