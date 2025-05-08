@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using Cerberus.Core.Domain;
+using Microsoft.AspNetCore.Http;
 
-namespace Cerberus.Api.Auth;
+namespace Cerberus.Core.KeycloakClient.Features.Auth;
 
 internal class UserContextProvider: IUserContextProvider
 {

@@ -1,14 +1,15 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 
-namespace Cerberus.Api.Auth;
+namespace Cerberus.Core.KeycloakClient.Features.Auth;
 
 internal static class JwtBearerAuthentication
 {
     internal static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services, string? authority,
-        string? audience)
+        string? audience, params string[] signalRHubs)
     {
         services.AddAuthentication(options =>
         {
@@ -40,21 +41,20 @@ internal static class JwtBearerAuthentication
                 {
                     if (context.Principal?.Identity is ClaimsIdentity claimsIdentity)
                     {
-                        //claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.Principal.FindFirst(ClaimTypes.NameIdentifier)?.Value));
                         var resourceAccess = context.Principal.FindFirst("resource_access");
                         if (resourceAccess != null)
                         {
-                            var clientResource = JObject.Parse(resourceAccess.Value)[audience ?? string.Empty];
-                            var roles = clientResource?["roles"]?.ToObject<string[]>();
-                            if (roles != null)
+                            using var jsonDocument = JsonDocument.Parse(resourceAccess.Value);
+                            if (jsonDocument.RootElement.TryGetProperty(audience ?? string.Empty, out var clientResource) &&
+                                clientResource.TryGetProperty("roles", out var rolesElement))
                             {
-                                foreach (var role in roles)
+                                foreach (var role in rolesElement.EnumerateArray())
                                 {
-                                    claimsIdentity.AddClaim(new Claim("roles", role));
+                                    claimsIdentity.AddClaim(new Claim("roles", role.GetString() ?? string.Empty));
                                 }
                             }
                         }
-                        
+
                         // 👇 Add support for extracting groups
                         var groupClaims = context.Principal.FindAll("groups").ToList();
                         foreach (var groupClaim in groupClaims)
@@ -71,17 +71,20 @@ internal static class JwtBearerAuthentication
                 },
                 OnMessageReceived = context =>
                 {
-                    // 1. First check if it's a WebSocket request with access_token in query
-                    var accessToken = context.Request.Query["access_token"];
+                    
                     var path = context.HttpContext.Request.Path;
-
-                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/cerberus-hub"))
+                    if (signalRHubs.Any(hub => path.StartsWithSegments(hub)))
                     {
-                        context.Token = accessToken;
-                        return Task.CompletedTask;
+                        var accessToken = context.Request.Query["access_token"];
+                        if(!string.IsNullOrEmpty(accessToken))
+                        {
+                            context.Token = accessToken;
+                            return Task.CompletedTask;
+                        }
                     }
 
-                    // 2. Fallback to Authorization header (for normal HTTP API calls)
+                    
+
                     var authorization = context.Request.Headers["Authorization"];
                     if (!string.IsNullOrEmpty(authorization))
                     {

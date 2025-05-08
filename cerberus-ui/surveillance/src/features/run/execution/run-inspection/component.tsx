@@ -1,5 +1,5 @@
 import { ExecutionStepArgs } from "../model.ts";
-import { InspectionRun } from '../domain/model.ts'
+import { InspectionRun, getCurrentCameraId } from '../domain/model.ts'
 import { getCurrentInspection, InspectionRunData } from "./domain/model.ts";
 import { getQuestionInput } from "./ui";
 import { Typography } from "@mui/material";
@@ -8,7 +8,8 @@ import { useForm } from "react-hook-form";
 import { SetRunInspection } from "./command.ts";
 import { createExecutionFormSchema, ExecutionForm } from "./domain/validation.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import WebRTCPlayer from "./ui/WebRTCPlayer.tsx";
+import {WebRTCPlayer} from "@cerberus/core/";
+//import WebRTCPlayer from "./ui/WebRTCPlayer.tsx";
 
 export interface InspectionRunProps extends ExecutionStepArgs {
     inspection: InspectionRun;
@@ -51,7 +52,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-grow mt-4 overflow-hidden">
                 <div className="md:col-span-2 bg-tableBg p-4 md:p-6 rounded-[10px] flex items-center justify-center overflow-hidden">
-                    <WebRTCPlayer/>
+                    <WebRTCPlayer cameraId={getCurrentCameraId(run)}/>
                 </div>
 
                 <form
