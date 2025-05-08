@@ -116,7 +116,7 @@ export class StreamingClient {
 	async connect({ dtlsParameters }){
 		await this.transport.connect({ dtlsParameters });
 	}
-	async consume({ rtpCapabilities, cameraId }, callback){
+	async consume({ rtpCapabilities, cameraId, record = false }, callback){
 		try {
 			const camera = await this.streamFactory(cameraId)
 			if (!camera.canConsume({

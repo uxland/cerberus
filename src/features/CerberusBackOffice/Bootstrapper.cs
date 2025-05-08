@@ -23,7 +23,8 @@ public static class Bootstrapper
         return services
             .UseSharedOrganizationStructure()
             .UseCaptureFeatures(configuration)
-            .SetUpAuthorization();
+            .SetUpAuthorization()
+            .UseOrganizationalStructure(configuration);
         
     }
     
@@ -32,7 +33,8 @@ public static class Bootstrapper
     {
         return services.AddAuthorization(options =>
         {
-            options.AddPolicy(BackOfficePolicies.User, policy => policy.RequireClaim("roles", BackOfficeRoles.BackofficeAdmin));
+            options.AddPolicy(BackOfficePolicies.User,
+                policy => policy.RequireClaim("roles", BackOfficeRoles.BackofficeAdmin));
         });
     }
     

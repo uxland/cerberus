@@ -1,16 +1,16 @@
-import {spawn} from "child_process";
-import getPort, {portNumbers} from "get-port";
 import {createProducer, createTransport} from "./router-utilities.js";
+import portPool from "./port-pool.js";
 
 export default class CameraStreamBase{
 	cameraId;
 	router;
 	streamingUrl;
-
+	port;
 	gstProcess;
 	transport;
 	producer;
 	gstProcessLauncher;
+	pipeline;
 
 	constructor({router, cameraId, streamingUrl,gstProcessLauncher}) {
 		this.router = router;
@@ -18,16 +18,24 @@ export default class CameraStreamBase{
 		this.streamingUrl = streamingUrl;
 		this.gstProcessLauncher = gstProcessLauncher;
 	}
+	getStartPipelineScript(){
+
+	}
+	async startGst(){
+		
+	}
 	async start(){
-		const port =  await getPort({port: portNumbers(5000, 6000)})
-		this.gstProcessLauncher = this.gstProcessLauncher(this.cameraId, this.streamingUrl, port);
-		this.transport = await createTransport(this.router, port);
+		this.port =  portPool.allocatePort();
+		console.log(`port ${this.port} for camera ${this.cameraId}`);
+		this.gstProcessLauncher = this.gstProcessLauncher(this.cameraId, this.streamingUrl, this.port);
+		this.transport = await createTransport(this.router, this.port);
 		this.producer = await createProducer(this.transport, this.router);
 	}
 	async stop(){
 		this.stopGst();
 		await this.stopProducer();
 		await this.stopTransport();
+		portPool.releasePort(this.port);
 		console.log(`CameraStream ${this.cameraId} stopped.`);
 	}
 

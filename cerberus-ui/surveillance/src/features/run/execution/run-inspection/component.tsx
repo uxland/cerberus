@@ -1,5 +1,5 @@
 import { ExecutionStepArgs } from "../model.ts";
-import { InspectionRun } from '../domain/model.ts'
+import { InspectionRun, getCurrentCameraId } from '../domain/model.ts'
 import { getCurrentInspection, InspectionRunData } from "./domain/model.ts";
 import { getQuestionInput } from "./ui";
 import { Typography } from "@mui/material";

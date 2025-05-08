@@ -13,6 +13,14 @@ export interface Run {
     currentInspectionRunId?: string;
 }
 
+export const getCurrentCameraId = (run: Run): string | undefined => {
+    const currentInspectionRun = getCurrentInspectionRun(run);
+    if (currentInspectionRun) {
+        return currentInspectionRun.cameraId;
+    }
+    return undefined;
+}
+
 export interface InspectionRun {
     id: string;
     inspectionId: string;

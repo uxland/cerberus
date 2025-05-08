@@ -2,8 +2,8 @@ services:
   linux:
     container_name: media-server-linux
     build:
-        context: .
-        dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile
     tty: true
     ports:
       - "3000:3000"
@@ -11,3 +11,9 @@ services:
     volumes:
       - ./src:/usr/src
       - ./certs:/certs/ssl
+    networks:
+      - cerberus
+
+networks:
+  cerberus:
+    external: true
