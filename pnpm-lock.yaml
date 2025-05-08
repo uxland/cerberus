@@ -123,6 +123,9 @@ importers:
       keycloak-js:
         specifier: ^26.0.0
         version: 26.0.0
+      mediasoup-client:
+        specifier: ^3.9.2
+        version: 3.9.2
       mediatr-ts:
         specifier: ^1.2.1
         version: 1.2.1
@@ -144,6 +147,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      socket.io-client:
+        specifier: ^4.8.1
+        version: 4.8.1
       swiper:
         specifier: ^10.0.0
         version: 10.3.1
@@ -3853,6 +3859,7 @@ packages:
   eslint@7.32.0:
     resolution: {integrity: sha512-VHZ8gX+EDfz+97jGcgyGCyRia/dPOd6Xh9yPv8Bl1+SoaIwD+a/vlrOmGRUyOYu7MwUhc7CxqeaDZU13S4+EpA==}
     engines: {node: ^10.12.0 || >=12.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   esniff@2.0.1:
@@ -13996,7 +14003,11 @@ snapshots:
       pretty-format: 26.6.2
       throat: 5.0.0
     transitivePeerDependencies:
+      - bufferutil
+      - canvas
       - supports-color
+      - ts-node
+      - utf-8-validate
 
   jest-leak-detector@26.6.2:
     dependencies:

@@ -8,8 +8,7 @@ import { useForm } from "react-hook-form";
 import { SetRunInspection } from "./command.ts";
 import { createExecutionFormSchema, ExecutionForm } from "./domain/validation.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {WebRTCPlayer} from "@cerberus/core/";
-//import WebRTCPlayer from "./ui/WebRTCPlayer.tsx";
+import { WebRTCPlayer } from "@cerberus/core/";
 
 export interface InspectionRunProps extends ExecutionStepArgs {
     inspection: InspectionRun;
@@ -35,9 +34,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
     const onSubmitForm = (data: ExecutionForm) => {
         handler(new SetRunInspection(data as InspectionRunData));
-        console.log("run", run);
-        console.log("data", data);
-        console.log("inspection", inspection);
+        // console.log("data", data);
     };
 
     return (
@@ -52,7 +49,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-grow mt-4 overflow-hidden">
                 <div className="md:col-span-2 bg-tableBg p-4 md:p-6 rounded-[10px] flex items-center justify-center overflow-hidden">
-                    <WebRTCPlayer cameraId={run.currentInspectionRunId}/>
+                    <WebRTCPlayer cameraId={run.currentInspectionRunId} />
                 </div>
 
                 <form
@@ -69,6 +66,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
                     <div className="flex-grow overflow-auto p-1">
                         {inspection?.operationRun.answers.map((answer, index) => {
+                            console.log("answer", answer);
                             const QuestionInput = getQuestionInput(answer, formMethods, index);
                             return (
                                 <div key={answer.question.id} className="mb-4">

@@ -12,7 +12,10 @@ export const createExecutionFormSchema = (
             answers: z.array(
                 z.object({
                     questionId: z.string().nonempty("Question id is required"),
-                    answer: z.string().nullable().optional(),
+                    answer: z.union([
+                        z.string().nullable(),
+                        z.array(z.string())
+                    ]).optional(),
                 })
             ),
             startedAt: z.date(),
@@ -24,7 +27,9 @@ export const createExecutionFormSchema = (
                 );
                 if (
                     questionData?.question.isMandatory &&
-                    (!item.answer || item.answer.trim() === "")
+                    (item.answer === null || item.answer === undefined ||
+                        (typeof item.answer === "string" && item.answer.trim() === "") ||
+                        (Array.isArray(item.answer) && item.answer.length === 0))
                 ) {
                     ctx.addIssue({
                         code: z.ZodIssueCode.custom,
@@ -37,4 +42,3 @@ export const createExecutionFormSchema = (
 };
 
 export type ExecutionForm = z.infer<ReturnType<typeof createExecutionFormSchema>>;
-
