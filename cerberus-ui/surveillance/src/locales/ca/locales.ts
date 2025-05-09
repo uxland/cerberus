@@ -108,10 +108,12 @@ export const locales = {
       },
       set: {
         formTitle: "Ronda de Supervisión",
+        operationTitle: "Operativa",
         start: "Empezar ronda de supervisión ahora",
         aditionalComments: "Comentarios adicionales",
         proceed: "Proceder",
         send: "Enviar",
+
       },
       release: {
         title: "Finalizar Ronda de Supervisión",
@@ -144,6 +146,7 @@ export const locales = {
         dateLabel: "Fecha",
         notAvailable: "No disponible",
         videoNotSupported: "Tu navegador no soporta la reproducción de videos.",
+        isAnomalous: "Anómalo",
       },
       anomalyStatuses: {
         normal: "Normal",

@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import { FieldError, UseFormReturn } from "react-hook-form";
 
 interface SelectProps {
-    title: string;
+    title?: string;
     options: { value: string; label: string }[];
     selected?: string;
     classes?: string;
@@ -12,9 +12,10 @@ interface SelectProps {
     onChanged?: (value: string) => void;
     formMethods?: UseFormReturn<unknown>;
     error?: FieldError;
+    disabled?: boolean;
 }
 
-export const Select = ({ title, options, classes, path, name, selected, onChanged, formMethods, error }: SelectProps) => {
+export const Select = ({ title, options, classes, path, name, selected, onChanged, formMethods, error, disabled = false }: SelectProps) => {
     const [selectedOption, setSelectedOption] = useState<string | null>(selected || null);
     const { watch, setValue } = formMethods || {};
     const selectedValue = selected || (name && path && watch && watch(`${path}.${name}`));
@@ -24,6 +25,8 @@ export const Select = ({ title, options, classes, path, name, selected, onChange
     }, [selectedValue]);
 
     const handleOptionClick = (optionValue: string) => {
+        if (disabled) return;
+
         const parsedValue =
             optionValue === "true" ? true : optionValue === "false" ? false : optionValue;
         setSelectedOption(optionValue);
@@ -39,20 +42,23 @@ export const Select = ({ title, options, classes, path, name, selected, onChange
             <Typography className="!text-xs uppercase !text-grey82 !font-semibold">
                 {title}
             </Typography>
-            <div className="flex flex-wrap gap-2">
+            <div className={`flex flex-wrap gap-2 ${disabled ? 'opacity-75' : ''}`}>
                 {options.map((option) => (
                     <button
                         type="button"
                         key={option.value}
-                        className={`px-4 py-2 rounded-md text-sm font-medium ${selectedOption === option.value ? 'bg-formSelect text-gray-900' : 'bg-primaryGray border border-formSelect text-formSelect hover:bg-gray-600'
+                        className={`px-4 py-2 rounded-md text-sm font-medium ${selectedOption === option.value
+                                ? 'bg-formSelect text-gray-900'
+                                : `bg-primaryGray border border-formSelect text-formSelect ${!disabled ? 'hover:bg-gray-600' : ''}`
                             }`}
                         onClick={() => handleOptionClick(option.value)}
+                        disabled={disabled}
+                        aria-disabled={disabled}
                     >
                         {option.label}
                     </button>
                 ))}
                 {error && <p className="error text-red-500">{error.message}</p>}
-
             </div>
         </div>
     );
