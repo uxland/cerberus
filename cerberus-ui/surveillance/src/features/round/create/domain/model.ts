@@ -31,7 +31,7 @@ export interface RoundEditionData {
     groups: SurveillanceGroup[];
 }
 
-export interface SurveillanceGroup{
+export interface SurveillanceGroup {
     id: string;
     description: string;
 }
@@ -81,45 +81,41 @@ export const produceRoundEditionData = (locationId: string, operations: Operatio
 
 export const createOrUpdateInspection = (
     operation: OperationSummary | null,
-    camera: LocationHierarchicalItem | null,
+    cameras: LocationHierarchicalItem[] | null,
     currentInspections: Inspection[]
 ): Inspection[] => {
-    if (!operation || !camera) {
+    if (!operation || !cameras || cameras.length === 0) {
         return currentInspections;
     }
 
-    const existingIndex = currentInspections.findIndex(i => i.cameraId === camera.id);
+    let updated = [...currentInspections];
 
-    const newInspection: Inspection = {
-        id: existingIndex >= 0 ? currentInspections[existingIndex].id : uuidv4(),
-        cameraId: camera.id,
-        cameraDescription: camera.description,
-        streamingUrl: camera.streamingUrl,
-        operationId: operation.id,
-        operationDescription: operation.description,
-        order: existingIndex >= 0 ? currentInspections[existingIndex].order : currentInspections.length + 1
-    };
+    cameras.map(camera => {
+        const idx = updated.findIndex(i => i.cameraId === camera.id);
+        const newInsp: Inspection = {
+            id: idx >= 0 ? updated[idx].id : uuidv4(),
+            cameraId: camera.id,
+            cameraDescription: camera.description,
+            streamingUrl: camera.streamingUrl,
+            operationId: operation.id,
+            operationDescription: operation.description,
+            order: idx >= 0 ? updated[idx].order : updated.length + 1
+        };
 
-    if (existingIndex >= 0) {
-        const newInspections = [...currentInspections];
-        newInspections[existingIndex] = newInspection;
-        return newInspections;
-    } else {
-        return [...currentInspections, newInspection];
-    }
+        if (idx >= 0) {
+            updated[idx] = newInsp;
+        } else {
+            updated.push(newInsp);
+        }
+    });
+
+    return updated.map((insp, i) => ({ ...insp, order: i + 1 }));
 };
 
-
 export const removeInspection = (
-    cameraId: string,
+    cameraIds: string[],
     currentInspections: Inspection[]
 ): Inspection[] => {
-    const filteredInspections = currentInspections.filter(inspection =>
-        inspection.cameraId !== cameraId
-    );
-
-    return filteredInspections.map((inspection, index) => ({
-        ...inspection,
-        order: index + 1
-    }));
+    const filtered = currentInspections.filter(ins => !cameraIds.includes(ins.cameraId));
+    return filtered.map((ins, i) => ({ ...ins, order: i + 1 }));
 };

@@ -73,7 +73,8 @@ export const locales = {
         proceed: "Proceder",
         cronExpressionInput: "Cronología",
         cronExpression: "Ciclo",
-
+        singleSelect: "Selección única",
+        multipleSelect: "Selección múltiple",
         cameraDetails: "Detalles de la cámara",
         cameraName: "Nombre",
         operation: "Operativa",
