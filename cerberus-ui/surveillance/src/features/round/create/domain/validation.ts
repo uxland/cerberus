@@ -9,6 +9,7 @@ export const roundSchema = z.object({
     }),
     estimatedDuration: z.number().optional(),
     assignedTo: z.string().optional(),
+    deferredExecution: z.boolean().optional(),
     inspections: z.array(
         z.object({
             id: z.string().uuid(),
