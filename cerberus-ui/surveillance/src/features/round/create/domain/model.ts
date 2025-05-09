@@ -11,6 +11,7 @@ export interface Round {
     cronExpression: string;
     estimatedDuration?: number;
     assignedTo?: string;
+    deferredExecution?: boolean;
     inspections: Inspection[];
 }
 

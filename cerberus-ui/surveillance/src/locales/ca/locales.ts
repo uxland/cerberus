@@ -73,8 +73,6 @@ export const locales = {
         proceed: "Proceder",
         cronExpressionInput: "Cronología",
         cronExpression: "Ciclo",
-        singleSelect: "Selección única",
-        multipleSelect: "Selección múltiple",
         cameraDetails: "Detalles de la cámara",
         cameraName: "Nombre",
         operation: "Operativa",
@@ -84,6 +82,9 @@ export const locales = {
         selectCamera: "Selecciona una cámara",
         cameraId: "Identificador",
         changeOperation: "Cambiar operativa",
+        deferredExecution: "Ejecución diferida",
+        selectAll: "Seleccionar todas las cámaras",
+        deselectAll: "Deseleccionar todas las cámaras",
       },
       table: {
         id: "ID",

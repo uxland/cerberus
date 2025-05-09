@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography } from "@mui/material";
+import { Typography, Checkbox } from "@mui/material";
 import { RoundEditionData, Inspection, createOrUpdateInspection, removeInspection } from "../domain/model.ts";
 import { MenuItem } from "@mui/material";
 import Select from '@mui/material/Select';
@@ -75,6 +75,13 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
             setSelectedCamera([]);
         }
     };
+    const handleSelectAllCameras = () => {
+        if (selectedCamera.length === roundEditionData.locations.length) {
+            setSelectedCamera([]);
+        } else {
+            setSelectedCamera(roundEditionData.locations.map(c => c.id));
+        }
+    }
     useEffect(() => {
         if (roundEditionData?.round?.inspections?.length > 0) {
             setInspections(roundEditionData.round.inspections);
@@ -102,7 +109,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         onSubmitRequested?.(data as Round);
         console.log("SUCCESS", data);
     }
-    console.log(errors);
+    console.log("Errors", errors);
     return (
         <form onSubmit={handleSubmit(onSubmit, (formErrors) => {
             console.error("Validation failed:", formErrors);
@@ -171,6 +178,21 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                         ))}
                     </Select>
                 </div>
+                <div className='space-y-2 flex items-center gap-4'>
+                    <h1 className="font-bold text-primary mt-1">{useSurveillanceLocales("round.create.deferredExecution")}</h1>
+
+                    <Checkbox
+                        {...register("deferredExecution")}
+                        checked={roundEditionData.round.deferredExecution}
+
+                        sx={{
+                            color: '#a1a1a1',
+                            '&.Mui-checked': {
+                                color: '#a1a1a1',
+                            },
+                        }}
+                    />
+                </div>
             </div>
 
             <div className="grid grid-cols-5 gap-6">
@@ -189,6 +211,17 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                             <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.duration")}: 20 mins.</Typography>
                         </div>
                         <div></div>
+                        <div>
+                            <button
+                                type="button"
+                                className="bg-primary py-4 px-6 rounded-md w-full hover:bg-formSelect"
+                                onClick={handleSelectAllCameras}
+                            >
+                                {selectedCamera.length === roundEditionData.locations.length
+                                    ? useSurveillanceLocales("round.create.deselectAll")
+                                    : useSurveillanceLocales("round.create.selectAll")}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
