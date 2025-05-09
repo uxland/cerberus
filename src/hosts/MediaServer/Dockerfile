@@ -18,21 +18,26 @@ RUN apt update && \
     gstreamer1.0-rtsp \
     gstreamer1.0-libav
 
+
+# GStreamer development headers + GObject Introspection bindings
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3 \
+    g++ \
+    libgirepository1.0-dev \
+    gir1.2-glib-2.0 \
+    gir1.2-gstreamer-1.0 \
+    gir1.2-gst-plugins-base-1.0 \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev
+
+
 # Network utilities
 RUN apt-get update && \
     apt-get install -y net-tools iputils-ping iproute2 curl
 
-# GStreamer-superficial native module support
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3 \
-    make \
-    g++ \
-    libgstreamer1.0-dev \
-    libgstreamer-plugins-base1.0-dev
-
 # Node.js 22 from NodeSource
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
 EXPOSE 3000

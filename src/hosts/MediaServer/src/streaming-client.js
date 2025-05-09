@@ -5,6 +5,7 @@ export class StreamingClient {
 	streamFactory;
 	router;
 	consumer;
+	currentCamera;
 
 	constructor({socket, streamFactory, router}) {
 		this.socket = socket;
@@ -57,6 +58,7 @@ export class StreamingClient {
 		// do some cleanup
 		console.log('peer disconnected')
 		try {
+			await this.currentCamera?.stopRecording({peerId: this.socket.id});
 			await this.consumer?.close();
 			await this.transport?.close();
 		}
@@ -128,14 +130,14 @@ export class StreamingClient {
 				return;
 			}
 
-
-
+			this.currentCamera = camera;
 			// Create Consumer for the client
 			this.consumer = await this.transport.consume({
 				producerId: camera.producer.id,
 				rtpCapabilities,
 				paused: false,
 			});
+			this.currentCamera.record({peerId: this.socket.id});
 
 			await this.consumer.resume();
 			this.consumer.on('transportclose', () => {
