@@ -5,14 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
+      <change afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/dual-camera-stream.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/recorder-client-back.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/recorder-client.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Entities/CameraStream.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Entities/CameraStream.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Services/StreamManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/Services/StreamManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/WebRtcSignalingHub.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/WebRtcSignalingHub.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/webrtcbin_worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusSignalingApi/webrtcbin_worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/VideoPlayer/WebRTCPPlayer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/VideoPlayer/WebRTCPPlayer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile.deploy" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile.deploy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream-base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream-base.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/port-pool.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/port-pool.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/router-utilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/router-utilities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +79,7 @@
     "JavaScript Debug.Browser Debug.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "tasks/improve-streaming",
+    "git-widget-placeholder": "features/record-surveillanced-clip",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -413,16 +420,6 @@
           <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
           <line>30</line>
           <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/model.ts</url>
-          <line>41</line>
-          <option name="timeStamp" value="133" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/model.ts</url>
-          <line>43</line>
-          <option name="timeStamp" value="134" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/component.tsx</url>

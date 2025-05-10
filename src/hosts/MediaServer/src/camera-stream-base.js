@@ -1,7 +1,5 @@
 import {createProducer, createTransport} from "./router-utilities.js";
 import portPool from "./port-pool.js";
-import path from "path";
-import fs from "fs";
 import {spawn} from "child_process";
 export default class CameraStreamBase {
 	cameraId;
@@ -11,23 +9,18 @@ export default class CameraStreamBase {
 	gstProcess;
 	transport;
 	producer;
-	recordingBranches = {};
-	controlSocketPath;
 
 	constructor({router, cameraId, streamingUrl}) {
 		this.router = router;
 		this.cameraId = cameraId;
 		this.streamingUrl = streamingUrl;
-		this.controlSocketPath = `/tmp/${cameraId}.sock`;
-		//this.gstProcessLauncher = gstProcessLauncher;
 	}
 	getStartPipelineArgs(streamingUrl){}
 
 	startGst(cameraId, streamingUrl, port){
-		if (fs.existsSync(this.controlSocketPath)) fs.unlinkSync(this.controlSocketPath);
 		const commonArgs = [
-			'tune=zerolatency', 'key-int-max=30', '!',
-			'rtph264pay', 'pt=101', 'ssrc=1234567', 'mtu=1200', '!',
+			'x264enc', 'tune=zerolatency', 'key-int-max=30', 'byte-stream=true', '!',
+			'rtph264pay', 'pt=101', 'config-interval=1', 'ssrc=1234567', 'mtu=1200', '!',
 			'udpsink', 'host=239.1.1.1', `port=${port}`, 'auto-multicast=true'
 		]
 		const customArgs = this.getStartPipelineArgs(streamingUrl);
@@ -56,50 +49,6 @@ export default class CameraStreamBase {
 		console.log(`CameraStream ${this.cameraId} stopped.`);
 	}
 
-	async record({ peerId }) {
-		if (Object.keys(this.recordingBranches).length >= 5) {
-			console.warn(`⚠️ Max concurrent recordings (5) reached, denying record() for ${peerId}`);
-			return;
-		}
-
-		const filename = `${this.cameraId}_${peerId}_${Date.now()}.mp4`;
-		const filepath = path.join('/recordings', filename);
-		fs.mkdirSync(path.dirname(filepath), { recursive: true });
-
-		const gstProcess = spawn('gst-launch-1.0', [
-			'udpsrc',
-			'multicast-group=239.1.1.1',
-			`port=${this.port}`,
-			'auto-multicast=true',
-			'caps=application/x-rtp,media=video,encoding-name=H264,payload=101', '!',
-			'rtph264depay', '!', 'h264parse', '!',
-			'mp4mux', '!', 'filesink', `location=${filepath}`
-		]);
-
-		gstProcess.stderr.on('data', data => console.error(`[GST] ${peerId} stderr: ${data}`));
-		gstProcess.on('exit', code => {
-			console.log(`🛑 Recording for peer ${peerId} exited with code ${code}`);
-		});
-
-		this.recordingBranches[peerId] = { process: gstProcess, filepath };
-		console.log(`🎥 Started recording for peer ${peerId} → ${filename}`);
-	}
-
-
-	async stopRecording({ peerId }) {
-		const branch = this.recordingBranches[peerId];
-		if (!branch) return;
-
-		try{
-			branch.process.kill("SIGTERM");
-		}
-		catch (e) {
-			console.error(e);
-		}
-
-		delete this.recordingBranches[peerId];
-		console.log(`🛑 Stopped recording for peer ${peerId}`);
-	}
 
 	canConsume({rtpCapabilities}) {
 		return this.router.canConsume({
@@ -109,10 +58,6 @@ export default class CameraStreamBase {
 
 	async stopGst() {
 		try {
-			const keys = Object.keys(this.recordingBranches);
-			for (const key of keys) {
-				await this.stopRecording({ peerId: key });
-			}
 			if (this.gstProcess) {
 				this.gstProcess.kill("SIGTERM");
 				this.gstProcess = null;

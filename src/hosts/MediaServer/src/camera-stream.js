@@ -27,7 +27,6 @@ export default class CameraStream extends CameraStreamBase {
 		return [
 			'rtspsrc', `location=${streamingUrl}`, 'protocols=tcp', 'latency=100', '!',
 			'rtph265depay', '!', 'h265parse', '!', 'avdec_h265', '!',
-			'x264enc'
 		]
 	}
 }
