@@ -12,6 +12,7 @@ export interface Round {
     estimatedDuration?: number;
     assignedTo?: string;
     deferredExecution?: boolean;
+    clipDuration?: number;
     inspections: Inspection[];
 }
 

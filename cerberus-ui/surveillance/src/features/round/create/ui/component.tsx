@@ -33,11 +33,13 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         handleSubmit,
         formState: { errors },
         setValue,
+        watch,
     } = useForm<Round>({
         resolver: zodResolver(dynamicSchema),
         defaultValues: roundEditionData.round || {
             id: roundEditionData.round.id || "",
             rootLocationId: roundEditionData.round.rootLocationId || "",
+            clipDuration: roundEditionData.round.clipDuration || 30,
             estimatedDuration: 20,
             inspections: [],
         },
@@ -50,6 +52,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const [groups, setGroups] = useState(roundEditionData.groups || []);
+    const [clipDuration, setClipDuration] = useState<number>(30);
     const assignGroup = useSurveillanceLocales("round.create.assignGroup");
     const cameraDetails = useSurveillanceLocales("round.create.cameraDetails");
     const cameraName = useSurveillanceLocales("round.create.cameraName");
@@ -60,6 +63,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const selectCamera = useSurveillanceLocales("round.create.selectCamera");
     const cameraId = useSurveillanceLocales("round.create.cameraId");
     const changeOperation = useSurveillanceLocales("round.create.changeOperation");
+    const clipDurationLabel = useSurveillanceLocales("round.create.clipDuration");
 
     const handleOperationSelectFromDetails = (operationId: string) => {
         const cameras = roundEditionData.locations.filter(c => selectedCamera.includes(c.id));
@@ -184,7 +188,9 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     <Checkbox
                         {...register("deferredExecution")}
                         checked={roundEditionData.round.deferredExecution}
-
+                        onChange={(e) => {
+                            setValue("deferredExecution", e.target.checked);
+                        }}
                         sx={{
                             color: '#a1a1a1',
                             '&.Mui-checked': {
@@ -193,6 +199,38 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                         }}
                     />
                 </div>
+
+                {watch("deferredExecution") && (
+                    <div className='space-y-2 flex items-center gap-4 mt-2'>
+                        <h1 className="font-bold text-primary">{clipDurationLabel}:</h1>
+                        <Select
+                            name='clipDuration'
+                            {...register('clipDuration')}
+                            value={clipDuration}
+                            onChange={(e) => setClipDuration(e.target.value)}
+                            displayEmpty
+                            size="small"
+                            className="!text-[0.8rem] bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
+                            sx={{
+                                '.MuiSvgIcon-root': {
+                                    color: 'white',
+                                },
+                            }}
+                            MenuProps={{
+                                PaperProps: {
+                                    style: {
+                                        backgroundColor: '#1e1e1e',
+                                        color: 'white',
+                                    },
+                                },
+                            }}
+                        >
+                            <MenuItem value={15} className="!text-[0.7rem]">15 segundos</MenuItem>
+                            <MenuItem value={30} className="!text-[0.7rem]">30 segundos</MenuItem>
+                            <MenuItem value={60} className="!text-[0.7rem]">60 segundos</MenuItem>
+                        </Select>
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-5 gap-6">
@@ -201,7 +239,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {/* <button className="bg-primary py-4 px-6 rounded-md text-black font-bold text-xl hover:bg-formSelect">{useSurveillanceLocales("round.create.addCamera")}</button>
-                    <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">{useSurveillanceLocales("round.create.addGroup")}</button> */}
+                        <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">{useSurveillanceLocales("round.create.addGroup")}</button> */}
                         <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
                             <Typography className="!text-xs !font-semibold"> {(roundEditionData.locations).length} {useSurveillanceLocales("round.create.cameras")}</Typography>
                             <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.cronExpression")} - {cronValue} </Typography>

@@ -85,6 +85,7 @@ export const locales = {
         deferredExecution: "Ejecución diferida",
         selectAll: "Seleccionar todas las cámaras",
         deselectAll: "Deseleccionar todas las cámaras",
+        clipDuration: "Duración del clip",
       },
       table: {
         id: "ID",
