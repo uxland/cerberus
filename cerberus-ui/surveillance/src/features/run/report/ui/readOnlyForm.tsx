@@ -1,7 +1,7 @@
 import { Typography, Chip } from "@mui/material";
 import { InspectionRun } from "../../execution/domain/model.ts";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { FormInputField, Select } from "@cerberus/core";
+import { Select } from "@cerberus/core";
 
 interface InspectionFormReadOnlyProps {
     inspection: InspectionRun;
@@ -41,7 +41,7 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                             </div>
                             {answer.question.__type != "Options" ? (
                                 <div
-                                    className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292] flex items-center mt-2`}
+                                    className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292] flex items-center mt-2 opacity-75 `}
                                 >
                                     {answer.answer.value}
                                 </div>
@@ -62,7 +62,7 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                 <Typography className="mt-3 !font-semibold">{additionalComments}</Typography>
 
                 <textarea
-                    className="bg-[#313131] w-full min-h-[80px] p-2 rounded mt-2"
+                    className="bg-[#313131] w-full min-h-[80px] p-2 rounded mt-2 opacity-75"
                     disabled
                     defaultValue={inspection.operationRun.additionalComments}
                 />
