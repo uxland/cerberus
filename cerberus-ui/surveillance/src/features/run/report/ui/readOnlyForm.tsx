@@ -28,8 +28,8 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                     return (
                         <div key={answer.question.id} className="mb-4">
                             <div className="flex items-center justify-between">
-                                <Typography className="text-sm font-semibold mb-2">{answer.question.text}</Typography>
-                                {answer.answer.values[0]?.isAnomalous && (
+                                <Typography className="text-sm !font-semibold mb-2">{answer.question.text}</Typography>
+                                {answer.answer.values && answer.answer.values.some(value => value.isAnomalous) && (
                                     <Chip
                                         label={isAnomalous}
                                         className="bg-error text-white font-bold mb-2"
@@ -40,14 +40,11 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                                 )}
                             </div>
                             {answer.question.__type != "Options" ? (
-                                <FormInputField
-                                    question={answer.question}
-                                    answer={answer.answer}
-                                    index={index}
-                                    formMethods={null}
-                                    disabled
-                                    className="bg-[#313131] w-full p-2 rounded"
-                                />
+                                <div
+                                    className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292] flex items-center mt-2`}
+                                >
+                                    {answer.answer.value}
+                                </div>
                             ) : (
                                 <Select
                                     disabled
@@ -62,14 +59,14 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                     );
                 })}
 
-                <Typography className="mt-3">{additionalComments}</Typography>
+                <Typography className="mt-3 !font-semibold">{additionalComments}</Typography>
 
                 <textarea
-                    className="bg-[#313131] w-full min-h-[80px] p-2 rounded"
+                    className="bg-[#313131] w-full min-h-[80px] p-2 rounded mt-2"
                     disabled
                     defaultValue={inspection.operationRun.additionalComments}
                 />
             </div>
-        </div>
+        </div >
     );
 };
