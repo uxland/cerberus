@@ -23,6 +23,10 @@ const IntegerQuestionSchema = BaseOperationQuestionSchema.extend({
         lowerBound: z.coerce.number().optional(),
         upperBound: z.coerce.number().optional(),
     }).optional(),
+    instructions: z.array(z.object({
+        text: z.string().nonempty("Instruction text is required"),
+        isMandatory: z.boolean(),
+    })).optional(),
 });
 
 const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
@@ -33,6 +37,10 @@ const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
         lowerBound: z.coerce.number().optional(),
         upperBound: z.coerce.number().optional(),
     }).optional(),
+    instructions: z.array(z.object({
+        text: z.string().nonempty("Instruction text is required"),
+        isMandatory: z.boolean(),
+    })).optional(),
 });
 
 const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
@@ -41,8 +49,16 @@ const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
         code: z.string().nonempty("Option code is required"),
         text: z.string().nonempty("Option text is required"),
         isAnomalous: z.boolean(),
+        instructions: z.array(z.object({
+            text: z.string().nonempty("Instruction text is required"),
+            isMandatory: z.boolean(),
+        })).optional(),
     })).min(2, "At least two options are required"),
     type: z.enum(["Single", "Multiple"]),
+    instructions: z.array(z.object({
+        text: z.string().nonempty("Instruction text is required"),
+        isMandatory: z.boolean(),
+    })).optional(),
 });
 
 const QuestionSchema = z.discriminatedUnion("__type", [

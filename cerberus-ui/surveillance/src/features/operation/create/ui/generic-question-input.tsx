@@ -4,6 +4,7 @@ import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
+import { appendInstruction, removeInstructionFromQuestion } from "../domain";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
@@ -14,6 +15,10 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     const normalityRange = useSurveillanceLocales("operation.create.question.normalityRange")
     const lowerBoundPlaceholder = useSurveillanceLocales("operation.create.question.lowerBoundPlaceholder")
     const upperBoundPlaceholder = useSurveillanceLocales("operation.create.question.upperBoundPlaceholder")
+
+    const questionLevelInstructionsTitle = useSurveillanceLocales("operation.create.question.instructions.title");
+    const questionAddInstructionLabel = useSurveillanceLocales("operation.create.question.instructions.addInstruction");
+    const questionRemoveInstructionLabel = useSurveillanceLocales("operation.create.question.instructions.removeInstruction");
 
     const handleTypeChange = (value: OperationQuestionType) => {
         actions.changeQuestionType(question.id, value);
@@ -28,6 +33,15 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
 
     const handleRemoveQuestion = () => {
         actions.removeQuestion(question.id);
+    };
+
+    const handleAppendQuestionInstruction = async () => {
+        const updatedQuestion = await appendInstruction(question);
+        actions.setQuestion(question.id, updatedQuestion);
+    };
+
+    const handleRemoveQuestionInstruction = (instrIndex: number) => {
+        actions.setQuestion(question.id, removeInstructionFromQuestion(question, instrIndex));
     };
 
     console.log("question", question);
@@ -82,8 +96,41 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                     />
                 )}
             </div>
+            {question.__type != "Text" && (
+                <div className="mt-4 border-t pt-4">
+                    <h1 className="font-semibold mb-2">{questionLevelInstructionsTitle}</h1>
+                    {question.instructions?.map((instruction, instrIndex) => (
+                        <div key={instrIndex} className="flex items-center gap-2 mb-2">
+                            <FormInputField
+                                label={`${questionLevelInstructionsTitle} #${instrIndex + 1}`}
+                                placeholder="..."
+                                register={register}
+                                name={`${actions.path}.instructions.${instrIndex}.text`}
+                                type="text"
+                                error={errors[actions.path]?.instructions?.[instrIndex]?.text}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveQuestionInstruction(instrIndex)}
+                                className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                            >
+                                {questionRemoveInstructionLabel}
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
+                        onClick={handleAppendQuestionInstruction}
+                    >
+                        {questionAddInstructionLabel}
+                    </button>
+                </div>
+            )}
+
+
             {question.__type != "Options" && question.__type != "Text" && (
-                <div>
+                <div className="mt-4 border-t pt-4">
                     <h1 className="font-bold">{normalityRange}</h1>
                     <div className="flex gap-2">
                         <FormInputField

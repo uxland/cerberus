@@ -20,14 +20,21 @@ const operationFactory = (type: OperationQuestionType) => (model: SurveillanceOp
     return <OperationQuestion>{
         __type: type,
         id: createQuestionId(model),
-        isMandatory: true
-
+        isMandatory: true,
+        instructions: [],
     }
 }
 const operationOptionsFactory = (model: SurveillanceOperationFormModel): OperationQuestion => {
     return <OperationQuestion>{
         ...operationFactory("Options")(model),
-        options: [],
+        options: [
+            {
+                code: "0",
+                text: "",
+                isAnomalous: false,
+                instructions: []
+            }
+        ],
         type: "Single"
     }
 }

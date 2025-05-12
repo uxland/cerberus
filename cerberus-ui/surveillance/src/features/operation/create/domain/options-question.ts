@@ -1,9 +1,10 @@
-import { OperationQuestion } from "./model.ts";
+import { OperationQuestion, Instruction } from "./model.ts";
 
 export interface Option {
     code: string;
     text: string;
     isAnomalous: boolean;
+    instructions?: Instruction[];
 }
 
 export type OptionsTypology = "Single" | "Multiple";
@@ -46,3 +47,41 @@ export const setTypology = (question: OptionsQuestion, type: OptionsTypology): O
 export const removeOption = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
     return { ...question, options: question.options.filter(o => o.code !== optionCode) };
 }
+
+export const appendInstructionToOption = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
+    return {
+        ...question,
+        options: question.options.map(opt => {
+            if (opt.code === optionCode) {
+                const newInstruction: Instruction = {
+                    text: "",
+                    isMandatory: false,
+                };
+                return {
+                    ...opt,
+                    instructions: [...(opt.instructions || []), newInstruction]
+                };
+            }
+            return opt;
+        })
+    };
+};
+
+export const removeInstructionFromOption = (question: OptionsQuestion, optionCode: string, instructionIndex: number): OptionsQuestion => {
+    return {
+        ...question,
+        options: question.options.map(opt => {
+            if (opt.code === optionCode) {
+                const updatedInstructions = [...(opt.instructions || [])];
+                if (instructionIndex >= 0 && instructionIndex < updatedInstructions.length) {
+                    updatedInstructions.splice(instructionIndex, 1);
+                }
+                return {
+                    ...opt,
+                    instructions: updatedInstructions
+                };
+            }
+            return opt;
+        })
+    };
+};
