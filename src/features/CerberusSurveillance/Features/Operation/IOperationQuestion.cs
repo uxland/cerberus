@@ -12,4 +12,7 @@ public interface IOperationQuestion
     string Id { get; }
     string Text { get; }
     bool IsMandatory { get; }
+    
+    IEnumerable<IInstruction>? Instructions { get; } 
+
 }
