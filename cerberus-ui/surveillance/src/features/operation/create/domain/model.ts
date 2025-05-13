@@ -1,4 +1,7 @@
-import { OptionsTypology } from "./options-question.ts";
+import { OptionsTypology, OptionsQuestion } from "./options-question.ts";
+import { InteractionServiceImpl } from "@cerberus/core/src/interaction-service/interaction-service-impl.tsx";
+import { Container } from "inversify";
+import { ConfirmationMessage } from "@cerberus/core/src/interaction-service/confirmation-message.tsx";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -12,7 +15,7 @@ export const isAnomalousValues: Array<{ value: boolean, label: string }> = [
     { value: true, label: "Sí" },
     { value: false, label: "No" }
 ]
-export interface OperationAction{
+export interface OperationAction {
     description: string;
     alternatives: Array<OperationAction> | undefined;
 }
@@ -91,48 +94,39 @@ export const removeQuestion = (model: SurveillanceOperationFormModel, questionId
 export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
     model.questions.find(q => q.id === questionId);
 
-//export const appendAction = (question: OperationQuestion)
+export const appendAction = async (question: OperationQuestion): Promise<OperationQuestion> => {
 
-/*export const removeInstructionFromQuestion = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
-    if (!question.instructions || instructionIndex < 0 || instructionIndex >= question.instructions.length) {
-        return question;
-    }
-    const updatedInstructions = [...question.instructions];
-    updatedInstructions.splice(instructionIndex, 1);
-    return { ...question, instructions: updatedInstructions };
-};*/
 
-/*
-export const appendInstruction = async (question: OperationQuestion): Promise<OperationQuestion> => {
+};
+export const removeAction = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
+}
 
-    if (question.__type === "Options") {
-        const optionQuestion = question as OptionsQuestion;
+// if (question.__type === "Options") {
+//     const optionQuestion = question as OptionsQuestion;
 
-        const hasOptionInstructions = optionQuestion.options.some(opt => opt.instructions && opt.instructions.length > 0);
+//     // const hasOptionInstructions = optionQuestion.options.some(opt => opt.anomalousSettings.actions && opt.anomalousSettings.actions.length > 0);
 
-        if (hasOptionInstructions) {
+//     // if (hasOptionInstructions) {
 
-            const message = "Se eliminarán las intrucciones añadidas a las opciones. ¿Desea continuar?";
-            const localContainer = new Container();
+//     //     const message = "Se eliminarán las intrucciones añadidas a las opciones. ¿Desea continuar?";
+//     //     const localContainer = new Container();
 
-            localContainer.bind(ConfirmationMessage).toConstantValue(ConfirmationMessage);
+//     //     localContainer.bind(ConfirmationMessage).toConstantValue(ConfirmationMessage);
 
-            const interactionService = new InteractionServiceImpl(localContainer);
-            const confirmationResult = await interactionService.confirmMessage(message);
-            console.log("Confirmation result:", confirmationResult);
-            if (!confirmationResult.confirmed) {
-                return question;
-            }
-            question.options.map(opt => {
-                opt.instructions = [];
-            }
-            );
-        }
+//     //     const interactionService = new InteractionServiceImpl(localContainer);
+//     //     const confirmationResult = await interactionService.confirmMessage(message);
+//     //     console.log("Confirmation result:", confirmationResult);
+//     //     if (!confirmationResult.confirmed) {
+//     //         return question;
+//     //     }
+//     //     question.options.map(opt => {
+//     //         opt.instructions = [];
+//     //     }
+//     //     );
+//     // }
 
-    }
-    const instruction = <Instruction>{
-        text: "",
-        isMandatory: false,
-    };
-    return { ...question, instructions: [...(question.instructions || []), instruction] };
-};*/
+// }
+// const action = <OperationAction>{
+//     description: "",
+// };
+// return { ...question, anomalousSettings: [...(question.instructions || []), action] };

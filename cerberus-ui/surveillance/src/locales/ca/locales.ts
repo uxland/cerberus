@@ -49,7 +49,6 @@ export const locales = {
             code: "Código",
             text: "Texto",
             isAnomalous: "Opción anómala",
-
             delete: "Eliminar",
             anomalousAction: "Instrucción para la opción anómala",
             addAction: "+ Añadir instrucción (a opción)",

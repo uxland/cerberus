@@ -4,6 +4,7 @@ import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
+import { appendAction, removeAction } from "../domain";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
@@ -35,12 +36,12 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     };
 
     const handleAppendQuestionInstruction = async () => {
-        const updatedQuestion = await appendInstruction(question);
+        const updatedQuestion = await appendAction(question);
         actions.setQuestion(question.id, updatedQuestion);
     };
 
     const handleRemoveQuestionInstruction = (instrIndex: number) => {
-        actions.setQuestion(question.id, removeInstructionFromQuestion(question, instrIndex));
+        actions.setQuestion(question.id, removeAction(question, instrIndex));
     };
 
     console.log("question", question);
@@ -95,7 +96,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                     />
                 )}
             </div>
-            {question.__type != "Text" && (
+            {/* {question.__type != "Text" && (
                 <div className="mt-4 border-t pt-4">
                     <h1 className="font-semibold mb-2">{questionLevelInstructionsTitle}</h1>
                     {question.instructions?.map((instruction, instrIndex) => (
@@ -125,7 +126,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                         {questionAddInstructionLabel}
                     </button>
                 </div>
-            )}
+            )} */}
 
 
             {question.__type != "Options" && question.__type != "Text" && (

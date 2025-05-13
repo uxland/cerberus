@@ -1,21 +1,10 @@
 import { FormInputField, Select } from "@cerberus/core";
 import React from "react";
-import { 
-    OptionsQuestion, 
-    appendOption, 
-    removeOption, 
-    setOptionAnomalousSettings,
-    appendActionToOption,
-    removeActionFromOption,
-    appendAlternativeToAction,
-    removeAlternativeFromAction,
-    appendNestedAlternative,
-    removeNestedAlternative
-} from "../domain";
+import { OptionsQuestion, appendOption, removeOption, appendActionToOption, removeActionFromOption, appendAlternativeToAction, removeAlternativeFromAction } from "../domain";
 import { GenericQuestionInput } from "./generic-question-input";
 import { OperationQuestionActions } from "./shared.tsx";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { isAnomalousValues, AnomalousSettings, OperationAction } from "../domain";
+import { isAnomalousValues } from "../domain";
 
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
@@ -29,10 +18,9 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.option.delete");
     const questionOptionAddOption = useSurveillanceLocales("operation.create.question.option.addOption");
     const questionOptionIsAnomalous = useSurveillanceLocales("operation.create.question.option.isAnomalous");
-    const questionActionLabel = useSurveillanceLocales("operation.create.question.option.anomalousAction");
-    const questionAddAction = useSurveillanceLocales("operation.create.question.option.addAction");
-    const questionAddAlternative = useSurveillanceLocales("operation.create.question.option.addAlternative") || "Añadir alternativa";
-
+    const questionAction = useSurveillanceLocales("operation.create.question.option.anomalousAction");
+    const questionAddInstruction = useSurveillanceLocales("operation.create.question.option.addAction");
+    const addAlternativeLabel = useSurveillanceLocales("operation.create.question.option.addAlternative");
     const { formState: { errors } } = actions.formMethods;
 
     const handleAppendOption = () => {
@@ -42,132 +30,24 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
         actions.setQuestion(question.id, removeOption(question, optionCode));
     };
 
-    const handleToggleAnomalousSettings = (optionCode: string, isAnomalous: boolean) => {
-        const option = question.options.find(o => o.code === optionCode);
-        if (!option) return;
-
-        if (isAnomalous) {
-            // Initialize anomalousSettings with empty actions array
-            actions.setQuestion(
-                question.id, 
-                setOptionAnomalousSettings(question, optionCode, { actions: [] })
-            );
-        } else {
-            // Remove anomalousSettings
-            actions.setQuestion(
-                question.id, 
-                setOptionAnomalousSettings(question, optionCode, undefined)
-            );
-        }
-    };
-
     const handleAppendActionToOption = (optionCode: string) => {
-        actions.setQuestion(question.id, appendActionToOption(question, optionCode));
+        actions.setQuestion(question.id, appendActionToOption(question as OptionsQuestion, optionCode));
     };
 
-    const handleRemoveActionFromOption = (optionCode: string, actionIndex: number) => {
-        actions.setQuestion(question.id, removeActionFromOption(question, optionCode, actionIndex));
+    const handleRemoveActionFromOption = (optionCode: string, instructionIndex: number) => {
+        actions.setQuestion(question.id, removeActionFromOption(question as OptionsQuestion, optionCode, instructionIndex));
     };
 
-    const handleAppendAlternativeToAction = (optionCode: string, actionIndex: number) => {
-        actions.setQuestion(question.id, appendAlternativeToAction(question, optionCode, actionIndex));
+    const handleAppendAlternative = (optCode: string, actionIdx: number) => {
+        actions.setQuestion(
+            question.id,
+            appendAlternativeToAction(question as OptionsQuestion, optCode, actionIdx)
+        );
     };
-
-    const handleRemoveAlternativeFromAction = (optionCode: string, actionIndex: number, alternativeIndex: number) => {
-        actions.setQuestion(question.id, removeAlternativeFromAction(question, optionCode, actionIndex, alternativeIndex));
-    };
-
-    const handleAppendNestedAlternative = (optionCode: string, path: number[]) => {
-        actions.setQuestion(question.id, appendNestedAlternative(question, optionCode, path));
-    };
-
-    const handleRemoveNestedAlternative = (optionCode: string, path: number[], alternativeIndex: number) => {
-        actions.setQuestion(question.id, removeNestedAlternative(question, optionCode, path, alternativeIndex));
-    };
-
-    // Recursive component to render an action and its alternatives
-    interface ActionItemProps {
-        action: OperationAction;
-        optionCode: string;
-        optionIndex: number;
-        actionPath: number[];
-        level: number;
-        basePath: string;
-        errors: any;
-        register: any;
-        onRemove: () => void;
-        onAddAlternative: () => void;
-    }
-
-    const ActionItem: React.FC<ActionItemProps> = ({ 
-        action, 
-        optionCode, 
-        optionIndex, 
-        actionPath, 
-        level, 
-        basePath, 
-        errors, 
-        register, 
-        onRemove, 
-        onAddAlternative 
-    }) => {
-        const currentIndex = actionPath[actionPath.length - 1];
-        const fieldName = `${basePath}${actionPath.map(idx => `.alternatives.${idx}`).join('')}.description`;
-        const label = level === 0 
-            ? `${questionActionLabel} #${currentIndex + 1}` 
-            : `Alternativa #${currentIndex + 1}`;
-
-        return (
-            <div className="mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                    <FormInputField
-                        label={label}
-                        placeholder={level === 0 ? "Descripción de la acción..." : "Descripción de la alternativa..."}
-                        register={register}
-                        name={fieldName}
-                        type="text"
-                        error={errors}
-                    />
-                    <div className="flex flex-col gap-1">
-                        <button
-                            type="button"
-                            onClick={onRemove}
-                            className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                        >
-                            {questionOptionDelete}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={onAddAlternative}
-                            className="text-blue-500 hover:text-blue-700 text-xs p-1 rounded-full"
-                        >
-                            {questionAddAlternative}
-                        </button>
-                    </div>
-                </div>
-
-                {/* Render alternatives recursively if they exist */}
-                {action.alternatives && action.alternatives.length > 0 && (
-                    <div className={`ml-8 border-l-2 border-gray-200 pl-4`}>
-                        <h4 className="text-sm font-medium mb-2">Alternativas</h4>
-                        {action.alternatives.map((alternative, altIndex) => (
-                            <ActionItem
-                                key={altIndex}
-                                action={alternative}
-                                optionCode={optionCode}
-                                optionIndex={optionIndex}
-                                actionPath={[...actionPath, altIndex]}
-                                level={level + 1}
-                                basePath={basePath}
-                                errors={errors}
-                                register={register}
-                                onRemove={() => handleRemoveNestedAlternative(optionCode, actionPath, altIndex)}
-                                onAddAlternative={() => handleAppendNestedAlternative(optionCode, [...actionPath, altIndex])}
-                            />
-                        ))}
-                    </div>
-                )}
-            </div>
+    const handleRemoveAlternative = (optCode: string, actionIdx: number, altIdx: number) => {
+        actions.setQuestion(
+            question.id,
+            removeAlternativeFromAction(question as OptionsQuestion, optCode, actionIdx, altIdx)
         );
     };
 
@@ -215,34 +95,68 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 title={questionOptionIsAnomalous}
                                 path={`${actions.path}.options.${index}`}
                                 options={isAnomalousValues.map(m => ({ value: String(m.value), label: m.label }))}
-                                selected={String(!!option.anomalousSettings)}
-                                onChanged={(value) => handleToggleAnomalousSettings(option.code, value)}
+                                selected={String(question.options[index].isAnomalous)}
                                 formMethods={actions.formMethods}
                             />
-                            {option.anomalousSettings && (
+                            {option.isAnomalous && (
                                 <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-4">
-                                    <h3 className="font-semibold mb-2">Acciones en caso de anomalía</h3>
-                                    {option.anomalousSettings.actions.map((action, actionIndex) => (
-                                        <ActionItem
-                                            key={actionIndex}
-                                            action={action}
-                                            optionCode={option.code}
-                                            optionIndex={index}
-                                            actionPath={[actionIndex]}
-                                            level={0}
-                                            basePath={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}`}
-                                            errors={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.description}
-                                            register={actions.formMethods.register}
-                                            onRemove={() => handleRemoveActionFromOption(option.code, actionIndex)}
-                                            onAddAlternative={() => handleAppendAlternativeToAction(option.code, actionIndex)}
-                                        />
+                                    {(option.anomalousSettings?.actions ?? []).map((action, actionIndex) => (
+                                        <div key={actionIndex} className="mb-4">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <FormInputField
+                                                    label={`${questionAction} #${actionIndex + 1}`}
+                                                    placeholder="..."
+                                                    register={actions.formMethods.register}
+                                                    name={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}.description`}
+                                                    type="text"
+                                                    error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.description}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveActionFromOption(option.code, actionIndex)}
+                                                    className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                                                >
+                                                    {questionOptionDelete}
+                                                </button>
+                                            </div>
+
+                                            {/* alternativas */}
+                                            {(action.alternatives ?? []).map((alt, altIndex) => (
+                                                <div key={altIndex} className="flex items-center gap-2 mb-2 ml-6">
+                                                    <FormInputField
+                                                        label={`${questionAction} alternativa #${altIndex + 1}`}
+                                                        placeholder="..."
+                                                        register={actions.formMethods.register}
+                                                        name={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}.alternatives.${altIndex}.description`}
+                                                        type="text"
+                                                        error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.alternatives?.[altIndex]?.description}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveAlternative(option.code, actionIndex, altIndex)}
+                                                        className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                                                    >
+                                                        {questionOptionDelete}
+                                                    </button>
+                                                </div>
+                                            ))}
+
+                                            <button
+                                                type="button"
+                                                className="text-primary font-bold hover:text-formSelect text-xs ml-6"
+                                                onClick={() => handleAppendAlternative(option.code, actionIndex)}
+                                            >
+                                                {addAlternativeLabel}
+                                            </button>
+                                        </div>
                                     ))}
+
                                     <button
                                         type="button"
                                         className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
                                         onClick={() => handleAppendActionToOption(option.code)}
                                     >
-                                        {questionAddAction}
+                                        {questionAddInstruction}
                                     </button>
                                 </div>
                             )}
