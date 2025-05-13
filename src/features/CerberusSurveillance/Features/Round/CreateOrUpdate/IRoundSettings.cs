@@ -6,5 +6,7 @@ public record RoundSettings(
     string CronExpression,
     int? EstimatedDuration,
     string? AssignedTo,
+    bool DeferredExecution,
+    int? ClipDuration,
     IEnumerable<Inspection> Inspections
 );
