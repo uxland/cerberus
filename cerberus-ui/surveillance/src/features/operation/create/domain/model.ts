@@ -1,4 +1,7 @@
-import { OptionsTypology } from "./options-question.ts";
+import { OptionsTypology, OptionsQuestion } from "./options-question.ts";
+import { InteractionServiceImpl } from "@cerberus/core/src/interaction-service/interaction-service-impl.tsx";
+import { Container } from "inversify";
+import { ConfirmationMessage } from "@cerberus/core/src/interaction-service/confirmation-message.tsx";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -17,9 +20,13 @@ export interface OperationQuestion {
     id: string;
     text: string;
     isMandatory: boolean;
+    instructions?: Instruction[];
 }
 
-
+export interface Instruction {
+    text: string;
+    isMandatory: boolean;
+}
 export interface NormalityRange<T> {
     lowerBound?: T | undefined;
     upperBound?: T | undefined;
@@ -81,3 +88,46 @@ export const removeQuestion = (model: SurveillanceOperationFormModel, questionId
     ({ ...model, questions: model.questions.filter(q => q.id !== questionId) });
 export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
     model.questions.find(q => q.id === questionId);
+
+export const removeInstructionFromQuestion = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
+    if (!question.instructions || instructionIndex < 0 || instructionIndex >= question.instructions.length) {
+        return question;
+    }
+    const updatedInstructions = [...question.instructions];
+    updatedInstructions.splice(instructionIndex, 1);
+    return { ...question, instructions: updatedInstructions };
+};
+
+export const appendInstruction = async (question: OperationQuestion): Promise<OperationQuestion> => {
+
+    if (question.__type === "Options") {
+        const optionQuestion = question as OptionsQuestion;
+
+        const hasOptionInstructions = optionQuestion.options.some(opt => opt.instructions && opt.instructions.length > 0);
+
+        if (hasOptionInstructions) {
+
+            const message = "Se eliminarán las intrucciones añadidas a las opciones. ¿Desea continuar?";
+            const localContainer = new Container();
+
+            localContainer.bind(ConfirmationMessage).toConstantValue(ConfirmationMessage);
+
+            const interactionService = new InteractionServiceImpl(localContainer);
+            const confirmationResult = await interactionService.confirmMessage(message);
+            console.log("Confirmation result:", confirmationResult);
+            if (!confirmationResult.confirmed) {
+                return question;
+            }
+            question.options.map(opt => {
+                opt.instructions = [];
+            }
+            );
+        }
+
+    }
+    const instruction = <Instruction>{
+        text: "",
+        isMandatory: false,
+    };
+    return { ...question, instructions: [...(question.instructions || []), instruction] };
+};
