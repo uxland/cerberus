@@ -13,6 +13,10 @@ public partial class SurveillanceRound: AggregateRoot
     public string? RootLocationId { get;  set; }
     public string? Description { get; set; }
     
+    public bool DeferredExecution { get; set; }
+    
+    public int? ClipDuration { get; set; }
+    
     public List<Inspection> Inspections { get;  set; }
     
     public Duration? EstimatedDuration { get;  set; }
