@@ -1,7 +1,4 @@
-import { OptionsTypology, OptionsQuestion } from "./options-question.ts";
-import { InteractionServiceImpl } from "@cerberus/core/src/interaction-service/interaction-service-impl.tsx";
-import { Container } from "inversify";
-import { ConfirmationMessage } from "@cerberus/core/src/interaction-service/confirmation-message.tsx";
+import { OptionsTypology } from "./options-question.ts";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -20,7 +17,7 @@ export interface OperationAction{
     alternatives: Array<OperationAction> | undefined;
 }
 
-export interface AnomalousSettings<T extends number | string | boolean | undefined> {
+export interface AnomalousSettings<T extends number | string | boolean | undefined = undefined> {
     actions: OperationAction[];
     value?: T | undefined;
 }
@@ -32,7 +29,7 @@ export interface OperationQuestion {
     isMandatory: boolean;
 }
 
-export interface NormalityRange<T> {
+export interface NormalityRange<T extends string | number> {
     lowerBound?: AnomalousSettings<T> | undefined;
     upperBound?: AnomalousSettings<T> | undefined;
 }

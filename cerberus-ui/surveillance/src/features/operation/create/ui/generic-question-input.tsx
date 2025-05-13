@@ -4,7 +4,6 @@ import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { appendInstruction, removeInstructionFromQuestion } from "../domain";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;

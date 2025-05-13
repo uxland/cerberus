@@ -1,6 +1,6 @@
 import { OperationRunQuestionAnswer } from "../../domain/model.ts";
 import { Select, MultipleSelect } from "@cerberus/core";
-import { OptionsQuestion, type OptionsTypology } from "../../../../operation/create/domain";
+import { OptionsQuestion } from "../../../../operation/create/domain";
 import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
