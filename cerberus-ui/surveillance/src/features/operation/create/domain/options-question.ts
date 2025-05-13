@@ -1,10 +1,9 @@
-import { OperationQuestion, Instruction } from "./model.ts";
+import { OperationQuestion, Instruction, AnomalousSettings } from "./model.ts";
 
 export interface Option {
     code: string;
     text: string;
-    isAnomalous: boolean;
-    instructions?: Instruction[];
+    anomalousSettings: AnomalousSettings | undefined;
 }
 
 export type OptionsTypology = "Single" | "Multiple";

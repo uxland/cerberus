@@ -21,7 +21,6 @@ const operationFactory = (type: OperationQuestionType) => (model: SurveillanceOp
         __type: type,
         id: createQuestionId(model),
         isMandatory: true,
-        instructions: [],
     }
 }
 const operationOptionsFactory = (model: SurveillanceOperationFormModel): OperationQuestion => {
@@ -31,8 +30,7 @@ const operationOptionsFactory = (model: SurveillanceOperationFormModel): Operati
             {
                 code: "0",
                 text: "",
-                isAnomalous: false,
-                instructions: []
+                anomalousSettings: undefined
             }
         ],
         type: "Single"

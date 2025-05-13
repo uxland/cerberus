@@ -5,8 +5,8 @@ public record OptionsQuestion(
         string Text, 
         bool IsMandatory, 
         OptionsQuestion.Tipology Type,  
-        List<OptionsQuestion.Option> Options,
-        IEnumerable<IInstruction>? Instructions = null
+        List<OptionsQuestion.Option> Options
+    
     ) : IOperationQuestion
 {
     public enum Tipology
@@ -14,6 +14,10 @@ public record OptionsQuestion(
         Single,
         Multiple
     }
-    public record Option(string Code, string Text, bool IsAnomalous = false, IEnumerable<IInstruction>? Instructions = null);
+
+    public record Option(string Code, string Text, AnomalousSettings? AnomalousSettings = null)
+    {
+        public bool IsAnomalous => AnomalousSettings != null;
+    }
     
 }

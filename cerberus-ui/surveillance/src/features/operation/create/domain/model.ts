@@ -15,21 +15,26 @@ export const isAnomalousValues: Array<{ value: boolean, label: string }> = [
     { value: true, label: "Sí" },
     { value: false, label: "No" }
 ]
+export interface OperationAction{
+    description: string;
+    alternatives: Array<OperationAction> | undefined;
+}
+
+export interface AnomalousSettings<T extends number | string | boolean | undefined> {
+    actions: OperationAction[];
+    value?: T | undefined;
+}
+
 export interface OperationQuestion {
     __type: OperationQuestionType;
     id: string;
     text: string;
     isMandatory: boolean;
-    instructions?: Instruction[];
 }
 
-export interface Instruction {
-    text: string;
-    isMandatory: boolean;
-}
 export interface NormalityRange<T> {
-    lowerBound?: T | undefined;
-    upperBound?: T | undefined;
+    lowerBound?: AnomalousSettings<T> | undefined;
+    upperBound?: AnomalousSettings<T> | undefined;
 }
 
 
@@ -89,15 +94,18 @@ export const removeQuestion = (model: SurveillanceOperationFormModel, questionId
 export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
     model.questions.find(q => q.id === questionId);
 
-export const removeInstructionFromQuestion = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
+//export const appendAction = (question: OperationQuestion)
+
+/*export const removeInstructionFromQuestion = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
     if (!question.instructions || instructionIndex < 0 || instructionIndex >= question.instructions.length) {
         return question;
     }
     const updatedInstructions = [...question.instructions];
     updatedInstructions.splice(instructionIndex, 1);
     return { ...question, instructions: updatedInstructions };
-};
+};*/
 
+/*
 export const appendInstruction = async (question: OperationQuestion): Promise<OperationQuestion> => {
 
     if (question.__type === "Options") {
@@ -130,4 +138,4 @@ export const appendInstruction = async (question: OperationQuestion): Promise<Op
         isMandatory: false,
     };
     return { ...question, instructions: [...(question.instructions || []), instruction] };
-};
+};*/

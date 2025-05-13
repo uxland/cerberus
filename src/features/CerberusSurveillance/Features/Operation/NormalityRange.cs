@@ -1,6 +1,6 @@
 ﻿namespace Cerberus.Surveillance.Features.Features.Operation;
 
-public record NormalityRange<T> (T? LowerBound, T? UpperBound) where T : struct, IComparable<T>
+public record NormalityRange<T> (AnomalousSettings<T>? LowerBound, AnomalousSettings<T>? UpperBound) where T : struct, IComparable<T>
 {
     
     public bool IsWithinRange(T value)

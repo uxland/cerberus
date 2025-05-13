@@ -13,6 +13,4 @@ public interface IOperationQuestion
     string Text { get; }
     bool IsMandatory { get; }
     
-    IEnumerable<IInstruction>? Instructions { get; } 
-
 }
