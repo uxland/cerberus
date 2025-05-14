@@ -65,7 +65,6 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
     const updateQuestion = (question: OperationQuestion) => {
         const currentQuestions = (operation.questions as OperationQuestion[]).map(q => q.id === question.id ? question : q);
         setValue('questions', currentQuestions);
-        replace([...currentQuestions]);
     };
 
     const handleRemoveQuestion = (questionId: string) => {

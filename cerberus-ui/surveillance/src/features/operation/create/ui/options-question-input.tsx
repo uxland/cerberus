@@ -5,6 +5,7 @@ import { GenericQuestionInput } from "./generic-question-input";
 import { OperationQuestionActions } from "./shared.tsx";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { isAnomalousValues } from "../domain";
+import { AlternativeItem } from "./options-alternative-item";
 
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
@@ -18,9 +19,9 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.option.delete");
     const questionOptionAddOption = useSurveillanceLocales("operation.create.question.option.addOption");
     const questionOptionIsAnomalous = useSurveillanceLocales("operation.create.question.option.isAnomalous");
-    const questionAction = useSurveillanceLocales("operation.create.question.option.anomalousAction");
-    const questionAddInstruction = useSurveillanceLocales("operation.create.question.option.addAction");
-    const addAlternativeLabel = useSurveillanceLocales("operation.create.question.option.addAlternative");
+    const questionAction = useSurveillanceLocales("operation.create.question.actions.anomalousAction");
+    const questionAddInstruction = useSurveillanceLocales("operation.create.question.actions.addAction");
+    const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
     const { formState: { errors } } = actions.formMethods;
 
     const handleAppendOption = () => {
@@ -91,14 +92,14 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 </button>
                             </div>
                             <Select
-                                name="isAnomalous"
+                                name="value"
                                 title={questionOptionIsAnomalous}
-                                path={`${actions.path}.options.${index}`}
+                                path={`${actions.path}.options.${index}.anomalousSettings`}
                                 options={isAnomalousValues.map(m => ({ value: String(m.value), label: m.label }))}
-                                selected={String(question.options[index].isAnomalous)}
+                                selected={String(question.options[index].anomalousSettings?.value)}
                                 formMethods={actions.formMethods}
                             />
-                            {option.isAnomalous && (
+                            {option?.anomalousSettings?.value && (
                                 <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-4">
                                     {(option.anomalousSettings?.actions ?? []).map((action, actionIndex) => (
                                         <div key={actionIndex} className="mb-4">
@@ -120,25 +121,20 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                 </button>
                                             </div>
 
-                                            {/* alternativas */}
                                             {(action.alternatives ?? []).map((alt, altIndex) => (
-                                                <div key={altIndex} className="flex items-center gap-2 mb-2 ml-6">
-                                                    <FormInputField
-                                                        label={`${questionAction} alternativa #${altIndex + 1}`}
-                                                        placeholder="..."
-                                                        register={actions.formMethods.register}
-                                                        name={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}.alternatives.${altIndex}.description`}
-                                                        type="text"
-                                                        error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.alternatives?.[altIndex]?.description}
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleRemoveAlternative(option.code, actionIndex, altIndex)}
-                                                        className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                                                    >
-                                                        {questionOptionDelete}
-                                                    </button>
-                                                </div>
+                                                <AlternativeItem
+                                                    key={altIndex}
+                                                    alternative={alt}
+                                                    optionCode={option.code}
+                                                    actionIndex={actionIndex}
+                                                    path={[altIndex]}
+                                                    question={question}
+                                                    actions={actions}
+                                                    optionIndex={index}
+                                                    questionAction={questionAction}
+                                                    questionOptionDelete={questionOptionDelete}
+                                                    addAlternativeLabel={addAlternativeLabel}
+                                                />
                                             ))}
 
                                             <button

@@ -3,6 +3,30 @@ import { z } from "zod";
 export type OperationForm = z.infer<typeof SurveillanceOperationFormModelSchema>;
 const OperationQuestionTypeSchema = z.enum(["Options", "Text", "Integer", "Float"]);
 
+// Define un esquema recursivo para OperationAction
+const OperationActionSchema: z.ZodType<any> = z.lazy(() =>
+    z.object({
+        description: z.string().nonempty("Action description is required"),
+        alternatives: z.array(OperationActionSchema).optional(),
+    })
+);
+
+const AnomalousSettingsSchema = z.object({
+    actions: z.array(OperationActionSchema),
+    value: z.union([z.number(), z.string(), z.boolean()]).optional(),
+});
+
+const NormalityRangeSchema = z.object({
+    lowerBound: z.object({
+        actions: z.array(OperationActionSchema).optional(),
+        value: z.boolean(),
+    }).optional(),
+    upperBound: z.object({
+        actions: z.array(OperationActionSchema).optional(),
+        value: z.boolean(),
+    }).optional(),
+});
+
 const BaseOperationQuestionSchema = z.object({
     __type: OperationQuestionTypeSchema,
     id: z.string().nonempty("Question id is required"),
@@ -19,28 +43,19 @@ const IntegerQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Integer"),
     min: z.number().optional(),
     max: z.number().optional(),
-    normalityRange: z.object({
-        lowerBound: z.coerce.number().optional(),
-        upperBound: z.coerce.number().optional(),
-    }).optional(),
-    instructions: z.array(z.object({
-        text: z.string().nonempty("Instruction text is required"),
-        isMandatory: z.boolean(),
-    })).optional(),
+    normalityRange: NormalityRangeSchema.optional(),
 });
 
 const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Float"),
     min: z.number().optional(),
     max: z.number().optional(),
-    normalityRange: z.object({
-        lowerBound: z.coerce.number().optional(),
-        upperBound: z.coerce.number().optional(),
-    }).optional(),
-    instructions: z.array(z.object({
-        text: z.string().nonempty("Instruction text is required"),
-        isMandatory: z.boolean(),
-    })).optional(),
+    normalityRange: NormalityRangeSchema.optional(),
+});
+
+const InstructionSchema = z.object({
+    text: z.string().nonempty("Instruction text is required"),
+    isMandatory: z.boolean(),
 });
 
 const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
@@ -48,17 +63,10 @@ const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
     options: z.array(z.object({
         code: z.string().nonempty("Option code is required"),
         text: z.string().nonempty("Option text is required"),
-        isAnomalous: z.boolean(),
-        instructions: z.array(z.object({
-            text: z.string().nonempty("Instruction text is required"),
-            isMandatory: z.boolean(),
-        })).optional(),
+        anomalousSettings: AnomalousSettingsSchema.optional(),
     })).min(2, "At least two options are required"),
     type: z.enum(["Single", "Multiple"]),
-    instructions: z.array(z.object({
-        text: z.string().nonempty("Instruction text is required"),
-        isMandatory: z.boolean(),
-    })).optional(),
+    instructions: z.array(InstructionSchema).optional(),
 });
 
 const QuestionSchema = z.discriminatedUnion("__type", [

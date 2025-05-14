@@ -30,7 +30,10 @@ const operationOptionsFactory = (model: SurveillanceOperationFormModel): Operati
             {
                 code: "0",
                 text: "",
-                anomalousSettings: undefined
+                anomalousSettings: {
+                    actions: [],
+                    value: false
+                }
             }
         ],
         type: "Single"

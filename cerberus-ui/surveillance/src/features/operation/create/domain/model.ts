@@ -1,7 +1,4 @@
-import { OptionsTypology, OptionsQuestion } from "./options-question.ts";
-import { InteractionServiceImpl } from "@cerberus/core/src/interaction-service/interaction-service-impl.tsx";
-import { Container } from "inversify";
-import { ConfirmationMessage } from "@cerberus/core/src/interaction-service/confirmation-message.tsx";
+import { OptionsTypology, OptionsQuestion, _appendAtPath, _removeAtPath } from "./options-question.ts";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -94,39 +91,301 @@ export const removeQuestion = (model: SurveillanceOperationFormModel, questionId
 export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
     model.questions.find(q => q.id === questionId);
 
-export const appendAction = async (question: OperationQuestion): Promise<OperationQuestion> => {
+export const appendLowerBoundAction = <Q extends IntegerQuestion | FloatQuestion>(question: Q): Q => {
+    const normalityRange = question.normalityRange ?? {};
+    const lowerBound = normalityRange.lowerBound ?? { actions: [], value: undefined };
+    const lowerActions = Array.isArray(lowerBound.actions) ? lowerBound.actions : [];
+    const newAction: OperationAction = { description: "", alternatives: [] };
 
-
+    return {
+        ...question,
+        normalityRange: {
+            ...normalityRange,
+            lowerBound: {
+                ...lowerBound,
+                actions: [...lowerActions, newAction],
+                value: lowerBound.value
+            }
+        }
+    } as Q;
 };
-export const removeAction = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
-}
 
-// if (question.__type === "Options") {
-//     const optionQuestion = question as OptionsQuestion;
+export const removeLowerBoundAction = <Q extends IntegerQuestion | FloatQuestion>(
+    question: Q,
+    idx: number
+): Q => {
+    const normalityRange = question.normalityRange ?? {};
+    const lowerBound = normalityRange.lowerBound ?? { actions: [], value: undefined };
+    const lowerActions = Array.isArray(lowerBound.actions) ? [...lowerBound.actions] : [];
 
-//     // const hasOptionInstructions = optionQuestion.options.some(opt => opt.anomalousSettings.actions && opt.anomalousSettings.actions.length > 0);
+    if (idx >= 0 && idx < lowerActions.length) lowerActions.splice(idx, 1);
 
-//     // if (hasOptionInstructions) {
+    return {
+        ...question,
+        normalityRange: {
+            ...normalityRange,
+            lowerBound: {
+                ...lowerBound,
+                actions: lowerActions,
+                value: lowerBound.value
+            }
+        }
+    } as Q;
+};
 
-//     //     const message = "Se eliminarán las intrucciones añadidas a las opciones. ¿Desea continuar?";
-//     //     const localContainer = new Container();
+export const appendLowerAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    question: Q,
+    actionIndex: number
+): Q => {
+    const normalityRange = question.normalityRange ?? {};
+    const lowerBound = normalityRange.lowerBound ?? { actions: [], value: undefined };
+    const lowerActions = Array.isArray(lowerBound.actions) ? [...lowerBound.actions] : [];
 
-//     //     localContainer.bind(ConfirmationMessage).toConstantValue(ConfirmationMessage);
+    const updatedActions = lowerActions.map((action, index) =>
+        index === actionIndex
+            ? {
+                ...action,
+                alternatives: [
+                    ...(Array.isArray(action.alternatives) ? action.alternatives : []),
+                    { description: "", alternatives: [] }
+                ]
+            }
+            : action
+    );
 
-//     //     const interactionService = new InteractionServiceImpl(localContainer);
-//     //     const confirmationResult = await interactionService.confirmMessage(message);
-//     //     console.log("Confirmation result:", confirmationResult);
-//     //     if (!confirmationResult.confirmed) {
-//     //         return question;
-//     //     }
-//     //     question.options.map(opt => {
-//     //         opt.instructions = [];
-//     //     }
-//     //     );
-//     // }
+    return {
+        ...question,
+        normalityRange: {
+            ...normalityRange,
+            lowerBound: {
+                ...lowerBound,
+                actions: updatedActions,
+                value: lowerBound.value
+            }
+        }
+    } as Q;
+};
 
-// }
-// const action = <OperationAction>{
-//     description: "",
-// };
-// return { ...question, anomalousSettings: [...(question.instructions || []), action] };
+export const removeLowerAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    question: Q,
+    ai: number,
+    li: number
+): Q => {
+    const prev = question.normalityRange?.lowerBound ?? { actions: [], value: undefined };
+    const actions = prev.actions.map((act, i) =>
+        i === ai
+            ? { ...act, alternatives: (act.alternatives ?? []).filter((_, j) => j !== li) }
+            : act
+    );
+    return {
+        ...question,
+        normalityRange: {
+            ...question.normalityRange,
+            lowerBound: { actions, value: prev.value }
+        }
+    } as Q;
+};
+
+export const appendUpperBoundAction = <Q extends IntegerQuestion | FloatQuestion>(question: Q): Q => {
+    const normalityRange = question.normalityRange ?? {};
+    const upperBound = normalityRange.upperBound ?? { actions: [], value: undefined };
+    // garantizamos que actions sea array
+    const upperActions = Array.isArray(upperBound.actions) ? upperBound.actions : [];
+    const newAct: OperationAction = { description: "", alternatives: [] };
+    return {
+        ...question,
+        normalityRange: {
+            ...normalityRange,
+            upperBound: {
+                actions: [...upperActions, newAct],
+                value: upperBound.value
+            }
+        }
+    } as Q;
+};
+
+export const removeUpperBoundAction = <Q extends IntegerQuestion | FloatQuestion>(
+    question: Q,
+    idx: number
+): Q => {
+    const normalityRange = question.normalityRange ?? {};
+    const upperBound = normalityRange.upperBound ?? { actions: [], value: undefined };
+    // protegemos actions aquí también
+    const upperActions = Array.isArray(upperBound.actions) ? [...upperBound.actions] : [];
+    if (idx >= 0 && idx < upperActions.length) upperActions.splice(idx, 1);
+    return {
+        ...question,
+        normalityRange: {
+            ...normalityRange,
+            upperBound: {
+                actions: upperActions,
+                value: upperBound.value
+            }
+        }
+    } as Q;
+};
+
+export const appendUpperAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    question: Q,
+    ai: number
+): Q => {
+    const prev = question.normalityRange?.upperBound ?? { actions: [], value: undefined };
+    const actions = prev.actions.map((act, i) =>
+        i === ai
+            ? { ...act, alternatives: [...(act.alternatives ?? []), { description: "", alternatives: [] }] }
+            : act
+    );
+    return {
+        ...question,
+        normalityRange: {
+            ...question.normalityRange,
+            upperBound: { actions, value: prev.value }
+        }
+    } as Q;
+};
+
+export const removeUpperAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    question: Q,
+    ai: number,
+    li: number
+): Q => {
+    const prev = question.normalityRange?.upperBound ?? { actions: [], value: undefined };
+    const actions = prev.actions.map((act, i) =>
+        i === ai
+            ? { ...act, alternatives: (act.alternatives ?? []).filter((_, j) => j !== li) }
+            : act
+    );
+    return {
+        ...question,
+        normalityRange: {
+            ...question.normalityRange,
+            upperBound: { actions, value: prev.value }
+        }
+    } as Q;
+};
+
+export const appendNestedLowerAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    q: Q,
+    ai: number,
+    path: number[]
+): Q => {
+    const lower = q.normalityRange?.lowerBound;
+    if (!lower) return q;
+    const updated = (lower.actions ?? []).map((act, i) =>
+        i === ai
+            ? {
+                ...act,
+                alternatives: _appendAtPath(
+                    act.alternatives ?? [],
+                    path,                               // aquí va el path[]
+                    { description: "", alternatives: [] } // y aquí el newAlt
+                )
+            }
+            : act
+    );
+    return {
+        ...q,
+        normalityRange: {
+            ...q.normalityRange!,
+            lowerBound: { ...lower, actions: updated }
+        }
+    } as Q;
+};
+
+export const removeNestedLowerAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    q: Q,
+    actionIndex: number,
+    alternativePath: number[]
+): Q => {
+    const normalityRange = q.normalityRange;
+    if (!normalityRange) return q;
+
+    const lowerBound = normalityRange.lowerBound;
+    // Ensure lowerBound and its actions array exist
+    if (!lowerBound || !Array.isArray(lowerBound.actions)) return q;
+
+    const updatedActions = lowerBound.actions.map((action, idx) => {
+        if (idx === actionIndex) {
+            // Call _removeAtPath on the specific action's alternatives
+            return {
+                ...action,
+                alternatives: _removeAtPath(action.alternatives ?? [], alternativePath)
+            };
+        }
+        return action;
+    });
+
+    return {
+        ...q,
+        normalityRange: {
+            ...normalityRange,
+            lowerBound: {
+                ...lowerBound,
+                actions: updatedActions
+            }
+        }
+    } as Q;
+};
+
+export const appendNestedUpperAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    q: Q,
+    ai: number,
+    path: number[]
+): Q => {
+    const upper = q.normalityRange?.upperBound;
+    if (!upper) return q;
+    const updated = (upper.actions ?? []).map((act, i) =>
+        i === ai
+            ? {
+                ...act,
+                alternatives: _appendAtPath(
+                    act.alternatives ?? [],
+                    path,
+                    { description: "", alternatives: [] }
+                )
+            }
+            : act
+    );
+    return {
+        ...q,
+        normalityRange: {
+            ...q.normalityRange!,
+            upperBound: { ...upper, actions: updated }
+        }
+    } as Q;
+};
+
+export const removeNestedUpperAlternative = <Q extends IntegerQuestion | FloatQuestion>(
+    q: Q,
+    actionIndex: number,
+    alternativePath: number[]
+): Q => {
+    const normalityRange = q.normalityRange;
+    if (!normalityRange) return q;
+
+    const upperBound = normalityRange.upperBound;
+    // Ensure upperBound and its actions array exist
+    if (!upperBound || !Array.isArray(upperBound.actions)) return q;
+
+    const updatedActions = upperBound.actions.map((action, idx) => {
+        if (idx === actionIndex) {
+            // Call _removeAtPath on the specific action's alternatives
+            return {
+                ...action,
+                alternatives: _removeAtPath(action.alternatives ?? [], alternativePath)
+            };
+        }
+        return action;
+    });
+
+    return {
+        ...q,
+        normalityRange: {
+            ...normalityRange,
+            upperBound: { // Ensure correct property name 'upperBound'
+                ...upperBound,
+                actions: updatedActions // Ensure correct property name 'actions'
+            }
+        }
+    } as Q;
+};

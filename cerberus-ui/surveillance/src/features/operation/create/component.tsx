@@ -30,7 +30,7 @@ export const SurveillanceOperationEditor = () => {
     }, [operationId]);
 
     const submitOperation = async (operation: SurveillanceOperationFormModel) => {
-        // console.log("Operation", operation);
+        console.log("Operation", operation);
         const command = new EditOrCreateOperation(operationId === "new" ? undefined : operationId, operation);
         sendMediatorRequest({
             command: command,

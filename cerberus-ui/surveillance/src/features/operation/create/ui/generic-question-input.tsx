@@ -4,7 +4,18 @@ import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { appendAction, removeAction } from "../domain";
+import { IntegerQuestion, FloatQuestion } from "../domain/model";
+import {
+    appendLowerAlternative,
+    removeLowerAlternative,
+    appendUpperAlternative,
+    removeUpperAlternative,
+    appendLowerBoundAction,
+    removeLowerBoundAction,
+    appendUpperBoundAction,
+    removeUpperBoundAction
+} from "../domain/model";
+import { GenericAlternativeItem } from "./generic-alternative-item";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
@@ -16,9 +27,11 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     const lowerBoundPlaceholder = useSurveillanceLocales("operation.create.question.lowerBoundPlaceholder")
     const upperBoundPlaceholder = useSurveillanceLocales("operation.create.question.upperBoundPlaceholder")
 
-    const questionLevelInstructionsTitle = useSurveillanceLocales("operation.create.question.instructions.title");
-    const questionAddInstructionLabel = useSurveillanceLocales("operation.create.question.instructions.addInstruction");
-    const questionRemoveInstructionLabel = useSurveillanceLocales("operation.create.question.instructions.removeInstruction");
+    const questionAction = useSurveillanceLocales("operation.create.question.actions.anomalousAction");
+    const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
+    const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
+    const questionOptionDelete = useSurveillanceLocales("operation.create.question.actions.delete");
+
 
     const handleTypeChange = (value: OperationQuestionType) => {
         actions.changeQuestionType(question.id, value);
@@ -35,19 +48,52 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
         actions.removeQuestion(question.id);
     };
 
-    const handleAppendQuestionInstruction = async () => {
-        const updatedQuestion = await appendAction(question);
-        actions.setQuestion(question.id, updatedQuestion);
-    };
+    const handleAppendLowerAction = () =>
+        actions.setQuestion(
+            question.id,
+            appendLowerBoundAction(question as IntegerQuestion | FloatQuestion)
+        );
+    const handleRemoveLowerAction = (actionindex: number) =>
+        actions.setQuestion(
+            question.id,
+            removeLowerBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
+        );
+    const handleAppendLowerAlternative = (actionindex: number) =>
+        actions.setQuestion(
+            question.id,
+            appendLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
+        );
+    const handleRemoveLowerAlternative = (actionindex: number, alternativeindex: number) =>
+        actions.setQuestion(
+            question.id,
+            removeLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex, alternativeindex)
+        );
 
-    const handleRemoveQuestionInstruction = (instrIndex: number) => {
-        actions.setQuestion(question.id, removeAction(question, instrIndex));
-    };
+    // --- Handlers para upperBound ---
+    const handleAppendUpperAction = () =>
+        actions.setQuestion(
+            question.id,
+            appendUpperBoundAction(question as IntegerQuestion | FloatQuestion)
+        );
+    const handleRemoveUpperAction = (actionindex: number) =>
+        actions.setQuestion(
+            question.id,
+            removeUpperBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
+        );
+    const handleAppendUpperAlternative = (actionindex: number) =>
+        actions.setQuestion(
+            question.id,
+            appendUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
+        );
+    const handleRemoveUpperAlternative = (actionindex: number, alternativeindex: number) =>
+        actions.setQuestion(
+            question.id,
+            removeUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex, alternativeindex)
+        );
 
     console.log("question", question);
 
     const { register, formState: { errors } } = actions.formMethods;
-
     return (
         <div key={question.id}>
             <div className="flex gap-4 justify-between items-center">
@@ -96,59 +142,152 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                     />
                 )}
             </div>
-            {/* {question.__type != "Text" && (
-                <div className="mt-4 border-t pt-4">
-                    <h1 className="font-semibold mb-2">{questionLevelInstructionsTitle}</h1>
-                    {question.instructions?.map((instruction, instrIndex) => (
-                        <div key={instrIndex} className="flex items-center gap-2 mb-2">
-                            <FormInputField
-                                label={`${questionLevelInstructionsTitle} #${instrIndex + 1}`}
-                                placeholder="..."
-                                register={register}
-                                name={`${actions.path}.instructions.${instrIndex}.text`}
-                                type="text"
-                                error={errors[actions.path]?.instructions?.[instrIndex]?.text}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => handleRemoveQuestionInstruction(instrIndex)}
-                                className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                            >
-                                {questionRemoveInstructionLabel}
-                            </button>
+
+
+
+            {question.__type !== "Options" && question.__type !== "Text" && (
+                <>
+                    <div className="mt-4 border-t pt-4">
+                        <h1 className="font-bold">{normalityRange}</h1>
+                        <div className="grid grid-cols-2 gap-6">
+                            {/* LOWER BOUND - Columna independiente con scroll */}
+                            <div className="flex flex-col ">
+                                <div className="">
+                                    <FormInputField
+                                        name={`${actions.path}.normalityRange.lowerBound.value`}
+                                        type="number"
+                                        register={register}
+                                        placeholder={lowerBoundPlaceholder}
+                                        error={errors[actions.path]?.normalityRange?.lowerBound?.value}
+                                    />
+                                </div>
+                                <div className="overflow-y-auto  p-3">
+                                    <div className="border-l-2 border-gray-300 pl-4">
+                                        {(question.normalityRange?.lowerBound?.actions ?? []).map((action, actionindex) => (
+                                            <div key={actionindex} className="mb-4">
+                                                {/* descripción + borrar acción */}
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <FormInputField
+                                                        label={`${questionAction} #${actionindex + 1}`}
+                                                        placeholder="..."
+                                                        register={actions.formMethods.register}
+                                                        name={`${actions.path}.normalityRange.lowerBound.actions.${actionindex}.description`}
+                                                        type="text"
+                                                        error={errors[actions.path]?.normalityRange?.lowerBound?.actions?.[actionindex]?.description}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveLowerAction(actionindex)}
+                                                        className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                                                    >
+                                                        {questionOptionDelete}
+                                                    </button>
+                                                </div>
+                                                {/* alternativas anidadas */}
+                                                {(action.alternatives ?? []).map((alt, altIndex) => (
+                                                    <GenericAlternativeItem
+                                                        key={altIndex}
+                                                        alternative={alt}
+                                                        boundType="lowerBound"
+                                                        actionIndex={actionindex}
+                                                        path={[altIndex]}
+                                                        level={0}
+                                                        question={question as IntegerQuestion | FloatQuestion}
+                                                        actions={actions}
+                                                        questionAction={questionAction}
+                                                        questionOptionDelete={questionOptionDelete}
+                                                        addAlternativeLabel={addAlternativeLabel}
+                                                    />
+                                                ))}
+                                                <button
+                                                    type="button"
+                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-6"
+                                                    onClick={() => handleAppendLowerAlternative(actionindex)}
+                                                >
+                                                    {addAlternativeLabel}
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="text-primary font-bold hover:text-formSelect text-xs w-full"
+                                    onClick={handleAppendLowerAction}
+                                >
+                                    {questionAddAction}
+                                </button>
+                            </div>
+
+                            {/* UPPER BOUND - Columna independiente con scroll */}
+                            <div className="flex flex-col ">
+                                <div className="">
+                                    <FormInputField
+                                        name={`${actions.path}.normalityRange.upperBound.value`}
+                                        type="number"
+                                        register={register}
+                                        placeholder={upperBoundPlaceholder}
+                                        error={errors[actions.path]?.normalityRange?.upperBound?.value}
+                                    />
+                                </div>
+                                <div className="overflow-y-auto p-3">
+                                    <div className="border-l-2 border-gray-300 pl-4">
+                                        {(question.normalityRange?.upperBound?.actions ?? []).map((action, actionindex) => (
+                                            <div key={actionindex} className="mb-4">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <FormInputField
+                                                        label={`${questionAction} #${actionindex + 1}`}
+                                                        placeholder="..."
+                                                        register={actions.formMethods.register}
+                                                        name={`${actions.path}.normalityRange.upperBound.actions.${actionindex}.description`}
+                                                        type="text"
+                                                        error={errors[actions.path]?.normalityRange?.upperBound?.actions?.[actionindex]?.description}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRemoveUpperAction(actionindex)}
+                                                        className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                                                    >
+                                                        {questionOptionDelete}
+                                                    </button>
+                                                </div>
+                                                {(action.alternatives ?? []).map((alt, altIndex) => (
+                                                    <GenericAlternativeItem
+                                                        key={altIndex}
+                                                        alternative={alt}
+                                                        boundType="upperBound"
+                                                        actionIndex={actionindex}
+                                                        path={[altIndex]}
+                                                        level={0}
+                                                        question={question as IntegerQuestion | FloatQuestion}
+                                                        actions={actions}
+                                                        questionAction={questionAction}
+                                                        questionOptionDelete={questionOptionDelete}
+                                                        addAlternativeLabel={addAlternativeLabel}
+                                                    />
+                                                ))}
+                                                <button
+                                                    type="button"
+                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-6"
+                                                    onClick={() => handleAppendUpperAlternative(actionindex)}
+                                                >
+                                                    {addAlternativeLabel}
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="text-primary font-bold hover:text-formSelect text-xs w-full"
+                                    onClick={handleAppendUpperAction}
+                                >
+                                    {questionAddAction}
+                                </button>
+                            </div>
                         </div>
-                    ))}
-                    <button
-                        type="button"
-                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
-                        onClick={handleAppendQuestionInstruction}
-                    >
-                        {questionAddInstructionLabel}
-                    </button>
-                </div>
-            )} */}
-
-
-            {question.__type != "Options" && question.__type != "Text" && (
-                <div className="mt-4 border-t pt-4">
-                    <h1 className="font-bold">{normalityRange}</h1>
-                    <div className="flex gap-2">
-                        <FormInputField
-                            name={`${actions.path}.normalityRange.lowerBound`}
-                            type="number"
-                            register={register}
-                            placeholder={lowerBoundPlaceholder}
-                            error={errors[actions.path]?.normalityRange?.lowerBound}
-                        />
-                        <FormInputField
-                            name={`${actions.path}.normalityRange.upperBound`}
-                            type="number"
-                            register={register}
-                            placeholder={upperBoundPlaceholder}
-                            error={errors[actions.path]?.normalityRange?.upperBound}
-                        />
                     </div>
-                </div>
+                </>
             )}
         </div>
     );

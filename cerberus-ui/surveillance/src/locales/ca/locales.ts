@@ -38,10 +38,12 @@ export const locales = {
           normalityRange: "Rango de normalidad",
           lowerBoundPlaceholder: "Valor mínimo",
           upperBoundPlaceholder: "Valor máximo",
-          instructions: {
-            title: "Instrucciones",
-            addInstruction: "+ Añadir instrucción (a pregunta)",
+          actions: {
+            addAction: "+ Añadir acción",
+            addAlternative: "+ Añadir alternativa",
             removeInstruction: "Eliminar",
+            anomalousAction: "Acción para la opción anómala",
+            delete: "Eliminar",
           },
           option: {
             title: "Opción",
@@ -50,9 +52,6 @@ export const locales = {
             text: "Texto",
             isAnomalous: "Opción anómala",
             delete: "Eliminar",
-            anomalousAction: "Instrucción para la opción anómala",
-            addAction: "+ Añadir instrucción (a opción)",
-            addAlternative: "+ Añadir alternativa",
           }
         },
       },
