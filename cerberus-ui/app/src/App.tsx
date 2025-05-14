@@ -45,6 +45,18 @@ const tabsConfig = [
 const AppContent = ({ routes }) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
+  const { initialized, keycloak } = useKeycloak();
+
+  // Restore the path after authentication
+  useEffect(() => {
+    if (initialized && keycloak.authenticated) {
+      const redirectPath = sessionStorage.getItem('redirectPath');
+      if (redirectPath) {
+        navigate(redirectPath);
+        sessionStorage.removeItem('redirectPath');
+      }
+    }
+  }, [initialized, keycloak.authenticated, navigate]);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -72,8 +84,6 @@ const AppContent = ({ routes }) => {
   useEffect(() => {
     new Mediator().send(new SetNavigation(navigate)).then(nop);
   }, [navigate]);
-
-  const { initialized } = useKeycloak();
 
   if (!initialized) {
     return <Fetching />;
