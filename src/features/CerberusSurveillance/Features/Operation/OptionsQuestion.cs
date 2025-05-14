@@ -1,4 +1,6 @@
-﻿namespace Cerberus.Surveillance.Features.Features.Operation;
+﻿using System.Text.Json.Serialization;
+
+namespace Cerberus.Surveillance.Features.Features.Operation;
 
 public record OptionsQuestion(
         string Id, 
@@ -17,6 +19,8 @@ public record OptionsQuestion(
 
     public record Option(string Code, string Text, AnomalousSettings? AnomalousSettings = null)
     {
+
+        [JsonIgnore]
         public bool IsAnomalous => AnomalousSettings != null;
     }
     
