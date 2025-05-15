@@ -11,11 +11,12 @@ export interface Round {
     cronExpression: string;
     estimatedDuration?: number;
     assignedTo?: string;
-    deferredExecution?: boolean;
-    clipDuration?: number;
+    deferredExecution?: DeferredSettings;
     inspections: Inspection[];
 }
-
+export interface DeferredSettings {
+    clipDurationInSeconds: number;
+}
 export interface Inspection {
     id: string;
     cameraId: string;
