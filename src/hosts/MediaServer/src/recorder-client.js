@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import portPool from "./port-pool.js";
 
+const recordingDir = process.env.RECORDER_DIR || '/usr/media';
+
 export default class RecorderClient {
     router = null;
     streamFactory = null;
@@ -20,7 +22,7 @@ export default class RecorderClient {
     }
 
     async startRecording(cameraId, filename) {
-        this.filename = filename;
+        this.filename = path.join(recordingDir, filename);
         fs.mkdirSync(path.dirname(this.filename), { recursive: true });
         const camera = await this.streamFactory(cameraId);
 

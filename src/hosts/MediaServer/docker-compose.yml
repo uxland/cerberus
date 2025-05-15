@@ -11,9 +11,16 @@ services:
     volumes:
       - ./src:/usr/src
       - ./certs:/certs/ssl
+      - snapshots_volume:/usr/media
     networks:
       - cerberus
-
+volumes:
+  snapshots_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ../../../Snapshots
 networks:
   cerberus:
     external: true

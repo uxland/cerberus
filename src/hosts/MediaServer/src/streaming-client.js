@@ -109,9 +109,10 @@ export class StreamingClient {
 		await this.transport.connect({ dtlsParameters });
 	}
 
-	async consume({ rtpCapabilities, cameraId, record = false }, callback){
+	async consume({ rtpCapabilities, cameraId, recordSettings }, callback){
 		try {
 			const {camera, error} = await this.getCamera(rtpCapabilities, cameraId);
+			const { record, clipPath } = recordSettings || { record: false };
 			if (error) {
 				callback({ error });
 				return;
@@ -131,7 +132,7 @@ export class StreamingClient {
 				this.consumer.close();
 			});
 			if(record)
-				this.startRecording(cameraId).then(() =>{});
+				this.startRecording(cameraId, clipPath).then(() =>{});
 			callback({
 				params: {
 					id: this.consumer.id,
@@ -160,10 +161,10 @@ export class StreamingClient {
 		return {camera: camera, error: undefined};
 
 	}
-	async startRecording(cameraId) {
+	async startRecording(cameraId, clipPath) {
 		//return;
 		await this.recorderClient?.stopRecording();
-		const filename = `/recordings/${this.currentCamera.id}_${this.socket.id}_${Date.now()}.mp4`;
+		const filename = clipPath || `/recordings/${this.currentCamera.id}_${this.socket.id}_${Date.now()}.mp4`;
 		this.recorderClient = new RecorderClient(this.streamFactory, this.router)
 		await this.recorderClient.startRecording(cameraId, filename);
 
