@@ -50,7 +50,7 @@ export const locales = {
             addOption: "+ Añadir opción",
             code: "Código",
             text: "Texto",
-            isAnomalous: "Opción anómala",
+            isAnomalous: "Anómala",
             delete: "Eliminar",
           }
         },

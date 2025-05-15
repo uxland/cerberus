@@ -54,10 +54,9 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
 
     const fieldName = `${actions.path}.options.${optionIndex}.anomalousSettings.actions.${actionIndex}.alternatives.${path.join('.alternatives.')}.description`;
 
-    const marginLeft = 16 + (level * 16);
 
     return (
-        <div style={{ marginLeft: `${marginLeft}px` }}>
+        <div className="relative ml-4">
             <div className="flex items-center gap-2 mb-2">
                 <FormInputField
                     label={`${questionAction} alternativa #${altIndex + 1}`}
@@ -65,42 +64,48 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
                     register={actions.formMethods.register}
                     name={fieldName}
                     type="text"
+                    onDelete={handleRemoveNestedAlternative}
                     error={errors[actions.path]?.options?.[optionIndex]?.anomalousSettings?.actions?.[actionIndex]?.alternatives?.[path[0]]?.description}
                 />
+            </div>
+
+            <div>
                 <button
                     type="button"
-                    onClick={handleRemoveNestedAlternative}
-                    className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                    className="text-primary font-bold hover:text-formSelect text-xs ml-6 mb-4"
+                    onClick={handleAddNestedAlternative}
                 >
-                    {questionOptionDelete}
+                    {addAlternativeLabel}
                 </button>
             </div>
 
-            {(alternative.alternatives || []).map((nestedAlt, nestedIdx) => (
-                <AlternativeItem
-                    key={nestedIdx}
-                    alternative={nestedAlt}
-                    optionCode={optionCode}
-                    actionIndex={actionIndex}
-                    path={[...path, nestedIdx]}
-                    level={level + 1}
-                    question={question}
-                    actions={actions}
-                    optionIndex={optionIndex}
-                    questionAction={questionAction}
-                    questionOptionDelete={questionOptionDelete}
-                    addAlternativeLabel={addAlternativeLabel}
-                />
-            ))}
+            {(alternative.alternatives || []).length > 0 && (
+                <div className="relative">
+                    {/* <div className="absolute top-[-46px] bottom-[66px] left-2 w-[2px] bg-[#4a4a4a]"></div> */}
 
-            <button
-                type="button"
-                className="text-primary font-bold hover:text-formSelect text-xs mb-4"
-                style={{ marginLeft: `${4}px` }}
-                onClick={handleAddNestedAlternative}
-            >
-                {addAlternativeLabel}
-            </button>
+                    {(alternative.alternatives || []).map((nestedAlt, nestedIdx) => (
+                        <div className="relative" key={nestedIdx}>
+                            {/* <div className="absolute left-[10px] top-[50px] w-8 h-[2px] bg-[#4a4a4a]"></div> */}
+                            <div className="ml-2">
+                                <AlternativeItem
+                                    key={nestedIdx}
+                                    alternative={nestedAlt}
+                                    optionCode={optionCode}
+                                    actionIndex={actionIndex}
+                                    path={[...path, nestedIdx]}
+                                    level={level + 1}
+                                    question={question}
+                                    actions={actions}
+                                    optionIndex={optionIndex}
+                                    questionAction={questionAction}
+                                    questionOptionDelete={questionOptionDelete}
+                                    addAlternativeLabel={addAlternativeLabel}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

@@ -16,6 +16,7 @@ import {
     removeUpperBoundAction
 } from "../domain/model";
 import { GenericAlternativeItem } from "./generic-alternative-item";
+import { QuestionIcon } from "./icons/question-icon.tsx";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
@@ -96,12 +97,13 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     const { register, formState: { errors } } = actions.formMethods;
     return (
         <div key={question.id}>
-            <div className="flex gap-4 justify-between items-center">
+            <div className="flex items-center mt-2 gap-2">
+                <QuestionIcon className="text-primary w-8" />
                 <h1 className="font-bold">{useSurveillanceLocales("operation.create.question.title")} {question.id}</h1>
                 <button
                     type="button"
                     onClick={handleRemoveQuestion}
-                    className="flex bg-red-500 p-1 rounded-full hover:bg-red-300"
+                    className="flex bg-red-500 p-1 rounded-full hover:bg-red-300 ml-auto"
                 >
                     <DeleteOutlineIcon />
                 </button>

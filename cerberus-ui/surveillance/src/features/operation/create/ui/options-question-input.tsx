@@ -4,9 +4,9 @@ import { OptionsQuestion, appendOption, removeOption, appendActionToOption, remo
 import { GenericQuestionInput } from "./generic-question-input";
 import { OperationQuestionActions } from "./shared.tsx";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { isAnomalousValues } from "../domain";
 import { AlternativeItem } from "./options-alternative-item";
-
+import AnomalousSwitch from "./anomalousSwitch.tsx";
+import { AnswerIcon } from "./icons/answer-icon.tsx";
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
     actions: OperationQuestionActions;
@@ -20,8 +20,9 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
     const questionOptionAddOption = useSurveillanceLocales("operation.create.question.option.addOption");
     const questionOptionIsAnomalous = useSurveillanceLocales("operation.create.question.option.isAnomalous");
     const questionAction = useSurveillanceLocales("operation.create.question.actions.anomalousAction");
-    const questionAddInstruction = useSurveillanceLocales("operation.create.question.actions.addAction");
+    const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
     const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
+
     const { formState: { errors } } = actions.formMethods;
 
     const handleAppendOption = () => {
@@ -60,100 +61,98 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
             {question.__type === "Options" && (
                 <div>
                     {question.options.map((option, index) => (
-                        <div key={option.code} className="border-t pt-4 mt-4">
-                            <div className="flex items-center mt-2">
+                        <div key={option.code} className="border-t-2 border-[#4a4a4a] pt-4 mt-4">
+                            <div className="flex items-center mt-2 gap-2">
+                                <AnswerIcon className="text-primary w-8 " />
                                 <h1 className="font-bold">
                                     {questionOptionTitle} {index + 1}
                                 </h1>
+                                <AnomalousSwitch
+                                    checked={option.anomalousSettings?.value}
+                                    onChange={(e) => {
+                                        actions.formMethods.setValue(
+                                            `${actions.path}.options.${index}.anomalousSettings.value`,
+                                            e.target.checked
+                                        )
+                                    }}
+                                />
+                                <span className="text-sm">
+                                    {questionOptionIsAnomalous}
+                                </span>
                             </div>
                             <div className="flex gap-4 my-2 items-end">
+
                                 <FormInputField
-                                    label={questionOptionCode}
-                                    placeholder="..."
-                                    register={actions.formMethods.register}
-                                    type="text"
-                                    name={`${actions.path}.options.${index}.code`}
-                                    error={errors[actions.path]?.options?.[index]?.code}
-                                />
-                                <FormInputField
-                                    label={questionOptionText}
                                     placeholder="..."
                                     register={actions.formMethods.register}
                                     type="text"
                                     name={`${actions.path}.options.${index}.text`}
                                     error={errors[actions.path]?.options?.[index]?.text}
+                                    onDelete={() => handleRemoveOption(option.code)}
                                 />
-                                <button
-                                    type="button"
-                                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover mb-1"
-                                    onClick={() => handleRemoveOption(option.code)}
-                                >
-                                    {questionOptionDelete}
-                                </button>
                             </div>
-                            <Select
-                                name="value"
-                                title={questionOptionIsAnomalous}
-                                path={`${actions.path}.options.${index}.anomalousSettings`}
-                                options={isAnomalousValues.map(m => ({ value: String(m.value), label: m.label }))}
-                                selected={String(question.options[index].anomalousSettings?.value)}
-                                formMethods={actions.formMethods}
-                            />
+
                             {option?.anomalousSettings?.value && (
-                                <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-4">
+                                <div className="ml-4 mt-2 border-l-2 border-[#4a4a4a] ">
+                                    <button
+                                        type="button"
+                                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
+                                        onClick={() => handleAppendActionToOption(option.code)}
+                                    >
+                                        {questionAddAction}
+                                    </button>
                                     {(option.anomalousSettings?.actions ?? []).map((action, actionIndex) => (
                                         <div key={actionIndex} className="mb-4">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <FormInputField
-                                                    label={`${questionAction} #${actionIndex + 1}`}
-                                                    placeholder="..."
-                                                    register={actions.formMethods.register}
-                                                    name={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}.description`}
-                                                    type="text"
-                                                    error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.description}
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleRemoveActionFromOption(option.code, actionIndex)}
-                                                    className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                                                >
-                                                    {questionOptionDelete}
-                                                </button>
+                                            <div className="flex gap-2 mb-2 flex-col">
+
+                                                <div className="w-full mt-2 flex items-center">
+                                                    <div className="bg-[#4a4a4a] h-[2px] w-4 mt-7"></div>
+                                                    <FormInputField
+                                                        label={`${questionAction} #${actionIndex + 1}`}
+                                                        placeholder="..."
+                                                        register={actions.formMethods.register}
+                                                        name={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}.description`}
+                                                        type="text"
+                                                        onDelete={() => handleRemoveActionFromOption(option.code, actionIndex)}
+                                                        error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.description}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        type="button"
+                                                        className="text-primary font-bold hover:text-formSelect text-xs ml-14 mb-4"
+                                                        onClick={() => handleAppendAlternative(option.code, actionIndex)}
+                                                    >
+                                                        {addAlternativeLabel}
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            {(action.alternatives ?? []).map((alt, altIndex) => (
-                                                <AlternativeItem
-                                                    key={altIndex}
-                                                    alternative={alt}
-                                                    optionCode={option.code}
-                                                    actionIndex={actionIndex}
-                                                    path={[altIndex]}
-                                                    question={question}
-                                                    actions={actions}
-                                                    optionIndex={index}
-                                                    questionAction={questionAction}
-                                                    questionOptionDelete={questionOptionDelete}
-                                                    addAlternativeLabel={addAlternativeLabel}
-                                                />
-                                            ))}
+                                            <div className="relative">
+                                                <div className="absolute top-[-54px] bottom-[60px] left-6 w-[2px] bg-[#4a4a4a]"></div>
+                                                {(action.alternatives ?? []).map((alt, altIndex) => (
+                                                    <div className="ml-6 relative" key={altIndex}>
+                                                        <div className="absolute left-[0px] top-[50px] w-4 h-[2px] bg-[#4a4a4a]"></div>
+                                                        <AlternativeItem
+                                                            alternative={alt}
+                                                            optionCode={option.code}
+                                                            actionIndex={actionIndex}
+                                                            path={[altIndex]}
+                                                            question={question}
+                                                            actions={actions}
+                                                            optionIndex={index}
+                                                            questionAction={questionAction}
+                                                            questionOptionDelete={questionOptionDelete}
+                                                            addAlternativeLabel={addAlternativeLabel}
+                                                        />
+                                                    </div>
+                                                ))}
 
-                                            <button
-                                                type="button"
-                                                className="text-primary font-bold hover:text-formSelect text-xs ml-6"
-                                                onClick={() => handleAppendAlternative(option.code, actionIndex)}
-                                            >
-                                                {addAlternativeLabel}
-                                            </button>
+                                            </div>
                                         </div>
                                     ))}
 
-                                    <button
-                                        type="button"
-                                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
-                                        onClick={() => handleAppendActionToOption(option.code)}
-                                    >
-                                        {questionAddInstruction}
-                                    </button>
+
                                 </div>
                             )}
                         </div>
