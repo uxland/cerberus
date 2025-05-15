@@ -3,6 +3,9 @@ import { Select, MultipleSelect } from "@cerberus/core";
 import { OptionsQuestion } from "../../../../operation/create/domain";
 import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ActionItem } from "./action-item";
+
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<any>;
     index: number;
@@ -10,10 +13,34 @@ interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
 
 export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
     const isMandatory = props.question.isMandatory;
-    const { register, formState } = props.formMethods;
+    const { register, watch, setValue, formState } = props.formMethods;
     const question = props.question as OptionsQuestion;
     const fieldPath = `answers.${props.index}`;
-    const questionIdPath = `answers.${props.index}.questionId` as const;
+    const questionIdPath = `${fieldPath}.questionId` as const;
+    const answerPath = `${fieldPath}.answer`;
+
+    const selectedValue = watch(answerPath);
+    const [showActions, setShowActions] = useState(false);
+
+    const selectedOption = question.options?.find(opt => opt.code === selectedValue);
+    const hasActions = selectedOption?.anomalousSettings?.actions?.length > 0;
+
+    useEffect(() => {
+        if (selectedValue && hasActions) {
+            setShowActions(true);
+            setValue(`${fieldPath}.actions`,
+                selectedOption.anomalousSettings.actions.map(action => ({
+                    description: action.description,
+                    executed: null,
+                    comments: "",
+                    alternativeActions: action.alternatives || null
+                }))
+            );
+        } else {
+            setShowActions(false);
+            setValue(`${fieldPath}.actions`, undefined);
+        }
+    }, [selectedValue, hasActions, setValue, fieldPath, selectedOption]);
 
     return (
         <>
@@ -48,6 +75,15 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                 {...register(questionIdPath)}
                 defaultValue={props.question.id}
             />
+            {showActions && selectedOption?.anomalousSettings?.actions?.map((action, actionIndex) => (
+                <ActionItem
+                    key={`${fieldPath}-action-${actionIndex}`}
+                    action={action}
+                    formMethods={props.formMethods}
+                    basePath={`${fieldPath}.actions`}
+                    index={actionIndex}
+                />
+            ))}
         </>
     )
 }

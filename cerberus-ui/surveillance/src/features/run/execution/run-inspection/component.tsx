@@ -28,8 +28,9 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
     const onSubmitForm = (data: ExecutionForm) => {
         handler(new SetRunInspection(data as InspectionRunData));
-        // console.log("data", data);
+        console.log("data", data);
     };
+
 
     return (
         <div className="flex flex-col h-full overflow-hidden">

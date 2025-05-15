@@ -5,6 +5,7 @@ import { Run, InspectionRun } from "../../domain/model.ts";
 interface OperationAnswer {
     questionId: string | string[];
     answer: any;
+    actions: Action[] | null;
 }
 export interface InspectionRunData {
     runId: string;
@@ -12,6 +13,13 @@ export interface InspectionRunData {
     additionalComments: string | undefined;
     answers: OperationAnswer[];
     startedAt: Date | undefined;
+}
+
+export interface Action {
+    description: string;
+    executed: boolean | null;
+    comments: string;
+    alternatives: Action[] | null;
 }
 
 export const getCurrentInspection: (run: Run) => InspectionRun | undefined = (run) => run.inspectionRuns.find(ir => ir.inspectionId === run.currentInspectionRunId);

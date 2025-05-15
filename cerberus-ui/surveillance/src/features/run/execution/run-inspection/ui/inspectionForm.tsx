@@ -4,7 +4,7 @@ import { ExecutionForm } from "../domain/validation.ts";
 import { InspectionRun } from '../../domain/model.ts';
 import { getQuestionInput } from "../ui";
 import { useSurveillanceLocales } from "../../../../../locales/ca/locales.ts";
-
+import { useEffect } from "react";
 interface InspectionFormProps {
     inspection: InspectionRun;
     formMethods: UseFormReturn<ExecutionForm>;
@@ -18,6 +18,9 @@ export const InspectionForm = ({ inspection, formMethods, onSubmit }: Inspection
     const formTitle = useSurveillanceLocales('run.set.formTitle');
     const operationTitle = useSurveillanceLocales('run.set.operationTitle');
 
+    useEffect(() => {
+        console.log(inspection);
+    }, [inspection, formMethods]);
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -37,6 +40,7 @@ export const InspectionForm = ({ inspection, formMethods, onSubmit }: Inspection
                     return (
                         <div key={answer.question.id} className="mb-4">
                             <QuestionInput {...answer} formMethods={formMethods} index={index} />
+                            { }
                         </div>
                     );
                 })}
