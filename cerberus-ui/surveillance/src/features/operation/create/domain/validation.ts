@@ -17,14 +17,8 @@ const AnomalousSettingsSchema = z.object({
 });
 
 const NormalityRangeSchema = z.object({
-    lowerBound: z.object({
-        actions: z.array(OperationActionSchema).optional(),
-        value: z.boolean(),
-    }).optional(),
-    upperBound: z.object({
-        actions: z.array(OperationActionSchema).optional(),
-        value: z.boolean(),
-    }).optional(),
+    lowerBound: AnomalousSettingsSchema,
+    upperBound: AnomalousSettingsSchema
 });
 
 const BaseOperationQuestionSchema = z.object({
