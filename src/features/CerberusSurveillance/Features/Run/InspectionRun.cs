@@ -23,6 +23,7 @@ public partial class InspectionRun() : Entity()
     public OperationRun OperationRun { get; set; }
     
     public string? ExecutorId { get; set; }
+    public string RecordedClipPath { get; set; }
     
 }
 

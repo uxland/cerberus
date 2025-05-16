@@ -18,7 +18,7 @@ const getStreamInfo = async (cameraId: string) => {
     return streamInfo;
 };
 
-export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
+export function WebRTCPlayer({ cameraId, clipPath }: { cameraId: string, clipPath: string }) {
     const remoteVideoRef = useRef(null);
     const [socket, setSocket] = useState(null);
     const [device, setDevice] = useState(null);
@@ -177,7 +177,7 @@ export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
     const connectRecvTransport = (consumerTransport, socket, device) => {
         if (!consumerTransport || !socket || !device) Promise.resolve(undefined);
         return new Promise((resolve, fail) => {
-            socket.emit("consume", {cameraId, rtpCapabilities: device.rtpCapabilities, record: true }, async ({ params }) => {
+            socket.emit("consume", {cameraId, rtpCapabilities: device.rtpCapabilities, recordSettings: {record: true, clipPath} }, async ({ params }) => {
                 if (params.error) {
                     console.error("❌ Error consuming media:", params.error);
                     fail(params.error);

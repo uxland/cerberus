@@ -167,6 +167,5 @@ export class StreamingClient {
 		const filename = clipPath || `/recordings/${this.currentCamera.id}_${this.socket.id}_${Date.now()}.mp4`;
 		this.recorderClient = new RecorderClient(this.streamFactory, this.router)
 		await this.recorderClient.startRecording(cameraId, filename);
-
 	}
 }

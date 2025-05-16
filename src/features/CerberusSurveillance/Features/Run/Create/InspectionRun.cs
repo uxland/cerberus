@@ -11,5 +11,6 @@ public partial class InspectionRun
         this.CameraStreamingUrl = cameraStreamingUrl;
         this.OperationRun = operationRun;
         this.Status = RunStatus.Pending;
+        this.RecordedClipPath = $"/surveillance/Inspections/{inspectionId}/cameras/{cameraId}-clip.mp4";
     }
 }
