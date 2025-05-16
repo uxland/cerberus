@@ -14,8 +14,6 @@ interface OptionsQuestionInputProps {
 
 export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ question, actions }) => {
     const questionOptionTitle = useSurveillanceLocales("operation.create.question.option.title");
-    const questionOptionCode = useSurveillanceLocales("operation.create.question.option.code");
-    const questionOptionText = useSurveillanceLocales("operation.create.question.option.text");
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.option.delete");
     const questionOptionAddOption = useSurveillanceLocales("operation.create.question.option.addOption");
     const questionOptionIsAnomalous = useSurveillanceLocales("operation.create.question.option.isAnomalous");
@@ -44,12 +42,6 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
         actions.setQuestion(
             question.id,
             appendAlternativeToAction(question as OptionsQuestion, optCode, actionIdx)
-        );
-    };
-    const handleRemoveAlternative = (optCode: string, actionIdx: number, altIdx: number) => {
-        actions.setQuestion(
-            question.id,
-            removeAlternativeFromAction(question as OptionsQuestion, optCode, actionIdx, altIdx)
         );
     };
 
@@ -129,7 +121,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                             </div>
 
                                             <div className="relative">
-                                                <div className="absolute top-[-54px] bottom-[60px] left-6 w-[2px] bg-[#4a4a4a]"></div>
+                                                <div className="absolute top-[-54px] bottom-[66px] left-6 w-[2px] bg-[#4a4a4a]"></div>
                                                 {(action.alternatives ?? []).map((alt, altIndex) => (
                                                     <div className="ml-6 relative" key={altIndex}>
                                                         <div className="absolute left-[0px] top-[50px] w-4 h-[2px] bg-[#4a4a4a]"></div>

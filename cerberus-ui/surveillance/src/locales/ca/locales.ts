@@ -48,8 +48,6 @@ export const locales = {
           option: {
             title: "Opción",
             addOption: "+ Añadir opción",
-            code: "Código",
-            text: "Texto",
             isAnomalous: "Anómala",
             delete: "Eliminar",
           }
