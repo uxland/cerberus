@@ -1,11 +1,10 @@
 import { z } from "zod";
 import { OperationRunQuestionAnswer } from "../../domain/model";
 
-// Define el modelo recursivo para acciones y alternativas
 const actionSchema: z.ZodType<any> = z.lazy(() =>
     z.object({
         description: z.string(),
-        executed: z.boolean(),
+        executed: z.boolean().optional(),
         comments: z.string().optional(),
         alternatives: z.array(actionSchema).nullable().optional()
     })
@@ -30,7 +29,6 @@ export const createExecutionFormSchema = (
         ),
         startedAt: z.date(),
     }).superRefine((data, ctx) => {
-        // Validación de campos obligatorios existente
         questions.forEach((question, index) => {
             if (question.question.isMandatory && !data.answers[index]?.answer) {
                 ctx.addIssue({
@@ -38,6 +36,40 @@ export const createExecutionFormSchema = (
                     message: "Esta pregunta es obligatoria",
                     path: [`answers.${index}.answer`],
                 });
+            }
+        });
+
+        const validateActions = (actions: any[], path: Array<string | number>) => {
+            actions.forEach((action, i) => {
+                if (
+                    action.executed === false &&
+                    action.alternatives &&
+                    action.alternatives.length > 0
+                ) {
+                    const lastIndex = action.alternatives.length - 1;
+                    const last = action.alternatives[lastIndex];
+                    if (
+                        last.alternatives &&
+                        last.alternatives.length > 0 &&
+                        last.executed !== true
+                    ) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message:
+                                "Debe completar la última alternativa si la acción principal no se ejecutó",
+                            path: [...path, i, "alternatives", lastIndex, "executed"].map(String),
+                        });
+                    }
+                }
+                if (action.alternatives) {
+                    validateActions(action.alternatives, [...path, i, "alternatives"]);
+                }
+            });
+        };
+
+        data.answers.forEach((answer, aIndex) => {
+            if (answer.actions) {
+                validateActions(answer.actions, ['answers', aIndex, 'actions']);
             }
         });
     });

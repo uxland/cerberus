@@ -125,6 +125,7 @@ export const locales = {
         previus: "Anterior",
         next: "Siguiente",
         optionQuestion: {
+          actions: "Acciones a realizar:",
           comments: {
             placeholder: "Escribe aquí tus comentarios...",
             hide: "Ocultar comentarios",

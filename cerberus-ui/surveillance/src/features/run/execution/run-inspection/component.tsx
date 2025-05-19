@@ -9,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { WebRTCPlayer } from "@cerberus/core/";
 import { InspectionForm } from "./ui/inspectionForm.tsx";
 import { InspectionNavigation } from "./ui/inspectionNavigation.tsx";
+import { useEffect } from "react";
+
 export interface InspectionRunProps extends ExecutionStepArgs {
     inspection: InspectionRun;
 }
@@ -18,13 +20,20 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
     const dynamicSchema = createExecutionFormSchema(inspection?.operationRun.answers ?? []);
 
     const formMethods = useForm<ExecutionForm>({
-        resolver: zodResolver(dynamicSchema), defaultValues: {
+        resolver: zodResolver(dynamicSchema),
+        defaultValues: {
             runId: run.id,
             inspectionId: inspection.id,
             additionalComments: "",
             startedAt: new Date(),
         },
     });
+
+    const formValues = formMethods.watch();
+
+    useEffect(() => {
+        console.log("Modelo del formulario actualizado:", formValues);
+    }, [formValues]);
 
     const onSubmitForm = (data: ExecutionForm) => {
         handler(new SetRunInspection(data as InspectionRunData));

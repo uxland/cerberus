@@ -5,7 +5,8 @@ import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ActionItem } from "../action-item.tsx";
-
+import { useSurveillanceLocales } from "../../../../../../locales/ca/locales.ts";
+import { type Action } from "../../domain/model.ts";
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<any>;
     index: number;
@@ -24,6 +25,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
 
     const selectedOption = question.options?.find(opt => opt.code === selectedValue);
     const hasActions = selectedOption?.anomalousSettings?.actions?.length > 0;
+    const actionsLabel = useSurveillanceLocales('run.set.optionQuestion.actions');
 
     useEffect(() => {
         if (selectedValue && hasActions) {
@@ -79,9 +81,9 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                 <div className="mt-3">
                     <div className="flex items-center mb-2">
                         <Typography>
-                            Acciones a realizar:
+                            {actionsLabel}
                         </Typography>
-                        <span className="bg-[#313131] block p-[1px] w-full mb-3"></span>
+                        <span className="bg-[#313131] block p-[1px] w-auto mb-3"></span>
                     </div>
 
                 </div>
@@ -91,7 +93,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
 
                 <ActionItem
                     key={`${fieldPath}-action-${actionIndex}`}
-                    action={action}
+                    action={action as Action}
                     formMethods={props.formMethods}
                     basePath={`${fieldPath}.actions`}
                     index={actionIndex}

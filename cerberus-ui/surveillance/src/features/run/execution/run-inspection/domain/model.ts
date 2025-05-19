@@ -2,7 +2,7 @@
 import { Run, InspectionRun } from "../../domain/model.ts";
 
 
-interface OperationAnswer {
+export interface OperationAnswer {
     questionId: string | string[];
     answer: any;
     actions: Action[] | null;
