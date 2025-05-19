@@ -17,8 +17,8 @@ const AnomalousSettingsSchema = z.object({
 });
 
 const NormalityRangeSchema = z.object({
-    lowerBound: AnomalousSettingsSchema,
-    upperBound: AnomalousSettingsSchema
+    lowerBound: AnomalousSettingsSchema.optional(),
+    upperBound: AnomalousSettingsSchema.optional(),
 });
 
 const BaseOperationQuestionSchema = z.object({
@@ -47,11 +47,6 @@ const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
     normalityRange: NormalityRangeSchema.optional(),
 });
 
-const InstructionSchema = z.object({
-    text: z.string().nonempty("Instruction text is required"),
-    isMandatory: z.boolean(),
-});
-
 const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Options"),
     options: z.array(z.object({
@@ -60,7 +55,6 @@ const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
         anomalousSettings: AnomalousSettingsSchema.optional(),
     })).min(2, "At least two options are required"),
     type: z.enum(["Single", "Multiple"]),
-    instructions: z.array(InstructionSchema).optional(),
 });
 
 const QuestionSchema = z.discriminatedUnion("__type", [

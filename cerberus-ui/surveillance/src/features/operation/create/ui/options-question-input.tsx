@@ -7,6 +7,7 @@ import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { AlternativeItem } from "./options-alternative-item";
 import AnomalousSwitch from "./anomalousSwitch.tsx";
 import { AnswerIcon } from "./icons/answer-icon.tsx";
+import { Controller } from "react-hook-form";
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
     actions: OperationQuestionActions;
@@ -59,14 +60,17 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 <h1 className="font-bold">
                                     {questionOptionTitle} {index + 1}
                                 </h1>
-                                <AnomalousSwitch
-                                    checked={option.anomalousSettings?.value}
-                                    onChange={(e) => {
-                                        actions.formMethods.setValue(
-                                            `${actions.path}.options.${index}.anomalousSettings.value`,
-                                            e.target.checked
-                                        )
-                                    }}
+                                <Controller
+                                    name={`${actions.path}.options.${index}.anomalousSettings.value`}
+                                    control={actions.formMethods.control}
+                                    defaultValue={option.anomalousSettings?.value}
+                                    render={({ field }) => (
+                                        <AnomalousSwitch
+                                            {...field}
+                                            checked={field.value}
+                                            onChange={e => field.onChange(e.target.checked)}
+                                        />
+                                    )}
                                 />
                                 <span className="text-sm">
                                     {questionOptionIsAnomalous}

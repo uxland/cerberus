@@ -20,6 +20,7 @@ const operationFactory = (type: OperationQuestionType) => (model: SurveillanceOp
     return <OperationQuestion>{
         __type: type,
         id: createQuestionId(model),
+        text: "",
         isMandatory: true,
     }
 }

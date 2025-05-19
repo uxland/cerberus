@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { OperationQuestion, OperationQuestionType, questionOptionValues, isMandatoryValues, optionTypologyValues, OptionsTypology } from "../domain";
 import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
@@ -7,9 +7,7 @@ import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { IntegerQuestion, FloatQuestion } from "../domain/model";
 import {
     appendLowerAlternative,
-    removeLowerAlternative,
     appendUpperAlternative,
-    removeUpperAlternative,
     appendLowerBoundAction,
     removeLowerBoundAction,
     appendUpperBoundAction,
@@ -64,13 +62,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
             question.id,
             appendLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
         );
-    const handleRemoveLowerAlternative = (actionindex: number, alternativeindex: number) =>
-        actions.setQuestion(
-            question.id,
-            removeLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex, alternativeindex)
-        );
 
-    // --- Handlers para upperBound ---
     const handleAppendUpperAction = () =>
         actions.setQuestion(
             question.id,
@@ -86,15 +78,22 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
             question.id,
             appendUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
         );
-    const handleRemoveUpperAlternative = (actionindex: number, alternativeindex: number) =>
-        actions.setQuestion(
-            question.id,
-            removeUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex, alternativeindex)
-        );
 
-    console.log("question", question);
 
-    const { register, formState: { errors } } = actions.formMethods;
+    const { register, formState: { errors }, watch, getValues } = actions.formMethods;
+    const pathForText = `${actions.path}.text`;
+    const currentQuestionTextFromRHF = watch(pathForText);
+
+    useEffect(() => {
+        const valueFromRHF = getValues(pathForText);
+        if (question.text !== valueFromRHF && typeof valueFromRHF === 'string') {
+            actions.setQuestion(question.id, { ...question, text: valueFromRHF });
+        }
+    }, [currentQuestionTextFromRHF, question.id, question.text, actions, getValues, pathForText]);
+
+    // console.log("Prop 'question' en GenericQuestionInput:", question);
+    // console.log(`Valor en RHF para ${pathForText}: `, currentQuestionTextFromRHF);
+
     return (
         <div key={question.id}>
             <div className="flex items-center mt-2 gap-2">
