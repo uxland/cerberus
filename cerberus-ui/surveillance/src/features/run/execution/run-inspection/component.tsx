@@ -30,7 +30,8 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
         handler(new SetRunInspection(data as InspectionRunData));
         console.log("data", data);
     };
-
+    const { formState: { errors } } = formMethods;
+    console.log("errors", errors)
 
     return (
         <div className="flex flex-col h-full overflow-hidden">

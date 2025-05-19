@@ -33,7 +33,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                     description: action.description,
                     executed: null,
                     comments: "",
-                    alternativeActions: action.alternatives || null
+                    alternatives: action.alternatives || null
                 }))
             );
         } else {

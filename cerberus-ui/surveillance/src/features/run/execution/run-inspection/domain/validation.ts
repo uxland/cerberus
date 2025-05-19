@@ -5,7 +5,7 @@ import { OperationRunQuestionAnswer } from "../../domain/model";
 const actionSchema: z.ZodType<any> = z.lazy(() =>
     z.object({
         description: z.string(),
-        executed: z.boolean().optional(),
+        executed: z.boolean(),
         comments: z.string().optional(),
         alternatives: z.array(actionSchema).nullable().optional()
     })

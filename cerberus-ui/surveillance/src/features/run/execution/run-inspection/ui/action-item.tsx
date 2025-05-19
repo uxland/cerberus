@@ -1,5 +1,5 @@
 import { Typography, IconButton, Tooltip } from "@mui/material";
-import { UseFormReturn } from "react-hook-form";
+import { get, UseFormReturn } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
@@ -32,10 +32,13 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
     const commentsPlaceholderLabel = useSurveillanceLocales('run.set.optionQuestion.comments.placeholder');
 
     useEffect(() => {
+        console.log(getValues(executedPath));
         if (getValues(executedPath) === undefined && action.executed !== undefined) {
             setValue(executedPath, action.executed, { shouldDirty: false, shouldValidate: false });
         }
         setValue(`${path}.description`, action.description, { shouldDirty: false });
+        console.log(getValues(executedPath));
+
     }, [setValue, path, action.description, action.executed, executedPath, getValues]);
 
     useEffect(() => {
@@ -59,27 +62,26 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
     return (
         <div className={`relative ${indentClass} ${isRootLevel ? 'mt-3' : 'mt-2'}`}>
             {level > 0 && (
-                <div
-                    className="absolute left-[-18px] top-0 bottom-0 w-px bg-gray-600"
-                    style={{ height: 'calc(100% + 8px)', transform: 'translateX(50%)' }}
-                ></div>
+
+                <div className="absolute h-20 w-[3px] bg-[#696969] mx-1 mt-4 rounded-xl"></div>
+
             )}
 
-            <div className={`p-4 ${showComments ? 'pb-2' : ''} bg-[#333232] rounded-lg shadow`}>
+            <div className={`p-4 ${showComments ? 'pb-2' : ''} bg-[#333232] rounded-lg`}>
                 <div className="flex items-start flex-col">
                     <Typography variant="body1" className="text-gray-200 flex-grow">
                         {level > 0 && '- '}{action.description}
                     </Typography>
                     <div className="flex items-center gap-2">
                         <span
-                            className={`flex text-xs text-white uppercase bg-[#E24E59] text-black font-bold p-1 rounded-md mt-4 flex-shrink-0 hover:bg-[#C93F49] cursor-pointer ${executedValue ? 'opacity-50' : ''}`}
-                            onClick={() => handleExecution(false)}
+                            className={`flex text-xs text-white uppercase bg-[#E24E59] text-black font-bold p-1 rounded-md mt-4 flex-shrink-0 hover:bg-[#C93F49] cursor-pointer ${executedValue === false ? '' : 'opacity-50'}`}
+                            onClick={() => handleExecution(executedValue === false ? null : false)}
                         >
                             <CloseIcon />
                         </span>
                         <span
-                            className={`flex text-xs text-white uppercase bg-[#81CC54] text-black font-bold p-1 rounded-md mt-4 flex-shrink-0 hover:bg-[#6EAA47] cursor-pointer ${executedValue ? '' : 'opacity-50'}`}
-                            onClick={() => handleExecution(true)}
+                            className={`flex text-xs text-white uppercase bg-[#81CC54] text-black font-bold p-1 rounded-md mt-4 flex-shrink-0 hover:bg-[#6EAA47] cursor-pointer ${executedValue === true ? '' : 'opacity-50'}`}
+                            onClick={() => handleExecution(executedValue === true ? null : true)}
                         >
                             <DoneIcon />
                         </span>
@@ -124,18 +126,19 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
                         </div>
                     </div>
                 )}
+                {showAlternatives && action.alternatives?.map((alternative: Action, altIndex: number) => (
+                    <ActionItem
+                        key={`${path}-alt-${altIndex}`}
+                        action={alternative}
+                        formMethods={formMethods}
+                        basePath={`${path}.alternatives`}
+                        index={altIndex}
+                        level={level + 1}
+                    />
+                ))}
             </div>
 
-            {showAlternatives && action.alternatives?.map((alternative: Action, altIndex: number) => (
-                <ActionItem
-                    key={`${path}-alt-${altIndex}`}
-                    action={alternative}
-                    formMethods={formMethods}
-                    basePath={`${path}.alternativeActions`}
-                    index={altIndex}
-                    level={level + 1}
-                />
-            ))}
+
         </div>
     );
 };
