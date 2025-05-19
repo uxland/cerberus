@@ -1,7 +1,7 @@
-import { OperationRunQuestionAnswer } from "../../domain/model.ts";
+import { OperationRunQuestionAnswer } from "../../../domain/model.ts";
 import { FormInputField } from "@cerberus/core";
 import { UseFormReturn } from "react-hook-form";
-import { ExecutionForm } from '../domain/validation.ts';
+import { ExecutionForm } from '../../domain/validation.ts';
 import { Typography } from "@mui/material";
 
 interface FloatQuestionInputProps extends OperationRunQuestionAnswer {

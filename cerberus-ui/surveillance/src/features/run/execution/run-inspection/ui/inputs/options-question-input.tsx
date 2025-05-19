@@ -1,10 +1,10 @@
-import { OperationRunQuestionAnswer } from "../../domain/model.ts";
+import { OperationRunQuestionAnswer } from "../../../domain/model.ts";
 import { Select, MultipleSelect } from "@cerberus/core";
-import { OptionsQuestion } from "../../../../operation/create/domain";
+import { OptionsQuestion } from "../../../../../operation/create/domain/index.ts";
 import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ActionItem } from "./action-item";
+import { ActionItem } from "../action-item.tsx";
 
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<any>;
@@ -75,7 +75,20 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                 {...register(questionIdPath)}
                 defaultValue={props.question.id}
             />
+            {showActions && (
+                <div className="mt-3">
+                    <div className="flex items-center mb-2">
+                        <Typography>
+                            Acciones a realizar:
+                        </Typography>
+                        <span className="bg-[#313131] block p-[1px] w-full mb-3"></span>
+                    </div>
+
+                </div>
+
+            )}
             {showActions && selectedOption?.anomalousSettings?.actions?.map((action, actionIndex) => (
+
                 <ActionItem
                     key={`${fieldPath}-action-${actionIndex}`}
                     action={action}

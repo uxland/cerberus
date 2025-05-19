@@ -1,15 +1,15 @@
-import { OperationRunQuestionAnswer } from "../../domain/model.ts";
+import { OperationRunQuestionAnswer } from "../../../domain/model.ts";
 import { FormInputField } from "@cerberus/core";
 import { UseFormReturn } from "react-hook-form";
-import { ExecutionForm } from '../domain/validation.ts';
+import { ExecutionForm } from '../../domain/validation.ts';
 import { Typography } from "@mui/material";
 
-interface TextQuestionInputProps extends OperationRunQuestionAnswer {
+interface IntegerQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<ExecutionForm>;
     index: number;
 }
 
-export const TextQuestionInput = (props: TextQuestionInputProps) => {
+export const IntegerQuestionInput = (props: IntegerQuestionInputProps) => {
     const isMandatory = props.question.isMandatory;
     const { register, formState } = props.formMethods;
     const fieldPath = `answers.${props.index}.answer`;
@@ -21,7 +21,8 @@ export const TextQuestionInput = (props: TextQuestionInputProps) => {
                 {props.question.text} {isMandatory && <span className="text-error font-bold">*</span>}
             </Typography>
             <FormInputField
-                type="text"
+                type="number"
+                step="1"
                 className="bg-[#313131] w-full p-2 rounded"
                 register={register}
                 name={fieldPath}
@@ -33,5 +34,5 @@ export const TextQuestionInput = (props: TextQuestionInputProps) => {
                 defaultValue={props.question.id}
             />
         </>
-    );
+    )
 }
