@@ -1,6 +1,15 @@
 import { FormInputField, Select } from "@cerberus/core";
 import React from "react";
-import { OptionsQuestion, appendOption, removeOption, appendActionToOption, removeActionFromOption, appendAlternativeToAction, removeAlternativeFromAction } from "../domain";
+import {
+    OptionsQuestion,
+    appendOption,
+    removeOption,
+    appendActionToOption,
+    removeActionFromOption,
+    appendAlternativeToAction,
+    removeAlternativeFromAction,
+    getTriggerIndex, enableOptionTrigger, disableOptionTrigger
+} from "../domain";
 import { GenericQuestionInput } from "./generic-question-input";
 import { OperationQuestionActions } from "./shared.tsx";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
@@ -8,6 +17,7 @@ import { AlternativeItem } from "./options-alternative-item";
 import AnomalousSwitch from "./anomalousSwitch.tsx";
 import { AnswerIcon } from "./icons/answer-icon.tsx";
 import { Controller } from "react-hook-form";
+import {existsTrigger, getTriggerActions} from "../domain/trigger-actions.ts";
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
     actions: OperationQuestionActions;
@@ -45,6 +55,12 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
             appendAlternativeToAction(question as OptionsQuestion, optCode, actionIdx)
         );
     };
+    const handleToggleTrigger = (optionCode: string, enableTrigger) => {
+        actions.setQuestion(
+            question.id,
+            enableTrigger ? enableOptionTrigger(question, optionCode) : disableOptionTrigger(question, optionCode)
+        )
+    }
 
     console.log("errors", errors)
     return (
@@ -67,8 +83,8 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                     render={({ field }) => (
                                         <AnomalousSwitch
                                             {...field}
-                                            checked={field.value}
-                                            onChange={e => field.onChange(e.target.checked)}
+                                            checked={existsTrigger(question, option.code)}
+                                            onChange={e => handleToggleTrigger(option.code, e.target.checked)}
                                         />
                                     )}
                                 />
@@ -88,11 +104,11 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 />
                             </div>
 
-                            {option?.anomalousSettings?.value && (
+                            {(existsTrigger(question, option.code)) && (
                                 <div className="ml-2 mt-2 relative">
                                     {/* Línea vertical principal que conecta todas las acciones */}
-                                    {(option.anomalousSettings?.actions ?? []).length > 0 && (
-                                        <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]"></div>
+                                    {(getTriggerActions(question, option.code)).length > 0 && (
+                                        <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]"/>
                                     )}
 
                                     <button
@@ -103,18 +119,18 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                         {questionAddAction}
                                     </button>
 
-                                    {(option.anomalousSettings?.actions ?? []).map((action, actionIndex) => (
+                                    {((getTriggerActions(question, option.code).map((action, actionIndex) => (
                                         <div key={actionIndex} className="mb-6 relative">
                                             <div className="flex gap-2 mb-2 flex-col ml-4">
                                                 <div className="w-full mt-2 flex items-center relative">
                                                     {/* Línea horizontal conectora en forma de L para cada acción */}
-                                                    <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]"></div>
+                                                    <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]"/>
 
                                                     <FormInputField
                                                         label={`${questionAction} #${actionIndex + 1}`}
                                                         placeholder="..."
                                                         register={actions.formMethods.register}
-                                                        name={`${actions.path}.options.${index}.anomalousSettings.actions.${actionIndex}.description`}
+                                                        name={`${actions.path}.triggers.${getTriggerIndex(question, option.code)}.actions.${actionIndex}.description`}
                                                         type="text"
                                                         onDelete={() => handleRemoveActionFromOption(option.code, actionIndex)}
                                                         error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.description}
@@ -136,9 +152,9 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                     <div className="ml-6 relative" key={altIndex}>
                                                         {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
                                                         {altIndex < action.alternatives.length - 1 && (
-                                                            <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]"></div>
+                                                            <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]"/>
                                                         )}
-                                                        <div className="absolute left-[0px] top-[-54px] w-4 h-[105px] border-l-2 border-b-2 border-[#4a4a4a]"></div>
+                                                        <div className="absolute left-[0px] top-[-54px] w-4 h-[105px] border-l-2 border-b-2 border-[#4a4a4a]"/>
 
                                                         <AlternativeItem
                                                             alternative={alt}
@@ -156,7 +172,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                 ))}
                                             </div>
                                         </div>
-                                    ))}
+                                    ))))}
                                 </div>
                             )}
                         </div>

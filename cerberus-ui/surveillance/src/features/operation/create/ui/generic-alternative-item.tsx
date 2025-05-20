@@ -2,12 +2,7 @@ import React from "react";
 import { FormInputField } from "@cerberus/core";
 import { OperationAction, IntegerQuestion, FloatQuestion } from "../domain/model";
 import { OperationQuestionActions } from "./shared";
-import {
-    appendNestedLowerAlternative,
-    removeNestedLowerAlternative,
-    appendNestedUpperAlternative,
-    removeNestedUpperAlternative
-} from "../domain/model";
+
 
 interface GenericAlternativeItemProps {
     alternative: OperationAction;
@@ -41,22 +36,22 @@ export const GenericAlternativeItem: React.FC<GenericAlternativeItemProps> = ({
 
     const handleAddNestedAlternative = () => {
         console.log(`Adding nested alternative to ${boundType} at path: ${path.join('-')}`);
-        actions.setQuestion(
+        /*actions.setQuestion(
             question.id,
             boundType === 'lowerBound'
                 ? appendNestedLowerAlternative(question, actionIndex, path)
                 : appendNestedUpperAlternative(question, actionIndex, path)
-        );
+        );*/
     };
 
     const handleRemoveNestedAlternative = () => {
         console.log(`Removing ${boundType} alternative at path: ${path.join('-')}`);
-        actions.setQuestion(
+   /*     actions.setQuestion(
             question.id,
             boundType === 'lowerBound'
                 ? removeNestedLowerAlternative(question, actionIndex, path)
                 : removeNestedUpperAlternative(question, actionIndex, path)
-        );
+        );*/
     };
 
     const fieldName = `${actions.path}.normalityRange.${boundType}.actions.${actionIndex}.alternatives.${path.join('.alternatives.')}.description`;

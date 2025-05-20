@@ -8,4 +8,5 @@ export * from "./routing";
 export * from "./mediator";
 export * from "./state";
 export * from "./interaction-service";
+export * from './specs';
 export * from "./utils";

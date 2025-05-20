@@ -5,14 +5,6 @@ import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { IntegerQuestion, FloatQuestion } from "../domain/model";
-import {
-    appendLowerAlternative,
-    appendUpperAlternative,
-    appendLowerBoundAction,
-    removeLowerBoundAction,
-    appendUpperBoundAction,
-    removeUpperBoundAction
-} from "../domain/model";
 import { GenericAlternativeItem } from "./generic-alternative-item";
 import { QuestionIcon } from "./icons/question-icon.tsx";
 
@@ -50,33 +42,37 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     const handleAppendLowerAction = () =>
         actions.setQuestion(
             question.id,
-            appendLowerBoundAction(question as IntegerQuestion | FloatQuestion)
+          question
+          //  appendLowerBoundAction(question as IntegerQuestion | FloatQuestion)
         );
     const handleRemoveLowerAction = (actionindex: number) =>
         actions.setQuestion(
             question.id,
-            removeLowerBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
+           question
+           // removeLowerBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
         );
     const handleAppendLowerAlternative = (actionindex: number) =>
         actions.setQuestion(
             question.id,
-            appendLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
+            question
+            //appendLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
         );
 
     const handleAppendUpperAction = () =>
         actions.setQuestion(
             question.id,
-            appendUpperBoundAction(question as IntegerQuestion | FloatQuestion)
+            question
+            //appendUpperBoundAction(question as IntegerQuestion | FloatQuestion)
         );
     const handleRemoveUpperAction = (actionindex: number) =>
         actions.setQuestion(
             question.id,
-            removeUpperBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
+            question//removeUpperBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
         );
     const handleAppendUpperAlternative = (actionindex: number) =>
         actions.setQuestion(
             question.id,
-            appendUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
+            question //appendUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
         );
 
 
