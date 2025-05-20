@@ -3,7 +3,7 @@ import { Select, MultipleSelect } from "@cerberus/core";
 import { OptionsQuestion } from "../../../../../operation/create/domain/index.ts";
 import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { ActionItem } from "../action-item.tsx";
 import { useSurveillanceLocales } from "../../../../../../locales/ca/locales.ts";
 import { type Action } from "../../domain/model.ts";
@@ -19,30 +19,46 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
     const fieldPath = `answers.${props.index}`;
     const questionIdPath = `${fieldPath}.questionId` as const;
     const answerPath = `${fieldPath}.answer`;
-
-    const selectedValue = watch(answerPath);
     const [showActions, setShowActions] = useState(false);
-
-    const selectedOption = question.options?.find(opt => opt.code === selectedValue);
-    const hasActions = selectedOption?.anomalousSettings?.actions?.length > 0;
     const actionsLabel = useSurveillanceLocales('run.set.optionQuestion.actions');
 
+    const selectedValue = watch(answerPath);                   // string | string[]
+    const selectedCodes = Array.isArray(selectedValue)
+        ? selectedValue
+        : selectedValue
+            ? [selectedValue]
+            : [];
+
+    const selectedOptions = useMemo(
+        () => question.options.filter(opt => selectedCodes.includes(opt.code)),
+        [question.options, selectedCodes.join(",")]
+    );
+
+    const hasActions = useMemo(
+        () => selectedOptions.some(opt => (opt.anomalousSettings?.actions?.length ?? 0) > 0),
+        [selectedOptions]
+    );
+
     useEffect(() => {
-        if (selectedValue && hasActions) {
+        if (selectedCodes.length > 0 && hasActions) {
             setShowActions(true);
-            setValue(`${fieldPath}.actions`,
-                selectedOption.anomalousSettings.actions.map(action => ({
-                    description: action.description,
+
+            const combined = selectedOptions.flatMap(opt =>
+                opt.anomalousSettings!.actions.map(act => ({
+                    description: act.description,
                     executed: null,
                     comments: "",
-                    alternatives: action.alternatives || null
+                    alternatives: act.alternatives || null,
                 }))
             );
-        } else {
+
+            setValue(`${fieldPath}.actions`, combined);
+        }
+        else {
             setShowActions(false);
             setValue(`${fieldPath}.actions`, undefined);
         }
-    }, [selectedValue, hasActions, setValue, fieldPath, selectedOption]);
+    }, [selectedCodes.join(","), hasActions, setValue, fieldPath]);
 
     return (
         <>
@@ -80,25 +96,21 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
             {showActions && (
                 <div className="mt-3">
                     <div className="flex items-center mb-2">
-                        <Typography>
-                            {actionsLabel}
-                        </Typography>
+                        <Typography>{actionsLabel}</Typography>
                         <span className="bg-[#313131] block p-[1px] w-auto mb-3"></span>
                     </div>
 
+                    {watch(`${fieldPath}.actions`)?.map((action: Action, actionIndex: number) => (
+                        <ActionItem
+                            key={`${fieldPath}-action-${actionIndex}`}
+                            action={action}
+                            formMethods={props.formMethods}
+                            basePath={`${fieldPath}.actions`}
+                            index={actionIndex}
+                        />
+                    ))}
                 </div>
-
             )}
-            {showActions && selectedOption?.anomalousSettings?.actions?.map((action, actionIndex) => (
-
-                <ActionItem
-                    key={`${fieldPath}-action-${actionIndex}`}
-                    action={action as Action}
-                    formMethods={props.formMethods}
-                    basePath={`${fieldPath}.actions`}
-                    index={actionIndex}
-                />
-            ))}
         </>
     )
 }

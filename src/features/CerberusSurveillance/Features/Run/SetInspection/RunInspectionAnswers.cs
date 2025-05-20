@@ -35,7 +35,7 @@ internal static class Extensions
             var str = value.ToString();
             return string.IsNullOrEmpty(str) ? [] : [str];
         }
-        if(value is IEnumerable enumerable) return enumerable.Cast<object>().Where(x => x != null).Select(x => x.ToString()).Where(x => string.IsNullOrEmpty(x)).ToList();
+        if(value is IEnumerable enumerable) return enumerable.Cast<object>().Where(x => x != null).Select(x => x.ToString()).Where(x => !string.IsNullOrEmpty(x)).ToList();
         return new List<string> { value.ToString() ?? string.Empty }.Where(x => !string.IsNullOrEmpty(x)).ToList();
     }
 }

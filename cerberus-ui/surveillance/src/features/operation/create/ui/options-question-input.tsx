@@ -138,7 +138,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                         {altIndex < action.alternatives.length - 1 && (
                                                             <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]"></div>
                                                         )}
-                                                        <div className="absolute left-[0px] top-[-54px] w-4 h-24 border-l-2 border-b-2 border-[#4a4a4a]"></div>
+                                                        <div className="absolute left-[0px] top-[-54px] w-4 h-[105px] border-l-2 border-b-2 border-[#4a4a4a]"></div>
 
                                                         <AlternativeItem
                                                             alternative={alt}
