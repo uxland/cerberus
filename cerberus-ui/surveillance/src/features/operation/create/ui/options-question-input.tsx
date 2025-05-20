@@ -89,7 +89,12 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                             </div>
 
                             {option?.anomalousSettings?.value && (
-                                <div className="ml-4 mt-2 border-l-2 border-[#4a4a4a] ">
+                                <div className="ml-2 mt-2 relative">
+                                    {/* Línea vertical principal que conecta todas las acciones */}
+                                    {(option.anomalousSettings?.actions ?? []).length > 0 && (
+                                        <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]"></div>
+                                    )}
+
                                     <button
                                         type="button"
                                         className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
@@ -97,12 +102,14 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                     >
                                         {questionAddAction}
                                     </button>
-                                    {(option.anomalousSettings?.actions ?? []).map((action, actionIndex) => (
-                                        <div key={actionIndex} className="mb-4">
-                                            <div className="flex gap-2 mb-2 flex-col">
 
-                                                <div className="w-full mt-2 flex items-center">
-                                                    <div className="bg-[#4a4a4a] h-[2px] w-4 mt-7"></div>
+                                    {(option.anomalousSettings?.actions ?? []).map((action, actionIndex) => (
+                                        <div key={actionIndex} className="mb-6 relative">
+                                            <div className="flex gap-2 mb-2 flex-col ml-4">
+                                                <div className="w-full mt-2 flex items-center relative">
+                                                    {/* Línea horizontal conectora en forma de L para cada acción */}
+                                                    <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]"></div>
+
                                                     <FormInputField
                                                         label={`${questionAction} #${actionIndex + 1}`}
                                                         placeholder="..."
@@ -125,10 +132,14 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                             </div>
 
                                             <div className="relative">
-                                                <div className="absolute top-[-54px] bottom-[66px] left-6 w-[2px] bg-[#4a4a4a]"></div>
                                                 {(action.alternatives ?? []).map((alt, altIndex) => (
                                                     <div className="ml-6 relative" key={altIndex}>
-                                                        <div className="absolute left-[0px] top-[50px] w-4 h-[2px] bg-[#4a4a4a]"></div>
+                                                        {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
+                                                        {altIndex < action.alternatives.length - 1 && (
+                                                            <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]"></div>
+                                                        )}
+                                                        <div className="absolute left-[0px] top-[-54px] w-4 h-24 border-l-2 border-b-2 border-[#4a4a4a]"></div>
+
                                                         <AlternativeItem
                                                             alternative={alt}
                                                             optionCode={option.code}
@@ -143,12 +154,9 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                         />
                                                     </div>
                                                 ))}
-
                                             </div>
                                         </div>
                                     ))}
-
-
                                 </div>
                             )}
                         </div>

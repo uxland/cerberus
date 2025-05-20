@@ -58,6 +58,9 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
     return (
         <div className="relative ml-4">
             <div className="flex items-center gap-2 mb-2">
+                {level > 0 && (
+                    <div className="absolute left-[-16px] top-[-46px] w-4 h-24 border-l-2 border-b-2 border-[#4a4a4a]"></div>
+                )}
                 <FormInputField
                     label={`${questionAction} alternativa #${altIndex + 1}`}
                     placeholder="..."
@@ -81,11 +84,12 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
 
             {(alternative.alternatives || []).length > 0 && (
                 <div className="relative">
-                    {/* <div className="absolute top-[-46px] bottom-[66px] left-2 w-[2px] bg-[#4a4a4a]"></div> */}
-
                     {(alternative.alternatives || []).map((nestedAlt, nestedIdx) => (
                         <div className="relative" key={nestedIdx}>
-                            {/* <div className="absolute left-[10px] top-[50px] w-8 h-[2px] bg-[#4a4a4a]"></div> */}
+                            {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
+                            {nestedIdx < alternative.alternatives.length - 1 && (
+                                <div className="absolute left-[8px] top-0 h-full border-l-2 border-[#4a4a4a]"></div>
+                            )}
                             <div className="ml-2">
                                 <AlternativeItem
                                     key={nestedIdx}
