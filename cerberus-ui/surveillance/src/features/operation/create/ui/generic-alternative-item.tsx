@@ -1,14 +1,13 @@
 import React from "react";
 import { FormInputField } from "@cerberus/core";
-import { OperationAction, IntegerQuestion, FloatQuestion } from "../domain/model";
+import { OperationAction, IntegerQuestion, FloatQuestion, getTriggerIndex, appendNestedAlternative, removeNestedAlternative } from "../domain";
 import { OperationQuestionActions } from "./shared";
-
 
 interface GenericAlternativeItemProps {
     alternative: OperationAction;
-    boundType: 'lowerBound' | 'upperBound';
-    actionIndex: number;
-    path: number[];
+    triggerId: string;
+    parentActionIndex: number;
+    alternativePath: number[];
     level?: number;
     question: IntegerQuestion | FloatQuestion;
     actions: OperationQuestionActions;
@@ -19,9 +18,9 @@ interface GenericAlternativeItemProps {
 
 export const GenericAlternativeItem: React.FC<GenericAlternativeItemProps> = ({
     alternative,
-    boundType,
-    actionIndex,
-    path,
+    triggerId,
+    parentActionIndex,
+    alternativePath,
     level = 0,
     question,
     actions,
@@ -29,79 +28,108 @@ export const GenericAlternativeItem: React.FC<GenericAlternativeItemProps> = ({
     questionOptionDelete,
     addAlternativeLabel
 }) => {
-    const altIndex = path[path.length - 1];
+    const currentAlternativeIndex = alternativePath[alternativePath.length - 1];
     const { formState: { errors } } = actions.formMethods;
+    const triggerIdx = getTriggerIndex(question, triggerId);
 
-    console.log(`Rendering ${boundType} alternative at path: ${path.join('-')}, level: ${level}`);
+    // Dynamic error calculation for this field
+    let fieldError: any; // More flexible type for deeply nested errors
+    if (triggerIdx !== -1) {
+        const triggerErrors = errors[actions.path]?.triggers?.[triggerIdx];
+        if (triggerErrors && triggerErrors.actions && Array.isArray(triggerErrors.actions)) {
+            let currentNodeErrors: any = triggerErrors.actions[parentActionIndex];
+            for (const pathSegment of alternativePath) {
+                if (currentNodeErrors && currentNodeErrors.alternatives && Array.isArray(currentNodeErrors.alternatives)) {
+                    currentNodeErrors = currentNodeErrors.alternatives[pathSegment];
+                } else {
+                    currentNodeErrors = undefined;
+                    break;
+                }
+            }
+            if (currentNodeErrors) {
+                fieldError = currentNodeErrors.description;
+            }
+        }
+    }
+
 
     const handleAddNestedAlternative = () => {
-        console.log(`Adding nested alternative to ${boundType} at path: ${path.join('-')}`);
-        /*actions.setQuestion(
+        actions.setQuestion(
             question.id,
-            boundType === 'lowerBound'
-                ? appendNestedLowerAlternative(question, actionIndex, path)
-                : appendNestedUpperAlternative(question, actionIndex, path)
-        );*/
+            appendNestedAlternative(question, triggerId, parentActionIndex, alternativePath)
+        );
     };
 
     const handleRemoveNestedAlternative = () => {
-        console.log(`Removing ${boundType} alternative at path: ${path.join('-')}`);
-   /*     actions.setQuestion(
+        actions.setQuestion(
             question.id,
-            boundType === 'lowerBound'
-                ? removeNestedLowerAlternative(question, actionIndex, path)
-                : removeNestedUpperAlternative(question, actionIndex, path)
-        );*/
+            removeNestedAlternative(question, triggerId, parentActionIndex, alternativePath)
+        );
     };
 
-    const fieldName = `${actions.path}.normalityRange.${boundType}.actions.${actionIndex}.alternatives.${path.join('.alternatives.')}.description`;
-
-    const marginLeft = 16 + (level * 16);
+    const fieldNameParts = [
+        actions.path,
+        "triggers", triggerIdx,
+        "actions", parentActionIndex,
+    ];
+    alternativePath.forEach(index => {
+        fieldNameParts.push("alternatives", index);
+    });
+    fieldNameParts.push("description");
+    const fieldName = fieldNameParts.join(".");
 
     return (
-        <div style={{ marginLeft: `${marginLeft}px` }}>
+        <div className="relative ml-4">
             <div className="flex items-center gap-2 mb-2">
+                {level > 0 && (
+                    <div className="absolute left-[-16px] top-[-46px] w-4 h-24 border-l-2 border-b-2 border-[#4a4a4a]"></div>
+                )}
                 <FormInputField
-                    label={`${questionAction} alternativa #${altIndex + 1}`}
+                    label={`${questionAction} alternativa #${currentAlternativeIndex + 1}`}
                     placeholder="..."
                     register={actions.formMethods.register}
                     name={fieldName}
                     type="text"
-                    error={errors[actions.path]?.normalityRange?.[boundType]?.actions?.[actionIndex]?.alternatives?.[path[0]]?.description}
+                    onDelete={handleRemoveNestedAlternative}
+                    error={fieldError}
                 />
+            </div>
+
+            <div>
                 <button
                     type="button"
-                    onClick={handleRemoveNestedAlternative}
-                    className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
+                    className="text-primary font-bold hover:text-formSelect text-xs ml-6 mb-4"
+                    onClick={handleAddNestedAlternative}
                 >
-                    {questionOptionDelete}
+                    {addAlternativeLabel}
                 </button>
             </div>
 
-            {(alternative.alternatives || []).map((nestedAlt, nestedIdx) => (
-                <GenericAlternativeItem
-                    key={nestedIdx}
-                    alternative={nestedAlt}
-                    boundType={boundType}
-                    actionIndex={actionIndex}
-                    path={[...path, nestedIdx]}
-                    level={level + 1}
-                    question={question}
-                    actions={actions}
-                    questionAction={questionAction}
-                    questionOptionDelete={questionOptionDelete}
-                    addAlternativeLabel={addAlternativeLabel}
-                />
-            ))}
-
-            <button
-                type="button"
-                className="text-primary font-bold hover:text-formSelect text-xs mb-4"
-                style={{ marginLeft: `${4}px` }}
-                onClick={handleAddNestedAlternative}
-            >
-                {addAlternativeLabel}
-            </button>
+            {(alternative.alternatives || []).length > 0 && (
+                <div className="relative">
+                    {(alternative.alternatives || []).map((nestedAlt, nestedIdx) => (
+                        <div className="relative" key={nestedIdx}>
+                            {nestedIdx < (alternative.alternatives?.length ?? 0) - 1 && (
+                                <div className="absolute left-[8px] top-0 h-full border-l-2 border-[#4a4a4a]"></div>
+                            )}
+                            <div className="ml-2">
+                                <GenericAlternativeItem
+                                    alternative={nestedAlt}
+                                    triggerId={triggerId}
+                                    parentActionIndex={parentActionIndex}
+                                    alternativePath={[...alternativePath, nestedIdx]}
+                                    level={level + 1}
+                                    question={question}
+                                    actions={actions}
+                                    questionAction={questionAction}
+                                    questionOptionDelete={questionOptionDelete}
+                                    addAlternativeLabel={addAlternativeLabel}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

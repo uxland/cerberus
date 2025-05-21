@@ -2,7 +2,7 @@ import React from "react";
 import { FormInputField } from "@cerberus/core";
 import { OperationAction, OptionsQuestion } from "../domain";
 import { OperationQuestionActions } from "./shared";
-import { appendNestedAlternative, removeNestedAlternative } from "../domain/options-question";
+import { appendNestedAlternative, getTriggerIndex, removeNestedAlternative } from "../domain";
 
 interface AlternativeItemProps {
     alternative: OperationAction;
@@ -33,11 +33,21 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
 }) => {
     const altIndex = path[path.length - 1];
     const { formState: { errors } } = actions.formMethods;
+    const triggerIdx = getTriggerIndex(question, optionCode);
 
-    console.log(`Rendering alternative at path: ${path.join('-')}, level: ${level}`);
+    // Calcula dinámicamente el error para este field
+    let fieldError: string | undefined;
+    const actionsErrors = errors[actions.path]?.triggers?.[triggerIdx]?.actions;
+    if (actionsErrors && Array.isArray(actionsErrors)) {
+        let node: any = actionsErrors[actionIndex];
+        for (const idx of path) {
+            node = node?.alternatives?.[idx];
+            if (!node) break;
+        }
+        fieldError = node?.description?.message ?? node?.description;
+    }
 
     const handleAddNestedAlternative = () => {
-        console.log(`Adding nested alternative to path: ${path.join('-')}`);
         actions.setQuestion(
             question.id,
             appendNestedAlternative(question, optionCode, actionIndex, path)
@@ -45,15 +55,19 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
     };
 
     const handleRemoveNestedAlternative = () => {
-        console.log(`Removing alternative at path: ${path.join('-')}`);
         actions.setQuestion(
             question.id,
             removeNestedAlternative(question, optionCode, actionIndex, path)
         );
     };
 
-    const fieldName = `${actions.path}.options.${optionIndex}.anomalousSettings.actions.${actionIndex}.alternatives.${path.join('.alternatives.')}.description`;
-
+    const fieldName = [
+        actions.path,
+        "triggers", triggerIdx,
+        "actions", actionIndex,
+        ...path.flatMap(idx => ["alternatives", idx]),
+        "description"
+    ].join(".");
 
     return (
         <div className="relative ml-4">
@@ -68,7 +82,7 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
                     name={fieldName}
                     type="text"
                     onDelete={handleRemoveNestedAlternative}
-                    error={errors[actions.path]?.options?.[optionIndex]?.anomalousSettings?.actions?.[actionIndex]?.alternatives?.[path[0]]?.description}
+                    error={fieldError}
                 />
             </div>
 
@@ -86,13 +100,11 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
                 <div className="relative">
                     {(alternative.alternatives || []).map((nestedAlt, nestedIdx) => (
                         <div className="relative" key={nestedIdx}>
-                            {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
                             {nestedIdx < alternative.alternatives.length - 1 && (
                                 <div className="absolute left-[8px] top-0 h-full border-l-2 border-[#4a4a4a]"></div>
                             )}
                             <div className="ml-2">
                                 <AlternativeItem
-                                    key={nestedIdx}
                                     alternative={nestedAlt}
                                     optionCode={optionCode}
                                     actionIndex={actionIndex}

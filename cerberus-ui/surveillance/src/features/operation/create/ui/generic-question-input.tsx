@@ -1,10 +1,28 @@
 import React, { useEffect } from "react";
-import { OperationQuestion, OperationQuestionType, questionOptionValues, isMandatoryValues, optionTypologyValues, OptionsTypology } from "../domain";
+import {
+    IntegerQuestion,
+    FloatQuestion,
+    appendTrigger,
+    removeTrigger,
+    OperationQuestion,
+    OperationQuestionType,
+    questionOptionValues,
+    isMandatoryValues,
+    optionTypologyValues,
+    OptionsTypology,
+    getTriggerIndex,
+    appendActionToQuestion,
+    removeActionFromQuestion,
+    ValueEqualsSpec,
+    ValueGreaterThanSpec,
+    ValueLowerThanSpec,
+    getTriggerActions,
+    appendAction
+} from "../domain";
 import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { IntegerQuestion, FloatQuestion } from "../domain/model";
 import { GenericAlternativeItem } from "./generic-alternative-item";
 import { QuestionIcon } from "./icons/question-icon.tsx";
 
@@ -14,19 +32,15 @@ interface GenericQuestionInputProps {
 }
 
 export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ question, actions }) => {
-    const normalityRange = useSurveillanceLocales("operation.create.question.normalityRange")
-    const lowerBoundPlaceholder = useSurveillanceLocales("operation.create.question.lowerBoundPlaceholder")
-    const upperBoundPlaceholder = useSurveillanceLocales("operation.create.question.upperBoundPlaceholder")
-
     const questionAction = useSurveillanceLocales("operation.create.question.actions.anomalousAction");
     const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
     const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.actions.delete");
 
-
     const handleTypeChange = (value: OperationQuestionType) => {
         actions.changeQuestionType(question.id, value);
     };
+
     const handleIsMandatoryChange = (value: string) => {
         actions.setQuestion(question.id, { ...question, isMandatory: value === "true" });
     };
@@ -39,42 +53,26 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
         actions.removeQuestion(question.id);
     };
 
-    const handleAppendLowerAction = () =>
+    const handleAppendAction = (triggerId: string) => {
         actions.setQuestion(
             question.id,
-          question
-          //  appendLowerBoundAction(question as IntegerQuestion | FloatQuestion)
+            appendActionToQuestion(question, triggerId)
         );
-    const handleRemoveLowerAction = (actionindex: number) =>
-        actions.setQuestion(
-            question.id,
-           question
-           // removeLowerBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
-        );
-    const handleAppendLowerAlternative = (actionindex: number) =>
-        actions.setQuestion(
-            question.id,
-            question
-            //appendLowerAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
-        );
+    };
 
-    const handleAppendUpperAction = () =>
+    const handleRemoveAction = (triggerId: string, actionIdx: number) => {
         actions.setQuestion(
             question.id,
-            question
-            //appendUpperBoundAction(question as IntegerQuestion | FloatQuestion)
+            removeActionFromQuestion(question, triggerId, actionIdx)
         );
-    const handleRemoveUpperAction = (actionindex: number) =>
-        actions.setQuestion(
-            question.id,
-            question//removeUpperBoundAction(question as IntegerQuestion | FloatQuestion, actionindex)
-        );
-    const handleAppendUpperAlternative = (actionindex: number) =>
-        actions.setQuestion(
-            question.id,
-            question //appendUpperAlternative(question as IntegerQuestion | FloatQuestion, actionindex)
-        );
+    };
 
+    const handleAppendAlternative = (triggerId: string, actionIdx: number) => {
+        actions.setQuestion(
+            question.id,
+            appendAction(question, triggerId, [actionIdx])
+        );
+    };
 
     const { register, formState: { errors }, watch, getValues } = actions.formMethods;
     const pathForText = `${actions.path}.text`;
@@ -87,14 +85,35 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
         }
     }, [currentQuestionTextFromRHF, question.id, question.text, actions, getValues, pathForText]);
 
-    // console.log("Prop 'question' en GenericQuestionInput:", question);
-    // console.log(`Valor en RHF para ${pathForText}: `, currentQuestionTextFromRHF);
+    const handleAddEqualsTrigger = () => {
+        const spec = new ValueEqualsSpec<string>("");
+        actions.setQuestion(question.id, appendTrigger(question, spec));
+    };
+
+    const handleAddGreaterThanTrigger = () => {
+        const spec = new ValueGreaterThanSpec<number>(0);
+        actions.setQuestion(question.id, appendTrigger(question, spec));
+    };
+
+    const handleAddLowerThanTrigger = () => {
+        const spec = new ValueLowerThanSpec<number>(0);
+        actions.setQuestion(question.id, appendTrigger(question, spec));
+    };
+
+    const handleRemoveTrigger = (triggerId: string) => {
+        actions.setQuestion(
+            question.id,
+            removeTrigger(question, triggerId)
+        );
+    };
 
     return (
         <div key={question.id}>
             <div className="flex items-center mt-2 gap-2">
                 <QuestionIcon className="text-primary w-8" />
-                <h1 className="font-bold">{useSurveillanceLocales("operation.create.question.title")} {question.id}</h1>
+                <h1 className="font-bold">
+                    {useSurveillanceLocales("operation.create.question.title")} {question.id}
+                </h1>
                 <button
                     type="button"
                     onClick={handleRemoveQuestion}
@@ -140,121 +159,105 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                 )}
             </div>
 
-
-
             {question.__type !== "Options" && question.__type !== "Text" && (
                 <>
-                    <div className="mt-4 border-t pt-4">
-                        <h1 className="font-bold">{normalityRange}</h1>
-                        <div className="grid grid-cols-2 gap-6">
-                            {/* LOWER BOUND - Columna independiente con scroll */}
-                            <div className="flex flex-col ">
-                                <div className="">
-                                    <FormInputField
-                                        name={`${actions.path}.normalityRange.lowerBound.value`}
-                                        type="number"
-                                        register={register}
-                                        placeholder={lowerBoundPlaceholder}
-                                        error={errors[actions.path]?.normalityRange?.lowerBound?.value}
-                                    />
-                                </div>
-                                <div className="overflow-y-auto  p-3">
-                                    <div className="border-l-2 border-gray-300 pl-4">
-                                        {(question.normalityRange?.lowerBound?.actions ?? []).map((action, actionindex) => (
-                                            <div key={actionindex} className="mb-4">
-                                                {/* descripción + borrar acción */}
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <FormInputField
-                                                        label={`${questionAction} #${actionindex + 1}`}
-                                                        placeholder="..."
-                                                        register={actions.formMethods.register}
-                                                        name={`${actions.path}.normalityRange.lowerBound.actions.${actionindex}.description`}
-                                                        type="text"
-                                                        error={errors[actions.path]?.normalityRange?.lowerBound?.actions?.[actionindex]?.description}
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleRemoveLowerAction(actionindex)}
-                                                        className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                                                    >
-                                                        {questionOptionDelete}
-                                                    </button>
-                                                </div>
-                                                {/* alternativas anidadas */}
-                                                {(action.alternatives ?? []).map((alt, altIndex) => (
-                                                    <GenericAlternativeItem
-                                                        key={altIndex}
-                                                        alternative={alt}
-                                                        boundType="lowerBound"
-                                                        actionIndex={actionindex}
-                                                        path={[altIndex]}
-                                                        level={0}
-                                                        question={question as IntegerQuestion | FloatQuestion}
-                                                        actions={actions}
-                                                        questionAction={questionAction}
-                                                        questionOptionDelete={questionOptionDelete}
-                                                        addAlternativeLabel={addAlternativeLabel}
-                                                    />
-                                                ))}
-                                                <button
-                                                    type="button"
-                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-6"
-                                                    onClick={() => handleAppendLowerAlternative(actionindex)}
-                                                >
-                                                    {addAlternativeLabel}
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                <button
-                                    type="button"
-                                    className="text-primary font-bold hover:text-formSelect text-xs w-full"
-                                    onClick={handleAppendLowerAction}
-                                >
-                                    {questionAddAction}
-                                </button>
-                            </div>
+                    {/* 2) Botones para añadir triggers */}
+                    <div className="flex gap-2 items-center mt-2 ml-2">
+                        <button
+                            type="button"
+                            className="text-primary font-bold hover:text-formSelect text-xs"
+                            onClick={handleAddEqualsTrigger}
+                        >
+                            Añadir Trigger =
+                        </button>
+                        <button
+                            type="button"
+                            className="text-primary font-bold hover:text-formSelect text-xs"
+                            onClick={handleAddGreaterThanTrigger}
+                        >
+                            Añadir Trigger &gt;
+                        </button>
+                        <button
+                            type="button"
+                            className="text-primary font-bold hover:text-formSelect text-xs"
+                            onClick={handleAddLowerThanTrigger}
+                        >
+                            Añadir Trigger &lt;
+                        </button>
+                    </div>
 
-                            {/* UPPER BOUND - Columna independiente con scroll */}
-                            <div className="flex flex-col ">
-                                <div className="">
-                                    <FormInputField
-                                        name={`${actions.path}.normalityRange.upperBound.value`}
-                                        type="number"
-                                        register={register}
-                                        placeholder={upperBoundPlaceholder}
-                                        error={errors[actions.path]?.normalityRange?.upperBound?.value}
-                                    />
+                    <div className="ml-2 mt-2 relative">
+                        {/* Línea vertical que conecta todas las acciones */}
+                        {(question.triggers?.length ?? 0) > 0 && (
+                            <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]" />
+                        )}
+
+                        {question.triggers?.map((trigger, triggerIndex) => (
+                            <React.Fragment key={trigger.id}>
+                                <div className="flex items-center gap-2 ml-4 mt-4">
+                                    <span className="text-sm font-semibold">Trigger {triggerIndex} :</span>
+                                    <button
+                                        type="button"
+                                        className="text-red-500 hover:text-red-700 text-xs font-bold"
+                                        onClick={() => handleRemoveTrigger(trigger.id)}
+                                    >
+                                        Eliminar Trigger
+                                    </button>
                                 </div>
-                                <div className="overflow-y-auto p-3">
-                                    <div className="border-l-2 border-gray-300 pl-4">
-                                        {(question.normalityRange?.upperBound?.actions ?? []).map((action, actionindex) => (
-                                            <div key={actionindex} className="mb-4">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <FormInputField
-                                                        label={`${questionAction} #${actionindex + 1}`}
-                                                        placeholder="..."
-                                                        register={actions.formMethods.register}
-                                                        name={`${actions.path}.normalityRange.upperBound.actions.${actionindex}.description`}
-                                                        type="text"
-                                                        error={errors[actions.path]?.normalityRange?.upperBound?.actions?.[actionindex]?.description}
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleRemoveUpperAction(actionindex)}
-                                                        className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                                                    >
-                                                        {questionOptionDelete}
-                                                    </button>
-                                                </div>
-                                                {(action.alternatives ?? []).map((alt, altIndex) => (
+
+                                <button
+                                    type="button"
+                                    className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
+                                    onClick={() => handleAppendAction(trigger.id)}
+                                >
+                                    {questionAddAction}
+                                </button>
+
+                                {getTriggerActions(question, trigger.id).map((action, actionIndex) => (
+                                    <div key={actionIndex} className="mb-6 relative">
+                                        <div className="flex gap-2 mb-2 flex-col ml-4">
+                                            <div className="w-full mt-2 flex items-center relative">
+                                                {/* Línea horizontal conectora en forma de L para cada acción */}
+                                                <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]" />
+
+                                                <FormInputField
+                                                    label={`${questionAction} #${actionIndex + 1}`}
+                                                    placeholder="..."
+                                                    register={actions.formMethods.register}
+                                                    name={`${actions.path}.triggers.${getTriggerIndex(question, trigger.id)}.actions.${actionIndex}.description`}
+                                                    type="text"
+                                                    onDelete={() => handleRemoveAction(trigger.id, actionIndex)}
+                                                    error={errors[actions.path]?.triggers?.[getTriggerIndex(question, trigger.id)]?.actions?.[actionIndex]?.description}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <button
+                                                    type="button"
+                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-14 mb-4"
+                                                    onClick={() => handleAppendAlternative(trigger.id, actionIndex)}
+                                                >
+                                                    {addAlternativeLabel}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Renderizar alternativas anidadas */}
+                                        <div className="relative">
+                                            {(action.alternatives ?? []).map((alt, altIdx) => (
+                                                <div className="ml-6 relative" key={altIdx}>
+                                                    {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
+                                                    {altIdx < action.alternatives.length - 1 && (
+                                                        <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]" />
+                                                    )}
+                                                    <div className="absolute left-[0px] top-[-54px] w-4 h-[105px] border-l-2 border-b-2 border-[#4a4a4a]" />
+
                                                     <GenericAlternativeItem
-                                                        key={altIndex}
+                                                        key={`${trigger.id}-${actionIndex}-${altIdx}`}
                                                         alternative={alt}
-                                                        boundType="upperBound"
-                                                        actionIndex={actionindex}
-                                                        path={[altIndex]}
+                                                        triggerId={trigger.id}
+                                                        parentActionIndex={actionIndex}
+                                                        alternativePath={[altIdx]}
                                                         level={0}
                                                         question={question as IntegerQuestion | FloatQuestion}
                                                         actions={actions}
@@ -262,27 +265,13 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                                                         questionOptionDelete={questionOptionDelete}
                                                         addAlternativeLabel={addAlternativeLabel}
                                                     />
-                                                ))}
-                                                <button
-                                                    type="button"
-                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-6"
-                                                    onClick={() => handleAppendUpperAlternative(actionindex)}
-                                                >
-                                                    {addAlternativeLabel}
-                                                </button>
-                                            </div>
-                                        ))}
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                                <button
-                                    type="button"
-                                    className="text-primary font-bold hover:text-formSelect text-xs w-full"
-                                    onClick={handleAppendUpperAction}
-                                >
-                                    {questionAddAction}
-                                </button>
-                            </div>
-                        </div>
+                                ))}
+                            </React.Fragment>
+                        ))}
                     </div>
                 </>
             )}

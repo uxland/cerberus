@@ -1,18 +1,24 @@
-import {Trigger, OperationAction, OperationQuestion} from "./model.ts";
-import {OptionsQuestion} from "./options-question.ts";
+import { Trigger, OperationAction, OperationQuestion } from "./model.ts";
+import { OptionsQuestion } from "./options-question.ts";
 
-export const updateActionTrigger = <T extends string | number> (question: OperationQuestion<T>, trigger: Trigger)=>{
-    let  actions = (question.triggers || []).filter(x => x.id !== trigger.id);
-    if(trigger.actions && trigger.actions.length > 0)
-        actions = [...actions, trigger];
-    return <OperationQuestion>{
+export const updateActionTrigger = <T extends string | number>(
+    question: OperationQuestion<T>,
+    trigger: Trigger<T>
+): OperationQuestion<T> => {
+    const existing = question.triggers || [];
+
+    const updatedTriggers = existing
+        .map(t => t.id === trigger.id ? trigger : t)
+        .filter(t => !(t.id === trigger.id && (!trigger.actions || trigger.actions.length === 0)));
+
+    return {
         ...question,
-        triggers: actions.length > 0 ? actions : undefined,
-    }
-}
+        triggers: updatedTriggers.length > 0 ? updatedTriggers : undefined
+    };
+};
 
-export const findTrigger = (question: OperationQuestion, triggerId: string) =>{
-    return (question.triggers ||[]) .find(x => x.id === triggerId);
+export const findTrigger = (question: OperationQuestion, triggerId: string) => {
+    return (question.triggers || []).find(x => x.id === triggerId);
 }
 
 export const existsTrigger = (question: OperationQuestion, triggerId: string) => findTrigger(question, triggerId) !== undefined;
@@ -22,16 +28,18 @@ export const getTriggerActions = (question: OperationQuestion, triggerId: string
 
 export const addAlternativeToAction = (question: OperationQuestion, triggerId: string, actionIndex: number) => {
     let trigger = findTrigger(question, triggerId);
-    if(!trigger) return question;
-    trigger = {...trigger, actions: trigger.actions.map((act, idx) => {
+    if (!trigger) return question;
+    trigger = {
+        ...trigger, actions: trigger.actions.map((act, idx) => {
             if (idx !== actionIndex) return act;
-            return {...act, alternatives: [...(act.alternatives ?? []), { description: "", alternatives: [] }]};
-        })};
+            return { ...act, alternatives: [...(act.alternatives ?? []), { description: "", alternatives: [] }] };
+        })
+    };
     return updateActionTrigger(question, trigger) as OptionsQuestion;
 }
-export const appendAction = (question: OperationQuestion, triggerId: string, path: number[] | string[]  = []) => {
+export const appendAction = (question: OperationQuestion, triggerId: string, path: number[] | string[] = []) => {
     let trigger = findTrigger(question, triggerId);
-    if(!trigger) return question;
+    if (!trigger) return question;
 
     const numericPath: number[] = path.map(p => typeof p === 'string' ? Number.parseInt(p, 10) : p);
 
@@ -75,7 +83,7 @@ export const appendAction = (question: OperationQuestion, triggerId: string, pat
 
 export const removeAction = (question: OperationQuestion, triggerId: string, path: number[] | string[] = []) => {
     let trigger = findTrigger(question, triggerId);
-    if(!trigger) return question;
+    if (!trigger) return question;
 
     const numericPath: number[] = path.map(p => typeof p === 'string' ? Number.parseInt(p, 10) : p);
 

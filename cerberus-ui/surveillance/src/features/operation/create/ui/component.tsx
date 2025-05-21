@@ -10,6 +10,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
+import { useEffect } from "react";
 
 interface SurveillanceOperationFormArgs {
     initialModel?: SurveillanceOperationFormModel;
@@ -72,6 +73,12 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         remove(index);
     };
 
+
+    const formValues = formMethods.watch();
+
+    useEffect(() => {
+        console.log("Modelo del formulario actualizado:", formValues);
+    }, [formValues]);
     return (
         <form onSubmit={handleSubmit(onSubmit, (formErrors) => {
             console.error("Validation failed:", formErrors);

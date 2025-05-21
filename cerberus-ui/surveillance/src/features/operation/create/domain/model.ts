@@ -1,5 +1,6 @@
-import { OptionsTypology } from "./options-question.ts";
-import {ISpec} from "@cerberus/core/src/specs/spec.ts";
+import { OptionsQuestion, OptionsTypology } from "./options-question.ts";
+import { ISpec } from "@cerberus/core/src/specs/spec.ts";
+import { appendAction, removeAction } from "./trigger-actions.ts";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -14,13 +15,13 @@ export interface OperationAction {
     alternatives: Array<OperationAction> | undefined;
 }
 
-export interface Trigger<T  extends number | string = undefined>{
+export interface Trigger<T extends number | string = undefined> {
     id: string;
     condition: ISpec<T>;
     actions: OperationAction[] | undefined;
 }
 
-export interface OperationQuestion<T  extends number | string   = undefined > {
+export interface OperationQuestion<T extends number | string = undefined> {
     __type: OperationQuestionType;
     id: string;
     text: string;
@@ -57,7 +58,7 @@ export interface IntegerQuestion extends OperationQuestion<number> {
     __type: "Integer";
 }
 
-export interface FloatQuestion extends OperationQuestion<number>{
+export interface FloatQuestion extends OperationQuestion<number> {
     __type: "Float";
 }
 
@@ -79,3 +80,72 @@ export const removeQuestion = (model: SurveillanceOperationFormModel, questionId
 export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
     model.questions.find(q => q.id === questionId);
 
+export const createTriggerId = (question: OperationQuestion): string => {
+    const maxId = question.triggers
+        ?.map(trigger => {
+            const id = Number.parseInt(trigger.id, 10);
+            return Number.isNaN(id) ? 0 : id;
+        })
+        .reduce((max, id) => Math.max(max, id), 0) ?? 0;
+    return (maxId + 1).toString();
+};
+
+export const appendTrigger = <T extends number | string = undefined>(
+    question: OperationQuestion<T>,
+    condition: ISpec<T>
+): OperationQuestion<T> => {
+    const trigger = <Trigger<T>>{
+        id: createTriggerId(question),
+        condition: condition,
+        actions: undefined
+    }
+    return { ...question, triggers: [...(question.triggers || []), trigger] };
+}
+export const removeTrigger = (question: OperationQuestion, triggerId: string): OperationQuestion => {
+    return { ...question, triggers: question.triggers?.filter(t => t.id !== triggerId) };
+}
+export const appendActionToQuestion = (question: OperationQuestion, triggerId: string): OperationQuestion => {
+    return appendAction(question, triggerId) as OperationQuestion;
+}
+export const removeActionFromQuestion = (question: OperationQuestion, triggerId: string, actionIndex: number): OperationQuestion => {
+    return removeAction(question, triggerId, [actionIndex]) as OperationQuestion;
+}
+
+export const appendAlternativeToAction = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number
+): OptionsQuestion => {
+    return appendAction(question, optionCode, [actionIndex]) as OptionsQuestion;
+};
+
+export const removeAlternativeFromAction = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number,
+    altIndex: number
+): OptionsQuestion => {
+    return removeAction(question, optionCode, [actionIndex, altIndex]) as OptionsQuestion;
+};
+export const appendNestedAlternative = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number,
+    alternativePath: number[]
+): OptionsQuestion => {
+    return appendAction(question, optionCode, [actionIndex, ...alternativePath]) as OptionsQuestion;
+};
+
+/** 
+ * Remove the alternative at the given nesting path 
+ */
+export const removeNestedAlternative = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number,
+    alternativePath: number[]
+): OptionsQuestion => {
+    return removeAction(question, optionCode, [actionIndex, ...alternativePath]) as OptionsQuestion;
+};
+
+/** Recursively descend into `alternatives`, following `path`, and append `newAlt`. */

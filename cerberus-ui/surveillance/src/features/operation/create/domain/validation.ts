@@ -3,7 +3,6 @@ import { z } from "zod";
 export type OperationForm = z.infer<typeof SurveillanceOperationFormModelSchema>;
 const OperationQuestionTypeSchema = z.enum(["Options", "Text", "Integer", "Float"]);
 
-// Define un esquema recursivo para OperationAction
 const OperationActionSchema: z.ZodType<any> = z.lazy(() =>
     z.object({
         description: z.string().nonempty("Action description is required"),
@@ -11,14 +10,13 @@ const OperationActionSchema: z.ZodType<any> = z.lazy(() =>
     })
 );
 
-const AnomalousSettingsSchema = z.object({
-    actions: z.array(OperationActionSchema),
-    value: z.union([z.number(), z.string(), z.boolean()]).optional(),
-});
-
-const NormalityRangeSchema = z.object({
-    lowerBound: AnomalousSettingsSchema.optional(),
-    upperBound: AnomalousSettingsSchema.optional(),
+const TriggerSchema = z.object({
+    id: z.string().nonempty("Trigger id is required"),
+    condition: z.any(),
+    actions: z
+        .array(OperationActionSchema)
+        // .min(1, "At least one action is required")
+        .optional(),
 });
 
 const BaseOperationQuestionSchema = z.object({
@@ -26,6 +24,7 @@ const BaseOperationQuestionSchema = z.object({
     id: z.string().nonempty("Question id is required"),
     text: z.string().nonempty("Question text is required"),
     isMandatory: z.boolean(),
+    triggers: z.array(TriggerSchema).optional(),
 });
 
 const TextQuestionSchema = BaseOperationQuestionSchema.extend({
@@ -35,16 +34,10 @@ const TextQuestionSchema = BaseOperationQuestionSchema.extend({
 
 const IntegerQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Integer"),
-    min: z.number().optional(),
-    max: z.number().optional(),
-    normalityRange: NormalityRangeSchema.optional(),
 });
 
 const FloatQuestionSchema = BaseOperationQuestionSchema.extend({
     __type: z.literal("Float"),
-    min: z.number().optional(),
-    max: z.number().optional(),
-    normalityRange: NormalityRangeSchema.optional(),
 });
 
 const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
@@ -52,7 +45,6 @@ const OptionsQuestionSchema = BaseOperationQuestionSchema.extend({
     options: z.array(z.object({
         code: z.string().nonempty("Option code is required"),
         text: z.string().nonempty("Option text is required"),
-        anomalousSettings: AnomalousSettingsSchema.optional(),
     })).min(2, "At least two options are required"),
     type: z.enum(["Single", "Multiple"]),
 });

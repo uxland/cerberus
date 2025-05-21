@@ -1,5 +1,5 @@
 import { OperationQuestion } from "../../../operation/create/domain";
-
+import { OperationAnswer } from "../run-inspection/domain/model";
 export interface Run {
     id: string;
     roundId: string;
@@ -43,7 +43,7 @@ export interface OperationRun {
 
 export interface OperationRunQuestionAnswer {
     question: OperationQuestion;
-    answer?: IOperationAnswer;
+    answer?: OperationAnswer;
 }
 
 

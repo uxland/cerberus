@@ -1,9 +1,9 @@
-import {OperationQuestion, OperationAction, Trigger} from "./model.ts";
+import { OperationQuestion, Trigger } from "./model.ts";
 import {
     appendAction, existsTrigger,
     removeAction
 } from "./trigger-actions.ts";
-import {ValueEqualsSpec} from "./action-specs.ts";
+import { ValueEqualsSpec } from "./action-specs.ts";
 
 export interface Option {
     code: string;
@@ -65,58 +65,20 @@ export const getTriggerIndex = (question: OptionsQuestion, optionCode: string) =
     return triggerIndex;
 }
 export const enableOptionTrigger = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
-    if(existsTrigger(question, optionCode))  return question;
+    if (existsTrigger(question, optionCode)) return question;
     const trigger = <Trigger<string>>{
         id: optionCode,
         condition: new ValueEqualsSpec<string>(optionCode),
         actions: []
     }
-    return {...question, triggers: [...question.triggers || [], trigger] };
+    return { ...question, triggers: [...question.triggers || [], trigger] };
 }
 export const disableOptionTrigger = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
     const triggerIndex = getTriggerIndex(question, optionCode);
-    if(triggerIndex === -1) return question;
+    if (triggerIndex === -1) return question;
     return {
         ...question,
         triggers: question.triggers.filter((_, idx) => idx !== triggerIndex)
     }
 }
 
-export const appendAlternativeToAction = (
-    question: OptionsQuestion,
-    optionCode: string,
-    actionIndex: number
-): OptionsQuestion => {
-    return appendAction(question, optionCode, [actionIndex]) as OptionsQuestion;
-};
-
-export const removeAlternativeFromAction = (
-    question: OptionsQuestion,
-    optionCode: string,
-    actionIndex: number,
-    altIndex: number
-): OptionsQuestion => {
-    return removeAction(question, optionCode, [actionIndex, altIndex]) as OptionsQuestion;
-};
-export const appendNestedAlternative = (
-    question: OptionsQuestion,
-    optionCode: string,
-    actionIndex: number,
-    alternativePath: number[]
-): OptionsQuestion => {
-    return appendAction(question, optionCode, [actionIndex, ...alternativePath]) as OptionsQuestion;
-};
-
-/** 
- * Remove the alternative at the given nesting path 
- */
-export const removeNestedAlternative = (
-    question: OptionsQuestion,
-    optionCode: string,
-    actionIndex: number,
-    alternativePath: number[]
-): OptionsQuestion => {
-   return removeAction(question, optionCode, [actionIndex, ...alternativePath]) as OptionsQuestion;
-};
-
-/** Recursively descend into `alternatives`, following `path`, and append `newAlt`. */
