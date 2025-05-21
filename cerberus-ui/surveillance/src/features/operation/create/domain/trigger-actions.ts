@@ -9,7 +9,7 @@ export const updateActionTrigger = <T extends string | number>(
 
     const updatedTriggers = existing
         .map(t => t.id === trigger.id ? trigger : t)
-        .filter(t => !(t.id === trigger.id && (!trigger.actions || trigger.actions.length === 0)));
+        .filter(t => !(t.id === trigger.id && t.actions === undefined));
 
     return {
         ...question,
