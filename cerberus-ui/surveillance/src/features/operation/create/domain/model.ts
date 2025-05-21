@@ -101,6 +101,23 @@ export const appendTrigger = <T extends number | string = undefined>(
     }
     return { ...question, triggers: [...(question.triggers || []), trigger] };
 }
+
+export const setTriggerValue = <T extends number | string>(
+    question: OperationQuestion<T>,
+    triggerId: string,
+    newValue: T
+): OperationQuestion<T> => ({
+    ...question,
+    triggers: question.triggers?.map(t =>
+        t.id !== triggerId
+            ? t
+            : {
+                ...t,
+                condition: new (t.condition.constructor as { new(v: T): ISpec<T> })(newValue)
+            }
+    )
+});
+
 export const removeTrigger = (question: OperationQuestion, triggerId: string): OperationQuestion => {
     return { ...question, triggers: question.triggers?.filter(t => t.id !== triggerId) };
 }

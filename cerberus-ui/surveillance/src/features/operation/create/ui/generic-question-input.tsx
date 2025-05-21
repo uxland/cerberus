@@ -17,7 +17,8 @@ import {
     ValueGreaterThanSpec,
     ValueLowerThanSpec,
     getTriggerActions,
-    appendAction
+    appendAction,
+    setTriggerValue
 } from "../domain";
 import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
@@ -194,25 +195,36 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
 
                         {question.triggers?.map((trigger, triggerIndex) => (
                             <React.Fragment key={trigger.id}>
-                                <div className="flex items-center gap-2 ml-4 mt-4">
-                                    <span className="text-sm font-semibold">Trigger {triggerIndex} :</span>
+                                <div className=" ml-4">
+                                    <div className="flex items-center gap-2 mt-4">
+                                        <span className="text-sm font-semibold">Trigger {triggerIndex} :</span>
+                                        <button
+                                            type="button"
+                                            className="text-red-500 hover:text-red-700 text-xs font-bold"
+                                            onClick={() => handleRemoveTrigger(trigger.id)}
+                                        >
+                                            Eliminar Trigger
+                                        </button>
+                                    </div>
+                                    <FormInputField
+                                        label="Valor"
+                                        type="number"
+                                        value={(trigger.condition).value}
+                                        onChange={e =>
+                                            actions.setQuestion(
+                                                question.id,
+                                                setTriggerValue(question, trigger.id, Number(e.target.value))
+                                            )
+                                        }
+                                    />
                                     <button
                                         type="button"
-                                        className="text-red-500 hover:text-red-700 text-xs font-bold"
-                                        onClick={() => handleRemoveTrigger(trigger.id)}
+                                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
+                                        onClick={() => handleAppendAction(trigger.id)}
                                     >
-                                        Eliminar Trigger
+                                        {questionAddAction}
                                     </button>
                                 </div>
-
-                                <button
-                                    type="button"
-                                    className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
-                                    onClick={() => handleAppendAction(trigger.id)}
-                                >
-                                    {questionAddAction}
-                                </button>
-
                                 {getTriggerActions(question, trigger.id).map((action, actionIndex) => (
                                     <div key={actionIndex} className="mb-6 relative">
                                         <div className="flex gap-2 mb-2 flex-col ml-4">
