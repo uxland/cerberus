@@ -54,7 +54,8 @@ export const FormInputField: React.FC<InputFieldProps> = ({
                 className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#4a4a4a] rounded placeholder:text-[#929292]`}
                 {...registration}
                 defaultValue={defaultValue}
-                onChange={onChange}
+                {...(defaultValue !== undefined ? { defaultValue } : {})}
+                {...(onChange ? { onChange } : {})}
             />
             {error && <p className="error text-red-500">{error.message}</p>}
         </div>

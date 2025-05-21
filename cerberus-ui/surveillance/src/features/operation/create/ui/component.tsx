@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { Tabs, Tab, Box } from "@mui/material";
 import {
     convertQuestionToType, OperationForm, OperationQuestion,
     OperationQuestionType,
@@ -10,7 +12,6 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { useEffect } from "react";
 
 interface SurveillanceOperationFormArgs {
     initialModel?: SurveillanceOperationFormModel;
@@ -18,6 +19,8 @@ interface SurveillanceOperationFormArgs {
 }
 
 export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: SurveillanceOperationFormArgs) => {
+    const [activeTab, setActiveTab] = useState(0);
+
     const formMethods = useForm<OperationForm>({
         resolver: zodResolver(SurveillanceOperationFormModelSchema),
         defaultValues: initialModel || { description: '', questions: [] }
@@ -52,6 +55,7 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         const currentState = watch();
         const question = produceQuestion(type, currentState as SurveillanceOperationFormModel);
         append(question);
+        setActiveTab(fields.length); // selecciona la nueva pestaña
     };
 
     const handleChangeQuestionType = (questionId: string, type: OperationQuestionType) => {
@@ -69,8 +73,9 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
     };
 
     const handleRemoveQuestion = (questionId: string) => {
-        const index = fields.findIndex((q) => q.id === questionId);
-        remove(index);
+        const idx = fields.findIndex(q => q.id === questionId);
+        remove(idx);
+        setActiveTab(prev => Math.max(0, prev - 1)); // ajusta la pestaña activa
     };
 
 
@@ -79,6 +84,7 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
     useEffect(() => {
         console.log("Modelo del formulario actualizado:", formValues);
     }, [formValues]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit, (formErrors) => {
             console.error("Validation failed:", formErrors);
@@ -93,15 +99,39 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
                     type="text"
                 />
             </div>
-            {fields.map((q, index) =>
-                createQuestionEditor(q, {
-                    setQuestion: (questionId: string, question: OperationQuestion) => handleSetQuestion(questionId, question),
-                    changeQuestionType: (questionId: string, type: OperationQuestionType) => handleChangeQuestionType(questionId, type),
-                    removeQuestion: handleRemoveQuestion,
-                    index,
-                    path: `questions.${index}`,
-                    formMethods
-                }))}
+            {fields.length > 0 && (
+                <>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider", padding: "0 16px" }}>
+                        <Tabs
+                            value={activeTab}
+                            onChange={(_, newTab) => setActiveTab(newTab)}
+                            aria-label="Question Tabs"
+                        >
+                            {fields.map((q, idx) => (
+                                <Tab key={q.id} label={`Pregunta ${idx + 1}`} />
+                            ))}
+                            <Tab
+                                icon="+"
+                                aria-label="Añadir pregunta"
+                                onClick={() => handleAddQuestion(undefined)}
+                            />
+                        </Tabs>
+                    </Box>
+
+                    {fields[activeTab] && (
+                        <Box sx={{ p: 2 }}>
+                            {createQuestionEditor(fields[activeTab] as OperationQuestion, {
+                                setQuestion: handleSetQuestion,
+                                changeQuestionType: handleChangeQuestionType,
+                                removeQuestion: handleRemoveQuestion,
+                                index: activeTab,
+                                path: `questions.${activeTab}`,
+                                formMethods
+                            })}
+                        </Box>
+                    )}
+                </>
+            )}
             <div className="flex gap-4">
                 <button
                     type="button"
