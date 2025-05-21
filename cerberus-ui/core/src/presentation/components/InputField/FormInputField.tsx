@@ -11,7 +11,7 @@ type InputFieldProps = {
     error?: FieldError;
     disabled?: boolean;
     onDelete?: () => void;
-    value?: string | number;
+    defaultValue?: string | number;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
@@ -24,7 +24,7 @@ export const FormInputField: React.FC<InputFieldProps> = ({
     error,
     disabled = false,
     onDelete,
-    value,
+    defaultValue,
     onChange
 }) => {
     const registration = register ? register(name) : {};
@@ -53,7 +53,8 @@ export const FormInputField: React.FC<InputFieldProps> = ({
                 aria-disabled={disabled}
                 className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#4a4a4a] rounded placeholder:text-[#929292]`}
                 {...registration}
-                {...(value !== undefined ? { value, onChange } : {})}
+                defaultValue={defaultValue}
+                onChange={onChange}
             />
             {error && <p className="error text-red-500">{error.message}</p>}
         </div>

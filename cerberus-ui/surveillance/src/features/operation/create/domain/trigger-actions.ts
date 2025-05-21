@@ -7,9 +7,14 @@ export const updateActionTrigger = <T extends string | number>(
 ): OperationQuestion<T> => {
     const existing = question.triggers || [];
 
-    const updatedTriggers = existing
-        .map(t => t.id === trigger.id ? trigger : t)
-        .filter(t => !(t.id === trigger.id && t.actions === undefined));
+    const updatedTrigger: Trigger<T> = {
+        ...trigger,
+        actions: trigger.actions?.length === 0 ? undefined : trigger.actions
+    };
+
+    const updatedTriggers = existing.map(t =>
+        t.id === updatedTrigger.id ? updatedTrigger : t
+    );
 
     return {
         ...question,
