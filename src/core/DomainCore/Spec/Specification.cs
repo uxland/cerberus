@@ -22,21 +22,7 @@ public abstract class Specification<T>
     {
         return spec.Not();
     }
-
-    /*public Specification<T> And(Specification<T> other)
-    {
-        return new AndSpecification<T>(this, other);
-    }
-
-    public Specification<T> Or(Specification<T> other)
-    {
-        return new OrSpecification<T>(this, other);
-    }
-
-    public Specification<T> Not()
-    {
-        return new NotSpecification<T>(this);
-    }*/
+    
 }
 
 public static class SpecificationExtensions

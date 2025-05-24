@@ -6,5 +6,8 @@ public record TextQuestion(
     string Id,
     string Text,
     bool IsMandatory,
-    IEnumerable<IInstruction>? Instructions = null
-) : IOperationQuestion;
+    List<Trigger<string>>? Triggers = null
+) : IOperationQuestion<string>
+{
+    public bool IsAnomalous(string value) => Triggers?.Any(x => x.Condition.IsSatisfiedBy(value)) ?? false;
+}

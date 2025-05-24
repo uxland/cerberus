@@ -1,6 +1,6 @@
 ﻿using Cerberus.Surveillance.Features.Features.Operation;
 
-namespace Cerberus.Surveillance.Features.Features.Run.SetInspection;
+namespace Cerberus.Surveillance.Features.Features.Run.SetInspection.Parsers;
 
 internal static class OperationAnswer
 {
@@ -35,11 +35,6 @@ internal static class OperationAnswer
 
 internal record AnswerParserResult(OperationRunQuestionAnswer? Answer, string? Error);
 
-internal interface IAnswerParser
-{
-    AnswerParserResult ParseQuestionAnswer(IOperationQuestion question, RunInspectionAnswers answers);
-}
-
 internal class OptionsAnswerParser : IAnswerParser
 {
     public AnswerParserResult ParseQuestionAnswer(IOperationQuestion question, RunInspectionAnswers answers)
@@ -49,19 +44,6 @@ internal class OptionsAnswerParser : IAnswerParser
         var error = optionsQuestion.ValidateOptions(answer);
         return new AnswerParserResult(
             string.IsNullOrEmpty(error) ? optionsQuestion.ToAnswer(answer) : null,
-            error);
-    }
-}
-
-internal class TextAnswerParser : IAnswerParser
-{
-    public AnswerParserResult ParseQuestionAnswer(IOperationQuestion question, RunInspectionAnswers answers)
-    {
-        var textQuestion = (TextQuestion)question;
-        var answer = (answers.Answers.TryGetValue(question.Id, out var res) ? res : null).ToTextAnswer();
-        var error = textQuestion.ValidateText(answer);
-        return new AnswerParserResult(
-            string.IsNullOrEmpty(error) ? textQuestion.ToText(answer) : null,
             error);
     }
 }
@@ -110,7 +92,7 @@ internal static class AnswerUtilitiesExtensions
     {
         if (codes.Count == 0) return null;
         return new OperationRunQuestionAnswer(question, new OptionAnswer(
-            codes.Select(key => new OptionAnswerItem(key, question.Options.Single(o => o.Code == key).IsAnomalous))
+            codes.Select(key => new OptionAnswerItem(key, question.IsAnomalous(key), null))
                 .ToList()
         ));
     }
@@ -124,7 +106,7 @@ internal static class AnswerUtilitiesExtensions
 
     internal static OperationRunQuestionAnswer? ToText(this TextQuestion question, string? value)
     {
-        return value == null ? null : new OperationRunQuestionAnswer(question, new TextAnswer(value));
+        return value == null ? null : new OperationRunQuestionAnswer(question, new TextAnswer(value, question.IsAnomalous(value), null));
     }
 
     internal static string? ValidateInteger(this IntegerQuestion question, int? value)
@@ -139,7 +121,7 @@ internal static class AnswerUtilitiesExtensions
         return value == null
             ? null
             : new OperationRunQuestionAnswer(question,
-                new IntegerAnswer(value.Value, question.IsAnomalous(value.Value)));
+                new IntegerAnswer(value.Value, question.IsAnomalous(value.Value), null));
     }
 
     internal static string? ValidateFloat(this FloatQuestion question, double? value)
@@ -153,6 +135,6 @@ internal static class AnswerUtilitiesExtensions
     {
         return value == null
             ? null
-            : new OperationRunQuestionAnswer(question, new FloatAnswer(value.Value, question.IsAnomalous(value.Value)));
+            : new OperationRunQuestionAnswer(question, new FloatAnswer(value.Value, question.IsAnomalous(value.Value), null));
     }
 }

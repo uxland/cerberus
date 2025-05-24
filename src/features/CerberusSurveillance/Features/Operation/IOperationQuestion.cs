@@ -12,6 +12,11 @@ public interface IOperationQuestion
     string Id { get; }
     string Text { get; }
     bool IsMandatory { get; }
-    IEnumerable<ITrigger>? Triggers { get; }
+}
 
+
+public interface IOperationQuestion<T>: IOperationQuestion
+{
+    List<Trigger<T>>? Triggers { get; }
+    bool IsAnomalous(T value);
 }

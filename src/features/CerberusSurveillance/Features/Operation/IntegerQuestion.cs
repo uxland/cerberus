@@ -6,9 +6,8 @@ public record IntegerQuestion(
     string Id,
     string Text,
     bool IsMandatory,
-    NormalityRange<int>? NormalityRange = null,
-    IEnumerable<IInstruction>? Instructions = null
-) : IOperationQuestion
+    List<Trigger<int>>? Triggers = null
+) : IOperationQuestion<int>
 {
-    public bool IsAnomalous(int value) => NormalityRange?.IsOutOfRange(value) ?? false;
+    public bool IsAnomalous(int value) => Triggers?.Any(x => x.Condition.IsSatisfiedBy(value)) ?? false;
 }

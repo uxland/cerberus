@@ -4,6 +4,7 @@ using Cerberus.Api.Setup;
 using Cerberus.Core.KeycloakClient;
 using Cerberus.Core.MartenPersistence;
 using Cerberus.Core.XabeFFMpegClient;
+using Cerberus.Surveillance.Features.Features.Shared.Specs;
 using SignalRClientPublisher;
 
 namespace Cerberus.Api;
@@ -46,7 +47,7 @@ public class Startup(WebApplicationBuilder builder)
             .SetupConfigurations(builder.Configuration)
             .UseLogging()
             .BootstrapXabeFFMpegClient()
-            .UseMartenPersistence(builder.Configuration, builder.Environment);
+            .UseMartenPersistence(builder.Configuration, builder.Environment, new SpecJsonConverterFactory());
         services
             .UseSignalRClientPublisher()
             .BootstrapServices()
