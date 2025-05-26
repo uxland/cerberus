@@ -17,6 +17,7 @@ import AnomalousSwitch from "./anomalousSwitch.tsx";
 import { AnswerIcon } from "./icons/answer-icon.tsx";
 import { Controller } from "react-hook-form";
 import { existsTrigger, getTriggerActions } from "../domain/trigger-actions.ts";
+import { DeleteOutline } from "@mui/icons-material";
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
     actions: OperationQuestionActions;
@@ -90,6 +91,13 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 <span className="text-sm">
                                     {questionOptionIsAnomalous}
                                 </span>
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveOption(option.code)}
+                                    className={`text-red-500 hover:text-red-700 text-xs p-1 rounded-full ml-auto`}
+                                >
+                                    <DeleteOutline />
+                                </button>
                             </div>
                             <div className="flex gap-4 my-2 items-end">
 
@@ -99,7 +107,6 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                     type="text"
                                     name={`${actions.path}.options.${index}.text`}
                                     error={errors[actions.path]?.options?.[index]?.text}
-                                    onDelete={() => handleRemoveOption(option.code)}
                                 />
                             </div>
 
@@ -138,7 +145,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                 <div>
                                                     <button
                                                         type="button"
-                                                        className="text-primary font-bold hover:text-formSelect text-xs ml-14 mb-4"
+                                                        className="text-primary font-bold hover:text-formSelect text-xs ml-6 mb-4"
                                                         onClick={() => handleAppendAlternative(option.code, actionIndex)}
                                                     >
                                                         {addAlternativeLabel}

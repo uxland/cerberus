@@ -36,14 +36,16 @@ export const locales = {
           type: "Tipología de respuesta",
           subtype: "Subtipología de respuesta",
           isMandatory: "Obligatoriedad",
-          normalityRange: "Rango de normalidad",
-          lowerBoundPlaceholder: "Valor mínimo",
-          upperBoundPlaceholder: "Valor máximo",
+          triggers: {
+            title: "Condiciones",
+            add: "+ Añadir condición",
+            label: "Condición",
+          },
           actions: {
             addAction: "+ Añadir acción",
             addAlternative: "+ Añadir alternativa",
             removeInstruction: "Eliminar",
-            anomalousAction: "Acción para la opción anómala",
+            anomalousAction: "Acción",
             delete: "Eliminar",
           },
           option: {

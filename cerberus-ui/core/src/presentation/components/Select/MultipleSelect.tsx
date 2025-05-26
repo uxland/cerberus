@@ -13,9 +13,11 @@ interface MultipleSelectProps {
     formMethods?: UseFormReturn<unknown>;
     error?: FieldError;
     disabled?: boolean;
+    size?: 'small' | 'medium' | 'large';
+    theme?: 'default' | 'gray';
 }
 
-export const MultipleSelect = ({ title, options, classes, path, name, selected, onChanged, formMethods, error, disabled = false }: MultipleSelectProps) => {
+export const MultipleSelect = ({ title, options, classes, path, name, selected, onChanged, formMethods, error, disabled = false, size = 'medium', theme = 'default' }: MultipleSelectProps) => {
     const [selectedOptions, setSelectedOptions] = useState<string[]>(selected || []);
     const { watch, setValue } = formMethods || {};
     const selectedValues = selected || (name && path && watch && watch(`${path}.${name}`));
@@ -48,27 +50,85 @@ export const MultipleSelect = ({ title, options, classes, path, name, selected, 
         }
     };
 
+    const getSizeClasses = () => {
+        switch (size) {
+            case 'small':
+                return 'px-2 py-1 text-xs';
+            case 'large':
+                return 'px-6 py-3 text-base';
+            case 'medium':
+            default:
+                return 'px-4 py-2 text-sm';
+        }
+    };
+
+    const getTitleSizeClass = () => {
+        switch (size) {
+            case 'small':
+                return '!text-[10px]';
+            case 'large':
+                return '!text-sm';
+            case 'medium':
+            default:
+                return '!text-xs';
+        }
+    };
+
+    const getThemeClasses = () => {
+        switch (theme) {
+            case 'gray':
+                return {
+                    unselected: '',
+                    selected: 'bg-formSelect text-gray-900',
+                    unselectedStyle: {
+                        backgroundColor: '#40444C',
+                        borderColor: '#676E71',
+                        color: "#ffc200"
+                    },
+                    selectedStyle: {
+                        borderColor: '#B59019'
+                    }
+                };
+            case 'default':
+            default:
+                return {
+                    unselected: 'bg-primaryGray border border-formSelect text-formSelect',
+                    selected: 'bg-formSelect text-gray-900 border border-formSelect',
+                    unselectedStyle: {},
+                    selectedStyle: {}
+                };
+        }
+    };
+
     return (
         <div className={`flex flex-col gap-2 ${classes}`}>
-            <Typography className="!text-xs uppercase !text-grey82 !font-semibold">
+            <Typography className={`uppercase !text-grey82 !font-semibold ${getTitleSizeClass()}`}>
                 {title}
             </Typography>
             <div className={`flex flex-wrap gap-2 ${disabled ? 'opacity-75' : ''}`}>
-                {options.map((option) => (
-                    <button
-                        type="button"
-                        key={option.value}
-                        className={`px-4 py-2 rounded-md text-sm font-medium ${selectedOptions.includes(option.value)
-                            ? 'bg-formSelect text-gray-900'
-                            : 'bg-primaryGray border border-formSelect text-formSelect hover:bg-gray-600'
-                            } ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                        onClick={() => handleOptionClick(option.value)}
-                        disabled={disabled}
-                        aria-disabled={disabled}
-                    >
-                        {option.label}
-                    </button>
-                ))}
+                {options.map((option) => {
+                    const themeClasses = getThemeClasses();
+                    const isSelected = selectedOptions.includes(option.value);
+
+                    return (
+                        <button
+                            type="button"
+                            key={option.value}
+                            className={`rounded-md font-medium border ${getSizeClasses()} ${isSelected
+                                ? themeClasses.selected
+                                : `${themeClasses.unselected} ${!disabled ? 'hover:bg-gray-600' : ''}`
+                                }`}
+                            style={{
+                                ...(isSelected ? themeClasses.selectedStyle : themeClasses.unselectedStyle)
+                            }}
+                            onClick={() => handleOptionClick(option.value)}
+                            disabled={disabled}
+                            aria-disabled={disabled}
+                        >
+                            {option.label}
+                        </button>
+                    );
+                })}
                 {error && <p className="error text-red-500">{error.message}</p>}
             </div>
         </div>

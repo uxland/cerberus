@@ -1,6 +1,6 @@
-import {Spec} from "@cerberus/core/src/specs/spec.ts";
+import { Spec } from "@cerberus/core/src/specs/spec.ts";
 
-export class ValueEqualsSpec<T extends number | string = undefined> extends Spec<T>{
+export class ValueEqualsSpec<T extends number | string = undefined> extends Spec<T> {
     constructor(public value: T) {
         super();
     }
@@ -10,7 +10,7 @@ export class ValueEqualsSpec<T extends number | string = undefined> extends Spec
     __type = "Equals";
 }
 
-export class ValueGreaterThanSpec<T extends number | string = undefined> extends Spec<T>{
+export class ValueGreaterThanSpec<T extends number | string = undefined> extends Spec<T> {
     constructor(public value: T) {
         super();
     }
@@ -19,7 +19,7 @@ export class ValueGreaterThanSpec<T extends number | string = undefined> extends
     }
     __type = "GreaterThan";
 }
-export class ValueLowerThanSpec<T extends number | string = undefined> extends Spec<T>{
+export class ValueLowerThanSpec<T extends number | string = undefined> extends Spec<T> {
     constructor(public value: T) {
         super();
     }
@@ -27,4 +27,24 @@ export class ValueLowerThanSpec<T extends number | string = undefined> extends S
         return context < this.value;
     }
     __type = "LowerThan";
+}
+
+export class ValueGreaterThanOrEqualSpec<T extends number | string = undefined> extends Spec<T> {
+    constructor(public value: T) {
+        super();
+    }
+    isSatisfiedBy(context: T): boolean {
+        return context >= this.value;
+    }
+    __type = "GreaterThanOrEqual";
+}
+
+export class ValueLowerThanOrEqualSpec<T extends number | string = undefined> extends Spec<T> {
+    constructor(public value: T) {
+        super();
+    }
+    isSatisfiedBy(context: T): boolean {
+        return context <= this.value;
+    }
+    __type = "LowerThanOrEqual";
 }

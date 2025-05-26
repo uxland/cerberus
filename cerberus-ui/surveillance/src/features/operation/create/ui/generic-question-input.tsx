@@ -13,12 +13,9 @@ import {
     getTriggerIndex,
     appendActionToQuestion,
     removeActionFromQuestion,
-    ValueEqualsSpec,
-    ValueGreaterThanSpec,
     ValueLowerThanSpec,
     getTriggerActions,
-    appendAction,
-    setTriggerValue
+    appendAction
 } from "../domain";
 import { OperationQuestionActions } from "./shared.tsx";
 import { FormInputField, Select } from "@cerberus/core";
@@ -26,6 +23,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { GenericAlternativeItem } from "./generic-alternative-item";
 import { QuestionIcon } from "./icons/question-icon.tsx";
+import { TriggerSelector } from "./TriggerSelector";
 
 interface GenericQuestionInputProps {
     question: OperationQuestion;
@@ -37,6 +35,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
     const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
     const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.actions.delete");
+    const addTriggerLabel = useSurveillanceLocales("operation.create.question.triggers.add");
 
     const handleTypeChange = (value: OperationQuestionType) => {
         actions.changeQuestionType(question.id, value);
@@ -75,6 +74,13 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
         );
     };
 
+    const handleRemoveTrigger = (triggerId: string) => {
+        actions.setQuestion(
+            question.id,
+            removeTrigger(question, triggerId)
+        );
+    };
+
     const { register, formState: { errors }, watch, getValues } = actions.formMethods;
     const pathForText = `${actions.path}.text`;
     const currentQuestionTextFromRHF = watch(pathForText);
@@ -86,26 +92,9 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
         }
     }, [currentQuestionTextFromRHF, question.id, question.text, actions, getValues, pathForText]);
 
-    const handleAddEqualsTrigger = () => {
-        const spec = new ValueEqualsSpec<string>("");
-        actions.setQuestion(question.id, appendTrigger(question, spec));
-    };
-
-    const handleAddGreaterThanTrigger = () => {
-        const spec = new ValueGreaterThanSpec<number>(0);
-        actions.setQuestion(question.id, appendTrigger(question, spec));
-    };
-
-    const handleAddLowerThanTrigger = () => {
+    const handleAddTrigger = () => {
         const spec = new ValueLowerThanSpec<number>(0);
         actions.setQuestion(question.id, appendTrigger(question, spec));
-    };
-
-    const handleRemoveTrigger = (triggerId: string) => {
-        actions.setQuestion(
-            question.id,
-            removeTrigger(question, triggerId)
-        );
     };
 
     return (
@@ -162,74 +151,43 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
 
             {question.__type !== "Options" && question.__type !== "Text" && (
                 <>
-                    {/* 2) Botones para añadir triggers */}
                     <div className="flex gap-2 items-center mt-2 ml-2">
                         <button
                             type="button"
                             className="text-primary font-bold hover:text-formSelect text-xs"
-                            onClick={handleAddEqualsTrigger}
+                            onClick={handleAddTrigger}
                         >
-                            Añadir Trigger =
-                        </button>
-                        <button
-                            type="button"
-                            className="text-primary font-bold hover:text-formSelect text-xs"
-                            onClick={handleAddGreaterThanTrigger}
-                        >
-                            Añadir Trigger &gt;
-                        </button>
-                        <button
-                            type="button"
-                            className="text-primary font-bold hover:text-formSelect text-xs"
-                            onClick={handleAddLowerThanTrigger}
-                        >
-                            Añadir Trigger &lt;
+                            {addTriggerLabel}
                         </button>
                     </div>
 
                     <div className="ml-2 mt-2 relative">
-                        {/* Línea vertical que conecta todas las acciones */}
                         {(question.triggers?.length ?? 0) > 0 && (
                             <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]" />
                         )}
 
                         {question.triggers?.map((trigger, triggerIndex) => (
                             <React.Fragment key={trigger.id}>
-                                <div className=" ml-4">
-                                    <div className="flex items-center gap-2 mt-4">
-                                        <span className="text-sm font-semibold">Trigger {triggerIndex} :</span>
-                                        <button
-                                            type="button"
-                                            className="text-red-500 hover:text-red-700 text-xs font-bold"
-                                            onClick={() => handleRemoveTrigger(trigger.id)}
-                                        >
-                                            Eliminar Trigger
-                                        </button>
-                                    </div>
-                                    <FormInputField
-                                        label="Valor"
-                                        type="number"
-                                        value={(trigger.condition).value}
-                                        onChange={e =>
-                                            actions.setQuestion(
-                                                question.id,
-                                                setTriggerValue(question, trigger.id, Number(e.target.value))
-                                            )
-                                        }
-                                    />
-                                    <button
-                                        type="button"
-                                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
-                                        onClick={() => handleAppendAction(trigger.id)}
-                                    >
-                                        {questionAddAction}
-                                    </button>
-                                </div>
+                                <TriggerSelector
+                                    trigger={trigger}
+                                    triggerIndex={triggerIndex}
+                                    question={question as IntegerQuestion | FloatQuestion}
+                                    actions={actions}
+                                    onRemoveTrigger={handleRemoveTrigger}
+                                />
+
+                                <button
+                                    type="button"
+                                    className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
+                                    onClick={() => handleAppendAction(trigger.id)}
+                                >
+                                    {questionAddAction}
+                                </button>
+
                                 {getTriggerActions(question, trigger.id).map((action, actionIndex) => (
                                     <div key={actionIndex} className="mb-6 relative">
                                         <div className="flex gap-2 mb-2 flex-col ml-4">
                                             <div className="w-full mt-2 flex items-center relative">
-                                                {/* Línea horizontal conectora en forma de L para cada acción */}
                                                 <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]" />
 
                                                 <FormInputField
@@ -246,7 +204,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                                             <div>
                                                 <button
                                                     type="button"
-                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-14 mb-4"
+                                                    className="text-primary font-bold hover:text-formSelect text-xs ml-6 mb-4"
                                                     onClick={() => handleAppendAlternative(trigger.id, actionIndex)}
                                                 >
                                                     {addAlternativeLabel}
@@ -254,11 +212,9 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                                             </div>
                                         </div>
 
-                                        {/* Renderizar alternativas anidadas */}
                                         <div className="relative">
                                             {(action.alternatives ?? []).map((alt, altIdx) => (
                                                 <div className="ml-6 relative" key={altIdx}>
-                                                    {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
                                                     {altIdx < action.alternatives.length - 1 && (
                                                         <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]" />
                                                     )}
