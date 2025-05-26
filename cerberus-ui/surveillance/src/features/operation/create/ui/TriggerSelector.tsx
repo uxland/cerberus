@@ -12,6 +12,7 @@ import {
 } from "../domain";
 import { useSurveillanceLocales } from '../../../../locales/ca/locales';
 import { DeleteOutline } from '@mui/icons-material';
+import { AnswerIcon } from './icons/answer-icon';
 
 interface TriggerSelectorProps {
     trigger: any;
@@ -106,8 +107,12 @@ export const TriggerSelector: React.FC<TriggerSelectorProps> = ({
     return (
         <div className="">
             <div className="flex items-center gap-2 mt-4 mb-2">
-                <span className="text-sm font-semibold">{triggeLabel} {triggerIndex + 1}:</span>
-
+                <div className="flex items-center gap-2">
+                    <AnswerIcon className="text-primary w-8 " />
+                    <h1 className="font-bold">
+                        {triggeLabel} {triggerIndex + 1}
+                    </h1>
+                </div>
                 {/* Botones para toggle de operadores */}
                 <div className="flex gap-1">
                     <button
