@@ -104,7 +104,7 @@ export const TriggerSelector: React.FC<TriggerSelectorProps> = ({
     const operators = getTriggerOperators(trigger);
 
     return (
-        <div className="ml-4">
+        <div className="">
             <div className="flex items-center gap-2 mt-4 mb-2">
                 <span className="text-sm font-semibold">{triggeLabel} {triggerIndex + 1}:</span>
 
@@ -170,12 +170,16 @@ export const TriggerSelector: React.FC<TriggerSelectorProps> = ({
                     <DeleteOutline />
                 </button>
             </div>
+            <div className='my-2'>
 
-            <FormInputField
-                type="number"
-                value={(trigger.condition as any).value || 0}
-                onChange={handleValueChange}
-            />
+
+                <FormInputField
+                    type="number"
+                    value={(trigger.condition as any).value || 0}
+                    onChange={handleValueChange}
+                />
+            </div>
+
         </div>
     );
 };

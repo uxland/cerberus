@@ -151,7 +151,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
 
             {question.__type !== "Options" && question.__type !== "Text" && (
                 <>
-                    <div className="flex gap-2 items-center mt-2 ml-2">
+                    <div className="flex gap-2 items-center pt-4  border-b-2 border-[#4a4a4a] pb-6">
                         <button
                             type="button"
                             className="text-primary font-bold hover:text-formSelect text-xs"
@@ -161,7 +161,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                         </button>
                     </div>
 
-                    <div className="ml-2 mt-2 relative">
+                    <div className="">
                         {(question.triggers?.length ?? 0) > 0 && (
                             <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]" />
                         )}
@@ -178,14 +178,15 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
 
                                 <button
                                     type="button"
-                                    className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
+                                    className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-6"
                                     onClick={() => handleAppendAction(trigger.id)}
                                 >
                                     {questionAddAction}
                                 </button>
 
                                 {getTriggerActions(question, trigger.id).map((action, actionIndex) => (
-                                    <div key={actionIndex} className="mb-6 relative">
+                                    <div key={actionIndex} className="mb-6 relative ml-2">
+                                        <div className="absolute left-0 top-[-32px] bottom-0 border-l-2 border-[#4a4a4a]" />
                                         <div className="flex gap-2 mb-2 flex-col ml-4">
                                             <div className="w-full mt-2 flex items-center relative">
                                                 <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]" />
