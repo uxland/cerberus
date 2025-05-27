@@ -1,5 +1,5 @@
 import { ExecutionStepArgs } from "../model.ts";
-import { InspectionRun } from '../domain/model.ts'
+import {getCurrentCameraId, InspectionRun} from '../domain/model.ts'
 import { getCurrentInspection, InspectionRunData } from "./domain/model.ts";
 import { Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -54,7 +54,7 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-grow mt-4 overflow-hidden">
                 <div className="md:col-span-2 bg-tableBg p-4 md:p-6 rounded-[10px] flex items-center justify-center overflow-hidden">
-                    <WebRTCPlayer cameraId={run.currentInspectionRunId} />
+                    <WebRTCPlayer cameraId={getCurrentCameraId(run)} />
                 </div>
 
                 <InspectionForm

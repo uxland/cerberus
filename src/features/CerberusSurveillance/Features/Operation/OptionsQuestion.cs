@@ -6,7 +6,7 @@ public record OptionsQuestion(
         bool IsMandatory, 
         OptionsQuestion.Tipology Type,  
         List<OptionsQuestion.Option> Options,
-        List<Trigger<string>>? Triggers = null
+        List<ActionTrigger<string>>? Triggers = null
        ) : IOperationQuestion<string>
 {
     public bool IsAnomalous(string value) => Triggers?.Any(x => x.Condition.IsSatisfiedBy(value)) ?? false;

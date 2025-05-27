@@ -17,6 +17,6 @@ public interface IOperationQuestion
 
 public interface IOperationQuestion<T>: IOperationQuestion
 {
-    List<Trigger<T>>? Triggers { get; }
+    List<ActionTrigger<T>>? Triggers { get; }
     bool IsAnomalous(T value);
 }

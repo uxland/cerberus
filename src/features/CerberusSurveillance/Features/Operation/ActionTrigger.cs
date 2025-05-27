@@ -5,7 +5,7 @@ using Cerberus.Surveillance.Features.Features.Shared.Specs;
 
 namespace Cerberus.Surveillance.Features.Features.Operation;
 
-public class Trigger<T>(
+public class ActionTrigger<T>(
     string id,
     Spec<T> condition,
     List<OperationAction> actions): Entity(id)

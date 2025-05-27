@@ -13,7 +13,7 @@ public class SpecJsonConverterFactory : JsonConverterFactory
 
         // Get the generic type definition (Spec<>)
         var genericTypeDef = typeToConvert.GetGenericTypeDefinition();
-        
+
         // If it's directly Spec<T>, return true
         if (genericTypeDef == typeof(Spec<>))
             return true;
@@ -24,12 +24,11 @@ public class SpecJsonConverterFactory : JsonConverterFactory
         {
             if (currentType.IsGenericType && currentType.GetGenericTypeDefinition() == typeof(Spec<>))
                 return true;
-                
+
             currentType = currentType.BaseType;
         }
 
         return false;
-
     }
 
     public override JsonConverter CreateConverter(Type type, JsonSerializerOptions options)
@@ -61,7 +60,7 @@ public class SpecJsonConverter<T> : JsonConverter<Spec<T>>
         { typeof(ValueGraterThanSpec<T>), "GreaterThan" },
         { typeof(ValueLowerThanSpec<T>), "LowerThan" }
     };
-    
+
 
     private static readonly Dictionary<string, ISpecReader> Readers = new()
     {
@@ -77,14 +76,14 @@ public class SpecJsonConverter<T> : JsonConverter<Spec<T>>
     private static ISpecReader GetReader(Utf8JsonReader reader)
     {
         string typeName = null;
-    
+
         // First pass: find the __type property
         while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
         {
             if (reader.TokenType != JsonTokenType.PropertyName)
                 continue;
 
-            string propertyName = reader.GetString();
+            var propertyName = reader.GetString();
             if (propertyName == "__type")
             {
                 // Read the type value
@@ -92,16 +91,15 @@ public class SpecJsonConverter<T> : JsonConverter<Spec<T>>
                 typeName = reader.GetString();
                 break;
             }
-            else
-            {
-                // Skip this property
-                reader.Read();
-                reader.Skip();
-            }
+
+            // Skip this property
+            reader.Read();
+            reader.Skip();
         }
+
         if (typeName == null || !Readers.TryGetValue(typeName, out var readerInstance))
             throw new JsonException($"Unknown type name: {typeName}");
-        if(!Readers.TryGetValue(typeName, out var specReader))
+        if (!Readers.TryGetValue(typeName, out var specReader))
             throw new JsonException($"No reader found for type: {typeName}");
         return specReader;
     }
@@ -109,23 +107,8 @@ public class SpecJsonConverter<T> : JsonConverter<Spec<T>>
     public override Spec<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var specReader = GetReader(reader);
-        //   var values = new Dictionary<string, object?>();
-     //   reader.Read();
-        /*if (reader.TokenType == JsonTokenType.EndObject)
-            throw new JsonException("Unexpected end of object");
-        if (reader.TokenType != JsonTokenType.PropertyName)
-            throw new JsonException("Expected property name");
-        var typeProperty = reader.GetString();
-        if (typeProperty != "__type")
-            throw new JsonException("Expected __type property to be the first property");
-        reader.Read();
-        var typeName = reader.GetString() ?? "";
-        if (!Readers.TryGetValue(typeName, out var specReader))
-            throw new JsonException("Unexpecte type name");*/
         return specReader.Read<T>(ref reader, typeToConvert, options);
     }
-    
-
 
 
     public override void Write(Utf8JsonWriter writer, Spec<T> value, JsonSerializerOptions options)
@@ -143,10 +126,9 @@ public class SpecJsonConverter<T> : JsonConverter<Spec<T>>
             writer.WritePropertyName(options.PropertyNamingPolicy?.ConvertName(prop.Name) ?? prop.Name);
             JsonSerializer.Serialize(writer, prop.GetValue(value), prop.PropertyType, options);
         }
-        
+
         writer.WriteEndObject();
     }
-    
 }
 
 public interface ISpecReader
@@ -168,22 +150,21 @@ public abstract class SpecReaderBase(string refPropertyName) : ISpecReader
             {
                 var propertyName = reader.GetString();
                 if (propertyName?.ToLower() == refPropertyName?.ToLower())
-                {
                     result = ReadFromRefProperty<T>(ref reader, typeToConvert, options);
-                }
             }
         }
+
         return result as Spec<T>;
     }
-    
-    public abstract Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options);
+
+    public abstract Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options);
 }
 
 internal class AndSpecReader() : SpecReaderBase(nameof(AndSpec<object>.Specs))
 {
-    
-
-    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         var result = new AndSpec<T>();
         var specs = JsonSerializer.Deserialize<List<Spec<T>>>(ref reader, options);
@@ -194,7 +175,8 @@ internal class AndSpecReader() : SpecReaderBase(nameof(AndSpec<object>.Specs))
 
 internal class OrSpecReader() : SpecReaderBase(nameof(OrSpec<object>.Specs))
 {
-    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         var specs = JsonSerializer.Deserialize<List<Spec<T>>>(ref reader, options);
         return new OrSpec<T>
@@ -206,8 +188,8 @@ internal class OrSpecReader() : SpecReaderBase(nameof(OrSpec<object>.Specs))
 
 internal class NotSpecReader() : SpecReaderBase(nameof(NotSpec<object>.Spec))
 {
-    
-    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         var spec = JsonSerializer.Deserialize<Spec<T>>(ref reader, options);
         return new NotSpec<T>
@@ -219,7 +201,8 @@ internal class NotSpecReader() : SpecReaderBase(nameof(NotSpec<object>.Spec))
 
 internal class ValueEqualsSpecReader() : SpecReaderBase(nameof(ValueEqualsSpec<object>.Value))
 {
-    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         ISpec? result = null;
         reader.Read();
@@ -236,16 +219,16 @@ internal class ValueEqualsSpecReader() : SpecReaderBase(nameof(ValueEqualsSpec<o
 
     private static ISpec BuildNumericSpec(ref Utf8JsonReader reader)
     {
-        if(reader.TryGetInt32(out int iintValue)) return new ValueEqualsSpec<int>(iintValue);
-        if(reader.TryGetDouble(out double doubleValue)) return new ValueEqualsSpec<double>(doubleValue);
+        if (reader.TryGetInt32(out var iintValue)) return new ValueEqualsSpec<int>(iintValue);
+        if (reader.TryGetDouble(out var doubleValue)) return new ValueEqualsSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
     }
 }
 
 internal class ValueGraterThanSpecReader() : SpecReaderBase(nameof(ValueGraterThanSpec<object>.Value))
 {
-
-    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         ISpec? result = null;
         reader.Read();
@@ -253,7 +236,7 @@ internal class ValueGraterThanSpecReader() : SpecReaderBase(nameof(ValueGraterTh
         {
             JsonTokenType.String => new ValueGraterThanSpec<string>(reader.GetString()!),
             JsonTokenType.Number => BuildNumericSpec(ref reader),
-                   
+
             _ => null
         };
         return (Spec<T>?)result ?? throw new JsonException("Failed to read ValueEqualsSpec");
@@ -261,16 +244,16 @@ internal class ValueGraterThanSpecReader() : SpecReaderBase(nameof(ValueGraterTh
 
     private static ISpec BuildNumericSpec(ref Utf8JsonReader reader)
     {
-        if(reader.TryGetInt32(out int iintValue)) return new ValueGraterThanSpec<int>(iintValue);
-        if(reader.TryGetDouble(out double doubleValue)) return new ValueGraterThanSpec<double>(doubleValue);
+        if (reader.TryGetInt32(out var iintValue)) return new ValueGraterThanSpec<int>(iintValue);
+        if (reader.TryGetDouble(out var doubleValue)) return new ValueGraterThanSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
     }
 }
 
 internal class ValueLowerThanSpecReader() : SpecReaderBase(nameof(ValueLowerThanSpec<object>.Value))
 {
-
-    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Spec<T>? ReadFromRefProperty<T>(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
         ISpec? result = null;
         reader.Read();
@@ -278,7 +261,7 @@ internal class ValueLowerThanSpecReader() : SpecReaderBase(nameof(ValueLowerThan
         {
             JsonTokenType.String => new ValueLowerThanSpec<string>(reader.GetString()!),
             JsonTokenType.Number => BuildNumericSpec(ref reader),
-                   
+
             _ => null
         };
         return (Spec<T>?)result ?? throw new JsonException("Failed to read ValueEqualsSpec");
@@ -286,8 +269,8 @@ internal class ValueLowerThanSpecReader() : SpecReaderBase(nameof(ValueLowerThan
 
     private static ISpec BuildNumericSpec(ref Utf8JsonReader reader)
     {
-        if(reader.TryGetInt32(out int iintValue)) return new ValueLowerThanSpec<int>(iintValue);
-        if(reader.TryGetDouble(out double doubleValue)) return new ValueLowerThanSpec<double>(doubleValue);
+        if (reader.TryGetInt32(out var iintValue)) return new ValueLowerThanSpec<int>(iintValue);
+        if (reader.TryGetDouble(out var doubleValue)) return new ValueLowerThanSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
     }
 }

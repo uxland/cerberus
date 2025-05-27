@@ -6,7 +6,7 @@ public record IntegerQuestion(
     string Id,
     string Text,
     bool IsMandatory,
-    List<Trigger<int>>? Triggers = null
+    List<ActionTrigger<int>>? Triggers = null
 ) : IOperationQuestion<int>
 {
     public bool IsAnomalous(int value) => Triggers?.Any(x => x.Condition.IsSatisfiedBy(value)) ?? false;

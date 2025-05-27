@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 import { useMemo, useEffect, useState } from "react";
 import { ActionItem } from "../action-item.tsx";
 import { useSurveillanceLocales } from "../../../../../../locales/ca/locales.ts";
-import { type Action } from "../../domain/model.ts";
+import {type Action, getRequiredActions} from "../../domain/model.ts";
 interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
     formMethods: UseFormReturn<any>;
     index: number;
@@ -29,27 +29,24 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
             ? [selectedValue]
             : [];
 
-    const selectedOptions = useMemo(
-        () => question.options.filter(opt => selectedCodes.includes(opt.code)),
-        [question.options, selectedCodes.join(",")]
-    );
-
     const hasActions = useMemo(
-        () => selectedOptions.some(opt => (opt.anomalousSettings?.actions?.length ?? 0) > 0),
-        [selectedOptions]
+        () => {
+            const actions = getRequiredActions(props.question, selectedCodes) || [];
+            return actions.length > 0;
+        },
+        [props.question, selectedCodes]
     );
 
     useEffect(() => {
         if (selectedCodes.length > 0 && hasActions) {
             setShowActions(true);
-
-            const combined = selectedOptions.flatMap(opt =>
-                opt.anomalousSettings!.actions.map(act => ({
+            const actions = getRequiredActions(props.question, selectedCodes) || [];
+            const combined = actions.map(act => ({
                     description: act.description,
                     executed: null,
                     comments: "",
                     alternatives: act.alternatives || null,
-                }))
+                })
             );
 
             setValue(`${fieldPath}.actions`, combined);
@@ -58,7 +55,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
             setShowActions(false);
             setValue(`${fieldPath}.actions`, undefined);
         }
-    }, [selectedCodes.join(","), hasActions, setValue, fieldPath]);
+    }, [props.question, selectedCodes, hasActions, setValue, fieldPath]);
 
     return (
         <>

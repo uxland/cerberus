@@ -14,12 +14,8 @@ public static class Endpoint
     {
         app.MapGet("/{id}", async (string id, IReadModelQueryProvider queryProvider) =>
         {
-           // var operationJson = await queryProvider.RehydrateAsJson<SurveillanceOperation>(id);
-           var operation = await queryProvider.Rehydrate<SurveillanceOperation>(id);
-           return operation == null
-               ? Results.NotFound()
-               : Results.Ok(operation);
-           // return string.IsNullOrEmpty(operationJson) ? Results.NotFound() : Results.Ok(operationJson);
+            var operationJson = await queryProvider.RehydrateAsJson<SurveillanceOperation>(id);
+            return string.IsNullOrEmpty(operationJson) ? Results.NotFound() : Results.Ok(operationJson);
         });
         return app;
     }
