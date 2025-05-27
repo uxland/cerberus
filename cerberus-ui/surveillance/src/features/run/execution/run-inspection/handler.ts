@@ -16,7 +16,7 @@ const adaptRequest: (data: InspectionRunData) => RequestInit = (data: Inspection
     const answers = data.answers.reduce((acc, answer) => {
         // @ts-ignore
         acc[answer.questionId] = {
-            answer: answer.answer,
+            value: answer.answer,
             actions: answer.actions,
         }
         return acc;
