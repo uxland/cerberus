@@ -5,10 +5,18 @@ using NodaTime;
 
 namespace Cerberus.Surveillance.Features.Features.Run.SetInspection;
 
+
+public record AnswerActionExecution(
+    string Description,
+    bool Executed,
+    List<AnswerActionExecution> Alternatives
+    );
+public record Answer( object? Value, List<AnswerActionExecution>? Actions );
+    
 public class RunInspectionAnswers
 {
     [JsonConverter(typeof(DynamicValueConverter))]
-    public Dictionary<string, object?> Answers { get; set; }
+    public Dictionary<string, Answer?> Answers { get; set; }
     public string AdditionalComments { get; set; }
     public Instant? StartedAt { get; set; }
 }
@@ -40,16 +48,16 @@ internal static class Extensions
     }
 }
 
-public class DynamicValueConverter : JsonConverter<Dictionary<string, object?>>
+public class DynamicValueConverter : JsonConverter<Dictionary<string, Answer?>>
 {
-    public override Dictionary<string, object?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Dictionary<string, Answer?> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
         {
             throw new JsonException();
         }
 
-        var dictionary = new Dictionary<string, object?>();
+        var dictionary = new Dictionary<string, Answer?>();
 
         while (reader.Read())
         {
@@ -66,7 +74,7 @@ public class DynamicValueConverter : JsonConverter<Dictionary<string, object?>>
             string propertyName = reader.GetString();
 
             reader.Read();
-            dictionary[propertyName] = ReadValue(ref reader, options);
+            //dictionary[propertyName] = ReadValue(ref reader, options);
         }
 
         throw new JsonException();
@@ -102,7 +110,7 @@ public class DynamicValueConverter : JsonConverter<Dictionary<string, object?>>
         throw new JsonException("Unsupported JSON token type.");
     }
 
-    public override void Write(Utf8JsonWriter writer, Dictionary<string, object?> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, Dictionary<string, Answer?> value, JsonSerializerOptions options)
     {
         throw new NotImplementedException("Serialization is not implemented.");
     }
