@@ -18,6 +18,7 @@ import { AnswerIcon } from "./icons/answer-icon.tsx";
 import { Controller } from "react-hook-form";
 import { existsTrigger, getTriggerActions } from "../domain/trigger-actions.ts";
 import { DeleteOutline } from "@mui/icons-material";
+
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
     actions: OperationQuestionActions;
@@ -32,13 +33,22 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
     const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
     const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
 
-    const { formState: { errors } } = actions.formMethods;
+    const { formState: { errors }, trigger } = actions.formMethods;
 
-    const handleAppendOption = () => {
-        actions.setQuestion(question.id, appendOption(question, undefined));
+    const handleAppendOption = async () => {
+        const updatedQuestion = appendOption(question, undefined);
+        actions.setQuestion(question.id, updatedQuestion);
+        
+        // Revalidación inmediata sin setTimeout
+        await trigger(`${actions.path}.options`);
     };
-    const handleRemoveOption = (optionCode: string) => {
-        actions.setQuestion(question.id, removeOption(question, optionCode));
+
+    const handleRemoveOption = async (optionCode: string) => {
+        const updatedQuestion = removeOption(question, optionCode);
+        actions.setQuestion(question.id, updatedQuestion);
+        
+        // Revalidación inmediata sin setTimeout
+        await trigger(`${actions.path}.options`);
     };
 
     const handleAppendActionToOption = (optionCode: string) => {
@@ -62,13 +72,25 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
         )
     }
 
-    console.log("errors", errors)
+    // Acceso correcto a los errores
+    const questionErrors = errors.questions?.[actions.index];
+
+    console.log("errors", errors);
+    console.log("questionErrors", questionErrors);
+    console.log("actions.index", actions.index);
+
     return (
         <div>
             <GenericQuestionInput question={question} actions={actions} />
 
             {question.__type === "Options" && (
                 <div>
+                    {/* Mostrar error general de opciones si existe */}
+                    {/* {questionErrors?.options?.root?.message && (
+                        <div className="my-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                            {questionErrors.options.root.message}
+                        </div>
+                    )} */}
                     {question.options.map((option, index) => (
                         <div key={option.code} className="border-t-2 border-[#4a4a4a] pt-4 mt-4">
                             <div className="flex items-center mt-2 gap-2">
@@ -76,17 +98,10 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 <h1 className="font-bold">
                                     {questionOptionTitle} {index + 1}
                                 </h1>
-                                <Controller
-                                    name={`${actions.path}.options.${index}.anomalousSettings.value`}
-                                    control={actions.formMethods.control}
-                                    defaultValue={option.anomalousSettings?.value}
-                                    render={({ field }) => (
-                                        <AnomalousSwitch
-                                            {...field}
-                                            checked={existsTrigger(question, option.code)}
-                                            onChange={e => handleToggleTrigger(option.code, e.target.checked)}
-                                        />
-                                    )}
+
+                                <AnomalousSwitch
+                                    checked={existsTrigger(question, option.code)}
+                                    onChange={e => handleToggleTrigger(option.code, e.target.checked)}
                                 />
                                 <span className="text-sm">
                                     {questionOptionIsAnomalous}
@@ -100,13 +115,12 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                 </button>
                             </div>
                             <div className="flex gap-4 my-2 items-end">
-
                                 <FormInputField
                                     placeholder="..."
                                     register={actions.formMethods.register}
                                     type="text"
                                     name={`${actions.path}.options.${index}.text`}
-                                    error={errors[actions.path]?.options?.[index]?.text}
+                                // error={questionErrors?.options?.[index]?.text}
                                 />
                             </div>
 
@@ -139,7 +153,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                         name={`${actions.path}.triggers.${getTriggerIndex(question, option.code)}.actions.${actionIndex}.description`}
                                                         type="text"
                                                         onDelete={() => handleRemoveActionFromOption(option.code, actionIndex)}
-                                                        error={errors[actions.path]?.options?.[index]?.anomalousSettings?.actions?.[actionIndex]?.description}
+                                                    // error={questionErrors?.triggers?.[getTriggerIndex(question, option.code)]?.actions?.[actionIndex]?.description}
                                                     />
                                                 </div>
                                                 <div>

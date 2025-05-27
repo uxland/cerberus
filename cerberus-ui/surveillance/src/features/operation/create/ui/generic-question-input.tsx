@@ -119,7 +119,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                     placeholder={useSurveillanceLocales("operation.create.question.placeholder")}
                     register={register}
                     type="text"
-                    error={errors[actions.path]?.text}
+                // error={errors[actions.path]?.text}
                 />
             </div>
 
@@ -198,7 +198,7 @@ export const GenericQuestionInput: React.FC<GenericQuestionInputProps> = ({ ques
                                                     name={`${actions.path}.triggers.${getTriggerIndex(question, trigger.id)}.actions.${actionIndex}.description`}
                                                     type="text"
                                                     onDelete={() => handleRemoveAction(trigger.id, actionIndex)}
-                                                    error={errors[actions.path]?.triggers?.[getTriggerIndex(question, trigger.id)]?.actions?.[actionIndex]?.description}
+                                                // error={errors[actions.path]?.triggers?.[getTriggerIndex(question, trigger.id)]?.actions?.[actionIndex]?.description}
                                                 />
                                             </div>
 
