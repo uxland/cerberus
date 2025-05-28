@@ -53,10 +53,8 @@ public partial class SurveillanceRound:
         this.RootLocationId = @settings.RootLocationId;
         this.Description = @settings.Description;
         this.ExecutionRecurrencePattern = @settings.CronExpression;
-        this.EstimatedDuration = @settings.EstimatedDuration.HasValue ? Duration.FromMinutes(@settings.EstimatedDuration.Value) : null;
         this.AssignedGroupId = @settings.AssignedTo;
         this.DeferredExecution = @settings.DeferredExecution;
-        this.ClipDuration = @settings.ClipDuration;
         this.Inspections = @settings.Inspections.ToList();
     }
 

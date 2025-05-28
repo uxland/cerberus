@@ -1,10 +1,13 @@
-import { OperationQuestion, Instruction } from "./model.ts";
+import { OperationQuestion, Trigger } from "./model.ts";
+import {
+    appendAction, existsTrigger,
+    removeAction
+} from "./trigger-actions.ts";
+import { ValueEqualsSpec } from "./action-specs.ts";
 
 export interface Option {
     code: string;
     text: string;
-    isAnomalous: boolean;
-    instructions?: Instruction[];
 }
 
 export type OptionsTypology = "Single" | "Multiple";
@@ -26,10 +29,10 @@ const createOptionId = (question: OptionsQuestion): string => {
 export const appendOption = (question: OptionsQuestion, code: string | undefined) => {
     const option = <Option>{
         code: code || createOptionId(question),
-        text: "",
-        isAnomalous: false
+        text: ""
     }
     return { ...question, options: [...question.options, option] };
+
 }
 
 export const setOptionText = (question: OptionsQuestion, optionCode: string, text: string): OptionsQuestion => {
@@ -48,40 +51,34 @@ export const removeOption = (question: OptionsQuestion, optionCode: string): Opt
     return { ...question, options: question.options.filter(o => o.code !== optionCode) };
 }
 
-export const appendInstructionToOption = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
-    return {
-        ...question,
-        options: question.options.map(opt => {
-            if (opt.code === optionCode) {
-                const newInstruction: Instruction = {
-                    text: "",
-                    isMandatory: false,
-                };
-                return {
-                    ...opt,
-                    instructions: [...(opt.instructions || []), newInstruction]
-                };
-            }
-            return opt;
-        })
-    };
+
+export const appendActionToOption = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
+    return appendAction(question, optionCode) as OptionsQuestion;
 };
 
-export const removeInstructionFromOption = (question: OptionsQuestion, optionCode: string, instructionIndex: number): OptionsQuestion => {
+export const removeActionFromOption = (question: OptionsQuestion, optionCode: string, actionIndex: number): OptionsQuestion => {
+    return removeAction(question, optionCode, [actionIndex]) as OptionsQuestion;
+};
+
+export const getTriggerIndex = (question: OptionsQuestion, optionCode: string) => {
+    const triggerIndex = question.triggers.findIndex(t => t.id === optionCode);
+    return triggerIndex;
+}
+export const enableOptionTrigger = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
+    if (existsTrigger(question, optionCode)) return question;
+    const trigger = <Trigger<string>>{
+        id: optionCode,
+        condition: new ValueEqualsSpec<string>(optionCode),
+        actions: []
+    }
+    return { ...question, triggers: [...question.triggers || [], trigger] };
+}
+export const disableOptionTrigger = (question: OptionsQuestion, optionCode: string): OptionsQuestion => {
+    const triggerIndex = getTriggerIndex(question, optionCode);
+    if (triggerIndex === -1) return question;
     return {
         ...question,
-        options: question.options.map(opt => {
-            if (opt.code === optionCode) {
-                const updatedInstructions = [...(opt.instructions || [])];
-                if (instructionIndex >= 0 && instructionIndex < updatedInstructions.length) {
-                    updatedInstructions.splice(instructionIndex, 1);
-                }
-                return {
-                    ...opt,
-                    instructions: updatedInstructions
-                };
-            }
-            return opt;
-        })
-    };
-};
+        triggers: question.triggers.filter((_, idx) => idx !== triggerIndex)
+    }
+}
+

@@ -7,7 +7,22 @@ public static class OperationJsonTypeInfo
 {
     private static void OperationQuestionSerializer(JsonTypeInfo typeInfo)
     {
-        if (typeInfo.Type != typeof(IOperationQuestion)) return;
+        if (typeInfo.Type != typeof(IOperationQuestion<>)) return;
+        typeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+        {
+            TypeDiscriminatorPropertyName = "__type",
+            IgnoreUnrecognizedTypeDiscriminators = true,
+            UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization
+        };
+        typeInfo.PolymorphismOptions.DerivedTypes.Add(new JsonDerivedType(typeof(OptionsQuestion), "Options"));
+        typeInfo.PolymorphismOptions.DerivedTypes.Add(new JsonDerivedType(typeof(TextQuestion), "Text"));
+        typeInfo.PolymorphismOptions.DerivedTypes.Add(new JsonDerivedType(typeof(IntegerQuestion), "Integer"));
+        typeInfo.PolymorphismOptions.DerivedTypes.Add(new JsonDerivedType(typeof(FloatQuestion), "Float"));
+    }
+    
+    private static void SpecSerializer(JsonTypeInfo typeInfo)
+    {
+        if (typeInfo.Type != typeof(IOperationQuestion<>)) return;
         typeInfo.PolymorphismOptions = new JsonPolymorphismOptions
         {
             TypeDiscriminatorPropertyName = "__type",

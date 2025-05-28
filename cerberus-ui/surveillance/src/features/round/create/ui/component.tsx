@@ -36,23 +36,26 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         watch,
     } = useForm<Round>({
         resolver: zodResolver(dynamicSchema),
-        defaultValues: roundEditionData.round || {
-            id: roundEditionData.round.id || "",
-            rootLocationId: roundEditionData.round.rootLocationId || "",
-            clipDuration: roundEditionData.round.clipDuration || 30,
-            estimatedDuration: 20,
-            inspections: [],
-        },
+        defaultValues: {
+            ...roundEditionData.round,
+            // Solo inicializar deferredExecution si existe en los datos originales
+            ...(roundEditionData.round.deferredExecution && {
+                deferredExecution: {
+                    clipDurationInSeconds: roundEditionData.round.deferredExecution.clipDurationInSeconds
+                }
+            })
+        }
     });
-
-
 
     const [inspections, setInspections] = useState<Inspection[]>(roundEditionData.round.inspections);
     const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
     const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const [groups, setGroups] = useState(roundEditionData.groups || []);
-    const [clipDuration, setClipDuration] = useState<number>(30);
+    // Inicializar clipDuration desde los datos existentes si existen
+    const [clipDuration, setClipDuration] = useState<number>(
+        roundEditionData.round.deferredExecution?.clipDurationInSeconds || 30
+    );
     const assignGroup = useSurveillanceLocales("round.create.assignGroup");
     const cameraDetails = useSurveillanceLocales("round.create.cameraDetails");
     const cameraName = useSurveillanceLocales("round.create.cameraName");
@@ -109,6 +112,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         register("cronExpression");
 
     }, [cronValue, setValue]);
+
     const onSubmit = async (data: Round) => {
         onSubmitRequested?.(data as Round);
         console.log("SUCCESS", data);
@@ -186,10 +190,13 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     <h1 className="font-bold text-primary mt-1">{useSurveillanceLocales("round.create.deferredExecution")}</h1>
 
                     <Checkbox
-                        {...register("deferredExecution")}
-                        checked={roundEditionData.round.deferredExecution}
+                        checked={!!watch("deferredExecution")}
                         onChange={(e) => {
-                            setValue("deferredExecution", e.target.checked);
+                            if (e.target.checked) {
+                                setValue("deferredExecution", { clipDurationInSeconds: clipDuration });
+                            } else {
+                                setValue("deferredExecution", undefined);
+                            }
                         }}
                         sx={{
                             color: '#a1a1a1',
@@ -204,10 +211,15 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     <div className='space-y-2 flex items-center gap-4 mt-2'>
                         <h1 className="font-bold text-primary">{clipDurationLabel}:</h1>
                         <Select
-                            name='clipDuration'
-                            {...register('clipDuration')}
                             value={clipDuration}
-                            onChange={(e) => setClipDuration(e.target.value)}
+                            onChange={(e) => {
+                                const v = Number(e.target.value);
+                                setClipDuration(v);
+                                // Solo actualizar el formulario si deferredExecution está activo
+                                if (watch("deferredExecution")) {
+                                    setValue("deferredExecution.clipDurationInSeconds", v);
+                                }
+                            }}
                             displayEmpty
                             size="small"
                             className="!text-[0.8rem] bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"

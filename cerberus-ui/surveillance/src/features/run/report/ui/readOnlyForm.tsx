@@ -2,21 +2,20 @@ import { Typography, Chip } from "@mui/material";
 import { InspectionRun } from "../../execution/domain/model.ts";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { Select } from "@cerberus/core";
+import { ReadOnlyActionItem } from "./readOnlyAction.tsx";
 
 interface InspectionFormReadOnlyProps {
     inspection: InspectionRun;
 }
 
-
 export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyProps) => {
     const operationTitle = useSurveillanceLocales('run.set.operationTitle');
     const additionalComments = useSurveillanceLocales('run.set.aditionalComments');
     const isAnomalous = useSurveillanceLocales('run.report.isAnomalous');
-
+    const actionsLabel = useSurveillanceLocales('run.set.optionQuestion.actions');
 
     return (
-        <div className="flex flex-col bg-tableBg p-4 md:p-6 rounded-[10px] w-full overflow-hidden"
-        >
+        <div className="flex flex-col bg-tableBg p-4 md:p-6 rounded-[10px] w-full overflow-hidden">
             <div className="flex-shrink-0">
                 <Typography className="uppercase !text-grey82 !font-semibold">
                     {operationTitle}: {inspection.operationRun.description}
@@ -25,6 +24,8 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
             </div>
             <div className="flex-grow overflow-auto p-1">
                 {inspection?.operationRun.answers.map((answer, index) => {
+                    const hasActions = answer.answer.actions && answer.answer.actions.length > 0;
+
                     return (
                         <div key={answer.question.id} className="mb-4">
                             <div className="flex items-center justify-between">
@@ -39,21 +40,38 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                                     />
                                 )}
                             </div>
-                            {answer.question.__type != "Options" ? (
-                                <div
-                                    className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292] flex items-center mt-2 opacity-75 `}
-                                >
+
+                            {answer.question.__type !== "Options" ? (
+                                <div className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#a1a1a1] rounded placeholder:text-[#929292] flex items-center mt-2 opacity-75`}>
                                     {answer.answer.value}
                                 </div>
                             ) : (
                                 <Select
                                     disabled
-                                    selected={answer.answer.values[0]?.code || ""}
+                                    selected={answer.answer.values?.[0]?.code || ""}
                                     options={answer.question.options.map(option => ({
                                         value: option.code,
                                         label: option.text
                                     })) || []}
                                 />
+                            )}
+
+                            {/* Mostrar acciones si existen */}
+                            {hasActions && (
+                                <div className="mt-3">
+                                    <div className="flex items-center mb-2">
+                                        <Typography>{actionsLabel}</Typography>
+                                        <span className="bg-[#313131] block p-[1px] w-auto mb-3"></span>
+                                    </div>
+
+                                    {answer.answer.actions.map((action: any, actionIndex: number) => (
+                                        <ReadOnlyActionItem
+                                            key={`question-${answer.question.id}-action-${actionIndex}`}
+                                            action={action}
+                                            level={0}
+                                        />
+                                    ))}
+                                </div>
                             )}
                         </div>
                     );
@@ -67,6 +85,6 @@ export const InspectionFormReadOnly = ({ inspection }: InspectionFormReadOnlyPro
                     defaultValue={inspection.operationRun.additionalComments}
                 />
             </div>
-        </div >
+        </div>
     );
 };

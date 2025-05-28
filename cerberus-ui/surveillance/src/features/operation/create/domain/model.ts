@@ -1,7 +1,6 @@
-import { OptionsTypology, OptionsQuestion } from "./options-question.ts";
-import { InteractionServiceImpl } from "@cerberus/core/src/interaction-service/interaction-service-impl.tsx";
-import { Container } from "inversify";
-import { ConfirmationMessage } from "@cerberus/core/src/interaction-service/confirmation-message.tsx";
+import { OptionsQuestion, OptionsTypology } from "./options-question.ts";
+import { ISpec } from "@cerberus/core/src/specs/spec.ts";
+import { appendAction, removeAction } from "./trigger-actions.ts";
 
 export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 
@@ -11,25 +10,23 @@ export const questionOptionValues: Array<{ value: OperationQuestionType, label: 
     { value: "Integer", label: "Entero" },
     { value: "Float", label: "Decimal" }
 ]
-export const isAnomalousValues: Array<{ value: boolean, label: string }> = [
-    { value: true, label: "Sí" },
-    { value: false, label: "No" }
-]
-export interface OperationQuestion {
+export interface OperationAction {
+    description: string;
+    alternatives: Array<OperationAction> | undefined;
+}
+
+export interface Trigger<T extends number | string = undefined> {
+    id: string;
+    condition: ISpec<T>;
+    actions: OperationAction[] | undefined;
+}
+
+export interface OperationQuestion<T extends number | string = undefined> {
     __type: OperationQuestionType;
     id: string;
     text: string;
     isMandatory: boolean;
-    instructions?: Instruction[];
-}
-
-export interface Instruction {
-    text: string;
-    isMandatory: boolean;
-}
-export interface NormalityRange<T> {
-    lowerBound?: T | undefined;
-    upperBound?: T | undefined;
+    triggers: Trigger<T>[] | undefined
 }
 
 
@@ -53,22 +50,16 @@ export const isMandatoryValues: Array<{ value: boolean, label: string }> = [
     { value: false, label: "No" }
 ]
 
-export interface TextQuestion extends OperationQuestion {
+export interface TextQuestion extends OperationQuestion<string> {
     __type: "Text";
     minLength: number | undefined;
 }
-export interface IntegerQuestion extends OperationQuestion {
+export interface IntegerQuestion extends OperationQuestion<number> {
     __type: "Integer";
-    min: number | undefined;
-    max: number | undefined;
-    normalityRange?: NormalityRange<number>;
 }
 
-export interface FloatQuestion extends OperationQuestion {
+export interface FloatQuestion extends OperationQuestion<number> {
     __type: "Float";
-    min: number | undefined;
-    max: number | undefined;
-    normalityRange?: NormalityRange<number>;
 }
 
 export const setOperationText = (model: SurveillanceOperationFormModel, text: string): SurveillanceOperationFormModel =>
@@ -89,45 +80,89 @@ export const removeQuestion = (model: SurveillanceOperationFormModel, questionId
 export const getQuestionById = (model: SurveillanceOperationFormModel, questionId: string): OperationQuestion | undefined =>
     model.questions.find(q => q.id === questionId);
 
-export const removeInstructionFromQuestion = (question: OperationQuestion, instructionIndex: number): OperationQuestion => {
-    if (!question.instructions || instructionIndex < 0 || instructionIndex >= question.instructions.length) {
-        return question;
-    }
-    const updatedInstructions = [...question.instructions];
-    updatedInstructions.splice(instructionIndex, 1);
-    return { ...question, instructions: updatedInstructions };
+export const createTriggerId = (question: OperationQuestion): string => {
+    const maxId = question.triggers
+        ?.map(trigger => {
+            const id = Number.parseInt(trigger.id, 10);
+            return Number.isNaN(id) ? 0 : id;
+        })
+        .reduce((max, id) => Math.max(max, id), 0) ?? 0;
+    return (maxId + 1).toString();
 };
 
-export const appendInstruction = async (question: OperationQuestion): Promise<OperationQuestion> => {
-
-    if (question.__type === "Options") {
-        const optionQuestion = question as OptionsQuestion;
-
-        const hasOptionInstructions = optionQuestion.options.some(opt => opt.instructions && opt.instructions.length > 0);
-
-        if (hasOptionInstructions) {
-
-            const message = "Se eliminarán las intrucciones añadidas a las opciones. ¿Desea continuar?";
-            const localContainer = new Container();
-
-            localContainer.bind(ConfirmationMessage).toConstantValue(ConfirmationMessage);
-
-            const interactionService = new InteractionServiceImpl(localContainer);
-            const confirmationResult = await interactionService.confirmMessage(message);
-            console.log("Confirmation result:", confirmationResult);
-            if (!confirmationResult.confirmed) {
-                return question;
-            }
-            question.options.map(opt => {
-                opt.instructions = [];
-            }
-            );
-        }
-
+export const appendTrigger = <T extends number | string = undefined>(
+    question: OperationQuestion<T>,
+    condition: ISpec<T>
+): OperationQuestion<T> => {
+    const trigger = <Trigger<T>>{
+        id: createTriggerId(question),
+        condition: condition,
+        actions: undefined
     }
-    const instruction = <Instruction>{
-        text: "",
-        isMandatory: false,
-    };
-    return { ...question, instructions: [...(question.instructions || []), instruction] };
+    return { ...question, triggers: [...(question.triggers || []), trigger] };
+}
+
+export const setTriggerValue = <T extends number | string>(
+    question: OperationQuestion<T>,
+    triggerId: string,
+    newValue: T
+): OperationQuestion<T> => ({
+    ...question,
+    triggers: question.triggers?.map(t =>
+        t.id !== triggerId
+            ? t
+            : {
+                ...t,
+                condition: new (t.condition.constructor as { new(v: T): ISpec<T> })(newValue)
+            }
+    )
+});
+
+export const removeTrigger = (question: OperationQuestion, triggerId: string): OperationQuestion => {
+    return { ...question, triggers: question.triggers?.filter(t => t.id !== triggerId) };
+}
+export const appendActionToQuestion = (question: OperationQuestion, triggerId: string): OperationQuestion => {
+    return appendAction(question, triggerId) as OperationQuestion;
+}
+export const removeActionFromQuestion = (question: OperationQuestion, triggerId: string, actionIndex: number): OperationQuestion => {
+    return removeAction(question, triggerId, [actionIndex]) as OperationQuestion;
+}
+
+export const appendAlternativeToAction = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number
+): OptionsQuestion => {
+    return appendAction(question, optionCode, [actionIndex]) as OptionsQuestion;
 };
+
+export const removeAlternativeFromAction = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number,
+    altIndex: number
+): OptionsQuestion => {
+    return removeAction(question, optionCode, [actionIndex, altIndex]) as OptionsQuestion;
+};
+export const appendNestedAlternative = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number,
+    alternativePath: number[]
+): OptionsQuestion => {
+    return appendAction(question, optionCode, [actionIndex, ...alternativePath]) as OptionsQuestion;
+};
+
+/** 
+ * Remove the alternative at the given nesting path 
+ */
+export const removeNestedAlternative = (
+    question: OptionsQuestion,
+    optionCode: string,
+    actionIndex: number,
+    alternativePath: number[]
+): OptionsQuestion => {
+    return removeAction(question, optionCode, [actionIndex, ...alternativePath]) as OptionsQuestion;
+};
+
+/** Recursively descend into `alternatives`, following `path`, and append `newAlt`. */

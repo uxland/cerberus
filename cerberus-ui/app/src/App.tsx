@@ -184,7 +184,7 @@ const AppContent = ({ routes }) => {
           >
             <Routes>
               {routes.map((route: any) => {
-                console.log("Route:", route);
+                // console.log("Route:", route);
                 const Component = getRouteComponent(route.componentName);
                 return (
                   <Route

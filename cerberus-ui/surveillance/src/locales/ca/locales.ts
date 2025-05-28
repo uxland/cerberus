@@ -2,6 +2,7 @@ import { getNestedValue } from "@cerberus/core";
 import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
 import { useLocalePath } from "@uxland/react-services";
 import { moduleName } from "../../constants";
+import { hi } from "date-fns/locale";
 
 export type SurveillanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useSurveillanceLocales = (
@@ -35,23 +36,23 @@ export const locales = {
           type: "Tipología de respuesta",
           subtype: "Subtipología de respuesta",
           isMandatory: "Obligatoriedad",
-          normalityRange: "Rango de normalidad",
-          lowerBoundPlaceholder: "Valor mínimo",
-          upperBoundPlaceholder: "Valor máximo",
-          instructions: {
-            title: "Instrucciones",
-            addInstruction: "+ Añadir instrucción (a pregunta)",
+          triggers: {
+            title: "Condiciones",
+            add: "+ Añadir condición",
+            label: "Condición",
+          },
+          actions: {
+            addAction: "+ Añadir acción",
+            addAlternative: "+ Añadir alternativa",
             removeInstruction: "Eliminar",
+            anomalousAction: "Acción",
+            delete: "Eliminar",
           },
           option: {
             title: "Opción",
             addOption: "+ Añadir opción",
-            code: "Código",
-            text: "Texto",
-            isAnomalous: "Opción anómala",
+            isAnomalous: "Anómala",
             delete: "Eliminar",
-            anomalousInstructions: "Instrucción para la opción anómala",
-            addInstruction: "+ Añadir instrucción (a opción)",
           }
         },
       },
@@ -123,7 +124,17 @@ export const locales = {
         aditionalComments: "Comentarios adicionales",
         proceed: "Proceder",
         send: "Enviar",
-
+        previus: "Anterior",
+        next: "Siguiente",
+        optionQuestion: {
+          actions: "Acciones a realizar:",
+          comments: {
+            placeholder: "Escribe aquí tus comentarios...",
+            hide: "Ocultar comentarios",
+            add: "Añadir comentarios",
+            save: "Guardar",
+          }
+        }
       },
       release: {
         title: "Finalizar Ronda de Supervisión",

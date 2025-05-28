@@ -13,3 +13,10 @@ public interface IOperationQuestion
     string Text { get; }
     bool IsMandatory { get; }
 }
+
+
+public interface IOperationQuestion<T>: IOperationQuestion
+{
+    List<ActionTrigger<T>>? Triggers { get; }
+    bool IsAnomalous(T value);
+}

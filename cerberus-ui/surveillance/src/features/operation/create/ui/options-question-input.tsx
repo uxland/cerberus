@@ -1,10 +1,22 @@
 import { FormInputField, Select } from "@cerberus/core";
 import React from "react";
-import { OptionsQuestion, appendOption, removeOption, appendInstructionToOption, removeInstructionFromOption } from "../domain";
+import {
+    OptionsQuestion,
+    appendOption,
+    removeOption,
+    appendActionToOption,
+    removeActionFromOption,
+    appendAlternativeToAction,
+    getTriggerIndex, enableOptionTrigger, disableOptionTrigger
+} from "../domain";
 import { GenericQuestionInput } from "./generic-question-input";
 import { OperationQuestionActions } from "./shared.tsx";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
-import { isAnomalousValues } from "../domain";
+import { AlternativeItem } from "./options-alternative-item";
+import AnomalousSwitch from "./anomalousSwitch.tsx";
+import { AnswerIcon } from "./icons/answer-icon.tsx";
+import { existsTrigger, getTriggerActions } from "../domain/trigger-actions.ts";
+import { DeleteOutline } from "@mui/icons-material";
 
 interface OptionsQuestionInputProps {
     question: OptionsQuestion;
@@ -13,106 +25,174 @@ interface OptionsQuestionInputProps {
 
 export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ question, actions }) => {
     const questionOptionTitle = useSurveillanceLocales("operation.create.question.option.title");
-    const questionOptionCode = useSurveillanceLocales("operation.create.question.option.code");
-    const questionOptionText = useSurveillanceLocales("operation.create.question.option.text");
     const questionOptionDelete = useSurveillanceLocales("operation.create.question.option.delete");
     const questionOptionAddOption = useSurveillanceLocales("operation.create.question.option.addOption");
     const questionOptionIsAnomalous = useSurveillanceLocales("operation.create.question.option.isAnomalous");
-    const questionInstruction = useSurveillanceLocales("operation.create.question.option.anomalousInstructions");
-    const questionAddInstruction = useSurveillanceLocales("operation.create.question.option.addInstruction");
+    const questionAction = useSurveillanceLocales("operation.create.question.actions.anomalousAction");
+    const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
+    const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
 
-    const { formState: { errors } } = actions.formMethods;
-
+    const { formState: { errors }, trigger, clearErrors } = actions.formMethods;
     const handleAppendOption = () => {
-        actions.setQuestion(question.id, appendOption(question, undefined));
+        const updated = appendOption(question, undefined);
+        actions.setQuestion(question.id, updated);
+
+        if (updated.options.length >= 2) {
+            clearErrors(`${actions.path}.options`);
+        }
     };
+
     const handleRemoveOption = (optionCode: string) => {
-        actions.setQuestion(question.id, removeOption(question, optionCode));
+        const updated = removeOption(question, optionCode);
+        actions.setQuestion(question.id, updated);
+
+        if (updated.options.length >= 2) {
+            clearErrors(`${actions.path}.options`);
+        }
     };
 
-    const handleAppendInstructionToOption = (optionCode: string) => {
-        actions.setQuestion(question.id, appendInstructionToOption(question as OptionsQuestion, optionCode));
+    const handleAppendActionToOption = (optionCode: string) => {
+        actions.setQuestion(question.id, appendActionToOption(question as OptionsQuestion, optionCode));
     };
 
-    const handleRemoveInstructionFromOption = (optionCode: string, instructionIndex: number) => {
-        actions.setQuestion(question.id, removeInstructionFromOption(question as OptionsQuestion, optionCode, instructionIndex));
+    const handleRemoveActionFromOption = (optionCode: string, instructionIndex: number) => {
+        actions.setQuestion(question.id, removeActionFromOption(question as OptionsQuestion, optionCode, instructionIndex));
     };
 
-    console.log("errors", errors)
+    const handleAppendAlternative = (optCode: string, actionIdx: number) => {
+        actions.setQuestion(
+            question.id,
+            appendAlternativeToAction(question as OptionsQuestion, optCode, actionIdx)
+        );
+    };
+    const handleToggleTrigger = (optionCode: string, enableTrigger) => {
+        actions.setQuestion(
+            question.id,
+            enableTrigger ? enableOptionTrigger(question, optionCode) : disableOptionTrigger(question, optionCode)
+        )
+    }
+
+    // Acceso correcto a los errores
+    const questionErrors = errors.questions?.[actions.index];
+
+    console.log("errors", errors);
+    console.log("questionErrors", questionErrors);
+    console.log("actions.index", actions.index);
+
     return (
         <div>
             <GenericQuestionInput question={question} actions={actions} />
 
             {question.__type === "Options" && (
                 <div>
+                    {/* Mostrar error general de opciones si existe */}
+                    {questionErrors?.options?.root?.message && (
+                        <div className="my-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                            {questionErrors.options.root.message}
+                        </div>
+                    )}
                     {question.options.map((option, index) => (
-                        <div key={option.code} className="border-t pt-4 mt-4">
-                            <div className="flex items-center mt-2">
+                        <div key={option.code} className="border-t-2 border-[#4a4a4a] pt-4 mt-4">
+                            <div className="flex items-center mt-2 gap-2">
+                                <AnswerIcon className="text-primary w-8 " />
                                 <h1 className="font-bold">
                                     {questionOptionTitle} {index + 1}
                                 </h1>
+
+                                <AnomalousSwitch
+                                    checked={existsTrigger(question, option.code)}
+                                    onChange={e => handleToggleTrigger(option.code, e.target.checked)}
+                                />
+                                <span className="text-sm">
+                                    {questionOptionIsAnomalous}
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveOption(option.code)}
+                                    className={`text-red-500 hover:text-red-700 text-xs p-1 rounded-full ml-auto`}
+                                >
+                                    <DeleteOutline />
+                                </button>
                             </div>
                             <div className="flex gap-4 my-2 items-end">
                                 <FormInputField
-                                    label={questionOptionCode}
-                                    placeholder="..."
-                                    register={actions.formMethods.register}
-                                    type="text"
-                                    name={`${actions.path}.options.${index}.code`}
-                                    error={errors[actions.path]?.options?.[index]?.code}
-                                />
-                                <FormInputField
-                                    label={questionOptionText}
                                     placeholder="..."
                                     register={actions.formMethods.register}
                                     type="text"
                                     name={`${actions.path}.options.${index}.text`}
-                                    error={errors[actions.path]?.options?.[index]?.text}
+                                    error={questionErrors?.options?.[index]?.text}
                                 />
-                                <button
-                                    type="button"
-                                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover mb-1"
-                                    onClick={() => handleRemoveOption(option.code)}
-                                >
-                                    {questionOptionDelete}
-                                </button>
                             </div>
-                            <Select
-                                name="isAnomalous"
-                                title={questionOptionIsAnomalous}
-                                path={`${actions.path}.options.${index}`}
-                                options={isAnomalousValues.map(m => ({ value: String(m.value), label: m.label }))}
-                                selected={String(question.options[index].isAnomalous)}
-                                formMethods={actions.formMethods}
-                            />
-                            {option.isAnomalous && question.instructions < 1 && (
-                                <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-4">
-                                    {option.instructions?.map((instruction, instrIndex) => (
-                                        <div key={instrIndex} className="flex items-center gap-2 mb-2">
-                                            <FormInputField
-                                                label={`${questionInstruction} #${instrIndex + 1}`}
-                                                placeholder="..."
-                                                register={actions.formMethods.register}
-                                                name={`${actions.path}.options.${index}.instructions.${instrIndex}.text`}
-                                                type="text"
-                                                error={errors[actions.path]?.options?.[index]?.instructions?.[instrIndex]?.text}
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveInstructionFromOption(option.code, instrIndex)}
-                                                className="text-red-500 hover:text-red-700 text-xs p-1 rounded-full"
-                                            >
-                                                {questionOptionDelete}
-                                            </button>
-                                        </div>
-                                    ))}
+
+                            {(existsTrigger(question, option.code)) && (
+                                <div className="ml-2 mt-2 relative">
+                                    {/* Línea vertical principal que conecta todas las acciones */}
+                                    {(getTriggerActions(question, option.code)).length > 0 && (
+                                        <div className="absolute left-0 top-[-8px] bottom-0 border-l-2 border-[#4a4a4a]" />
+                                    )}
+
                                     <button
                                         type="button"
-                                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs"
-                                        onClick={() => handleAppendInstructionToOption(option.code)}
+                                        className="text-primary font-bold hover:text-formSelect mt-[5px] text-xs ml-4"
+                                        onClick={() => handleAppendActionToOption(option.code)}
                                     >
-                                        {questionAddInstruction}
+                                        {questionAddAction}
                                     </button>
+
+                                    {((getTriggerActions(question, option.code).map((action, actionIndex) => (
+                                        <div key={actionIndex} className="mb-6 relative">
+                                            <div className="flex gap-2 mb-2 flex-col ml-4">
+                                                <div className="w-full mt-2 flex items-center relative">
+                                                    {/* Línea horizontal conectora en forma de L para cada acción */}
+                                                    <div className="absolute left-[-15px] top-12 w-4 border-t-2 border-[#4a4a4a]" />
+
+                                                    <FormInputField
+                                                        label={`${questionAction} #${actionIndex + 1}`}
+                                                        placeholder="..."
+                                                        register={actions.formMethods.register}
+                                                        name={`${actions.path}.triggers.${getTriggerIndex(question, option.code)}.actions.${actionIndex}.description`}
+                                                        type="text"
+                                                        onDelete={() => handleRemoveActionFromOption(option.code, actionIndex)}
+                                                        error={questionErrors?.triggers?.[getTriggerIndex(question, option.code)]?.actions?.[actionIndex]?.description}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        type="button"
+                                                        className="text-primary font-bold hover:text-formSelect text-xs ml-6 mb-4"
+                                                        onClick={() => handleAppendAlternative(option.code, actionIndex)}
+                                                    >
+                                                        {addAlternativeLabel}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div className="relative">
+                                                {(action.alternatives ?? []).map((alt, altIdx) => (
+                                                    <div className="ml-6 relative" key={altIdx}>
+                                                        {/* Mostrar línea vertical solo si hay una alternativa siguiente (hermano) */}
+                                                        {altIdx < action.alternatives.length - 1 && (
+                                                            <div className="absolute left-0 top-0 h-full border-l-2 border-[#4a4a4a]" />
+                                                        )}
+                                                        <div className="absolute left-[0px] top-[-54px] w-4 h-[105px] border-l-2 border-b-2 border-[#4a4a4a]" />
+
+                                                        <AlternativeItem
+                                                            alternative={alt}
+                                                            optionCode={option.code}
+                                                            actionIndex={actionIndex}
+                                                            path={[altIdx]}
+                                                            question={question}
+                                                            actions={actions}
+                                                            optionIndex={index}
+                                                            questionAction={questionAction}
+                                                            questionOptionDelete={questionOptionDelete}
+                                                            addAlternativeLabel={addAlternativeLabel}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))))}
                                 </div>
                             )}
                         </div>

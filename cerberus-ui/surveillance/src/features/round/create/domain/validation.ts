@@ -9,8 +9,9 @@ export const roundSchema = z.object({
     }),
     estimatedDuration: z.number().optional(),
     assignedTo: z.string().optional(),
-    clipDuration: z.number().optional(),
-    deferredExecution: z.boolean().optional(),
+    deferredExecution: z.object({
+        clipDurationInSeconds: z.number().min(1, "Clip duration must be at least 15 second"),
+    }).optional(),
     inspections: z.array(
         z.object({
             id: z.string().uuid(),

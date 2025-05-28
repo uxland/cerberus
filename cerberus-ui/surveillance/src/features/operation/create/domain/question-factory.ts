@@ -20,8 +20,8 @@ const operationFactory = (type: OperationQuestionType) => (model: SurveillanceOp
     return <OperationQuestion>{
         __type: type,
         id: createQuestionId(model),
+        text: "",
         isMandatory: true,
-        instructions: [],
     }
 }
 const operationOptionsFactory = (model: SurveillanceOperationFormModel): OperationQuestion => {
@@ -31,8 +31,6 @@ const operationOptionsFactory = (model: SurveillanceOperationFormModel): Operati
             {
                 code: "0",
                 text: "",
-                isAnomalous: false,
-                instructions: []
             }
         ],
         type: "Single"
@@ -41,12 +39,6 @@ const operationOptionsFactory = (model: SurveillanceOperationFormModel): Operati
 const operationIntFloatFactory = (type: OperationQuestionType) => (model: SurveillanceOperationFormModel): OperationQuestion => {
     return <OperationQuestion>{
         ...operationFactory(type)(model),
-        min: undefined,
-        max: undefined,
-        normalityRange: {
-            lowerBound: undefined,
-            upperBound: undefined
-        }
     }
 }
 const factoryMap: Record<OperationQuestionType, questionFactory> = {
