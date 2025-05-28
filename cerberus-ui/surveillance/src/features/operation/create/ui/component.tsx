@@ -35,7 +35,8 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         handleSubmit,
         setValue,
         formState: { errors },
-        watch
+        watch,
+        clearErrors
     } = formMethods;
 
     const { fields, append, remove, replace } = useFieldArray({
@@ -108,6 +109,19 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         }
     }, [validationErrors.length, showValidationErrors]);
 
+    // Efecto para limpiar errores cuando se corrigen los campos
+    useEffect(() => {
+        const subscription = watch((value, { name }) => {
+            if (name && name.includes('.text') && value) {
+                // Si el campo de texto se llena, limpiar su error específico
+                const fieldPath = name.replace('.text', '');
+                clearErrors(name as any);
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [watch, clearErrors]);
+
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalidSubmit)} className="space-y-6" noValidate>
             {/* Mostrar errores de validación con transición suave */}
@@ -142,6 +156,7 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
                     register={register}
                     placeholder={useSurveillanceLocales("operation.create.placeholder")}
                     type="text"
+                    error={errors.description}
                 />
             </div>
             {fields.length > 0 && (

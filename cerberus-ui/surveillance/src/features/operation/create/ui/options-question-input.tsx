@@ -15,7 +15,6 @@ import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { AlternativeItem } from "./options-alternative-item";
 import AnomalousSwitch from "./anomalousSwitch.tsx";
 import { AnswerIcon } from "./icons/answer-icon.tsx";
-import { Controller } from "react-hook-form";
 import { existsTrigger, getTriggerActions } from "../domain/trigger-actions.ts";
 import { DeleteOutline } from "@mui/icons-material";
 
@@ -33,22 +32,23 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
     const questionAddAction = useSurveillanceLocales("operation.create.question.actions.addAction");
     const addAlternativeLabel = useSurveillanceLocales("operation.create.question.actions.addAlternative");
 
-    const { formState: { errors }, trigger } = actions.formMethods;
+    const { formState: { errors }, trigger, clearErrors } = actions.formMethods;
+    const handleAppendOption = () => {
+        const updated = appendOption(question, undefined);
+        actions.setQuestion(question.id, updated);
 
-    const handleAppendOption = async () => {
-        const updatedQuestion = appendOption(question, undefined);
-        actions.setQuestion(question.id, updatedQuestion);
-        
-        // Revalidación inmediata sin setTimeout
-        await trigger(`${actions.path}.options`);
+        if (updated.options.length >= 2) {
+            clearErrors(`${actions.path}.options`);
+        }
     };
 
-    const handleRemoveOption = async (optionCode: string) => {
-        const updatedQuestion = removeOption(question, optionCode);
-        actions.setQuestion(question.id, updatedQuestion);
-        
-        // Revalidación inmediata sin setTimeout
-        await trigger(`${actions.path}.options`);
+    const handleRemoveOption = (optionCode: string) => {
+        const updated = removeOption(question, optionCode);
+        actions.setQuestion(question.id, updated);
+
+        if (updated.options.length >= 2) {
+            clearErrors(`${actions.path}.options`);
+        }
     };
 
     const handleAppendActionToOption = (optionCode: string) => {
@@ -86,11 +86,11 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
             {question.__type === "Options" && (
                 <div>
                     {/* Mostrar error general de opciones si existe */}
-                    {/* {questionErrors?.options?.root?.message && (
+                    {questionErrors?.options?.root?.message && (
                         <div className="my-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
                             {questionErrors.options.root.message}
                         </div>
-                    )} */}
+                    )}
                     {question.options.map((option, index) => (
                         <div key={option.code} className="border-t-2 border-[#4a4a4a] pt-4 mt-4">
                             <div className="flex items-center mt-2 gap-2">
@@ -120,7 +120,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                     register={actions.formMethods.register}
                                     type="text"
                                     name={`${actions.path}.options.${index}.text`}
-                                // error={questionErrors?.options?.[index]?.text}
+                                    error={questionErrors?.options?.[index]?.text}
                                 />
                             </div>
 
@@ -153,7 +153,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                                                         name={`${actions.path}.triggers.${getTriggerIndex(question, option.code)}.actions.${actionIndex}.description`}
                                                         type="text"
                                                         onDelete={() => handleRemoveActionFromOption(option.code, actionIndex)}
-                                                    // error={questionErrors?.triggers?.[getTriggerIndex(question, option.code)]?.actions?.[actionIndex]?.description}
+                                                        error={questionErrors?.triggers?.[getTriggerIndex(question, option.code)]?.actions?.[actionIndex]?.description}
                                                     />
                                                 </div>
                                                 <div>

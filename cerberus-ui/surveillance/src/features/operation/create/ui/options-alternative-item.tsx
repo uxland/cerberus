@@ -35,16 +35,31 @@ export const AlternativeItem: React.FC<AlternativeItemProps> = ({
     const { formState: { errors } } = actions.formMethods;
     const triggerIdx = getTriggerIndex(question, optionCode);
 
-    // Calcula dinámicamente el error para este field
-    let fieldError: string | undefined;
-    const actionsErrors = errors[actions.path]?.triggers?.[triggerIdx]?.actions;
-    if (actionsErrors && Array.isArray(actionsErrors)) {
-        let node: any = actionsErrors[actionIndex];
-        for (const idx of path) {
-            node = node?.alternatives?.[idx];
-            if (!node) break;
+    // Calcular el error dinámicamente para este campo específico
+    let fieldError: any;
+    if (triggerIdx !== -1) {
+        // Acceder a los errores de la pregunta específica
+        const questionErrors = errors.questions?.[actions.index];
+        if (questionErrors && questionErrors.triggers && Array.isArray(questionErrors.triggers)) {
+            const triggerErrors = questionErrors.triggers[triggerIdx];
+            if (triggerErrors && triggerErrors.actions && Array.isArray(triggerErrors.actions)) {
+                let currentNodeErrors: any = triggerErrors.actions[actionIndex];
+
+                // Navegar por el path de alternativas
+                for (const pathSegment of path) {
+                    if (currentNodeErrors && currentNodeErrors.alternatives && Array.isArray(currentNodeErrors.alternatives)) {
+                        currentNodeErrors = currentNodeErrors.alternatives[pathSegment];
+                    } else {
+                        currentNodeErrors = undefined;
+                        break;
+                    }
+                }
+
+                if (currentNodeErrors && currentNodeErrors.description) {
+                    fieldError = currentNodeErrors.description;
+                }
+            }
         }
-        fieldError = node?.description?.message ?? node?.description;
     }
 
     const handleAddNestedAlternative = () => {

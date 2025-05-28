@@ -38,9 +38,12 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         resolver: zodResolver(dynamicSchema),
         defaultValues: {
             ...roundEditionData.round,
-            deferredExecution: {
-                clipDurationInSeconds: roundEditionData.round.deferredExecution?.clipDurationInSeconds || 30
-            }
+            // Solo inicializar deferredExecution si existe en los datos originales
+            ...(roundEditionData.round.deferredExecution && {
+                deferredExecution: {
+                    clipDurationInSeconds: roundEditionData.round.deferredExecution.clipDurationInSeconds
+                }
+            })
         }
     });
 
@@ -49,6 +52,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const [groups, setGroups] = useState(roundEditionData.groups || []);
+    // Inicializar clipDuration desde los datos existentes si existen
     const [clipDuration, setClipDuration] = useState<number>(
         roundEditionData.round.deferredExecution?.clipDurationInSeconds || 30
     );
@@ -108,10 +112,6 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         register("cronExpression");
 
     }, [cronValue, setValue]);
-
-    useEffect(() => {
-        register("deferredExecution.clipDurationInSeconds", { value: clipDuration });
-    }, [register, clipDuration]);
 
     const onSubmit = async (data: Round) => {
         onSubmitRequested?.(data as Round);
@@ -211,12 +211,14 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     <div className='space-y-2 flex items-center gap-4 mt-2'>
                         <h1 className="font-bold text-primary">{clipDurationLabel}:</h1>
                         <Select
-                            {...register('deferredExecution.clipDurationInSeconds')}
                             value={clipDuration}
                             onChange={(e) => {
                                 const v = Number(e.target.value);
                                 setClipDuration(v);
-                                setValue("deferredExecution.clipDurationInSeconds", v);
+                                // Solo actualizar el formulario si deferredExecution está activo
+                                if (watch("deferredExecution")) {
+                                    setValue("deferredExecution.clipDurationInSeconds", v);
+                                }
                             }}
                             displayEmpty
                             size="small"

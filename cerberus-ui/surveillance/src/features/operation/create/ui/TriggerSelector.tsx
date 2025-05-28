@@ -30,6 +30,13 @@ export const TriggerSelector: React.FC<TriggerSelectorProps> = ({
     onRemoveTrigger
 }) => {
     const triggeLabel = useSurveillanceLocales("operation.create.question.triggers.label");
+
+    // Acceder a los errores del formulario
+    const { formState: { errors } } = actions.formMethods;
+
+    // Obtener el error específico para este trigger condition value
+    const triggerError = errors.questions?.[actions.index]?.triggers?.[triggerIndex]?.condition?.value;
+
     const getTriggerOperators = (trigger: any): { equals: boolean; greater: boolean; lower: boolean } => {
         switch (trigger.condition.__type) {
             case 'Equals':
@@ -176,12 +183,12 @@ export const TriggerSelector: React.FC<TriggerSelectorProps> = ({
                 </button>
             </div>
             <div className='my-2'>
-
-
                 <FormInputField
+                    name={`${actions.path}.triggers.${triggerIndex}.condition.value`}
                     type="number"
-                    value={(trigger.condition as any).value || 0}
+                    register={actions.formMethods.register}
                     onChange={handleValueChange}
+                    error={triggerError}
                 />
             </div>
 

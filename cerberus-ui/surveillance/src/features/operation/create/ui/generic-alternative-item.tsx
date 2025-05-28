@@ -32,26 +32,32 @@ export const GenericAlternativeItem: React.FC<GenericAlternativeItemProps> = ({
     const { formState: { errors } } = actions.formMethods;
     const triggerIdx = getTriggerIndex(question, triggerId);
 
-    // Dynamic error calculation for this field
-    let fieldError: any; // More flexible type for deeply nested errors
+    // Calcular el error dinámicamente para este campo específico
+    let fieldError: any;
     if (triggerIdx !== -1) {
-        const triggerErrors = errors[actions.path]?.triggers?.[triggerIdx];
-        if (triggerErrors && triggerErrors.actions && Array.isArray(triggerErrors.actions)) {
-            let currentNodeErrors: any = triggerErrors.actions[parentActionIndex];
-            for (const pathSegment of alternativePath) {
-                if (currentNodeErrors && currentNodeErrors.alternatives && Array.isArray(currentNodeErrors.alternatives)) {
-                    currentNodeErrors = currentNodeErrors.alternatives[pathSegment];
-                } else {
-                    currentNodeErrors = undefined;
-                    break;
+        // Acceder a los errores de la pregunta específica
+        const questionErrors = errors.questions?.[actions.index];
+        if (questionErrors && questionErrors.triggers && Array.isArray(questionErrors.triggers)) {
+            const triggerErrors = questionErrors.triggers[triggerIdx];
+            if (triggerErrors && triggerErrors.actions && Array.isArray(triggerErrors.actions)) {
+                let currentNodeErrors: any = triggerErrors.actions[parentActionIndex];
+                
+                // Navegar por el path de alternativas
+                for (const pathSegment of alternativePath) {
+                    if (currentNodeErrors && currentNodeErrors.alternatives && Array.isArray(currentNodeErrors.alternatives)) {
+                        currentNodeErrors = currentNodeErrors.alternatives[pathSegment];
+                    } else {
+                        currentNodeErrors = undefined;
+                        break;
+                    }
                 }
-            }
-            if (currentNodeErrors) {
-                fieldError = currentNodeErrors.description;
+                
+                if (currentNodeErrors && currentNodeErrors.description) {
+                    fieldError = currentNodeErrors.description;
+                }
             }
         }
     }
-
 
     const handleAddNestedAlternative = () => {
         actions.setQuestion(

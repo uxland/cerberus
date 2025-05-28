@@ -11,9 +11,16 @@ const OperationActionSchema: z.ZodType<any> = z.lazy(() =>
     })
 );
 
+const TriggerConditionSchema = z.object({
+    __type: z.string(),
+    value: z.any().refine(val => val != null && val !== '', {
+        message: "La descripción de la acción es obligatoria"
+    }),
+});
+
 const TriggerSchema = z.object({
     id: z.string().nonempty("El ID del trigger es obligatorio"),
-    condition: z.any(),
+    condition: TriggerConditionSchema,
     actions: z
         .array(OperationActionSchema)
         .optional(),
@@ -127,12 +134,19 @@ export const getValidationErrorSummary = (errors: FieldErrors<OperationForm>): s
 
                     if (questionError.triggers && Array.isArray(questionError.triggers)) {
                         questionError.triggers.forEach((triggerError: any, triggerIndex: number) => {
-                            if (triggerError && triggerError.actions && Array.isArray(triggerError.actions)) {
-                                triggerError.actions.forEach((actionError: any, actionIndex: number) => {
-                                    if (actionError && actionError.description && actionError.description.message) {
-                                        errorMessages.push(`Pregunta ${questionNumber}, Trigger ${triggerIndex + 1}, Acción ${actionIndex + 1}: ${actionError.description.message}`);
-                                    }
-                                });
+                            if (triggerError) {
+                                // Agregar validación para condition.value
+                                if (triggerError.condition && triggerError.condition.value && triggerError.condition.value.message) {
+                                    errorMessages.push(`Pregunta ${questionNumber}, Trigger ${triggerIndex + 1}: ${triggerError.condition.value.message}`);
+                                }
+
+                                if (triggerError.actions && Array.isArray(triggerError.actions)) {
+                                    triggerError.actions.forEach((actionError: any, actionIndex: number) => {
+                                        if (actionError && actionError.description && actionError.description.message) {
+                                            errorMessages.push(`Pregunta ${questionNumber}, Trigger ${triggerIndex + 1}, Acción ${actionIndex + 1}: ${actionError.description.message}`);
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
