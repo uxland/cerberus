@@ -34,7 +34,7 @@ public partial class Camera :
             return;
         this.HandleLocationChange(setupCamera, path);
         this.HandleRecurrencePatternChange(setupCamera);
-        this.ApplyUncommittedEvent(new CameraUpdated(setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path, setupCamera.BrandName, setupCamera.ModelName, setupCamera.Price, setupCamera.ManufactureYear));
+        this.ApplyUncommittedEvent(new CameraUpdated(this.Id, setupCamera.ParentId, setupCamera.Description, setupCamera.AdminSettings, setupCamera.FunctionalSettings, path, setupCamera.BrandName, setupCamera.ModelName, setupCamera.Price, setupCamera.ManufactureYear));
     }
     
     private void HandleLocationChange(SetupCameraCommand setupCamera, string path)

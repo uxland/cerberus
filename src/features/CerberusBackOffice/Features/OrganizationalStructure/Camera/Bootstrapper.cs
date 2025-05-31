@@ -1,4 +1,5 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.JoinStream;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetReferenceImages;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.Streaming;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -18,6 +19,7 @@ internal static class Bootstrapper
 
     public static IServiceCollection UseCameras(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        return serviceCollection.UseCameraStreaming(configuration);
+        return serviceCollection.UseCameraStreaming(configuration)
+            .AddScoped<SetCameraReferenceImagesService>();
     }
 }

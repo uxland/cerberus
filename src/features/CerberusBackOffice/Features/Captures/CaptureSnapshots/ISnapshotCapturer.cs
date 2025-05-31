@@ -11,9 +11,9 @@ public record CaptureSnapshotArguments(
     string Password,
     string CameraPath,
     uint? FramesToCapture = 1,
-    uint? SecondsToCapture = null
+    uint? SecondsToCapture = null,
+    string? ThumbnailPath = null,
+    string? RawPath = null,
+    bool Monochrome = true,
+    bool OverwriteOutput = true
 );
-public class SnapshotCaptureSettings
-{
-    public string FolderRoot { get; set; }
-}

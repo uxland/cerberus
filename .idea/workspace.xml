@@ -5,21 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/dual-camera-stream.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/recorder-client-back.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/recorder-client.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/CaptureSnapshots/SnapshotCaptureSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/VideoPlayer/WebRTCPPlayer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/presentation/components/VideoPlayer/WebRTCPPlayer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/XabeFFMpegClient/ConversionBuilders/MonochromeBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/XabeFFMpegClient/ConversionBuilders/MonochromeBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/XabeFFMpegClient/SnapshotCapturer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/XabeFFMpegClient/SnapshotCapturer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/CaptureSnapshots/ISnapshotCapturer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/CaptureSnapshots/ISnapshotCapturer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/Triggers/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/Triggers/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/Triggers/Handler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/Triggers/Handler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Camera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Events.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Events.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Handler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetupCamera/Handler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile.deploy" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile.deploy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream-base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream-base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/camera-stream.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/port-pool.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/port-pool.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/router-utilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/router-utilities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,30 +71,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Demo.executor": "Run",
-    "Docker.cerberus-ui/Dockerfile.executor": "Run",
-    "JavaScript Debug.Browser Debug.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "features/record-surveillanced-clip",
-    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.app > build.executor": "Run",
-    "npm.cerberus-ui > build.executor": "Run",
-    "npm.cerberus-ui > dev.executor": "Run",
-    "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/record-surveillanced-clip&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -165,30 +164,16 @@
       <envs />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-      <item itemvalue="Docker.Demo" />
-      <item itemvalue="Docker.cerberus-ui/Dockerfile" />
-      <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
-      <item itemvalue="JavaScript Debug.Browser Debug" />
-      <item itemvalue="npm.app &gt; build" />
-      <item itemvalue="npm.cerberus-ui &gt; build" />
-      <item itemvalue="npm.cerberus-ui &gt; dev" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.cerberus-ui &gt; dev" />
-        <item itemvalue="npm.cerberus-ui &gt; build" />
-        <item itemvalue="npm.app &gt; build" />
-        <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
-        <item itemvalue="Docker.cerberus-ui/Dockerfile" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
       </set>
     </attachedChunks>
   </component>
@@ -244,6 +229,9 @@
       <workItem from="1744967135354" duration="626000" />
       <workItem from="1745656890734" duration="824000" />
       <workItem from="1745689779813" duration="21859000" />
+      <workItem from="1748264876769" duration="2157000" />
+      <workItem from="1748411536451" duration="578000" />
+      <workItem from="1748674610323" duration="1126000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -402,56 +390,5 @@
     <MESSAGE value="chore: setup" />
     <MESSAGE value="chore: progress" />
     <option name="LAST_COMMIT_MESSAGE" value="chore: progress" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/handler.ts</url>
-          <line>21</line>
-          <option name="timeStamp" value="91" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
-          <line>28</line>
-          <option name="timeStamp" value="94" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/cameras/add-camera/component.tsx</url>
-          <line>30</line>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/component.tsx</url>
-          <line>166</line>
-          <option name="timeStamp" value="135" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operators/schedule/component.tsx</url>
-          <line>180</line>
-          <option name="timeStamp" value="136" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
-          <line>25</line>
-          <option name="timeStamp" value="150" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
-          <line>21</line>
-          <option name="timeStamp" value="151" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
-          <line>22</line>
-          <option name="timeStamp" value="152" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/ui/WebRTCPlayer.tsx</url>
-          <line>28</line>
-          <option name="timeStamp" value="153" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

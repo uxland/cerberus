@@ -3,6 +3,9 @@ FROM ubuntu
 # Set environment variables to avoid interactive prompts during install
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get update && \
+    apt-get install -y ffmpeg python3 python3-pip python3-numpy python3-opencv libx264-dev --fix-missing && rm -rf /var/lib/apt/lists/*
+
 # GStreamer runtime and plugin support
 RUN apt update && \
     apt install -y \

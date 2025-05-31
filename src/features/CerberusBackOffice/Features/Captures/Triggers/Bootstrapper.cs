@@ -9,6 +9,7 @@ public static class Bootstrapper
 {
     public static IServiceCollection BoostrapTriggers(this IServiceCollection services, IConfiguration configuration)
     {
+        return services;
 
         return services.AddQuartz(q =>
         {
