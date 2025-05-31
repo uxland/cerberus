@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography } from "@mui/material";
+import { Typography, Checkbox } from "@mui/material";
 import { RoundEditionData, Inspection, createOrUpdateInspection, removeInspection } from "../domain/model.ts";
 import { MenuItem } from "@mui/material";
 import Select from '@mui/material/Select';
@@ -33,23 +33,29 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         handleSubmit,
         formState: { errors },
         setValue,
+        watch,
     } = useForm<Round>({
         resolver: zodResolver(dynamicSchema),
-        defaultValues: roundEditionData.round || {
-            id: roundEditionData.round.id || "",
-            rootLocationId: roundEditionData.round.rootLocationId || "",
-            estimatedDuration: 20,
-            inspections: [],
-        },
+        defaultValues: {
+            ...roundEditionData.round,
+            // Solo inicializar deferredExecution si existe en los datos originales
+            ...(roundEditionData.round.deferredExecution && {
+                deferredExecution: {
+                    clipDurationInSeconds: roundEditionData.round.deferredExecution.clipDurationInSeconds
+                }
+            })
+        }
     });
 
-
-
     const [inspections, setInspections] = useState<Inspection[]>(roundEditionData.round.inspections);
-    const [selectedCamera, setSelectedCamera] = useState<string>('');
+    const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
     const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const [groups, setGroups] = useState(roundEditionData.groups || []);
+    // Inicializar clipDuration desde los datos existentes si existen
+    const [clipDuration, setClipDuration] = useState<number>(
+        roundEditionData.round.deferredExecution?.clipDurationInSeconds || 30
+    );
     const assignGroup = useSurveillanceLocales("round.create.assignGroup");
     const cameraDetails = useSurveillanceLocales("round.create.cameraDetails");
     const cameraName = useSurveillanceLocales("round.create.cameraName");
@@ -60,34 +66,41 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const selectCamera = useSurveillanceLocales("round.create.selectCamera");
     const cameraId = useSurveillanceLocales("round.create.cameraId");
     const changeOperation = useSurveillanceLocales("round.create.changeOperation");
+    const clipDurationLabel = useSurveillanceLocales("round.create.clipDuration");
 
     const handleOperationSelectFromDetails = (operationId: string) => {
-        if (!operationId && selectedCamera) {
-            // Eliminar la inspección
-            setInspections(currentInspections =>
-                removeInspection(selectedCamera, currentInspections)
-            );
+        const cameras = roundEditionData.locations.filter(c => selectedCamera.includes(c.id));
+
+        if (!operationId) {
+            setInspections(curr => removeInspection(selectedCamera, curr));
             return;
         }
 
-        const operation = roundEditionData.operations.find((o) => o.id === operationId);
-        const camera = roundEditionData.locations.find((l) => l.id === selectedCamera);
-
-        if (operation && camera) {
-            // Crear o actualizar la inspección
-            setInspections(currentInspections =>
-                createOrUpdateInspection(operation, camera, currentInspections)
-            );
+        const op = roundEditionData.operations.find(o => o.id === operationId) || null;
+        if (op) {
+            setInspections(curr => createOrUpdateInspection(op, cameras, curr));
+            setSelectedCamera([]);
         }
     };
+    const handleSelectAllCameras = () => {
+        if (selectedCamera.length === roundEditionData.locations.length) {
+            setSelectedCamera([]);
+        } else {
+            setSelectedCamera(roundEditionData.locations.map(c => c.id));
+        }
+    }
     useEffect(() => {
         if (roundEditionData?.round?.inspections?.length > 0) {
             setInspections(roundEditionData.round.inspections);
         }
     }, [roundEditionData]);
     const handleCameraSelect = (locationId: string) => {
-        setSelectedCamera(locationId);
-        console.log("inspections", inspections)
+        setSelectedCamera(sel =>
+            sel.includes(locationId)
+                ? sel.filter(id => id !== locationId)
+                : [...sel, locationId]
+        );
+
     };
 
     useEffect(() => {
@@ -99,11 +112,12 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
         register("cronExpression");
 
     }, [cronValue, setValue]);
+
     const onSubmit = async (data: Round) => {
         onSubmitRequested?.(data as Round);
         console.log("SUCCESS", data);
     }
-    console.log(errors);
+    console.log("Errors", errors);
     return (
         <form onSubmit={handleSubmit(onSubmit, (formErrors) => {
             console.error("Validation failed:", formErrors);
@@ -172,14 +186,72 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                         ))}
                     </Select>
                 </div>
+                <div className='space-y-2 flex items-center gap-4'>
+                    <h1 className="font-bold text-primary mt-1">{useSurveillanceLocales("round.create.deferredExecution")}</h1>
+
+                    <Checkbox
+                        checked={!!watch("deferredExecution")}
+                        onChange={(e) => {
+                            if (e.target.checked) {
+                                setValue("deferredExecution", { clipDurationInSeconds: clipDuration });
+                            } else {
+                                setValue("deferredExecution", undefined);
+                            }
+                        }}
+                        sx={{
+                            color: '#a1a1a1',
+                            '&.Mui-checked': {
+                                color: '#a1a1a1',
+                            },
+                        }}
+                    />
+                </div>
+
+                {watch("deferredExecution") && (
+                    <div className='space-y-2 flex items-center gap-4 mt-2'>
+                        <h1 className="font-bold text-primary">{clipDurationLabel}:</h1>
+                        <Select
+                            value={clipDuration}
+                            onChange={(e) => {
+                                const v = Number(e.target.value);
+                                setClipDuration(v);
+                                // Solo actualizar el formulario si deferredExecution está activo
+                                if (watch("deferredExecution")) {
+                                    setValue("deferredExecution.clipDurationInSeconds", v);
+                                }
+                            }}
+                            displayEmpty
+                            size="small"
+                            className="!text-[0.8rem] bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
+                            sx={{
+                                '.MuiSvgIcon-root': {
+                                    color: 'white',
+                                },
+                            }}
+                            MenuProps={{
+                                PaperProps: {
+                                    style: {
+                                        backgroundColor: '#1e1e1e',
+                                        color: 'white',
+                                    },
+                                },
+                            }}
+                        >
+                            <MenuItem value={15} className="!text-[0.7rem]">15 segundos</MenuItem>
+                            <MenuItem value={30} className="!text-[0.7rem]">30 segundos</MenuItem>
+                            <MenuItem value={60} className="!text-[0.7rem]">60 segundos</MenuItem>
+                        </Select>
+                    </div>
+                )}
             </div>
 
             <div className="grid grid-cols-5 gap-6">
                 <div className="col-span-3 lg:col-span-4">
 
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {/* <button className="bg-primary py-4 px-6 rounded-md text-black font-bold text-xl hover:bg-formSelect">{useSurveillanceLocales("round.create.addCamera")}</button>
-                    <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">{useSurveillanceLocales("round.create.addGroup")}</button> */}
+                        <button className="bg-[#313131] py-4 px-6 rounded-md text-white font-bold text-xl hover:bg-[#505050]">{useSurveillanceLocales("round.create.addGroup")}</button> */}
                         <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
                             <Typography className="!text-xs !font-semibold"> {(roundEditionData.locations).length} {useSurveillanceLocales("round.create.cameras")}</Typography>
                             <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.cronExpression")} - {cronValue} </Typography>
@@ -187,6 +259,18 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                         <div className="flex flex-col justify-center bg-tableBg px-4 py-2 rounded-md gap-2">
                             <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.groupAssigned")}: {selectedGroup}</Typography>
                             <Typography className="!text-xs !font-semibold">{useSurveillanceLocales("round.create.duration")}: 20 mins.</Typography>
+                        </div>
+                        <div></div>
+                        <div>
+                            <button
+                                type="button"
+                                className="bg-primary py-4 px-6 rounded-md w-full hover:bg-formSelect"
+                                onClick={handleSelectAllCameras}
+                            >
+                                {selectedCamera.length === roundEditionData.locations.length
+                                    ? useSurveillanceLocales("round.create.deselectAll")
+                                    : useSurveillanceLocales("round.create.selectAll")}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -205,7 +289,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                             <CameraItem
                                 key={camera.id}
                                 camera={camera}
-                                isSelected={selectedCamera === camera.id}
+                                isSelected={selectedCamera.includes(camera.id)}
                                 hasOperation={inspections.some(i => i.cameraId === camera.id)}
                                 operationDescription={inspections.find(i => i.cameraId === camera.id)?.operationDescription || ''}
                                 onSelect={handleCameraSelect}
@@ -216,9 +300,11 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
 
                 <div className="col-span-2 lg:col-span-1">
                     <CameraDetails
-                        camera={roundEditionData?.locations.find(c => c.id === selectedCamera) || null}
-                        selectedCamera={selectedCamera}
-                        assignedOperation={inspections.find(i => i.cameraId === selectedCamera)}
+                        cameras={selectedCamera.length > 0 ?
+                            roundEditionData?.locations.filter(c => selectedCamera.includes(c.id)) : []}
+                        selectedCameras={selectedCamera}
+                        assignedOperations={selectedCamera.length > 0 ?
+                            inspections.filter(i => selectedCamera.includes(i.cameraId)) : []}
                         cameraDetails={cameraDetails}
                         cameraId={cameraId}
                         cameraName={cameraName}

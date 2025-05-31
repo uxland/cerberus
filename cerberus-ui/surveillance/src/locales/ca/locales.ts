@@ -2,6 +2,7 @@ import { getNestedValue } from "@cerberus/core";
 import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
 import { useLocalePath } from "@uxland/react-services";
 import { moduleName } from "../../constants";
+import { hi } from "date-fns/locale";
 
 export type SurveillanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useSurveillanceLocales = (
@@ -22,6 +23,7 @@ export const locales = {
   [moduleName]: {
     operation: {
       create: {
+        createOperation: "Crear Operativa",
         title: "Creación de Operativa",
         placeholder: "Añade nombre a tu nueva operativa",
         addOperative: "Añadir operativa",
@@ -34,15 +36,22 @@ export const locales = {
           type: "Tipología de respuesta",
           subtype: "Subtipología de respuesta",
           isMandatory: "Obligatoriedad",
-          normalityRange: "Rango de normalidad",
-          lowerBoundPlaceholder: "Valor mínimo",
-          upperBoundPlaceholder: "Valor máximo",
+          triggers: {
+            title: "Condiciones",
+            add: "+ Añadir condición",
+            label: "Condición",
+          },
+          actions: {
+            addAction: "+ Añadir acción",
+            addAlternative: "+ Añadir alternativa",
+            removeInstruction: "Eliminar",
+            anomalousAction: "Acción",
+            delete: "Eliminar",
+          },
           option: {
             title: "Opción",
             addOption: "+ Añadir opción",
-            code: "Código",
-            text: "Texto",
-            isAnomalous: "Opción anómala",
+            isAnomalous: "Anómala",
             delete: "Eliminar",
           }
         },
@@ -59,6 +68,7 @@ export const locales = {
     },
     round: {
       create: {
+        createRound: "Crear Ronda",
         title: "Creación de Ronda",
         placeholder: "Añade un nombre a tu nueva ronda",
         addCamera: "+",
@@ -71,7 +81,6 @@ export const locales = {
         proceed: "Proceder",
         cronExpressionInput: "Cronología",
         cronExpression: "Ciclo",
-
         cameraDetails: "Detalles de la cámara",
         cameraName: "Nombre",
         operation: "Operativa",
@@ -81,6 +90,10 @@ export const locales = {
         selectCamera: "Selecciona una cámara",
         cameraId: "Identificador",
         changeOperation: "Cambiar operativa",
+        deferredExecution: "Ejecución diferida",
+        selectAll: "Seleccionar todas las cámaras",
+        deselectAll: "Deseleccionar todas las cámaras",
+        clipDuration: "Duración del clip",
       },
       table: {
         id: "ID",
@@ -98,14 +111,30 @@ export const locales = {
     },
     run: {
       acquire: {
-        message: "¿Quieres comenzar ahora la ronda de supervisión?"
+        message: "¿Quieres comenzar ahora la ronda de supervisión?",
+        messageWithName: "¿Quieres comenzar ahora la ronda de supervisión con nombre: {description}?",
+        confirmButton: "Aceptar",
+        cancelButton: "Cancelar",
+        title: "Confirmación de ronda"
       },
       set: {
         formTitle: "Ronda de Supervisión",
+        operationTitle: "Operativa",
         start: "Empezar ronda de supervisión ahora",
         aditionalComments: "Comentarios adicionales",
         proceed: "Proceder",
         send: "Enviar",
+        previus: "Anterior",
+        next: "Siguiente",
+        optionQuestion: {
+          actions: "Acciones a realizar:",
+          comments: {
+            placeholder: "Escribe aquí tus comentarios...",
+            hide: "Ocultar comentarios",
+            add: "Añadir comentarios",
+            save: "Guardar",
+          }
+        }
       },
       release: {
         title: "Finalizar Ronda de Supervisión",
@@ -124,6 +153,13 @@ export const locales = {
         id: "ID"
       },
       report: {
+        detailsCard: {
+          id: "ID",
+          location: "Ubicación",
+          start: "Inicio",
+          status: "Estado",
+          inspections: "Inspecciones",
+        },
         videoTitle: "Grabación de la cámara",
         videoDetails: "Detalles de la grabación",
         cameraLabel: "Cámara",
@@ -131,6 +167,7 @@ export const locales = {
         dateLabel: "Fecha",
         notAvailable: "No disponible",
         videoNotSupported: "Tu navegador no soporta la reproducción de videos.",
+        isAnomalous: "Anómalo",
       },
       anomalyStatuses: {
         normal: "Normal",
@@ -139,6 +176,14 @@ export const locales = {
       },
       common: {
         notApplicable: "N/A",
+      },
+      card: {
+        location: "Ubicación",
+        round: "Ronda",
+        performer: "Realizada por",
+        duration: "Duración",
+        anomalies: "Anomalías",
+        inspectionsWithIssues: "Inspecciones con problemas"
       }
     },
   },

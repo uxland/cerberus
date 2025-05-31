@@ -1,7 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Cerberus.Core.Domain;
 using Cerberus.Core.MartenPersistence.QueryProviders;
 using Cerberus.Core.MartenPersistence.Repositories;
+using JasperFx.Core;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
@@ -17,10 +19,10 @@ namespace Cerberus.Core.MartenPersistence;
 public static class DependencyInjection
 {
     public static MartenServiceCollectionExtensions.MartenConfigurationExpression UseMartenPersistence(this IServiceCollection services,
-        IConfiguration configuration, IHostEnvironment environment)
+        IConfiguration configuration, IHostEnvironment environment, params IEnumerable<JsonConverter> converters)
     {
         var result = services
-            .AddMartenDb(configuration, environment);
+            .AddMartenDb(configuration, environment, converters);
         services
             .AddScoped<IUnitOfWork, MartenUoW>()
             .AddScoped<IReadModelQueryProvider, ReadModelQueryProvider>()
@@ -29,7 +31,7 @@ public static class DependencyInjection
     }
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMartenDb(this IServiceCollection services, IConfiguration configuration,
-        IHostEnvironment environment)
+        IHostEnvironment environment, params IEnumerable<JsonConverter> converters )
     {
         return services.AddMarten(options =>
             {
@@ -37,7 +39,7 @@ public static class DependencyInjection
                 if (!environment.IsProduction())
                     options.AutoCreateSchemaObjects = AutoCreate.All;
                 options
-                    .SetupSerialization()
+                    .SetupSerialization(converters)
                     .ConfigureEventSore()
                     .ConfigureMetadata()
                     .UseNodaTime();
@@ -47,13 +49,15 @@ public static class DependencyInjection
             .AddAsyncDaemon(DaemonMode.HotCold);
     }
 
-    internal static StoreOptions SetupSerialization(this StoreOptions options)
+    internal static StoreOptions SetupSerialization(this StoreOptions options, IEnumerable<JsonConverter> converters)
     {
         options.UseSystemTextJsonForSerialization(
             EnumStorage.AsString,
             Casing.CamelCase,
             serializerOptions =>
             {
+                foreach (var jsonConverter in converters)
+                    serializerOptions.Converters.Add(jsonConverter);
                 serializerOptions.IgnoreReadOnlyFields = true;
                 serializerOptions.IgnoreReadOnlyProperties = false;
                 serializerOptions.WriteIndented = true;

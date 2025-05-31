@@ -1,6 +1,4 @@
-﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.JoinStream;
-
-namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.Streaming.JoinStream;
+﻿namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.Streaming.JoinStream;
 
 public static class Handler
 {

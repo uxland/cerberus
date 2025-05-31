@@ -3,15 +3,15 @@ import { LocationHierarchicalItem } from "@cerberus/organizational-structure";
 import { FormControl, Select, MenuItem } from "@mui/material";
 
 interface CameraDetailsProps {
-    camera: LocationHierarchicalItem | null;
-    selectedCamera: string;
-    assignedOperation?: {
+    cameras: LocationHierarchicalItem[];
+    selectedCameras: string[];
+    assignedOperations?: {
         operationId: string;
         operationDescription: string;
         cameraId: string;
         cameraDescription: string;
         cameraStreamingUrl?: string;
-    };
+    }[];
     cameraDetails: string;
     cameraId: string;
     cameraName: string;
@@ -26,9 +26,9 @@ interface CameraDetailsProps {
 }
 
 export const CameraDetails: React.FC<CameraDetailsProps> = ({
-    camera,
-    selectedCamera,
-    assignedOperation,
+    cameras,
+    selectedCameras,
+    assignedOperations = [],
     cameraDetails,
     cameraId,
     cameraName,
@@ -43,13 +43,21 @@ export const CameraDetails: React.FC<CameraDetailsProps> = ({
 }) => {
     const [selectedOperation, setSelectedOperation] = useState<string>('');
 
+    // Check if all selected cameras have operations assigned
+    const allCamerasHaveOperations = selectedCameras.length > 0 &&
+        selectedCameras.every(cameraId =>
+            assignedOperations.some(op => op.cameraId === cameraId)
+        );
+
+    const anyCameraHasOperation = selectedCameras.length > 0 &&
+        selectedCameras.some(cameraId =>
+            assignedOperations.some(op => op.cameraId === cameraId)
+        );
+
     useEffect(() => {
-        if (assignedOperation) {
-            setSelectedOperation(assignedOperation.operationId);
-        } else {
-            setSelectedOperation('');
-        }
-    }, [selectedCamera, assignedOperation]);
+        // Reset selected operation when selection changes
+        setSelectedOperation('');
+    }, [selectedCameras]);
 
     const handleOperationChange = (
         eventOrValue: React.ChangeEvent<{ value: unknown }> | string
@@ -63,7 +71,7 @@ export const CameraDetails: React.FC<CameraDetailsProps> = ({
         onOperationSelect(operationId);
     };
 
-    if (!selectedCamera) {
+    if (selectedCameras.length === 0) {
         return (
             <div className="bg-tableBg rounded-md p-4 h-full flex items-center justify-center">
                 <p className="text-gray-400">
@@ -73,18 +81,17 @@ export const CameraDetails: React.FC<CameraDetailsProps> = ({
         );
     }
 
-    if (!camera) {
-        return (
-            <div className="bg-tableBg rounded-md p-4 h-full">
-                <p>Cámara no encontrada</p>
-            </div>
-        );
-    }
+    // Get camera IDs as comma-separated string
+    const cameraIds = cameras.map(camera => camera.id).join(', ');
+    // Get camera names as comma-separated string
+    const cameraNames = cameras.map(camera => camera.description).join(', ');
+    // Get a representative streaming URL (from the first camera with a URL)
+    const representativeStreamingUrl = cameras.find(c => c.streamingUrl)?.streamingUrl || "-";
 
     return (
         <div className="bg-tableBg rounded-md p-4 h-full">
             <h2 className="font-bold text-primary text-xl mb-4">
-                {cameraDetails}
+                {cameraDetails} ({cameras.length})
             </h2>
 
             <div className="space-y-4">
@@ -92,33 +99,35 @@ export const CameraDetails: React.FC<CameraDetailsProps> = ({
                     <img
                         className="w-full h-32 object-cover rounded-md"
                         src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg"
-                        alt={camera.description}
+                        alt="Camera preview"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <div>
                         <p className="text-xs text-gray-400">{cameraId}</p>
-                        <p className="font-medium">{camera.id}</p>
+                        <p className="font-medium">{cameraIds}</p>
                     </div>
                     <div>
                         <p className="text-xs text-gray-400">{cameraName}</p>
-                        <p className="font-medium">{camera.description}</p>
+                        <p className="font-medium">{cameraNames}</p>
                     </div>
                     <div>
                         <p className="text-xs text-gray-400">{streamingUrl}</p>
-                        <p className="font-medium">{camera.streamingUrl || "-"}</p>
+                        <p className="font-medium">{representativeStreamingUrl}</p>
                     </div>
                     <div>
                         <p className="text-xs text-gray-400">{operation}</p>
-                        {assignedOperation ? (
+                        {allCamerasHaveOperations ? (
                             <p className="font-medium text-green-500">
-                                {assignedOperation.operationDescription}
+                                {selectedCameras.length === 1 ?
+                                    assignedOperations[0]?.operationDescription :
+                                    "Multiple operations assigned"}
                             </p>
                         ) : (
                             <FormControl fullWidth size="small" className="mt-1">
                                 <p className="font-medium text-red-500 mb-4">
-                                    {noOperationAssigned}
+                                    {anyCameraHasOperation ? "Some cameras don't have operations" : noOperationAssigned}
                                 </p>
                                 <Select
                                     value={selectedOperation}
@@ -164,7 +173,7 @@ export const CameraDetails: React.FC<CameraDetailsProps> = ({
                     </div>
                 </div>
 
-                {assignedOperation && (
+                {allCamerasHaveOperations && (
                     <button
                         type="button"
                         className="w-full text-[0.8rem] uppercase bg-primary text-black font-bold py-2 px-4 rounded-sm hover:bg-formSelect"

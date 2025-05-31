@@ -1,4 +1,5 @@
 using Cerberus.Core.Domain;
+using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 using NodaTime;
 namespace Cerberus.Surveillance.Features.Features.Round;
 
@@ -13,10 +14,9 @@ public partial class SurveillanceRound: AggregateRoot
     public string? RootLocationId { get;  set; }
     public string? Description { get; set; }
     
+    
     public List<Inspection> Inspections { get;  set; }
     
-    public Duration? EstimatedDuration { get;  set; }
-    
-  
+    public DeferredSettings? DeferredExecution { get;  set; }
     
 }
