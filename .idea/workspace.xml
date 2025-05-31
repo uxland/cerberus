@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Shared/Constants.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/list-location-sub-hiearchy/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/locations/list-location-sub-hiearchy/model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/domain/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/domain/model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/camera-details.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/camera-details.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/camera-item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/round/create/ui/camera-item.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/domain/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/domain/model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/run-inspection/component.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetReferenceImages/Command.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetReferenceImages/CameraReferenceImagesChanged.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/HierarchyItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/HierarchyItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/ListLocationSubHierarchy/Handler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/ListLocationSubHierarchy/Handler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/ListLocationSubHierarchy/LocationHierarchicalItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/HierarchyItems/ListLocationSubHierarchy/LocationHierarchicalItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Create/Factories.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Create/Factories.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Create/InspectionRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Create/InspectionRun.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/InspectionRun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/InspectionRun.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/report/ui/runVideoSection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/report/ui/runVideoSection.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
