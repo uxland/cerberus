@@ -1,4 +1,5 @@
-﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetReferenceImages;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Location.AppendLocations;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.Core.Domain;
@@ -10,7 +11,9 @@ public record HierarchyItem(
     string? ParentId,
     string Description,
     string Path,
-    HierarchicalItemType Type
+    HierarchicalItemType Type,
+    string? ImageUrl = null,
+    string? ImageThumbnailUrl = null
 ): IEntity
 {
     public static HierarchyItem Create(LocationCreated locationCreated) =>
@@ -40,6 +43,12 @@ public record HierarchyItem(
             Description = cameraUpdated.Description,
             ParentId = cameraUpdated.ParentId,
             Path = cameraUpdated.Path
+        };
+    public HierarchyItem Apply(CameraReferenceImagesChanged cameraReferenceImagesChanged) =>
+        this with
+        {
+            ImageUrl = cameraReferenceImagesChanged.CameraImageUrl,
+            ImageThumbnailUrl = cameraReferenceImagesChanged.CameraImageThumbnailUrl
         };
 }
 
