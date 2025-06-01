@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/Readme-deployment-dev.mac-os.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/postgres/values.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/environments/dev/apps.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/environments/dev/cerberus-dev.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
