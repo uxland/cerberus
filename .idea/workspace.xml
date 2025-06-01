@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change afterPath="$PROJECT_DIR$/environments/dev/cerberus-dev.yaml" afterDir="false" />
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -371,7 +370,23 @@
       <option name="project" value="LOCAL" />
       <updated>1744198422643</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="chore: progress">
+      <option name="closed" value="true" />
+      <created>1748768133732</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1748768133732</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Add postgres app to cerberus-dev">
+      <option name="closed" value="true" />
+      <created>1748768336651</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1748768336651</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,6 +398,7 @@
     <MESSAGE value="chore: routing added" />
     <MESSAGE value="chore: setup" />
     <MESSAGE value="chore: progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: progress" />
+    <MESSAGE value="Add postgres app to cerberus-dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add postgres app to cerberus-dev" />
   </component>
 </project>
