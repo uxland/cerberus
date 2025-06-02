@@ -24,7 +24,7 @@
     "@mui/icons-material": "5.15.21",
     "@mui/material": "^6.4.8",
     "@uxland/react-services": "^1.0.3",
-    "@aldabil/react-scheduler": "^3.0.5",
+    "@uxland/cerberus-calendar": "file:../core/src/presentation/components/uxland-cerberus-scheduler",
     "@microsoft/signalr": "^8.0.7",
     "inversify": "^6.0.2",
     "mediatr-ts": "^1.2.1",
