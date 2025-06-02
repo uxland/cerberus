@@ -20,8 +20,9 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && \
     apt-get install -y net-tools iputils-ping iproute2 curl
 
+
 # Install Node.js 22 from NodeSource
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
 
@@ -33,6 +34,16 @@ COPY ./src/package-lock.json /app/package-lock.json
 RUN npm install
 
 COPY ./src/app.js /app/app.js
+COPY ./src/camera-stream.js /app/camera-stream.js
+COPY ./src/camera-stream-base.js /app/camera-stream-base.js
+COPY ./src/dual-camera-stream.js /app/dual-camera-stream.js
+COPY ./src/h264-camera-stream.js /app/h264-camera-stream.js
+COPY ./src/mpeg-stream.js /app/mpeg-stream.js
+COPY ./src/port-pool.js /app/port-pool.js
+COPY ./src/recorder-client.js /app/recorder-client.js
+COPY ./src/router-utilities.js /app/router-utilities.js
+COPY ./src/streaming-client.js /app/streaming-client.js
+
 EXPOSE 3000
 
 EXPOSE 20000-22000

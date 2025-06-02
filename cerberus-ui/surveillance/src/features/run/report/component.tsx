@@ -35,9 +35,7 @@ export const RunReportView = () => {
                     <CircularProgress />
                 </Box>
             ) : run ? (
-                <div className="flex flex-col gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0 space-y-4">
-                    <RunReport run={run} />
-                </div>
+                <RunReport run={run} />
             ) : null}
             {error && <div>Error: {String(error)}</div>}
         </>

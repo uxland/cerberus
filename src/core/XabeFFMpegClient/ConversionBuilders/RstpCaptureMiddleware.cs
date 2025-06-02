@@ -6,6 +6,8 @@ namespace Cerberus.Core.XabeFFMpegClient.ConversionBuilders;
 
 public class RstpBuilder : IConversionBuilderStep
 {
+    public string SortKey { get; } = "002";
+
     public Task<IConversion> Handle(IConversion conversion, CaptureSnapshotArguments captureSnapshotArguments)
     {
         if(IsRstp(captureSnapshotArguments))

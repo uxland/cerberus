@@ -1,11 +1,10 @@
 ﻿using Cerberus.Api.Bootstrap;
 using Cerberus.Api.Bootstrap.OpenApi;
 using Cerberus.Api.Setup;
-using Cerberus.BackOffice;
 using Cerberus.Core.KeycloakClient;
 using Cerberus.Core.MartenPersistence;
 using Cerberus.Core.XabeFFMpegClient;
-using Microsoft.OpenApi.Models;
+using Cerberus.Surveillance.Features.Features.Shared.Specs;
 using SignalRClientPublisher;
 
 namespace Cerberus.Api;
@@ -20,8 +19,8 @@ public class Startup(WebApplicationBuilder builder)
     ];
     public void ConfigureServices(IServiceCollection services)
     {
-        services.BootstrapAuthentication(builder.Configuration);
-        services.BootstrapMvc()
+        services.UseKeycloakClient(builder.Configuration, "/cerberus-hub")
+            .BootstrapMvc()
             .BootstrapOpenApi();
         services.AddSignalR();
         services.AddCors(options =>
@@ -48,12 +47,11 @@ public class Startup(WebApplicationBuilder builder)
             .SetupConfigurations(builder.Configuration)
             .UseLogging()
             .BootstrapXabeFFMpegClient()
-            .UseMartenPersistence(builder.Configuration, builder.Environment);
+            .UseMartenPersistence(builder.Configuration, builder.Environment, new SpecJsonConverterFactory());
         services
             .UseSignalRClientPublisher()
             .BootstrapServices()
             .BootstrapQuartz(builder.Configuration)
-            .UseKeycloakClient(builder.Configuration)
             .BootstrapBackOffice(builder.Configuration, martenConfiguration)
             .BootstrapMaintenance()
             .BootstrapSurveillance(martenConfiguration);

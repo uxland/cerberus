@@ -65,8 +65,11 @@
     ports:
       - "3000:3000"
       - "20000-20020:20000-20020"
+    environment:
+      RECORDER_DIR: "/media_storage/clips"
     volumes:
       -  ./src/hosts/MediaServer/certs:/certs/ssl
+      - snapshots_volume:/media_storage/clips
   cerberus-ui:
     build:
         context: ./cerberus-ui
@@ -79,7 +82,7 @@
       VITE_AUTH_CLIENT_ID: "cerberus"
       VITE_CERBERUS_BACKEND_URL: "http://cerberus-back:8080"
       VITE_CERBERUS_IMAGES_URL: "http://cerberus-back:8080/images"
-      VITE_CERBERUS_STREAMING_URL: "wss://media-server:3000"
+      VITE_CERBERUS_STREAMING_URL: "ws://cerberus-signaling:8080"
     depends_on:
       - cerberus-back
     extra_hosts:

@@ -34,7 +34,8 @@ public class SurveillanceRoundDetailProjection : SingleStreamProjection<Surveill
             Inspections: inspections.ToList(),
             ExecutionRecurrencePattern: settings.CronExpression,
             AssignedTo: settings.AssignedTo,
-            EstimatedDuration: settings.EstimatedDuration
+            EstimatedDuration: settings.EstimatedDuration,
+            DeferredExecution: settings.DeferredExecution
         );
     }
     private async Task<InspectionDetail> CreateInspectionDetails(IQuerySession querySession,

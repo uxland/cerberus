@@ -20,9 +20,7 @@ public class SnapshotCapturer(
         Task<(CaptureError? Error, string? SnapshotRawPath, string? SnapshotThumbnailPath)>
         CaptureSnapshot(CaptureSnapshotArguments arguments, CancellationToken cancellationToken = default)
     {
-        var snapshotRelativePath = GetCameraDirectory(arguments.CameraPath);
-        var rawPath = Path.Combine(snapshotRelativePath, "snapshot.bmp");
-        var thumbnailPath = Path.Combine(snapshotRelativePath, "snapshot_thumbnail.jpg");
+        var (rawPath, thumbnailPath) = GetSnapshotPaths(arguments);
         try
         {
             await CaptureFrameWithTimeout(Path.Combine(_rootPath, rawPath),
@@ -108,23 +106,40 @@ public class SnapshotCapturer(
 
     private async Task CaptureFrame(string outputFilePath, CaptureSnapshotArguments arguments, CancellationToken cancellationToken)
     {
-        var conversion = FFmpeg.Conversions.New()
-            .AddParameter($"-i {arguments.Address}");
+        //Task<IConversionResult>? process = null;
+        var conversion = FFmpeg.Conversions.New();
+        
         conversion = await captureMiddleware.Build(conversion, arguments);
         conversion.SetOutput(outputFilePath);
         using var process = conversion.Start(cancellationToken);
         await process;
     }
 
-    private string GetCameraDirectory(string cameraPath)
+    private static string GetCameraDirectory(string cameraPath)
     {
         var pathSegments = cameraPath.Split(">");
         var cameraRelativePath = Path.Combine(pathSegments);
         var snapshotRelativePath = Path.Combine(cameraRelativePath,
             $"{Instant.FromDateTimeUtc(DateTime.UtcNow).ToUnixTimeMilliseconds()}");
-        var directoryInfo = new DirectoryInfo(Path.Combine(_rootPath, snapshotRelativePath));
-        if (!directoryInfo.Exists)
-            directoryInfo.Create();
         return snapshotRelativePath;
+    }
+    
+    private (string rawPath, string thumbnailPath) GetSnapshotPaths(CaptureSnapshotArguments arguments)
+    {
+        var snapshotRelativePath = GetCameraDirectory(arguments.CameraPath);
+        var rawPath = arguments.RawPath ?? Path.Combine(snapshotRelativePath, "snapshot.bmp");
+        var thumbnailPath = arguments.ThumbnailPath ?? Path.Combine(snapshotRelativePath, "snapshot_thumbnail.jpg");
+        CreateDirectoryIfNotExists(rawPath);
+        CreateDirectoryIfNotExists(thumbnailPath);
+        return (rawPath, thumbnailPath );
+    }
+    
+    private void CreateDirectoryIfNotExists(string relativePath)
+    {
+        var path = Path.Combine(_rootPath, relativePath);
+        var fi = new FileInfo(path);
+        var directory = fi.Directory;
+        if (directory is { Exists: false })
+            directory.Create();
     }
 }

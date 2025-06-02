@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization.Metadata;
+﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using Marten;
 using Weasel.Core;
 
@@ -29,7 +30,7 @@ public class MartenDbFixture : IDisposable
             options.Connection(connectionString);
             options.AutoCreateSchemaObjects = AutoCreate.All;
             options
-                .SetupSerialization()
+                .SetupSerialization(new List<JsonConverter>())
                 .ConfigureEventSore();
         });
     }

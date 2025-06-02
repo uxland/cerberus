@@ -11,16 +11,18 @@ internal static class RunFactories
 {
     public static async Task<SurveillanceRun> ProduceRun(this SurveillanceRound round, IGenericRepository repository, Instant plannedAt, bool isSpontaneous)
     {
-        var inspections = await Task.WhenAll(round.Inspections.OrderBy(x => x.Order).Select((i, index) => i.ProduceRun(index, repository)));
-        return new SurveillanceRun(round.SurveillanceRunId(plannedAt), round.RootLocationId!, round.Id, round.AssignedGroupId, inspections.ToList(), plannedAt, isSpontaneous);
+        var runId = round.SurveillanceRunId(plannedAt);
+        var inspections = await Task.WhenAll(round.Inspections.OrderBy(x => x.Order).Select((i, index) => i.ProduceRun(runId, index, round, repository)));
+        return new SurveillanceRun(runId, round.RootLocationId!, round.Id, round.AssignedGroupId, inspections.ToList(), plannedAt, isSpontaneous);
     }
 
-    private static async Task<InspectionRun> ProduceRun(this Inspection inspection, int id, IGenericRepository repository)
+    private static async Task<InspectionRun> ProduceRun(this Inspection inspection, string runId, int id, SurveillanceRound round, IGenericRepository repository)
     {
         var operationTask = repository.RehydrateOrThrow<SurveillanceOperation>(inspection.OperationId);
         var camera = await repository.RehydrateOrThrow<Camera>(inspection.CameraId);
         var operation = await operationTask;
-        return new InspectionRun(id.ToString(), inspection.Id, inspection.CameraId, camera.Description, camera.AdminSettings.IpAddress ?? string.Empty, operation.ProduceRun());
+        var clipPath = InspectionRunClipPath(runId, round, camera);
+        return new InspectionRun(id.ToString(), inspection.Id, inspection.CameraId, camera.Description, camera.AdminSettings.IpAddress ?? string.Empty, operation.ProduceRun(), clipPath);
     }
 
     private static OperationRun ProduceRun(this SurveillanceOperation operation)
@@ -44,5 +46,10 @@ internal static class RunFactories
     }
     public static string SurveillanceRunId(this SurveillanceRoundSummary round, Instant plannedAt) =>
         $"{round.Id}:{plannedAt.ToUnixTimeMilliseconds()}";
+
+    private static string InspectionRunClipPath(string runId, SurveillanceRound round, Camera camera)
+    {
+        return $"/{SuerveillanceConstants.SurveillanceRootFolder}/Inspections/{round.RootLocationId ?? "Unknown"}/{runId}/cameras/{camera.Id}-clip.mp4";
+    }
     
 }

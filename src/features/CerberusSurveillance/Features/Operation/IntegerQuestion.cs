@@ -1,7 +1,13 @@
-﻿namespace Cerberus.Surveillance.Features.Features.Operation;
+﻿using System.Collections.Generic;
 
-public record IntegerQuestion(string Id, string Text, bool IsMandatory, NormalityRange<int>? NormalityRange = null)
-    : IOperationQuestion
+namespace Cerberus.Surveillance.Features.Features.Operation;
+
+public record IntegerQuestion(
+    string Id,
+    string Text,
+    bool IsMandatory,
+    List<ActionTrigger<int>>? Triggers = null
+) : IOperationQuestion<int>
 {
-    public bool IsAnomalous(int value) => NormalityRange?.IsOutOfRange(value) ?? false;
+    public bool IsAnomalous(int value) => Triggers?.Any(x => x.Condition.IsSatisfiedBy(value)) ?? false;
 }

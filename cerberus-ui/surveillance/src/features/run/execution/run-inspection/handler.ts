@@ -14,7 +14,11 @@ export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> 
 }
 const adaptRequest: (data: InspectionRunData) => RequestInit = (data: InspectionRunData) => {
     const answers = data.answers.reduce((acc, answer) => {
-        acc[answer.questionId] = answer.answer;
+        // @ts-ignore
+        acc[answer.questionId] = {
+            value: answer.answer,
+            actions: answer.actions,
+        }
         return acc;
     }, {});
     console.log("startedAt", data.startedAt);

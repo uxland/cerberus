@@ -3,6 +3,7 @@ import { SurveillanceOperationFormModel } from "./domain";
 import { injectable } from "inversify";
 import { operationsEndpointUrl } from "../constants.ts";
 import { IRequest } from "mediatr-ts";
+import {deserializeOperation} from "./operation-deserialization";
 
 export class GetOperation implements IRequest<SurveillanceOperationFormModel> {
     constructor(public id: string) { }
@@ -12,6 +13,7 @@ export class GetOperation implements IRequest<SurveillanceOperationFormModel> {
 export class GetOperationHandler extends HandlerBase<SurveillanceOperationFormModel, GetOperation> {
     handle(request: GetOperation): Promise<SurveillanceOperationFormModel> {
         return this.apiClient.get<SurveillanceOperationFormModel>(`${operationsEndpointUrl}${request.id}`)
+            .then(deserializeOperation)
     }
 
 }

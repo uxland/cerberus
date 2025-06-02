@@ -5,7 +5,7 @@ using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 using Cerberus.Core.Domain;
 
 namespace Cerberus.BackOffice.Features.Captures.Triggers;
-
+/*
 public static class Handler
 {
     public static CaptureTriggerEnabled? Handle(CameraCreated @event, IGenericRepository repository)
@@ -53,4 +53,4 @@ public static class Handler
         repository.Save(trigger);
         return trigger.GeFirstUncommittedEventOfType<CaptureTriggerDisabled>();
     }
-}
+}*/

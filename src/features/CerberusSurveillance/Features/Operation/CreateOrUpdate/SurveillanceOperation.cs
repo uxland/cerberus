@@ -36,5 +36,6 @@ public partial class SurveillanceOperation
    {
       this.Description = @settings.Description;
       this.Questions = @settings.Questions.ToList();
+      
    }
 }

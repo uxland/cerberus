@@ -4,4 +4,6 @@ export interface LocationHierarchicalItem{
     type: "Location" | "Camera";
     children: LocationHierarchicalItem[];
     streamingUrl?: string;
+    imageUrl?: string;
+    imageThumbnailUrl?: string;
 }

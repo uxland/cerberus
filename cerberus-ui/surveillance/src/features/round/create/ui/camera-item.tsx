@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import {getImageUrl} from "@cerberus/core";
 
 export const CameraItem = ({
     camera,
@@ -13,7 +14,7 @@ export const CameraItem = ({
     >
         <img
             className={`rounded-md ${isSelected ? 'border border-[3px] border-primary opacity-100' : ''} ${!hasOperation ? 'opacity-50' : ''}`}
-            src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg"
+            src={getImageUrl(camera.imageUrl)}
             alt={camera.description}
         />
         <Typography

@@ -45,6 +45,18 @@ const tabsConfig = [
 const AppContent = ({ routes }) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
+  const { initialized, keycloak } = useKeycloak();
+
+  // Restore the path after authentication
+  useEffect(() => {
+    if (initialized && keycloak.authenticated) {
+      const redirectPath = sessionStorage.getItem('redirectPath');
+      if (redirectPath) {
+        navigate(redirectPath);
+        sessionStorage.removeItem('redirectPath');
+      }
+    }
+  }, [initialized, keycloak.authenticated, navigate]);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -73,8 +85,6 @@ const AppContent = ({ routes }) => {
     new Mediator().send(new SetNavigation(navigate)).then(nop);
   }, [navigate]);
 
-  const { initialized } = useKeycloak();
-
   if (!initialized) {
     return <Fetching />;
   }
@@ -85,6 +95,7 @@ const AppContent = ({ routes }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box
+        id="app"
         sx={{
           display: "grid",
           gridTemplateColumns: open ? "300px 1fr" : "40px 1fr",
@@ -100,9 +111,8 @@ const AppContent = ({ routes }) => {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            margin: "0vw",
-            padding: "0",
-            overflow: "auto",
+            height: "100%",
+            overflow: "hidden"
           }}
         >
           <AppBar
@@ -164,10 +174,17 @@ const AppContent = ({ routes }) => {
               </Box>
             </Box>
           </AppBar>
-          <Box sx={{ padding: "2rem" }}>
+          <Box
+            sx={{
+              padding: "2rem",
+              flexGrow: 1,
+              overflow: "auto",
+              height: "100%",
+            }}
+          >
             <Routes>
               {routes.map((route: any) => {
-                console.log("Route:", route);
+                // console.log("Route:", route);
                 const Component = getRouteComponent(route.componentName);
                 return (
                   <Route
@@ -179,8 +196,8 @@ const AppContent = ({ routes }) => {
               })}
             </Routes>
           </Box>
+          <Toasts />
         </Box>
-        <Toasts />
         <button
           className="absolute top-1/2 -translate-y-1/2 z-50 bg-[#353535] text-white p-2.5 hover:bg-[#636363] transition-colors rounded-r-xl text-2xl"
           onClick={() => setOpen(!open)}

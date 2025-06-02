@@ -47,11 +47,17 @@ public static class DependencyInjection
     private static void ConfigureSubscriptions(
         this MartenServiceCollectionExtensions.MartenConfigurationExpression options)
     {
-        options.AddSubscriptionWithServices<CameraRecurrencePatternSubscription>(ServiceLifetime.Singleton, o =>
+        /*options.AddSubscriptionWithServices<CameraRecurrencePatternSubscription>(ServiceLifetime.Singleton, o =>
         {
             o.Options.BatchSize = 100;
             o.IncludeType<CameraCreated>();
             o.IncludeType<CameraRecurrencePatternChanged>();
+        });*/
+        options.AddSubscriptionWithServices<CameraSettingsSubscription>(ServiceLifetime.Singleton, o =>
+        {
+            o.Options.BatchSize = 100;
+            o.IncludeType<CameraCreated>();
+            o.IncludeType<CameraUpdated>();
         });
     }
     
@@ -73,5 +79,4 @@ public static class DependencyInjection
             .AddTransient<IEntityQueryProvider<Location>, LocationEntityQueryProvider>()
             .AddTransient<ICaptureQueryProvider, CaptureEntityQueryProvider>();
     }
-    
 }
