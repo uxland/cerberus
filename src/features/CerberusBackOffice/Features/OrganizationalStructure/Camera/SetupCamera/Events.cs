@@ -18,6 +18,7 @@ public record CameraCreated(
 
 
 public record CameraUpdated(
+    string CameraId,
     string ParentId,
     string Description,
     CameraAdminSettings AdminSettings,

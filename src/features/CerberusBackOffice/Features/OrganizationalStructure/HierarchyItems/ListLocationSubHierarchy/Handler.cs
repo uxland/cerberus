@@ -20,7 +20,12 @@ public static class Handler
                 item.Id,
                 item.Description,
                 item.Type,
-                BuildHierarchy(items, item.Id)))
+                BuildHierarchy(items, item.Id),
+                null,
+                item.ImageUrl,
+                item.ImageThumbnailUrl
+                )
+            )
             .ToList();
     }
 }

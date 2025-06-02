@@ -20,7 +20,13 @@ const startGstProcess = (cameraId, streamingUrl, port) => {
 
 
 export default class CameraStream extends CameraStreamBase {
-	constructor({router, cameraId, streamingUrl}) {
+	/*constructor({router, cameraId, streamingUrl}) {
 		super({router, cameraId, streamingUrl, gstProcessLauncher: startGstProcess});
+	}*/
+	getStartPipelineArgs(streamingUrl) {
+		return [
+			'rtspsrc', `location=${streamingUrl}`, 'protocols=tcp', 'latency=100', '!',
+			'rtph265depay', '!', 'h265parse', '!', 'avdec_h265', '!',
+		]
 	}
 }

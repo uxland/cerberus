@@ -4,7 +4,7 @@ export const createTransport = async (router, port) => {
 		listenIp: "0.0.0.0", // ✅ Listen on all interfaces
 		rtcpMux: true,       // ✅ Use RTCP multiplexing
 		comedia: true,       // ✅ Allow remote initiation
-		port,          // ✅ Ensure it matches FFmpeg destination
+		port,
 	});
 	console.log(`✅ MediaSoup listening on port ${tx.tuple.localPort}`);
 

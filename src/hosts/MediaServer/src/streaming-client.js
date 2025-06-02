@@ -1,3 +1,4 @@
+import RecorderClient from "./recorder-client.js";
 export class StreamingClient {
 
 	socket;
@@ -5,6 +6,9 @@ export class StreamingClient {
 	streamFactory;
 	router;
 	consumer;
+	currentCamera;
+	rtpCapabilities;
+	recorderClient;
 
 	constructor({socket, streamFactory, router}) {
 		this.socket = socket;
@@ -27,6 +31,7 @@ export class StreamingClient {
 	async stop() {
 		await this.stopProducer();
 		await this.stopTransport();
+		await this.recorderClient?.stopRecording();
 	}
 	async stopTransport() {
 		try {
@@ -54,15 +59,13 @@ export class StreamingClient {
 	}
 
 	async onDisconnected() {
-		// do some cleanup
 		console.log('peer disconnected')
 		try {
+			await this.recordConsumer?.close();
+			await this.recordTransport?.close();
 			await this.consumer?.close();
 			await this.transport?.close();
-		}
-		catch (e) {
-
-		}
+		} catch (e) {}
 	}
 
 	getRtpCapabilities(callback) {
@@ -72,30 +75,23 @@ export class StreamingClient {
 
 	async createWebRtcTransport({sender}, callback) {
 		try {
-			// https://mediasoup.org/documentation/v3/mediasoup/api/#WebRtcTransportOptions
 			const webRtcTransport_options = {
-				listenIps: [{
-					ip: '0.0.0.0',
-					announcedIp: '127.0.0.1',
-				}], enableUdp: true, enableTcp: true, preferUdp: true,
+				listenIps: [{ ip: '0.0.0.0', announcedIp: '127.0.0.1' }],
+				enableUdp: true, enableTcp: true, preferUdp: true,
 			}
 
 			this.transport = await this.router.createWebRtcTransport(webRtcTransport_options)
 			console.log(`transport id: ${this.transport.id}`)
 
 			this.transport.on('dtlsstatechange', dtlsState => {
-				if (dtlsState === 'closed') {
-					this.transport.close()
-				}
+				if (dtlsState === 'closed') this.transport.close()
 			})
 
 			this.transport.on('close', () => {
 				console.log('transport closed')
 			})
 
-			// send back to the client the following prameters
 			callback({
-				// https://mediasoup.org/documentation/v3/mediasoup-client/api/#TransportOptions
 				params: {
 					id: this.transport.id,
 					iceParameters: this.transport.iceParameters,
@@ -105,32 +101,24 @@ export class StreamingClient {
 			})
 		} catch (error) {
 			console.log(error)
-			callback({
-				params: {
-					error: error
-				}
-			})
+			callback({ params: { error: error } })
 		}
 	}
 
 	async connect({ dtlsParameters }){
 		await this.transport.connect({ dtlsParameters });
 	}
-	async consume({ rtpCapabilities, cameraId, record = false }, callback){
+
+	async consume({ rtpCapabilities, cameraId, recordSettings }, callback){
 		try {
-			const camera = await this.streamFactory(cameraId)
-			if (!camera.canConsume({
-				rtpCapabilities
-			})) {
-				console.error("❌ Client does not support stream");
-				console.log(JSON.stringify(rtpCapabilities, null, 2))
-				callback({ error: "Cannot consume stream" });
+			const {camera, error} = await this.getCamera(rtpCapabilities, cameraId);
+			const { record, clipPath } = recordSettings || { record: false };
+			if (error) {
+				callback({ error });
 				return;
 			}
-
-
-
-			// Create Consumer for the client
+			this.currentCamera = camera;
+			this.rtpCapabilities = rtpCapabilities;
 			this.consumer = await this.transport.consume({
 				producerId: camera.producer.id,
 				rtpCapabilities,
@@ -138,16 +126,13 @@ export class StreamingClient {
 			});
 
 			await this.consumer.resume();
-			this.consumer.on('transportclose', () => {
-				console.log("Consumer Transport closed");
-			});
-
+			this.consumer.on('transportclose', () => console.log("Consumer Transport closed"));
 			this.consumer.on('producerclose', () => {
-				console.log("FFmpeg Producer closed");
+				console.log("Producer closed");
 				this.consumer.close();
 			});
-
-			// Send Consumer parameters to the client
+			if(record)
+				this.startRecording(cameraId, clipPath).then(() =>{});
 			callback({
 				params: {
 					id: this.consumer.id,
@@ -156,15 +141,31 @@ export class StreamingClient {
 					rtpParameters: this.consumer.rtpParameters,
 				}
 			});
-
 		} catch (error) {
 			console.error(error.message);
 			callback({ error: error.message });
 		}
-
 	}
 
 	async resume(){
-		await this.consumer.resume()
+		await this.consumer.resume();
+	}
+
+	async getCamera(rtpCapabilities, cameraId){
+		const camera = await this.streamFactory(cameraId);
+		if (!camera.canConsume({ rtpCapabilities })) {
+			console.error("❌ Client does not support stream");
+			console.log(JSON.stringify(rtpCapabilities, null, 2));
+			return {error: "Cannot consume stream", camera: undefined};
+		}
+		return {camera: camera, error: undefined};
+
+	}
+	async startRecording(cameraId, clipPath) {
+		//return;
+		await this.recorderClient?.stopRecording();
+		const filename = clipPath || `/recordings/${this.currentCamera.id}_${this.socket.id}_${Date.now()}.mp4`;
+		this.recorderClient = new RecorderClient(this.streamFactory, this.router)
+		await this.recorderClient.startRecording(cameraId, filename);
 	}
 }

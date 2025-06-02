@@ -65,8 +65,11 @@
     ports:
       - "3000:3000"
       - "20000-20020:20000-20020"
+    environment:
+      RECORDER_DIR: "/media_storage/clips"
     volumes:
       -  ./src/hosts/MediaServer/certs:/certs/ssl
+      - snapshots_volume:/media_storage/clips
   cerberus-ui:
     build:
         context: ./cerberus-ui

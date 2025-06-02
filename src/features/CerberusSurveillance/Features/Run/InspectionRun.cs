@@ -12,6 +12,7 @@ public partial class InspectionRun() : Entity()
     
     public string CameraStreamingUrl { get; set; }
     
+    
     public string CameraDescription { get; set; }
     
     public Instant? StartedAt { get; set; }
@@ -23,6 +24,7 @@ public partial class InspectionRun() : Entity()
     public OperationRun OperationRun { get; set; }
     
     public string? ExecutorId { get; set; }
+    public string RecordedClipPath { get; set; }
     
 }
 

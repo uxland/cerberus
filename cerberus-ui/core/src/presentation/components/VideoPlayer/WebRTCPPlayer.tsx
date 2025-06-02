@@ -18,7 +18,7 @@ const getStreamInfo = async (cameraId: string) => {
     return streamInfo;
 };
 
-export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
+export function WebRTCPlayer({ cameraId, clipPath }: { cameraId: string, clipPath: string }) {
     const remoteVideoRef = useRef(null);
     const [socket, setSocket] = useState(null);
     const [device, setDevice] = useState(null);
@@ -177,7 +177,7 @@ export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
     const connectRecvTransport = (consumerTransport, socket, device) => {
         if (!consumerTransport || !socket || !device) Promise.resolve(undefined);
         return new Promise((resolve, fail) => {
-            socket.emit("consume", {cameraId, rtpCapabilities: device.rtpCapabilities }, async ({ params }) => {
+            socket.emit("consume", {cameraId, rtpCapabilities: device.rtpCapabilities, recordSettings: {record: true, clipPath} }, async ({ params }) => {
                 if (params.error) {
                     console.error("❌ Error consuming media:", params.error);
                     fail(params.error);
@@ -206,38 +206,7 @@ export function WebRTCPlayer({ cameraId }: { cameraId: string }) {
                 }
                 resolve(newConsumer);
                 return;
-                // ✅ Create a new MediaStream and add the track
-                const stream = new MediaStream();
-                stream.addTrack(newConsumer.track);
 
-                console.log("🎥 MediaStream object:", stream);
-
-                // ✅ Ensure the ref exists before setting
-                if (remoteVideoRef.current) {
-                    remoteVideoRef.current.srcObject = stream;
-                    remoteVideoRef.current.muted = false;
-                    remoteVideoRef.current.volume = 1;
-
-                    remoteVideoRef.current.onloadedmetadata = () => {
-                        console.log("🎥 Metadata loaded, playing video...");
-                        remoteVideoRef.current.play().catch((error) => {
-                            console.error("❌ Video play error:", error);
-                        });
-                    };
-
-                    console.log("✅ Remote video element updated!");
-                } else {
-                    console.warn("⚠️ Remote video ref is null!");
-                }
-
-                // ✅ Resume the consumer
-                socket.emit("consumer-resume", { consumerId: newConsumer.id }, (response) => {
-                    if (response.error) {
-                        console.error("❌ Error resuming consumer:", response.error);
-                    } else {
-                        console.log("✅ Consumer resumed successfully!");
-                    }
-                });
             });
         })
 

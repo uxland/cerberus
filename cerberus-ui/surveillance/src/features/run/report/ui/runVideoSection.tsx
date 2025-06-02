@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { InspectionRun } from "../../execution/domain/model";
+import {getImageUrl} from "@cerberus/core";
 
 interface RunVideoSectionProps {
     selectedInspection?: InspectionRun;
@@ -57,7 +58,7 @@ export const RunVideoSection = ({
                         controls
                         poster={selectedInspection?.cameraStreamingUrl}
                     >
-                        <source src="/assets/sample-video.mp4" type="video/mp4" />
+                        <source src={getImageUrl(selectedInspection.recordedClipPath)} type="video/mp4" />
                         {videoNotSupported}
                     </video>
                 </div>

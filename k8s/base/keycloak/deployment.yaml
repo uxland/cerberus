@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:25.0.0
+          args:
+            - start
+            - --https-port=8443
+            - --https-key-store-file=/opt/keycloak/conf/keycloak.p12
+            - --https-key-store-password=password
+            - --https-key-store-type=PKCS12
+            - --hostname=keycloak
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "cerberus"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "cerberus"
+            - name: KEYCLOAK_IMPORT
+              value: "/opt/keycloak/data/import/cerberus-realm.json"
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: realm
+              mountPath: /opt/keycloak/data/import/cerberus-realm.json
+              subPath: cerberus-realm.json
+            - name: keystore
+              mountPath: /opt/keycloak/conf/keycloak.p12
+              subPath: keycloak.p12
+            - name: profile
+              mountPath: /opt/keycloak/conf/user-profile.json
+              subPath: user-profile.json
+      volumes:
+        - name: realm
+          hostPath:
+            path: /mnt/data/keycloak/config/cerberus-realm-setup.json
+        - name: keystore
+          hostPath:
+            path: /mnt/data/keycloak/certs/keycloak.p12
+        - name: profile
+          hostPath:
+            path: /mnt/data/keycloak/config/user-profile.json

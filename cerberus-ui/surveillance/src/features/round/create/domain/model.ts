@@ -22,6 +22,7 @@ export interface Inspection {
     cameraId: string;
     cameraDescription: string;
     streamingUrl?: string;
+    imageUrl: string;
     operationId: string;
     operationDescription: string;
     order: number;
@@ -100,6 +101,7 @@ export const createOrUpdateInspection = (
             cameraId: camera.id,
             cameraDescription: camera.description,
             streamingUrl: camera.streamingUrl,
+            imageUrl: camera.imageUrl,
             operationId: operation.id,
             operationDescription: operation.description,
             order: idx >= 0 ? updated[idx].order : updated.length + 1
