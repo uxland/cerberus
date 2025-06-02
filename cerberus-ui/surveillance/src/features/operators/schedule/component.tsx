@@ -1,15 +1,20 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sendMediatorRequest } from '@cerberus/core';
 import { ListScheduledRuns } from './query';
 import { Box, CircularProgress } from "@mui/material";
 import { AcquireRun } from '../../run/acquire/command';
 import { isInCourse, ScheduledRunSummary } from "./model.ts";
 
-// Importar los estilos genera conflictos con los estilos de la aplicación principal
-// import '@uxland/cerberus-calendar/dist/style.css'
+// Import the local scheduler component instead of external library
+// import Scheduler from '@cerberus/core/src/presentation/components/uxland-cerberus-scheduler-component/Scheduler'
+// import { cerberusTheme } from '@cerberus/core/src/presentation/components/uxland-cerberus-scheduler-component/themes/cerberus'
+// import type { CalendarEvent } from '@cerberus/core/src/presentation/components/uxland-cerberus-scheduler-component/types/calendar'
 
-import { Calendar, cerberusTheme } from '@uxland/cerberus-calendar'
-import type { CalendarEvent } from '@uxland/cerberus-calendar'
+// Using external library (theme not applying correctly)
+import '@angeluxee/cerberus-calendar/dist/style.css'
+import { Calendar, cerberusTheme } from '@angeluxee/cerberus-calendar'
+import type { CalendarEvent } from '@angeluxee/cerberus-calendar'
+
 
 // const darkTheme = createTheme({
 //     palette: {
@@ -166,22 +171,22 @@ export const ScheduledRunsView = () => {
         {
             id: '1',
             title: 'Team Meeting',
-            start: new Date(2025, 4, 29, 10, 0), // May 29, 2025 10:00 AM
-            end: new Date(2025, 4, 29, 11, 0),   // May 29, 2025 11:00 AM
+            start: new Date(2025, 5, 2, 10, 0),  // June 2, 2025 10:00 AM
+            end: new Date(2025, 5, 2, 11, 0),    // June 2, 2025 11:00 AM
             color: '#3B82F6'
         },
         {
             id: '2',
             title: 'Project Review',
-            start: new Date(2025, 4, 30, 14, 0), // May 30, 2025 2:00 PM
-            end: new Date(2025, 4, 30, 15, 30),  // May 30, 2025 3:30 PM
+            start: new Date(2025, 5, 2, 14, 0),  // June 2, 2025 2:00 PM
+            end: new Date(2025, 5, 2, 15, 30),   // June 2, 2025 3:30 PM
             color: '#10B981'
         },
         {
             id: '3',
             title: 'Personal Appointment',
-            start: new Date(2025, 4, 31, 9, 0),  // May 31, 2025 9:00 AM
-            end: new Date(2025, 4, 31, 10, 0),   // May 31, 2025 10:00 AM
+            start: new Date(2025, 5, 2, 9, 0),   // June 2, 2025 9:00 AM
+            end: new Date(2025, 5, 2, 10, 0),    // June 2, 2025 10:00 AM
             color: '#F59E0B'
         }
     ];
