@@ -26,6 +26,7 @@
     "@uxland/react-services": "^1.0.3",
     "@aldabil/react-scheduler": "^3.0.5",
     "@microsoft/signalr": "^8.0.7",
+    "@mui/x-date-pickers": "^7.29.4",
     "inversify": "^6.0.2",
     "mediatr-ts": "^1.2.1",
     "react": "^18.2.0",

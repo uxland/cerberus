@@ -3,9 +3,10 @@ import { Typography } from "@mui/material";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { RunDetailsCard } from "../../report/ui/runDetailsCard";
 import { RunInspectionsList } from "../../report/ui/runInspectionsList";
-import { ReleaseActions } from "./components/ReleaseActions.tsx";
+
 import { sendMediatorRequest } from "@cerberus/core";
 import { ReleaseRun } from "./command.ts";
+import {ReleaseActions} from "./components/releaseActions.tsx";
 
 export default function ReleaseSurveillanceRun({ run, handler }: ExecutionStepArgs) {
     const title = useSurveillanceLocales("run.release.title");
