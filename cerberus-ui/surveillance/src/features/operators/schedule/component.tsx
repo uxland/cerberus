@@ -267,7 +267,9 @@ export const ScheduledRunsView = () => {
                         view="day"
                         config={{
                             theme: cerberusTheme,
-                            enableEventCreation: false
+                            enableEventCreation: false,
+                            startHour: 7,
+                            endHour: 22,
                         }}
                         onEventClick={(event: CalendarEvent) => {
                             console.log('Event clicked:', event);
