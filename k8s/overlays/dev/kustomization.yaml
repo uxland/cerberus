@@ -1,0 +1,6 @@
+resources:
+  - ../../base/postgres
+  - ../../base/keycloak
+  - ../../base/cerberus-back
+  - ../../base/media-server
+  - ../../base/cerberus-ui

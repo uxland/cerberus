@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: media-server
+  template:
+    metadata:
+      labels:
+        app: media-server
+    spec:
+      containers:
+        - name: media-server
+          image: media-server:latest
+          ports:
+            - containerPort: 443
+            - containerPort: 20000
+            - containerPort: 21000
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /app/storage
+      volumes:
+        - name: shared-storage
+          hostPath:
+            path: /mnt/data/cerberus-storage

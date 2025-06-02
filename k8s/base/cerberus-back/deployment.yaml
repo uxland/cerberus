@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cerberus-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cerberus-back
+  template:
+    metadata:
+      labels:
+        app: cerberus-back
+    spec:
+      containers:
+        - name: cerberus-back
+          image: cerberus-back:latest
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /app/storage
+      volumes:
+        - name: shared-storage
+          hostPath:
+            path: /mnt/data/cerberus-storage
