@@ -3,15 +3,11 @@ kind: Service
 metadata:
   name: media-server
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: media-server
   ports:
-    - port: 443
+    - name: https
+      port: 443
       targetPort: 443
-    - name: webrtc-low
-      port: 20000
-      targetPort: 20000
-    - name: webrtc-high
-      port: 21000
-      targetPort: 21000
+      protocol: TCP

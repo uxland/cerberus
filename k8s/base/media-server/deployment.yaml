@@ -17,12 +17,30 @@ spec:
           image: media-server:latest
           ports:
             - containerPort: 443
+              protocol: TCP
             - containerPort: 20000
-            - containerPort: 21000
+              hostPort: 20000
+              protocol: UDP
+            - containerPort: 20020
+              hostPort: 20020
+              protocol: UDP
+          env:
+            - name: PORT
+              value: "443"
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage
+            - name: ssl-certs
+              mountPath: /certs/ssl
       volumes:
         - name: shared-storage
           hostPath:
             path: /mnt/data/cerberus-storage
+        - name: ssl-certs
+          secret:
+            secretName: media-server-tls
+            items:
+              - key: tls.key
+                path: key.pem
+              - key: tls.crt
+                path: cert.pem

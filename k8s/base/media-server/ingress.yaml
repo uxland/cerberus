@@ -16,3 +16,7 @@ spec:
                 name: media-server
                 port:
                   number: 443
+  tls:
+    - hosts:
+        - media.cerberus.local
+      secretName: media-server-tls

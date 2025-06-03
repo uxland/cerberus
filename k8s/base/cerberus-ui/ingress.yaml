@@ -16,3 +16,7 @@ spec:
                 name: cerberus-ui
                 port:
                   number: 443
+  tls:
+    - hosts:
+        - cerberus-ui.local
+      secretName: cerberus-ui-tls

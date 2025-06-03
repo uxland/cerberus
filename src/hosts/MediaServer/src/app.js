@@ -103,8 +103,9 @@ const options = {
 }
 
 const httpsServer = https.createServer(options, app)
-httpsServer.listen(3000, () => {
-	console.log('listening on port: ' + 3000)
+const PORT = process.env.PORT || 3000;
+httpsServer.listen(PORT, () => {
+	console.log('listening on port: ' + PORT)
 })
 
 const io = new Server(httpsServer, {cors: {

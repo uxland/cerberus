@@ -17,6 +17,13 @@ spec:
           image: cerberus-back:latest
           ports:
             - containerPort: 443
+          env:
+            - name: Backends__PostgresQL__Marten
+              value: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+            - name: Backends__PostgresQL__Quartz
+              value: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office Quartz;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+            - name: SnaphotCaptures__FolderRoot
+              value: "/app/storage"
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage

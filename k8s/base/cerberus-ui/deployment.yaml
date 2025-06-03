@@ -17,3 +17,14 @@ spec:
           image: cerberus-ui:latest
           ports:
             - containerPort: 443
+          volumeMounts:
+            - name: cert
+              mountPath: /etc/nginx/ssl/nginx.crt
+              subPath: tls.crt
+            - name: cert
+              mountPath: /etc/nginx/ssl/nginx.key
+              subPath: tls.key
+      volumes:
+        - name: cert
+          secret:
+            secretName: cerberus-ui-tls
