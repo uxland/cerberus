@@ -6,11 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/release/component.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/release/component.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.demo.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.demo.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile.deploy" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/Dockerfile.deploy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skaffold.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/skaffold.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +69,9 @@
   ],
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -69,30 +80,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tasks/dev-environment-creation&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "tasks/dev-environment-creation",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "com.intellij.kubernetes.view.ui.settings.KubernetesViewConfigurable",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
