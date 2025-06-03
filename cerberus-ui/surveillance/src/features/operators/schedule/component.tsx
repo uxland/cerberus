@@ -11,10 +11,11 @@ import { isInCourse, ScheduledRunSummary } from "./model.ts";
 // import type { CalendarEvent } from '@cerberus/core/src/presentation/components/uxland-cerberus-scheduler-component/types/calendar'
 
 // Using external library 
-import '@angeluxee/cerberus-calendar/dist/style.css'
-import { Calendar, cerberusTheme } from '@angeluxee/cerberus-calendar'
-import type { CalendarEvent } from '@angeluxee/cerberus-calendar'
-
+// import '@angeluxee/cerberus-calendar/dist/style.css'
+// import { Calendar, cerberusTheme } from '@angeluxee/cerberus-calendar'
+// import type { CalendarEvent } from '@angeluxee/cerberus-calendar'
+import {Calendar, cerberusTheme} from './scheduler-component/index.ts';
+import type { CalendarEvent } from './scheduler-component/types/calendar.ts';
 export const ScheduledRunsView = () => {
     const [scheduledRuns, setScheduledRuns] = useState([]);
     const [busy, setBusy] = useState(true);

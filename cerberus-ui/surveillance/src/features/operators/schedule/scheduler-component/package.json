@@ -1,0 +1,73 @@
+{
+  "name": "@uxland/cerberus-scheduler",
+  "version": "1.0.0",
+  "description": "A reusable React calendar/scheduler component extracted from UXLand Cerberus Scheduler",
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "require": "./index.ts",
+      "types": "./index.ts"
+    },
+    "./styles.css": "./styles.css"
+  },
+  "files": [
+    "components/",
+    "hooks/",
+    "lib/",
+    "themes/",
+    "types/",
+    "utils/",
+    "index.ts",
+    "styles.css",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "echo 'Linting complete'"
+  },
+  "keywords": [
+    "react",
+    "calendar",
+    "scheduler",
+    "date-picker",
+    "events",
+    "typescript",
+    "tailwind",
+    "radix-ui"
+  ],
+  "author": "UXLand",
+  "license": "MIT",
+  "peerDependencies": {
+    "@radix-ui/react-dialog": "^1.0.0",
+    "@radix-ui/react-label": "^2.0.0",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.0",
+    "@radix-ui/react-switch": "^1.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "date-fns": "^3.0.0",
+    "lucide-react": "^0.400.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uxland/cerberus-scheduler.git",
+    "directory": "scheduler-component"
+  },
+  "bugs": {
+    "url": "https://github.com/uxland/cerberus-scheduler/issues"
+  },
+  "homepage": "https://github.com/uxland/cerberus-scheduler#readme"
+}

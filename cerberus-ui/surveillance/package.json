@@ -25,7 +25,7 @@
     "@mui/material": "^6.4.8",
     "@uxland/react-services": "^1.0.3",
     "@microsoft/signalr": "^8.0.7",
-    "@angeluxee/cerberus-calendar": "^1.0.2",
+    "@angeluxee/cerberus-calendar": "1.0.7",
     "inversify": "^6.0.2",
     "mediatr-ts": "^1.2.1",
     "react": "^18.2.0",
