@@ -1,7 +1,6 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Location;
 using Cerberus.BackOffice.Features.OrganizationalStructure.Shared;
 using Cerberus.Core.Domain;
-using Wolverine;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetupCamera;
 

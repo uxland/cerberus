@@ -5,5 +5,6 @@ namespace Cerberus.Core.XabeFFMpegClient.ConversionBuilders;
 
 public interface IConversionBuilderStep
 {
+    string SortKey { get; }
     Task<IConversion> Handle(IConversion conversion, CaptureSnapshotArguments captureSnapshotArguments);
 }

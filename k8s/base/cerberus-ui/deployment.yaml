@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cerberus-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cerberus-ui
+  template:
+    metadata:
+      labels:
+        app: cerberus-ui
+    spec:
+      containers:
+        - name: cerberus-ui
+          image: cerberus-ui:latest
+          ports:
+            - containerPort: 443
+          volumeMounts:
+            - name: cert
+              mountPath: /etc/nginx/ssl/nginx.crt
+              subPath: tls.crt
+            - name: cert
+              mountPath: /etc/nginx/ssl/nginx.key
+              subPath: tls.key
+      volumes:
+        - name: cert
+          secret:
+            secretName: cerberus-ui-tls

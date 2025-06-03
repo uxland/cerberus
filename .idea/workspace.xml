@@ -4,10 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="chore: progress">
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/options-question-input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/operation/create/ui/options-question-input.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/domain/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/execution/domain/model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/SetInspection/RunInspectionAnswers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/SetInspection/RunInspectionAnswers.cs" afterDir="false" />
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skaffold.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/skaffold.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +39,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="surv/features/create-operation" />
+        <entry key="$PROJECT_DIR$" value="features/record-surveillanced-clip" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,8 +61,17 @@
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
+  &quot;configuredContexts&quot;: [
+    {
+      &quot;name&quot;: &quot;k3d-cerberus-dev&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file:///Users/danipinartnadal/.kube/config&quot;
+    }
+  ],
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -67,7 +87,7 @@
     "JavaScript Debug.Browser Debug.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "back/surveillance/operation",
+    "git-widget-placeholder": "tasks/dev-environment-creation",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -79,8 +99,8 @@
     "npm.cerberus-ui > build.executor": "Run",
     "npm.cerberus-ui > dev.executor": "Run",
     "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
+    "settings.editor.selected.configurable": "com.intellij.kubernetes.view.ui.settings.KubernetesViewConfigurable",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -97,14 +117,14 @@
       <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/state" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.Browser Debug">
+    <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://cerberus-react-ui:5173" useFirstLineBreakpoints="true">
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
       </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://cerberus-react-ui:5173" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
     <configuration name="cerberus-ui/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
@@ -153,11 +173,16 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.cerberus-ui &gt; dev" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-WS-251.25410.117" />
       </set>
     </attachedChunks>
   </component>
@@ -213,6 +238,9 @@
       <workItem from="1744967135354" duration="626000" />
       <workItem from="1745656890734" duration="824000" />
       <workItem from="1745689779813" duration="21859000" />
+      <workItem from="1748264876769" duration="2157000" />
+      <workItem from="1748411536451" duration="578000" />
+      <workItem from="1748674610323" duration="1126000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -358,7 +386,23 @@
       <option name="project" value="LOCAL" />
       <updated>1744198422643</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="chore: progress">
+      <option name="closed" value="true" />
+      <created>1748768133732</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1748768133732</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Add postgres app to cerberus-dev">
+      <option name="closed" value="true" />
+      <created>1748768336651</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1748768336651</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,6 +414,7 @@
     <MESSAGE value="chore: routing added" />
     <MESSAGE value="chore: setup" />
     <MESSAGE value="chore: progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: progress" />
+    <MESSAGE value="Add postgres app to cerberus-dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add postgres app to cerberus-dev" />
   </component>
 </project>

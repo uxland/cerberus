@@ -16,6 +16,10 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
     public decimal? Price { get; set; }
     
     public int? ManufactureYear { get; set; }
+    
+    public string CameraImageUrl { get; set; }
+    
+    public string CameraImageThumbnailUrl { get; set; }
 }
 
 public interface ICameraEntityQueryProvider : IEntityQueryProvider<Camera>

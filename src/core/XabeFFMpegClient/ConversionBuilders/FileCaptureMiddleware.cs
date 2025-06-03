@@ -7,6 +7,7 @@ namespace Cerberus.Core.XabeFFMpegClient.CaptureMiddlewares;
 
 public class FileBuilder(ILogger<FileBuilder> logger) : IConversionBuilderStep
 {
+    public string SortKey => "005";
     public async Task<IConversion> Handle(IConversion conversion, CaptureSnapshotArguments captureSnapshotArguments)
     {
         if (IsFile(captureSnapshotArguments))

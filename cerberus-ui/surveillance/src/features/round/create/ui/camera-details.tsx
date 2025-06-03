@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LocationHierarchicalItem } from "@cerberus/organizational-structure";
 import { FormControl, Select, MenuItem } from "@mui/material";
+import {getImageUrl} from "@cerberus/core";
 
 interface CameraDetailsProps {
     cameras: LocationHierarchicalItem[];
@@ -98,7 +99,7 @@ export const CameraDetails: React.FC<CameraDetailsProps> = ({
                 <div className="w-full">
                     <img
                         className="w-full h-32 object-cover rounded-md"
-                        src="https://estaticos-cdn.prensaiberica.es/clip/9c2226f5-ce32-4647-a314-71a85bb2eec0_source-aspect-ratio_default_0.jpg"
+                        src={getImageUrl(cameras[0]?.imageThumbnailUrl)}
                         alt="Camera preview"
                     />
                 </div>

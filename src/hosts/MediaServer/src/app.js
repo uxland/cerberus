@@ -17,6 +17,7 @@ import mediasoup from 'mediasoup'
 import cors from 'cors';
 import CameraStream from "./camera-stream.js";
 import {StreamingClient} from "./streaming-client.js";
+import DualCameraStream from "./dual-camera-stream.js";
 
 const activeCameras = {};
 const killProcesses = () => {
@@ -30,7 +31,7 @@ const getCameraById = async(cameraId) => {
 	if (activeCameras[cameraId]) {
 		return activeCameras[cameraId];
 	} else {
-		const cameraStream = new CameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast'}        );
+		const cameraStream = new DualCameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast'}        );
 		await cameraStream.start();
 		activeCameras[cameraId] = cameraStream;
 		return cameraStream;
@@ -102,8 +103,9 @@ const options = {
 }
 
 const httpsServer = https.createServer(options, app)
-httpsServer.listen(3000, () => {
-	console.log('listening on port: ' + 3000)
+const PORT = process.env.PORT || 3000;
+httpsServer.listen(PORT, () => {
+	console.log('listening on port: ' + PORT)
 })
 
 const io = new Server(httpsServer, {cors: {
@@ -139,13 +141,27 @@ const mediaCodecs = [
 	},
 	{
 		kind: 'video',
-		mimeType: 'video/h264',
+		mimeType: 'video/H264',
+		preferredPayloadType: 96, // For GStreamer recording
 		clockRate: 90000,
 		parameters: {
-			'x-google-start-bitrate': 1000,
-		},
+			'packetization-mode': 1,
+			'profile-level-id': '42e01f',
+			'x-google-start-bitrate': 1000
+		}
 	},
-]
+	{
+		kind: 'video',
+		mimeType: 'video/H264',
+		preferredPayloadType: 97, // For WebRTC
+		clockRate: 90000,
+		parameters: {
+			'packetization-mode': 0,
+			'profile-level-id': '42e01f',
+			'x-google-start-bitrate': 1000
+		}
+	}
+];
 
 const createWorker = async () => {
 	worker = await mediasoup.createWorker({

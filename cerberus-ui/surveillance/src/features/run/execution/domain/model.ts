@@ -20,6 +20,13 @@ export const getCurrentCameraId = (run: Run): string | undefined => {
     }
     return undefined;
 }
+export const getCurrentCameraClipPath = (run: Run): string | undefined => {
+    const currentInspectionRun = getCurrentInspectionRun(run);
+    if (currentInspectionRun) {
+        return currentInspectionRun.recordedClipPath;
+    }
+    return undefined;
+}
 
 export interface InspectionRun {
     id: string;
@@ -32,6 +39,7 @@ export interface InspectionRun {
     status: RunStatus;
     operationRun: OperationRun;
     executorId?: string;
+    recordedClipPath: string;
 }
 
 export interface OperationRun {

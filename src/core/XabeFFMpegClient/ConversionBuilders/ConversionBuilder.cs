@@ -7,7 +7,7 @@ public class ConversionBuilder(IEnumerable<IConversionBuilderStep> builderSteps)
 {
     public async Task<IConversion> Build(IConversion conversion, CaptureSnapshotArguments captureSnapshotArguments)
     {
-        foreach (var builderStep in builderSteps.Reverse())
+        foreach (var builderStep in builderSteps.OrderBy(x => x.SortKey))
             conversion = await builderStep.Handle(conversion, captureSnapshotArguments);
         return conversion;
     }

@@ -1,7 +1,14 @@
-import {portNumbers} from "get-port";
 
 class PortPool {
 	constructor(start = 5000, end = 6000) {
+		//create a range of port numbers
+		const portNumbers = (start, end) => {
+			const ports = [];
+			for (let i = start; i <= end; i++) {
+				ports.push(i);
+			}
+			return ports;
+		};
 		this.availablePorts = new Set(portNumbers(start, end));
 		this.allocatedPorts = new Set();
 	}

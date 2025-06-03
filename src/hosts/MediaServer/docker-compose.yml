@@ -8,12 +8,21 @@ services:
     ports:
       - "3000:3000"
       - "20000-20020:20000-20020"
+    environment:
+      RECORDER_DIR: "/media_storage/clips"
     volumes:
       - ./src:/usr/src
       - ./certs:/certs/ssl
+      - snapshots_volume:/media_storage/clips
     networks:
       - cerberus
-
+volumes:
+  snapshots_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ../../../Snapshots
 networks:
   cerberus:
     external: true

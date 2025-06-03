@@ -206,19 +206,25 @@ internal class ValueEqualsSpecReader() : SpecReaderBase(nameof(ValueEqualsSpec<o
     {
         ISpec? result = null;
         reader.Read();
-        result = reader.TokenType switch
+        var genericType = typeof(T);
+        result = Type.GetTypeCode(genericType) switch
         {
-            JsonTokenType.String => new ValueEqualsSpec<string>(reader.GetString()!),
-            JsonTokenType.Number => BuildNumericSpec(ref reader),
-            JsonTokenType.True => new ValueEqualsSpec<bool>(true),
-            JsonTokenType.False => new ValueEqualsSpec<bool>(false),
-            _ => null
+            TypeCode.String => new ValueEqualsSpec<string>(reader.GetString()!),
+            TypeCode.Boolean => new ValueEqualsSpec<bool>(reader.GetBoolean()),
+             _ => BuildNumericSpec(ref reader)
         };
         return (Spec<T>?)result ?? throw new JsonException("Failed to read ValueEqualsSpec");
     }
 
     private static ISpec BuildNumericSpec(ref Utf8JsonReader reader)
     {
+        if (reader.TokenType != JsonTokenType.Number)
+        {
+            if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueEqualsSpec<int>(parserInt);
+            if(double.TryParse(reader.GetString()!, out var parserDouble)) return new ValueEqualsSpec<double>(parserDouble);
+            throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
+        }
+        
         if (reader.TryGetInt32(out var iintValue)) return new ValueEqualsSpec<int>(iintValue);
         if (reader.TryGetDouble(out var doubleValue)) return new ValueEqualsSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
@@ -232,18 +238,27 @@ internal class ValueGraterThanSpecReader() : SpecReaderBase(nameof(ValueGraterTh
     {
         ISpec? result = null;
         reader.Read();
-        result = reader.TokenType switch
+        var genericType = typeof(T);
+        result = Type.GetTypeCode(genericType) switch
         {
-            JsonTokenType.String => new ValueGraterThanSpec<string>(reader.GetString()!),
-            JsonTokenType.Number => BuildNumericSpec(ref reader),
-
-            _ => null
+            TypeCode.String => new ValueGraterThanSpec<string>(reader.GetString()!),
+            _ => BuildNumericSpec(ref reader)
         };
+        
         return (Spec<T>?)result ?? throw new JsonException("Failed to read ValueEqualsSpec");
     }
 
     private static ISpec BuildNumericSpec(ref Utf8JsonReader reader)
     {
+        //If reader token is a string, convert it to a double or int based on the value
+        if (reader.TokenType != JsonTokenType.Number)
+        {
+            if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueGraterThanSpec<int>(parserInt);
+            if(double.TryParse(reader.GetString()!, out var parserDouble)) return new ValueGraterThanSpec<double>(parserDouble);
+            throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
+        }
+        
+        
         if (reader.TryGetInt32(out var iintValue)) return new ValueGraterThanSpec<int>(iintValue);
         if (reader.TryGetDouble(out var doubleValue)) return new ValueGraterThanSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
@@ -257,18 +272,27 @@ internal class ValueLowerThanSpecReader() : SpecReaderBase(nameof(ValueLowerThan
     {
         ISpec? result = null;
         reader.Read();
-        result = reader.TokenType switch
+        var genericType = typeof(T);
+        result = Type.GetTypeCode(genericType) switch
         {
-            JsonTokenType.String => new ValueLowerThanSpec<string>(reader.GetString()!),
-            JsonTokenType.Number => BuildNumericSpec(ref reader),
-
-            _ => null
+            TypeCode.String => new ValueLowerThanSpec<string>(reader.GetString()!),
+            _ => BuildNumericSpec(ref reader)
         };
+        
         return (Spec<T>?)result ?? throw new JsonException("Failed to read ValueEqualsSpec");
     }
 
     private static ISpec BuildNumericSpec(ref Utf8JsonReader reader)
     {
+        //If reader token is a string, convert it to a double or int based on the value
+        if (reader.TokenType != JsonTokenType.Number)
+        {
+            if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueLowerThanSpec<int>(parserInt);
+            if(double.TryParse(reader.GetString()!, out var parserDouble)) return new ValueLowerThanSpec<double>(parserDouble);
+            throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
+        }
+        
+        
         if (reader.TryGetInt32(out var iintValue)) return new ValueLowerThanSpec<int>(iintValue);
         if (reader.TryGetDouble(out var doubleValue)) return new ValueLowerThanSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
