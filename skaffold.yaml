@@ -8,14 +8,24 @@ build:
   artifacts:
     - image: cerberus-back
       context: .
+      docker:
+        dockerfile: src/hosts/CerberusApi/Dockerfile
+        buildArgs:
+          BUILD_CONFIGURATION: Release
     - image: media-server
-      context: .
+      context: ./src/hosts/MediaServer
+      docker:
+        dockerfile: Dockerfile.deploy
     - image: cerberus-ui
-      context: .
-deploy:
+      context: ./cerberus-ui
+      docker:
+        dockerfile: Dockerfile
+manifests:
   kustomize:
     paths:
       - k8s/overlays/dev
+deploy:
+  kubectl: {}
 portForward:
   - resourceType: service
     resourceName: postgres

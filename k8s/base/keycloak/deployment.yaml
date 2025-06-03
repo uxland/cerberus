@@ -43,11 +43,12 @@ spec:
               subPath: user-profile.json
       volumes:
         - name: realm
-          hostPath:
-            path: /mnt/data/keycloak/config/cerberus-realm-setup.json
-        - name: keystore
-          hostPath:
-            path: /mnt/data/keycloak/certs/keycloak.p12
+          configMap:
+            name: keycloak-realm
         - name: profile
-          hostPath:
-            path: /mnt/data/keycloak/config/user-profile.json
+          configMap:
+            name: keycloak-profile
+        - name: keystore
+          secret:
+            secretName: keycloak-keystore
+
