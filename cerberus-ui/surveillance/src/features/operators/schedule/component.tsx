@@ -42,17 +42,6 @@ const startShceduledRun = (event: any) => {
     })
 };
 
-    const convertToCalendarEvents = (schedulerEvents: SchedulerEvent[]): CalendarEvent[] => {
-        return schedulerEvents.map(event => ({
-            id: event.event_id,
-            title: event.title,
-            start: event.start,
-            end: event.end,
-            backgroundColor: event.color,
-            run: event.run
-        }));
-    };
-
     /* Sample events - commented out, using real data from backend
     const sampleEvents: CalendarEvent[] = [
         {
@@ -151,7 +140,7 @@ const startShceduledRun = (event: any) => {
             ) : (
                 <div style={{ height: "100%", width: "100%", padding: '20px' }}>
                     <Calendar
-                        events={convertToCalendarEvents(scheduledRuns)}
+                        events={scheduledRuns}
                         view="day"
                         config={{
                             theme: cerberusTheme,
