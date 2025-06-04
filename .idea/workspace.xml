@@ -4,22 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skaffold.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/skaffold.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
-    </list>
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,25 +35,26 @@
     &quot;assignee&quot;: &quot;dpinart-uxland&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/uxland/cerberus.git&quot;,
-    &quot;accountId&quot;: &quot;888f5dde-6dc3-4e2a-a938-5b90a4c9867d&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/uxland/cerberus.git",
+    "accountId": "f9b47fd1-7d64-448a-aa29-f73a7b5811c3"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/cerberus-ui/node_modules/typescript/lib/lib.dom.d.ts" root0="SKIP_INSPECTION" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;configuredContexts&quot;: [
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "configuredContexts": [
     {
-      &quot;name&quot;: &quot;k3d-cerberus-dev&quot;,
-      &quot;kubeConfigUrl&quot;: &quot;file:///Users/danipinartnadal/.kube/config&quot;
+      "name": "minikube",
+      "kubeConfigUrl": "file://C:/Users/dpina/.kube/config",
+      "originalNamespace": "default"
     }
   ],
-  &quot;isMigrated&quot;: true
-}</component>
+  "isMigrated": true
+}]]></component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" />
   </component>
@@ -87,7 +73,8 @@
     "JavaScript Debug.Browser Debug.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "tasks/dev-environment-creation",
+    "git-widget-placeholder": "feat/surveillance/scheduler",
+    "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -241,6 +228,7 @@
       <workItem from="1748264876769" duration="2157000" />
       <workItem from="1748411536451" duration="578000" />
       <workItem from="1748674610323" duration="1126000" />
+      <workItem from="1749010638962" duration="6954000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -402,7 +390,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748768336651</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Add postgres app to cerberus-dev">
+      <option name="closed" value="true" />
+      <created>1749017511229</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1749017511229</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

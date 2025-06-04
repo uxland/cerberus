@@ -15,6 +15,9 @@ spec:
       containers:
         - name: media-server
           image: media-server:latest
+          env:
+            - name: PORT
+              value: "443"
           ports:
             - containerPort: 443
               protocol: TCP
@@ -24,9 +27,6 @@ spec:
             - containerPort: 20020
               hostPort: 20020
               protocol: UDP
-          env:
-            - name: PORT
-              value: "443"
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage

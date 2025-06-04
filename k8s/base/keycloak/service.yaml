@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: keycloak
 spec:
-  type: ClusterIP
   selector:
     app: keycloak
   ports:
-    - port: 443
+    - name: https
+      port: 443
       targetPort: 8443
+  type: ClusterIP
