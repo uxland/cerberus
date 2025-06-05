@@ -15,8 +15,19 @@ spec:
       containers:
         - name: cerberus-ui
           image: cerberus-ui:latest
+          env:
+            - name: VITE_AUTH_URL
+              value: "https://keycloak.local/"
+            - name: VITE_AUTH_REALM
+              value: "cerberus"
+            - name: VITE_AUTH_CLIENT_ID
+              value: "cerberus"
+            - name: VITE_CERBERUS_BACKEND_URL
+              value: "https://api.cerbeus.local/"
+            - name: VITE_CERBERUS_STREAMING_URL
+              value: "https://api.cerbeus.local/images"
           ports:
-            - containerPort: 443
+            - containerPort: 80
           volumeMounts:
             - name: cert
               mountPath: /etc/nginx/ssl/nginx.crt

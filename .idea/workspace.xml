@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev" />
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/docker.nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keycloak/config/cerberus-realm.json" beforeDir="false" afterPath="$PROJECT_DIR$/keycloak/config/cerberus-realm.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="features/record-surveillanced-clip" />
+        <entry key="$PROJECT_DIR$" value="feat/surveillance/scheduler" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,26 +45,26 @@
     &quot;assignee&quot;: &quot;dpinart-uxland&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/uxland/cerberus.git",
-    "accountId": "f9b47fd1-7d64-448a-aa29-f73a7b5811c3"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/uxland/cerberus.git&quot;,
+    &quot;accountId&quot;: &quot;f9b47fd1-7d64-448a-aa29-f73a7b5811c3&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/cerberus-ui/node_modules/typescript/lib/lib.dom.d.ts" root0="SKIP_INSPECTION" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "configuredContexts": [
+  <component name="KubernetesApiProvider">{
+  &quot;configuredContexts&quot;: [
     {
-      "name": "minikube",
-      "kubeConfigUrl": "file://C:/Users/dpina/.kube/config",
-      "originalNamespace": "default"
+      &quot;name&quot;: &quot;minikube&quot;,
+      &quot;kubeConfigUrl&quot;: &quot;file://C:/Users/dpina/.kube/config&quot;,
+      &quot;originalNamespace&quot;: &quot;default&quot;
     }
   ],
-  "isMigrated": true
-}]]></component>
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/src/hosts/MediaServer/src/package.json" />
   </component>
@@ -73,7 +83,7 @@
     "JavaScript Debug.Browser Debug.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feat/surveillance/scheduler",
+    "git-widget-placeholder": "tasks/kubernetes-setup",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
@@ -229,6 +239,7 @@
       <workItem from="1748411536451" duration="578000" />
       <workItem from="1748674610323" duration="1126000" />
       <workItem from="1749010638962" duration="6954000" />
+      <workItem from="1749102819713" duration="7914000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />

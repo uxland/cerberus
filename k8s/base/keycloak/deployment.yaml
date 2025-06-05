@@ -22,6 +22,10 @@ spec:
             - --https-key-store-password=password
             - --https-key-store-type=PKCS12
             - --hostname=keycloak.local
+            -  --import-realm
+            - --hostname-strict=false
+            - --hostname-strict-https=false
+            - --proxy=edge
           env:
             - name: KEYCLOAK_ADMIN
               value: "cerberus"
@@ -51,4 +55,3 @@ spec:
         - name: keystore
           secret:
             secretName: keycloak-keystore
-
