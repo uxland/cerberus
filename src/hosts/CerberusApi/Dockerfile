@@ -5,6 +5,11 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y ffmpeg python3 python3-pip python3-numpy python3-opencv libx264-dev --fix-missing 
 
+# TEMP: install debugging tools
+RUN apt-get update && \
+    apt-get install -y net-tools iproute2 curl && \
+    rm -rf /var/lib/apt/lists/*
+
 # Determine the installed Python version and set PYTHONNET_PYDLL
 RUN python_version=$(python3 -c "import sys; version=sys.version_info[:2]; print(f'{version[0]}.{version[1]}')") && \
     echo "${python_version}" > /tmp/python_version
@@ -48,6 +53,7 @@ COPY --from=publish /app/publish .
 # Expose ports
 EXPOSE 8080
 EXPOSE 8081
+EXPOSE 443
 
 # Entry point
 ENTRYPOINT ["dotnet", "CerberusApi.dll"]

@@ -6,7 +6,9 @@ COPY . /src
 RUN pnpm install --link
 
 ARG VITE_MODE=production
-ENV NODE_ENV=$VITE_MODE
+ENV NODE_ENV=${VITE_MODE}
+ENV VITE_MODE=${VITE_MODE}
+
 RUN pnpm build --filter @cerberus/app -- --mode $VITE_MODE
 
 

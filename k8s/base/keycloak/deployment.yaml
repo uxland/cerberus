@@ -24,7 +24,6 @@ spec:
             - --hostname=keycloak.local
             -  --import-realm
             - --hostname-strict=false
-            - --hostname-strict-https=false
             - --proxy=edge
           env:
             - name: KEYCLOAK_ADMIN

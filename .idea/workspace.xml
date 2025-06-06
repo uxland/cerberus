@@ -5,15 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/docker.nginx.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/certs/api.cerberus.local.cert.pfx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/base/cluster-issuer/kustomization.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/base/cluster-issuer/ltsencrypt.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/overlays/dev/cerberus-back/deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cerberus-ui/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/nginx.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keycloak/config/cerberus-realm.json" beforeDir="false" afterPath="$PROJECT_DIR$/keycloak/config/cerberus-realm.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/overlays/dev/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/overlays/dev/kustomization.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keycloak/config/cerberus-realm-setup.json" beforeDir="false" afterPath="$PROJECT_DIR$/keycloak/config/cerberus-realm-setup.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skaffold.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/skaffold.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/KeycloakClient/Shared/KeycloakApiClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeycloakClient/Shared/KeycloakApiClient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +94,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "tasks/kubernetes-setup",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "last_opened_file_path": "C:/Users/dpina/RiderProjects/cerberus-2/k8s/base/ClusterIssuer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -96,7 +105,7 @@
     "npm.cerberus-ui > build.executor": "Run",
     "npm.cerberus-ui > dev.executor": "Run",
     "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "com.intellij.kubernetes.view.ui.settings.KubernetesViewConfigurable",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -114,7 +123,7 @@
       <recent name="$PROJECT_DIR$/cerberus-ui/organizational-structure/src/features/state" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.Browser Debug">
+  <component name="RunManager" selected="Docker.Demo">
     <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://cerberus-react-ui:5173" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
@@ -239,7 +248,11 @@
       <workItem from="1748411536451" duration="578000" />
       <workItem from="1748674610323" duration="1126000" />
       <workItem from="1749010638962" duration="6954000" />
-      <workItem from="1749102819713" duration="7914000" />
+      <workItem from="1749102819713" duration="11782000" />
+      <workItem from="1749127395080" duration="593000" />
+      <workItem from="1749130538114" duration="2391000" />
+      <workItem from="1749133258352" duration="15897000" />
+      <workItem from="1749183395306" duration="5452000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -409,7 +422,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749017511229</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Add postgres app to cerberus-dev">
+      <option name="closed" value="true" />
+      <created>1749114338499</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1749114338499</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

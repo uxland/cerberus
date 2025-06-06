@@ -243,7 +243,8 @@
         "https://cerberus-react-ui/*",
         "https://cerberus-ui/*",
         "https://cerberus-ui:5173/*",
-        "https://localhost:5173/*"
+        "https://localhost:5173/*",
+        "https://cerberus-ui.local/*"
       ],
       "webOrigins": [
         "https://cerberus-ui:5173",
@@ -252,7 +253,8 @@
         "https://oauth.pstmn.io",
         "/*",
         "https://cerberus-react-ui",
-        "https://localhost:5173"
+        "https://localhost:5173",
+        "https://cerberus-ui.local"
       ],
       "notBefore": 0,
       "bearerOnly": false,

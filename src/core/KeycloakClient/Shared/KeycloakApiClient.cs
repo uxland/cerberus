@@ -1,11 +1,12 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Cerberus.Core.KeycloakClient.Shared;
 
-public class KeycloakApiClient(HttpClient httpClient,  IOptions<KeycloakOptions> options)
+public class KeycloakApiClient(HttpClient httpClient,  IOptions<KeycloakOptions> options, ILogger<KeycloakApiClient> logger)
 {
     private class TokenResponse
     {
@@ -28,6 +29,7 @@ public class KeycloakApiClient(HttpClient httpClient,  IOptions<KeycloakOptions>
             ["client_secret"] = _options.ClientSecret,
             ["grant_type"] = "client_credentials"
         };
+        logger.LogInformation("Requesting new access token for Keycloak client '{ClientId}' and secret '{Secret}", _options.ClientId, _options.ClientSecret);
 
         var response = await httpClient.PostAsync(
             $"realms/{_options.Realm}/protocol/openid-connect/token",

@@ -4,3 +4,6 @@ resources:
   - ../../base/cerberus-back
   - ../../base/media-server
   - ../../base/cerberus-ui
+  - ../../base/cluster-issuer
+patches:
+    - path: ./cerberus-back/deployment.yaml

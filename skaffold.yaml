@@ -20,6 +20,8 @@ build:
       context: ./cerberus-ui
       docker:
         dockerfile: Dockerfile
+        buildArgs:
+          VITE_MODE: production
 manifests:
   kustomize:
     paths:
@@ -47,3 +49,10 @@ portForward:
     resourceName: cerberus-ui
     port: 443
     localPort: 8446
+profiles:
+  - name: local
+    patches:
+      - op: replace
+        path: /build/artifacts/2/docker/buildArgs/VITE_MODE
+        value: production.local
+

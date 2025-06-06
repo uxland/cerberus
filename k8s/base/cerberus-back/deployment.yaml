@@ -28,10 +28,18 @@ spec:
               value: "https://keycloak.local/realms/cerberus"
             - name: Keycloak__BaseUrl
               value: "https://keycloak.local"
+            - name: Https__CertificatePath
+              value: "/https/cert.pfx"
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage
+            - name: https-certs
+              mountPath: /https
+              readOnly: true
       volumes:
         - name: shared-storage
           hostPath:
             path: /mnt/data/cerberus-storage
+        - name: https-certs
+          secret:
+            secretName: cerberus-api-tls
