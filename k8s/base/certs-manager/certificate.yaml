@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cerberus-wildcard-tls
+  namespace: cerberus
+spec:
+  secretName: cerberus-wildcard-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: "*.cerberus.instrumentaveralux.com"
+  dnsNames:
+    - "*.cerberus.instrumentaveralux.com"
