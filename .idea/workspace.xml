@@ -5,47 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
-      <change afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/certificate.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/certificate.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/base/keycloak/certificate.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/base/media-server/certificate.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/base/postgres/persistent-storage.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/base/shared/kustomization.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/base/shared/media-persistent-storage.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/config-maps/1-init-quartz.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/config-maps/cerberus-realm.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/config-maps/user-profile.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/create-configmaps.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8s/create-configmaps.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/certs-manager/certificate.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/certs-manager/certificate.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/certs-manager/cluster-issuer.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/certs-manager/cluster-issuer.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/certs-manager/credentials.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/certs-manager/credentials.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/keycloak/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/keycloak/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/ingress.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/postgres/configmap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/postgres/configmap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/postgres/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/postgres/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/postgres/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/postgres/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/postgres/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/postgres/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/overlays/dev/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/overlays/dev/cerberus-back/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/overlays/dev/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/overlays/dev/kustomization.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Startup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/appsettings.Development.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +243,7 @@
       <workItem from="1749130538114" duration="2391000" />
       <workItem from="1749133258352" duration="15897000" />
       <workItem from="1749183395306" duration="5452000" />
-      <workItem from="1749230148262" duration="7772000" />
+      <workItem from="1749230148262" duration="8556000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
