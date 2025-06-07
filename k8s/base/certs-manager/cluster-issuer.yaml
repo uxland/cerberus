@@ -10,17 +10,7 @@ spec:
       name: letsencrypt-dns01
     solvers:
       - dns01:
-          webhook:
-            groupName: acme.instrumentaveralux.com
-            solverName: ovh
-            config:
-              endpoint: ovh-eu
-              applicationKeySecretRef:
-                name: ovh-api-credentials
-                key: applicationKey
-              applicationSecretSecretRef:
-                name: ovh-api-credentials
-                key: applicationSecret
-              consumerKeySecretRef:
-                name: ovh-api-credentials
-                key: consumerKey
+          cloudflare:  # Or leave blank if using API token
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token

@@ -17,6 +17,7 @@ public class Startup(WebApplicationBuilder builder)
         "cerberus-ui",
         "cerberus-react-ui",
         "cerberus-ui.local",
+        "ui.glaux-serverus.eu"
     ];
     public void ConfigureServices(IServiceCollection services)
     {

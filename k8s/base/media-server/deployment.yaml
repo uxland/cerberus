@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: media-server
+  namespace: cerberus
 spec:
   replicas: 1
   selector:
@@ -17,9 +18,9 @@ spec:
           image: media-server:latest
           env:
             - name: PORT
-              value: "443"
+              value: "8080"
           ports:
-            - containerPort: 443
+            - containerPort: 8080
               protocol: TCP
             - containerPort: 20000
               hostPort: 20000
@@ -30,17 +31,7 @@ spec:
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage
-            - name: ssl-certs
-              mountPath: /certs/ssl
       volumes:
         - name: shared-storage
-          hostPath:
-            path: /mnt/data/cerberus-storage
-        - name: ssl-certs
-          secret:
-            secretName: media-server-tls
-            items:
-              - key: tls.key
-                path: key.pem
-              - key: tls.crt
-                path: cert.pem
+          persistentVolumeClaim:
+            claimName: media-shared-storage

@@ -1,0 +1,453 @@
+{
+  "id": "cerberus",
+  "realm": "cerberus",
+  "enabled": true,
+  "displayName": "Cerberus",
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "registrationAllowed": false,
+  "users": [
+    {
+      "id": "85d3c858-a54f-49b7-9682-65a3c6d5e58e",
+      "username": "admin",
+      "firstName": "Admin",
+      "lastName": "Admin",
+      "email": "dpinart@uxland.cat",
+      "emailVerified": true,
+      "createdTimestamp": 1728198895764,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "enabled": true,
+      "totp": false,
+      "credentials": [
+        {
+          "id": "c36f1a7c-8abd-48b1-a2cb-14f5ee80aba8",
+          "type": "password",
+          "value": "cerberus",
+          "createdDate": 1728795902872,
+          "secretData": "{\"value\":\"UjJvZLlCDtnzNQBnVyYnzTBRDiyKrMheWdRTTOL6BC8=\",\"salt\":\"drAsa9Ret9HjEgx0DRmIng==\",\"additionalParameters\":{}}",
+          "credentialData": "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-cerberus"
+      ],
+      "notBefore": 0,
+      "groups": [
+        "/god"
+      ]
+    },
+    {
+      "username": "org-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cerberus",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus": [
+          "organization-structure::manager"
+        ]
+      }
+    },
+    {
+      "username": "maint-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cerberus",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus": [
+          "maintenance::manager"
+        ]
+      }
+    },
+    {
+      "username": "maint-consultant",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cerberus",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus": [
+          "maintenance::consultant"
+        ]
+      }
+    },
+    {
+      "username": "maint-operator",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cerberus",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus": [
+          "maintenance::operator"
+        ]
+      }
+    },
+    {
+      "username": "surv-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cerberus",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus": [
+          "surveillance::manager"
+        ]
+      }
+    },
+    {
+      "username": "surv-keeper",
+      "enabled": true,
+      "emailVerified": true,
+      "attributes": {
+        "rootLocationId": [
+          "root"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cerberus",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [],
+      "clientRoles": {
+        "cerberus": [
+          "surveillance::keeper"
+        ]
+      }
+    },
+    {
+      "username": "service-account-cerberus-service-user",
+      "enabled": true,
+      "serviceAccountClientId": "cerberus-service-user",
+      "realmRoles": [],
+      "clientRoles": {
+        "realm-management": [
+          "view-users",
+          "view-groups",
+          "view-realm"
+        ]
+      }
+    }
+  ],
+  "roles": {
+    "client": {
+      "cerberus": [
+        {
+          "name": "organization-structure::admin"
+        },
+        {
+          "name": "maintenance::manager"
+        },
+        {
+          "name": "maintenance::consultant"
+        },
+        {
+          "name": "maintenance::operator"
+        },
+        {
+          "name": "maintenance::admin"
+        },
+        {
+          "name": "surveillance::manager"
+        },
+        {
+          "name": "surveillance::keeper"
+        }
+      ]
+    }
+  },
+  "clients": [
+    {
+      "id": "251e0dfe-c7f2-4c5c-b3c9-06e40e753ba5",
+      "clientId": "cerberus",
+      "name": "Cerberus UI Client",
+      "description": "",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "https://cerberus-react-ui:5173/*",
+        "https://oauth.pstmn.io/*",
+        "/*",
+        "https://cerberus-react-ui/*",
+        "https://cerberus-ui/*",
+        "https://cerberus-ui:5173/*",
+        "https://localhost:5173/*",
+        "https://cerberus-ui.local/*"
+      ],
+      "webOrigins": [
+        "https://cerberus-ui:5173",
+        "https://cerberus-react-ui:5173",
+        "https://cerberus-ui",
+        "https://oauth.pstmn.io",
+        "/*",
+        "https://cerberus-react-ui",
+        "https://localhost:5173",
+        "https://cerberus-ui.local"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "client.secret.creation.time": "1728517214",
+        "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "a3d71a3c-3db4-433b-9f72-fc6f3fe415bb",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "5a4f5464-15ea-45f9-9f99-69b2cb264f43",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "7d1bed9e-29eb-41f6-b899-78d23792ed88",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "client_id",
+            "introspection.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "cerberus",
+            "id.token.claim": "true",
+            "access.token.claim": "true"
+          }
+        },
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "claim.name": "groups",
+            "full.path": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "cerberus-audience",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "cerberus-service-user",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "ca4573f4-73de-43f1-9a2e-72985dfdbdbc",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "rootUrl": "",
+      "redirectUris": [],
+      "webOrigins": [],
+      "defaultRoles": [],
+      "protocolMappers": [],
+      "attributes": {
+        "client.secret": "ca4573f4-73de-43f1-9a2e-72985dfdbdbc"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "92249bf0-3dd2-4f69-96f1-65a75accccf7",
+      "name": "god",
+      "path": "/god",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {
+        "realm-management": [
+          "impersonation",
+          "manage-identity-providers",
+          "manage-clients",
+          "manage-events",
+          "manage-users",
+          "manage-authorization",
+          "manage-realm",
+          "create-client"
+        ],
+        "cerberus": [
+          "maintenance::admin",
+          "organization-structure::admin",
+          "maintenance::operator",
+          "maintenance::consultant",
+          "maintenance::manager",
+          "surveillance::keeper",
+          "surveillance::manager"
+        ],
+        "broker": [
+          "read-token"
+        ],
+        "account": [
+          "manage-account-links",
+          "view-applications",
+          "delete-account",
+          "view-consent",
+          "manage-consent",
+          "view-profile",
+          "view-groups",
+          "manage-account"
+        ]
+      }
+    },
+    {
+      "id": "surveillance",
+      "name": "surveillance",
+      "path": "/surveillance",
+      "subGroups": []
+    },
+    {
+      "id": "maintenance",
+      "name": "maintenance",
+      "path": "/maintenance",
+      "subGroups": []
+    },
+    {
+      "id": "organization",
+      "name": "organization",
+      "path": "/organization",
+      "subGroups": []
+    }
+  ]
+}
