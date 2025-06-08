@@ -7,22 +7,26 @@ A fast and simple Kubernetes dev environment for Cerberus, using [k3d](https://k
 ## Prerequisites
 
 - [Docker](https://www.docker.com/)
-- [k3d](https://k3d.io/)  
+- [minikube](https://minikube.sigs.k8s.io/)  
   Install via [Homebrew](https://brew.sh/):  
-  `brew install k3d`  
-  Or see [k3d install docs](https://k3d.io/#installation/)
+  `brew install minikube`  
+  Or see [minikube install docs](https://minikube.sigs.k8s.io/docs/start/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Skaffold](https://skaffold.dev/docs/install/)
+
+
 
 · kubectl is the command-line tool for interacting with Kubernetes clusters.
 ```bash
    brew install kubectl 
 ```
-
-· k3d is a lightweight wrapper to run [k3s](https://k3s.io/) clusters in Docker.  
-  It simplifies the process of creating and managing Kubernetes clusters locally.
-```bash 
-  brew install k3d
+· start minikube with the Docker driver:
+```bash
+   minikube start --driver=docker
+```
+· Enable the Ingress addon in minikube:
+```bash
+   minikube addons enable ingress
 ```
 
 · Helm is a package manager for Kubernetes, which simplifies the deployment of applications.  
@@ -42,6 +46,14 @@ A fast and simple Kubernetes dev environment for Cerberus, using [k3d](https://k
   ```
   Or see [Skaffold install docs](https://skaffold.dev/docs/install/)
 
+· install traefik with helm:
+```bash
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+helm install traefik traefik/traefik --namespace kube-system --create-namespace
+```
+
+
 ## 1. Create a Local Directory for Shared Storage
 
 Before creating your cluster, please create a directory on your host machine that will be used for shared persistent storage by both the API and Media Server.
@@ -53,12 +65,6 @@ mkdir -p ~/cerberus/media
 ## 2. Create the k3d Cluster
 
 Open your terminal and run:
-
-```bash
-k3d cluster create cerberus \
-  --agents 1 \
-  --volume $HOME/cerberus/media:/cerberus-media
-```
 
 install cert-manager:
 
@@ -104,6 +110,13 @@ Add these lines to your `/etc/hosts` file:
 ---
 
 ## 4. Start the Development Environment
+
+
+Start minikube tunneling:
+
+```bash 
+minikube tunnel
+```
 
 In your project root, launch the development environment with Skaffold by running:
 

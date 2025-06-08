@@ -28,11 +28,11 @@ spec:
             - name: Backend_MediaServer__BaseUrl
               value: "http://media-server:8080"
             - name: Backend_MediaServer__StreamingUrl
-              value: "wss://media.glaux-serverus.eu/media-soup"
+              value: "wss://media.glaux-serverus.eu:8443/media-soup"
             - name: Authentication__Authority
               value: "https://keycloak.glaux-serverus.eu/realms/cerberus"
             - name: Keycloak__BaseUrl
-              value: "https://keycloak.glaux-serverus.eu"
+              value: "https://keycloak.glaux-serverus.eu:8443"
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage

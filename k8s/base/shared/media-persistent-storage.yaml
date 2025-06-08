@@ -8,4 +8,4 @@ spec:
     - ReadWriteMany    # <--- Needed for sharing between pods!
   resources:
     requests:
-      storage: 50Gi     # Adjust as needed
+      storage: 5Gi     # Adjust as needed

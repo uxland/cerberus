@@ -27,17 +27,18 @@ manifests:
     paths:
       - k8s/overlays/dev
 deploy:
+  helm:
+    releases:
+    - name: traefik
+      remoteChart: traefik
+      repo: https://helm.traefik.io/traefik
+      namespace: kube-system
+      version: 36.0.0
   kubectl: {}
-portForward:
-  - resourceType: service
-    resourceName: traefik
-    namespace: kube-system
-    port: 443
-    localPort: 8443
 profiles:
   - name: local
     patches:
       - op: replace
         path: /build/artifacts/2/docker/buildArgs/VITE_MODE
-        value: production.local
+        value: production.minikube
 
