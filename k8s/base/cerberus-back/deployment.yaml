@@ -13,10 +13,6 @@ spec:
       labels:
         app: cerberus-back
     spec:
-      hostAliases:
-        - ip: "10.107.6.208"
-          hostnames:
-            - "keycloak.glaux-serverus.eu"
       containers:
         - name: cerberus-back
           image: cerberus-back:latest
@@ -29,6 +25,10 @@ spec:
               value: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office Quartz;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
             - name: SnaphotCaptures__FolderRoot
               value: "/app/storage"
+            - name: Backend_MediaServer__BaseUrl
+              value: "http://media-server:8080"
+            - name: Backend_MediaServer__StreamingUrl
+              value: "wss://media.glaux-serverus.eu/media-soup"
             - name: Authentication__Authority
               value: "https://keycloak.glaux-serverus.eu/realms/cerberus"
             - name: Keycloak__BaseUrl

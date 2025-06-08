@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Cerberus.Core.Domain;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NodaTime;
 
 namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.Streaming;
@@ -12,7 +13,11 @@ public interface IStreamRegistry
     StreamingSession? GetSession(string cameraId);
 }
 
-internal class StreamingRegistry(IClock clock, ICameraStreamingController cameraStreamingController, IReadModelQueryProvider queryProvider, ILogger<StreamingRegistry> logger) : IStreamRegistry
+internal class StreamingRegistry(IClock clock, 
+    ICameraStreamingController cameraStreamingController, 
+    IReadModelQueryProvider queryProvider, 
+    ILogger<StreamingRegistry> logger, 
+    IOptions<StreamingOptions> streamingOptions) : IStreamRegistry
 {
     private static readonly ConcurrentDictionary<string, StreamingSession> Sessions = new();
 
@@ -56,7 +61,7 @@ internal class StreamingRegistry(IClock clock, ICameraStreamingController camera
             logger.LogError(e, "Failed to create streaming session for camera {CameraId}", cameraId);
         }
         
-        var session = new StreamingSession(cameraId, "wss://localhost:3000/media-soup", "pod-name", clock.GetCurrentInstant());
+        var session = new StreamingSession(cameraId, streamingOptions.Value.StreamingUrl, "pod-name", clock.GetCurrentInstant());
         return session;
     }
     

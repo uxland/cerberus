@@ -6,6 +6,6 @@ resources:
   - ../../base/media-server
   - ../../base/cerberus-ui
   - ../../base/certs-manager
-  - ../../base/shared
+  - ./shared
 patches:
     - path: ./cerberus-back/deployment.yaml

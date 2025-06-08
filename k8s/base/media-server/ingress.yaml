@@ -5,10 +5,9 @@ metadata:
   namespace: cerberus
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-dns01   # Update to match your ClusterIssuer
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
         - media.glaux-serverus.eu

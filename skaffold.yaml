@@ -30,25 +30,10 @@ deploy:
   kubectl: {}
 portForward:
   - resourceType: service
-    resourceName: postgres
-    port: 5432
-    localPort: 5432
-  - resourceType: service
-    resourceName: keycloak
+    resourceName: traefik
+    namespace: kube-system
     port: 443
     localPort: 8443
-  - resourceType: service
-    resourceName: cerberus-back
-    port: 443
-    localPort: 8444
-  - resourceType: service
-    resourceName: media-server
-    port: 443
-    localPort: 8445
-  - resourceType: service
-    resourceName: cerberus-ui
-    port: 443
-    localPort: 8446
 profiles:
   - name: local
     patches:

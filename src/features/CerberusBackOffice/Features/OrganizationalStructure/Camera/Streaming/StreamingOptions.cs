@@ -2,5 +2,6 @@
 
 public class StreamingOptions
 {
-    public string PodName { get; set; } = string.Empty;
+    public string BaseUrl { get; set; } = string.Empty;
+    public string StreamingUrl { get; set; } = string.Empty;
 }

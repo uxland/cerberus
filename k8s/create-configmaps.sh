@@ -4,7 +4,7 @@ NAMESPACE="${NAMESPACE:-cerberus}"
 
 # Create Keycloak realm configmap
 kubectl create configmap keycloak-realm \
-  --from-file=cerberus-realm.json=.../keycloak/config/cerberus-realm-setup.json \
+  --from-file=cerberus-realm.json=../keycloak/config/cerberus-realm-setup.json \
   --namespace="$NAMESPACE"
 
 # Create Keycloak profile configmap
