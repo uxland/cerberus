@@ -76,7 +76,7 @@ export class StreamingClient {
 	async createWebRtcTransport({sender}, callback) {
 		try {
 			const webRtcTransport_options = {
-				listenIps: [{ ip: '0.0.0.0', announcedIp: '127.0.0.1' }],
+				listenIps: [{ ip: '0.0.0.0', announcedIp: '192.168.49.2' }],
 				enableUdp: true, enableTcp: true, preferUdp: true,
 			}
 

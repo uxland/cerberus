@@ -8,7 +8,7 @@ RUN pnpm install --link
 ARG VITE_MODE=production
 ENV NODE_ENV=${VITE_MODE}
 ENV VITE_MODE=${VITE_MODE}
-
+RUN echo "VITE_MODE is set to: $VITE_MODE"
 RUN pnpm build --filter @cerberus/app -- --mode $VITE_MODE
 
 

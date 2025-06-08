@@ -244,7 +244,10 @@
         "https://cerberus-ui/*",
         "https://cerberus-ui:5173/*",
         "https://localhost:5173/*",
-        "https://cerberus-ui.local/*"
+        "https://cerberus-ui.local/*",
+        "https://ui.glaux-serverus.eu/*",
+        "https://*.ui.glaux-serverus.eu/*"
+
       ],
       "webOrigins": [
         "https://cerberus-ui:5173",
@@ -254,7 +257,8 @@
         "/*",
         "https://cerberus-react-ui",
         "https://localhost:5173",
-        "https://cerberus-ui.local"
+        "https://ui.glaux-serverus.eu",
+        "https://*.ui.glaux-serverus.eu"
       ],
       "notBefore": 0,
       "bearerOnly": false,

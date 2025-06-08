@@ -23,10 +23,46 @@ spec:
             - containerPort: 8080
               protocol: TCP
             - containerPort: 20000
-              hostPort: 20000
+              protocol: UDP
+            - containerPort: 20001
+              protocol: UDP
+            - containerPort: 20002
+              protocol: UDP
+            - containerPort: 20003
+              protocol: UDP
+            - containerPort: 20004
+              protocol: UDP
+            - containerPort: 20005
+              protocol: UDP
+            - containerPort: 20006
+              protocol: UDP
+            - containerPort: 20007
+              protocol: UDP
+            - containerPort: 20008
+              protocol: UDP
+            - containerPort: 20009
+              protocol: UDP
+            - containerPort: 20010
+              protocol: UDP
+            - containerPort: 20011
+              protocol: UDP
+            - containerPort: 20012
+              protocol: UDP
+            - containerPort: 20013
+              protocol: UDP
+            - containerPort: 20014
+              protocol: UDP
+            - containerPort: 20015
+              protocol: UDP
+            - containerPort: 20016
+              protocol: UDP
+            - containerPort: 20017
+              protocol: UDP
+            - containerPort: 20018
+              protocol: UDP
+            - containerPort: 20019
               protocol: UDP
             - containerPort: 20020
-              hostPort: 20020
               protocol: UDP
           volumeMounts:
             - name: shared-storage
