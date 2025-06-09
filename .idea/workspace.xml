@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
-      <change afterPath="$PROJECT_DIR$/MinikubeSetup.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme-deployment-dev.mac-os.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme-deployment-dev.mac-os.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-back/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/create-configmaps.sh" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/create-configmaps.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keycloak/config/cerberus-realm-setup.json" beforeDir="false" afterPath="$PROJECT_DIR$/keycloak/config/cerberus-realm-setup.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/IStreamRegistry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/IStreamRegistry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/StreamingOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/StreamingOptions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="tasks/kubernetes-setup-v3" />
+        <entry key="$PROJECT_DIR$" value="tasks/kubernetes-setup-v2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -91,7 +78,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "C:\\Users\\dpina\\AppData\\Roaming\\JetBrains\\WebStorm2025.1\\plugins\\Shell Script\\shellcheck.exe",
-    "git-widget-placeholder": "tasks/kubernetes-setup-v2",
+    "git-widget-placeholder": "tasks/kubernetes-setup-v2.1",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
@@ -446,7 +433,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749387521925</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Add postgres app to cerberus-dev">
+      <option name="closed" value="true" />
+      <created>1749413553488</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1749413553488</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
