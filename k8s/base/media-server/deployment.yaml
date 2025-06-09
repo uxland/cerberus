@@ -13,12 +13,17 @@ spec:
       labels:
         app: media-server
     spec:
+      hostNetwork: true
       containers:
         - name: media-server
           image: media-server:latest
           env:
             - name: PORT
               value: "8080"
+            - name: RECORDER_DIR
+              value:  "/app/storage"
+            - name: ANNOUNCED_IP
+              value: "192.168.49.2"
           ports:
             - containerPort: 8080
               protocol: TCP

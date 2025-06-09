@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,32 +73,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.Demo.executor": "Run",
-    "Docker.cerberus-ui/Dockerfile.executor": "Run",
-    "JavaScript Debug.Browser Debug.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "C:\\Users\\dpina\\AppData\\Roaming\\JetBrains\\WebStorm2025.1\\plugins\\Shell Script\\shellcheck.exe",
-    "git-widget-placeholder": "tasks/kubernetes-setup-v2.1",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.app > build.executor": "Run",
-    "npm.cerberus-ui > build.executor": "Run",
-    "npm.cerberus-ui > dev.executor": "Run",
-    "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\dpina\\AppData\\Roaming\\JetBrains\\WebStorm2025.1\\plugins\\Shell Script\\shellcheck.exe&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;tasks/kubernetes-setup-v2.1&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
+    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -248,6 +251,7 @@
       <workItem from="1749183395306" duration="5452000" />
       <workItem from="1749230148262" duration="8556000" />
       <workItem from="1749300986365" duration="35180000" />
+      <workItem from="1749451106644" duration="4838000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
