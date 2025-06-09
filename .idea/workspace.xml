@@ -5,10 +5,56 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/app/.env.production.minikube" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/coredns-demo.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/templates/certificate.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/values-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-api/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-ui/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-ui/templates/certificate.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-ui/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-ui/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-ui/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/cerberus-ui/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/certs-manager/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/certs-manager/templates/certificate.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/certs-manager/templates/cloudflare-secret.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/certs-manager/templates/cluster-issuer.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/certs-manager/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/keycloak/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/keycloak/templates/certificate.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/keycloak/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/keycloak/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/keycloak/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/keycloak/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/media-server/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/media-server/templates/certificate.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/media-server/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/media-server/templates/ingress.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/media-server/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/media-server/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/templates/configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/templates/deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/templates/persistent-storage.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/templates/service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/values-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/postgres/values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/shared-storage/Chart.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/shared-storage/templates/shared-pvc.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/charts/shared-storage/values.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/media-server/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MinikubeSetup.md" beforeDir="false" afterPath="$PROJECT_DIR$/MinikubeSetup.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8s/base/cerberus-ui/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/config-maps/1-init-quartz.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/config-maps/cerberus-realm.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8s/config-maps/user-profile.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/skaffold.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/skaffold.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +75,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="tasks/kubernetes-setup-v2" />
+        <entry key="$PROJECT_DIR$" value="tasks/kubernetes-setup-v2.1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -73,32 +119,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;C:\\Users\\dpina\\AppData\\Roaming\\JetBrains\\WebStorm2025.1\\plugins\\Shell Script\\shellcheck.exe&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tasks/kubernetes-setup-v2.1&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "/Users/danipinartnadal/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
+    "git-widget-placeholder": "tasks/kubernetes-setup-v2.1-helm",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -251,7 +297,8 @@
       <workItem from="1749183395306" duration="5452000" />
       <workItem from="1749230148262" duration="8556000" />
       <workItem from="1749300986365" duration="35180000" />
-      <workItem from="1749451106644" duration="4838000" />
+      <workItem from="1749451106644" duration="13026000" />
+      <workItem from="1749464859358" duration="15315000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -445,11 +492,30 @@
       <option name="project" value="LOCAL" />
       <updated>1749413553488</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Add postgres app to cerberus-dev">
+      <option name="closed" value="true" />
+      <created>1749456016033</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1749456016033</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />

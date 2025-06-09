@@ -3,17 +3,25 @@
  - [kubectl](https://kubernetes.io/docs/tasks/tools/) or
     
  - ``` bash  
-        brew install kubectl ```
+        brew install kubectl 
+   ```
+
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/)   
+    Install via [Homebrew](https://brew.sh/):  
+    ```bash
+    brew install minikube
+    ```
+
 - [Helm](https://helm.sh/docs/intro/install/)  
     Install via [Homebrew](https://brew.sh/):  
     ```bash
     brew install helm
     ```
-  - [Skaffold](https://skaffold.dev/docs/install/)  
-    Install via [Homebrew](https://brew.sh/):  
-    ```bash
-    brew install skaffold
-    ```
+- [Skaffold](https://skaffold.dev/docs/install/)  
+  Install via [Homebrew](https://brew.sh/):  
+  ```bash
+  brew install skaffold
+  ```
     
 verify installation:
 ```bash
@@ -83,7 +91,20 @@ Add these lines to your `/etc/hosts` file:
 > You will need to edit `C:\Windows\System32\drivers\etc\hosts` as an administrator.
 
 ---
-## 9. Start the Development Environment
+
+## 9 Setup ingress nginx
+
+```bash
+kubectl create namespace ingress-nginx
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+```
+
+
+## 10. Start the Development Environment
 
 
 Start minikube tunneling:
@@ -98,7 +119,7 @@ In your project root, launch the development environment with Skaffold by runnin
 skaffold dev --profile local
 ```
 
-## 10. Access Your Services
+## 11. Access Your Services
 
 Once your development environment is running, you can access the main Cerberus services in your browser.  
 If you receive a warning about self-signed certificates, it is safe to proceed in this development environment.
@@ -114,13 +135,26 @@ One source of conflict is the tls certs issued by the cert-manager.
 
 # List Certificates:
 ```bash 
-kubectl get certificates -n cerberus
+  kubectl get certificates -n cerberus
 ```
+
 Look for READY status as True for all:
 •	cerberus-ui-tls
 •	cerberus-back-tls
 •	media-server-tls
 •	keycloak-tls
+
+Check Cluster Issuer:
+```bash
+  kubectl get clusterissuer
+  kubectl describe clusterissuer letsencrypt-dns01
+```
+
+# Check certificate details:
+```bash
+    kubectl get certificates -n cerberus
+    kubectl describe certificate cerberus-ui-tls -n cerberus
+```
 
 Usually the issue is about coreDNS not being able to resolve the external domain names.
 ## 1Get minikube coredns.yaml from the repo 

@@ -1,0 +1,15 @@
+{{- if .Values.sharedPvc.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.sharedPvc.name }}
+  namespace: {{ .Values.sharedPvc.namespace }}
+spec:
+  accessModes:
+{{- range .Values.sharedPvc.accessModes }}
+    - {{ . }}
+{{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.sharedPvc.resources.requests.storage }}
+{{- end }}

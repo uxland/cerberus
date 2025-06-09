@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cerberus-api
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: cerberus-api
+  template:
+    metadata:
+      labels:
+        app: cerberus-api
+    spec:
+      containers:
+        - name: cerberus-api
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: Backends__PostgresQL__Marten
+              value: "{{ .Values.env.postgresMarten }}"
+            - name: Backends__PostgresQL__Quartz
+              value: "{{ .Values.env.postgresQuartz }}"
+            - name: SnaphotCaptures__FolderRoot
+              value: "{{ .Values.env.snapshotFolder }}"
+            - name: Backends__MediaServer__BaseUrl
+              value: "{{ .Values.env.mediaServerBaseUrl }}"
+            - name: Backends__MediaServer__StreamingUrl
+              value: "{{ .Values.env.mediaServerStreamingUrl }}"
+            - name: Authentication__Authority
+              value: "{{ .Values.env.authAuthority }}"
+            - name: Keycloak__BaseUrl
+              value: "{{ .Values.env.keycloakBaseUrl }}"
+          volumeMounts:
+            - name: shared-storage
+              mountPath: {{ .Values.storage.mountPath }}
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.storage.pvc }}

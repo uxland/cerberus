@@ -6,7 +6,7 @@ build:
   local:
     push: false
   artifacts:
-    - image: cerberus-back
+    - image: cerberus-api
       context: .
       docker:
         dockerfile: src/hosts/CerberusApi/Dockerfile
@@ -23,9 +23,35 @@ build:
         buildArgs:
           VITE_MODE: production
 manifests:
-  kustomize:
-    paths:
-      - k8s/overlays/dev
+  helm:
+    releases:
+      - name: postgres
+        chartPath: k8s/charts/postgres
+        valuesFiles:
+          - k8s/charts/postgres/values.yaml
+      - name: shared-storage
+        chartPath: k8s/charts/shared-storage
+      - name: certs-manager
+        chartPath: k8s/charts/certs-manager
+        valuesFiles:
+          - k8s/charts/certs-manager/values.yaml
+      - name: media-server
+        chartPath: k8s/charts/media-server
+        valuesFiles:
+          - k8s/charts/media-server/values.yaml
+      - name: keycloak
+        chartPath: k8s/charts/keycloak
+        valuesFiles:
+          - k8s/charts/keycloak/values.yaml
+      - name: cerberus-api
+        chartPath: k8s/charts/cerberus-api
+        valuesFiles:
+          - k8s/charts/cerberus-api/values.yaml
+      - name: cerberus-ui
+        chartPath: k8s/charts/cerberus-ui
+        valuesFiles:
+          - k8s/charts/cerberus-ui/values.yaml
+
 deploy:
   kubectl: {}
 portForward:
@@ -38,7 +64,7 @@ portForward:
     port: 443
     localPort: 8443
   - resourceType: service
-    resourceName: cerberus-back
+    resourceName: cerberus-api
     port: 443
     localPort: 8444
   - resourceType: service

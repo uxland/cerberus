@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cerberus-ui
-  namespace: cerberus
+  namespace: {{ .Values.namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: cerberus-ui
@@ -15,17 +15,17 @@ spec:
     spec:
       containers:
         - name: cerberus-ui
-          image: cerberus-ui:latest
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           env:
             - name: VITE_AUTH_URL
-              value: "https://keycloak.glaux-serverus.eu"
+              value: "{{ .Values.env.authUrl }}"
             - name: VITE_AUTH_REALM
-              value: "cerberus"
+              value: "{{ .Values.env.authRealm }}"
             - name: VITE_AUTH_CLIENT_ID
-              value: "cerberus"
+              value: "{{ .Values.env.authClientId }}"
             - name: VITE_CERBERUS_BACKEND_URL
-              value: "https://api.glaux-serverus.eu"
+              value: "{{ .Values.env.backendUrl }}"
             - name: VITE_CERBERUS_STREAMING_URL
-              value: "https://api.glaux-serverus.eu/images"
+              value: "{{ .Values.env.streamingUrl }}"
           ports:
             - containerPort: 80
