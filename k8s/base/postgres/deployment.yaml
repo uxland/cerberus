@@ -23,11 +23,12 @@ spec:
           volumeMounts:
             - name: init-db
               mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
       volumes:
         - name: init-db
-          hostPath:
-            path: /mnt/data/init-db
+          configMap:
+            name: quartz-init-script
         - name: postgres-data
           emptyDir: {}

@@ -43,6 +43,8 @@ export * from './utils/eventOverlap';
 // Hooks
 export * from './hooks/use-current-time';
 export * from './hooks/use-scrollbar-width';
+export * from './hooks/use-scrollbar-detection';
+export * from './hooks/use-dynamic-hour-height';
 
 // Utils
 export * from './lib/utils';

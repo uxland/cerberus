@@ -43,6 +43,7 @@ const getCameraById = async(cameraId) => {
 process.on('SIGINT', () => {
   console.log('Stopping GStreamer...');
   killProcesses();
+  worker.close();
   process.exit();
 });
 
@@ -103,7 +104,7 @@ const options = {
 }
 
 const httpsServer = https.createServer(options, app)
-const PORT = process.env.PORT || 3000;
+const PORT = Number.parseInt(process.env.PORT || "3000");
 httpsServer.listen(PORT, () => {
 	console.log('listening on port: ' + PORT)
 })

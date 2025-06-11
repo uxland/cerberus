@@ -21,7 +21,7 @@ spec:
             - --https-key-store-file=/opt/keycloak/conf/keycloak.p12
             - --https-key-store-password=password
             - --https-key-store-type=PKCS12
-            - --hostname=keycloak
+            - --hostname=keycloak.local
           env:
             - name: KEYCLOAK_ADMIN
               value: "cerberus"
