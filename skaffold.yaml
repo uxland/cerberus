@@ -81,4 +81,3 @@ profiles:
       - op: replace
         path: /build/artifacts/2/docker/buildArgs/VITE_MODE
         value: production.local
-

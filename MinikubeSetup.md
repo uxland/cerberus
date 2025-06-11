@@ -2,9 +2,9 @@
  - [Docker](https://www.docker.com/) or [OrbStack](https://www.orbstack.com/)
  - [kubectl](https://kubernetes.io/docs/tasks/tools/) or
     
- - ``` bash  
-        brew install kubectl 
-   ```
+- ``` bash  
+   brew install kubectl 
+  ```
 
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)   
     Install via [Homebrew](https://brew.sh/):  
@@ -25,40 +25,40 @@
     
 verify installation:
 ```bash
-kubectl version --client
-minikube version
-helm version
-skaffold version
+  kubectl version --client
+  minikube version
+  helm version
+  skaffold version
 ```
 
 ## 1. Start Minikube
 
 
 ```bash
-minikube start
+  minikube start
 ```
 ## 2. Enable Tunneling
 
 ```bash 
-minikube tunnel
+  minikube tunnel
 ```
 
 ## 3. Enable Ingress Addon
 
 ```bash 
-minikube addons enable ingress
+  minikube addons enable ingress
 ```
 
 ## 4. Install cert-manager
 
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
+  kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
 ```
 
 ## 5. Create the namespace
 
 ```bash 
-kubectl create namespace cerberus
+  kubectl create namespace cerberus
 ```
 
 ## 6. Enable Certificates
@@ -95,12 +95,12 @@ Add these lines to your `/etc/hosts` file:
 ## 9 Setup ingress nginx
 
 ```bash
-kubectl create namespace ingress-nginx
+  kubectl create namespace ingress-nginx
 
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
+  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+  helm repo update
 
-helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+  helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
 ```
 
 
@@ -110,13 +110,13 @@ helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
 Start minikube tunneling:
 
 ```bash 
-minikube tunnel
+  minikube tunnel
 ```
 
 In your project root, launch the development environment with Skaffold by running:
 
 ```bash
-skaffold dev --profile local
+  skaffold dev --profile local
 ```
 
 ## 11. Access Your Services
@@ -159,7 +159,7 @@ Check Cluster Issuer:
 Usually the issue is about coreDNS not being able to resolve the external domain names.
 ## 1Get minikube coredns.yaml from the repo 
 ```bash
-kubectl -n kube-system get configmap coredns -o yaml > coredns.yaml
+  kubectl -n kube-system get configmap coredns -o yaml > coredns.yaml
 ```
 ## 2 Change the file
 forward . /etc/resolv.conf
@@ -168,7 +168,7 @@ forward . 8.8.8.8
 
 check your minikube IP:
 ```bash
-minikube ip
+  minikube ip
 ```
 modify etc hosts to point servies to minikube IP:
 <pre>
@@ -190,9 +190,9 @@ add minikube IP to the file:
 
 ## 3 Apply the changes:
 ```bash
-kubectl -n kube-system apply -f coredns.yaml
+  kubectl -n kube-system apply -f coredns.yaml
 ```
 ## Restart the coredns pods:
 ```bash
-kubectl -n kube-system rollout restart deployment coredns
+  kubectl -n kube-system rollout restart deployment coredns
 ```
