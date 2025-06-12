@@ -13,7 +13,6 @@ import { useThemedStyles } from '../hooks/useThemedStyles';
 import { getLocale } from '../locales';
 import { cn, getThemeClass } from '../lib/utils';
 import "../styles/styles.css"
-// Import types from the types folder
 import {
   CronBuilderProps,
   FrequencyPreset,
@@ -270,6 +269,85 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
     }
   }, [value, isInitialized, parseCronExpression, defaultPreset]);
 
+  // Función auxiliar para optimizar valores específicos a rangos
+  const optimizeSpecificValues = (values: number[]): string => {
+    if (values.length === 0) return '*';
+
+    const sortedValues = [...values].sort((a, b) => a - b);
+    const optimized: string[] = [];
+
+    let i = 0;
+    while (i < sortedValues.length) {
+      const start = sortedValues[i];
+      let end = start;
+
+      // Buscar valores consecutivos
+      while (i + 1 < sortedValues.length && sortedValues[i + 1] === sortedValues[i] + 1) {
+        i++;
+        end = sortedValues[i];
+      }
+
+      // Si hay al menos 3 valores consecutivos, usar rango
+      if (end - start >= 2) {
+        optimized.push(`${start}-${end}`);
+      } else if (end === start) {
+        // Valor individual
+        optimized.push(start.toString());
+      } else {
+        // Solo 2 valores consecutivos, mostrar ambos
+        optimized.push(start.toString());
+        optimized.push(end.toString());
+      }
+
+      i++;
+    }
+
+    return optimized.join(',');
+  };
+
+  // Función auxiliar para optimizar valores específicos con etiquetas (para mes y día de semana)
+  const optimizeSpecificValuesWithLabels = (values: number[], options: any[]): string => {
+    if (values.length === 0) return '*';
+
+    const sortedValues = [...values].sort((a, b) => a - b);
+    const optimized: string[] = [];
+
+    let i = 0;
+    while (i < sortedValues.length) {
+      const start = sortedValues[i];
+      let end = start;
+
+      // Buscar valores consecutivos
+      while (i + 1 < sortedValues.length && sortedValues[i + 1] === sortedValues[i] + 1) {
+        i++;
+        end = sortedValues[i];
+      }
+
+      // Si hay al menos 3 valores consecutivos, usar rango con etiquetas
+      if (end - start >= 2) {
+        const startOption = options.find(opt => opt.value === start);
+        const endOption = options.find(opt => opt.value === end);
+        const startLabel = startOption?.label || start.toString();
+        const endLabel = endOption?.label || end.toString();
+        optimized.push(`${startLabel}-${endLabel}`);
+      } else if (end === start) {
+        // Valor individual
+        const option = options.find(opt => opt.value === start);
+        optimized.push(option?.label || start.toString());
+      } else {
+        // Solo 2 valores consecutivos, mostrar ambos con etiquetas
+        const startOption = options.find(opt => opt.value === start);
+        const endOption = options.find(opt => opt.value === end);
+        optimized.push(startOption?.label || start.toString());
+        optimized.push(endOption?.label || end.toString());
+      }
+
+      i++;
+    }
+
+    return optimized.join(',');
+  };
+
   const generateCronExpression = useMemo(() => {
     const generateFieldValue = (fieldName: keyof typeof fields): string => {
       const field = fields[fieldName];
@@ -282,7 +360,11 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
         case 'range':
           return `${field.rangeStart}-${field.rangeEnd}`;
         case 'specific':
-          return field.specificValues.join(',');
+          // Si no hay valores específicos, usar '*' como fallback
+          if (field.specificValues.length === 0) {
+            return '*';
+          }
+          return optimizeSpecificValues(field.specificValues);
         default:
           return '*';
       }
@@ -381,7 +463,6 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
           label: t.months[month.label as keyof typeof t.months],
           fullName: t.monthsFull[month.fullName as keyof typeof t.monthsFull]
         }));
-        console.log('Month options debug:', { monthOptions, tMonths: t.months });
         return {
           min: 1,
           max: 12,
@@ -393,7 +474,6 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
           label: t.weekdays[weekday.label as keyof typeof t.weekdays],
           fullName: t.weekdaysFull[weekday.fullName as keyof typeof t.weekdaysFull]
         }));
-        console.log('Weekday options debug:', { weekdayOptions, tWeekdays: t.weekdays });
         return {
           min: 0,
           max: 6,
@@ -426,30 +506,16 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
         return `${field.rangeStart}-${field.rangeEnd}`;
       case 'specific':
         if (field.specificValues.length === 0) {
-          return '';
+          return '*';
         }
 
-        // Debug: log para ver qué está pasando
-        console.log('getFieldDisplayValue debug:', {
-          fieldName,
-          specificValues: field.specificValues,
-          options,
-          hasOptions: options.length > 0
-        });
-
-        // Para campos con opciones (mes y día de semana), mostrar las etiquetas
+        // Para campos con opciones (mes y día de semana), mostrar las etiquetas optimizadas
         if (options.length > 0) {
-          const labels = field.specificValues.map(value => {
-            const option = options.find(opt => opt.value === value);
-            console.log('Finding option for value:', value, 'found:', option);
-            return option?.label || value.toString();
-          });
-          console.log('Final labels:', labels);
-          return labels.join(',');
+          return optimizeSpecificValuesWithLabels(field.specificValues, options);
         }
 
-        // Para campos numéricos, siempre mostrar los valores individuales
-        return field.specificValues.join(',');
+        // Para campos numéricos, usar optimización de rangos
+        return optimizeSpecificValues(field.specificValues);
       default:
         return '*';
     }
@@ -471,7 +537,7 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
               variant="outline"
               size={compact ? "sm" : "default"}
               className="justify-between min-w-[120px] max-w-[180px] rounded-lg"
-              style={themedStyles.button}
+              style={themedStyles.button} // Angel
             >
               <div className="flex items-center gap-2 min-w-0">
                 <Icon className="h-4 w-4 flex-shrink-0" />
@@ -571,10 +637,20 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
                               const newValues = isSelected
                                 ? field.specificValues.filter(v => v !== value)
                                 : [...field.specificValues, value].sort((a, b) => a - b);
-                              updateField(fieldName, {
-                                specificValues: newValues,
-                                value: newValues.join(','),
-                              });
+
+                              // Si no quedan valores seleccionados, cambiar a tipo 'every'
+                              if (newValues.length === 0) {
+                                updateField(fieldName, {
+                                  type: 'every',
+                                  specificValues: [],
+                                  value: '*',
+                                });
+                              } else {
+                                updateField(fieldName, {
+                                  specificValues: newValues,
+                                  value: newValues.join(','),
+                                });
+                              }
                             };
 
                             return (
@@ -632,8 +708,9 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
                         size="sm"
                         onClick={() => {
                           updateField(fieldName, {
+                            type: 'every',
                             specificValues: [],
-                            value: '',
+                            value: '*',
                           });
                         }}
                         className="text-xs h-6 px-2 hover:bg-opacity-10"

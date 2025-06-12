@@ -52,7 +52,6 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const [inspections, setInspections] = useState<Inspection[]>(roundEditionData.round.inspections);
     const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
     const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
-    const [cronBuilderValue, setCronBuilderValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
     const groups = roundEditionData.groups || [];
     // Inicializar clipDuration desde los datos existentes si existen
@@ -112,20 +111,12 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
 
     useEffect(() => {
         // Usamos cronBuilderValue como el valor principal que se envía al formulario
-        setValue("cronExpression", cronBuilderValue);
+        setValue("cronExpression", cronValue);
         register("cronExpression");
-
-    }, [cronValue, cronBuilderValue, setValue]);
-
-    // Synchronize cronValue when cronBuilderValue changes
-    useEffect(() => {
-        setCronValue(cronBuilderValue);
-    }, [cronBuilderValue]);
-
-    // Synchronize cronBuilderValue when cronValue changes
-    useEffect(() => {
-        setCronBuilderValue(cronValue);
-    }, [cronValue]);
+        // También sincronizamos cronValue para mantener compatibilidad
+        setCronValue(cronValue);
+        console.log("Cron builder value updated:", cronValue);
+    }, [cronValue, setValue, register]);
 
     const onSubmit = async (data: Round) => {
         onSubmitRequested?.(data as Round);
@@ -155,19 +146,23 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
 
                 </div>
 
-                <div className='space-y-2 mt-4'>
-                    <h1 className="font-bold text-primary mb-1">{useSurveillanceLocales("round.create.cronExpressionInput")} - Constructor Visual:</h1>
+                {/* <div className='space-y-2 mt-4'> */}
+                <div className='space-y-2 flex items-center gap-4'>
+                    <h1 className="font-bold text-primary">{useSurveillanceLocales("round.create.cronExpressionInput")}:</h1>
                     <CronBuilder
-                        value={cronBuilderValue}
-                        onChange={setCronBuilderValue}
+                        value={cronValue}
+                        onChange={setCronValue}
                         showDescription={false}
                         showPreview={false}
-                        showResult={true}
+                        showResult={false}
                         // defaultPreset={}
                         locale="es"
                         theme={cerberusTheme}
                         compact={false}
                     />
+                    {errors.cronExpression && (
+                        <p className="text-red-500">{errors.cronExpression.message}</p>
+                    )}
                 </div>
 
                 <div className='space-y-2 flex items-center gap-4'>
