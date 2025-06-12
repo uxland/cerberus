@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import { CameraItem } from './camera-item.tsx';
 import { CameraDetails } from './camera-details.tsx';
 import { z } from 'zod';
+import { CronBuilder } from './cron-builder-component/components/CronBuilder';
+import { cerberusTheme } from './cron-builder-component/index.ts';
 
 export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roundEditionData: RoundEditionData, onSubmitRequested: any }) => {
     const dynamicSchema = roundSchema.superRefine((data, ctx) => {
@@ -50,8 +52,9 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     const [inspections, setInspections] = useState<Inspection[]>(roundEditionData.round.inspections);
     const [selectedCamera, setSelectedCamera] = useState<string[]>([]);
     const [cronValue, setCronValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
+    const [cronBuilderValue, setCronBuilderValue] = useState(roundEditionData.round.executionRecurrencePattern || '0 0 * * *');
     const [selectedGroup, setSelectedGroup] = useState<string>(roundEditionData.round.assignedTo || '');
-    const [groups, setGroups] = useState(roundEditionData.groups || []);
+    const groups = roundEditionData.groups || [];
     // Inicializar clipDuration desde los datos existentes si existen
     const [clipDuration, setClipDuration] = useState<number>(
         roundEditionData.round.deferredExecution?.clipDurationInSeconds || 30
@@ -108,10 +111,21 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
     }, [inspections, setValue]);
 
     useEffect(() => {
-        setValue("cronExpression", cronValue);
+        // Usamos cronBuilderValue como el valor principal que se envía al formulario
+        setValue("cronExpression", cronBuilderValue);
         register("cronExpression");
 
-    }, [cronValue, setValue]);
+    }, [cronValue, cronBuilderValue, setValue]);
+
+    // Synchronize cronValue when cronBuilderValue changes
+    useEffect(() => {
+        setCronValue(cronBuilderValue);
+    }, [cronBuilderValue]);
+
+    // Synchronize cronBuilderValue when cronValue changes
+    useEffect(() => {
+        setCronBuilderValue(cronValue);
+    }, [cronValue]);
 
     const onSubmit = async (data: Round) => {
         onSubmitRequested?.(data as Round);
@@ -138,6 +152,22 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     {errors.cronExpression && (
                         <p className="text-red-500">{errors.cronExpression.message}</p>
                     )}
+
+                </div>
+
+                <div className='space-y-2 mt-4'>
+                    <h1 className="font-bold text-primary mb-1">{useSurveillanceLocales("round.create.cronExpressionInput")} - Constructor Visual:</h1>
+                    <CronBuilder
+                        value={cronBuilderValue}
+                        onChange={setCronBuilderValue}
+                        showDescription={false}
+                        showPreview={false}
+                        showResult={true}
+                        // defaultPreset={}
+                        locale="es"
+                        theme={cerberusTheme}
+                        compact={false}
+                    />
                 </div>
 
                 <div className='space-y-2 flex items-center gap-4'>
