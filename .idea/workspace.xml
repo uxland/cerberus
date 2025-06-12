@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report/bootstrapper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report/command.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report/handler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/Endpoint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/ExportFormat.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/Handler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/PdfComposer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/Query.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/SurveillanceRunReport.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cerberus.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MinikubeSetup.md" beforeDir="false" afterPath="$PROJECT_DIR$/MinikubeSetup.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/skaffold.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/skaffold.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/DomainCore/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/DomainCore/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/shared/src/boundaries/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/boundaries/api-client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/report/ui/report.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/report/ui/report.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Bootstrapper.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,32 +85,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/danipinartnadal/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;tasks/kubernetes-setup-v2.1-helm&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "/Users/danipinartnadal/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
+    "git-widget-placeholder": "surveillance/features/produce-run-pdf",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
@@ -109,11 +120,11 @@
       <recent name="C:\Users\dpina\RiderProjects\cerberus-2\k8s\config-maps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report" />
       <recent name="$PROJECT_DIR$/k8s/minikube" />
       <recent name="$PROJECT_DIR$/k8s/overlays/dev/postgres" />
       <recent name="$PROJECT_DIR$/k8s/overlays/dev/shared" />
       <recent name="C:\Users\dpina\RiderProjects\cerberus-2\k8s" />
-      <recent name="$PROJECT_DIR$/cerberus-ui/core/src/user-interaction/confirmation" />
     </key>
   </component>
   <component name="RunManager" selected="Docker.Demo">
@@ -256,7 +267,8 @@
       <workItem from="1749464859358" duration="15315000" />
       <workItem from="1749541030458" duration="622000" />
       <workItem from="1749573064746" duration="599000" />
-      <workItem from="1749624878359" duration="546000" />
+      <workItem from="1749624878359" duration="6232000" />
+      <workItem from="1749701982645" duration="11114000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
