@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report/bootstrapper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report/command.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report/handler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/Endpoint.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/ExportFormat.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/Handler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/PdfComposer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/Query.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Export/SurveillanceRunReport.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/core/src/api/api-client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/shared/src/boundaries/api-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/shared/src/boundaries/api-client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/report/ui/report.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/report/ui/report.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/Features/Run/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/surveillance/src/components/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/surveillance/src/components/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +79,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "/Users/danipinartnadal/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
-    "git-widget-placeholder": "surveillance/features/produce-run-pdf",
+    "git-widget-placeholder": "demo-2",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
     "node.js.detected.package.eslint": "true",
@@ -268,7 +254,7 @@
       <workItem from="1749541030458" duration="622000" />
       <workItem from="1749573064746" duration="599000" />
       <workItem from="1749624878359" duration="6232000" />
-      <workItem from="1749701982645" duration="11114000" />
+      <workItem from="1749701982645" duration="13065000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
