@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cerberus-ui
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: cerberus-ui
+  template:
+    metadata:
+      labels:
+        app: cerberus-ui
+    spec:
+      containers:
+        - name: cerberus-ui
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          env:
+            - name: VITE_AUTH_URL
+              value: "{{ .Values.env.authUrl }}"
+            - name: VITE_AUTH_REALM
+              value: "{{ .Values.env.authRealm }}"
+            - name: VITE_AUTH_CLIENT_ID
+              value: "{{ .Values.env.authClientId }}"
+            - name: VITE_CERBERUS_BACKEND_URL
+              value: "{{ .Values.env.backendUrl }}"
+            - name: VITE_CERBERUS_STREAMING_URL
+              value: "{{ .Values.env.streamingUrl }}"
+          ports:
+            - containerPort: 80

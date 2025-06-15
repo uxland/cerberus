@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-server
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: media-server
+  template:
+    metadata:
+      labels:
+        app: media-server
+    spec:
+      hostNetwork: {{ .Values.hostNetwork }}
+      containers:
+        - name: media-server
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          env:
+            - name: PORT
+              value: "{{ .Values.env.port }}"
+            - name: RECORDER_DIR
+              value: "{{ .Values.env.recorderDir }}"
+            - name: ANNOUNCED_IP
+              value: "{{ .Values.env.announcedIp }}"
+          ports:
+            - containerPort: {{ .Values.ports.tcp.containerPort }}
+              protocol: {{ .Values.ports.tcp.protocol }}
+{{- $start := .Values.ports.udp.startingPort }}
+{{- $amt := int .Values.ports.udp.amount }}
+{{- range $i, $e := until $amt }}
+            - containerPort: {{ add $start $i }}
+              protocol: UDP
+{{- end }}
+          volumeMounts:
+            - name: shared-storage
+              mountPath: {{ .Values.storage.mountPath }}
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.storage.pvc }}

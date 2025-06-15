@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          args:
+          {{- range .Values.args }}
+            - {{ . | quote }}
+          {{- end }}
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: {{ .Values.admin.username | quote }}
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: {{ .Values.admin.password | quote }}
+            - name: KEYCLOAK_IMPORT
+              value: {{ .Values.importFile | quote }}
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: realm
+              mountPath: {{ .Values.volumes.realm.mountPath }}
+              subPath: {{ .Values.volumes.realm.subPath }}
+            - name: profile
+              mountPath: {{ .Values.volumes.profile.mountPath }}
+              subPath: {{ .Values.volumes.profile.subPath }}
+      volumes:
+        - name: realm
+          configMap:
+            name: {{ .Values.volumes.realm.configMapName }}
+        - name: profile
+          configMap:
+            name: {{ .Values.volumes.profile.configMapName }}

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: keycloak
+  namespace: cerberus
 spec:
   replicas: 1
   selector:
@@ -17,11 +18,11 @@ spec:
           image: quay.io/keycloak/keycloak:25.0.0
           args:
             - start
-            - --https-port=8443
-            - --https-key-store-file=/opt/keycloak/conf/keycloak.p12
-            - --https-key-store-password=password
-            - --https-key-store-type=PKCS12
-            - --hostname=keycloak.local
+            - --http-port=8080
+            - --hostname=keycloak.glaux-serverus.eu
+            - --hostname-strict=false
+            - --proxy=edge
+            - --import-realm
           env:
             - name: KEYCLOAK_ADMIN
               value: "cerberus"
@@ -30,14 +31,11 @@ spec:
             - name: KEYCLOAK_IMPORT
               value: "/opt/keycloak/data/import/cerberus-realm.json"
           ports:
-            - containerPort: 8443
+            - containerPort: 8080
           volumeMounts:
             - name: realm
               mountPath: /opt/keycloak/data/import/cerberus-realm.json
               subPath: cerberus-realm.json
-            - name: keystore
-              mountPath: /opt/keycloak/conf/keycloak.p12
-              subPath: keycloak.p12
             - name: profile
               mountPath: /opt/keycloak/conf/user-profile.json
               subPath: user-profile.json
@@ -48,7 +46,3 @@ spec:
         - name: profile
           configMap:
             name: keycloak-profile
-        - name: keystore
-          secret:
-            secretName: keycloak-keystore
-

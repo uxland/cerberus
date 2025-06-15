@@ -1,0 +1,28 @@
+clusterIssuer:
+  enabled: true
+  name: letsencrypt-dns01
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: dpinart@uxland.cat
+    privateKeySecretRef: letsencrypt-dns01
+    cloudflareApiTokenSecretName: cloudflare-api-token-secret
+    cloudflareApiTokenSecretKey: api-token
+
+wildcardCertificate:
+  enabled: true
+  name: glaux-serverus-wildcard-tls
+  namespace: cerberus
+  secretName: glaux-serverus-wildcard-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: .glaux-serverus.eu
+  dnsNames:
+    - "*.glaux-serverus.eu"
+    - "glaux-serverus.eu"
+
+cloudflareSecret:
+  enabled: true
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+  apiToken: "atYiMIgL0CxKnHYCF_gae069B0MCCteS4ZDCP5wY"

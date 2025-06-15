@@ -1,0 +1,4 @@
+resources:
+    - cluster-issuer.yaml
+    - credentials.yaml
+    - certificate.yaml

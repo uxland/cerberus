@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  namespace: cerberus
 spec:
   replicas: 1
   selector:
@@ -31,4 +32,5 @@ spec:
           configMap:
             name: quartz-init-script
         - name: postgres-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: postgres-data

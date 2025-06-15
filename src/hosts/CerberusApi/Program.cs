@@ -20,6 +20,7 @@ public class Program
         builder.Host.ApplyOaktonExtensions();
 
         var startup = new Startup(builder);
+        startup.SetupHttps();
         startup.ConfigureServices(builder.Services);
         var app = builder.Build();
         startup.Configure(app, builder.Environment);

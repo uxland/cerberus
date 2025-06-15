@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: glaux-serverus-wildcard-tls
+  namespace: cerberus    # Use your actual namespace
+spec:
+  secretName: glaux-serverus-wildcard-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: "*.glaux-serverus.eu"
+  dnsNames:
+    - "*.glaux-serverus.eu"
+    - "glaux-serverus.eu"

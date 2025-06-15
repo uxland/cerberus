@@ -1,5 +1,4 @@
-﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.JoinStream;
-using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.Streaming.JoinStream;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.Streaming.JoinStream;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,10 +14,10 @@ internal static class Bootstrapper
     }
     public static IServiceCollection UseCameraStreaming(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
+        serviceCollection.Configure<StreamingOptions>(configuration.GetSection("Backends:MediaServer"));
         return serviceCollection
             .ConfigureMediaServerHttpClient(configuration)
             .AddScoped<IStreamRegistry, StreamingRegistry>();
-        //  .AddScoped<ICameraStreamingController, CameraStreamingController>();
     }
 
     private static IServiceCollection ConfigureMediaServerHttpClient(this IServiceCollection serviceCollection,
@@ -31,7 +30,10 @@ internal static class Bootstrapper
             })
             .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
-                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+#if DEBUG
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator       
+#endif
+         
             });
         return serviceCollection;
     }

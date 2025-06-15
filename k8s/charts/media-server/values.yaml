@@ -1,0 +1,68 @@
+replicaCount: 1
+
+image:
+  repository: media-server
+  tag: latest
+
+namespace: cerberus
+
+hostNetwork: true
+
+env:
+  port: "8080"
+  recorderDir: "/app/storage"
+  announcedIp: "192.168.49.2"
+
+ports:
+  tcp:
+    containerPort: 8080
+    protocol: TCP
+  udp:
+    startingPort: 20000
+    amount: 21
+
+storage:
+  pvc: media-shared-storage
+  mountPath: /app/storage
+
+certificate:
+  enabled: true
+  name: media-server-tls
+  namespace: cerberus
+  secretName: media-server-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: media.glaux-serverus.eu
+  dnsNames:
+    - media.glaux-serverus.eu
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: media.glaux-serverus.eu
+      paths:
+        - /
+  tls:
+    - hosts:
+        - media.glaux-serverus.eu
+      secretName: media-server-tls
+  servicePort: 80
+  serviceName: media-server
+
+service:
+  enabled: true
+  name: media-server
+  namespace: cerberus
+  type: NodePort
+  selector:
+    app: media-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP

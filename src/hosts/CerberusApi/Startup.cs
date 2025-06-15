@@ -15,7 +15,9 @@ public class Startup(WebApplicationBuilder builder)
     [
         "localhost",
         "cerberus-ui",
-        "cerberus-react-ui"
+        "cerberus-react-ui",
+        "cerberus-ui.local",
+        "ui.glaux-serverus.eu"
     ];
     public void ConfigureServices(IServiceCollection services)
     {
@@ -73,5 +75,41 @@ public class Startup(WebApplicationBuilder builder)
             endpoints.MapControllers();
         });
     }
-    
+
+    public void SetupHttps()
+    {
+        var settings = HttpsSettings.Parse(builder.Configuration);
+
+        Console.WriteLine($"[HTTPS] Path: {settings.CertificatePath}");
+        Console.WriteLine($"[HTTPS] Password is {(string.IsNullOrEmpty(settings.CertificatePassword) ? "not set" : "set")}");
+
+        if (string.IsNullOrEmpty(settings.CertificatePassword))
+        {
+            Console.WriteLine("[HTTPS] Skipping HTTPS setup because password is missing.");
+            return;
+        }
+
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.ListenAnyIP(443, listenOptions =>
+            {
+                Console.WriteLine($"[HTTPS] Binding to port 443 with cert: {settings.CertificatePath}");
+                listenOptions.UseHttps(settings.CertificatePath ?? "/https/cert.pfx", settings.CertificatePassword);
+            });
+        });
+    }
+
+
+    private record HttpsSettings(
+        string? CertificatePath,
+        string? CertificatePassword
+    )
+    {
+        public static HttpsSettings Parse(IConfiguration configuration)
+        {
+            var path = configuration.GetSection("Https:CertificatePath").Value;
+            var password = configuration.GetSection("Https:CertificatePassword").Value;
+           return new HttpsSettings(path, password);
+        }
+    }
 }

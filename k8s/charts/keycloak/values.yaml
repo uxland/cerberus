@@ -1,0 +1,75 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: "25.0.0"
+
+namespace: cerberus
+
+hostname: keycloak.glaux-serverus.eu
+
+admin:
+  username: cerberus
+  password: cerberus
+
+importFile: "/opt/keycloak/data/import/cerberus-realm.json"
+args:
+  - start
+  - --http-port=8080
+  - --hostname=keycloak.glaux-serverus.eu
+  - --hostname-strict=false
+  - --proxy=edge
+  - --import-realm
+volumes:
+  realm:
+    configMapName: keycloak-realm
+    mountPath: /opt/keycloak/data/import/cerberus-realm.json
+    subPath: cerberus-realm.json
+  profile:
+    configMapName: keycloak-profile
+    mountPath: /opt/keycloak/conf/user-profile.json
+    subPath: user-profile.json
+
+certificate:
+  enabled: true
+  name: keycloak-tls
+  namespace: cerberus
+  secretName: keycloak-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: keycloak.glaux-serverus.eu
+  dnsNames:
+    - keycloak.glaux-serverus.eu
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: keycloak.glaux-serverus.eu
+      paths:
+        - /
+  tls:
+    - hosts:
+        - keycloak.glaux-serverus.eu
+      secretName: keycloak-tls
+  servicePort: 80
+  serviceName: keycloak
+
+
+
+service:
+  enabled: true
+  name: keycloak
+  namespace: cerberus
+  type: ClusterIP
+  selector:
+    app: keycloak
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
