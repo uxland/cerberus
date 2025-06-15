@@ -1,4 +1,4 @@
-FROM node:20 as builder
+FROM node:20 AS builder
 WORKDIR /src
 RUN npm install -g pnpm
 COPY . /src
