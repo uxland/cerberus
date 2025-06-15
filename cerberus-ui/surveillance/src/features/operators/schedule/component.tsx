@@ -3,7 +3,7 @@ import { sendMediatorRequest } from '@cerberus/core';
 import { ListScheduledRuns } from './query';
 import { Box, CircularProgress } from "@mui/material";
 import { AcquireRun } from '../../run/acquire/command';
-import { isInCourse, ScheduledRunSummary, SchedulerEvent, toEvents } from "./model.ts";
+import { isInCourse, ScheduledRunSummary, SchedulerEvent, toEvents, RunStatus } from "./model.ts";
 
 import {Calendar, cerberusTheme} from './scheduler-component/index.ts';
 import type { CalendarEvent } from './scheduler-component/types/calendar.ts';
@@ -26,26 +26,21 @@ export const ScheduledRunsView = () => {
         console.log("scheduler", scheduledRuns);
     }, [scheduledRuns]);
 
-    const startShceduledRun = (event: any) => {
-        const run: ScheduledRunSummary = event.run;
-        if (!isInCourse(run)) return Promise.resolve();
-        sendMediatorRequest({
-            command: new AcquireRun(run.id, run.description, run.roundId),
-            setBusy: setBusy,
-            setError: setError,
-        })
-    };
-
-    const convertToCalendarEvents = (schedulerEvents: SchedulerEvent[]): CalendarEvent[] => {
-        return schedulerEvents.map(event => ({
-            id: event.event_id,
-            title: event.title,
-            start: event.start,
-            end: event.end,
-            backgroundColor: event.color,
-            run: event.run
-        }));
-    };
+const startShceduledRun = (event: any) => {
+    const run: ScheduledRunSummary = event.run;
+    
+    if (run.status === RunStatus.Completed) {
+        console.log('Cannot start completed run:', run);
+        return Promise.resolve();
+    }
+    
+    if (!isInCourse(run)) return Promise.resolve();
+    sendMediatorRequest({
+        command: new AcquireRun(run.id, run.description, run.roundId),
+        setBusy: setBusy,
+        setError: setError,
+    })
+};
 
     /* Sample events - commented out, using real data from backend
     const sampleEvents: CalendarEvent[] = [
@@ -145,7 +140,7 @@ export const ScheduledRunsView = () => {
             ) : (
                 <div style={{ height: "100%", width: "100%", padding: '20px' }}>
                     <Calendar
-                        events={convertToCalendarEvents(scheduledRuns)}
+                        events={scheduledRuns}
                         view="day"
                         config={{
                             theme: cerberusTheme,

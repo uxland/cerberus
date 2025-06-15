@@ -7,8 +7,7 @@
 import express from 'express'
 const app = express()
 
-import https from 'httpolyglot'
-import fs from 'fs'
+import http from 'http'
 import path from 'path'
 const __dirname = path.resolve()
 
@@ -43,12 +42,13 @@ const getCameraById = async(cameraId) => {
 process.on('SIGINT', () => {
   console.log('Stopping GStreamer...');
   killProcesses();
+  worker.close();
   process.exit();
 });
 
 
 
-app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://cerberus-react-ui", "https://cerberus-ui:5173"], credentials: true }));
+app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://localhost:8080", "https://cerberus-react-ui", "https://cerberus-ui:5173", "https://ui.glaux-serverus.eu"], credentials: true }));
 app.use(express.json());
 app.get('/', (req, res) => {
 	res.send('Hello from mediasoup app!')
@@ -80,7 +80,7 @@ app.put('/api/streams/:cameraId/start', async (req, res) => {
 		return res.status(400).json({ error: 'Missing required parameters' });
 	}
 	if(!activeCameras[cameraId]){
-		const cameraStream = new CameraStream({router, cameraId, streamingUrl: rtspUrl});
+		const cameraStream = new DualCameraStream({router, cameraId, streamingUrl: rtspUrl});
 		await cameraStream.start();
 		activeCameras[cameraId] = cameraStream;
 		console.log(`Stream for camera ${cameraId} started`);
@@ -97,19 +97,21 @@ app.put('/api/streams/:cameraId/stop', async (req, res) => {
 });
 
 // SSL cert for HTTPS access
-const options = {
+/*const options = {
 	key: fs.readFileSync('/certs/ssl/key.pem', 'utf-8'),
 	cert: fs.readFileSync('/certs/ssl/cert.pem', 'utf-8')
-}
+}*/
 
-const httpsServer = https.createServer(options, app)
-const PORT = process.env.PORT || 3000;
+//const httpsServer = https.createServer(options, app)
+const httpsServer = http.createServer(app);
+const PORT = Number.parseInt(process.env.PORT || "3000");
 httpsServer.listen(PORT, () => {
 	console.log('listening on port: ' + PORT)
 })
 
 const io = new Server(httpsServer, {cors: {
-		origin: "https://cerberus-react-ui:5173",  // ✅ Fixed CORS issue
+		//origin: "https://cerberus-react-ui:5173",  // ✅ Fixed CORS issue
+		origin: ["https://cerberus-react-ui:5173", "https://localhost:8080", "https://cerberus-react-ui", "https://cerberus-ui:5173", "https://ui.glaux-serverus.eu"],
 		methods: ["GET", "POST"],
 		credentials: true,
 	},

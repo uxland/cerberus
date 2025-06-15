@@ -1,6 +1,9 @@
+import type { CalendarEvent } from './scheduler-component/types/calendar.ts';
+
 export enum RunStatus {
     Pending = 'Pending',
-    InProgress = 'InProgress',
+    // InProgress = 'InProgress',
+    Running = 'Running',
     Completed = 'Completed',
     Cancelled = 'Cancelled',
     Released = 'Released',
@@ -19,21 +22,7 @@ export interface ScheduledRunSummary {
     endedBy?: Date | null;
 }
 
-export interface SchedulerEvent {
-    event_id: string;
-    title: string,
-    start: Date,
-    end: Date,
-    color: string,
-    editable: boolean,
-    deletable: boolean,
-    sx: {
-        boxShadow: string,
-        '&:hover': {
-            backgroundColor: string,
-            boxShadow: string,
-        }
-    }
+export interface SchedulerEvent extends CalendarEvent {
     run: ScheduledRunSummary
 }
 
@@ -47,10 +36,10 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
         case RunStatus.Pending:
             color = "#FFC107";
             break;
-        case RunStatus.InProgress:
+        case RunStatus.Running:
             color = "#FF9800";
             break;
-        case RunStatus.Completed:
+        case RunStatus.Released || RunStatus.Completed:
             color = "#66BB6A";
             break;
         default:
@@ -59,22 +48,11 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
 
 
     return {
-        event_id: run.id,
+        id: run.id,
         title: run.description,
         start: plannedAt,
         end: end,
-        color: color,
-        editable: false,
-        deletable: false,
-        sx: {
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-            '&:hover': {
-                backgroundColor: color === "#FFC107" ? "#ffd54f" :
-                    color === "#FF9800" ? "#ffb74d" :
-                        color === "#66BB6A" ? "#81c784" : "#ef5350",
-                boxShadow: "0 6px 12px rgba(0, 0, 0, 0.4)",
-            }
-        },
+        backgroundColor: color,
         run,
     }
 }

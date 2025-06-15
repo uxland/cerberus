@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cerberus-ui-tls
+  namespace: cerberus
+spec:
+  secretName: cerberus-ui-tls
+  issuerRef:
+    name: letsencrypt-dns01   # Make sure this matches your ClusterIssuer name
+    kind: ClusterIssuer
+  commonName: ui.glaux-serverus.eu
+  dnsNames:
+    - ui.glaux-serverus.eu

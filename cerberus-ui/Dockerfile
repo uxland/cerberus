@@ -1,11 +1,16 @@
-FROM node:20 as builder
+FROM node:20 AS builder
 WORKDIR /src
 RUN npm install -g pnpm
 COPY . /src
 
 RUN pnpm install --link
 
-RUN pnpm run build
+ARG VITE_MODE=production
+ENV NODE_ENV=${VITE_MODE}
+ENV VITE_MODE=${VITE_MODE}
+RUN echo "VITE_MODE is set to: $VITE_MODE"
+RUN pnpm build --filter @cerberus/app -- --mode $VITE_MODE
+
 
 FROM nginx:alpine as final
 

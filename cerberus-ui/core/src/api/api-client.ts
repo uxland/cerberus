@@ -15,6 +15,26 @@ const axios = new Axios(baseConfig);
 const getPayload = (requestInit: RequestInit) => requestInit.body ? JSON.stringify(requestInit.body) : undefined;
 
 export class ApiClientImpl extends ApiClient{
+    async getFile(url: string, requestInit?: RequestInit | undefined): Promise<{ filename: string | undefined; content: Blob; }> {
+        const response = await axios.get(url, {
+            headers: this.getHeaders(requestInit),
+            responseType: 'blob',
+            transformResponse: []
+        });
+
+        const contentDisposition = response.headers['content-disposition'];
+        let filename = undefined;
+        if (contentDisposition) {
+            const matches = contentDisposition.match(/filename="?([^";]+)"?/);
+            if (matches?.[1]) {
+                filename = matches[1];
+            }
+        }
+
+        return {filename, content: response.data};
+    }
+
+
     get<T>(url: string, requestInit: RequestInit | undefined): Promise<T> {
         const request = axios.get(url, {
                 headers: this.getHeaders(requestInit),

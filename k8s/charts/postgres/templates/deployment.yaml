@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configMapRef }}
+          volumeMounts:
+            - name: init-db
+              mountPath: {{ .Values.storage.initDbMountPath }}
+              readOnly: true
+            - name: postgres-data
+              mountPath: {{ .Values.storage.dataMountPath }}
+      volumes:
+        - name: init-db
+          configMap:
+            name: {{ .Values.initDbConfigMap }}
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.storage.dataPvc }}

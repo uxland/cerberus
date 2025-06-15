@@ -1,0 +1,54 @@
+replicaCount: 1
+
+image:
+  repository: cerberus-ui
+  tag: latest
+
+namespace: cerberus
+
+env:
+  authUrl: "https://keycloak.glaux-serverus.eu"
+  authRealm: "cerberus"
+  authClientId: "cerberus"
+  backendUrl: "https://api.glaux-serverus.eu"
+  streamingUrl: "https://api.glaux-serverus.eu/images"
+
+certificate:
+  enabled: true
+  name: cerberus-ui-tls
+  namespace: cerberus
+  secretName: cerberus-ui-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: ui.glaux-serverus.eu
+  dnsNames:
+    - ui.glaux-serverus.eu
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: ui.glaux-serverus.eu
+      paths:
+        - /
+  tls:
+    - hosts:
+        - ui.glaux-serverus.eu
+      secretName: cerberus-ui-tls
+  servicePort: 80
+  serviceName: cerberus-ui
+
+service:
+  enabled: true
+  name: cerberus-ui
+  namespace: cerberus
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  selector:
+    app: cerberus-ui

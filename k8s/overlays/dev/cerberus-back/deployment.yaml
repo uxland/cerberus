@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cerberus-back
+  namespace: cerberus
+spec:
+  template:
+    spec:
+      containers:
+        - name: cerberus-back
+          env:
+            - name: Authentication__Authority
+              value: "https://keycloak.glaux-serverus.eu/realms/cerberus"

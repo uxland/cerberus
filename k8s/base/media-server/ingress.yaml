@@ -1,12 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: media-server
+  name: media-server-ingress
+  namespace: cerberus
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-dns01   # Update to match your ClusterIssuer
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - media.glaux-serverus.eu
+      secretName: media-server-tls
   rules:
-    - host: media.cerberus.local
+    - host: media.glaux-serverus.eu
       http:
         paths:
           - path: /
@@ -15,8 +23,4 @@ spec:
               service:
                 name: media-server
                 port:
-                  number: 443
-  tls:
-    - hosts:
-        - media.cerberus.local
-      secretName: media-server-tls
+                  number: 80
