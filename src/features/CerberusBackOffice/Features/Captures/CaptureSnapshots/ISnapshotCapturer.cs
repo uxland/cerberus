@@ -1,4 +1,6 @@
-﻿namespace Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
+﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
+
+namespace Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
 
 public interface ISnapshotCapturer
 {
@@ -16,4 +18,4 @@ public record CaptureSnapshotArguments(
     string? RawPath = null,
     bool Monochrome = true,
     bool OverwriteOutput = true
-);
+): CameraConnectionSettings(Address, Username, Password);

@@ -4,7 +4,8 @@ namespace Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetReferen
 
 public class SetCameraReferenceImagesService(ISnapshotCapturer snapshotCapturer)
 {
-    private static readonly string RootPath  = "OrganizationalStructure/Cameras";
+    private const string RootPath = "OrganizationalStructure/Cameras";
+
     public async Task SetCameraReferenceImages(Camera camera)
     {
         var (imageUrl, thumbnailUrl) = await GetCameraImageUrls(camera);

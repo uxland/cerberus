@@ -10,6 +10,7 @@ export class StreamingClient {
 	rtpCapabilities;
 	recorderClient;
 
+
 	constructor({socket, streamFactory, router}) {
 		this.socket = socket;
 		this.streamFactory = streamFactory;
@@ -61,8 +62,6 @@ export class StreamingClient {
 	async onDisconnected() {
 		console.log('peer disconnected')
 		try {
-			await this.recordConsumer?.close();
-			await this.recordTransport?.close();
 			await this.consumer?.close();
 			await this.transport?.close();
 		} catch (e) {}
@@ -153,10 +152,11 @@ export class StreamingClient {
 
 	async getCamera(rtpCapabilities, cameraId){
 		const camera = await this.streamFactory(cameraId);
-		if (!camera.canConsume({ rtpCapabilities })) {
+		const {success, error} = camera.join({rtpCapabilities});
+		if (!success) {
 			console.error("❌ Client does not support stream");
 			console.log(JSON.stringify(rtpCapabilities, null, 2));
-			return {error: "Cannot consume stream", camera: undefined};
+			return {error, camera: undefined};
 		}
 		return {camera: camera, error: undefined};
 

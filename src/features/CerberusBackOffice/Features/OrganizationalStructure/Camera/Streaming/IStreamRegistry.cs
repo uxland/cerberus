@@ -54,7 +54,7 @@ internal class StreamingRegistry(IClock clock,
         var rtspUrl = camera.AdminSettings.IpAddress!;
         try
         {
-            cameraStreamingController.StartStreamAsync(new StartStreamArgs("pod-name", cameraId, rtspUrl, "h265")).Wait();
+            cameraStreamingController.StartStreamAsync(new StartStreamArgs("pod-name", cameraId, rtspUrl, camera.MediaInfo?.Codec ?? "h265")).Wait();
         }
         catch (Exception e)
         {

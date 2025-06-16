@@ -20,9 +20,31 @@ public partial class Camera: AggregateRoot, IOrganizationStructureItem
     public string CameraImageUrl { get; set; }
     
     public string CameraImageThumbnailUrl { get; set; }
+    public VideoStreamMediaInfo? MediaInfo { get; set; } = null;
 }
 
 public interface ICameraEntityQueryProvider : IEntityQueryProvider<Camera>
 {
     Task<IEnumerable<string>> GetCameraIdsByPath(string path);
+}
+
+public record VideoStreamMediaInfo(string Codec);
+
+public record CameraConnectionSettings(
+    string Address,
+    string Username,
+    string Password
+)
+{
+    public string GetConnectionString()
+    {
+        var uri = new Uri(this.Address, UriKind.Absolute);
+        if (!string.IsNullOrEmpty(uri.UserInfo) || string.IsNullOrEmpty(this.Username) || string.IsNullOrEmpty(this.Password)) return this.Address;
+        var uriBuilder = new UriBuilder()
+        {
+            UserName = this.Username,
+            Password = this.Password
+        };
+        return uriBuilder.Uri.AbsolutePath;
+    }
 }
