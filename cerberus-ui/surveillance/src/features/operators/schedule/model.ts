@@ -1,6 +1,7 @@
 export enum RunStatus {
     Pending = 'Pending',
-    InProgress = 'InProgress',
+    // InProgress = 'InProgress',
+    Running = 'Running',
     Completed = 'Completed',
     Cancelled = 'Cancelled',
     Released = 'Released',
@@ -47,10 +48,10 @@ const toEvent = (run: ScheduledRunSummary): SchedulerEvent => {
         case RunStatus.Pending:
             color = "#FFC107";
             break;
-        case RunStatus.InProgress:
+        case RunStatus.Running:
             color = "#FF9800";
             break;
-        case RunStatus.Completed:
+        case RunStatus.Released || RunStatus.Completed:
             color = "#66BB6A";
             break;
         default:

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: media-server
+  namespace: cerberus
 spec:
   replicas: 1
   selector:
@@ -12,35 +13,66 @@ spec:
       labels:
         app: media-server
     spec:
+      hostNetwork: true
       containers:
         - name: media-server
           image: media-server:latest
-          ports:
-            - containerPort: 443
-              protocol: TCP
-            - containerPort: 20000
-              hostPort: 20000
-              protocol: UDP
-            - containerPort: 20020
-              hostPort: 20020
-              protocol: UDP
           env:
             - name: PORT
-              value: "443"
+              value: "8080"
+            - name: RECORDER_DIR
+              value:  "/app/storage"
+            - name: ANNOUNCED_IP
+              value: "192.168.49.2"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 20000
+              protocol: UDP
+            - containerPort: 20001
+              protocol: UDP
+            - containerPort: 20002
+              protocol: UDP
+            - containerPort: 20003
+              protocol: UDP
+            - containerPort: 20004
+              protocol: UDP
+            - containerPort: 20005
+              protocol: UDP
+            - containerPort: 20006
+              protocol: UDP
+            - containerPort: 20007
+              protocol: UDP
+            - containerPort: 20008
+              protocol: UDP
+            - containerPort: 20009
+              protocol: UDP
+            - containerPort: 20010
+              protocol: UDP
+            - containerPort: 20011
+              protocol: UDP
+            - containerPort: 20012
+              protocol: UDP
+            - containerPort: 20013
+              protocol: UDP
+            - containerPort: 20014
+              protocol: UDP
+            - containerPort: 20015
+              protocol: UDP
+            - containerPort: 20016
+              protocol: UDP
+            - containerPort: 20017
+              protocol: UDP
+            - containerPort: 20018
+              protocol: UDP
+            - containerPort: 20019
+              protocol: UDP
+            - containerPort: 20020
+              protocol: UDP
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage
-            - name: ssl-certs
-              mountPath: /certs/ssl
       volumes:
         - name: shared-storage
-          hostPath:
-            path: /mnt/data/cerberus-storage
-        - name: ssl-certs
-          secret:
-            secretName: media-server-tls
-            items:
-              - key: tls.key
-                path: key.pem
-              - key: tls.crt
-                path: cert.pem
+          persistentVolumeClaim:
+            claimName: media-shared-storage

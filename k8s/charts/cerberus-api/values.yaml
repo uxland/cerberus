@@ -1,0 +1,60 @@
+replicaCount: 1
+
+image:
+  repository: cerberus-api
+  tag: latest
+
+namespace: cerberus
+
+env:
+  postgresMarten: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+  postgresQuartz: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office Quartz;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+  snapshotFolder: "/app/storage"
+  mediaServerBaseUrl: "https://media.glaux-serverus.eu"
+  mediaServerStreamingUrl: "wss://media.glaux-serverus.eu/media-soup"
+  authAuthority: "https://keycloak.glaux-serverus.eu/realms/cerberus"
+  keycloakBaseUrl: "https://keycloak.glaux-serverus.eu"
+
+storage:
+  pvc: media-shared-storage
+  mountPath: /app/storage
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dns01
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: api.glaux-serverus.eu
+      paths:
+        - /
+  tls:
+    - hosts:
+        - api.glaux-serverus.eu
+      secretName: cerberus-api-tls
+  servicePort: 8080
+  serviceName: cerberus-api
+  
+service:
+  enabled: true
+  name: cerberus-api
+  namespace: cerberus
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+  selector:
+    app: cerberus-api
+      
+certificate:
+  enabled: true
+  name: cerberus-api-tls
+  namespace: cerberus
+  secretName: cerberus-api-tls
+  issuerRef:
+    name: letsencrypt-dns01
+    kind: ClusterIssuer
+  commonName: api.glaux-serverus.eu
+  dnsNames:
+    - api.glaux-serverus.eu

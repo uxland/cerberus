@@ -49,6 +49,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		keycloak\config\user-profile.json = keycloak\config\user-profile.json
 		keycloak\config\cerberus-realm.json = keycloak\config\cerberus-realm.json
 		src\hosts\MediaServer\docker-compose.yml = src\hosts\MediaServer\docker-compose.yml
+		skaffold.yaml = skaffold.yaml
+		MinikubeSetup.md = MinikubeSetup.md
+		k8s\create-configmaps.sh = k8s\create-configmaps.sh
+		k8s\create-configmaps.ps1 = k8s\create-configmaps.ps1
+		coredns-demo.yaml = coredns-demo.yaml
+		coredns.yaml = coredns.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOfficePersistence", "src\core\BackOfficePersistence\BackOfficePersistence.csproj", "{D8FC1408-B744-429E-98CD-6A7B28A30C4F}"

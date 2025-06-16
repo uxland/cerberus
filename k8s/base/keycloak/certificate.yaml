@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: keycloak-tls
+  namespace: cerberus
+spec:
+  secretName: keycloak-tls
+  issuerRef:
+    name: letsencrypt-dns01   # Ensure this matches your ClusterIssuer name
+    kind: ClusterIssuer
+  commonName: keycloak.glaux-serverus.eu
+  dnsNames:
+    - keycloak.glaux-serverus.eu

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: media-server
+description: Helm chart for deploying the Media Server with dynamic UDP port range support
+type: application
+version: 0.1.0
+appVersion: "1.0"

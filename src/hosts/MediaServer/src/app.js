@@ -7,7 +7,8 @@
 import express from 'express'
 const app = express()
 
-import https from 'httpolyglot'
+//import https from 'httpolyglot'
+import http from 'http'
 import fs from 'fs'
 import path from 'path'
 const __dirname = path.resolve()
@@ -43,12 +44,13 @@ const getCameraById = async(cameraId) => {
 process.on('SIGINT', () => {
   console.log('Stopping GStreamer...');
   killProcesses();
+  worker.close();
   process.exit();
 });
 
 
 
-app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://cerberus-react-ui", "https://cerberus-ui:5173"], credentials: true }));
+app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://cerberus-react-ui", "https://cerberus-ui:5173", "https://ui.glaux-serverus.eu"], credentials: true }));
 app.use(express.json());
 app.get('/', (req, res) => {
 	res.send('Hello from mediasoup app!')
@@ -97,13 +99,14 @@ app.put('/api/streams/:cameraId/stop', async (req, res) => {
 });
 
 // SSL cert for HTTPS access
-const options = {
+/*const options = {
 	key: fs.readFileSync('/certs/ssl/key.pem', 'utf-8'),
 	cert: fs.readFileSync('/certs/ssl/cert.pem', 'utf-8')
-}
+}*/
 
-const httpsServer = https.createServer(options, app)
-const PORT = process.env.PORT || 3000;
+//const httpsServer = https.createServer(options, app)
+const httpsServer = http.createServer(app);
+const PORT = Number.parseInt(process.env.PORT || "3000");
 httpsServer.listen(PORT, () => {
 	console.log('listening on port: ' + PORT)
 })

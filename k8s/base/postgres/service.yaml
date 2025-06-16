@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
+  namespace: cerberus
 spec:
   type: NodePort
   selector:
@@ -9,4 +10,4 @@ spec:
   ports:
     - port: 5432
       targetPort: 5432
-      nodePort: 31654
+      nodePort: 31655

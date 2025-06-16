@@ -1,0 +1,15 @@
+{{- if .Values.wildcardCertificate.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.wildcardCertificate.name }}
+  namespace: {{ .Values.wildcardCertificate.namespace }}
+spec:
+  secretName: {{ .Values.wildcardCertificate.secretName }}
+  issuerRef:
+    name: {{.Values.wildcardCertificate.issuerRef.name}}
+    kind: {{.Values.wildcardCertificate.issuerRef.kind}}
+  commonName: {{.Values.wildcardCertificate.commonName | quote}}
+  dnsNames:
+{{toYaml .Values.wildcardCertificate.dnsNames | indent 4}}
+{{- end }}

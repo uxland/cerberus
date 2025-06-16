@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cerberus-back
+  namespace: cerberus
 spec:
   replicas: 1
   selector:
@@ -16,7 +17,7 @@ spec:
         - name: cerberus-back
           image: cerberus-back:latest
           ports:
-            - containerPort: 443
+            - containerPort: 8080
           env:
             - name: Backends__PostgresQL__Marten
               value: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
@@ -24,10 +25,18 @@ spec:
               value: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office Quartz;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
             - name: SnaphotCaptures__FolderRoot
               value: "/app/storage"
+            - name: Backends__MediaServer__BaseUrl
+              value: "https://media.glaux-serverus.eu"
+            - name: Backends__MediaServer__StreamingUrl
+              value: "wss://media.glaux-serverus.eu/media-soup"
+            - name: Authentication__Authority
+              value: "https://keycloak.glaux-serverus.eu/realms/cerberus"
+            - name: Keycloak__BaseUrl
+              value: "https://keycloak.glaux-serverus.eu"
           volumeMounts:
             - name: shared-storage
               mountPath: /app/storage
       volumes:
         - name: shared-storage
-          hostPath:
-            path: /mnt/data/cerberus-storage
+          persistentVolumeClaim:
+            claimName: media-shared-storage

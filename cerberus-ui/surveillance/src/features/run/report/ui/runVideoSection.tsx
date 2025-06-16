@@ -56,7 +56,6 @@ export const RunVideoSection = ({
                     <video
                         className="absolute top-0 left-0 w-full h-full object-contain rounded-lg"
                         controls
-                        poster={selectedInspection?.cameraStreamingUrl}
                     >
                         <source src={getImageUrl(selectedInspection.recordedClipPath)} type="video/mp4" />
                         {videoNotSupported}

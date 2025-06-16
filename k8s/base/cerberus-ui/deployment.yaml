@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cerberus-ui
+  namespace: cerberus
 spec:
   replicas: 1
   selector:
@@ -15,16 +16,16 @@ spec:
       containers:
         - name: cerberus-ui
           image: cerberus-ui:latest
+          env:
+            - name: VITE_AUTH_URL
+              value: "https://keycloak.glaux-serverus.eu"
+            - name: VITE_AUTH_REALM
+              value: "cerberus"
+            - name: VITE_AUTH_CLIENT_ID
+              value: "cerberus"
+            - name: VITE_CERBERUS_BACKEND_URL
+              value: "https://api.glaux-serverus.eu"
+            - name: VITE_CERBERUS_STREAMING_URL
+              value: "https://api.glaux-serverus.eu/images"
           ports:
-            - containerPort: 443
-          volumeMounts:
-            - name: cert
-              mountPath: /etc/nginx/ssl/nginx.crt
-              subPath: tls.crt
-            - name: cert
-              mountPath: /etc/nginx/ssl/nginx.key
-              subPath: tls.key
-      volumes:
-        - name: cert
-          secret:
-            secretName: cerberus-ui-tls
+            - containerPort: 80

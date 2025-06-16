@@ -1,6 +1,11 @@
+namespace: cerberus
 resources:
   - ../../base/postgres
   - ../../base/keycloak
   - ../../base/cerberus-back
   - ../../base/media-server
   - ../../base/cerberus-ui
+  - ../../base/certs-manager
+  - ../../base/shared
+patches:
+    - path: ./cerberus-back/deployment.yaml

@@ -1,0 +1,49 @@
+replicaCount: 1
+
+image:
+  repository: postgres
+  tag: "17"
+
+namespace: cerberus
+
+configMapRef: postgres-config
+initDbConfigMap: quartz-init-script
+
+storage:
+  dataPvc: postgres-data
+  dataMountPath: /var/lib/postgresql/data
+  initDbMountPath: /docker-entrypoint-initdb.d
+
+ports:
+  - containerPort: 5432
+
+configMap:
+  enabled: true
+  name: postgres-config
+  namespace: cerberus
+  data:
+    POSTGRES_USER: cerberus
+    POSTGRES_PASSWORD: cerberus
+    POSTGRES_DB: cerberus
+
+service:
+  enabled: true
+  name: postgres
+  namespace: cerberus
+  type: NodePort
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 31655   # Remove or comment this line if you want it to be assigned automatically
+
+pvc:
+  enabled: true
+  name: postgres-data
+  namespace: cerberus
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

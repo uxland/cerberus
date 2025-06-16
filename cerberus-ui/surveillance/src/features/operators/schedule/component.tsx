@@ -3,7 +3,7 @@ import { sendMediatorRequest } from '@cerberus/core';
 import { ListScheduledRuns } from './query';
 import { Box, CircularProgress } from "@mui/material";
 import { AcquireRun } from '../../run/acquire/command';
-import { isInCourse, ScheduledRunSummary, SchedulerEvent, toEvents } from "./model.ts";
+import { isInCourse, ScheduledRunSummary, SchedulerEvent, toEvents, RunStatus } from "./model.ts";
 
 import {Calendar, cerberusTheme} from './scheduler-component/index.ts';
 import type { CalendarEvent } from './scheduler-component/types/calendar.ts';
@@ -26,15 +26,21 @@ export const ScheduledRunsView = () => {
         console.log("scheduler", scheduledRuns);
     }, [scheduledRuns]);
 
-    const startShceduledRun = (event: any) => {
-        const run: ScheduledRunSummary = event.run;
-        if (!isInCourse(run)) return Promise.resolve();
-        sendMediatorRequest({
-            command: new AcquireRun(run.id, run.description, run.roundId),
-            setBusy: setBusy,
-            setError: setError,
-        })
-    };
+const startShceduledRun = (event: any) => {
+    const run: ScheduledRunSummary = event.run;
+    
+    if (run.status === RunStatus.Completed) {
+        console.log('Cannot start completed run:', run);
+        return Promise.resolve();
+    }
+    
+    if (!isInCourse(run)) return Promise.resolve();
+    sendMediatorRequest({
+        command: new AcquireRun(run.id, run.description, run.roundId),
+        setBusy: setBusy,
+        setError: setError,
+    })
+};
 
     const convertToCalendarEvents = (schedulerEvents: SchedulerEvent[]): CalendarEvent[] => {
         return schedulerEvents.map(event => ({

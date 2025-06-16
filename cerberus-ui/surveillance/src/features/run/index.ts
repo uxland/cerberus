@@ -4,7 +4,13 @@ import { useExecuteRun } from "./execution/bootstrapper.ts";
 import { useReportRun } from "./report/bootstrapper.ts";
 import { useRunList } from "./list/bootstrapper.ts";
 import { useAcquireRun } from "./acquire/bootstrapper.ts";
+import {useDownloadReport} from "./download-report/bootstrapper.ts";
 
 export const useRun = (container: Container) =>
-    useCreateRun(container).then(useExecuteRun).then(useReportRun).then(useRunList).then(useAcquireRun);
+    useCreateRun(container)
+        .then(useExecuteRun)
+        .then(useReportRun)
+        .then(useRunList)
+        .then(useAcquireRun)
+        .then(useDownloadReport);
 

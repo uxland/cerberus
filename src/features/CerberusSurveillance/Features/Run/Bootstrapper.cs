@@ -1,5 +1,6 @@
 ﻿using Cerberus.Surveillance.Features.Features.Run.Claim;
 using Cerberus.Surveillance.Features.Features.Run.Create;
+using Cerberus.Surveillance.Features.Features.Run.Export;
 using Cerberus.Surveillance.Features.Features.Run.Get;
 using Cerberus.Surveillance.Features.Features.Run.List;
 using Cerberus.Surveillance.Features.Features.Run.Release;
@@ -17,6 +18,7 @@ internal static class Bootstrapper
 {
     public static RouteGroupBuilder SetupRunRouting(this RouteGroupBuilder app)
     {
+        QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
         var runsGroup = app.MapGroup("/runs");
         runsGroup.UseCreateRun()
             .UseGetRun()
@@ -24,7 +26,8 @@ internal static class Bootstrapper
             .UseSetRunInspection()
             .UseReleaseRun()
             .UseListRuns()
-            .UseClaimRun();
+            .UseClaimRun()
+            .UseGetRunReport();
         var operatorsGroup = app.MapGroup("/operators");
         operatorsGroup.UseOperatorsSchedule();
         return app;

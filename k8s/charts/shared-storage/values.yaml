@@ -1,0 +1,9 @@
+sharedPvc:
+  enabled: true
+  name: media-shared-storage
+  namespace: cerberus
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
