@@ -10,14 +10,25 @@ namespace Cerberus.Surveillance.Features.Features.Run.Export;
 
 public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
 {
+    // Definir una paleta de colores profesional
+    private static readonly string PrimaryColor = "#1E3A8A";      // Azul corporativo
+    private static readonly string SecondaryColor = "#3B82F6";    // Azul claro
+    private static readonly string AccentColor = "#EFF6FF";       // Azul muy claro
+    private static readonly string SuccessColor = "#059669";      // Verde profesional
+    private static readonly string WarningColor = "#D97706";      // Naranja profesional
+    private static readonly string DangerColor = "#DC2626";       // Rojo profesional
+    private static readonly string NeutralGray = "#6B7280";       // Gris neutro
+    private static readonly string LightGrayHex = "#F9FAFB";     // Gris muy claro
+    private static readonly Color LightGray = Colors.Grey.Lighten5; // Gris muy claro como Color
+
     public void Compose(IDocumentContainer container)
     {
         container
             .Page(page =>
             {
                 page.Size(PageSizes.A4);
-                page.Margin(25);
-                page.DefaultTextStyle(x => x.FontSize(11).FontColor(Colors.Grey.Darken3));
+                page.Margin(30);
+                page.DefaultTextStyle(x => x.FontSize(10).FontColor(Colors.Grey.Darken2).FontFamily("Segoe UI"));
 
                 page.Header().Element(ComposeHeader);
                 page.Content().Element(ComposeContent);
@@ -29,36 +40,78 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
     {
         container.Column(column =>
         {
+            // Logo y título principal
             column.Item().Row(row =>
             {
+                row.ConstantItem(60).Container()
+                    .Width(50)
+                    .Height(50)
+                    .Background(PrimaryColor)
+                    .AlignCenter()
+                    .AlignMiddle()
+                    .Text("🛡️")
+                    .FontSize(24)
+                    .FontColor(Colors.White);
+
+                row.ConstantItem(20);
+
                 row.RelativeItem().Column(titleColumn =>
                 {
-                    titleColumn.Item().Text("REPORTE DE VIGILANCIA")
-                        .FontSize(24)
+                    titleColumn.Item().Text("CERBERUS")
+                        .FontSize(18)
                         .Bold()
-                        .FontColor(Colors.Blue.Darken2);
+                        .FontColor(PrimaryColor);
 
-                    titleColumn.Item().Text($"Ubicación: {run.RootLocationId}")
+                    titleColumn.Item().Text("INFORME DE VIGILANCIA Y SEGURIDAD")
                         .FontSize(14)
                         .Medium()
-                        .FontColor(Colors.Grey.Darken2);
+                        .FontColor(NeutralGray);
+                        
+                    titleColumn.Item().Height(5);
+                    
+                    titleColumn.Item().Text($"Ubicación: {run.RootLocationId}")
+                        .FontSize(11)
+                        .FontColor(Colors.Grey.Darken1);
                 });
 
-                row.ConstantItem(120).AlignRight().Column(dateColumn =>
+                row.ConstantItem(140).AlignRight().Column(metaColumn =>
                 {
-                    dateColumn.Item().Text($"Fecha: {FormatInstant(run.StartedAt, "dd/MM/yyyy")}")
-                        .FontSize(10)
-                        .FontColor(Colors.Grey.Darken1);
-                    
-                    dateColumn.Item().Text($"Generado: {SystemClock.Instance.GetCurrentInstant():dd/MM/yyyy HH:mm}")
-                        .FontSize(9)
-                        .FontColor(Colors.Grey.Medium);
+                    metaColumn.Item().Container()
+                        .Border(1)
+                        .BorderColor(Colors.Grey.Lighten1)
+                        .Background(LightGray)
+                        .Padding(8)
+                        .Column(metaInfo =>
+                        {
+                            metaInfo.Item().Text("INFORMACIÓN DEL DOCUMENTO")
+                                .FontSize(8)
+                                .Bold()
+                                .FontColor(NeutralGray);
+                            
+                            metaInfo.Item().Height(5);
+                            
+                            metaInfo.Item().Text($"Fecha de ejecución:")
+                                .FontSize(8)
+                                .FontColor(Colors.Grey.Darken1);
+                            metaInfo.Item().Text(FormatInstant(run.StartedAt, "dd/MM/yyyy"))
+                                .FontSize(9)
+                                .Bold();
+                            
+                            metaInfo.Item().Height(3);
+                            
+                            metaInfo.Item().Text($"Generado el:")
+                                .FontSize(8)
+                                .FontColor(Colors.Grey.Darken1);
+                            metaInfo.Item().Text($"{SystemClock.Instance.GetCurrentInstant():dd/MM/yyyy HH:mm}")
+                                .FontSize(9)
+                                .Bold();
+                        });
                 });
             });
 
+            column.Item().Height(20);
+            column.Item().Height(3).Background(PrimaryColor);
             column.Item().Height(15);
-            column.Item().Height(2).Background(Colors.Blue.Darken1);
-            column.Item().Height(10);
         });
     }
 
@@ -68,12 +121,12 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
         {
             column.Item().Element(ComposeExecutiveSummary);
             
-            column.Item().Height(20);
+            column.Item().Height(25);
 
             foreach (var inspection in run.InspectionRuns)
             {
                 column.Item().Element(c => ComposeInspectionDetail(c, inspection));
-                column.Item().Height(15);
+                column.Item().Height(20);
             }
         });
     }
@@ -82,50 +135,79 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
     {
         container.Column(column =>
         {
-            column.Item().Text("RESUMEN EJECUTIVO")
-                .FontSize(18)
-                .Bold()
-                .FontColor(Colors.Blue.Darken2);
-
-            column.Item().Height(2).Background(Colors.Blue.Darken2);
-            column.Item().Height(15);
-
+            // Título con línea decorativa
             column.Item().Row(row =>
             {
-                row.RelativeItem().Element(ComposeBasicInfoCard);
+                row.ConstantItem(4).Height(20).Background(PrimaryColor);
                 row.ConstantItem(15);
-                row.RelativeItem().Element(ComposeStatsCard);
+                row.RelativeItem().Text("RESUMEN EJECUTIVO")
+                    .FontSize(16)
+                    .Bold()
+                    .FontColor(PrimaryColor);
             });
 
             column.Item().Height(20);
+
+            // Cards con información mejorada
+            column.Item().Row(row =>
+            {
+                row.RelativeItem().Element(ComposeBasicInfoCard);
+                row.ConstantItem(20);
+                row.RelativeItem().Element(ComposeStatsCard);
+            });
+
+            column.Item().Height(25);
             column.Item().Element(ComposeInspectionsSummary);
         });
     }
 
     private void ComposeBasicInfoCard(IContainer container)
     {
-        container.Border(1)
-            .BorderColor(Colors.Blue.Lighten2)
-            .Background(Colors.Blue.Lighten4)
-            .Padding(15)
-            .Column(column =>
+        container.Decoration(decoration =>
+        {
+            decoration.Before()
+                .Background(AccentColor)
+                .Height(6);
+                
+            decoration.Content()
+                .Border(1)
+                .BorderColor(Colors.Grey.Lighten1)
+                .Background(Colors.White)
+                .Padding(20)
+                .Column(column =>
+        {
+            column.Item().Row(row =>
             {
-                column.Item().Text("INFORMACIÓN GENERAL")
+                row.ConstantItem(24).Container()
+                    .Width(20)
+                    .Height(20)
+                    .Background(SecondaryColor)
+                    .AlignCenter()
+                    .AlignMiddle()
+                    .Text("ℹ️")
+                    .FontSize(12)
+                    .FontColor(Colors.White);
+
+                row.ConstantItem(10);
+                
+                row.RelativeItem().Text("INFORMACIÓN GENERAL")
                     .FontSize(12)
                     .Bold()
-                    .FontColor(Colors.Blue.Darken2);
-
-                column.Item().Height(10);
-
-                var shortId = run.Id.Length > 8 ? run.Id.Substring(0, 8) + "..." : run.Id;
-                
-                AddInfoRow(column, "ID:", shortId);
-                AddInfoRow(column, "Ubicación:", run.RootLocationId ?? "N/A");
-                AddInfoRow(column, "Inicio:", FormatInstant(run.StartedAt, "dd/MM/yyyy HH:mm"));
-                AddInfoRow(column, "Finalización:", FormatInstant(run.EndedAt, "dd/MM/yyyy HH:mm"));
-                AddInfoRow(column, "Estado:", GetStatusInSpanish(run.Status.ToString()));
+                    .FontColor(PrimaryColor);
             });
-    }
+
+            column.Item().Height(15);
+
+            var shortId = run.Id.Length > 12 ? run.Id.Substring(0, 12) + "..." : run.Id;
+            
+            AddInfoRow(column, "ID de Ejecución:", shortId);
+            AddInfoRow(column, "Ubicación:", run.RootLocationId ?? "N/A");
+            AddInfoRow(column, "Hora de Inicio:", FormatInstant(run.StartedAt, "dd/MM/yyyy HH:mm:ss"));
+                AddInfoRow(column, "Hora de Finalización:", FormatInstant(run.EndedAt, "dd/MM/yyyy HH:mm:ss"));
+                AddInfoRow(column, "Estado:", GetStatusInSpanish(run.Status.ToString()));
+                    });
+            });
+        }
 
     private void ComposeStatsCard(IContainer container)
     {
@@ -133,87 +215,157 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
         var anomalousInspections = run.InspectionRuns?.Count(i => 
             i.OperationRun.Answers?.Any(a => a.Answer?.IsAnomalous == true) == true) ?? 0;
         var normalInspections = totalInspections - anomalousInspections;
+        var successRate = totalInspections > 0 ? (normalInspections * 100.0 / totalInspections) : 0;
 
-        container.Border(1)
-            .BorderColor(Colors.Green.Lighten2)
-            .Background(Colors.Green.Lighten4)
-            .Padding(15)
-            .Column(column =>
+        container.Decoration(decoration =>
+        {
+            decoration.Before()
+                .Background(anomalousInspections > 0 ? WarningColor : SuccessColor)
+                .Height(6);
+                
+            decoration.Content()
+                .Border(1)
+                .BorderColor(Colors.Grey.Lighten1)
+                .Background(Colors.White)
+                .Padding(20)
+                .Column(column =>
+        {
+            column.Item().Row(row =>
             {
-                column.Item().Text("ESTADÍSTICAS")
+                row.ConstantItem(24).Container()
+                    .Width(20)
+                    .Height(20)
+                    .Background(anomalousInspections > 0 ? WarningColor : SuccessColor)
+                    .AlignCenter()
+                    .AlignMiddle()
+                    .Text("📊")
+                    .FontSize(12)
+                    .FontColor(Colors.White);
+
+                row.ConstantItem(10);
+                
+                row.RelativeItem().Text("ESTADÍSTICAS DE EJECUCIÓN")
                     .FontSize(12)
                     .Bold()
-                    .FontColor(Colors.Green.Darken2);
-
-                column.Item().Height(10);
-
-                AddInfoRow(column, "Total Inspecciones:", totalInspections.ToString());
-                AddInfoRow(column, "Inspecciones Normales:", normalInspections.ToString());
-                AddInfoRow(column, "Con Anomalías:", anomalousInspections.ToString());
-                AddInfoRow(column, "Duración Total:", CalculateDuration(run.StartedAt, run.EndedAt));
+                    .FontColor(PrimaryColor);
             });
+
+            column.Item().Height(15);
+
+            AddInfoRow(column, "Total de Inspecciones:", totalInspections.ToString());
+            AddInfoRow(column, "Inspecciones Exitosas:", $"{normalInspections} ({successRate:F1}%)");
+            AddInfoRow(column, "Anomalías Detectadas:", anomalousInspections.ToString());
+            AddInfoRow(column, "Tiempo Total de Ejecución:", CalculateDuration(run.StartedAt, run.EndedAt));
+                });
+        });
     }
 
     private void ComposeInspectionsSummary(IContainer container)
     {
         container.Column(column =>
         {
-            column.Item().Text("INSPECCIONES REALIZADAS")
-                .FontSize(14)
-                .Bold()
-                .FontColor(Colors.Blue.Darken2);
-
-            column.Item().Height(2).Background(Colors.Blue.Darken2);
-            column.Item().Height(10);
-
-            foreach (var (inspection, index) in run.InspectionRuns.Select((insp, idx) => (insp, idx)))
+            column.Item().Row(row =>
             {
-                var hasAnomaly = inspection.OperationRun.Answers?.Any(a => a.Answer?.IsAnomalous == true) ?? false;
-                var anomalyCount = hasAnomaly ? inspection.OperationRun.Answers?.Count(a => a.Answer?.IsAnomalous == true) : 0;
-                var statusColor = hasAnomaly ? 
-                    (anomalyCount > 1 ? Colors.Red.Darken1 : Colors.Orange.Darken1) : 
-                    Colors.Green.Darken1;
-                var statusText = hasAnomaly ? 
-                    (anomalyCount > 1 ? "Múltiples Anomalías" : "Anomalía Detectada") : 
-                    "Normal";
+                row.ConstantItem(4).Height(20).Background(PrimaryColor);
+                row.ConstantItem(15);
+                row.RelativeItem().Text("DETALLE DE INSPECCIONES")
+                    .FontSize(14)
+                    .Bold()
+                    .FontColor(PrimaryColor);
+            });
 
-                column.Item().Border(1)
-                    .BorderColor(Colors.Grey.Lighten1)
-                    .Background(Colors.White)
-                    .Padding(12)
-                    .Row(row =>
-                    {
-                        row.ConstantItem(40).Text($"{index + 1}.")
-                            .FontSize(12)
-                            .Bold()
-                            .FontColor(Colors.Blue.Darken2);
+            column.Item().Height(15);
 
-                        row.RelativeItem().Column(col =>
+            // Tabla con headers
+            column.Item().Container()
+                .Border(1)
+                .BorderColor(Colors.Grey.Lighten1)
+                .Column(tableColumn =>
+                {
+                    // Header
+                    tableColumn.Item().Background(LightGray)
+                        .Border(1)
+                        .BorderColor(Colors.Grey.Lighten1)
+                        .Padding(12)
+                        .Row(headerRow =>
                         {
-                            col.Item().Text(inspection.CameraDescription)
-                                .FontSize(11)
-                                .SemiBold();
+                            headerRow.ConstantItem(40).Text("#")
+                                .FontSize(10)
+                                .Bold()
+                                .FontColor(NeutralGray);
                             
-                            col.Item().Text($"Duración: {CalculateDuration(inspection.StartedAt, inspection.EndedAt)}")
-                                .FontSize(9)
-                                .FontColor(Colors.Grey.Darken1);
+                            headerRow.RelativeItem(3).Text("CÁMARA")
+                                .FontSize(10)
+                                .Bold()
+                                .FontColor(NeutralGray);
                             
-                            col.Item().Text($"Hora: {FormatInstant(inspection.StartedAt, "HH:mm:ss")}")
-                                .FontSize(9)
-                                .FontColor(Colors.Grey.Darken1);
+                            headerRow.RelativeItem(2).Text("DURACIÓN")
+                                .FontSize(10)
+                                .Bold()
+                                .FontColor(NeutralGray);
+                            
+                            headerRow.RelativeItem(2).Text("HORA")
+                                .FontSize(10)
+                                .Bold()
+                                .FontColor(NeutralGray);
+                            
+                            headerRow.RelativeItem(2).Text("ESTADO")
+                                .FontSize(10)
+                                .Bold()
+                                .FontColor(NeutralGray);
                         });
 
-                        row.ConstantItem(120).AlignRight().Container()
-                            .Background(statusColor)
-                            .Padding(6)
-                            .Text(statusText)
-                            .FontSize(8)
-                            .FontColor(Colors.White)
-                            .Bold();
-                    });
-                
-                column.Item().Height(8);
-            }
+                    // Filas de datos
+                    foreach (var (inspection, index) in run.InspectionRuns.Select((insp, idx) => (insp, idx)))
+                    {
+                        var hasAnomaly = inspection.OperationRun.Answers?.Any(a => a.Answer?.IsAnomalous == true) ?? false;
+                        var anomalyCount = hasAnomaly ? inspection.OperationRun.Answers?.Count(a => a.Answer?.IsAnomalous == true) : 0;
+                        var (statusColor, statusText, statusIcon) = hasAnomaly ? 
+                            (anomalyCount > 1 ? (DangerColor, "Crítico", "🚨") : (WarningColor, "Advertencia", "⚠️")) : 
+                            (SuccessColor, "Normal", "✅");
+
+                        var bgColor = index % 2 == 0 ? Colors.White : LightGray;
+
+                        tableColumn.Item().Background(bgColor)
+                            .Border(1)
+                            .BorderColor(Colors.Grey.Lighten2)
+                            .Padding(12)
+                            .Row(row =>
+                            {
+                                row.ConstantItem(40).Text($"{index + 1:00}")
+                                    .FontSize(11)
+                                    .Medium()
+                                    .FontColor(PrimaryColor);
+
+                                row.RelativeItem(3).Text(inspection.CameraDescription)
+                                    .FontSize(10)
+                                    .FontColor(Colors.Grey.Darken2);
+                                
+                                row.RelativeItem(2).Text(CalculateDuration(inspection.StartedAt, inspection.EndedAt))
+                                    .FontSize(10)
+                                    .FontColor(Colors.Grey.Darken1);
+                                
+                                row.RelativeItem(2).Text(FormatInstant(inspection.StartedAt, "HH:mm:ss"))
+                                    .FontSize(10)
+                                    .FontColor(Colors.Grey.Darken1);
+
+                                row.RelativeItem(2).Container()
+                                    .Background(statusColor)
+                                    .PaddingVertical(4)
+                                    .PaddingHorizontal(6)
+                                    .AlignCenter()
+                                    .Row(statusRow =>
+                                    {
+                                        statusRow.AutoItem().Text(statusIcon)
+                                            .FontSize(8);
+                                        statusRow.AutoItem().Text(" " + statusText)
+                                            .FontSize(8)
+                                            .FontColor(Colors.White)
+                                            .Bold();
+                                    });
+                            });
+                    }
+                });
         });
     }
 
@@ -221,18 +373,30 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
     {
         container.Column(column =>
         {
-            column.Item().Text($"INSPECCIÓN - {inspection.CameraDescription}")
-                .FontSize(16)
-                .Bold()
-                .FontColor(Colors.Blue.Darken2);
+            // Título de sección con diseño mejorado
+            column.Item().Container()
+                .Background(PrimaryColor)
+                .Padding(15)
+                .Row(row =>
+                {
+                    row.AutoItem().Text("🎥")
+                        .FontSize(16)
+                        .FontColor(Colors.White);
+                    
+                    row.ConstantItem(10);
+                    
+                    row.RelativeItem().Text($"INSPECCIÓN DETALLADA - {inspection.CameraDescription}")
+                        .FontSize(14)
+                        .Bold()
+                        .FontColor(Colors.White);
+                });
 
-            column.Item().Height(2).Background(Colors.Blue.Darken2);
-            column.Item().Height(15);
+            column.Item().Height(20);
 
             column.Item().Row(row =>
             {
                 row.RelativeItem().Element(c => ComposeVideoInfo(c, inspection));
-                row.ConstantItem(20);
+                row.ConstantItem(25);
                 row.RelativeItem().Element(c => ComposeAnswersSection(c, inspection));
             });
         });
@@ -448,23 +612,42 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
 
     private void ComposeFooter(IContainer container)
     {
-        container.AlignCenter().Text(text =>
+        container.Row(row =>
         {
-            text.CurrentPageNumber().FontSize(8);
-            text.Span(" / ").FontSize(8);
-            text.TotalPages().FontSize(8);
+            row.RelativeItem().Text($"© {DateTime.Now.Year} Cerberus Surveillance System")
+                .FontSize(8)
+                .FontColor(Colors.Grey.Medium);
+                
+            row.RelativeItem().AlignCenter().Text("DOCUMENTO CONFIDENCIAL")
+                .FontSize(8)
+                .Bold()
+                .FontColor(NeutralGray);
+                
+            row.RelativeItem().AlignRight().Text(text =>
+            {
+                text.Span("Página ").FontSize(8).FontColor(Colors.Grey.Medium);
+                text.CurrentPageNumber().FontSize(8).Bold();
+                text.Span(" de ").FontSize(8).FontColor(Colors.Grey.Medium);
+                text.TotalPages().FontSize(8).Bold();
+            });
         });
     }
 
-    // Helper methods
+    // Helper methods mejorados
     private static void AddInfoRow(ColumnDescriptor column, string label, string value)
     {
         column.Item().Row(row =>
         {
-            row.RelativeItem().Text(label).Medium().FontColor(Colors.Grey.Darken2);
-            row.RelativeItem().AlignRight().Text(value).SemiBold();
+            row.RelativeItem(2).Text(label)
+                .FontSize(9)
+                .Medium()
+                .FontColor(NeutralGray);
+            row.RelativeItem(3).Text(value)
+                .FontSize(10)
+                .Bold()
+                .FontColor(Colors.Grey.Darken2);
         });
-        column.Item().Height(5);
+        column.Item().Height(8);
     }
 
     private static string GetQuestionText(IOperationQuestion question)
