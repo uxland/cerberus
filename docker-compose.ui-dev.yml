@@ -1,0 +1,86 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: cerberus
+      POSTGRES_PASSWORD: cerberus
+      POSTGRES_DB: cerberus
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "7654:5432"
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    environment:
+      KEYCLOAK_ADMIN: cerberus
+      KEYCLOAK_ADMIN_PASSWORD: cerberus
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/cerberus-realm.json
+
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./keycloak/config/cerberus-realm-setup.json:/opt/keycloak/data/import/cerberus-realm.json
+      - ./keycloak/certs/keycloak.p12:/opt/keycloak/conf/keycloak.p12
+      - ./keycloak/config/user-profile.json:/opt/keycloak/conf/user-profile.json
+    command:
+      - "start"
+      - '--https-port=8443'
+      - '--https-key-store-file=/opt/keycloak/conf/keycloak.p12'
+      - '--https-key-store-password=password'
+      - '--https-key-store-type=PKCS12'
+      - '--hostname=keycloak'
+      - '--import-realm'
+    extra_hosts:
+      - 'cerberus-react-ui:host-gateway'  # Ensure your React app hostname is resolvable
+      - "host.docker.internal:host-gateway"
+
+    depends_on:
+      - postgres
+    links:
+      - postgres
+  cerberus-back:
+    build:
+      context: .
+      dockerfile: src/hosts/CerberusApi/Dockerfile
+      args:
+        - BUILD_CONFIGURATION=${BUILD_CONFIGURATION:-Release}
+    ports:
+      - "5222:8080"
+    environment:
+      Backends__PostgresQL__Marten: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+      Backends__PostgresQL__Quartz: "Host=postgres;Port=5432;Database=cerberus;Username=cerberus;Password=cerberus;Application Name=Cerberus Back Office Quartz;Pooling=true;Minimum Pool Size=5;Maximum Pool Size=9;Keepalive=30;"
+      SnaphotCaptures__FolderRoot: "/app/Snapshots"
+    depends_on:
+      - postgres
+      - keycloak
+    links:
+      - postgres
+      - keycloak
+    volumes:
+      - snapshots_volume:/app/Snapshots
+  media-server:
+    build:
+      context: ./src/hosts/MediaServer
+      dockerfile: Dockerfile.deploy
+    ports:
+      - "3000:3000"
+      - "20000-20020:20000-20020"
+    environment:
+      RECORDER_DIR: "/media_storage/clips"
+    volumes:
+      -  ./src/hosts/MediaServer/certs:/certs/ssl
+      - snapshots_volume:/media_storage/clips
+volumes:
+  snapshots_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./Snapshots
+
+  keycloak_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./keycloak
