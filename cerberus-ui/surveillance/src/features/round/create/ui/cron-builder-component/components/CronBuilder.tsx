@@ -356,13 +356,17 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
         case 'every':
           return '*';
         case 'interval':
-          return `*/${field.intervalValue}`;
+          const intervalValue = field.intervalValue ?? 1;
+          return `*/${intervalValue}`;
         case 'range':
-          return `${field.rangeStart}-${field.rangeEnd}`;
+          const startValue = field.rangeStart ?? 0;
+          const endValue = field.rangeEnd ?? 0;
+          return `${startValue}-${endValue}`;
         case 'specific':
-          // Si no hay valores específicos, usar '*' como fallback
+          // Si no hay valores específicos, retornar cadena vacía para generar cron inválido
+          // pero mantener el tipo específico visible
           if (field.specificValues.length === 0) {
-            return '*';
+            return '';
           }
           return optimizeSpecificValues(field.specificValues);
         default:
@@ -384,11 +388,13 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
     const expression = generateCronExpression;
     const validation = validateCron(expression, locale as 'es' | 'en' | 'ca');
 
+    // Siempre llamar onChange, incluso si la expresión no es válida
+    onChange?.(expression);
+
     if (!validation.isValid) {
       setError(validation.error || t.invalidCron);
     } else {
       setError('');
-      onChange?.(expression);
 
       // Verificar si la expresión actual coincide exactamente con algún preset
       const matchingPreset = FREQUENCY_PRESETS.find(p => p.cron === expression);
@@ -497,16 +503,22 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
       case 'range':
         // Para campos con opciones, mostrar las etiquetas del rango
         if (options.length > 0) {
-          const startOption = options.find(opt => opt.value === field.rangeStart);
-          const endOption = options.find(opt => opt.value === field.rangeEnd);
-          const startLabel = startOption?.label || field.rangeStart?.toString();
-          const endLabel = endOption?.label || field.rangeEnd?.toString();
+          const { min, max } = getFieldOptions(fieldName);
+          const startValue = field.rangeStart ?? min;
+          const endValue = field.rangeEnd ?? max;
+          const startOption = options.find(opt => opt.value === startValue);
+          const endOption = options.find(opt => opt.value === endValue);
+          const startLabel = startOption?.label || startValue.toString();
+          const endLabel = endOption?.label || endValue.toString();
           return `${startLabel}-${endLabel}`;
         }
-        return `${field.rangeStart}-${field.rangeEnd}`;
+        const { min: numMin, max: numMax } = getFieldOptions(fieldName);
+        const startValue = field.rangeStart ?? numMin;
+        const endValue = field.rangeEnd ?? numMax;
+        return `${startValue}-${endValue}`;
       case 'specific':
         if (field.specificValues.length === 0) {
-          return '*';
+          return t.selectValues || 'Seleccionar';
         }
 
         // Para campos con opciones (mes y día de semana), mostrar las etiquetas optimizadas
@@ -545,7 +557,7 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
                   {fieldLabels[fieldName]}: {getFieldDisplayValue(fieldName)}
                 </span>
               </div>
-              <ChevronDown className="h-4 w-4 flex-shrink-0" />
+              <ChevronDown className="h-4 w-4 opacity-50 flex-shrink-0" />
             </Button>
           </PopoverTrigger>
           <PopoverContent
@@ -558,9 +570,30 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
 
               <Select
                 value={field.type}
-                onValueChange={(type: FieldConfig['type']) =>
-                  updateField(fieldName, { type, value: type === 'every' ? '*' : '' })
-                }
+                onValueChange={(type: FieldConfig['type']) => {
+                  const { min, max } = getFieldOptions(fieldName);
+
+                  if (type === 'every') {
+                    updateField(fieldName, { type, value: '*' });
+                  } else if (type === 'range') {
+                    // Establecer valores por defecto del rango
+                    updateField(fieldName, {
+                      type,
+                      rangeStart: min,
+                      rangeEnd: max,
+                      value: `${min}-${max}`
+                    });
+                  } else if (type === 'interval') {
+                    // Establecer valor por defecto del intervalo
+                    updateField(fieldName, {
+                      type,
+                      intervalValue: 1,
+                      value: '*/1'
+                    });
+                  } else {
+                    updateField(fieldName, { type, value: '' });
+                  }
+                }}
               >
                 <SelectTrigger
                   className="rounded-lg"
@@ -638,19 +671,11 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
                                 ? field.specificValues.filter(v => v !== value)
                                 : [...field.specificValues, value].sort((a, b) => a - b);
 
-                              // Si no quedan valores seleccionados, cambiar a tipo 'every'
-                              if (newValues.length === 0) {
-                                updateField(fieldName, {
-                                  type: 'every',
-                                  specificValues: [],
-                                  value: '*',
-                                });
-                              } else {
-                                updateField(fieldName, {
-                                  specificValues: newValues,
-                                  value: newValues.join(','),
-                                });
-                              }
+                              // Mantener siempre el tipo 'specific', incluso si no hay valores seleccionados
+                              updateField(fieldName, {
+                                specificValues: newValues,
+                                value: newValues.length > 0 ? newValues.join(',') : '',
+                              });
                             };
 
                             return (
@@ -708,9 +733,8 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
                         size="sm"
                         onClick={() => {
                           updateField(fieldName, {
-                            type: 'every',
                             specificValues: [],
-                            value: '*',
+                            value: '',
                           });
                         }}
                         className="text-xs h-6 px-2 hover:bg-opacity-10"
@@ -811,7 +835,6 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
                 {t[currentPresetConfig?.label as keyof typeof t] as string}
               </span>
             </div>
-            <ChevronDown className="h-4 w-4 flex-shrink-0" />
           </SelectTrigger>
           <SelectContent
             className="rounded-lg"

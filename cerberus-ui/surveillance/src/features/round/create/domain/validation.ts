@@ -1,12 +1,11 @@
 import { z } from "zod";
+import { cronValidator } from "./cronValidation";
 
 export const roundSchema = z.object({
     id: z.string().uuid(),
     rootLocationId: z.string().min(1),
     description: z.string().nonempty('round description is required'),
-    cronExpression: z.string().refine((value) => value !== '* * * * *', {
-        message: 'cron expression is required',
-    }),
+    cronExpression: cronValidator,
     estimatedDuration: z.number().optional(),
     assignedTo: z.string().optional(),
     deferredExecution: z.object({
