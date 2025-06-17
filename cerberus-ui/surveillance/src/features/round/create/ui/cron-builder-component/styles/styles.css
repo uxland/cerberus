@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+
+@layer base {
+  .cron-theme-provider {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Apply base styles using CSS variables */
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  .cron-theme-provider.dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Background and text color for dark mode are handled by variable overrides */
+  }
+
+  /* Apply base border color to children of the provider */
+  /* This replaces the previous global '*' styling for borders */
+  .cron-theme-provider * {
+    border-color: hsl(var(--border));
+    /* Note: This sets border-color. Other border properties like width and style
+       should be handled by Tailwind's base styles or specific component styles. */
+  }
+}
+
+/* Select Item Hover/Focus Styles for Different Themes */
+@layer components {
+  /* Base select item styles with border radius */
+  .select-item,
+  .cron-preset-item {
+    border-radius: 0.375rem !important; /* 6px */
+    transition: all 0.2s ease-in-out !important;
+  }
+
+  /* Default theme select item styles */
+  .select-item.theme-default:hover,
+  .select-item.theme-default[data-highlighted],
+  .select-item.theme-default:focus {
+    background-color: rgba(34, 47, 62, 0.08) !important;
+    color: #1e293b !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important; 
+  }
+
+  /* Dark theme select item styles */
+  .select-item.theme-dark:hover,
+  .select-item.theme-dark[data-highlighted], 
+  .select-item.theme-dark:focus {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    color: #60a5fa !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important; 
+  }
+
+  /* Cerberus theme select item styles */
+  .select-item.theme-cerberus:hover,
+  .select-item.theme-cerberus[data-highlighted],
+  .select-item.theme-cerberus:focus {
+    background-color: rgba(253, 184, 19, 0.08) !important;
+    color: #d97706 !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important; 
+  }
+
+  /* Preset selector specific styles */
+  .cron-preset-item.theme-default:hover,
+  .cron-preset-item.theme-default[data-highlighted],
+  .cron-preset-item.theme-default:focus {
+    background-color: rgba(34, 47, 62, 0.08) !important;
+    color: #1e293b !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important; 
+  }
+
+  .cron-preset-item.theme-dark:hover,
+  .cron-preset-item.theme-dark[data-highlighted],
+  .cron-preset-item.theme-dark:focus {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    color: #60a5fa !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important; 
+  }
+
+  .cron-preset-item.theme-cerberus:hover,
+  .cron-preset-item.theme-cerberus[data-highlighted],
+  .cron-preset-item.theme-cerberus:focus {
+    background-color: rgba(253, 184, 19, 0.08) !important;
+    color: #d97706 !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important; 
+  }
+
+  /* Select triggers with border radius */
+  .cron-builder-component [data-radix-select-trigger] {
+    border-radius: 0.5rem !important; /* 8px */
+  }
+
+  /* Select content with border radius */
+  .cron-builder-component [data-radix-select-content] {
+    border-radius: 0.5rem !important; /* 8px */
+  }
+
+  /* Popover content with border radius */
+  .cron-builder-component [data-radix-popover-content] {
+    border-radius: 0.5rem !important; /* 8px */
+  }
+
+  /* Additional rounded elements */
+  .cron-builder-component .border.rounded-lg {
+    border-radius: 0.5rem !important;
+  }
+  
+  /* Scroll area with border radius */
+  .cron-builder-component [data-radix-scroll-area-root] {
+    border-radius: 0.5rem !important;
+  }
+  
+  /* Numeric input containers */
+  .cron-builder-component input[type="text"] {
+    border-radius: 0.375rem !important;
+  }
+
+  /* Specific values container with border radius */
+  .cron-builder-component .border.rounded-lg {
+    border-radius: 0.5rem !important;
+    overflow: hidden; /* Ensure internal content respects border radius */
+  }
+  
+  /* ScrollArea viewport within specific values container */
+  .cron-builder-component .border.rounded-lg [data-radix-scroll-area-viewport] {
+    border-radius: 0.5rem !important;
+  }
+  
+  /* Grid container within ScrollArea */
+  .cron-builder-component .border.rounded-lg .grid {
+    border-radius: 0;
+  }
+  
+  /* Individual checkbox items within the grid */
+  .cron-builder-component .border.rounded-lg .grid > div {
+    border-radius: 0.25rem !important; /* 4px for individual items */
+  }
+}

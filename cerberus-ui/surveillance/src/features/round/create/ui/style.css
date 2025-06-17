@@ -35,15 +35,26 @@
 
 .my-project-cron-clear-button {
     border-radius: 10px;
-    background-color: #444;
-    color: #222;
-    border-color: #666;
+    background-color: #313131;
+    color: #fff;
+    border: 1px solid #555;
+    font-weight: bold;
+    font-size: 0.8rem;
+    height: 40px;
+    min-height: 40px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
 }
 
 .my-project-cron-clear-button:hover {
-    background-color: #666;
+    background-color: #505050;
     color: #fff;
-    border-color: #888;
+    border-color: #666;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .ant-select-arrow svg {
