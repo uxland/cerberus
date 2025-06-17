@@ -5,44 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Retrieve camera format each time a camera is added or edited">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_17_6_25__10_27__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM1/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM1/image.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM2/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM2/image.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM3/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM3/image.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM4/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM4/image.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cerberus-setup.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-setup.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/BackOfficePersistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/BackOfficePersistence.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/Projections/HierarchyItemProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/Projections/HierarchyItemProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraRecurrencePatternSubscription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraRecurrencePatternSubscription.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraSettingsSubscription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraSettingsSubscription.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/MaintenancePerisistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/MaintenancePerisistence.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueDetailProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueSummaryProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/PendingTrainingReviewProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/PendingTrainingReviewProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/QuerySessionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/QuerySessionExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/TrainingReviewDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/TrainingReviewDetailProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MartenPersistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MartenPersistence/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/MartenPersistence/MartenPersistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MartenPersistence/MartenPersistence.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceOperationSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceOperationSummaryProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundDetailProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundSummaryProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunDetailProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunSummaryProjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Subscriptions/RoundRecurrencePatternSubscription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Subscriptions/RoundRecurrencePatternSubscription.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/SurveillancePersistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/SurveillancePersistence.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/CerberusBackOffice.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/CerberusBackOffice.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusMaintenance/CerberusMaintenance.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusMaintenance/CerberusMaintenance.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Setup/WolverineSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Setup/WolverineSetup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenDbFixture.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenDbFixture.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenPersistence.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenPersistence.Tests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-ui/app/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-ui/app/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="tasks/kubernetes-setup-v2.1" />
+        <entry key="$PROJECT_DIR$" value="feats/org-struct/set-camera-format" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -106,39 +75,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Docker.Demo.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.cerberus-ui/Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.Browser Debug.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/danipinartnadal/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feats/org-struct/set-camera-format&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.app &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; build.executor&quot;: &quot;Run&quot;,
-    &quot;npm.cerberus-ui &gt; dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Docker.Demo.executor": "Run",
+    "Docker.cerberus-ui/Dockerfile.executor": "Run",
+    "Docker.dev-ui.executor": "Run",
+    "JavaScript Debug.Browser Debug.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHELLCHECK.PATH": "/Users/danipinartnadal/Library/Application Support/JetBrains/WebStorm2025.1/plugins/Shell Script/shellcheck",
+    "git-widget-placeholder": "demo-2",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.app > build.executor": "Run",
+    "npm.cerberus-ui > build.executor": "Run",
+    "npm.cerberus-ui > dev.executor": "Run",
+    "npm.dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "/Users/danipinartnadal/RiderProjects/cerberus/cerberus-ui/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/cerberus-ui/app" />
       <recent name="$PROJECT_DIR$/k8s/overlays/dev/cerberus-back" />
       <recent name="$PROJECT_DIR$/k8s/overlays/dev/postgres" />
       <recent name="$PROJECT_DIR$/k8s/overlays/dev/shared" />
-      <recent name="C:\Users\dpina\RiderProjects\cerberus-2\k8s\config-maps" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cerberus-ui/surveillance/src/features/run/download-report" />
@@ -148,8 +118,8 @@
       <recent name="C:\Users\dpina\RiderProjects\cerberus-2\k8s" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.Demo">
-    <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://cerberus-react-ui:5173" useFirstLineBreakpoints="true">
+  <component name="RunManager" selected="npm.cerberus-ui &gt; dev">
+    <configuration name="Browser Debug" type="JavascriptDebugType" uri="https://localhost:8080" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
@@ -162,6 +132,24 @@
       <deployment type="dockerfile">
         <settings>
           <option name="sourceFilePath" value="cerberus-ui/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="dev-ui" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="envVars">
+            <list>
+              <DockerEnvVarImpl>
+                <option name="name" value="BUILD_CONFIGURATION" />
+                <option name="value" value="Release" />
+              </DockerEnvVarImpl>
+            </list>
+          </option>
+          <option name="commandLineOptions" value="--build" />
+          <option name="sourceFilePath" value="docker-compose.dev-ui.yaml" />
         </settings>
       </deployment>
       <method v="2" />
@@ -204,6 +192,16 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Docker.Demo" />
+      <item itemvalue="Docker.dev-ui" />
+      <item itemvalue="Docker.cerberus-ui/Dockerfile" />
+      <item itemvalue="Docker.docker-compose.back.yml: Compose Deployment" />
+      <item itemvalue="JavaScript Debug.Browser Debug" />
+      <item itemvalue="npm.app &gt; build" />
+      <item itemvalue="npm.cerberus-ui &gt; build" />
+      <item itemvalue="npm.cerberus-ui &gt; dev" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.cerberus-ui &gt; dev" />
