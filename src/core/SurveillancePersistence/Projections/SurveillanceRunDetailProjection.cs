@@ -1,13 +1,10 @@
-using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Features.Features.Run.Create;
-using Marten;
-using Marten.Events;
 using Marten.Events.Aggregation;
-using System.Threading.Tasks;
+using JasperFx.Events;
 
 namespace Cerberus.Surveillance.Persistence.Projections;
 
-public class SurveillanceRunDetailProjection : SingleStreamProjection<SurveillanceRunDetail>
+public class SurveillanceRunDetailProjection : SingleStreamProjection<SurveillanceRunDetail, string>
 {
     public SurveillanceRunDetail Create(IEvent<SurveillanceRunCreated> @event)
     {

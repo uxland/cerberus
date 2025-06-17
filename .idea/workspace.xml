@@ -4,32 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Add postgres app to cerberus-dev">
-      <change afterPath="$PROJECT_DIR$/docker-compose.dev-ui.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/XabeFFMpegClient/CameraSettingsProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetMediaInfo/Camera.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetMediaInfo/CameraMediaInfoChanged.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetMediaInfo/Handler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetMediaInfo/ICameraSettingsProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetMediaInfo/SetCameraMediaInfoService.cs" afterDir="false" />
+    <list default="true" id="e3bb42e1-85be-4e97-a43f-5befad3ac6e3" name="Changes" comment="Retrieve camera format each time a camera is added or edited">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Cerberus.sln.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LocationsLoadFile.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/LocationsLoadFile.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM1/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM1/image.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM2/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM2/image.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM3/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM3/image.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM4/image.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Snapshots/OrganizationalStructure/Cameras/CAM4/image.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.demo.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.demo.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keycloak/config/cerberus-realm-setup.json" beforeDir="false" afterPath="$PROJECT_DIR$/keycloak/config/cerberus-realm-setup.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/XabeFFMpegClient/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/XabeFFMpegClient/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/XabeFFMpegClient/XabeFFMpegClient.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/XabeFFMpegClient/XabeFFMpegClient.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/CaptureSnapshots/ISnapshotCapturer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/Captures/CaptureSnapshots/ISnapshotCapturer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Camera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetReferenceImages/SetCamereReferenceImagesService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/SetReferenceImages/SetCamereReferenceImagesService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/IStreamRegistry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/Features/OrganizationalStructure/Camera/Streaming/IStreamRegistry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/dual-camera-stream.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/dual-camera-stream.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/MediaServer/src/streaming-client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cerberus-setup.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/cerberus-setup.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/BackOfficePersistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/BackOfficePersistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/Projections/HierarchyItemProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/Projections/HierarchyItemProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraRecurrencePatternSubscription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraRecurrencePatternSubscription.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraSettingsSubscription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/BackOfficePersistence/Subscriptions/CameraSettingsSubscription.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/MaintenancePerisistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/MaintenancePerisistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueDetailProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/IssueSummaryProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/PendingTrainingReviewProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/PendingTrainingReviewProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/QuerySessionExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/QuerySessionExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/TrainingReviewDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MaintenancePerisistence/Projections/TrainingReviewDetailProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MartenPersistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MartenPersistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/MartenPersistence/MartenPersistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/MartenPersistence/MartenPersistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceOperationSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceOperationSummaryProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundDetailProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRoundSummaryProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunDetailProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunDetailProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunSummaryProjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Projections/SurveillanceRunSummaryProjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/Subscriptions/RoundRecurrencePatternSubscription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/Subscriptions/RoundRecurrencePatternSubscription.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/SurveillancePersistence/SurveillancePersistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/SurveillancePersistence/SurveillancePersistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusBackOffice/CerberusBackOffice.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusBackOffice/CerberusBackOffice.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusMaintenance/CerberusMaintenance.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusMaintenance/CerberusMaintenance.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/CerberusSurveillance/CerberusSurveillance.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/CerberusApi.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hosts/CerberusApi/Setup/WolverineSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/hosts/CerberusApi/Setup/WolverineSetup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenDbFixture.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenDbFixture.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenPersistence.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/MartenPersistence.Tests/MartenPersistence.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,7 +291,7 @@
       <workItem from="1749624878359" duration="6232000" />
       <workItem from="1749701982645" duration="13065000" />
       <workItem from="1749982438056" duration="4570000" />
-      <workItem from="1750066955928" duration="791000" />
+      <workItem from="1750066955928" duration="10446000" />
     </task>
     <task id="LOCAL-00001" summary="chore: setup">
       <option name="closed" value="true" />
@@ -480,7 +493,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749456016033</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Retrieve camera format each time a camera is added or edited">
+      <option name="closed" value="true" />
+      <created>1750067785784</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1750067785784</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -504,6 +525,7 @@
     <MESSAGE value="chore: setup" />
     <MESSAGE value="chore: progress" />
     <MESSAGE value="Add postgres app to cerberus-dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add postgres app to cerberus-dev" />
+    <MESSAGE value="Retrieve camera format each time a camera is added or edited" />
+    <option name="LAST_COMMIT_MESSAGE" value="Retrieve camera format each time a camera is added or edited" />
   </component>
 </project>

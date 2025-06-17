@@ -1,13 +1,14 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.Maintenance.Features.Features.Issues;
 using Cerberus.Maintenance.Features.Features.Issues.ListByLocationPath;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 
 namespace Cerberus.Maintenance.Persistence.Projections;
 
-public class IssueSummaryProjection: SingleStreamProjection<PendingMaintenanceIssueSummary>
+public class IssueSummaryProjection: SingleStreamProjection<PendingMaintenanceIssueSummary, string>
 {
     public IssueSummaryProjection()
     {

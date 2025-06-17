@@ -12,9 +12,10 @@ internal static class QuerySessionExtensions
         var segments = cameraPath.Split(">").Select((value, index) => new {Value = value, Index = index}).ToList();
         var description = segments.Aggregate("", (current, segment) =>
         {
+            
             IOrganizationStructureItem orgItem = segment.Index == segments.Count -1
-                ? querySession.Load<Camera>(segment.Value)!
-                : querySession.Load<Location>(segment.Value)!;
+                ? querySession.LoadAsync<Camera>(segment.Value).Result!
+                : querySession.LoadAsync<Location>(segment.Value).Result!;
             return string.IsNullOrEmpty(current) ? orgItem.Description : $"{current}>{orgItem.Description}";
         });
         return description;

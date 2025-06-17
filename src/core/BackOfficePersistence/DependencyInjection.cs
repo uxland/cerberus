@@ -8,6 +8,8 @@ using Cerberus.BackOffice.Persistence.Projections;
 using Cerberus.BackOffice.Persistence.QueryProviders;
 using Cerberus.BackOffice.Persistence.Subscriptions;
 using Cerberus.Core.Domain;
+using JasperFx;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Projections;
 using Microsoft.Extensions.DependencyInjection;

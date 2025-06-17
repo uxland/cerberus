@@ -1,5 +1,5 @@
 $repoUrl = "https://github.com/uxland/cerberus"
-$branch  = "demo"
+$branch  = "demo-2"
 $folderName = (Split-Path $repoUrl -Leaf).Replace(".git", "")
 
 if(Test-Path $folderName) {
@@ -21,4 +21,6 @@ if(Test-Path $folderName) {
 # Check if the Snapshots directory exists
 
 docker-compose down
+docker system prune --volumes -af
+docker builder prune --all -f
 docker-compose -f docker-compose.demo.yml up -d --build

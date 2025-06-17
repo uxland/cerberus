@@ -3,13 +3,14 @@ using Cerberus.Surveillance.Features.Features.Operation;
 using Cerberus.Surveillance.Features.Features.Round;
 using Cerberus.Surveillance.Features.Features.Round.CreateOrUpdate;
 using Cerberus.Surveillance.Features.Features.Round.Get;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 
 namespace Cerberus.Surveillance.Persistence.Projections;
 
-public class SurveillanceRoundDetailProjection : SingleStreamProjection<SurveillanceRoundDetail>
+public class SurveillanceRoundDetailProjection : SingleStreamProjection<SurveillanceRoundDetail, string>
 {
     public Task<SurveillanceRoundDetail> Create(IEvent<SurveillanceRoundCreated> @event, IQuerySession querySession)
     {
