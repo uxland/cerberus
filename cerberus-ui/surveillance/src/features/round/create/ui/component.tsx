@@ -170,8 +170,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                     <Select
                         name='assignedTo'
                         {...register('assignedTo')}
-                        value={selectedGroup}
-                        onChange={(e) => setSelectedGroup(e.target.value)}
+                        value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)}
                         displayEmpty
                         size="small"
                         className="!text-[0.8rem] bg-[#313131] text-white font-bold hover:bg-[#505050] flex items-center justify-center"
