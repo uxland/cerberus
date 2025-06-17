@@ -14,6 +14,7 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
     private static readonly string PrimaryColor = "#1E3A8A";      // Azul corporativo
     private static readonly string SecondaryColor = "#3B82F6";    // Azul claro
     private static readonly string AccentColor = "#EFF6FF";       // Azul muy claro
+    private static readonly string OrangeAccentColor = "#FFF7ED"; // Naranja muy claro para accent
     private static readonly string SuccessColor = "#059669";      // Verde profesional
     private static readonly string WarningColor = "#D97706";      // Naranja profesional
     private static readonly string DangerColor = "#DC2626";       // Rojo profesional
@@ -122,9 +123,10 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
             column.Item().Element(ComposeExecutiveSummary);
             
             column.Item().Height(25);
-
-            foreach (var inspection in run.InspectionRuns)
+            foreach (var (inspection, index) in run.InspectionRuns.Select((insp, idx) => (insp, idx)))
             {
+                //Saltos de página para separar secciones
+                column.Item().PageBreak();
                 column.Item().Element(c => ComposeInspectionDetail(c, inspection));
                 column.Item().Height(20);
             }
@@ -173,6 +175,7 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
                 .Border(1)
                 .BorderColor(Colors.Grey.Lighten1)
                 .Background(Colors.White)
+                .Height(190) // Altura fija para igualar ambos cards
                 .Padding(20)
                 .Column(column =>
         {
@@ -203,8 +206,8 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
             AddInfoRow(column, "ID de Ejecución:", shortId);
             AddInfoRow(column, "Ubicación:", run.RootLocationId ?? "N/A");
             AddInfoRow(column, "Hora de Inicio:", FormatInstant(run.StartedAt, "dd/MM/yyyy HH:mm:ss"));
-                AddInfoRow(column, "Hora de Finalización:", FormatInstant(run.EndedAt, "dd/MM/yyyy HH:mm:ss"));
-                AddInfoRow(column, "Estado:", GetStatusInSpanish(run.Status.ToString()));
+            AddInfoRow(column, "Hora de Finalización:", FormatInstant(run.EndedAt, "dd/MM/yyyy HH:mm:ss"));
+            AddInfoRow(column, "Estado:", GetStatusInSpanish(run.Status.ToString()));
                     });
             });
         }
@@ -220,13 +223,14 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
         container.Decoration(decoration =>
         {
             decoration.Before()
-                .Background(anomalousInspections > 0 ? WarningColor : SuccessColor)
+                .Background(OrangeAccentColor)
                 .Height(6);
                 
             decoration.Content()
                 .Border(1)
                 .BorderColor(Colors.Grey.Lighten1)
                 .Background(Colors.White)
+                .Height(190) // Misma altura fija que el card anterior
                 .Padding(20)
                 .Column(column =>
         {
@@ -417,16 +421,16 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
 
                 column.Item().Height(10);
 
-                column.Item().Container()
-                    .Height(100)
-                    .Background(Colors.Grey.Darken1)
-                    .Border(2)
-                    .BorderColor(Colors.Grey.Medium)
-                    .AlignCenter()
-                    .AlignMiddle()
-                    .Text("🎥 Video no disponible en PDF")
-                    .FontColor(Colors.White)
-                    .FontSize(10);
+                // column.Item().Container()
+                //     .Height(100)
+                //     .Background(Colors.Grey.Darken1)
+                //     .Border(2)
+                //     .BorderColor(Colors.Grey.Medium)
+                //     .AlignCenter()
+                //     .AlignMiddle()
+                //     .Text("🎥 Video no disponible en PDF")
+                //     .FontColor(Colors.White)
+                //     .FontSize(10);
 
                 column.Item().Height(15);
 
