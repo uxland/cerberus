@@ -22,10 +22,11 @@ interface SurveillanceOperationFormArgs {
 export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: SurveillanceOperationFormArgs) => {
     const [activeTab, setActiveTab] = useState(0);
     const [showValidationErrors, setShowValidationErrors] = useState(false);
+    const fixErrorsLabel = useSurveillanceLocales("operation.create.fixErrorsLabel");
 
     const formMethods = useForm<OperationForm>({
         resolver: zodResolver(SurveillanceOperationFormModelSchema),
-        defaultValues: initialModel || { description: '', questions: [] },
+        defaultValues: (initialModel as any) || { description: '', questions: [] },
         mode: "onSubmit", // Cambiamos a onSubmit para evitar validaciones automáticas
         shouldFocusError: false // Deshabilitamos el focus automático
     });
@@ -39,7 +40,7 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         clearErrors
     } = formMethods;
 
-    const { fields, append, remove, replace } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "questions",
         keyName: "__id"
@@ -51,7 +52,7 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         try {
             console.log("Data", data);
             setShowValidationErrors(false);
-            await onSubmitRequested?.(data as SurveillanceOperationFormModel);
+            await onSubmitRequested?.(data as unknown as SurveillanceOperationFormModel);
         } catch (error) {
             console.error("Error submitting form:", error);
         }
@@ -64,23 +65,23 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
 
     const handleAddQuestion = (type: OperationQuestionType | undefined) => {
         const currentState = watch();
-        const question = produceQuestion(type, currentState as SurveillanceOperationFormModel);
-        append(question);
+        const question = produceQuestion(type, currentState as unknown as SurveillanceOperationFormModel);
+        append(question as any);
         setActiveTab(fields.length); // selecciona la nueva pestaña
     };
 
     const handleChangeQuestionType = (questionId: string, type: OperationQuestionType) => {
-        const question = convertQuestionToType(operation as SurveillanceOperationFormModel, questionId, type);
+        const question = convertQuestionToType(operation as unknown as SurveillanceOperationFormModel, questionId, type);
         updateQuestion(question);
     };
 
-    const handleSetQuestion = (questionId: string, question: OperationQuestion) => {
+    const handleSetQuestion = (_questionId: string, question: OperationQuestion) => {
         updateQuestion(question);
     };
 
     const updateQuestion = (question: OperationQuestion) => {
-        const currentQuestions = (operation.questions as OperationQuestion[]).map(q => q.id === question.id ? question : q);
-        setValue('questions', currentQuestions);
+        const currentQuestions = (operation.questions as unknown as OperationQuestion[]).map(q => q.id === question.id ? question : q);
+        setValue('questions', currentQuestions as any);
     };
 
     const handleRemoveQuestion = (questionId: string) => {
@@ -114,7 +115,6 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
         const subscription = watch((value, { name }) => {
             if (name && name.includes('.text') && value) {
                 // Si el campo de texto se llena, limpiar su error específico
-                const fieldPath = name.replace('.text', '');
                 clearErrors(name as any);
             }
         });
@@ -138,7 +138,9 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
                         className="transition-all duration-300 ease-in-out"
                     >
                         <div>
-                            <strong>Por favor, corrije los siguientes errores:</strong>
+                            <strong>
+                                {fixErrorsLabel}:
+                            </strong>
                             <ul className="mt-2 ml-4">
                                 {validationErrors.map((error, index) => (
                                     <li key={index} className="list-disc transition-all duration-200">{error}</li>
@@ -186,41 +188,41 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
                                 onClick={() => handleAddQuestion(undefined)}
                             />
                         </Tabs>
-                    </Box>
-
-                    {fields[activeTab] && (
+                    </Box>                        {fields[activeTab] && (
                         <Box sx={{ p: 2 }}>
-                            {createQuestionEditor(fields[activeTab] as OperationQuestion, {
+                            {createQuestionEditor(fields[activeTab] as unknown as OperationQuestion, {
                                 setQuestion: handleSetQuestion,
                                 changeQuestionType: handleChangeQuestionType,
                                 removeQuestion: handleRemoveQuestion,
                                 index: activeTab,
                                 path: `questions.${activeTab}`,
-                                formMethods
+                                formMethods: formMethods as any
                             })}
                         </Box>
                     )}
                 </>
             )}
-            <div className="flex gap-4">
-                <button
-                    type="button"
-                    className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
-                    onClick={() => handleAddQuestion(undefined)}
-                >
-                    {useSurveillanceLocales("operation.create.question.addQuestion")}
-                </button>
-                <button
+            <div className="flex">
+                <div className="flex gap-4 ml-auto">
+                    <button
+                        type="button"
+                        className="text-xs uppercase bg-formSelect text-black font-bold py-2 px-8 rounded-full hover:bg-formSelectHover"
+                        onClick={() => handleAddQuestion(undefined)}
+                    >
+                        {useSurveillanceLocales("operation.create.question.addQuestion")}
+                    </button>
+                    {/* <button
                     type="button"
                     className="text-xs uppercase bg-[#313131] text-white font-bold py-2 px-8 rounded-full hover:bg-[#505050]">
                     {useSurveillanceLocales("operation.create.preview")}
-                </button>
+                </button> */}
+                    <button
+                        type="submit"
+                        className="flex text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full hover:bg-secondaryHover">
+                        {useSurveillanceLocales("operation.create.proceed")}
+                    </button>
+                </div>
             </div>
-            <button
-                type="submit"
-                className="flex text-xs uppercase bg-secondary text-white font-bold py-2 px-8 rounded-full ml-auto hover:bg-secondaryHover">
-                {useSurveillanceLocales("operation.create.proceed")}
-            </button>
         </form>
     );
 };

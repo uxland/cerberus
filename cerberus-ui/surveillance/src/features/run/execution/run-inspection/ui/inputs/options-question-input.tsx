@@ -14,7 +14,7 @@ interface OptionsQuestionInputProps extends OperationRunQuestionAnswer {
 
 export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
     const isMandatory = props.question.isMandatory;
-    const { register, watch, setValue, formState } = props.formMethods;
+    const { register, watch, setValue, getValues, formState } = props.formMethods;
     const question = props.question as OptionsQuestion;
     const fieldPath = `answers.${props.index}`;
     const questionIdPath = `${fieldPath}.questionId` as const;
@@ -39,17 +39,37 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
 
     const [prevActionsString, setPrevActionsString] = useState("");
 
-    useEffect(() => {
+    // Función recursiva para preservar el estado de las alternativas
+    const preserveActionState = (newAction: any, existingAction: any): any => {
+        if (!newAction) return null;
+
+        const result = {
+            description: newAction.description,
+            executed: existingAction?.executed ?? null,
+            comments: existingAction?.comments ?? "",
+            alternatives: null
+        };
+
+        // Si hay alternativas, procesarlas recursivamente
+        if (newAction.alternatives && Array.isArray(newAction.alternatives)) {
+            result.alternatives = newAction.alternatives.map((altAction: any, altIndex: number) => {
+                const existingAlt = existingAction?.alternatives?.[altIndex];
+                return preserveActionState(altAction, existingAlt);
+            });
+        }
+
+        return result;
+    }; useEffect(() => {
         if (selectedCodes.length > 0 && hasActions) {
             setShowActions(true);
             const actions = getRequiredActions(props.question, selectedCodes) || [];
-            const combined = actions.map(act => ({
-                description: act.description,
-                executed: null,
-                comments: "",
-                alternatives: act.alternatives || null,
-            })
-            );
+            const currentActions = getValues(`${fieldPath}.actions`) || [];
+
+            const combined = actions.map((act, index) => {
+                // Preservar valores existentes incluyendo alternativas anidadas
+                const existingAction = currentActions[index];
+                return preserveActionState(act, existingAction);
+            });
 
             // Solo actualizamos si hay cambios
             const newActionsString = JSON.stringify(combined);
@@ -66,7 +86,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                 setValue(`${fieldPath}.actions`, undefined);
             }
         }
-    }, [props.question, selectedCodes, hasActions, setValue, fieldPath, prevActionsString]);
+    }, [props.question, selectedCodes, hasActions, setValue, fieldPath, prevActionsString, getValues]);
 
     return (
         <>

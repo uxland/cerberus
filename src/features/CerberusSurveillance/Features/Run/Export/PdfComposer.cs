@@ -16,8 +16,8 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
             .Page(page =>
             {
                 page.Size(PageSizes.A4);
-                page.Margin(20);
-                page.DefaultTextStyle(x => x.FontSize(10).FontColor(Colors.Black));
+                page.Margin(25);
+                page.DefaultTextStyle(x => x.FontSize(11).FontColor(Colors.Grey.Darken3));
 
                 page.Header().Element(ComposeHeader);
                 page.Content().Element(ComposeContent);
@@ -27,24 +27,38 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
 
     private void ComposeHeader(IContainer container)
     {
-        container.Row(row =>
+        container.Column(column =>
         {
-            row.RelativeItem().Column(column =>
+            column.Item().Row(row =>
             {
-                column.Item().Text("Surveillance Run Report")
-                    .FontSize(20)
-                    .Bold()
-                    .FontColor(Colors.Blue.Darken3);
+                row.RelativeItem().Column(titleColumn =>
+                {
+                    titleColumn.Item().Text("REPORTE DE VIGILANCIA")
+                        .FontSize(24)
+                        .Bold()
+                        .FontColor(Colors.Blue.Darken2);
 
-                column.Item().Text($"Round: {run.RoundId} - Location: {run.RootLocationId}")
-                    .FontSize(12)
-                    .FontColor(Colors.Grey.Darken2);
+                    titleColumn.Item().Text($"Ubicación: {run.RootLocationId}")
+                        .FontSize(14)
+                        .Medium()
+                        .FontColor(Colors.Grey.Darken2);
+                });
+
+                row.ConstantItem(120).AlignRight().Column(dateColumn =>
+                {
+                    dateColumn.Item().Text($"Fecha: {FormatInstant(run.StartedAt, "dd/MM/yyyy")}")
+                        .FontSize(10)
+                        .FontColor(Colors.Grey.Darken1);
+                    
+                    dateColumn.Item().Text($"Generado: {SystemClock.Instance.GetCurrentInstant():dd/MM/yyyy HH:mm}")
+                        .FontSize(9)
+                        .FontColor(Colors.Grey.Medium);
+                });
             });
 
-            row.ConstantItem(120).AlignRight()
-                .Text($"Generated: {SystemClock.Instance.GetCurrentInstant():yyyy-MM-dd HH:mm}")
-                .FontSize(8)
-                .FontColor(Colors.Grey.Medium);
+            column.Item().Height(15);
+            column.Item().Height(2).Background(Colors.Blue.Darken1);
+            column.Item().Height(10);
         });
     }
 
@@ -52,173 +66,188 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
     {
         container.Column(column =>
         {
-            // Summary Page (like left panel)
-            column.Item().Element(ComposeSummarySection);
+            column.Item().Element(ComposeExecutiveSummary);
+            
+            column.Item().Height(20);
 
-            column.Item().PageBreak();
-
-            // Detail pages for each inspection
             foreach (var inspection in run.InspectionRuns)
             {
                 column.Item().Element(c => ComposeInspectionDetail(c, inspection));
-                column.Item().PageBreak();
+                column.Item().Height(15);
             }
         });
     }
 
-    private void ComposeSummarySection(IContainer container)
+    private void ComposeExecutiveSummary(IContainer container)
     {
         container.Column(column =>
         {
-            // Title
-            column.Item().Text("Run Summary")
+            column.Item().Text("RESUMEN EJECUTIVO")
                 .FontSize(18)
-                .Bold();
+                .Bold()
+                .FontColor(Colors.Blue.Darken2);
+
+            column.Item().Height(2).Background(Colors.Blue.Darken2);
+            column.Item().Height(15);
+
+            column.Item().Row(row =>
+            {
+                row.RelativeItem().Element(ComposeBasicInfoCard);
+                row.ConstantItem(15);
+                row.RelativeItem().Element(ComposeStatsCard);
+            });
 
             column.Item().Height(20);
-
-            // Summary Card (like RunDetailsCard)
-            column.Item().Element(ComposeSummaryCard);
-
-            column.Item().Height(20);
-
-            // Inspections List (like RunInspectionsList)
-            column.Item().Element(ComposeInspectionsList);
+            column.Item().Element(ComposeInspectionsSummary);
         });
     }
 
-    private void ComposeSummaryCard(IContainer container)
+    private void ComposeBasicInfoCard(IContainer container)
     {
         container.Border(1)
-            .BorderColor(Colors.Grey.Lighten1)
-            .Background(Colors.Grey.Lighten4)
+            .BorderColor(Colors.Blue.Lighten2)
+            .Background(Colors.Blue.Lighten4)
             .Padding(15)
             .Column(column =>
             {
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("ID:").Medium().FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(run.Id[..Math.Min(8, run.Id.Length)])
-                        .SemiBold();
-                });
+                column.Item().Text("INFORMACIÓN GENERAL")
+                    .FontSize(12)
+                    .Bold()
+                    .FontColor(Colors.Blue.Darken2);
 
-                column.Item().Height(8);
+                column.Item().Height(10);
 
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Location:").Medium().FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(run.RootLocationId).SemiBold();
-                });
-
-                column.Item().Height(8);
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Start:").Medium().FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(FormatInstant(run.StartedAt)).SemiBold();
-                });
-
-                column.Item().Height(8);
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Status:").Medium().FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(run.Status.ToString()).SemiBold();
-                });
-
-                column.Item().Height(8);
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Inspections:").Medium().FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight()
-                        .Text($"{run.InspectionRuns?.Count() ?? 0}\u0020\u002f\u0020{run.InspectionRuns?.Count() ?? 0}").SemiBold();
-                });
+                var shortId = run.Id.Length > 8 ? run.Id.Substring(0, 8) + "..." : run.Id;
+                
+                AddInfoRow(column, "ID:", shortId);
+                AddInfoRow(column, "Ubicación:", run.RootLocationId ?? "N/A");
+                AddInfoRow(column, "Inicio:", FormatInstant(run.StartedAt, "dd/MM/yyyy HH:mm"));
+                AddInfoRow(column, "Finalización:", FormatInstant(run.EndedAt, "dd/MM/yyyy HH:mm"));
+                AddInfoRow(column, "Estado:", GetStatusInSpanish(run.Status.ToString()));
             });
     }
 
-    private void ComposeInspectionsList(IContainer container)
+    private void ComposeStatsCard(IContainer container)
+    {
+        var totalInspections = run.InspectionRuns?.Count() ?? 0;
+        var anomalousInspections = run.InspectionRuns?.Count(i => 
+            i.OperationRun.Answers?.Any(a => a.Answer?.IsAnomalous == true) == true) ?? 0;
+        var normalInspections = totalInspections - anomalousInspections;
+
+        container.Border(1)
+            .BorderColor(Colors.Green.Lighten2)
+            .Background(Colors.Green.Lighten4)
+            .Padding(15)
+            .Column(column =>
+            {
+                column.Item().Text("ESTADÍSTICAS")
+                    .FontSize(12)
+                    .Bold()
+                    .FontColor(Colors.Green.Darken2);
+
+                column.Item().Height(10);
+
+                AddInfoRow(column, "Total Inspecciones:", totalInspections.ToString());
+                AddInfoRow(column, "Inspecciones Normales:", normalInspections.ToString());
+                AddInfoRow(column, "Con Anomalías:", anomalousInspections.ToString());
+                AddInfoRow(column, "Duración Total:", CalculateDuration(run.StartedAt, run.EndedAt));
+            });
+    }
+
+    private void ComposeInspectionsSummary(IContainer container)
     {
         container.Column(column =>
         {
-            column.Item().Text("Run Inspections")
-                .FontSize(16)
-                .Bold();
+            column.Item().Text("INSPECCIONES REALIZADAS")
+                .FontSize(14)
+                .Bold()
+                .FontColor(Colors.Blue.Darken2);
 
-            column.Item().Height(15);
+            column.Item().Height(2).Background(Colors.Blue.Darken2);
+            column.Item().Height(10);
 
-            foreach (var inspection in run.InspectionRuns)
+            foreach (var (inspection, index) in run.InspectionRuns.Select((insp, idx) => (insp, idx)))
             {
-                column.Item().Element(c => ComposeInspectionSummaryCard(c, inspection));
-                column.Item().Height(10);
+                var hasAnomaly = inspection.OperationRun.Answers?.Any(a => a.Answer?.IsAnomalous == true) ?? false;
+                var anomalyCount = hasAnomaly ? inspection.OperationRun.Answers?.Count(a => a.Answer?.IsAnomalous == true) : 0;
+                var statusColor = hasAnomaly ? 
+                    (anomalyCount > 1 ? Colors.Red.Darken1 : Colors.Orange.Darken1) : 
+                    Colors.Green.Darken1;
+                var statusText = hasAnomaly ? 
+                    (anomalyCount > 1 ? "Múltiples Anomalías" : "Anomalía Detectada") : 
+                    "Normal";
+
+                column.Item().Border(1)
+                    .BorderColor(Colors.Grey.Lighten1)
+                    .Background(Colors.White)
+                    .Padding(12)
+                    .Row(row =>
+                    {
+                        row.ConstantItem(40).Text($"{index + 1}.")
+                            .FontSize(12)
+                            .Bold()
+                            .FontColor(Colors.Blue.Darken2);
+
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text(inspection.CameraDescription)
+                                .FontSize(11)
+                                .SemiBold();
+                            
+                            col.Item().Text($"Duración: {CalculateDuration(inspection.StartedAt, inspection.EndedAt)}")
+                                .FontSize(9)
+                                .FontColor(Colors.Grey.Darken1);
+                            
+                            col.Item().Text($"Hora: {FormatInstant(inspection.StartedAt, "HH:mm:ss")}")
+                                .FontSize(9)
+                                .FontColor(Colors.Grey.Darken1);
+                        });
+
+                        row.ConstantItem(120).AlignRight().Container()
+                            .Background(statusColor)
+                            .Padding(6)
+                            .Text(statusText)
+                            .FontSize(8)
+                            .FontColor(Colors.White)
+                            .Bold();
+                    });
+                
+                column.Item().Height(8);
             }
         });
-    }
-
-    private void ComposeInspectionSummaryCard(IContainer container, InspectionRun inspection)
-    {
-        var hasAnomaly = inspection.OperationRun.Answers?.Any(a => a.Answer?.IsAnomalous == true) ?? false;
-        var anomalyCount = hasAnomaly ? inspection.OperationRun.Answers?.Count(a => a.Answer?.IsAnomalous == true) : 0;
-        var statusColor =
-            hasAnomaly ? anomalyCount > 1 ? Colors.Red.Darken2 : Colors.Orange.Darken1 : Colors.Green.Darken1;
-        var statusText = hasAnomaly ? anomalyCount > 1 ? "Multiple Anomalies" : "Single Anomaly" : "Normal";
-
-        container.Border(1)
-            .BorderColor(Colors.Grey.Lighten1)
-            .Background(Colors.Grey.Lighten4)
-            .Padding(10)
-            .Row(row =>
-            {
-                row.RelativeItem().Column(column =>
-                {
-                    column.Item().Text(inspection.CameraDescription)
-                        .SemiBold();
-                    column.Item().Text(FormatInstant(inspection.StartedAt))
-                        .FontSize(9)
-                        .FontColor(Colors.Grey.Darken1);
-                });
-
-                row.ConstantItem(100).AlignRight().Container()
-                    .Background(statusColor)
-                    .Padding(4)
-                    .Text(statusText)
-                    .FontSize(8)
-                    .FontColor(Colors.White)
-                    .Bold();
-            });
     }
 
     private void ComposeInspectionDetail(IContainer container, InspectionRun inspection)
     {
         container.Column(column =>
         {
-            // Inspection Header
-            column.Item().Text($"Inspection Detail - {inspection.CameraDescription}")
-                .FontSize(18)
-                .Bold();
+            column.Item().Text($"INSPECCIÓN - {inspection.CameraDescription}")
+                .FontSize(16)
+                .Bold()
+                .FontColor(Colors.Blue.Darken2);
 
-            column.Item().Height(20);
+            column.Item().Height(2).Background(Colors.Blue.Darken2);
+            column.Item().Height(15);
 
-            // Video Section (like RunVideoSection)
-            column.Item().Element(c => ComposeVideoSection(c, inspection));
-
-            column.Item().Height(20);
-
-            // Form Section (like InspectionFormReadOnly)
-            column.Item().Element(c => ComposeFormSection(c, inspection));
+            column.Item().Row(row =>
+            {
+                row.RelativeItem().Element(c => ComposeVideoInfo(c, inspection));
+                row.ConstantItem(20);
+                row.RelativeItem().Element(c => ComposeAnswersSection(c, inspection));
+            });
         });
     }
 
-    private void ComposeVideoSection(IContainer container, InspectionRun inspection)
+    private void ComposeVideoInfo(IContainer container, InspectionRun inspection)
     {
         container.Border(1)
-            .BorderColor(Colors.Grey.Lighten1)
-            .Background(Colors.Grey.Lighten4)
+            .BorderColor(Colors.Blue.Lighten2)
+            .Background(Colors.Blue.Lighten4)
             .Padding(15)
             .Column(column =>
             {
-                column.Item().Text("Video Details")
-                    .FontSize(14)
+                column.Item().Text("INFORMACIÓN DEL VIDEO")
+                    .FontSize(12)
                     .Bold()
                     .FontColor(Colors.Blue.Darken2);
 
@@ -226,181 +255,193 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
 
                 column.Item().Container()
                     .Height(100)
-                    .Background(Colors.Grey.Darken2)
+                    .Background(Colors.Grey.Darken1)
+                    .Border(2)
+                    .BorderColor(Colors.Grey.Medium)
                     .AlignCenter()
                     .AlignMiddle()
-                    .Text("Video Preview Not Available in PDF")
+                    .Text("🎥 Video no disponible en PDF")
                     .FontColor(Colors.White)
-                    .FontSize(12);
+                    .FontSize(10);
 
                 column.Item().Height(15);
 
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Camera:").FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(inspection.CameraDescription).SemiBold();
-                });
-
-                column.Item().Height(8);
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Duration:").FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(CalculateDuration(inspection.StartedAt, inspection.EndedAt))
-                        .SemiBold();
-                });
-
-                column.Item().Height(8);
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text("Date:").FontColor(Colors.Grey.Darken1);
-                    row.RelativeItem().AlignRight().Text(FormatInstant(inspection.StartedAt)).SemiBold();
-                });
+                column.Item().Border(1)
+                    .BorderColor(Colors.Blue.Medium)
+                    .Background(Colors.White)
+                    .Padding(10)
+                    .Column(detailsColumn =>
+                    {
+                        AddInfoRow(detailsColumn, "Cámara:", inspection.CameraDescription);
+                        AddInfoRow(detailsColumn, "Duración:", CalculateDuration(inspection.StartedAt, inspection.EndedAt));
+                        AddInfoRow(detailsColumn, "Inicio:", FormatInstant(inspection.StartedAt, "HH:mm:ss"));
+                        AddInfoRow(detailsColumn, "Finalización:", FormatInstant(inspection.EndedAt, "HH:mm:ss"));
+                    });
             });
     }
 
-    private void ComposeFormSection(IContainer container, InspectionRun inspection)
+    private void ComposeAnswersSection(IContainer container, InspectionRun inspection)
     {
         container.Border(1)
-            .BorderColor(Colors.Grey.Lighten1)
-            .Background(Colors.Grey.Lighten4)
+            .BorderColor(Colors.Green.Lighten2)
+            .Background(Colors.Green.Lighten4)
             .Padding(15)
             .Column(column =>
             {
-                column.Item().Text($"Operation: {inspection.OperationRun.Description}")
+                column.Item().Text("RESPUESTAS DE LA INSPECCIÓN")
                     .FontSize(12)
-                    .SemiBold()
-                    .FontColor(Colors.Grey.Darken1);
+                    .Bold()
+                    .FontColor(Colors.Green.Darken2);
 
-                column.Item().Height(15);
+                column.Item().Height(10);
+
+                column.Item().Text($"Operación: {inspection.OperationRun.Description}")
+                    .FontSize(10)
+                    .SemiBold()
+                    .FontColor(Colors.Grey.Darken2);
+
+                column.Item().Height(2).Background(Colors.Grey.Darken2);
+                column.Item().Height(10);
 
                 foreach (var answer in inspection.OperationRun.Answers)
                 {
-                    column.Item().Element(c => ComposeAnswerItem(c, answer));
-                    column.Item().Height(10);
+                    column.Item().Element(c => ComposeQuestionAnswer(c, answer));
+                    column.Item().Height(8);
                 }
 
-                // Additional Comments
-                if (string.IsNullOrEmpty(inspection.OperationRun?.AdditionalComments)) return;
-                column.Item().Height(15);
-                column.Item().Text("Additional Comments")
-                    .SemiBold();
-                column.Item().Height(5);
-                column.Item().Border(1)
-                    .BorderColor(Colors.Grey.Medium)
-                    .Background(Colors.Grey.Lighten3)
-                    .Padding(8)
-                    .Text(inspection.OperationRun.AdditionalComments)
-                    .FontSize(9);
+                if (!string.IsNullOrEmpty(inspection.OperationRun?.AdditionalComments))
+                {
+                    column.Item().Height(10);
+                    column.Item().Text("Comentarios Adicionales:")
+                        .FontSize(10)
+                        .SemiBold()
+                        .FontColor(Colors.Grey.Darken2);
+                    
+                    column.Item().Height(5);
+                    
+                    column.Item().Border(1)
+                        .BorderColor(Colors.Grey.Medium)
+                        .Background(Colors.White)
+                        .Padding(8)
+                        .Text(inspection.OperationRun.AdditionalComments)
+                        .FontSize(9);
+                }
             });
     }
 
-    private void ComposeAnswerItem(IContainer container, OperationRunQuestionAnswer answer)
+    private void ComposeQuestionAnswer(IContainer container, OperationRunQuestionAnswer answer)
     {
         container.Column(column =>
         {
-            // Question header with anomaly indicator
             column.Item().Row(row =>
             {
                 row.RelativeItem().Text(GetQuestionText(answer.Question))
                     .FontSize(10)
-                    .SemiBold();
+                    .SemiBold()
+                    .FontColor(Colors.Grey.Darken3);
 
                 if (answer.Answer?.IsAnomalous == true)
-                    row.ConstantItem(80).AlignRight().Container()
+                {
+                    row.ConstantItem(70).AlignRight().Container()
                         .Background(Colors.Red.Darken1)
-                        .Padding(2)
-                        .Text("ANOMALOUS")
+                        .Padding(3)
+                        .Text("⚠️ ANOMALÍA")
                         .FontSize(7)
                         .FontColor(Colors.White)
                         .Bold();
+                }
             });
 
-            column.Item().Height(5);
+            column.Item().Height(3);
 
-            // Answer value
             column.Item().Border(1)
-                .BorderColor(Colors.Grey.Medium)
-                .Background(Colors.Grey.Lighten3)
-                .Padding(8)
+                .BorderColor(answer.Answer?.IsAnomalous == true ? Colors.Red.Medium : Colors.Grey.Medium)
+                .Background(Colors.White)
+                .Padding(6)
                 .Text(GetAnswerValue(answer.Answer))
                 .FontSize(9);
 
-            // Actions if any
             if (answer.Answer?.Actions?.Any() == true)
             {
-                column.Item().Height(8);
-                column.Item().Text("Actions")
+                column.Item().Height(5);
+                column.Item().Text("Acciones:")
                     .FontSize(9)
-                    .SemiBold();
+                    .SemiBold()
+                    .FontColor(Colors.Grey.Darken2);
 
                 foreach (var action in answer.Answer.Actions)
+                {
                     column.Item().Element(c => ComposeActionItem(c, action, 0));
+                }
             }
         });
     }
 
     private void ComposeActionItem(IContainer container, OperationActionExecution action, int level)
     {
-        var leftMargin = level * 10;
+        var leftMargin = level * 15;
 
         container.PaddingLeft(leftMargin).Column(column =>
         {
+            column.Item().Height(3);
             column.Item().Border(1)
                 .BorderColor(Colors.Grey.Medium)
-                .Background(Colors.Grey.Lighten2)
+                .Background(Colors.Grey.Lighten3)
                 .Padding(8)
                 .Column(actionColumn =>
                 {
-                    actionColumn.Item().Text($"{(level > 0 ? "- " : "")}{action.Action.Description}")
-                        .FontSize(9);
+                    actionColumn.Item().Text($"{(level > 0 ? "↳ " : "• ")}{action.Action.Description}")
+                        .FontSize(9)
+                        .FontColor(Colors.Grey.Darken3);
 
                     actionColumn.Item().Height(5);
 
                     actionColumn.Item().Row(row =>
                     {
-                        // Executed status
-                        var executedColor = action.Executed ? Colors.Green.Darken1 : Colors.Red.Darken1;
-                        var executedText = action.Executed ? "DONE" : "NOT DONE";
+                        row.ConstantItem(60).Column(statusColumn =>
+                        {
+                            statusColumn.Item().Text("Estado:")
+                                .FontSize(8)
+                                .FontColor(Colors.Grey.Darken1);
 
-                        row.ConstantItem(60).Container()
-                            .Background(executedColor)
-                            .Padding(2)
-                            .Text(executedText)
-                            .FontSize(7)
-                            .FontColor(Colors.White)
-                            .Bold();
+                            var statusColor = action.Executed == true ? Colors.Green.Darken1 : Colors.Red.Darken1;
+                            var statusText = action.Executed == true ? "✓ Ejecutado" : "✗ No ejecutado";
 
-                        // Comments indicator
-                        if (!string.IsNullOrEmpty(action.Comments))
-                            row.ConstantItem(80).Container()
-                                .Background(Colors.Blue.Darken1)
+                            statusColumn.Item().Container()
+                                .Height(16)
+                                .Background(statusColor)
                                 .Padding(2)
-                                .Text("HAS COMMENTS")
+                                .AlignCenter()
+                                .AlignMiddle()
+                                .Text(statusText)
                                 .FontSize(7)
-                                .FontColor(Colors.White);
-                    });
+                                .FontColor(Colors.White)
+                                .Bold();
+                        });
 
-                    // Comments if any
-                    if (!string.IsNullOrEmpty(action.Comments))
-                    {
-                        actionColumn.Item().Height(5);
-                        actionColumn.Item().Border(1)
-                            .BorderColor(Colors.Grey.Darken1)
-                            .Background(Colors.Grey.Lighten4)
-                            .Padding(5)
-                            .Text(action.Comments)
-                            .FontSize(8);
-                    }
+                        if (!string.IsNullOrEmpty(action.Comments))
+                        {
+                            row.ConstantItem(10);
+                            row.RelativeItem().Column(commentColumn =>
+                            {
+                                commentColumn.Item().Text("Comentarios:")
+                                    .FontSize(8)
+                                    .FontColor(Colors.Grey.Darken1);
+                                
+                                commentColumn.Item().Text(action.Comments)
+                                    .FontSize(8)
+                                    .FontColor(Colors.Grey.Darken1);
+                            });
+                        }
+                    });
                 });
 
-            // Alternatives (recursive)
-            if (action.Alternatives.Count != 0 != true) return;
-            foreach (var alternative in action.Alternatives)
+            if (action.Alternatives?.Any() == true)
             {
-                column.Item().Height(5);
-                column.Item().Element(c => ComposeActionItem(c, alternative, level + 1));
+                foreach (var alternative in action.Alternatives)
+                {
+                    column.Item().Element(c => ComposeActionItem(c, alternative, level + 1));
+                }
             }
         });
     }
@@ -415,7 +456,17 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
         });
     }
 
-    // Helper methods to handle your domain models
+    // Helper methods
+    private static void AddInfoRow(ColumnDescriptor column, string label, string value)
+    {
+        column.Item().Row(row =>
+        {
+            row.RelativeItem().Text(label).Medium().FontColor(Colors.Grey.Darken2);
+            row.RelativeItem().AlignRight().Text(value).SemiBold();
+        });
+        column.Item().Height(5);
+    }
+
     private static string GetQuestionText(IOperationQuestion question)
     {
         return question switch
@@ -424,29 +475,42 @@ public class SurveillanceRunPdfDocument(SurveillanceRun run) : IDocument
             TextQuestion txt => txt.Text,
             IntegerQuestion integer => integer.Text,
             FloatQuestion floatQ => floatQ.Text,
-            _ => "Unknown Question"
+            _ => "Pregunta desconocida"
         };
     }
 
     private static string GetAnswerValue(IOperationAnswer? answer)
     {
-        if (answer == null) return "No answer";
+        if (answer == null) return "Sin respuesta";
 
         return answer switch
         {
-            TextAnswer text => text.Value,
+            TextAnswer text => text.Value ?? "Sin respuesta",
             IntegerAnswer integer => integer.Value.ToString(),
             FloatAnswer floatA => floatA.Value.ToString("F2"),
-            OptionAnswer option => string.Join(", ", option.Values.Select(v => v.Code)),
-            _ => "Unknown answer type"
+            OptionAnswer option => string.Join(", ", option.Values?.Select(v => v.Code) ?? []),
+            _ => "Tipo de respuesta desconocido"
         };
     }
 
-    private static string FormatInstant(Instant? instant)
+    private static string GetStatusInSpanish(string status)
+    {
+        return status switch
+        {
+            "Released" => "Finalizado",
+            "Completed" => "Completado",
+            "InProgress" => "En Progreso",
+            "Pending" => "Pendiente",
+            "Failed" => "Fallido",
+            _ => status
+        };
+    }
+
+    private static string FormatInstant(Instant? instant, string format = "dd MMM yyyy, HH:mm:ss")
     {
         if (instant == null) return "N/A";
 
-        var pattern = InstantPattern.Create("dd MMM yyyy, HH:mm:ss", CultureInfo.InvariantCulture);
+        var pattern = InstantPattern.Create(format, CultureInfo.InvariantCulture);
         return pattern.Format(instant.Value);
     }
 

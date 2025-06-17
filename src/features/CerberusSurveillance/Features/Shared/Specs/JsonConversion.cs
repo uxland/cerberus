@@ -220,12 +220,14 @@ internal class ValueEqualsSpecReader() : SpecReaderBase(nameof(ValueEqualsSpec<o
     {
         if (reader.TokenType != JsonTokenType.Number)
         {
-            if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueEqualsSpec<int>(parserInt);
+            // Always parse as double since we only have numeric questions now (no more integer-specific questions)
+            // if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueEqualsSpec<int>(parserInt);
             if(double.TryParse(reader.GetString()!, out var parserDouble)) return new ValueEqualsSpec<double>(parserDouble);
             throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
         }
         
-        if (reader.TryGetInt32(out var iintValue)) return new ValueEqualsSpec<int>(iintValue);
+        // Always create double specs since we only have numeric questions now
+        // if (reader.TryGetInt32(out var iintValue)) return new ValueEqualsSpec<int>(iintValue);
         if (reader.TryGetDouble(out var doubleValue)) return new ValueEqualsSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
     }
@@ -253,13 +255,14 @@ internal class ValueGraterThanSpecReader() : SpecReaderBase(nameof(ValueGraterTh
         //If reader token is a string, convert it to a double or int based on the value
         if (reader.TokenType != JsonTokenType.Number)
         {
-            if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueGraterThanSpec<int>(parserInt);
+            // Always parse as double since we only have numeric questions now (no more integer-specific questions)
+            // if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueGraterThanSpec<int>(parserInt);
             if(double.TryParse(reader.GetString()!, out var parserDouble)) return new ValueGraterThanSpec<double>(parserDouble);
             throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
         }
         
-        
-        if (reader.TryGetInt32(out var iintValue)) return new ValueGraterThanSpec<int>(iintValue);
+        // Always create double specs since we only have numeric questions now
+        // if (reader.TryGetInt32(out var iintValue)) return new ValueGraterThanSpec<int>(iintValue);
         if (reader.TryGetDouble(out var doubleValue)) return new ValueGraterThanSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
     }
@@ -287,13 +290,14 @@ internal class ValueLowerThanSpecReader() : SpecReaderBase(nameof(ValueLowerThan
         //If reader token is a string, convert it to a double or int based on the value
         if (reader.TokenType != JsonTokenType.Number)
         {
-            if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueLowerThanSpec<int>(parserInt);
+            // Always parse as double since we only have numeric questions now (no more integer-specific questions)
+            // if(int.TryParse(reader.GetString()!, out var parserInt)) return new ValueLowerThanSpec<int>(parserInt);
             if(double.TryParse(reader.GetString()!, out var parserDouble)) return new ValueLowerThanSpec<double>(parserDouble);
             throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
         }
         
-        
-        if (reader.TryGetInt32(out var iintValue)) return new ValueLowerThanSpec<int>(iintValue);
+        // Always create double specs since we only have numeric questions now
+        // if (reader.TryGetInt32(out var iintValue)) return new ValueLowerThanSpec<int>(iintValue);
         if (reader.TryGetDouble(out var doubleValue)) return new ValueLowerThanSpec<double>(doubleValue);
         throw new JsonException("Unsupported numeric type for ValueEqualsSpec");
     }

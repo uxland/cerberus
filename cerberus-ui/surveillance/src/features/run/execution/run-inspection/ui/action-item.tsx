@@ -1,5 +1,5 @@
-import { Typography, IconButton, Tooltip } from "@mui/material";
-import { get, UseFormReturn } from "react-hook-form";
+import { Typography, Tooltip } from "@mui/material";
+import { UseFormReturn } from "react-hook-form";
 import { useState, useEffect, useRef } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
@@ -32,14 +32,9 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
     const commentsPlaceholderLabel = useSurveillanceLocales('run.set.optionQuestion.comments.placeholder');
 
     useEffect(() => {
-        console.log(getValues(executedPath));
-        if (getValues(executedPath) === undefined && action.executed !== undefined) {
-            setValue(executedPath, action.executed, { shouldDirty: false, shouldValidate: false });
-        }
+        // Solo establecer la descripción, no el estado executed para evitar sobrescribir valores del formulario
         setValue(`${path}.description`, action.description, { shouldDirty: false });
-        console.log(getValues(executedPath));
-
-    }, [setValue, path, action.description, action.executed, executedPath, getValues]);
+    }, [setValue, path, action.description]);
 
     useEffect(() => {
         if (executedValue === false && action.alternatives && action.alternatives.length > 0) {
@@ -51,9 +46,31 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
 
     const handleExecution = (value: boolean | null) => {
         setValue(executedPath, value, { shouldDirty: true, shouldValidate: true });
+
+        // Si se cambia el estado de esta acción, limpiar todas las alternativas
+        if (action.alternatives && action.alternatives.length > 0) {
+            clearAlternatives(`${path}.alternatives`);
+        }
+
         if (value !== false) {
             setShowAlternatives(false);
         }
+    };
+
+    // Función para limpiar recursivamente las alternativas
+    const clearAlternatives = (alternativesPath: string) => {
+        const alternatives = getValues(alternativesPath) || [];
+        alternatives.forEach((_: any, index: number) => {
+            const altPath = `${alternativesPath}[${index}]`;
+            setValue(`${altPath}.executed`, null, { shouldDirty: true, shouldValidate: true });
+            setValue(`${altPath}.comments`, "", { shouldDirty: true, shouldValidate: true });
+
+            // Si esta alternativa tiene sus propias alternativas, limpiarlas también
+            const subAlternatives = getValues(`${altPath}.alternatives`);
+            if (subAlternatives && subAlternatives.length > 0) {
+                clearAlternatives(`${altPath}.alternatives`);
+            }
+        });
     };
 
     const isRootLevel = level === 0;

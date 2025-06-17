@@ -22,13 +22,35 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
     const [showActions, setShowActions] = useState(false);
     const actionsLabel = useSurveillanceLocales('run.set.optionQuestion.actions');
 
-    const selectedValue = watch(answerPath);
+    const selectedValue = (watch as any)(answerPath);
 
     const numericValue = selectedValue !== undefined && selectedValue !== ""
         ? Number(selectedValue)
         : undefined;
 
     const [prevActionsString, setPrevActionsString] = useState("");
+
+    // Función recursiva para preservar el estado de las alternativas
+    const preserveActionState = (newAction: any, existingAction: any): any => {
+        if (!newAction) return null;
+
+        const result = {
+            description: newAction.description,
+            executed: existingAction?.executed ?? null,
+            comments: existingAction?.comments ?? "",
+            alternatives: null
+        };
+
+        // Si hay alternativas, procesarlas recursivamente
+        if (newAction.alternatives && Array.isArray(newAction.alternatives)) {
+            result.alternatives = newAction.alternatives.map((altAction: any, altIndex: number) => {
+                const existingAlt = existingAction?.alternatives?.[altIndex];
+                return preserveActionState(altAction, existingAlt);
+            });
+        }
+
+        return result;
+    };
 
     const hasActions = useMemo(
         () => {
@@ -37,25 +59,23 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
             return actions.length > 0;
         },
         [props.question, numericValue]
-    );
-
-    useEffect(() => {
+    ); useEffect(() => {
         if (numericValue !== undefined && !isNaN(numericValue) && hasActions) {
             setShowActions(true);
             const actions = getRequiredActions(props.question, [numericValue]) || [];
-            const combined = actions.map(act => ({
-                description: act.description,
-                executed: null,
-                comments: "",
-                alternatives: act.alternatives || null,
-            })
-            );
+            const currentActions = (props.formMethods.getValues as any)(`${fieldPath}.actions`) || [];
+
+            const combined = actions.map((act, index) => {
+                // Preservar valores existentes incluyendo alternativas anidadas
+                const existingAction = currentActions[index];
+                return preserveActionState(act, existingAction);
+            });
 
             // Solo actualizamos si hay cambios
             const newActionsString = JSON.stringify(combined);
             if (newActionsString !== prevActionsString) {
                 setPrevActionsString(newActionsString);
-                setValue(`${fieldPath}.actions`, combined);
+                (setValue as any)(`${fieldPath}.actions`, combined);
             }
         }
         else {
@@ -63,7 +83,7 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
             const currentActionsString = JSON.stringify(undefined);
             if (currentActionsString !== prevActionsString) {
                 setPrevActionsString(currentActionsString);
-                setValue(`${fieldPath}.actions`, undefined);
+                (setValue as any)(`${fieldPath}.actions`, undefined);
             }
         }
     }, [props.question, numericValue, hasActions, setValue, fieldPath, prevActionsString]);
@@ -83,7 +103,7 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
             />
             <input
                 type="hidden"
-                {...register(questionIdPath)}
+                {...(register as any)(questionIdPath)}
                 defaultValue={props.question.id}
             />
             {showActions && (
@@ -93,7 +113,7 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
                         <span className="bg-[#313131] block p-[1px] w-auto mb-3"></span>
                     </div>
 
-                    {watch(`${fieldPath}.actions`)?.map((action: Action, actionIndex: number) => (
+                    {(watch as any)(`${fieldPath}.actions`)?.map((action: Action, actionIndex: number) => (
                         <ActionItem
                             key={`${fieldPath}-action-${actionIndex}`}
                             action={action}

@@ -7,8 +7,8 @@ export type OperationQuestionType = "Options" | "Text" | "Integer" | "Float"
 export const questionOptionValues: Array<{ value: OperationQuestionType, label: string }> = [
     { value: "Options", label: "Opciones" },
     { value: "Text", label: "Texto" },
-    { value: "Integer", label: "Entero" },
-    { value: "Float", label: "Decimal" }
+    // { value: "Integer", label: "Entero" },
+    { value: "Float", label: "Numérico" }
 ]
 export interface OperationAction {
     description: string;

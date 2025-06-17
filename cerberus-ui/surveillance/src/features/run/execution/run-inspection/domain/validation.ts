@@ -4,7 +4,7 @@ import { OperationRunQuestionAnswer } from "../../domain/model";
 const actionSchema: z.ZodType<any> = z.lazy(() =>
     z.object({
         description: z.string(),
-        executed: z.boolean().optional(),
+        executed: z.boolean().nullable().optional(),
         comments: z.string().optional(),
         alternatives: z.array(actionSchema).nullable().optional()
     })
@@ -41,28 +41,35 @@ export const createExecutionFormSchema = (
 
         const validateActions = (actions: any[], path: Array<string | number>) => {
             actions.forEach((action, i) => {
-                if (
-                    action.executed === false &&
-                    action.alternatives &&
-                    action.alternatives.length > 0
-                ) {
-                    const lastIndex = action.alternatives.length - 1;
-                    const last = action.alternatives[lastIndex];
-                    if (
-                        last.alternatives &&
-                        last.alternatives.length > 0 &&
-                        last.executed !== true
-                    ) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.custom,
-                            message:
-                                "Debe completar la última alternativa si la acción principal no se ejecutó",
-                            path: [...path, i, "alternatives", lastIndex, "executed"].map(String),
-                        });
-                    }
+                // Si la acción fue ejecutada exitosamente, no necesitamos validar sus alternativas
+                if (action.executed === true) {
+                    return; // Salir temprano, no hay necesidad de validar alternativas
                 }
-                if (action.alternatives) {
-                    validateActions(action.alternatives, [...path, i, "alternatives"]);
+
+                // Solo validar alternativas si la acción principal no fue ejecutada (false o null/undefined)
+                if (action.executed === false && action.alternatives && action.alternatives.length > 0) {
+                    // Verificar si hay alguna alternativa ejecutada
+                    const hasExecutedAlternative = action.alternatives.some((alt: any) =>
+                        alt.executed === true
+                    );
+
+                    // Solo validar si no hay alternativas ejecutadas Y hay alternativas sin responder
+                    if (!hasExecutedAlternative) {
+                        const hasUnansweredAlternatives = action.alternatives.some((alt: any) =>
+                            alt.executed === undefined || alt.executed === null
+                        );
+
+                        if (hasUnansweredAlternatives) {
+                            ctx.addIssue({
+                                code: z.ZodIssueCode.custom,
+                                message: "Debe indicar si las alternativas fueron ejecutadas o no",
+                                path: [...path, i, "alternatives"].map(String),
+                            });
+                        }
+
+                        // Solo validar alternativas recursivamente si no hay alternativas ejecutadas
+                        validateActions(action.alternatives, [...path, i, "alternatives"]);
+                    }
                 }
             });
         };

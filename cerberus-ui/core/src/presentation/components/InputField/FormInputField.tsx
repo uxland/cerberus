@@ -13,6 +13,7 @@ type InputFieldProps = {
     onDelete?: () => void;
     defaultValue?: string | number;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    step?: string | number;
 };
 
 export const FormInputField: React.FC<InputFieldProps> = ({
@@ -25,7 +26,8 @@ export const FormInputField: React.FC<InputFieldProps> = ({
     disabled = false,
     onDelete,
     defaultValue,
-    onChange
+    onChange,
+    step
 }) => {
     const registration = register ? register(name) : {};
 
@@ -51,6 +53,7 @@ export const FormInputField: React.FC<InputFieldProps> = ({
                 placeholder={placeholder}
                 disabled={disabled}
                 aria-disabled={disabled}
+                step={step}
                 className={`w-full h-10 p-3 bg-[#313131] text-[#f7f7f7] border border-[#4a4a4a] rounded placeholder:text-[#929292]`}
                 {...registration}
                 defaultValue={defaultValue}

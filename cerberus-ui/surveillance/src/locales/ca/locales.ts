@@ -24,6 +24,7 @@ export const locales = {
     operation: {
       create: {
         createOperation: "Crear Operativa",
+        fixErrorsLabel: "Por favor, corrije los siguientes errores",
         title: "Creación de Operativa",
         placeholder: "Añade nombre a tu nueva operativa",
         addOperative: "Añadir operativa",
@@ -168,6 +169,8 @@ export const locales = {
         notAvailable: "No disponible",
         videoNotSupported: "Tu navegador no soporta la reproducción de videos.",
         isAnomalous: "Anómalo",
+        downloadTooltip: "Descargar reporte en PDF",
+        downloadButton: "Descargar PDF",
       },
       anomalyStatuses: {
         normal: "Normal",

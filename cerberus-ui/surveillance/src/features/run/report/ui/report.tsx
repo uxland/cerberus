@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import {Typography, Tabs, Box, Tab, Button} from "@mui/material";
+import { Typography, Tabs, Box, Tab, Button, Tooltip } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
 import { Run } from "../../execution/domain/model";
 import { useSurveillanceLocales } from "../../../../locales/ca/locales.ts";
 import { RunDetailsCard } from "./runDetailsCard";
 import { RunInspectionsList } from "./runInspectionsList";
 import { RunVideoSection } from "./runVideoSection";
 import { InspectionFormReadOnly } from "./readOnlyForm.tsx";
-import {Mediator} from "mediatr-ts";
-import {DownloadReport} from "../../download-report/command.ts";
+import { Mediator } from "mediatr-ts";
+import { DownloadReport } from "../../download-report/command.ts";
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -55,6 +56,8 @@ export const RunReport = ({ run }: { run: Run }) => {
     const normalStatus = useSurveillanceLocales("run.anomalyStatuses.normal");
     const singleAnomalyStatus = useSurveillanceLocales("run.anomalyStatuses.singleAnomaly");
     const multipleAnomaliesStatus = useSurveillanceLocales("run.anomalyStatuses.multipleAnomalies");
+    const downloadReportTooltipLabel = useSurveillanceLocales("run.report.downloadTooltip");
+    const downloadReportButtonLabel = useSurveillanceLocales("run.report.downloadButton");
 
     const [selectedInspection, setSelectedInspection] = useState(run.inspectionRuns?.[0]);
 
@@ -70,10 +73,15 @@ export const RunReport = ({ run }: { run: Run }) => {
         , [run]);
     return (
         <div className="flex flex-col h-full overflow-hidden">
-            <div className="flex items-center gap-2 bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0">
-                <Typography className="uppercase !text-primary !font-semibold">{run.roundId || "N/A"}</Typography>
-                <Typography className="uppercase">{run.rootLocationId || "N/A"}</Typography>
-                <Button onClick={() => new Mediator().send(new DownloadReport(run.id))}>PDF</Button>
+            <div className="flex items-center justify-between bg-tableBg py-3 px-6 rounded-[10px] w-full flex-shrink-0">
+                <div className="flex items-center gap-2">
+                    <Typography className="uppercase !text-primary !font-semibold">{run.roundId || "N/A"}</Typography>
+                    <Typography className="uppercase">{run.rootLocationId || "N/A"}</Typography>
+                </div>
+
+                <Tooltip title={downloadReportTooltipLabel}>
+                    <button className="bg-primary py-1 px-3 rounded-md text-black font-bold text-md hover:bg-formSelect" onClick={() => new Mediator().send(new DownloadReport(run.id))}>{downloadReportButtonLabel}</button>
+                </Tooltip>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow mt-4 overflow-hidden">

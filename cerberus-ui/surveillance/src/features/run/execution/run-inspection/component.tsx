@@ -1,5 +1,5 @@
 import { ExecutionStepArgs } from "../model.ts";
-import {getCurrentCameraClipPath, getCurrentCameraId, InspectionRun} from '../domain/model.ts'
+import { getCurrentCameraClipPath, getCurrentCameraId, InspectionRun } from '../domain/model.ts'
 import { getCurrentInspection, InspectionRunData } from "./domain/model.ts";
 import { Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -19,14 +19,38 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
     const inspection = getCurrentInspection(run);
     const dynamicSchema = createExecutionFormSchema(inspection?.operationRun.answers ?? []);
 
+    // Función para inicializar recursivamente las acciones y alternativas
+    const initializeActions = (actions: any[]): any[] => {
+        if (!actions || !Array.isArray(actions)) return [];
+
+        return actions.map(action => ({
+            description: action.description,
+            executed: action.executed ?? null,
+            comments: action.comments ?? "",
+            alternatives: action.alternatives ? initializeActions(action.alternatives) : null
+        }));
+    };
+
+    // Función para crear los valores por defecto incluyendo las acciones
+    const createDefaultValues = (): Partial<ExecutionForm> => {
+        const answers = inspection?.operationRun.answers.map((answer) => ({
+            questionId: answer.question.id,
+            answer: null,
+            actions: answer.answer?.actions ? initializeActions(answer.answer.actions) : []
+        })) || [];
+
+        return {
+            runId: run.id,
+            inspectionId: inspection?.id || "",
+            additionalComments: "",
+            answers,
+            startedAt: new Date(),
+        };
+    };
+
     const formMethods = useForm<ExecutionForm>({
         resolver: zodResolver(dynamicSchema),
-        defaultValues: {
-            runId: run.id,
-            inspectionId: inspection.id,
-            additionalComments: "",
-            startedAt: new Date(),
-        },
+        defaultValues: createDefaultValues(),
     });
 
     const formValues = formMethods.watch();

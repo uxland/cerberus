@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { InspectionRun } from "../../execution/domain/model";
-import {getImageUrl} from "@cerberus/core";
+import { getImageUrl } from "@cerberus/core";
 
 interface RunVideoSectionProps {
     selectedInspection?: InspectionRun;
@@ -54,10 +54,11 @@ export const RunVideoSection = ({
             <div className="flex-grow flex flex-col">
                 <div className="relative w-full h-0 pb-[56.25%] bg-[#1a1a1a] rounded-lg mb-4">
                     <video
+                        key={selectedInspection?.id}
                         className="absolute top-0 left-0 w-full h-full object-contain rounded-lg"
                         controls
                     >
-                        <source src={getImageUrl(selectedInspection.recordedClipPath)} type="video/mp4" />
+                        <source src={selectedInspection?.recordedClipPath ? getImageUrl(selectedInspection.recordedClipPath) : ''} type="video/mp4" />
                         {videoNotSupported}
                     </video>
                 </div>

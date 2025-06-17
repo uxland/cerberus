@@ -13,15 +13,31 @@ export class SetRunInspectionHandler extends HandlerBase<Run, SetRunInspection> 
 
 }
 const adaptRequest: (data: InspectionRunData) => RequestInit = (data: InspectionRunData) => {
+    // Función recursiva para filtrar acciones que no han sido respondidas
+    const filterAnsweredActions = (actions: any[]): any[] => {
+        if (!actions || !Array.isArray(actions)) return [];
+
+        return actions
+            .filter(action => action.executed !== null && action.executed !== undefined)
+            .map(action => ({
+                description: action.description,
+                executed: action.executed,
+                comments: action.comments || "",
+                alternatives: action.alternatives ? filterAnsweredActions(action.alternatives) : []
+            }));
+    };
+
     const answers = data.answers.reduce((acc, answer) => {
         // @ts-ignore
         acc[answer.questionId] = {
             value: answer.answer,
-            actions: answer.actions,
+            actions: answer.actions ? filterAnsweredActions(answer.actions) : [],
         }
         return acc;
     }, {});
-    console.log("startedAt", data.startedAt);
+
+    console.log("Datos enviados al backend:", { answers, data });
+
     const payload = {
         answers,
         additionalComments: data.additionalComments,
