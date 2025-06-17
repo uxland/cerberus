@@ -11,6 +11,7 @@ using Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewBy
 using Cerberus.Maintenance.Persistence.Projections;
 using Cerberus.Maintenance.Persistence.QueryProviders;
 using Cerberus.Maintenance.Persistence.Seeding;
+using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Projections;
 using Microsoft.Extensions.DependencyInjection;

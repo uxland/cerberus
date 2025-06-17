@@ -3,10 +3,11 @@ import { spawn } from 'child_process';
 import portPool from "./port-pool.js";
 
 export default class DualCameraStream {
-    constructor({ router, cameraId, streamingUrl }) {
+    constructor({ router, cameraId, streamingUrl, codec }) {
         this.router = router;
         this.cameraId = cameraId;
         this.streamingUrl = streamingUrl;
+        this.codec = codec;
         this.gstProcess = null;
         this.webrtcTransport = null;
         this.recordingTransport = null;
@@ -15,6 +16,7 @@ export default class DualCameraStream {
         this.webRTCPort = null;
         this.recordingPort = null;
         this.producer = null;
+        this.clientCount = 0;
     }
 
     async start() {
@@ -87,7 +89,7 @@ export default class DualCameraStream {
 
         const args = [
             'rtspsrc', `location=${this.streamingUrl}`, 'protocols=tcp', 'latency=100', '!',
-            'rtph265depay', '!', 'h265parse', '!', 'avdec_h265', '!',
+            ...this.getGstpCameraConnectionArgs(),
             'x264enc', 'tune=zerolatency', 'key-int-max=30', 'byte-stream=true', '!',
             'tee', 'name=t',
 
@@ -103,7 +105,7 @@ export default class DualCameraStream {
         ];
         this.gstProcess = spawn('gst-launch-1.0', args);
         this.gstProcess.stderr.on('data', d => console.error(`[Gst Camera ${this.cameraId} ERROR]`, d.toString()));
-        this.gstProcess.stdout.on('data', d => console.log(`[Gst Camera ${this.cameraId}]`, d.toString()));
+      //  this.gstProcess.stdout.on('data', d => console.log(`[Gst Camera ${this.cameraId}]`, d.toString()));
         this.gstProcess.on('exit', code => console.log(`[Gst Camera ${this.cameraId}] exited with code ${code}`));
     }
     canConsume({ rtpCapabilities }) {
@@ -111,5 +113,35 @@ export default class DualCameraStream {
             producerId: this.webrtcProducer.id,
             rtpCapabilities
         });
+    }
+    join({ rtpCapabilities }){
+        if(!this.canConsume({ rtpCapabilities })){
+            return { success: false, error: "Client does not support stream" };
+        }
+        this.clientConnected();
+        return {success: true}
+    }
+    getGstpCameraConnectionArgs(){
+        return this.codec === 'h265' ? this.getH265PipelineArgs() : this.getH264PipelineArgs();
+    }
+
+    getH265PipelineArgs() {
+        return [
+            'rtph265depay', '!', 'h265parse', '!', 'avdec_h265', '!',
+        ]
+    }
+    getH264PipelineArgs() {
+        return [
+
+        ]
+    }
+    clientConnected() {
+        this.clientCount++;
+    }
+    async clientDisconnected() {
+        this.clientCount--;
+        if (this.clientCount <= 0) {
+            await this.stop();
+        }
     }
 }

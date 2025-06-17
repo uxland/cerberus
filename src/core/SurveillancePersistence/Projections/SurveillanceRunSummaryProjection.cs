@@ -3,13 +3,14 @@ using Cerberus.Surveillance.Features.Features.Round.List;
 using Cerberus.Surveillance.Features.Features.Run;
 using Cerberus.Surveillance.Features.Features.Run.List;
 using Cerberus.Surveillance.Features.Features.Run.Release;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 
 namespace Cerberus.Surveillance.Persistence.Projections;
 
-public class SurveillanceRunSummaryProjection: SingleStreamProjection<SurveillanceRunSummary>
+public class SurveillanceRunSummaryProjection: SingleStreamProjection<SurveillanceRunSummary, string>
 {
     public Task<SurveillanceRunSummary> Create(IEvent<SurveillanceRunReleased> @event, IQuerySession querySession)
     {

@@ -1,4 +1,4 @@
-﻿services:
+services:
   postgres:
     image: postgres:17.5
     environment:
@@ -80,28 +80,6 @@
     volumes:
       -  ./src/hosts/MediaServer/certs:/certs/ssl
       - snapshots_volume:/media_storage/clips
-
-  cerberus-ui:
-    build:
-      context: ./cerberus-ui
-      dockerfile: ./Dockerfile
-    ports:
-      - "5173:443"
-      - "8080:80"
-    environment:
-      VITE_AUTH_URL: "http://keycloak:8888/"
-      VITE_AUTH_REALM: "cerberus"
-      VITE_AUTH_CLIENT_ID: "cerberus"
-      VITE_CERBERUS_BACKEND_URL: "http://cerberus-back:5222"
-      VITE_CERBERUS_IMAGES_URL: "http://cerberus-back:5222/images"
-    depends_on:
-      - cerberus-back
-    extra_hosts:
-      - "keycloak:host-gateway"
-      - "cerberus-react-ui:host-gateway"
-    volumes:
-      - ./cerberus-ui/certs/nginx.crt:/etc/nginx/ssl/nginx.crt:ro
-      - ./cerberus-ui/certs/nginx.key:/etc/nginx/ssl/nginx.key:ro
 
 volumes:
   snapshots_volume:

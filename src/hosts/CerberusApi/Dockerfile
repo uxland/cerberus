@@ -24,6 +24,10 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Debug
 WORKDIR /src
 
+ARG BUILD_CONFIGURATION=Debug
+ENV BUILD_CONFIGURATION=${BUILD_CONFIGURATION}
+
+
 # Copy csproj and restore as distinct layers
 COPY ["src/hosts/CerberusApi/CerberusApi.csproj", "src/hosts/CerberusApi/"]
 COPY ["src/core/XabeFFMpegClient/XabeFFMpegClient.csproj", "src/core/XabeFFMpegClient/"]
@@ -38,11 +42,14 @@ COPY ["src/core/MaintenancePerisistence/MaintenancePerisistence.csproj", "src/co
 RUN dotnet restore "src/hosts/CerberusApi/CerberusApi.csproj"
 COPY . .
 WORKDIR "/src/src/hosts/CerberusApi"
-RUN dotnet build "CerberusApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+
 
 # Publish stage
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Debug
+
+RUN echo "BUILD_CONFIGURATION is set to: $BUILD_CONFIGURATION"
+
 RUN dotnet publish "CerberusApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Final stage

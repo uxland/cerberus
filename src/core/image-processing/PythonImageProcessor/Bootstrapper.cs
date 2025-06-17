@@ -17,8 +17,12 @@ public static class Bootstrapper
     private static IServiceCollection InitPythonEngine(this IServiceCollection services)
     {
         SetEnvironmentVariables();
-        PythonEngine.Initialize();
-        PythonEngine.BeginAllowThreads();
+        if (Environment.GetEnvironmentVariable("SKIP_PYTHON") != "true")
+        {
+            PythonEngine.Initialize();
+            PythonEngine.BeginAllowThreads();    
+        }
+        
         return services;
     }
 

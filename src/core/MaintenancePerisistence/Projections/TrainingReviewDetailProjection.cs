@@ -1,13 +1,14 @@
 ﻿using Cerberus.Maintenance.Features.Features.TrainingReviews;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.Create;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.GetTrainingReview;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 
 namespace Cerberus.Maintenance.Persistence.Projections;
 
-public class TrainingReviewDetailProjection : SingleStreamProjection<TrainingReviewDetail>
+public class TrainingReviewDetailProjection : SingleStreamProjection<TrainingReviewDetail, string>
 {
     public async Task<TrainingReviewDetail> Create(IEvent<TrainingReviewCreated> e, IQuerySession querySession)
     {

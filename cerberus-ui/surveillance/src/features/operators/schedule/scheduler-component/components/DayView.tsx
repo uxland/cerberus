@@ -7,6 +7,7 @@ import { calculateEventLayout } from '../utils/eventOverlap';
 import EventCard from './EventCard';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
 import { useCurrentTime } from '../hooks/use-current-time';
+import { useDynamicHourHeight } from '../hooks/use-dynamic-hour-height';
 import { cn } from '../lib/utils';
 
 interface DayViewProps {
@@ -39,19 +40,20 @@ const DayView: React.FC<DayViewProps> = ({
   onEventClick,
   onEventCreate,
   onEventUpdate,
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+}) => {  const containerRef = useRef<HTMLDivElement>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [creationStart, setCreationStart] = useState<Date | null>(null);
   const [draggedEvent, setDraggedEvent] = useState<CalendarEvent | null>(null);
   const currentTime = useCurrentTime();
+    // Calcular altura dinámica basada en el espacio disponible
+  const { hourHeight: dynamicHourHeight, shouldFillContainer } = useDynamicHourHeight(startHour, endHour, hourHeight, containerRef);
 
   const timeSlots = generateTimeSlots(startHour, endHour, 60);
   const dayEvents = getEventsForDate(events, date);
   const allDayEvents = dayEvents.filter(event => event.allDay);
   const timedEvents = dayEvents.filter(event => !event.allDay);
 
-  // Calcular layout para eventos con superposición
+  // Calcular layout para eventos con superposición usando altura dinámica
   const eventLayouts = calculateEventLayout(timedEvents);
 
   const handleTimeSlotClick = (slot: TimeSlot) => {
@@ -106,9 +108,8 @@ const DayView: React.FC<DayViewProps> = ({
     onEventUpdate?.(updatedEvent);
     setDraggedEvent(null);
   };
-
   return (
-    <div className="flex flex-col h-full" ref={containerRef}>
+    <div className="flex flex-col h-full" ref={containerRef} data-calendar-container>
       {/* All Day Events Section */}
       {(allDayEvents.length > 0 || enableEventCreation) && (
         <div
@@ -121,6 +122,7 @@ const DayView: React.FC<DayViewProps> = ({
             borderColor: theme?.border,
             color: theme?.text?.primary
           }}
+          data-calendar-header
         >
           <div className="text-xs font-medium mb-2" style={{ color: theme?.text?.secondary }}>
             Todo el día
@@ -161,20 +163,21 @@ const DayView: React.FC<DayViewProps> = ({
             )}
           </div>
         </div>
-      )}
-
-      {/* Time Slots */}
+      )}      {/* Time Slots */}
       <div className={cn(
         "flex-1 overflow-auto calendar-scrollbar",
         theme?.primary === '#FDB813' ? 'theme-cerberus' : 'theme-default'
       )}>
-        <div className="relative">
+        <div 
+          className="relative"
+          style={{ height: `${timeSlots.length * dynamicHourHeight}px` }}
+        >
           {timeSlots.map((slot, index) => (
             <div
               key={index}
               className="relative flex"
               style={{
-                height: `${hourHeight}px`,
+                height: `${dynamicHourHeight}px`,
                 borderBottom: `1px solid ${theme?.grid?.lines || '#f1f5f9'}`,
                 backgroundColor: theme?.background
               }}
@@ -208,18 +211,17 @@ const DayView: React.FC<DayViewProps> = ({
           ))}
 
           {/* Timed Events with Overlap Layout */}
-          <div className="absolute top-0 left-16 right-0">
-            {/* Indicador de hora actual */}
+          <div className="absolute top-0 left-16 right-0">            {/* Indicador de hora actual */}
             <CurrentTimeIndicator
               currentTime={currentTime}
               startHour={startHour}
-              hourHeight={hourHeight}
+              hourHeight={dynamicHourHeight}
               theme={theme}
               showTimeLabel={true}
             />
 
             {eventLayouts.map(({ event, left, width, zIndex }) => {
-              const position = getEventPosition(event, startHour, hourHeight);
+              const position = getEventPosition(event, startHour, dynamicHourHeight);
               return (
                 <EventCard
                   key={event.id}

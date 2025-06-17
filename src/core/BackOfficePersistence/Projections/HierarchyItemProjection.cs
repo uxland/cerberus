@@ -3,4 +3,4 @@ using Marten.Events.Aggregation;
 
 namespace Cerberus.BackOffice.Persistence.Projections;
 
-public class HierarchyItemProjection : SingleStreamProjection<HierarchyItem>;
+public class HierarchyItemProjection : SingleStreamProjection<HierarchyItem, string>;

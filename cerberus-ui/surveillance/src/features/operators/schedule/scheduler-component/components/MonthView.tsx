@@ -46,24 +46,29 @@ const MonthView: React.FC<MonthViewProps> = ({
       endTime.setHours(23, 59, 59, 999);
       onEventCreate(startTime, endTime, true);
     }
-  };
-
-  const renderWeeks = () => {
+  };  const renderWeeks = () => {
     const weeks = [];
+    const weeksCount = Math.ceil(monthDays.length / 7);
+    
     for (let i = 0; i < monthDays.length; i += 7) {
       const week = monthDays.slice(i, i + 7);
       weeks.push(
-        <div key={i} className="grid grid-cols-7 border-b" style={{ borderColor: theme?.border }}>
+        <div 
+          key={i} 
+          className="grid grid-cols-7 border-b flex-1" 
+          style={{ 
+            borderColor: theme?.border
+          }}
+        >
           {week.map((day, index) => {
             const dayEvents = getEventsForDate(events, day);
             const isCurrentMonth = isSameMonth(day, date);
             const isTodayDate = isToday(day);
 
-            return (
-              <div
+            return (              <div
                 key={index}
                 className={cn(
-                  "min-h-[120px] p-2 border-r cursor-pointer transition-colors relative group",
+                  "p-2 border-r cursor-pointer transition-colors relative group flex flex-col",
                   !isCurrentMonth && "opacity-60"
                 )}
                 style={{
@@ -92,9 +97,7 @@ const MonthView: React.FC<MonthViewProps> = ({
                     color: isTodayDate ? (theme?.event?.text || '#ffffff') : 'inherit'
                   }}>
                   {formatDate(day, 'd')}
-                </div>
-
-                <div className="space-y-1">
+                </div>                <div className="space-y-1 flex-1 overflow-y-auto">
                   {dayEvents.slice(0, 3).map(event => (
                     <div
                       key={event.id}
@@ -168,22 +171,22 @@ const MonthView: React.FC<MonthViewProps> = ({
           ))}
         </div>
         {/* Espacio reservado para la scrollbar - dinámico */}
-        <div
+        {/* <div
           className="flex-shrink-0 border-b"
           style={{
             width: `${scrollbarWidth}px`,
             borderColor: theme?.border,
             backgroundColor: theme?.header?.background
           }}
-        ></div>
-      </div>
-
-      {/* Month Grid */}
+        ></div> */}
+      </div>      {/* Month Grid */}
       <div className={cn(
-        "flex-1 overflow-auto calendar-scrollbar",
+        "flex-1 overflow-hidden flex flex-col calendar-scrollbar",
         theme?.primary === '#FDB813' ? 'theme-cerberus' : 'theme-default'
       )}>
-        {renderWeeks()}
+        <div className="flex-1 flex flex-col">
+          {renderWeeks()}
+        </div>
       </div>
     </div>
   );

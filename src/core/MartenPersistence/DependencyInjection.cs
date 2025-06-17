@@ -3,10 +3,12 @@ using System.Text.Json.Serialization;
 using Cerberus.Core.Domain;
 using Cerberus.Core.MartenPersistence.QueryProviders;
 using Cerberus.Core.MartenPersistence.Repositories;
+using JasperFx;
 using JasperFx.Core;
+using JasperFx.Events;
+using JasperFx.Events.Daemon;
 using Marten;
 using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
 using Marten.NodaTimePlugin;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,8 +38,7 @@ public static class DependencyInjection
         return services.AddMarten(options =>
             {
                 options.Connection(configuration.GetSection("Backends:PostgresQL:Marten").Value!);
-                if (!environment.IsProduction())
-                    options.AutoCreateSchemaObjects = AutoCreate.All;
+                options.AutoCreateSchemaObjects = AutoCreate.All;
                 options
                     .SetupSerialization(converters)
                     .ConfigureEventSore()
@@ -46,6 +47,7 @@ public static class DependencyInjection
             })
             .IntegrateWithWolverine()
             .UseIdentitySessions()
+            .ApplyAllDatabaseChangesOnStartup()
             .AddAsyncDaemon(DaemonMode.HotCold);
     }
 

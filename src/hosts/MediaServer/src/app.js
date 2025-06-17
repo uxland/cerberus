@@ -7,9 +7,7 @@
 import express from 'express'
 const app = express()
 
-//import https from 'httpolyglot'
 import http from 'http'
-import fs from 'fs'
 import path from 'path'
 const __dirname = path.resolve()
 
@@ -32,7 +30,7 @@ const getCameraById = async(cameraId) => {
 	if (activeCameras[cameraId]) {
 		return activeCameras[cameraId];
 	} else {
-		const cameraStream = new DualCameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast'}        );
+		const cameraStream = new DualCameraStream({router, cameraId, streamingUrl: 'rtsp://test:Test2025@80.37.229.214:39887/Streaming/Channels/102?transportmode=unicast', codec: 'h265'}        );
 		await cameraStream.start();
 		activeCameras[cameraId] = cameraStream;
 		return cameraStream;
@@ -50,7 +48,7 @@ process.on('SIGINT', () => {
 
 
 
-app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://cerberus-react-ui", "https://cerberus-ui:5173", "https://ui.glaux-serverus.eu"], credentials: true }));
+app.use(cors({ origin: ["https://cerberus-react-ui:5173", "https://localhost:8080", "https://cerberus-react-ui", "https://cerberus-ui:5173", "https://ui.glaux-serverus.eu"], credentials: true }));
 app.use(express.json());
 app.get('/', (req, res) => {
 	res.send('Hello from mediasoup app!')
@@ -82,7 +80,7 @@ app.put('/api/streams/:cameraId/start', async (req, res) => {
 		return res.status(400).json({ error: 'Missing required parameters' });
 	}
 	if(!activeCameras[cameraId]){
-		const cameraStream = new CameraStream({router, cameraId, streamingUrl: rtspUrl});
+		const cameraStream = new DualCameraStream({router, cameraId, streamingUrl: rtspUrl, codec: encoding});
 		await cameraStream.start();
 		activeCameras[cameraId] = cameraStream;
 		console.log(`Stream for camera ${cameraId} started`);
@@ -112,7 +110,8 @@ httpsServer.listen(PORT, () => {
 })
 
 const io = new Server(httpsServer, {cors: {
-		origin: "https://cerberus-react-ui:5173",  // ✅ Fixed CORS issue
+		//origin: "https://cerberus-react-ui:5173",  // ✅ Fixed CORS issue
+		origin: ["https://cerberus-react-ui:5173", "https://localhost:8080", "https://cerberus-react-ui", "https://cerberus-ui:5173", "https://ui.glaux-serverus.eu"],
 		methods: ["GET", "POST"],
 		credentials: true,
 	},
@@ -193,7 +192,19 @@ const createWorker = async () => {
 		const client = new StreamingClient({socket, streamFactory:getCameraById, router});
 		client.start();
 		socket.on('disconnect', async () => {
-			await client.stop();
+			try
+			{
+				await client.stop();
+			}
+			catch (e) {
+
+			}
+			finally {
+				await client.currentCamera.clientDisconnected();
+				if(client.currentCamera.clientCount === 0)
+					delete activeCameras[client.currentCamera.cameraId]
+			}
+
 		})
 		return Promise.resolve();
 

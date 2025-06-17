@@ -1,13 +1,14 @@
 ﻿using Cerberus.Maintenance.Features.Features.TrainingReviews;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.Create;
 using Cerberus.Maintenance.Features.Features.TrainingReviews.ListPendingReviewByLocation;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 
 namespace Cerberus.Maintenance.Persistence.Projections;
 
-public class PendingTrainingReviewProjection: SingleStreamProjection<PendingTrainingReview>
+public class PendingTrainingReviewProjection: SingleStreamProjection<PendingTrainingReview, string>
 {
     public PendingTrainingReviewProjection()
     {

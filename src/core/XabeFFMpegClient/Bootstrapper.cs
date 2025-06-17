@@ -1,4 +1,5 @@
 ﻿using Cerberus.BackOffice.Features.Captures.CaptureSnapshots;
+using Cerberus.BackOffice.Features.OrganizationalStructure.Camera.SetMediaInfo;
 using Cerberus.Core.XabeFFMpegClient.CaptureMiddlewares;
 using Cerberus.Core.XabeFFMpegClient.ConversionBuilders;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ public static class Bootstrapper
 
         return services
             .AddSingleton<ISnapshotCapturer, SnapshotCapturer>()
+            .AddSingleton<ICameraSettingsProvider, CameraSettingsProvider>()
             .BootstrapCaptureMiddlewares();
     }
 

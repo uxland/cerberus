@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { CalendarEvent, CalendarTheme } from '../types/calendar';
 import { getWeekDays, generateTimeSlots, getEventsForDate, getEventPosition, formatDate } from '../utils/calendar';
 import { calculateEventLayout } from '../utils/eventOverlap';
 import EventCard from './EventCard';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
 import { useCurrentTime } from '../hooks/use-current-time';
+import { useDynamicHourHeight } from '../hooks/use-dynamic-hour-height';
 import { cn } from '../lib/utils';
-import { useScrollbarWidth } from '../hooks/use-scrollbar-width';
+import { useScrollbarDetection } from '../hooks/use-scrollbar-detection';
 
 interface WeekViewProps {
   date: Date;
@@ -38,10 +39,12 @@ const WeekView: React.FC<WeekViewProps> = ({
   onEventClick,
   onEventCreate,
   onEventUpdate,
-}) => {
-  const [draggedEvent, setDraggedEvent] = useState<CalendarEvent | null>(null);
-  const scrollbarWidth = useScrollbarWidth(theme);
+}) => {  const [draggedEvent, setDraggedEvent] = useState<CalendarEvent | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { hasScrollbar, scrollbarWidth, containerRef: scrollbarContainerRef } = useScrollbarDetection(theme);
   const currentTime = useCurrentTime();
+    // Calcular altura dinámica basada en el espacio disponible
+  const { hourHeight: dynamicHourHeight, shouldFillContainer } = useDynamicHourHeight(startHour, endHour, hourHeight, scrollbarContainerRef);
 
   const weekDays: Date[] = getWeekDays(date);
   const timeSlots = generateTimeSlots(startHour, endHour, 60);
@@ -67,36 +70,14 @@ const WeekView: React.FC<WeekViewProps> = ({
 
     onEventCreate?.(startTime, endTime, true);
   };
-
   const handleDragStart = (e: React.DragEvent, event: CalendarEvent) => {
     if (!enableDragDrop) return;
     setDraggedEvent(event);
     e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const getEventPosition = (event: CalendarEvent, day: Date, startHour: number, hourHeight: number) => {
-    const eventStart = new Date(event.start);
-    const eventEnd = new Date(event.end);
-
-    // Verificar si el evento pertenece al día actual
-    if (eventStart.getDate() !== day.getDate() || eventEnd.getDate() !== day.getDate()) {
-      return { top: 0, height: 0 };
-    }
-
-    const startMinutes = eventStart.getHours() * 60 + eventStart.getMinutes();
-    const endMinutes = eventEnd.getHours() * 60 + eventEnd.getMinutes();
-    const startHourMinutes = startHour * 60;
-
-    const top = ((startMinutes - startHourMinutes) / 60) * hourHeight;
-    const height = ((endMinutes - startMinutes) / 60) * hourHeight;
-
-    return { top: Math.max(0, top), height: Math.max(30, height) };
-  };
-
-  return (
-    <div className="flex flex-col h-full">
+  };  return (
+    <div className="flex flex-col h-full" ref={scrollbarContainerRef} data-calendar-container>
       {/* Week Header */}
-      <div style={{ borderBottom: `1px solid ${theme?.border}`, backgroundColor: theme?.header?.background }}>
+      <div style={{ borderBottom: `1px solid ${theme?.border}`, backgroundColor: theme?.header?.background }} data-calendar-header>
         <div className="flex">
           {/* Espacio para columna de horas */}
           <div
@@ -131,16 +112,17 @@ const WeekView: React.FC<WeekViewProps> = ({
                     {formatDate(day, 'd')}
                   </div>
                 </div>
-              ))}
-            </div>
-            {/* Espacio reservado para la scrollbar - dinámico */}
-            <div
-              className="flex-shrink-0"
-              style={{
-                width: `${scrollbarWidth}px`,
-                borderBottom: `1px solid ${theme?.border}`
-              }}
-            ></div>
+              ))}            </div>
+            {/* Espacio reservado para la scrollbar - solo si hay scrollbar */}
+            {hasScrollbar && (
+              <div
+                className="flex-shrink-0"
+                style={{
+                  width: `${scrollbarWidth}px`,
+                  borderBottom: `1px solid ${theme?.border}`
+                }}
+              ></div>
+            )}
           </div>
         </div>
 
@@ -220,44 +202,43 @@ const WeekView: React.FC<WeekViewProps> = ({
                     </div>
                   </div>
                 );
-              })}
-            </div>
-            {/* Espacio reservado para la scrollbar - dinámico */}
-            <div
-              className="flex-shrink-0"
-              style={{ width: `${scrollbarWidth}px` }}
-            ></div>
+              })}            </div>
+            {/* Espacio reservado para la scrollbar - solo si hay scrollbar */}
+            {hasScrollbar && (
+              <div
+                className="flex-shrink-0"
+                style={{ width: `${scrollbarWidth}px` }}
+              ></div>
+            )}
           </div>
         </div>
-      </div>
-
-      {/* Time Grid Container with synchronized scroll */}
+      </div>      {/* Time Grid Container with synchronized scroll */}
       <div className="flex-1 overflow-hidden">
-        {/* Contenedor con scroll que incluye horas y días */}
-        <div
+        {/* Contenedor con scroll que incluye horas y días */}        <div
           className={cn(
-            "h-full overflow-auto calendar-scrollbar",
+            "overflow-auto calendar-scrollbar",
             theme?.primary === '#FDB813' ? 'theme-cerberus' : 'theme-default'
           )}
-        >
-          <div
-            className="flex"
-            style={{ minHeight: `${timeSlots.length * hourHeight}px` }}
-          >
-            {/* Columna de horas (sincronizada con scroll) */}
+          style={{ height: '100%' }}
+        >          <div
+            className={shouldFillContainer ? "flex h-full" : "flex"}
+            style={shouldFillContainer ? {} : { height: `${timeSlots.length * dynamicHourHeight}px` }}
+          >            {/* Columna de horas (sincronizada con scroll) */}
             <div
-              className="flex flex-col flex-shrink-0 w-16"
+              className={shouldFillContainer ? "flex flex-col flex-shrink-0 w-16" : "flex flex-col flex-shrink-0 w-16"}
               style={{
                 borderRight: `1px solid ${theme?.grid?.lines || theme?.border}`,
                 backgroundColor: theme?.surface || theme?.background
               }}
-            >
-              {timeSlots.map((slot, slotIndex) => (
+            >              {timeSlots.map((slot, slotIndex) => (
                 <div
                   key={slotIndex}
-                  className="p-2 text-xs flex-shrink-0"
-                  style={{
-                    height: `${hourHeight}px`,
+                  className={shouldFillContainer ? "p-2 text-xs flex-1 flex items-start" : "p-2 text-xs flex-shrink-0"}
+                  style={shouldFillContainer ? {
+                    borderBottom: `1px solid ${theme?.grid?.lines || '#f1f5f9'}`,
+                    color: theme?.text?.muted
+                  } : {
+                    height: `${dynamicHourHeight}px`,
                     borderBottom: `1px solid ${theme?.grid?.lines || '#f1f5f9'}`,
                     color: theme?.text?.muted
                   }}
@@ -265,25 +246,23 @@ const WeekView: React.FC<WeekViewProps> = ({
                   {slot.minute === 0 && formatDate(slot.date, 'HH:mm')}
                 </div>
               ))}
-            </div>
-
-            {/* Contenedor de días con flex */}
-            <div className="flex-1 flex relative">
-              {weekDays.map((day, dayIndex) => (
+            </div>            {/* Contenedor de días con flex */}
+            <div className="flex-1 flex relative">              {weekDays.map((day, dayIndex) => (
                 <div
                   key={dayIndex}
-                  className="flex-1 relative"
+                  className={shouldFillContainer ? "flex-1 relative flex flex-col" : "flex-1 relative"}
                   style={{
                     borderRight: dayIndex === weekDays.length - 1 ? undefined : `1px solid ${theme?.grid?.lines || '#f1f5f9'}`
                   }}
-                >
-                  {/* Celdas de tiempo */}
-                  {timeSlots.map((slot, slotIndex) => (
+                >{/* Celdas de tiempo */}                  {timeSlots.map((slot, slotIndex) => (
                     <div
                       key={slotIndex}
-                      className="cursor-pointer transition-colors relative hover:bg-opacity-10"
-                      style={{
-                        height: `${hourHeight}px`,
+                      className={shouldFillContainer ? "cursor-pointer transition-colors relative hover:bg-opacity-10 flex-1" : "cursor-pointer transition-colors relative hover:bg-opacity-10"}
+                      style={shouldFillContainer ? {
+                        borderBottom: `1px solid ${theme?.grid?.lines || '#f1f5f9'}`,
+                        backgroundColor: 'transparent'
+                      } : {
+                        height: `${dynamicHourHeight}px`,
                         borderBottom: `1px solid ${theme?.grid?.lines || '#f1f5f9'}`,
                         backgroundColor: 'transparent'
                       }}
@@ -295,15 +274,15 @@ const WeekView: React.FC<WeekViewProps> = ({
                         </div>
                       )}
                     </div>
-                  ))}
-
-                  {/* Overlay de eventos para este día */}
-                  <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                  ))}                  {/* Overlay de eventos para este día */}
+                  <div 
+                    className="absolute top-0 left-0 w-full pointer-events-none"
+                    style={shouldFillContainer ? { height: '100%' } : { height: `${timeSlots.length * dynamicHourHeight}px` }}
+                  >
                     {(() => {
                       const dayEvents = getEventsForDate(events, day).filter(event => !event.allDay);
-                      const eventLayouts = calculateEventLayout(dayEvents);
-                      return eventLayouts.map(({ event, left, width, zIndex }) => {
-                        const position = getEventPosition(event, day, startHour, hourHeight);
+                      const eventLayouts = calculateEventLayout(dayEvents);                      return eventLayouts.map(({ event, left, width, zIndex }) => {
+                        const position = getEventPosition(event, startHour, dynamicHourHeight);
                         return (
                           <EventCard
                             key={event.id}
@@ -324,14 +303,15 @@ const WeekView: React.FC<WeekViewProps> = ({
                     })()}
                   </div>
                 </div>
-              ))}
-
-              {/* Indicador de hora actual que se extiende por toda la semana */}
-              <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              ))}              {/* Indicador de hora actual que se extiende por toda la semana */}
+              <div 
+                className="absolute top-0 left-0 w-full pointer-events-none"
+                style={shouldFillContainer ? { height: '100%' } : { height: `${timeSlots.length * dynamicHourHeight}px` }}
+              >
                 <CurrentTimeIndicator
                   currentTime={currentTime}
                   startHour={startHour}
-                  hourHeight={hourHeight}
+                  hourHeight={dynamicHourHeight}
                   theme={theme}
                   showTimeLabel={true}
                 />

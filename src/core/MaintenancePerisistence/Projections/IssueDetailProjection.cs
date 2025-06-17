@@ -1,13 +1,14 @@
 ﻿using Cerberus.BackOffice.Features.OrganizationalStructure.Camera;
 using Cerberus.Maintenance.Features.Features.Issues;
 using Cerberus.Maintenance.Features.Features.Issues.GetDetail;
+using JasperFx.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 
 namespace Cerberus.Maintenance.Persistence.Projections;
 
-public class IssueDetailProjection: SingleStreamProjection<MaintenanceIssueDetail>
+public class IssueDetailProjection: SingleStreamProjection<MaintenanceIssueDetail, string>
 {
     public async Task<MaintenanceIssueDetail> Create(IEvent<MaintenanceIssueCreated> e, IQuerySession querySession)
     {
