@@ -549,7 +549,7 @@ export const CronBuilder: React.FC<CronBuilderProps> = ({
               variant="outline"
               size={compact ? "sm" : "default"}
               className="justify-between min-w-[120px] max-w-[180px] rounded-lg"
-              style={themedStyles.button} // Angel
+              style={themedStyles.button}
             >
               <div className="flex items-center gap-2 min-w-0">
                 <Icon className="h-4 w-4 flex-shrink-0" />

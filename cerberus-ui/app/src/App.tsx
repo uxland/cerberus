@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Fetching,
   getRouteComponent,
@@ -88,7 +88,7 @@ const AppContent = ({ routes }) => {
   if (!initialized) {
     return <Fetching />;
   }
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (_event, newValue) => {
     setActiveTab(newValue);
     navigate(tabsConfig[newValue].path);
   };
@@ -97,111 +97,128 @@ const AppContent = ({ routes }) => {
       <Box
         id="app"
         sx={{
-          display: "grid",
-          gridTemplateColumns: open ? "300px 1fr" : "40px 1fr",
           width: "100%",
           height: "100vh",
-          transition: "grid-template-columns 0.3s ease-in-out",
+          position: "relative"
         }}
       >
-
-        <MainMenu logo={Logo} open={open} setOpen={setOpen} />
-        <Box
+        {/* AppBar positioned absolutely to span full width */}
+        <AppBar
+          position="fixed"
           sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            overflow: "hidden"
+            backgroundColor: "#1f1f1f",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            left: open ? "300px" : "0px",
+            width: open ? "calc(100% - 300px)" : "100%",
+            transition: "left 0.3s ease-in-out, width 0.3s ease-in-out",
+            zIndex: 1200
           }}
         >
-          <AppBar
-            position="sticky"
-            sx={{
-              backgroundColor: "#1f1f1f",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Tabs
-                value={activeTab}
-                onChange={handleTabChange}
-                sx={{
-                  "& .MuiTab-root": {
-                    color: "#fff",
-                    fontWeight: "500",
-                    fontSize: "0.9rem",
-                    textTransform: "none",
-                    minHeight: "48px",
-                    transition: "all 0.2s",
-                    "&.Mui-selected": {
-                      color: "#ffc200",
-                    }
-                  },
-                  "& .MuiTabs-indicator": {
-                    backgroundColor: "#ffc200",
-                    display: "none",
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              sx={{
+                "& .MuiTab-root": {
+                  color: "#fff",
+                  fontWeight: "500",
+                  fontSize: "0.9rem",
+                  textTransform: "none",
+                  minHeight: "48px",
+                  transition: "all 0.2s",
+                  "&.Mui-selected": {
+                    color: "#ffc200",
                   }
+                },
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#ffc200",
+                  display: "none",
+                }
+              }}
+            >
+              {tabsConfig.map((tab, index) => (
+                <Tab key={index} label={tab.label} />
+              ))}
+            </Tabs>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography className="!text-gray-200 !mr-2"> Modo: <span className="text-white font-semibold">Keeper </span>  </Typography>
+              <IconButton
+                aria-label="profile"
+                onClick={() => { }}
+                sx={{
+                  color: '#ffc200',
+
                 }}
               >
-                {tabsConfig.map((tab, index) => (
-                  <Tab key={index} label={tab.label} />
-                ))}
-              </Tabs>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography className="!text-gray-200 !mr-2"> Modo: <span className="text-white font-semibold">Keeper </span>  </Typography>
-                <IconButton
-                  aria-label="profile"
-                  onClick={() => { }}
-                  sx={{
-                    color: '#ffc200',
+                <PersonIcon />
+              </IconButton>
 
-                  }}
-                >
-                  <PersonIcon />
-                </IconButton>
+              <IconButton
+                aria-label="settings"
+                onClick={() => { }}
+                sx={{
+                  color: '#ffc200',
 
-                <IconButton
-                  aria-label="settings"
-                  onClick={() => { }}
-                  sx={{
-                    color: '#ffc200',
-
-                  }}
-                >
-                  <SettingsIcon />
-                </IconButton>
-              </Box>
+                }}
+              >
+                <SettingsIcon />
+              </IconButton>
             </Box>
-          </AppBar>
+          </Box>
+        </AppBar>
+
+        {/* Main layout with sidebar and content */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: open ? "300px 1fr" : "40px 1fr",
+            width: "100%",
+            height: "100vh",
+            transition: "grid-template-columns 0.3s ease-in-out",
+          }}
+        >
+          <MainMenu logo={Logo} open={open} setOpen={setOpen} />
           <Box
             sx={{
-              padding: "2rem",
-              flexGrow: 1,
-              overflow: "auto",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
               height: "100%",
+              overflow: "hidden",
+              paddingTop: "64px" // Add padding to account for fixed AppBar
             }}
           >
-            <Routes>
-              {routes.map((route: any) => {
-                // console.log("Route:", route);
-                const Component = getRouteComponent(route.componentName);
-                return (
-                  <Route
-                    key={route.name}
-                    path={route.path}
-                    Component={Component}
-                  />
-                );
-              })}
-            </Routes>
+            <Box
+              sx={{
+                padding: "2rem",
+                flexGrow: 1,
+                overflow: "auto",
+                height: "100%",
+              }}
+            >
+              <Routes>
+                {routes.map((route: any) => {
+                  // console.log("Route:", route);
+                  const Component = getRouteComponent(route.componentName);
+                  return (
+                    <Route
+                      key={route.name}
+                      path={route.path}
+                      Component={Component}
+                    />
+                  );
+                })}
+              </Routes>
+            </Box>
+            <Toasts />
           </Box>
-          <Toasts />
         </Box>
         <button
           className="absolute top-1/2 -translate-y-1/2 z-50 bg-[#353535] text-white p-2.5 hover:bg-[#636363] transition-colors rounded-r-xl text-2xl"
           onClick={() => setOpen(!open)}
           style={{
+            left: "0px",
+            display: open ? "none" : "block",
             transition: "left 0.3s ease-in-out",
           }}
         >

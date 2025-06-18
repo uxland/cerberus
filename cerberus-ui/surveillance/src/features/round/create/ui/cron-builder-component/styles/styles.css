@@ -30,9 +30,9 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 42 87% 55%;
 
     --radius: 0.5rem;
 
@@ -75,9 +75,9 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 42 87% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -214,5 +214,20 @@
   /* Individual checkbox items within the grid */
   .cron-builder-component .border.rounded-lg .grid > div {
     border-radius: 0.25rem !important; /* 4px for individual items */
+  }
+
+
+  /* Fix white border effects on Select components */
+  /* Select trigger styles to prevent white borders */
+
+  /* Override any global white border styles */
+  .cron-builder-component * {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  .cron-builder-component *:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
