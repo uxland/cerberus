@@ -41,35 +41,48 @@ export const createExecutionFormSchema = (
 
         const validateActions = (actions: any[], path: Array<string | number>) => {
             actions.forEach((action, i) => {
-                // Si la acción fue ejecutada exitosamente, no necesitamos validar sus alternativas
-                if (action.executed === true) {
-                    return; // Salir temprano, no hay necesidad de validar alternativas
+                // Verificar que la acción tenga una respuesta (executed debe ser true o false, no undefined/null)
+                if (action.executed === undefined || action.executed === null) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: "Debe indicar si la acción fue ejecutada o no",
+                        path: [...path, i, "executed"].map(String),
+                    });
+                    return;
                 }
 
-                // Solo validar alternativas si la acción principal no fue ejecutada (false o null/undefined)
+                // Si la acción fue ejecutada exitosamente, el conjunto es válido
+                if (action.executed === true) {
+                    return; // No necesitamos validar alternativas
+                }
+
+                // Si la acción no fue ejecutada (false) y tiene alternativas
                 if (action.executed === false && action.alternatives && action.alternatives.length > 0) {
                     // Verificar si hay alguna alternativa ejecutada
                     const hasExecutedAlternative = action.alternatives.some((alt: any) =>
                         alt.executed === true
                     );
 
-                    // Solo validar si no hay alternativas ejecutadas Y hay alternativas sin responder
-                    if (!hasExecutedAlternative) {
-                        const hasUnansweredAlternatives = action.alternatives.some((alt: any) =>
-                            alt.executed === undefined || alt.executed === null
-                        );
-
-                        if (hasUnansweredAlternatives) {
-                            ctx.addIssue({
-                                code: z.ZodIssueCode.custom,
-                                message: "Debe indicar si las alternativas fueron ejecutadas o no",
-                                path: [...path, i, "alternatives"].map(String),
-                            });
-                        }
-
-                        // Solo validar alternativas recursivamente si no hay alternativas ejecutadas
-                        validateActions(action.alternatives, [...path, i, "alternatives"]);
+                    // Si hay una alternativa ejecutada, el conjunto es válido
+                    if (hasExecutedAlternative) {
+                        return;
                     }
+
+                    // Si no hay alternativas ejecutadas, verificar que todas tengan respuesta
+                    const hasUnansweredAlternatives = action.alternatives.some((alt: any) =>
+                        alt.executed === undefined || alt.executed === null
+                    );
+
+                    if (hasUnansweredAlternatives) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: "Debe indicar si las alternativas fueron ejecutadas o no",
+                            path: [...path, i, "alternatives"].map(String),
+                        });
+                    }
+
+                    // Validar alternativas recursivamente
+                    validateActions(action.alternatives, [...path, i, "alternatives"]);
                 }
             });
         };
