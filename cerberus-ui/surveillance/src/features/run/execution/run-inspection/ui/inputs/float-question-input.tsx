@@ -1,5 +1,5 @@
 import { OperationRunQuestionAnswer } from "../../../domain/model.ts";
-import { FormInputField } from "@cerberus/core";
+import { FormInputField, Error } from "@cerberus/core";
 import { UseFormReturn } from "react-hook-form";
 import { ExecutionForm } from '../../domain/validation.ts';
 import { Typography } from "@mui/material";
@@ -21,6 +21,7 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
     const questionIdPath = `${fieldPath}.questionId` as const;
     const [showActions, setShowActions] = useState(false);
     const actionsLabel = useSurveillanceLocales('run.set.optionQuestion.actions');
+    const actionsErrorLabel = useSurveillanceLocales('run.set.optionQuestion.actionsErrorLabel');
 
     const selectedValue = (watch as any)(answerPath);
 
@@ -122,6 +123,10 @@ export const FloatQuestionInput = (props: FloatQuestionInputProps) => {
                             index={actionIndex}
                         />
                     ))}
+                    {/* Error de validación a nivel de conjunto de acciones */}
+                    {formState.errors?.answers?.[props.index]?.actions && (
+                        <Error error={actionsErrorLabel} />
+                    )}
                 </div>
             )}
         </>
