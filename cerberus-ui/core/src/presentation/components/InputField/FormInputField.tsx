@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldError } from "react-hook-form";
 import { DeleteOutline } from "@mui/icons-material";
+import { Error } from "../Errors/Error";
 
 type InputFieldProps = {
     label?: string;
@@ -60,7 +61,7 @@ export const FormInputField: React.FC<InputFieldProps> = ({
                 {...(defaultValue !== undefined ? { defaultValue } : {})}
                 {...(onChange ? { onChange } : {})}
             />
-            {error && <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">{error.message}</div>}
+            {error && <Error error={error.message} />}
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import { FormInputField, Select } from "@cerberus/core";
+import { FormInputField, Error } from "@cerberus/core";
 import React from "react";
 import {
     OptionsQuestion,
@@ -87,9 +87,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                 <div>
                     {/* Mostrar error general de opciones si existe */}
                     {questionErrors?.options?.root?.message && (
-                        <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">
-                            {questionErrors.options.root.message}
-                        </div>
+                        <Error error={questionErrors.options.root.message} />
                     )}
                     {question.options.map((option, index) => (
                         <div key={option.code} className="border-t-2 border-[#4a4a4a] pt-4 mt-4">

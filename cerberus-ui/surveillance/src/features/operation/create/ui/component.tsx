@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, Tab, Box, Alert } from "@mui/material";
+import { Tabs, Tab, Box } from "@mui/material";
 import {
     convertQuestionToType, OperationForm, OperationQuestion,
     OperationQuestionType,
@@ -7,7 +7,7 @@ import {
     SurveillanceOperationFormModel
 } from "../domain";
 import { createQuestionEditor } from "./shared.tsx";
-import { FormInputField } from "@cerberus/core";
+import { FormInputField, ErrorList } from "@cerberus/core";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SurveillanceOperationFormModelSchema } from "../domain";
@@ -124,32 +124,12 @@ export const SurveillanceOperationForm = ({ initialModel, onSubmitRequested }: S
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalidSubmit)} className="space-y-6" noValidate>
-            {/* Mostrar errores de validación con transición suave */}
-            <div
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${showValidationErrors && validationErrors.length > 0
-                    ? 'max-h-96 opacity-100 mb-4'
-                    : 'max-h-0 opacity-0 mb-0'
-                    }`}
-            >
-                {showValidationErrors && validationErrors.length > 0 && (
-                    <Alert
-                        severity="error"
-                        onClose={() => setShowValidationErrors(false)}
-                        className="transition-all duration-300 ease-in-out"
-                    >
-                        <div>
-                            <strong>
-                                {fixErrorsLabel}:
-                            </strong>
-                            <ul className="mt-2 ml-4">
-                                {validationErrors.map((error, index) => (
-                                    <li key={index} className="list-disc transition-all duration-200">{error}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </Alert>
-                )}
-            </div>
+            <ErrorList
+                errors={validationErrors}
+                show={showValidationErrors}
+                title={fixErrorsLabel}
+                onClose={() => setShowValidationErrors(false)}
+            />
 
             <div className="flex items-center gap-2 bg-tableBg py-4 px-6 rounded-[10px] w-full">
                 <h1 className="font-bold text-primary">{useSurveillanceLocales("operation.create.title")} - </h1>

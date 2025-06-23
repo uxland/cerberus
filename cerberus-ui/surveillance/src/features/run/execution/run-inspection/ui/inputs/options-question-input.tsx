@@ -1,5 +1,5 @@
 import { OperationRunQuestionAnswer } from "../../../domain/model.ts";
-import { Select, MultipleSelect } from "@cerberus/core";
+import { Select, MultipleSelect, Error } from "@cerberus/core";
 import { OptionsQuestion } from "../../../../../operation/create/domain/index.ts";
 import { UseFormReturn } from "react-hook-form";
 import { Typography } from "@mui/material";
@@ -140,9 +140,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
 
                     {/* Error de validación a nivel de conjunto de acciones */}
                     {formState.errors?.answers?.[props.index]?.actions && (
-                        <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">
-                            {actionsErrorLabel}
-                        </div>
+                        <Error error={actionsErrorLabel} />
                     )}
                 </div>
             )}

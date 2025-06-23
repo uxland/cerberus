@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Typography from "@mui/material/Typography";
 import { FieldError, UseFormReturn } from "react-hook-form";
-
+import { Error } from '../Errors/Error';
 interface MultipleSelectProps {
     title: string;
     options: { value: string; label: string }[];
@@ -130,7 +130,7 @@ export const MultipleSelect = ({ title, options, classes, path, name, selected, 
                     );
                 })}
             </div>
-            {error && <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">{error.message}</div>}
+            {error && <Error error={error.message} />}
 
         </div>
     );

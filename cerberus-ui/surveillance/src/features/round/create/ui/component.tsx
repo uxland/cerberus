@@ -3,7 +3,7 @@ import { Typography, Checkbox } from "@mui/material";
 import { RoundEditionData, Inspection, createOrUpdateInspection, removeInspection } from "../domain/model.ts";
 import { MenuItem } from "@mui/material";
 import Select from '@mui/material/Select';
-import { FormInputField } from '@cerberus/core';
+import { Error, FormInputField } from '@cerberus/core';
 import { useSurveillanceLocales } from '../../../../locales/ca/locales.ts';
 import { Cron } from 'react-js-cron'
 import 'react-js-cron/dist/styles.css';
@@ -344,7 +344,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                 </div>
             </div>
             {errors.inspections && (
-                <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">{errors.inspections.message}</div>
+                <Error error={errors.inspections.message} />
             )}
         </form>
     );
