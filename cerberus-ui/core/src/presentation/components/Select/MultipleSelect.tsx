@@ -129,8 +129,9 @@ export const MultipleSelect = ({ title, options, classes, path, name, selected, 
                         </button>
                     );
                 })}
-                {error && <p className="error text-red-500">{error.message}</p>}
             </div>
+            {error && <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">{error.message}</div>}
+
         </div>
     );
 };

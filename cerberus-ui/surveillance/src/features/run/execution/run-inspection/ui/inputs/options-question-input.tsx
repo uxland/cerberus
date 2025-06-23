@@ -21,7 +21,7 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
     const answerPath = `${fieldPath}.answer`;
     const [showActions, setShowActions] = useState(false);
     const actionsLabel = useSurveillanceLocales('run.set.optionQuestion.actions');
-
+    const actionsErrorLabel = useSurveillanceLocales('run.set.optionQuestion.actionsErrorLabel');
     const selectedValue = watch(answerPath);
     const selectedCodes = Array.isArray(selectedValue)
         ? selectedValue
@@ -137,6 +137,13 @@ export const OptionsQuestionInput = (props: OptionsQuestionInputProps) => {
                             index={actionIndex}
                         />
                     ))}
+
+                    {/* Error de validación a nivel de conjunto de acciones */}
+                    {formState.errors?.answers?.[props.index]?.actions && (
+                        <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">
+                            {actionsErrorLabel}
+                        </div>
+                    )}
                 </div>
             )}
         </>

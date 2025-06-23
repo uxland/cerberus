@@ -51,6 +51,8 @@ export const InspectionRunEditor = ({ run, handler }: ExecutionStepArgs) => {
     const formMethods = useForm<ExecutionForm>({
         resolver: zodResolver(dynamicSchema),
         defaultValues: createDefaultValues(),
+        mode: "onSubmit", // Solo validar al enviar el formulario
+        shouldFocusError: false // Desactivar el focus automático en errores
     });
 
     const formValues = formMethods.watch();

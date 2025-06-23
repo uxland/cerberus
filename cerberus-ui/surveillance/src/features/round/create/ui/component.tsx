@@ -344,7 +344,7 @@ export const RoundEditionForm = ({ roundEditionData, onSubmitRequested }: { roun
                 </div>
             </div>
             {errors.inspections && (
-                <p className="text-red-500">{errors.inspections.message}</p>
+                <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">{errors.inspections.message}</div>
             )}
         </form>
     );

@@ -116,7 +116,7 @@ export const locales = {
         messageWithName: "¿Quieres comenzar ahora la ronda de supervisión con nombre: {description}?",
         confirmButton: "Aceptar",
         cancelButton: "Cancelar",
-        title: "Confirmación de ronda"
+        title: "Confirmación de ronda",
       },
       set: {
         formTitle: "Ronda de Supervisión",
@@ -129,6 +129,8 @@ export const locales = {
         next: "Siguiente",
         optionQuestion: {
           actions: "Acciones a realizar:",
+          actionsErrorLabel: "Debe completar todas las acciones requeridas",
+
           comments: {
             placeholder: "Escribe aquí tus comentarios...",
             hide: "Ocultar comentarios",

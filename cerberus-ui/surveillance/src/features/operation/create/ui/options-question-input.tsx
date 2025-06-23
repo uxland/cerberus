@@ -87,7 +87,7 @@ export const OptionsQuestionInput: React.FC<OptionsQuestionInputProps> = ({ ques
                 <div>
                     {/* Mostrar error general de opciones si existe */}
                     {questionErrors?.options?.root?.message && (
-                        <div className="my-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                        <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">
                             {questionErrors.options.root.message}
                         </div>
                     )}

@@ -45,7 +45,7 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
     }, [executedValue, action.alternatives]);
 
     const handleExecution = (value: boolean | null) => {
-        setValue(executedPath, value, { shouldDirty: true, shouldValidate: true });
+        setValue(executedPath, value, { shouldDirty: true, shouldValidate: false });
 
         // Si se cambia el estado de esta acción, limpiar todas las alternativas
         if (action.alternatives && action.alternatives.length > 0) {
@@ -62,8 +62,8 @@ export const ActionItem = ({ action, formMethods, basePath, index, level = 0 }: 
         const alternatives = getValues(alternativesPath) || [];
         alternatives.forEach((_: any, index: number) => {
             const altPath = `${alternativesPath}[${index}]`;
-            setValue(`${altPath}.executed`, null, { shouldDirty: true, shouldValidate: true });
-            setValue(`${altPath}.comments`, "", { shouldDirty: true, shouldValidate: true });
+            setValue(`${altPath}.executed`, null, { shouldDirty: true, shouldValidate: false });
+            setValue(`${altPath}.comments`, "", { shouldDirty: true, shouldValidate: false });
 
             // Si esta alternativa tiene sus propias alternativas, limpiarlas también
             const subAlternatives = getValues(`${altPath}.alternatives`);

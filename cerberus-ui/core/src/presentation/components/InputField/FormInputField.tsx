@@ -60,7 +60,7 @@ export const FormInputField: React.FC<InputFieldProps> = ({
                 {...(defaultValue !== undefined ? { defaultValue } : {})}
                 {...(onChange ? { onChange } : {})}
             />
-            {error && <p className="error text-red-500">{error.message}</p>}
+            {error && <div className="mt-2 text-red-500 text-sm bg-red-100 border border-red-400 rounded p-2">{error.message}</div>}
         </div>
     );
 };
