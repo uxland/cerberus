@@ -8,6 +8,7 @@ import {
   nop,
   refreshToken,
   Toasts,
+  NotFoundView
 } from "@cerberus/core";
 import {
   UserAuthenticated,
@@ -185,7 +186,7 @@ const AppContent = ({ routes }) => {
               flexDirection: "column",
               height: "100%",
               overflow: "hidden",
-              paddingTop: "64px" // Add padding to account for fixed AppBar
+              paddingTop: "64px"
             }}
           >
             <Box
@@ -198,7 +199,6 @@ const AppContent = ({ routes }) => {
             >
               <Routes>
                 {routes.map((route: any) => {
-                  // console.log("Route:", route);
                   const Component = getRouteComponent(route.componentName);
                   return (
                     <Route
@@ -208,6 +208,8 @@ const AppContent = ({ routes }) => {
                     />
                   );
                 })}
+                {/* Ruta catch-all para 404 - debe ir al final */}
+                <Route path="*" element={<NotFoundView />} />
               </Routes>
             </Box>
             <Toasts />

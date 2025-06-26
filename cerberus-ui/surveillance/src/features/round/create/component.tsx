@@ -3,26 +3,37 @@ import { CircularProgress, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { RoundEditionData } from "./domain";
 import { GetRoundEditionData } from "./get-round-edition-data.ts";
-import { nop } from "@cerberus/core";
+import { ErrorView, nop } from "@cerberus/core";
 import { Round } from "./domain";
 import { RoundEditionForm } from './ui/component.tsx';
 import { EditOrCreateRound } from './command.ts';
 import { sendMediatorRequest } from '@cerberus/core';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useSurveillanceLocales } from '../../../locales/ca/locales.ts';
 
 export const SurveillanceRoundsEditor = () => {
+    const error403 = useSurveillanceLocales("round.errors.403");
+    const error404 = useSurveillanceLocales("round.errors.404");
+    const error500 = useSurveillanceLocales("round.errors.500");
+
     const [roundEditionData, setRoundEditionData] = useState<RoundEditionData>(null);
     const [busy, setBusy] = useState(false);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const [error, setError] = useState<AxiosError>(undefined);
     const { locationId, roundId } = useParams<{ locationId: string, roundId: string }>();
+    const navigate = useNavigate();
+
+
+    const fetchRoundData = async () => {
+        await sendMediatorRequest({
+            command: new GetRoundEditionData(locationId, roundId),
+            setBusy: setBusy,
+            setError: setError,
+            setState: setRoundEditionData
+        });
+    }
+
     useEffect(() => {
-        async function fetchRoundData() {
-            await sendMediatorRequest({
-                command: new GetRoundEditionData(locationId, roundId),
-                setBusy: setBusy,
-                setError: setError,
-                setState: setRoundEditionData
-            });
-        }
         fetchRoundData().then(nop)
     }, [locationId, roundId]);
 
@@ -40,17 +51,32 @@ export const SurveillanceRoundsEditor = () => {
             setError: setError,
         })
     }
+
+    if (error) {
+        return (
+            <ErrorView
+                error={error}
+                onRefresh={fetchRoundData}
+                onGoBack={() => navigate("/locations/" + locationId + "?item-type=Location&tab=2")}
+                customMessages={{
+                    403: error403,
+                    404: error404,
+                    500: error500
+                }}
+            />
+        );
+    }
+
     return (
-        <div>
+        <>
             {busy ? (
-                <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                     <CircularProgress />
                 </Box>
             ) : (
                 roundEditionData && <RoundEditionForm roundEditionData={roundEditionData} onSubmitRequested={submitRound} />
             )}
-            {error && <div>Error: {String(error)}</div>}
-        </div>
+        </>
 
     );
 }

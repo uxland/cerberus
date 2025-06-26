@@ -2,7 +2,7 @@
 import { IRequest } from "mediatr-ts";
 
 export class CreateRun implements IRequest<string> {
-    constructor(public roundId: string | undefined) { }
+    constructor(public locationId: string | undefined, public roundId: string | undefined) { }
 }
 
 

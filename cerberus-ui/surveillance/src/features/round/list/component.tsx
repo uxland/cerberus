@@ -1,40 +1,61 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ListRounds } from "./query.ts";
-import { nop } from "@cerberus/core";
+import { ErrorView } from "@cerberus/core";
 import { RoundSummary } from "./model.ts";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { RoundsTable } from "./components/component.tsx";
 import { sendMediatorRequest } from "@cerberus/core";
 import { useSurveillanceLocales } from "../../../locales/ca/locales.ts";
+import { AxiosError } from "axios";
 
 export const RoundsView = (props: { id: string }) => {
-    const [rounds, setRounds] = useState<RoundSummary[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(undefined);
-    const navigate = useNavigate();
+    const error403 = useSurveillanceLocales("round.errors.list.403");
+    const error500 = useSurveillanceLocales("round.errors.list.500");
     const createRound = useSurveillanceLocales("round.create.createRound");
 
+    const [rounds, setRounds] = useState<RoundSummary[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<AxiosError>(undefined);
+    const navigate = useNavigate();
+
+    const fetchRounds = () => {
+        setError(undefined);
+        sendMediatorRequest({
+            command: new ListRounds(props.id),
+            setBusy: setLoading,
+            setError: setError,
+            setState: setRounds
+        });
+    }
+
+
     useEffect(() => {
-        async function fetchRounds() {
-            sendMediatorRequest({
-                command: new ListRounds(props.id),
-                setBusy: setLoading,
-                setError: setError,
-                setState: setRounds
-            });
-        }
-        fetchRounds().then(nop);
+        fetchRounds();
     }, [props]);
 
     const handleCreateRound = () => {
         navigate(`/surveillance/locations/${props.id}/rounds/new`);
     };
 
+
+    if (error) {
+        return (
+            <ErrorView
+                error={error}
+                onRefresh={fetchRounds}
+                customMessages={{
+                    403: error403,
+                    500: error500
+                }}
+            />
+        );
+    }
+
     return (
-        <div >
+        <>
             {loading ? (
-                <Box className="flex justify-center items-center">
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                     <CircularProgress />
                 </Box>
             ) : rounds ? (
@@ -49,7 +70,6 @@ export const RoundsView = (props: { id: string }) => {
                 </div>
             ) : null
             }
-            {error && <div>Error: {String(error)}</div>}
-        </div>
+        </>
     );
 };

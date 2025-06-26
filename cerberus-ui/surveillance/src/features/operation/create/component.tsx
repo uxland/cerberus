@@ -4,32 +4,41 @@ import { defaultOperationModel, SurveillanceOperationFormModel } from "./domain"
 import { EditOrCreateOperation } from "./command.ts";
 import { useParams } from "react-router-dom";
 import { GetOperation } from "./get-operation.ts";
-import { nop } from "@cerberus/core";
 import { CircularProgress, Box } from '@mui/material';
 import { sendMediatorRequest } from '@cerberus/core';
+import { ErrorView } from '@cerberus/core';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useSurveillanceLocales } from '../../../locales/ca/locales.ts';
 
 export const SurveillanceOperationEditor = () => {
+    const error403 = useSurveillanceLocales("operation.errors.403");
+    const error404 = useSurveillanceLocales("operation.errors.404");
+    const error500 = useSurveillanceLocales("operation.errors.500");
 
-    const [error, setError] = useState<string | undefined>(undefined);
+    const [error, setError] = useState<AxiosError>(undefined);
     const [busy, setBusy] = useState<boolean>(false);
     const [originalOperation, setOriginalOperation] = useState<SurveillanceOperationFormModel | undefined>(defaultOperationModel);
     const { operationId } = useParams<{ operationId: string }>();
+    const navigate = useNavigate();
+
+    const fetchOperation = () => {
+        if (operationId && operationId !== "new") {
+            setError(undefined);
+            sendMediatorRequest({
+                command: new GetOperation(operationId),
+                setBusy: setBusy,
+                setError: setError,
+                setState: setOriginalOperation
+            });
+        }
+    };
 
     useEffect(() => {
-        async function fetchOperation() {
-            if (operationId && operationId !== "new") {
-                sendMediatorRequest({
-                    command: new GetOperation(operationId),
-                    setBusy: setBusy,
-                    setError: setError,
-                    setState: setOriginalOperation
-                });
-            }
-        }
-        fetchOperation().then(nop);
+        fetchOperation();
     }, [operationId]);
 
-    const submitOperation = async (operation: SurveillanceOperationFormModel) => {
+    const submitOperation = (operation: SurveillanceOperationFormModel) => {
         console.log("Operation", operation);
         const command = new EditOrCreateOperation(operationId === "new" ? undefined : operationId, operation);
         sendMediatorRequest({
@@ -39,16 +48,30 @@ export const SurveillanceOperationEditor = () => {
         })
     }
 
+    if (error) {
+        return (
+            <ErrorView
+                error={error}
+                onRefresh={fetchOperation}
+                onGoBack={() => navigate("/surveillance/operations")}
+                customMessages={{
+                    403: error403,
+                    404: error404,
+                    500: error500
+                }}
+            />
+        );
+    }
+
     return (
-        <div className="space-y-6">
+        <>
             {busy ? (
-                <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                     <CircularProgress />
                 </Box>
             ) : (
                 <SurveillanceOperationForm initialModel={originalOperation} onSubmitRequested={submitOperation} />
             )}
-            {error && <div>Error: {String(error)}</div>}
-        </div>
+        </>
     );
 }

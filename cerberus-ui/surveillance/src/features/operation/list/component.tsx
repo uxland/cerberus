@@ -1,40 +1,63 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ListOperations } from "./query.ts";
-import { nop } from "@cerberus/core";
+import { ErrorView } from "@cerberus/core";
 import { OperationSummary } from "./model.ts";
 import { OperationsTable } from "../../../components/index.ts";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { sendMediatorRequest } from "@cerberus/core";
 import { useSurveillanceLocales } from "../../../locales/ca/locales.ts";
+import { AxiosError } from "axios";
 
 export const OperationsView = (props: { id: string }) => {
-    const [operations, setOperations] = useState<OperationSummary[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(undefined);
-    const navigate = useNavigate();
+    const error403 = useSurveillanceLocales("operation.errors.list.403");
+    const error500 = useSurveillanceLocales("operation.errors.list.500");
     const createOperation = useSurveillanceLocales("operation.create.createOperation");
 
+    const [operations, setOperations] = useState<OperationSummary[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<AxiosError>(undefined);
+    const navigate = useNavigate();
+
+    const fetchOperations = () => {
+        setError(undefined);
+        sendMediatorRequest({
+            command: new ListOperations(),
+            setBusy: setLoading,
+            setError: setError,
+            setState: setOperations
+        });
+    }
     useEffect(() => {
-        async function fetchOperations() {
-            sendMediatorRequest({
-                command: new ListOperations(),
-                setBusy: setLoading,
-                setError: setError,
-                setState: setOperations
-            });
-        }
-        fetchOperations().then(nop);
+
+        fetchOperations();
     }, [props]);
 
     const handleCreateOperation = () => {
         navigate("/surveillance/operations/new");
     };
 
+    useEffect(() => {
+        console.log(error);
+    }, [error]);
+    if (error) {
+        return (
+            <ErrorView
+                error={error}
+                onRefresh={fetchOperations}
+                customMessages={{
+                    403: error403,
+                    500: error500
+                }}
+            />
+        );
+    }
+    
+
     return (
-        <div >
+        <>
             {loading ? (
-                <Box className="flex justify-center items-center">
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                     <CircularProgress />
                 </Box>
             ) : operations ? (
@@ -50,8 +73,6 @@ export const OperationsView = (props: { id: string }) => {
                 </div>
             ) : null
             }
-            {error && <div>Error: {String(error)}</div>}
-
-        </div>
+        </>
     );
 };

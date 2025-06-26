@@ -8,7 +8,6 @@ import {
     TableRow,
     IconButton,
     CircularProgress,
-    Tooltip,
     Menu,
     MenuItem
 } from "@mui/material";
@@ -87,7 +86,7 @@ const RoundRow = (props: { round: RoundSummary }) => {
     const handleStartRun = async () => {
         handleClose();
         sendMediatorRequest({
-            command: new CreateRun(props.round.id),
+            command: new CreateRun(props.round.rootLocationId, props.round.id),
             setBusy: setBusyStart,
         });
     };

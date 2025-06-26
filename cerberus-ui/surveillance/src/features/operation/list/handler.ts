@@ -6,8 +6,8 @@ import {operationsEndpointUrl} from "../constants.ts";
 
 @injectable()
 export class ListOperationsHandler extends HandlerBase<OperationSummary[], ListOperations> {
-    handle(request: ListOperations): Promise<OperationSummary[]> {
-        return  this.handleRequest(request, () => this.apiClient.get<OperationSummary[]>(operationsEndpointUrl))
+    handle(_request: ListOperations): Promise<OperationSummary[]> {
+        return this.apiClient.get<OperationSummary[]>(operationsEndpointUrl);
     }
 
 }

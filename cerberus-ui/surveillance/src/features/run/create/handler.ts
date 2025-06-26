@@ -11,7 +11,7 @@ export class CreateRunHandler extends HandlerBase<string, CreateRun> {
 
     private async createRun(request: CreateRun): Promise<string> {
         const id = await this.createRunInBackend(request);
-        this.navigationService.navigateTo(`/surveillance/runs/${id}`);
+        this.navigationService.navigateTo(`/surveillance/${request.locationId}/runs/${id}`);
         return id;
     }
 

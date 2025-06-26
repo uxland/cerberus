@@ -2,7 +2,6 @@ import { getNestedValue } from "@cerberus/core";
 import { Paths } from "@cerberus/core/src/utils/auxiliar-types";
 import { useLocalePath } from "@uxland/react-services";
 import { moduleName } from "../../constants";
-import { hi } from "date-fns/locale";
 
 export type SurveillanceLocalesPath = Paths<(typeof locales)[typeof moduleName]>;
 export const useSurveillanceLocales = (
@@ -65,6 +64,15 @@ export const locales = {
           delete: "Eliminar",
           edit: "Editar",
         }
+      },
+      errors: {
+        list: {
+          403: "No tienes permisos para acceder a las operativas",
+          500: "Error al cargar la lista de operativas"
+        },
+        403: "No tienes permisos para acceder a esta operativa",
+        404: "La operativa solicitada no existe o fue eliminada",
+        500: "Error al cargar los datos de la operativa"
       }
     },
     round: {
@@ -109,6 +117,15 @@ export const locales = {
           view: "Ver inspecciones",
         }
       },
+      errors: {
+        list: {
+          403: "No tienes permisos para acceder a las rondas",
+          500: "Error al cargar la lista de rondas"
+        },
+        403: "No tienes permisos para acceder a esta ronda",
+        404: "La ronda solicitada no existe o fue eliminada",
+        500: "Error al cargar los datos de la ronda"
+      }
     },
     run: {
       acquire: {
@@ -189,6 +206,36 @@ export const locales = {
         duration: "Duración",
         anomalies: "Anomalías",
         inspectionsWithIssues: "Inspecciones con problemas"
+      },
+      list: {
+        noData: {
+          title: "Sin inspecciones disponibles",
+          description: "No se han encontrado inspecciones planificadas o ejecutadas."
+        }
+      },
+      errors: {
+        get: {
+          403: "No tienes permisos para acceder a esta ronda de supervisión",
+          404: "La ronda de supervisión solicitada no existe o fue eliminada",
+          500: "Error al cargar los datos de la ronda de supervisión"
+        },
+        list: {
+          403: "No tienes permisos para acceder a las rondas de supervisión",
+          500: "Error al cargar la lista de rondas de supervisión"
+        },
+        report: {
+          403: "No tienes permisos para acceder al reporte de la ronda de supervisión",
+          404: "El reporte de la ronda de supervisión solicitada no existe o fue eliminado",
+          500: "Error al cargar el reporte de la ronda de supervisión"
+        }
+      }
+    },
+    operators: {
+      schedule: {
+        errors: {
+          403: "No tienes permisos para acceder a las rondas programadas",
+          500: "Error al cargar la lista de rondas programadas"
+        }
       }
     },
   },

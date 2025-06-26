@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { sendMediatorRequest } from '@cerberus/core';
+import { ErrorView, sendMediatorRequest } from '@cerberus/core';
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { Link } from 'react-router-dom';
 import { RunCard } from '../ui/runCard';
 import { NoData } from '../ui/noData';
+import { useSurveillanceLocales } from '../../../../locales/ca/locales';
+import { AxiosError } from 'axios';
 
 type RunsListProps = {
     command: any;
@@ -16,29 +18,46 @@ export const RunsList = ({
     title,
     headerContent,
 }: RunsListProps) => {
+    const error403 = useSurveillanceLocales("run.errors.list.403");
+    const error500 = useSurveillanceLocales("run.errors.list.500");
+
     const [busy, setBusy] = useState(false);
-    const [error, setError] = useState(null);
-    const [runs, setRuns] = useState([]);
+    const [error, setError] = useState<AxiosError>(undefined);
+    const [runs, setRuns] = useState(undefined);
+
+    const fetchRuns = () => {
+        setError(undefined);
+        sendMediatorRequest({
+            command,
+            setBusy: setBusy,
+            setError: setError,
+            setState: setRuns,
+        });
+    };
 
     useEffect(() => {
         if (command) {
-            sendMediatorRequest({
-                command,
-                setBusy: setBusy,
-                setError: setError,
-                setState: setRuns,
-            });
+            fetchRuns();
         }
     }, [command]);
 
+    if (error) {
+        return (
+            <ErrorView
+                error={error}
+                onRefresh={fetchRuns}
+                customMessages={{
+                    403: error403,
+                    500: error500
+                }}
+            />
+        );
+    }
 
-    useEffect(() => {
-        console.log(runs);
-    }, [runs]);
     return (
         <>
             {busy ? (
-                <Box className="flex justify-center items-center h-40">
+                <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                     <CircularProgress />
                 </Box>
             ) : runs && runs.length > 0 ? (
@@ -50,7 +69,7 @@ export const RunsList = ({
                         <div className="space-y-4">
                             {runs.map((run) => (
                                 <Link
-                                    to={`/surveillance/locations/${run.rootLocationId}/rounds/${run.roundId}/runs/${run.id}`}
+                                    to={`/surveillance/locations/${run.locationId}/rounds/${run.roundId}/runs/${run.id}`}
                                     key={run.id}
                                     className="block no-underline cursor-pointer"
                                 >
@@ -63,7 +82,6 @@ export const RunsList = ({
             ) : (
                 <NoData />
             )}
-            {error && <div className="mt-4 text-red-600">Error: {String(error)}</div>}
         </>
     );
 };

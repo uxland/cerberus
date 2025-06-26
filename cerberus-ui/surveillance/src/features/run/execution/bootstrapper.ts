@@ -13,7 +13,7 @@ export const useExecuteRun = (container: Container) => {
     registerRouteComponent(SurveillanceRunEditor.name, SurveillanceRunEditor);
     store.dispatch(
         addRoute({
-            path: "surveillance/runs/:runId",
+            path: "surveillance/:locationId/runs/:runId",
             componentName: SurveillanceRunEditor.name,
             name: "run-execution"
         })
