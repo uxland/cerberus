@@ -1,34 +1,49 @@
-import { nop } from "@cerberus/core";
-import { Mediator } from "mediatr-ts";
 import { useEffect, useState } from "react";
 import { MaintenanceSettings } from "../../../components/index.ts";
 import { CameraMaintenanceSettings } from "./model.ts";
 import GetCameraMaintenanceSettings from "./query.ts";
+import { ErrorView, sendMediatorRequest } from "@cerberus/core";
+import { Box, CircularProgress } from "@mui/material";
 
 export const MaintenanceSettingsView = (props: { id: string }) => {
   const [settings, setSettings] = useState<CameraMaintenanceSettings | null>(
     null
   );
-  const [loading, setLoading] = useState<boolean>(true);
+  const [busy, setBusy] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchMaintenanceSettings = () => {
+    sendMediatorRequest({
+      command: new GetCameraMaintenanceSettings(props.id),
+      setBusy: setBusy,
+      setError: setError,
+      setState: setSettings
+    });
+  }
+
   useEffect(() => {
-    const query = new GetCameraMaintenanceSettings(
-      props.id,
-      setSettings,
-      setError,
-      setLoading
+    fetchMaintenanceSettings();
+  }, [props.id]);
+
+
+  if (error) {
+    return (
+      <ErrorView
+        error={error}
+        onRefresh={fetchMaintenanceSettings}
+      />
     );
-    new Mediator().send(query).then(nop);
-  }, [props.id]); // Dependencia modificada
+  }
 
   return (
-    <div>
-      {/* {loading && <div>Loading.</div>} */}
-      {/* {error && <div>Error: {error}</div>} */}
-      {settings && (
+    <>
+      {busy ? (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+          <CircularProgress />
+        </Box>
+      ) : (
         <MaintenanceSettings settings={settings} cameraId={props.id} />
       )}
-    </div>
+    </>
   );
 };

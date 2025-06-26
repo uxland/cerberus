@@ -25,6 +25,17 @@ export const locales = {
       captures: "Capturas",
       camera: "Cámara",
       location: "Localización",
+      capturedAt: "Capturado el",
+      noCapturesAvailable: "No hay capturas disponibles",
+      noCapturesDescription: "No se han realizado capturas en esta cámara",
+    },
+    location: {
+      settings: {
+        errors: {
+          403: "No tienes permisos para acceder a la configuración de esta localización",
+          500: "Error interno del servidor al cargar la configuración de la localización",
+        },
+      },
     },
     upload: {
       title: "Adjuntar archivo",

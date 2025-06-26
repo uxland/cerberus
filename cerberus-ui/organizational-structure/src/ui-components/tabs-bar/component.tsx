@@ -1,15 +1,16 @@
 import { CustomDivider } from "@cerberus/core";
-import { Badge, Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { HierarchyItemType } from "../../features/state/hierarchy-item";
 import { useOrganizationalStructureLocales } from "../../locales/ca/locales";
 
 export enum TabPanelType {
   // OpenIssues = 0,
   // Analysis = 2,
-  Settings = 4,
+  Settings = 0,
+  Rounds = 2,
+  Inspections = 4,
   Reports = 6,
-  MaintenanceSettings = 8,
-  Rounds = 6,
+  MaintenanceSettings = 2,
 }
 
 export const TabsBar = (props: {
@@ -17,18 +18,13 @@ export const TabsBar = (props: {
   setSelectedTab: React.Dispatch<React.SetStateAction<number>>;
   itemType: HierarchyItemType;
 }) => {
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     props.setSelectedTab(newValue);
   };
 
   const { itemType, selectedTab } = props;
 
-  const openIssuesLabel = useOrganizationalStructureLocales("tabs.openIssues");
-  const pendingReviewsLabel = useOrganizationalStructureLocales(
-    "tabs.pendingReviews"
-  );
   const settingsLabel = useOrganizationalStructureLocales("tabs.settings");
-  const reportsLabel = useOrganizationalStructureLocales("tabs.reports");
   const maintenancesSettingsLabel = useOrganizationalStructureLocales(
     "tabs.maintenancesSettings"
   );
@@ -102,13 +98,13 @@ export const TabsBar = (props: {
         {itemType === HierarchyItemType.camera ? (
           <Tab
             label={capturesLabel}
-            {...a11yProps(TabPanelType.MaintenanceSettings)}
+            {...a11yProps(TabPanelType.Inspections)}
           />
 
         ) : itemType === HierarchyItemType.location ? (
           <Tab
             label={inspectionsLabel}
-            {...a11yProps(TabPanelType.MaintenanceSettings)}
+            {...a11yProps(TabPanelType.Inspections)}
           />
         ) :
           null
@@ -117,18 +113,6 @@ export const TabsBar = (props: {
     </Box>
   );
 };
-
-const CustomTabLabel = ({ label, badgeContent, width }) => (
-  <Box display="flex" alignItems="center" minWidth={width} gap={2}>
-    <span>{label}</span>
-    <Badge
-      badgeContent={badgeContent}
-      overlap="circular"
-      color="error"
-      className="MuiBadge-badge"
-    />
-  </Box>
-);
 
 const a11yProps = (index: number) => {
   return {

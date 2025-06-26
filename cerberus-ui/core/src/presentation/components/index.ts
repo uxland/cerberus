@@ -7,5 +7,4 @@ export * from "./Slider/Slider";
 export * from "./Select/Select";
 export * from './VideoPlayer/WebRTCPPlayer.tsx';
 export * from "./Select/MultipleSelect";
-export * from "./Errors/Error";
-export * from "./Errors/ErrorList";
+export * from "./Errors/";

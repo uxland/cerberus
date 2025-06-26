@@ -1,13 +1,14 @@
 import { IRequest } from "mediatr-ts";
 import { Mediator } from "mediatr-ts";
 import { Dispatch, SetStateAction } from 'react';
+import { AxiosError } from 'axios';
 
 type SetState<T> = Dispatch<SetStateAction<T>>;
 
 interface MediatorRequestProps<T> {
     command: IRequest<T>;
     setBusy?: SetState<boolean>;
-    setError?: SetState<any>;
+    setError?: SetState<AxiosError | Error | undefined>;
     setState?: SetState<T>;
 }
 export const sendMediatorRequest = async <T>({ command, setBusy, setError, setState }: MediatorRequestProps<T>) => {

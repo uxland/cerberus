@@ -1,14 +1,12 @@
 import {
   MaintenanceSettingsView,
-  OpenIssuesView,
-  PendingTrainingReviewsView,
 } from "@cerberus/maintenance";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { HeaderComponent, TabsBar } from "../../../ui-components";
+import { TabsBar } from "../../../ui-components";
 import { EditSettings } from "../../edit-settings/component.tsx";
 import { HierarchyItemSettings } from "../../edit-settings/HierarchyItemSettings/HierarchyItemSettings.tsx";
 import { HierarchyItemType } from "../../state/hierarchy-item.ts";
@@ -39,9 +37,9 @@ export const LocationPage = () => {
   }, [selectedTab]);
 
   return (
-    <div className="flex flex-col flex-1 w-full">
+    <div className="flex flex-col flex-1 h-full">
       {/* <LocationSettingsView id={id} type={itemType} content={HeaderComponent} /> */}
-      <div className="flex flex-col flex-1 w-full gap-4">
+      <div className="flex flex-col h-full gap-4">
         <TabsBar
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
@@ -54,29 +52,26 @@ export const LocationPage = () => {
           <PendingTrainingReviewsView id={id} />
         </CustomTabPanel> */}
         <CustomTabPanel value={selectedTab} index={0}>
-          <>
-            <div className="flex !flex-row !justify-end bg-tableBg w-[520px] rounded-t-lg">
-              <Tooltip title={useOrganizationalStructureLocales("edit")}>
-                <IconButton
-                  color="primary"
-                  onClick={EditSettings(settings, itemType)}>
-                  <ModeEditOutlineIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={useOrganizationalStructureLocales("delete")}>
-                <IconButton color="error">
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-            {/* /////// */}
-            <LocationSettingsView
-              id={id}
-              type={itemType}
-              content={(settings) => HierarchyItemSettings(settings, itemType)}
-              onFetchComplete={(id) => setSettings(id)}
-            />
-          </>
+          <div className="flex !flex-row !justify-end bg-tableBg w-[520px] rounded-t-lg">
+            <Tooltip title={useOrganizationalStructureLocales("edit")}>
+              <IconButton
+                color="primary"
+                onClick={EditSettings(settings, itemType)}>
+                <ModeEditOutlineIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={useOrganizationalStructureLocales("delete")}>
+              <IconButton color="error">
+                <DeleteForeverIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+          <LocationSettingsView
+            id={id}
+            type={itemType}
+            content={(settings) => HierarchyItemSettings(settings, itemType)}
+            onFetchComplete={(id) => setSettings(id)}
+          />
         </CustomTabPanel>
         {itemType === HierarchyItemType.location ? (
           <CustomTabPanel value={selectedTab} index={2}>
@@ -85,8 +80,6 @@ export const LocationPage = () => {
         ) : itemType === HierarchyItemType.camera ? (
           <CustomTabPanel value={selectedTab} index={2}>
             <MaintenanceSettingsView id={id} />
-            <CameraCapturesView id={id} />
-
           </CustomTabPanel>
         ) : null}
 
@@ -109,14 +102,19 @@ export const LocationPage = () => {
 
 const CustomTabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
+
+  if (value !== index) {
+    return null;
+  }
+
   return (
     <div
+      className="h-full p-3 flex flex-col flex-1"
       role="tabpanel"
-      hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}>
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {children}
     </div>
   );
 };

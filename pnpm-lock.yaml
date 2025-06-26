@@ -144,6 +144,9 @@ importers:
       react-hooks-outside:
         specifier: ^1.0.3
         version: 1.0.3(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.24.0
+        version: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-toastify:
         specifier: ^9.1.1
         version: 9.1.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -335,6 +338,9 @@ importers:
       '@uxland/react-services':
         specifier: ^1.0.3
         version: 1.0.6(react-dom@18.3.1(react@18.3.1))(react-scripts@4.0.0(@types/webpack@4.41.38)(eslint@7.32.0)(react@18.3.1)(sockjs-client@1.4.0))
+      axios:
+        specifier: 1.8.2
+        version: 1.8.2
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -10130,11 +10136,7 @@ snapshots:
       jest-runner: 26.6.3
       jest-runtime: 26.6.3
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   '@jest/transform@26.6.2':
     dependencies:
@@ -14664,11 +14666,7 @@ snapshots:
       stack-utils: 2.0.6
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - ts-node
-      - utf-8-validate
 
   jest-cli@26.6.3:
     dependencies:

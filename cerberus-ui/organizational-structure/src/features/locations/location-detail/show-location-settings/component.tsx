@@ -1,9 +1,10 @@
-import { Mediator } from "mediatr-ts";
 import { useEffect, useState } from "react";
 import { HierarchyItemType } from "../../../state/hierarchy-item.ts";
 import { LocationSettings } from "./model.ts";
 import { GetLocationSettings } from "./query.ts";
 import { Box, CircularProgress } from "@mui/material";
+import { ErrorView, sendMediatorRequest } from "@cerberus/core";
+import { useOrganizationalStructureLocales } from "../../../../locales/ca/locales.ts";
 
 export const LocationSettingsView = (props: {
   id: string;
@@ -11,38 +12,50 @@ export const LocationSettingsView = (props: {
   content: (settings: LocationSettings) => JSX.Element;
   onFetchComplete?: (settings: LocationSettings) => void;
 }) => {
+  const error403 = useOrganizationalStructureLocales("location.settings.errors.403");
+  const error500 = useOrganizationalStructureLocales("location.settings.errors.500");
+
   const [settings, setSettings] = useState<LocationSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
+  const fetchSettings = () => {
+    setError(undefined);
+    sendMediatorRequest({
+      command: new GetLocationSettings(props.id, props.type),
+      setBusy: setLoading,
+      setError: setError,
+      setState: setSettings
+    });
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const settings = await new Mediator().send(
-          new GetLocationSettings(props.id, props.type)
-        );
-        setSettings(settings);
-        if (props.onFetchComplete && settings) {
-          props.onFetchComplete(settings as LocationSettings);
-        }
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
+    fetchSettings();
+    if (props.onFetchComplete && settings) {
+      props.onFetchComplete(settings as LocationSettings);
     }
-    fetchData();
   }, [props.id, props.type]);
 
+  if (error) {
+    return (
+      <ErrorView
+        error={error}
+        onRefresh={fetchSettings}
+        customMessages={{
+          403: error403,
+          500: error500
+        }}
+      />
+    );
+  }
+
   return (
-    <div>
+    <>
       {loading ? (
-        <Box className="flex justify-center items-center">
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
           <CircularProgress />
         </Box>
       ) : settings ? props.content(settings) : null}
-      {error && <div>Error: {error}</div>}
-    </div>
+    </>
   );
 };

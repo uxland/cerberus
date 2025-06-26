@@ -1,15 +1,9 @@
-import {CameraMaintenanceSettings} from "./model.ts";
-
-import {RequestBase, SetState} from "@cerberus/core";
-
+import { CameraMaintenanceSettings } from "./model.ts";
+import { IRequest } from "mediatr-ts";
 
 
-export default class GetCameraMaintenanceSettings extends RequestBase<CameraMaintenanceSettings> {
-    constructor(public cameraId: string,
-                setState: SetState<CameraMaintenanceSettings>,
-                setError: SetState<Error>,
-                setBusy: SetState<boolean>
-    ) {
-        super(setState, setError, setBusy);
+
+export default class GetCameraMaintenanceSettings implements IRequest<CameraMaintenanceSettings> {
+    constructor(public cameraId: string) {
     }
 }
